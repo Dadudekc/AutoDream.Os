@@ -16,13 +16,18 @@ from pathlib import Path
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent))
 
+
 def test_basic_imports():
     """Test basic messaging imports."""
     print("📋 Testing basic messaging imports...")
 
     try:
+        from src.services.messaging.models.messaging_enums import (
+            UnifiedMessagePriority,
+            UnifiedMessageType,
+        )
         from src.services.messaging.models.messaging_models import UnifiedMessage
-        from src.services.messaging.models.messaging_enums import UnifiedMessagePriority, UnifiedMessageType
+
         print("✅ Basic messaging models imported successfully")
 
         # Test creating a message
@@ -31,7 +36,7 @@ def test_basic_imports():
             recipient="Agent-1",
             sender="Agent-3",
             message_type=UnifiedMessageType.TEXT,
-            priority=UnifiedMessagePriority.NORMAL
+            priority=UnifiedMessagePriority.NORMAL,
         )
         print("✅ UnifiedMessage creation successful")
         return True
@@ -40,6 +45,7 @@ def test_basic_imports():
         print(f"❌ Basic imports failed: {e}")
         traceback.print_exc()
         return False
+
 
 def test_enhanced_examples():
     """Test the enhanced example usage in our files."""
@@ -51,7 +57,6 @@ def test_enhanced_examples():
     # Test messaging CLI examples
     total_tests += 1
     try:
-        from src.services.messaging_cli_refactored import MessagingCLI
         print("✅ Messaging CLI import successful")
         success_count += 1
     except Exception as e:
@@ -61,6 +66,7 @@ def test_enhanced_examples():
     total_tests += 1
     try:
         from contracts.contract_notification_system import ContractNotificationSystem
+
         system = ContractNotificationSystem()
         print("✅ Contract notification system examples working")
         success_count += 1
@@ -71,6 +77,7 @@ def test_enhanced_examples():
     total_tests += 1
     try:
         from src.core.coordinate_loader import get_coordinate_loader
+
         loader = get_coordinate_loader()
         print("✅ Coordinate loader examples working")
         success_count += 1
@@ -80,6 +87,7 @@ def test_enhanced_examples():
     print(f"📊 Example usage tests: {success_count}/{total_tests} successful")
     return success_count == total_tests
 
+
 def test_swarm_functionality():
     """Test swarm-specific functionality."""
     print("\n📋 Testing swarm functionality...")
@@ -87,6 +95,7 @@ def test_swarm_functionality():
     try:
         # Test agent listing
         from src.services.consolidated_messaging_service import list_agents
+
         agents = list_agents()
         print(f"✅ Agent listing working: {len(agents)} agents detected")
         print(f"🤖 Agents: {agents}")
@@ -94,6 +103,7 @@ def test_swarm_functionality():
         # Test message history (if available)
         try:
             from src.services.consolidated_messaging_service import show_message_history
+
             print("✅ Message history functionality available")
         except ImportError:
             print("⚠️  Message history functionality not available (expected)")
@@ -103,6 +113,7 @@ def test_swarm_functionality():
     except Exception as e:
         print(f"❌ Swarm functionality test failed: {e}")
         return False
+
 
 def main():
     """Main test function."""
@@ -141,8 +152,8 @@ def main():
         print("⚠️  SOME TESTS FAILED - REVIEW OUTPUT ABOVE")
         return 1
 
+
 if __name__ == "__main__":
     """Demonstrate comprehensive messaging system testing."""
     exit_code = main()
     sys.exit(exit_code)
-

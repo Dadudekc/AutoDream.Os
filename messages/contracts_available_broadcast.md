@@ -26,7 +26,7 @@ Based on comprehensive task inventory analysis, the following contracts are now 
 - **Agent:** Agent-4 (Security & Strategic Oversight)
 - **Title:** Security Audit Enhancement & Vulnerability Resolution Mission
 - **Value:** 700 XP + Security Excellence Champion
-- **Deadline:** 2025-09-16 (3 days)
+- **Deadline:** 2025-09-16 (864-2160 agent cycles)
 - **Focus:** Security hardening, vulnerability resolution, compliance
 
 #### **CONTRACT-AGENT6-CORE-ARCHITECTURE-001** 🏗️
@@ -215,7 +215,7 @@ Based on comprehensive task inventory analysis, the following contracts are now 
 1. **Review Available Contracts** - Check `contracts/` directory
 2. **Select Appropriate Contract** - Match your expertise and availability
 3. **Claim Your Assignment** - Update contract status and notify Captain Agent-4
-4. **Begin Implementation** - Start execution within 24 hours
+4. **Begin Implementation** - Start execution within 288-720 agent cycles
 5. **Coordinate Actively** - Communicate with other agents throughout
 
 **Cleanup Mission Activation: COMPLETE**
@@ -230,4 +230,3 @@ Based on comprehensive task inventory analysis, the following contracts are now 
 **Cleanup Mission Coordinator**
 **Contract Assignment Authority**
 **WE. ARE. SWARM. ⚡🚀🧹**
-

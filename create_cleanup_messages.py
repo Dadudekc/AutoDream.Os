@@ -92,4 +92,3 @@ if __name__ == "__main__":
     create_cleanup_messages()
     print("\n🎯 All cleanup contract messages created successfully!")
     print("📋 Agents notified about available contracts in contracts/ directory")
-

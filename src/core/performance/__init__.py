@@ -14,7 +14,6 @@ Author: Agent-5 (Business Intelligence Specialist)
 License: MIT
 """
 
-from .performance_orchestrator import PerformanceMonitoringOrchestrator, create_performance_orchestrator
 from .models import (
     Alert,
     AlertSeverity,
@@ -26,24 +25,25 @@ from .models import (
     MetricType,
     PerformanceReport,
 )
+from .performance_orchestrator import (
+    PerformanceMonitoringOrchestrator,
+    create_performance_orchestrator,
+)
 
 # Maintain backward compatibility by re-exporting key classes
 __all__ = [
     # Main orchestrator
     "PerformanceMonitoringOrchestrator",
     "create_performance_orchestrator",
-
     # Models
     "DashboardMetric",
     "DashboardWidget",
     "ConsolidationPhase",
     "Alert",
     "PerformanceReport",
-
     # Enums
     "DashboardType",
     "MetricType",
     "AlertSeverity",
     "AlertStatus",
 ]
-

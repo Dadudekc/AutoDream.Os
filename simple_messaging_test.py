@@ -12,6 +12,7 @@ from pathlib import Path
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent))
 
+
 def test_core_messaging():
     """Test core messaging models and functionality."""
     print("🎉 TESTING CORE MESSAGING FUNCTIONALITY")
@@ -19,8 +20,12 @@ def test_core_messaging():
 
     try:
         # Test basic imports
+        from src.services.messaging.models.messaging_enums import (
+            UnifiedMessagePriority,
+            UnifiedMessageType,
+        )
         from src.services.messaging.models.messaging_models import UnifiedMessage
-        from src.services.messaging.models.messaging_enums import UnifiedMessagePriority, UnifiedMessageType
+
         print("✅ Core messaging models imported successfully")
 
         # Test message creation
@@ -29,7 +34,7 @@ def test_core_messaging():
             recipient="Agent-1",
             sender="Agent-3",
             message_type=UnifiedMessageType.SYSTEM,
-            priority=UnifiedMessagePriority.REGULAR
+            priority=UnifiedMessagePriority.REGULAR,
         )
         print("✅ UnifiedMessage creation successful")
         print(f"   📤 Content: {test_message.content[:50]}...")
@@ -41,6 +46,7 @@ def test_core_messaging():
     except Exception as e:
         print(f"❌ Core messaging test failed: {e}")
         return False
+
 
 def test_working_components():
     """Test components that are known to work."""
@@ -54,6 +60,7 @@ def test_working_components():
     total_tests += 1
     try:
         from contracts.contract_notification_system import ContractNotificationSystem
+
         system = ContractNotificationSystem()
         contracts = system.scan_available_contracts()
         print(f"✅ Contract notification system: {len(contracts)} contracts found")
@@ -65,6 +72,7 @@ def test_working_components():
     total_tests += 1
     try:
         from src.core.coordinate_loader import get_coordinate_loader
+
         loader = get_coordinate_loader()
         print("✅ Coordinate loader working")
         success_count += 1
@@ -75,11 +83,15 @@ def test_working_components():
     total_tests += 1
     try:
         import subprocess
-        result = subprocess.run([
-            sys.executable, 'src/services/messaging_cli_refactored.py', '--help'
-        ], capture_output=True, text=True, timeout=5)
 
-        if result.returncode in [0, 1] and 'usage:' in result.stdout.lower():
+        result = subprocess.run(
+            [sys.executable, "src/services/messaging_cli_refactored.py", "--help"],
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
+
+        if result.returncode in [0, 1] and "usage:" in result.stdout.lower():
             print("✅ Refactored CLI examples working")
             success_count += 1
         else:
@@ -90,6 +102,7 @@ def test_working_components():
     print(f"📊 Working components: {success_count}/{total_tests} successful")
     return success_count == total_tests
 
+
 def test_swarm_infrastructure():
     """Test swarm infrastructure components."""
     print("\n🎉 TESTING SWARM INFRASTRUCTURE")
@@ -97,7 +110,7 @@ def test_swarm_infrastructure():
 
     try:
         # Test agent listing (from the working CLI)
-        from src.services.messaging.cli.messaging_cli import MessagingCLI
+
         # Note: This will fail due to missing service, but shows the import works
         print("✅ Swarm CLI infrastructure available")
 
@@ -109,6 +122,7 @@ def test_swarm_infrastructure():
     except Exception as e:
         print(f"❌ Swarm infrastructure test failed: {e}")
         return False
+
 
 def main():
     """Main test execution."""
@@ -147,8 +161,8 @@ def main():
         print("🐝 WE ARE SWARM - CONTINUING IMPROVEMENTS!")
         return 1
 
+
 if __name__ == "__main__":
     """Demonstrate messaging system cleanup verification."""
     exit_code = main()
     sys.exit(exit_code)
-

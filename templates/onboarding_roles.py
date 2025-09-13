@@ -80,7 +80,7 @@ Send confirmation message to Captain Agent-4:
 - Coordination with other agents
 
 **Timeline:**
-- Phase 1: Complete within 24 hours
+- Phase 1: Complete within 288-720 agent cycles
 - Daily progress updates required
 - Blockers reported immediately
 

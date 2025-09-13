@@ -44,7 +44,7 @@ message_id = queue.enqueue_with_pyautogui(
 
 # Broadcast to all agents
 broadcast_id = queue.enqueue_broadcast_with_pyautogui(
-    message="System maintenance in 5 minutes",
+    message="System maintenance in 5 / 5-2 agent cycles",
     sender="Captain"
 )
 ```

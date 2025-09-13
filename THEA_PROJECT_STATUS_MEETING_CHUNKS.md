@@ -233,7 +233,7 @@ Infrastructure Assessment → Configuration Migration → Consolidation → Self
 ## 🎯 MEETING EXECUTION GUIDELINES
 
 ### **Communication Protocol**
-1. **Present chunks sequentially** with 2-3 minute pauses for Thea to process
+1. **Present chunks sequentially** with 2-3 / 5-2 agent cycles pauses for Thea to process
 2. **Keep each chunk under 6000 characters** for optimal processing
 3. **Ask specific questions** at end of each chunk to guide discussion
 4. **Document all feedback** in real-time for Phase 4 planning

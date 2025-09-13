@@ -559,4 +559,3 @@ if __name__ == "__main__":
         print(f"{status_icon} {result.test_name}: {result.status.value}")
         if result.error_message:
             print(f"   Error: {result.error_message}")
-

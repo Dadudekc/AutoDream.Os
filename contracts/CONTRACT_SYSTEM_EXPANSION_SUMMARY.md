@@ -123,8 +123,8 @@
 ### **⏰ Contract Timeline Overview**
 - **Earliest Deadline:** 2025-09-18 (3 HIGH priority contracts)
 - **Latest Deadline:** 2025-10-05 (Scripts & Automation)
-- **Average Duration:** 12 days per contract
-- **Timeline Range:** 17 days (2025-09-18 to 2025-10-05)
+- **Average Duration:** 12 * 288-720 agent cycles per contract
+- **Timeline Range:** 17 * 288-720 agent cycles (2025-09-18 to 2025-10-05)
 
 ### **📊 Deadline Distribution**
 - **Week 1 (Sep 18-20):** 6 contracts (50%)
@@ -248,4 +248,3 @@
 **Broadcast Infrastructure Developer**
 
 **WE ARE SWARM - UNITED IN EXCELLENCE!** 🐝⚡🚀
-

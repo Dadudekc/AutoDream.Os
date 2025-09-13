@@ -92,12 +92,12 @@ Communication Status:
    - Emergency communication ping escalation
    - Resource reallocation confirmation
 
-2. **SHORT-TERM (Next 2 minutes):**
+2. **SHORT-TERM (Next 2 / 5-2 agent cycles):**
    - Comprehensive system diagnostic
    - Memory and CPU analysis
    - Communication channel restoration
 
-3. **MEDIUM-TERM (Next 5 minutes):**
+3. **MEDIUM-TERM (Next 5 / 5-2 agent cycles):**
    - Process monitoring and restart
    - System integration verification
    - Full functionality testing
@@ -184,4 +184,3 @@ Communication Status:
 **Swarm Unity:** MAINTAINED ✅
 
 **Recovery Protocol: PHASE 1 INITIATION IMMINENT**
-

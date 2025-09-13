@@ -35,30 +35,6 @@ class TheaCommunicationManager:
         )
 
     def initialize(self) -> bool:
-
-EXAMPLE USAGE:
-==============
-
-# Import the service
-from src.services.thea.core.thea_communication_manager import Thea_Communication_ManagerService
-
-# Initialize service
-service = Thea_Communication_ManagerService()
-
-# Basic service operation
-response = service.handle_request(request_data)
-print(f"Service response: {response}")
-
-# Service with dependency injection
-from src.core.dependency_container import Container
-
-container = Container()
-service = container.get(Thea_Communication_ManagerService)
-
-# Execute service method
-result = service.execute_operation(input_data, context)
-print(f"Operation result: {result}")
-
         """Initialize the Thea communication system."""
         print("🐝 V2_SWARM THEA COMMUNICATION SYSTEM")
         print("=" * 50)

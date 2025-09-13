@@ -31,10 +31,11 @@ Author: Captain Agent-4 (Comprehensive Testing Initiative)
 Version: 1.0 - Universal Testing Standards
 """
 
-import pytest
 import time
-from typing import Any, Dict
 from dataclasses import asdict
+from typing import Any
+
+import pytest
 
 from src.commandresult import CommandResult
 
@@ -49,7 +50,7 @@ class TestCommandResult:
             message="Operation completed successfully",
             data={"result": "test_data"},
             execution_time=0.5,
-            agent="Agent-1"
+            agent="Agent-1",
         )
 
         assert result.success is True
@@ -65,7 +66,7 @@ class TestCommandResult:
             message="Operation failed",
             data={"error": "connection_timeout"},
             execution_time=2.3,
-            agent="Agent-2"
+            agent="Agent-2",
         )
 
         assert result.success is False
@@ -87,11 +88,7 @@ class TestCommandResult:
     def test_result_with_none_values(self):
         """Test CommandResult with explicit None values."""
         result = CommandResult(
-            success=False,
-            message="No data available",
-            data=None,
-            execution_time=None,
-            agent=None
+            success=False, message="No data available", data=None, execution_time=None, agent=None
         )
 
         assert result.success is False
@@ -119,7 +116,7 @@ class TestCommandResult:
             message="Data processed",
             data={"items": [1, 2, 3]},
             execution_time=1.5,
-            agent="Agent-3"
+            agent="Agent-3",
         )
 
         result_dict = asdict(result)
@@ -129,25 +126,24 @@ class TestCommandResult:
             "message": "Data processed",
             "data": {"items": [1, 2, 3]},
             "execution_time": 1.5,
-            "agent": "Agent-3"
+            "agent": "Agent-3",
         }
 
         assert result_dict == expected
 
-    @pytest.mark.parametrize("success,message,data,execution_time,agent", [
-        (True, "Success", {"key": "value"}, 0.1, "Agent-1"),
-        (False, "Failure", None, None, None),
-        (True, "", {}, 0.0, ""),
-        (False, "Error message", {"error_code": 500}, 10.5, "Agent-8"),
-    ])
+    @pytest.mark.parametrize(
+        "success,message,data,execution_time,agent",
+        [
+            (True, "Success", {"key": "value"}, 0.1, "Agent-1"),
+            (False, "Failure", None, None, None),
+            (True, "", {}, 0.0, ""),
+            (False, "Error message", {"error_code": 500}, 10.5, "Agent-8"),
+        ],
+    )
     def test_result_parametrized(self, success, message, data, execution_time, agent):
         """Parametrized test for various CommandResult configurations."""
         result = CommandResult(
-            success=success,
-            message=message,
-            data=data,
-            execution_time=execution_time,
-            agent=agent
+            success=success, message=message, data=data, execution_time=execution_time, agent=agent
         )
 
         assert result.success == success
@@ -162,6 +158,7 @@ class TestCommandResultIntegration:
 
     def test_message_sending_workflow(self):
         """Test CommandResult in a message sending workflow."""
+
         def send_message(recipient: str, content: str) -> CommandResult:
             """Simulate sending a message."""
             if not recipient or not content:
@@ -170,7 +167,7 @@ class TestCommandResultIntegration:
                     message="Invalid recipient or content",
                     data={"error": "validation_error"},
                     execution_time=0.01,
-                    agent="Agent-8"
+                    agent="Agent-8",
                 )
 
             # Simulate successful send
@@ -180,10 +177,10 @@ class TestCommandResultIntegration:
                 data={
                     "message_id": f"msg_{hash(content) % 10000}",
                     "recipient": recipient,
-                    "timestamp": "2025-09-12T10:00:00Z"
+                    "timestamp": "2025-09-12T10:00:00Z",
                 },
                 execution_time=0.05,
-                agent="Agent-8"
+                agent="Agent-8",
             )
 
         # Test successful send
@@ -201,7 +198,8 @@ class TestCommandResultIntegration:
 
     def test_database_operation_workflow(self):
         """Test CommandResult in a database operation workflow."""
-        def save_user_data(user_data: Dict[str, Any]) -> CommandResult:
+
+        def save_user_data(user_data: dict[str, Any]) -> CommandResult:
             """Simulate saving user data to database."""
             start_time = time.time()
 
@@ -220,10 +218,10 @@ class TestCommandResultIntegration:
                     data={
                         "user_id": user_id,
                         "saved_fields": list(user_data.keys()),
-                        "timestamp": "2025-09-12T10:00:00Z"
+                        "timestamp": "2025-09-12T10:00:00Z",
                     },
                     execution_time=round(execution_time, 3),
-                    agent="Agent-2"
+                    agent="Agent-2",
                 )
 
             except Exception as e:
@@ -233,15 +231,11 @@ class TestCommandResultIntegration:
                     message=f"Failed to save user data: {str(e)}",
                     data={"error": str(e), "input_data": user_data},
                     execution_time=round(execution_time, 3),
-                    agent="Agent-2"
+                    agent="Agent-2",
                 )
 
         # Test successful save
-        user_data = {
-            "name": "John Doe",
-            "email": "john@example.com",
-            "age": 30
-        }
+        user_data = {"name": "John Doe", "email": "john@example.com", "age": 30}
 
         result = save_user_data(user_data)
         assert result.success is True
@@ -259,6 +253,7 @@ class TestCommandResultIntegration:
 
     def test_swarm_coordination_workflow(self):
         """Test CommandResult in swarm coordination scenarios."""
+
         def coordinate_task(task_name: str, agents: list) -> CommandResult:
             """Simulate coordinating a task across agents."""
             start_time = time.time()
@@ -269,17 +264,19 @@ class TestCommandResultIntegration:
                     message="No agents specified for coordination",
                     data={"error": "no_agents"},
                     execution_time=0.01,
-                    agent="Captain Agent-4"
+                    agent="Captain Agent-4",
                 )
 
             # Simulate coordination
             assignments = []
             for agent in agents:
-                assignments.append({
-                    "agent": agent,
-                    "status": "assigned",
-                    "task_portion": f"portion_{len(assignments) + 1}"
-                })
+                assignments.append(
+                    {
+                        "agent": agent,
+                        "status": "assigned",
+                        "task_portion": f"portion_{len(assignments) + 1}",
+                    }
+                )
 
             execution_time = time.time() - start_time
             return CommandResult(
@@ -288,10 +285,10 @@ class TestCommandResultIntegration:
                 data={
                     "task_name": task_name,
                     "assignments": assignments,
-                    "coordination_strategy": "parallel_execution"
+                    "coordination_strategy": "parallel_execution",
                 },
                 execution_time=round(execution_time, 3),
-                agent="Captain Agent-4"
+                agent="Captain Agent-4",
             )
 
         # Test successful coordination
@@ -308,6 +305,7 @@ class TestCommandResultIntegration:
 
     def test_performance_monitoring(self):
         """Test CommandResult performance tracking capabilities."""
+
         def execute_with_performance_tracking(operation_func, *args, **kwargs) -> CommandResult:
             """Execute an operation with performance monitoring."""
             start_time = time.time()
@@ -324,11 +322,11 @@ class TestCommandResultIntegration:
                         "performance_metrics": {
                             "execution_time": round(execution_time, 3),
                             "start_time": start_time,
-                            "end_time": start_time + execution_time
-                        }
+                            "end_time": start_time + execution_time,
+                        },
                     },
                     execution_time=round(execution_time, 3),
-                    agent="Agent-6"
+                    agent="Agent-6",
                 )
 
             except Exception as e:
@@ -340,11 +338,11 @@ class TestCommandResultIntegration:
                         "error": str(e),
                         "performance_metrics": {
                             "execution_time": round(execution_time, 3),
-                            "failure_point": "operation_execution"
-                        }
+                            "failure_point": "operation_execution",
+                        },
                     },
                     execution_time=round(execution_time, 3),
-                    agent="Agent-6"
+                    agent="Agent-6",
                 )
 
         # Test successful operation with performance tracking
@@ -360,7 +358,10 @@ class TestCommandResultIntegration:
 
     def test_error_handling_patterns(self):
         """Test various error handling patterns with CommandResult."""
-        def risky_operation(should_fail: bool = False, error_type: str = "general") -> CommandResult:
+
+        def risky_operation(
+            should_fail: bool = False, error_type: str = "general"
+        ) -> CommandResult:
             """Simulate an operation that might fail."""
             try:
                 if should_fail:
@@ -376,7 +377,7 @@ class TestCommandResultIntegration:
                     message="Operation completed successfully",
                     data={"operation_result": "success"},
                     execution_time=0.05,
-                    agent="Agent-3"
+                    agent="Agent-3",
                 )
 
             except ValueError as e:
@@ -385,7 +386,7 @@ class TestCommandResultIntegration:
                     message=f"Validation error: {str(e)}",
                     data={"error_type": "validation", "details": str(e)},
                     execution_time=0.02,
-                    agent="Agent-3"
+                    agent="Agent-3",
                 )
 
             except ConnectionError as e:
@@ -394,7 +395,7 @@ class TestCommandResultIntegration:
                     message=f"Connection error: {str(e)}",
                     data={"error_type": "connection", "retryable": True, "details": str(e)},
                     execution_time=0.15,
-                    agent="Agent-3"
+                    agent="Agent-3",
                 )
 
             except Exception as e:
@@ -403,7 +404,7 @@ class TestCommandResultIntegration:
                     message=f"Unexpected error: {str(e)}",
                     data={"error_type": "unknown", "details": str(e)},
                     execution_time=0.01,
-                    agent="Agent-3"
+                    agent="Agent-3",
                 )
 
         # Test successful operation
@@ -492,6 +493,7 @@ if __name__ == "__main__":
     print()
     print("Next steps:")
     print("- Run full test suite: python -m pytest tests/test_commandresult.py")
-    print("- Generate coverage report: python -m pytest tests/test_commandresult.py --cov-report=html")
+    print(
+        "- Generate coverage report: python -m pytest tests/test_commandresult.py --cov-report=html"
+    )
     print("- Integrate with CI/CD pipeline for automated testing")
-

@@ -41,30 +41,6 @@ def get_phase_2_status():
 
 
 def get_agent_assignments():
-
-EXAMPLE USAGE:
-==============
-
-# Import the service
-from src.services.consolidated_onboarding_service import Consolidated_Onboarding_ServiceService
-
-# Initialize service
-service = Consolidated_Onboarding_ServiceService()
-
-# Basic service operation
-response = service.handle_request(request_data)
-print(f"Service response: {response}")
-
-# Service with dependency injection
-from src.core.dependency_container import Container
-
-container = Container()
-service = container.get(Consolidated_Onboarding_ServiceService)
-
-# Execute service method
-result = service.execute_operation(input_data, context)
-print(f"Operation result: {result}")
-
     """Get current agent assignments."""
     return AGENT_ASSIGNMENTS
 

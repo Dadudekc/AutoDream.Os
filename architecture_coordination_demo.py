@@ -24,11 +24,12 @@ import json
 import logging
 import time
 from datetime import datetime
-from src.core.unified_progress_tracking import (
-    get_unified_progress_tracking_system,
-    SuperiorityBenchmark
-)
+
 from src.core.consolidated_communication import get_consolidated_communication_system
+from src.core.unified_progress_tracking import (
+    SuperiorityBenchmark,
+    get_unified_progress_tracking_system,
+)
 
 # Configure logging
 logging.basicConfig(
@@ -280,4 +281,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

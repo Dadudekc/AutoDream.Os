@@ -173,14 +173,14 @@
 
 #### **Batch 1A - Core Architecture (Agent-6)**
 - **Tasks:** 25 core consolidation tasks
-- **Effort:** 3 days
+- **Effort:** 864-2160 agent cycles
 - **Risk:** Medium
 - **Impact:** High
 - **Dependencies:** None
 
 #### **Batch 1B - Service Layer (Agent-5)**
 - **Tasks:** 25 service optimization tasks
-- **Effort:** 3 days
+- **Effort:** 864-2160 agent cycles
 - **Risk:** Medium
 - **Impact:** High
 - **Dependencies:** Batch 1A completion
@@ -193,14 +193,14 @@
 
 #### **Batch 2A - Utilities & Infrastructure (Agent-2)**
 - **Tasks:** 20 utility consolidation tasks
-- **Effort:** 2 days
+- **Effort:** 576-1440 agent cycles
 - **Risk:** Low
 - **Impact:** Medium
 - **Dependencies:** Phase 1 completion
 
 #### **Batch 2B - Testing Enhancement (Agent-8)**
 - **Tasks:** 25 test improvement tasks
-- **Effort:** 3 days
+- **Effort:** 864-2160 agent cycles
 - **Risk:** Low
 - **Impact:** High
 - **Dependencies:** Phase 1 completion
@@ -213,14 +213,14 @@
 
 #### **Batch 3A - Web Interface (Agent-7)**
 - **Tasks:** 30 web consolidation tasks
-- **Effort:** 4 days
+- **Effort:** 1152-2880 agent cycles
 - **Risk:** Medium
 - **Impact:** Medium
 - **Dependencies:** Phase 2 completion
 
 #### **Batch 3B - Documentation (Agent-6)**
 - **Tasks:** 25 documentation tasks
-- **Effort:** 2 days
+- **Effort:** 576-1440 agent cycles
 - **Risk:** Low
 - **Impact:** Medium
 - **Dependencies:** Phase 1-2 completion
@@ -233,14 +233,14 @@
 
 #### **Batch 4A - Scripts & Automation (Agent-5)**
 - **Tasks:** 34 script consolidation tasks
-- **Effort:** 2 days
+- **Effort:** 576-1440 agent cycles
 - **Risk:** Low
 - **Impact:** Medium
 - **Dependencies:** Phase 3 completion
 
 #### **Batch 4B - Tools & Development (Agent-2)**
 - **Tasks:** 23 tool optimization tasks
-- **Effort:** 2 days
+- **Effort:** 576-1440 agent cycles
 - **Risk:** Low
 - **Impact:** Low
 - **Dependencies:** Phase 3 completion
@@ -253,7 +253,7 @@
 
 #### **Batch 5A - Security Enhancement (Agent-3 + Agent-8)**
 - **Tasks:** 35 security hardening and compliance tasks
-- **Effort:** 4 days
+- **Effort:** 1152-2880 agent cycles
 - **Risk:** Medium
 - **Impact:** High
 - **Focus Areas:** Vulnerability assessment, secure coding, encryption
@@ -261,7 +261,7 @@
 
 #### **Batch 5B - AI/ML Integration (Agent-5 + Agent-6)**
 - **Tasks:** 45 AI/ML enhancement tasks
-- **Effort:** 5 days
+- **Effort:** 1440-3600 agent cycles
 - **Risk:** High
 - **Impact:** Very High
 - **Focus Areas:** Predictive analytics, NLP, intelligent automation
@@ -269,7 +269,7 @@
 
 #### **Batch 5C - DevOps Automation (Agent-2 + Agent-7)**
 - **Tasks:** 40 DevOps pipeline and automation tasks
-- **Effort:** 4 days
+- **Effort:** 1152-2880 agent cycles
 - **Risk:** Medium
 - **Impact:** High
 - **Focus Areas:** CI/CD, IaC, container orchestration
@@ -283,7 +283,7 @@
 
 #### **Batch 6A - Advanced Monitoring (Agent-2)**
 - **Tasks:** 35 monitoring and analytics tasks
-- **Effort:** 3 days
+- **Effort:** 864-2160 agent cycles
 - **Risk:** Low
 - **Impact:** High
 - **Focus Areas:** Observability, predictive alerting, distributed tracing
@@ -291,7 +291,7 @@
 
 #### **Batch 6B - Swarm Intelligence (Agent-6)**
 - **Tasks:** 40 intelligent coordination tasks
-- **Effort:** 4 days
+- **Effort:** 1152-2880 agent cycles
 - **Risk:** Medium
 - **Impact:** Very High
 - **Focus Areas:** Automated task assignment, resource optimization, collaborative intelligence
@@ -299,7 +299,7 @@
 
 #### **Batch 6C - Performance Excellence (All Agents)**
 - **Tasks:** 20 cross-agent optimization tasks
-- **Effort:** 2 days
+- **Effort:** 576-1440 agent cycles
 - **Risk:** Low
 - **Impact:** Medium
 - **Focus Areas:** Inter-agent optimization, system-wide performance tuning
@@ -313,7 +313,7 @@
 
 #### **Batch 7A - Cloud Infrastructure (Agent-2 + Agent-7)**
 - **Tasks:** 45 cloud migration and optimization tasks
-- **Effort:** 5 days
+- **Effort:** 1440-3600 agent cycles
 - **Risk:** Medium
 - **Impact:** High
 - **Focus Areas:** Cloud-native architecture, cost optimization, scalability
@@ -321,7 +321,7 @@
 
 #### **Batch 7B - Data Analytics & BI (Agent-5 + Agent-6)**
 - **Tasks:** 50 advanced analytics and BI tasks
-- **Effort:** 5 days
+- **Effort:** 1440-3600 agent cycles
 - **Risk:** Medium
 - **Impact:** Very High
 - **Focus Areas:** Predictive analytics, data visualization, automated insights
@@ -329,7 +329,7 @@
 
 #### **Batch 7C - Blockchain Integration (Agent-6 + Agent-8)**
 - **Tasks:** 45 blockchain and decentralized tasks
-- **Effort:** 6 days
+- **Effort:** 6 * 288-720 agent cycles
 - **Risk:** High
 - **Impact:** Very High
 - **Focus Areas:** Decentralized systems, smart contracts, transparency
@@ -343,7 +343,7 @@
 
 #### **Batch 8A - Autonomous Coordination (Agent-6 + All)**
 - **Tasks:** 40 autonomous coordination tasks
-- **Effort:** 4 days
+- **Effort:** 1152-2880 agent cycles
 - **Risk:** Medium
 - **Impact:** Very High
 - **Focus Areas:** AI-driven task assignment, predictive coordination
@@ -351,7 +351,7 @@
 
 #### **Batch 8B - Self-Optimization Systems (Agent-2 + Agent-6)**
 - **Tasks:** 35 self-optimization tasks
-- **Effort:** 4 days
+- **Effort:** 1152-2880 agent cycles
 - **Risk:** High
 - **Impact:** Very High
 - **Focus Areas:** Automated performance tuning, intelligent resource allocation
@@ -359,7 +359,7 @@
 
 #### **Batch 8C - Swarm Governance Evolution (All Agents)**
 - **Tasks:** 25 governance evolution tasks
-- **Effort:** 3 days
+- **Effort:** 864-2160 agent cycles
 - **Risk:** Medium
 - **Impact:** High
 - **Focus Areas:** Decentralized governance, consensus mechanisms, transparency
@@ -373,7 +373,7 @@
 
 #### **Batch 9A - Code Deduplication (Agent-8 + Agent-2)**
 - **Tasks:** 45 code deduplication and refactoring tasks
-- **Effort:** 4 days
+- **Effort:** 1152-2880 agent cycles
 - **Risk:** Medium
 - **Impact:** Very High
 - **Focus Areas:** Code duplication elimination, shared utilities, refactoring
@@ -381,7 +381,7 @@
 
 #### **Batch 9B - Data & Storage Deduplication (Agent-5 + Agent-2)**
 - **Tasks:** 40 data deduplication and optimization tasks
-- **Effort:** 4 days
+- **Effort:** 1152-2880 agent cycles
 - **Risk:** High
 - **Impact:** Very High
 - **Focus Areas:** Database optimization, data normalization, storage efficiency
@@ -389,7 +389,7 @@
 
 #### **Batch 9C - Configuration & Documentation Deduplication (Agent-6 + Agent-7)**
 - **Tasks:** 35 configuration and documentation tasks
-- **Effort:** 3 days
+- **Effort:** 864-2160 agent cycles
 - **Risk:** Medium
 - **Impact:** High
 - **Focus Areas:** Unified configuration, documentation consolidation, knowledge management
@@ -403,7 +403,7 @@
 
 #### **Batch 10A - Integration Testing (Agent-3 + All)**
 - **Tasks:** 35 integration and validation tasks
-- **Effort:** 3 days
+- **Effort:** 864-2160 agent cycles
 - **Risk:** Medium
 - **Impact:** High
 - **Focus Areas:** System integration testing, cross-component validation
@@ -411,7 +411,7 @@
 
 #### **Batch 10B - Performance Optimization (Agent-2 + Agent-6)**
 - **Tasks:** 30 performance tuning and optimization tasks
-- **Effort:** 3 days
+- **Effort:** 864-2160 agent cycles
 - **Risk:** Medium
 - **Impact:** Very High
 - **Focus Areas:** System-wide performance optimization, bottleneck elimination
@@ -419,7 +419,7 @@
 
 #### **Batch 10C - Final Validation & Documentation (Agent-1 + Agent-4)**
 - **Tasks:** 15 final validation and documentation tasks
-- **Effort:** 2 days
+- **Effort:** 576-1440 agent cycles
 - **Risk:** Low
 - **Impact:** Medium
 - **Focus Areas:** Final system validation, documentation completion
@@ -456,34 +456,34 @@
 - **Phase 1:** 25 core architecture tasks (CRITICAL)
 - **Phase 3:** 25 documentation tasks (MEDIUM)
 - **Focus:** Architecture, SOLID compliance, documentation
-- **Total Effort:** 7 days
+- **Total Effort:** 2016-5040 agent cycles
 - **Expertise Match:** High
 
 ### **Agent-5 (Business Intelligence)** - 84 tasks
 - **Phase 1:** 25 service optimization tasks (HIGH)
 - **Phase 4:** 34 script automation tasks (MEDIUM)
 - **Focus:** Services, automation, BI consolidation
-- **Total Effort:** 8 days
+- **Total Effort:** 8 * 288-720 agent cycles
 - **Expertise Match:** High
 
 ### **Agent-2 (Infrastructure)** - 43 tasks
 - **Phase 2:** 20 utility/infrastructure tasks (HIGH)
 - **Phase 4:** 23 tool optimization tasks (LOW)
 - **Focus:** Infrastructure, utilities, tools
-- **Total Effort:** 4 days
+- **Total Effort:** 1152-2880 agent cycles
 - **Expertise Match:** High
 
 ### **Agent-8 (Code Quality)** - 68 tasks
 - **Phase 2:** 25 testing enhancement tasks (HIGH)
 - **Focus:** Testing, quality assurance, code standards
-- **Total Effort:** 5 days
+- **Total Effort:** 1440-3600 agent cycles
 - **Expertise Match:** High
 
 ### **Agent-7 (Web Interface)** - 70 tasks
 - **Phase 3:** 30 web interface tasks (MEDIUM)
 - **Phase 5:** 40 DevOps automation tasks (HIGH)
 - **Focus:** Frontend, UX, accessibility, DevOps integration
-- **Total Effort:** 8 days
+- **Total Effort:** 8 * 288-720 agent cycles
 - **Expertise Match:** High
 
 ### **Agent-3 (Quality Assurance)** - 75 tasks
@@ -491,7 +491,7 @@
 - **Phase 5:** 35 security enhancement tasks (HIGH)
 - **Phase 6:** 15 performance excellence tasks (MEDIUM)
 - **Focus:** Quality assurance, security, cross-agent optimization
-- **Total Effort:** 8 days
+- **Total Effort:** 8 * 288-720 agent cycles
 - **Expertise Match:** High
 
 ### **Agent-1 (Integration Specialist)** - 85 tasks
@@ -500,7 +500,7 @@
 - **Phase 5:** 25 AI/ML integration tasks (HIGH)
 - **Phase 7:** 15 cloud infrastructure tasks (MEDIUM)
 - **Focus:** System integration, AI/ML, cloud migration
-- **Total Effort:** 9 days
+- **Total Effort:** 9 * 288-720 agent cycles
 - **Expertise Match:** High
 
 ### **Agent-4 (Strategic Captain)** - 60 tasks
@@ -509,7 +509,7 @@
 - **Phase 6:** 15 advanced monitoring tasks (HIGH)
 - **Phase 8:** 15 swarm governance tasks (MEDIUM)
 - **Focus:** Strategic oversight, monitoring, governance evolution
-- **Total Effort:** 7 days
+- **Total Effort:** 2016-5040 agent cycles
 - **Expertise Match:** High
 
 ### **Agent-8 (Code Quality Specialist)** - 88 tasks
@@ -517,7 +517,7 @@
 - **Phase 4:** 20 code quality tasks (HIGH)
 - **Phase 9:** 48 code deduplication tasks (VERY HIGH)
 - **Focus:** Code quality, deduplication, refactoring excellence
-- **Total Effort:** 9 days
+- **Total Effort:** 9 * 288-720 agent cycles
 - **Expertise Match:** Very High
 
 ---

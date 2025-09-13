@@ -85,7 +85,7 @@ class TestSuite:
     tests: list[str] = field(default_factory=list)
     dependencies: list[str] = field(default_factory=list)
     environment: dict[str, Any] = field(default_factory=dict)
-    timeout: int = 300  # 5 minutes default
+    timeout: int = 300  # 5 / 5-2 agent cycles default
     parallel_execution: bool = False
     retry_count: int = 0
 
@@ -721,4 +721,3 @@ if __name__ == "__main__":
     # Generate sample report
     report = framework.generate_test_report("dict")
     print(f"Test framework ready with {report['summary']['total_tests']} test configurations")
-

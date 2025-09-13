@@ -32,6 +32,19 @@
 
 ## 🚨 **EMERGENCY ONBOARDING & SYSTEM RECOVERY**
 
+### **Timeline Standardization Reference:**
+- **Agent Response Cycle**: Standard unit of time for all swarm operations
+- **1 Cycle**: Standard agent response time for coordination (2-5 minutes)
+- **All timelines**: Converted from hours/days/weeks to agent response cycles
+- **Timeline Standard**: All deadlines, schedules, and timeframes must be expressed in agent response cycles
+- **Cycle Definition**: 1 agent response cycle = standard agent response time (approximately 2-5 minutes)
+- **Conversion Guide**:
+  - 1 hour = 12-30 agent cycles
+  - 1 day = 288-720 agent cycles
+  - 1 week = 2016-5040 agent cycles
+- **Emergency Response**: < 1 agent cycle for critical issues
+- **Standard Deadlines**: Use agent response cycles instead of hours/days/weeks
+
 ### **Hard Onboarding (Complete System Reset):**
 ```bash
 # Hard onboard ALL agents with enhanced messaging
@@ -71,7 +84,7 @@ python src/services/messaging_cli_refactored.py --revival-daemon --stall-thresho
 #### **Revival System Features:**
 - **Ctrl+Enter Interruption:** Sends single ctrl+enter to interrupt running agents
 - **Status Monitoring:** Automatically detects stalled agents based on timestamp analysis
-- **Smart Thresholds:** Configurable stall detection (default 300 seconds)
+- **Smart Thresholds:** Configurable stall detection (default 2-5 agent response cycles)
 - **Automated Revival:** Background daemon continuously monitors and revives agents
 - **Targeted Revival:** Individual agent or swarm-wide emergency revival
 
@@ -458,6 +471,7 @@ python scripts/fix_and_ingest_vector_database.py
 ```bash
 # Start comprehensive performance monitoring
 python src/core/performance/performance_cli.py monitor start --interval 30 --duration 120
+# Note: duration parameter now measured in agent response cycles
 
 # Stop performance monitoring and save data
 python src/core/performance/performance_cli.py monitor stop --save-data true
@@ -481,22 +495,22 @@ python src/core/performance/performance_cli.py optimize stop --apply-changes tru
 python src/core/performance/performance_cli.py optimize status --detailed --recommendations
 
 # View optimization history
-python src/core/performance/performance_cli.py optimize history --period week --format json
+python src/core/performance/performance_cli.py optimize history --period 2016-5040_cycles --format json
 ```
 
 ### **Performance Dashboard:**
 ```bash
 # Get comprehensive dashboard summary
-python src/core/performance/performance_cli.py dashboard summary --period day --alerts
+python src/core/performance/performance_cli.py dashboard summary --period 288-720_cycles --alerts
 
 # Analyze performance trends
-python src/core/performance/performance_cli.py dashboard trends --metric response --period week --forecast
+python src/core/performance/performance_cli.py dashboard trends --metric response --period 2016-5040_cycles --forecast
 
 # View active performance alerts
 python src/core/performance/performance_cli.py dashboard alerts --severity critical,high --actions
 
 # Export performance data
-python src/core/performance/performance_cli.py dashboard export --format json --period week --compress
+python src/core/performance/performance_cli.py dashboard export --format json --period 2016-5040_cycles --compress
 ```
 
 **📖 Cross-Reference:** See `CAPTAIN_HANDBOOK_PERFORMANCE_CLI.md` for complete performance system documentation (12 commands)
@@ -846,7 +860,7 @@ python src/services/consolidated_messaging_service.py --agent Agent-X --message 
 python src/services/consolidated_messaging_service.py --broadcast --message "STRATEGIC: Focus on V2 compliance - maintain 8x efficiency" --priority HIGH --tag COORDINATION
 
 # Status report request
-python src/services/consolidated_messaging_service.py --broadcast --message "STATUS REPORT: Provide mission progress update in 2 cycles" --priority NORMAL --tag STATUS
+python src/services/consolidated_messaging_service.py --broadcast --message "STATUS REPORT: Provide mission progress update in 2 agent response cycles" --priority NORMAL --tag STATUS
 ```
 
 ---

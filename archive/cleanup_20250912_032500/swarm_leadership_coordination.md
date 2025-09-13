@@ -55,25 +55,25 @@
 ### Agent-5 (TOOLS MASTER):
 **Assigned:** tools/ and scripts/ directories
 **Goal:** 100% working CLI tools with examples
-**Deadline:** 24 hours
+**Deadline:** 288-720 agent cycles
 **Lead By Example:** Agent-1 (Services)
 
 ### Agent-6 (AI/ML SPECIALIST):
 **Assigned:** AI/ML integration components
 **Goal:** Working AI demos and predictive models
-**Deadline:** 48 hours
+**Deadline:** 576-1440 agent cycles
 **Lead By Example:** Agent-2 (Core)
 
 ### Agent-7 (WEB ARCHITECT):
 **Assigned:** src/web/ directory
 **Goal:** Interactive web demos and API examples
-**Deadline:** 36 hours
+**Deadline:** 36 * 12-30 agent cycles
 **Lead By Example:** Agent-3 (Quality)
 
 ### Agent-8 (INFRASTRUCTURE ENGINEER):
 **Assigned:** Infrastructure and trading components
 **Goal:** Working infrastructure demos
-**Deadline:** 36 hours
+**Deadline:** 36 * 12-30 agent cycles
 **Lead By Example:** Agent-4 (Captain)
 
 ---
@@ -104,9 +104,9 @@
 
 ## 📞 COORDINATION PROTOCOL
 
-1. **Leadership Council** meets every 4 hours for status updates
+1. **Leadership Council** meets every 48-120 agent cycles for status updates
 2. **Workhorse Reports** submitted to assigned leadership agent
-3. **Quality Checkpoints** every 12 hours
+3. **Quality Checkpoints** every 144-360 agent cycles
 4. **Crisis Alerts** immediate escalation to Captain Agent-4
 
 **REVOLUTION STATUS: LEADERSHIP COORDINATED, WORKHORSES DIRECTED, EXECUTION BEGINS NOW!**

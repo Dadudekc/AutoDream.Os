@@ -1984,13 +1984,6 @@
       "consolidation_opportunities": 2
     },
     {
-      "chunk_id": 4,
-      "directory": "src/utils",
-      "file_path": "analysis_chunks\\chunk_004_utils.json",
-      "files_analyzed": 12,
-      "consolidation_opportunities": 12
-    },
-    {
       "chunk_id": 5,
       "directory": "src/infrastructure",
       "file_path": "analysis_chunks\\chunk_005_infrastructure.json",
@@ -2003,13 +1996,6 @@
       "file_path": "analysis_chunks\\chunk_006_gaming.json",
       "files_analyzed": 15,
       "consolidation_opportunities": 15
-    },
-    {
-      "chunk_id": 7,
-      "directory": "src/trading_robot",
-      "file_path": "analysis_chunks\\chunk_007_trading_robot.json",
-      "files_analyzed": 25,
-      "consolidation_opportunities": 25
     },
     {
       "chunk_id": 8,

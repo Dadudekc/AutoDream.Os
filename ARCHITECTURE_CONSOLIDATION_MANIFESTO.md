@@ -143,10 +143,10 @@ Risk: None (simple consolidation)
 - **Test execution** time reduced by 40%
 
 ### Qualitative Goals
-- **New developer onboarding:** From 2 weeks → 2 days
+- **New developer onboarding:** From 4032-10080 agent cycles → 576-1440 agent cycles
 - **Bug fixes:** 80% faster resolution
 - **Feature development:** 60% faster implementation
-- **Code reviews:** From 2 hours → 15 minutes
+- **Code reviews:** From 24-60 agent cycles → 15 / 5-2 agent cycles
 
 ---
 
@@ -218,7 +218,7 @@ Week 4: Testing & optimization
 ```
 
 **Start Date:** Immediate
-**End Date:** 4 weeks from now
+**End Date:** 4 * 2016-5040 agent cycles from now
 **Success Metric:** Clean, maintainable codebase with full functionality
 
 ---

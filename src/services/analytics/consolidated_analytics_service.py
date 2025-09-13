@@ -49,7 +49,9 @@ EXAMPLE USAGE:
 ==============
 
 # Import the service
-from src.services.analytics.consolidated_analytics_service import Consolidated_Analytics_ServiceService
+from src.services.analytics.consolidated_analytics_service import (
+    Consolidated_Analytics_ServiceService,
+)
 
 # Initialize service
 service = Consolidated_Analytics_ServiceService()
@@ -200,4 +202,3 @@ __all__ = [
     "get_consolidated_analytics_service",
     "get_analytics_service"  # Backward compatibility
 ]
-

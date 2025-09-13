@@ -220,7 +220,7 @@ python tools/duplication_analyzer.py
       • Recommendation: Merge configuration logic
 
 💡 Refactoring Impact:
-   • Estimated development time savings: 16 hours
+   • Estimated development time savings: 16 * 12-30 agent cycles
    • Code maintainability improvement: 35%
    • Bug reduction potential: 40%
 ```

@@ -22,7 +22,8 @@ import sys
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any, Dict
+
 
 class CompetitiveProgressReporter:
     """Automated progress reporting for competitive domination."""
@@ -258,4 +259,3 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
-

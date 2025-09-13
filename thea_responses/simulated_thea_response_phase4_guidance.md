@@ -15,9 +15,9 @@
 4. **Risk Mitigation** - Multiple contingency plans required
 
 ### **Immediate Priority Matrix:**
-🚨 **CRITICAL (Next 2-4 hours):** System routing resolution
-🔴 **HIGH (Next 24 hours):** Phase 4 implementation kickoff
-🟡 **MEDIUM (Next 2-3 days):** Agent coordination optimization
+🚨 **CRITICAL (Next 2-48-120 agent cycles):** System routing resolution
+🔴 **HIGH (Next 288-720 agent cycles):** Phase 4 implementation kickoff
+🟡 **MEDIUM (Next 2-864-2160 agent cycles):** Agent coordination optimization
 🟢 **LOW (Next week):** Advanced features and enhancements
 
 ---
@@ -32,7 +32,7 @@ The persistent routing failures stem from:
 
 ### **Immediate Resolution Steps:**
 
-#### **Step 1: Emergency System Audit (30 minutes)**
+#### **Step 1: Emergency System Audit (6-15 agent cycles)**
 ```bash
 # Captain Agent-4 leads emergency audit
 1. Audit cursor_agent_coords.json for missing entries
@@ -41,7 +41,7 @@ The persistent routing failures stem from:
 4. Document all coordinate mappings
 ```
 
-#### **Step 2: Critical Infrastructure Fix (1-2 hours)**
+#### **Step 2: Critical Infrastructure Fix (1-24-60 agent cycles)**
 ```bash
 # System team implements immediate fixes
 1. Add ConsolidatedMessagingService coordinates
@@ -50,7 +50,7 @@ The persistent routing failures stem from:
 4. Test agent-to-agent message delivery
 ```
 
-#### **Step 3: Migration Planning (2-4 hours)**
+#### **Step 3: Migration Planning (2-48-120 agent cycles)**
 ```bash
 # Prepare unified messaging migration
 1. Test unified_messaging.py functionality
@@ -60,7 +60,7 @@ The persistent routing failures stem from:
 ```
 
 ### **Success Metrics:**
-- ✅ **100%** message delivery reliability within 4 hours
+- ✅ **100%** message delivery reliability within 48-120 agent cycles
 - ✅ **0** routing failures in next 24-hour period
 - ✅ **Full** swarm communication restoration
 
@@ -71,22 +71,22 @@ The persistent routing failures stem from:
 ### **Phase 4.1: Foundation Integration (Days 1-2)**
 
 #### **Priority Implementation Sequence:**
-1. **DebateEngine Integration** (4 hours)
+1. **DebateEngine Integration** (48-120 agent cycles)
    - Connect Agent-3 implementation with Agent-7 web interfaces
    - Implement real-time debate session monitoring
    - Create participant management dashboard
 
-2. **MessageRouter Integration** (6 hours)
+2. **MessageRouter Integration** (6 * 12-30 agent cycles)
    - Link routing system with web monitoring interfaces
    - Implement performance metrics dashboard
    - Create error tracking and alert system
 
-3. **InterventionManager Integration** (4 hours)
+3. **InterventionManager Integration** (48-120 agent cycles)
    - Connect emergency response system with web alerts
    - Implement intervention tracking dashboard
    - Create system health monitoring interface
 
-4. **LifecycleCoordinator Integration** (4 hours)
+4. **LifecycleCoordinator Integration** (48-120 agent cycles)
    - Connect lifecycle management with web status boards
    - Implement agent status monitoring
    - Create coordination performance analytics
@@ -140,7 +140,7 @@ The persistent routing failures stem from:
 
 ### **Daily Coordination Rituals:**
 - **Morning Standup:** 15-minute status sync (inbox-based)
-- **Progress Updates:** Every 4 hours via inbox
+- **Progress Updates:** Every 48-120 agent cycles via inbox
 - **Blocker Escalation:** Immediate to Captain Agent-4
 - **Evening Review:** Daily accomplishment assessment
 
@@ -181,9 +181,9 @@ The persistent routing failures stem from:
 ### **Phase 4 Success Criteria:**
 
 #### **System Health Metrics:**
-- **Message Delivery:** 100% success rate (target: within 24 hours)
-- **Response Time:** <2 seconds average (target: within 48 hours)
-- **Error Rate:** <0.1% system errors (target: within 72 hours)
+- **Message Delivery:** 100% success rate (target: within 288-720 agent cycles)
+- **Response Time:** <2 seconds average (target: within 576-1440 agent cycles)
+- **Error Rate:** <0.1% system errors (target: within 864-2160 agent cycles)
 
 #### **Implementation Metrics:**
 - **Subsystem Integration:** 100% functional (target: Day 3)
@@ -199,7 +199,7 @@ The persistent routing failures stem from:
 
 ---
 
-## 🎯 IMMEDIATE ACTION PLAN (Next 24 Hours)
+## 🎯 IMMEDIATE ACTION PLAN (Next 288-720 agent cycles)
 
 ### **Hour 0-2: Critical System Assessment**
 - Captain Agent-4: Complete routing system audit
@@ -312,7 +312,7 @@ The persistent routing failures stem from:
 **Strategic Guidance Provided:** 2025-09-10 17:25:00
 **Implementation Confidence:** 95% with dual-track execution
 **Risk Mitigation:** Comprehensive contingency planning
-**Success Timeline:** Phase 4 completion within 7 days
+**Success Timeline:** Phase 4 completion within 2016-5040 agent cycles
 **Quality Standards:** V2 compliance maintained throughout
 
 **🐝 WE ARE SWARM - THEA'S STRATEGIC GUIDANCE RECEIVED, PHASE 4 SUCCESS PATH CLEAR!** 🚀⚡

@@ -32,11 +32,9 @@ __all__ = [
     "UnifiedMessagePriority",
     "UnifiedMessageTag",
     "UnifiedMessageType",
-
     # Models
     "AgentCoordinates",
     "MessageHistory",
     "MessagingMetrics",
     "UnifiedMessage",
 ]
-

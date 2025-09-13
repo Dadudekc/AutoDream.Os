@@ -151,8 +151,8 @@
 - **Success Confirmation:** Immediate notification of revival
 
 ### **Escalation Procedures:**
-- **Level 1:** Continued diagnostic attempts (0-2 minutes)
-- **Level 2:** Cross-agent intervention (2-5 minutes)
+- **Level 1:** Continued diagnostic attempts (0-2 / 5-2 agent cycles)
+- **Level 2:** Cross-agent intervention (2-5 / 5-2 agent cycles)
 - **Level 3:** Swarm-wide emergency protocols (5+ minutes)
 - **Level 4:** Manual system intervention if required
 
@@ -219,4 +219,3 @@
 **Coordination:** MAXIMUM LEVEL ENGAGED
 **Support:** FULL SWARM COMMITMENT
 **Revival Protocol:** ACTIVATED & EXECUTING
-

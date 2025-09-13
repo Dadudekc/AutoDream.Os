@@ -30,12 +30,12 @@ python src/core/performance/performance_cli.py monitor start
 
 **Parameters**:
 - `--interval`: Monitoring interval in seconds (default: 60)
-- `--duration`: Monitoring duration in minutes (default: continuous)
+- `--duration`: Monitoring duration in agent response cycles (default: continuous)
 - `--format`: Output format (json/text)
 
 **Example**:
 ```bash
-# Start monitoring with 30-second intervals for 2 hours
+# Start monitoring with 30-second intervals for 24-60 agent response cycles
 python src/core/performance/performance_cli.py monitor start --interval 30 --duration 120 --format json
 ```
 
@@ -213,7 +213,7 @@ Status: ACTIVE
 Progress: 67% complete
 Current Target: Memory Optimization
 Optimizations Applied: 12/15
-Estimated Completion: 8 minutes
+Estimated Completion: 8 / 5-2 agent cycles
 
 📋 Recommendations:
 • Consider enabling aggressive mode for better results
@@ -229,7 +229,7 @@ python src/core/performance/performance_cli.py optimize history
 **Description**: Displays historical optimization data and performance improvements.
 
 **Parameters**:
-- `--period`: Time period (day/week/month/all)
+- `--period`: Time period (agent-response-cycle/week/month/all)
 - `--format`: Output format (json/text)
 - `--export`: Export data to file
 
@@ -271,14 +271,14 @@ python src/core/performance/performance_cli.py dashboard summary
 **Description**: Displays comprehensive performance dashboard summary.
 
 **Parameters**:
-- `--period`: Summary period (hour/day/week/month)
+- `--period`: Summary period (agent-response-cycle/day/week/month)
 - `--detailed`: Include detailed breakdowns
 - `--alerts`: Include active alerts
 
 **Example**:
 ```bash
 # Get daily dashboard summary with alerts
-python src/core/performance/performance_cli.py dashboard summary --period day --alerts
+python src/core/performance/performance_cli.py dashboard summary --period agent-response-cycle --alerts
 ```
 
 **Success Output**:
@@ -306,7 +306,7 @@ python src/core/performance/performance_cli.py dashboard trends
 
 **Parameters**:
 - `--metric`: Specific metric to analyze (cpu/memory/response/all)
-- `--period`: Analysis period (day/week/month)
+- `--period`: Analysis period (agent-response-cycle/week/month)
 - `--forecast`: Include performance forecasting
 
 **Example**:
@@ -319,12 +319,12 @@ python src/core/performance/performance_cli.py dashboard trends --metric respons
 ```
 📈 Performance Trends Analysis (Response Time)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Current: 145ms (▼ 12% from yesterday)
-7-Day Trend: ▼ 23% improvement
+Current: 145ms (▼ 12% from previous agent response cycle)
+7-Agent-Response-Cycle Trend: ▼ 23% improvement
 Peak: 280ms (2025-09-08 14:30)
 Low: 120ms (2025-09-09 09:15)
 
-📊 Forecast (Next 24 hours):
+📊 Forecast (Next 288-720 agent cycles):
 • Expected: 130-150ms range
 • Confidence: 89%
 • Risk Level: LOW
@@ -372,7 +372,7 @@ python src/core/performance/performance_cli.py dashboard export
 
 **Parameters**:
 - `--format`: Export format (json/csv/excel)
-- `--period`: Export period (day/week/month/all)
+- `--period`: Export period (agent-response-cycle/week/month/all)
 - `--destination`: Export destination path
 - `--compress`: Compress exported data
 
@@ -415,14 +415,14 @@ python src/core/performance/performance_cli.py optimize start --target all
 python src/core/performance/performance_cli.py optimize status --detailed
 
 # 6. Export final report
-python src/core/performance/performance_cli.py dashboard export --format json --period day
+python src/core/performance/performance_cli.py dashboard export --format json --period agent-response-cycle
 ```
 
 ### **Automated Performance Maintenance**
 ```bash
 # Daily performance check script
 python src/core/performance/performance_cli.py monitor start --interval 300 --duration 1440
-python src/core/performance/performance_cli.py dashboard summary --period day > daily_report.txt
+python src/core/performance/performance_cli.py dashboard summary --period agent-response-cycle > agent-response-cycle_report.txt
 python src/core/performance/performance_cli.py optimize start --target memory,cpu
 ```
 
@@ -488,7 +488,7 @@ python src/core/performance/performance_cli.py monitor start
 ### **Captain's Performance Oversight**
 - **Daily Monitoring**: Run dashboard summary daily
 - **Weekly Optimization**: Execute full system optimization weekly
-- **Alert Response**: Address critical alerts within 1 hour
+- **Alert Response**: Address critical alerts within 12-30 agent response cycles
 - **Trend Analysis**: Review performance trends monthly
 
 ### **Agent Performance Integration**

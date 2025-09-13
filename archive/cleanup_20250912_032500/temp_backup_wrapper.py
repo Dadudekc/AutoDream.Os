@@ -83,7 +83,7 @@
                 }
             }
         }
-        
+
         try:
             if os.path.exists(self.config_path):
                 with open(self.config_path, 'r') as f:
@@ -91,7 +91,7 @@
                 default_config.update(user_config)
         except Exception as e:
             logger.warning(f"Failed to load config from {self.config_path}: {e}")
-            
+
         return default_config
 
     def _init_monitoring_database(self):
@@ -109,7 +109,7 @@
                     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
                 )
             """)
-            
+
             # Health checks table
             conn.execute("""
                 CREATE TABLE IF NOT EXISTS health_checks (
@@ -123,7 +123,7 @@
                     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
                 )
             """)
-            
+
             # Alerts table
             conn.execute("""
                 CREATE TABLE IF NOT EXISTS alerts (
@@ -143,7 +143,7 @@
                     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
                 )
             """)
-            
+
             # Alert history table
             conn.execute("""
                 CREATE TABLE IF NOT EXISTS alert_history (
@@ -155,7 +155,7 @@
                     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
                 )
             """)
-            
+
             conn.commit()
 
     async def start_monitoring(self):
@@ -163,10 +163,10 @@
         if not self.config.get("monitoring", {}).get("enabled", True):
             logger.info("Backup monitoring is disabled in configuration")
             return
-        
+
         logger.info("Starting backup monitoring system...")
         self.is_monitoring = True
-        
+
         # Start monitoring tasks
         self.monitoring_tasks = [
             asyncio.create_task(self._monitoring_loop()),
@@ -174,7 +174,7 @@
             asyncio.create_task(self._metrics_collection_loop()),
             asyncio.create_task(self._alert_processing_loop())
         ]
-        
+
         try:
             await asyncio.gather(*self.monitoring_tasks)
         except Exception as e:
@@ -186,39 +186,39 @@
         """Stop the monitoring system."""
         logger.info("Stopping backup monitoring system...")
         self.is_monitoring = False
-        
+
         # Cancel all monitoring tasks
         for task in self.monitoring_tasks:
             if not task.done():
                 task.cancel()
-        
+
         # Wait for tasks to complete
         await asyncio.gather(*self.monitoring_tasks, return_exceptions=True)
 
     async def _monitoring_loop(self):
         """Main monitoring loop."""
         check_interval = self.config.get("monitoring", {}).get("check_interval_seconds", 60)
-        
+
         while self.is_monitoring:
             try:
                 await self._perform_monitoring_checks()
                 await asyncio.sleep(check_interval)
             except Exception as e:
                 logger.error(f"Monitoring check error: {e}")
-                await asyncio.sleep(60)  # Wait 1 minute before retrying
+                await asyncio.sleep(60)  # Wait 1 / 5-2 agent cycles before retrying
 
     async def _health_check_loop(self):
         """Health check monitoring loop."""
         health_checks = self.config.get("health_checks", {})
-        
+
         while self.is_monitoring:
             try:
                 for check_type, check_config in health_checks.items():
                     if check_config.get("enabled", True):
                         await self._perform_health_checks(check_type, check_config)
-                
+
                 # Wait for next health check cycle
-                await asyncio.sleep(300)  # 5 minutes default
+                await asyncio.sleep(300)  # 5 / 5-2 agent cycles default
             except Exception as e:
                 logger.error(f"Health check error: {e}")
                 await asyncio.sleep(60)
@@ -254,7 +254,7 @@
             self._check_system_health,
             self._check_data_integrity
         ]
-        
+
         for check_func in checks:
             try:
                 await check_func()
@@ -265,7 +265,7 @@
         """Check if backups are too old."""
         threshold_hours = self.config.get("thresholds", {}).get("backup_age_hours", 48)
         threshold_time = datetime.now() - timedelta(hours=threshold_hours)
-        
+
         # Get latest backup
         backups = await self.backup_system.list_backups()
         if not backups:
@@ -276,10 +276,10 @@
                 "No backups found in the system. Immediate action required."
             )
             return
-        
+
         latest_backup = backups[0]
         latest_time = datetime.fromisoformat(latest_backup["timestamp"])
-        
+
         if latest_time < threshold_time:
             age_hours = (datetime.now() - latest_time).total_seconds() / 3600
             await self._create_alert(
@@ -292,13 +292,13 @@
     async def _check_disk_usage(self):
         """Check disk usage for backup directory."""
         threshold_percent = self.config.get("thresholds", {}).get("disk_usage_percent", 85)
-        
+
         try:
             backup_root = self.backup_system.backup_root
             usage = psutil.disk_usage(backup_root)
-            
+
             usage_percent = (usage.used / usage.total) * 100
-            
+
             if usage_percent > threshold_percent:
                 free_gb = usage.free / (1024**3)
                 await self._create_alert(
@@ -307,38 +307,38 @@
                     "Disk Usage Warning",
                     f"Disk usage is {usage_percent:.1f}% (threshold: {threshold_percent}%). Free space: {free_gb:.1f} GB"
                 )
-            
+
             # Record metric
             await self._record_metric("disk_usage_percent", usage_percent, "percent")
-            
+
         except Exception as e:
             logger.error(f"Failed to check disk usage: {e}")
 
     async def _check_backup_failures(self):
         """Check for recent backup failures."""
         threshold_percent = self.config.get("thresholds", {}).get("backup_failure_rate_percent", 20)
-        
-        # Count recent backups and failures (last 24 hours)
+
+        # Count recent backups and failures (last 288-720 agent cycles)
         cutoff_time = datetime.now() - timedelta(hours=24)
-        
+
         with sqlite3.connect(self.backup_system.db_path) as conn:
             # Total backups
             cursor = conn.execute("""
-                SELECT COUNT(*) FROM backup_metadata 
+                SELECT COUNT(*) FROM backup_metadata
                 WHERE timestamp > ?
             """, (cutoff_time,))
             total_backups = cursor.fetchone()[0]
-            
+
             # Failed backups
             cursor = conn.execute("""
-                SELECT COUNT(*) FROM backup_metadata 
+                SELECT COUNT(*) FROM backup_metadata
                 WHERE timestamp > ? AND status != 'completed'
             """, (cutoff_time,))
             failed_backups = cursor.fetchone()[0]
-        
+
         if total_backups > 0:
             failure_rate = (failed_backups / total_backups) * 100
-            
+
             if failure_rate > threshold_percent:
                 await self._create_alert(
                     "backup_failure_rate_high",
@@ -346,7 +346,7 @@
                     "Backup Failure Rate Warning",
                     f"Backup failure rate is {failure_rate:.1f}% (threshold: {threshold_percent}%). {failed_backups}/{total_backups} backups failed."
                 )
-            
+
             # Record metric
             await self._record_metric("backup_failure_rate", failure_rate, "percent")
 
@@ -355,7 +355,7 @@
         # CPU usage
         cpu_percent = psutil.cpu_percent(interval=1)
         cpu_threshold = self.config.get("thresholds", {}).get("system_load_percent", 80)
-        
+
         if cpu_percent > cpu_threshold:
             await self._create_alert(
                 "cpu_usage_high",
@@ -363,11 +363,11 @@
                 "High CPU Usage",
                 f"CPU usage is {cpu_percent:.1f}% (threshold: {cpu_threshold}%)"
             )
-        
+
         # Memory usage
         memory = psutil.virtual_memory()
         memory_threshold = self.config.get("thresholds", {}).get("memory_usage_percent", 90)
-        
+
         if memory.percent > memory_threshold:
             await self._create_alert(
                 "memory_usage_high",
@@ -375,7 +375,7 @@
                 "High Memory Usage",
                 f"Memory usage is {memory.percent:.1f}% (threshold: {memory_threshold}%)"
             )
-        
+
         # Record metrics
         await self._record_metric("cpu_usage_percent", cpu_percent, "percent")
         await self._record_metric("memory_usage_percent", memory.percent, "percent")
@@ -383,7 +383,7 @@
     async def _check_data_integrity(self):
         """Check data integrity of backups."""
         integrity_failures = 0
-        
+
         # Check recent backups for integrity
         recent_backups = await self.backup_system.list_backups()
         for backup in recent_backups[:5]:  # Check last 5 backups
@@ -399,7 +399,7 @@
             except Exception as e:
                 integrity_failures += 1
                 logger.warning(f"Data integrity check failed for backup {backup['backup_id']}: {e}")
-        
+
         if integrity_failures > 0:
             await self._create_alert(
                 "data_integrity_failure",
@@ -411,11 +411,11 @@
     async def _perform_health_checks(self, check_type: str, check_config: Dict[str, Any]):
         """Perform specific health checks."""
         checks = check_config.get("checks", [])
-        
+
         for check_name in checks:
             try:
                 start_time = datetime.now()
-                
+
                 # Execute health check
                 if check_name == "backup_database_connectivity":
                     result = await self._check_backup_database_connectivity()
@@ -441,11 +441,11 @@
                     result = await self._check_checksum_validation()
                 else:
                     result = {"status": "unknown", "message": f"Unknown check: {check_name}"}
-                
+
                 # Record health check result
                 duration_ms = int((datetime.now() - start_time).total_seconds() * 1000)
                 await self._record_health_check(check_name, check_type, result["status"], result.get("message"), duration_ms)
-                
+
             except Exception as e:
                 logger.error(f"Health check {check_name} failed: {e}")
                 await self._record_health_check(check_name, check_type, "error", str(e), 0)
@@ -495,7 +495,7 @@
                 latest_backup = backups[0]
                 backup_time = datetime.fromisoformat(latest_backup["timestamp"])
                 age_hours = (datetime.now() - backup_time).total_seconds() / 3600
-                
+
                 if age_hours < 24:  # Recent backup available
                     return {"status": "healthy", "message": f"Recovery capability available (latest backup: {age_hours:.1f}h old)"}
                 else:
@@ -511,7 +511,7 @@
             backup_root = self.backup_system.backup_root
             usage = psutil.disk_usage(backup_root)
             free_gb = usage.free / (1024**3)
-            
+
             if free_gb > 10:  # More than 10GB free
                 return {"status": "healthy", "message": f"Sufficient disk space: {free_gb:.1f} GB free"}
             elif free_gb > 5:  # More than 5GB free
@@ -564,7 +564,7 @@
             backups = await self.backup_system.list_backups()
             if not backups:
                 return {"status": "unhealthy", "message": "No backup files found"}
-            
+
             # Check last few backups
             for backup in backups[:3]:
                 if backup.get("backup_path"):
@@ -573,7 +573,7 @@
                         return {"status": "unhealthy", "message": f"Backup file missing: {backup_path}"}
                     if backup_path.stat().st_size == 0:
                         return {"status": "unhealthy", "message": f"Backup file empty: {backup_path}"}
-            
+
             return {"status": "healthy", "message": "Backup file integrity verified"}
         except Exception as e:
             return {"status": "unhealthy", "message": f"Backup file integrity check failed: {e}"}
@@ -585,7 +585,7 @@
                 # Check for orphaned records or inconsistencies
                 cursor = conn.execute("SELECT COUNT(*) FROM backup_metadata")
                 backup_count = cursor.fetchone()[0]
-                
+
                 if backup_count > 0:
                     return {"status": "healthy", "message": f"Database consistent with {backup_count} backup records"}
                 else:
@@ -599,14 +599,14 @@
             # Check if checksums are being calculated and stored
             with sqlite3.connect(self.backup_system.db_path) as conn:
                 cursor = conn.execute("""
-                    SELECT COUNT(*) FROM backup_metadata 
+                    SELECT COUNT(*) FROM backup_metadata
                     WHERE checksum_sha256 IS NOT NULL
                 """)
                 checksum_count = cursor.fetchone()[0]
-                
+
                 cursor = conn.execute("SELECT COUNT(*) FROM backup_metadata")
                 total_count = cursor.fetchone()[0]
-                
+
                 if total_count == 0:
                     return {"status": "warning", "message": "No backups found for checksum validation"}
                 elif checksum_count == total_count:
@@ -622,18 +622,18 @@
             # CPU metrics
             cpu_percent = psutil.cpu_percent(interval=1)
             await self._record_metric("system.cpu.usage", cpu_percent, "percent")
-            
+
             # Memory metrics
             memory = psutil.virtual_memory()
             await self._record_metric("system.memory.usage", memory.percent, "percent")
             await self._record_metric("system.memory.available", memory.available / (1024**3), "GB")
-            
+
             # Disk metrics
             backup_root = self.backup_system.backup_root
             disk_usage = psutil.disk_usage(backup_root)
             await self._record_metric("system.disk.usage", (disk_usage.used / disk_usage.total) * 100, "percent")
             await self._record_metric("system.disk.free", disk_usage.free / (1024**3), "GB")
-            
+
         except Exception as e:
             logger.error(f"Failed to collect system metrics: {e}")
 
@@ -642,10 +642,10 @@
         try:
             # Backup statistics
             stats = await self.backup_system.get_backup_statistics()
-            
+
             await self._record_metric("backup.total_count", stats.get("total_backups", 0), "count")
             await self._record_metric("backup.total_size_mb", stats.get("total_size_mb", 0), "MB")
-            
+
             # Recent backup age
             backups = await self.backup_system.list_backups()
             if backups:
@@ -653,7 +653,7 @@
                 backup_time = datetime.fromisoformat(latest_backup["timestamp"])
                 age_hours = (datetime.now() - backup_time).total_seconds() / 3600
                 await self._record_metric("backup.latest_age_hours", age_hours, "hours")
-            
+
         except Exception as e:
             logger.error(f"Failed to collect backup metrics: {e}")
 
@@ -662,7 +662,7 @@
         try:
             with sqlite3.connect(self.monitoring_db_path) as conn:
                 conn.execute("""
-                    INSERT INTO monitoring_metrics 
+                    INSERT INTO monitoring_metrics
                     (metric_name, metric_value, metric_unit, timestamp, tags)
                     VALUES (?, ?, ?, ?, ?)
                 """, (
@@ -681,7 +681,7 @@
         try:
             with sqlite3.connect(self.monitoring_db_path) as conn:
                 conn.execute("""
-                    INSERT INTO health_checks 
+                    INSERT INTO health_checks
                     (check_name, check_type, status, message, duration_ms, timestamp)
                     VALUES (?, ?, ?, ?, ?, ?)
                 """, (check_name, check_type, status, message, duration_ms, datetime.now()))
@@ -692,37 +692,37 @@
     async def _create_alert(self, alert_type: str, severity: str, title: str, message: str):
         """Create a new alert."""
         alert_id = f"{alert_type}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
-        
+
         try:
             with sqlite3.connect(self.monitoring_db_path) as conn:
                 # Check if similar alert already exists
                 cursor = conn.execute("""
-                    SELECT id FROM alerts 
-                    WHERE alert_type = ? AND status = 'active' 
+                    SELECT id FROM alerts
+                    WHERE alert_type = ? AND status = 'active'
                     ORDER BY created_at DESC LIMIT 1
                 """, (alert_type,))
                 existing_alert = cursor.fetchone()
-                
+
                 if existing_alert:
                     # Update existing alert instead of creating new one
                     conn.execute("""
-                        UPDATE alerts 
+                        UPDATE alerts
                         SET message = ?, escalation_count = escalation_count + 1, last_escalation = ?
                         WHERE id = ?
                     """, (message, datetime.now(), existing_alert[0]))
                 else:
                     # Create new alert
                     conn.execute("""
-                        INSERT INTO alerts 
+                        INSERT INTO alerts
                         (alert_id, alert_type, severity, title, message, status)
                         VALUES (?, ?, ?, ?, ?, ?)
                     """, (alert_id, alert_type, severity, title, message, "active"))
-                
+
                 conn.commit()
-                
+
                 # Send notification
                 await self._send_alert_notification(alert_id, alert_type, severity, title, message)
-                
+
         except Exception as e:
             logger.error(f"Failed to create alert {alert_id}: {e}")
 
@@ -730,9 +730,9 @@
         """Send alert notification through configured channels."""
         if not self.config.get("alerts", {}).get("enabled", True):
             return
-        
+
         channels = self.config.get("alerts", {}).get("channels", ["console"])
-        
+
         for channel in channels:
             try:
                 if channel == "console":
@@ -756,7 +756,7 @@
             "low": "ℹ️"
         }
         emoji = severity_emoji.get(severity, "📢")
-        
+
         print(f"\n{emoji} ALERT [{severity.upper()}] {timestamp}")
         print(f"ID: {alert_id}")
         print(f"Title: {title}")
@@ -767,7 +767,7 @@
         """Send file alert."""
         log_file = self.backup_system.backup_root / "alerts.log"
         timestamp = datetime.now().isoformat()
-        
+
         alert_data = {
             "alert_id": alert_id,
             "severity": severity,
@@ -775,7 +775,7 @@
             "message": message,
             "timestamp": timestamp
         }
-        
+
         with open(log_file, "a") as f:
             f.write(f"{json.dumps(alert_data)}\n")
 
@@ -784,7 +784,7 @@
         webhook_url = self.config.get("notifications", {}).get("discord", {}).get("webhook_url")
         if not webhook_url:
             return
-        
+
         # Create Discord embed
         color_map = {
             "critical": 0xff0000,  # Red
@@ -792,7 +792,7 @@
             "medium": 0xffcc00,    # Yellow
             "low": 0x00ff00        # Green
         }
-        
+
         embed = {
             "title": f"🚨 Backup System Alert - {severity.upper()}",
             "description": f"**{title}**\n\n{message}",
@@ -803,7 +803,7 @@
                 {"name": "Severity", "value": severity.upper(), "inline": True}
             ]
         }
-        
+
         # Send webhook (simplified - would need requests library)
         logger.info(f"Discord alert: {title} - {message}")
 
@@ -812,7 +812,7 @@
         email_config = self.config.get("notifications", {}).get("email", {})
         if not email_config.get("enabled", False):
             return
-        
+
         # Email sending would require smtplib implementation
         logger.info(f"Email alert: {title} - {message}")
 
@@ -822,40 +822,40 @@
             with sqlite3.connect(self.monitoring_db_path) as conn:
                 # Get active alerts
                 cursor = conn.execute("""
-                    SELECT * FROM alerts 
-                    WHERE status = 'active' 
+                    SELECT * FROM alerts
+                    WHERE status = 'active'
                     ORDER BY created_at ASC
                 """)
                 active_alerts = cursor.fetchall()
-                
+
                 for alert in active_alerts:
                     await self._process_alert_escalation(alert)
-                    
+
         except Exception as e:
             logger.error(f"Failed to process active alerts: {e}")
 
     async def _process_alert_escalation(self, alert):
         """Process alert escalation."""
         alert_id, alert_type, severity, title, message, status, acknowledged, acknowledged_by, acknowledged_at, resolved_at, escalation_count, last_escalation, created_at = alert
-        
+
         # Check if escalation is needed
         escalation_config = self.config.get("alerts", {}).get("severity_levels", {}).get(severity, {})
         escalation_threshold = escalation_config.get("threshold", 5)
         escalation_minutes = escalation_config.get("escalation_minutes", 60)
-        
+
         if escalation_count >= escalation_threshold:
             # Check if enough time has passed for escalation
             if last_escalation:
                 last_escalation_time = datetime.fromisoformat(last_escalation)
                 time_since_escalation = (datetime.now() - last_escalation_time).total_seconds() / 60
-                
+
                 if time_since_escalation >= escalation_minutes:
                     await self._escalate_alert(alert_id, severity, title, message)
         else:
             # Increment escalation count
             with sqlite3.connect(self.monitoring_db_path) as conn:
                 conn.execute("""
-                    UPDATE alerts 
+                    UPDATE alerts
                     SET escalation_count = escalation_count + 1, last_escalation = ?
                     WHERE alert_id = ?
                 """, (datetime.now(), alert_id))
@@ -864,7 +864,7 @@
     async def _escalate_alert(self, alert_id: str, severity: str, title: str, message: str):
         """Escalate an alert."""
         logger.warning(f"Escalating alert {alert_id} - {title}")
-        
+
         # Send escalation notification
         escalation_message = f"ESCALATED: {message}"
         await self._send_alert_notification(alert_id, "escalated", severity, f"ESCALATED: {title}", escalation_message)
@@ -873,28 +873,28 @@
         """Clean up old metrics based on retention policy."""
         retention_days = self.config.get("monitoring", {}).get("metrics_retention_days", 30)
         cutoff_date = datetime.now() - timedelta(days=retention_days)
-        
+
         try:
             with sqlite3.connect(self.monitoring_db_path) as conn:
                 # Clean up old metrics
                 cursor = conn.execute("""
-                    DELETE FROM monitoring_metrics 
+                    DELETE FROM monitoring_metrics
                     WHERE timestamp < ?
                 """, (cutoff_date,))
                 metrics_deleted = cursor.rowcount
-                
+
                 # Clean up old health checks
                 cursor = conn.execute("""
-                    DELETE FROM health_checks 
+                    DELETE FROM health_checks
                     WHERE timestamp < ?
                 """, (cutoff_date,))
                 health_checks_deleted = cursor.rowcount
-                
+
                 conn.commit()
-                
+
                 if metrics_deleted > 0 or health_checks_deleted > 0:
                     logger.info(f"Cleaned up {metrics_deleted} old metrics and {health_checks_deleted} old health checks")
-                    
+
         except Exception as e:
             logger.error(f"Failed to cleanup old metrics: {e}")
 
@@ -906,25 +906,25 @@
                 # Active alerts count
                 cursor = conn.execute("SELECT COUNT(*) FROM alerts WHERE status = 'active'")
                 active_alerts = cursor.fetchone()[0]
-                
+
                 # Recent health checks
                 cursor = conn.execute("""
-                    SELECT check_name, status, timestamp 
-                    FROM health_checks 
-                    WHERE timestamp > datetime('now', '-1 hour')
+                    SELECT check_name, status, timestamp
+                    FROM health_checks
+                    WHERE timestamp > datetime('now', '-12-30 agent cycles')
                     ORDER BY timestamp DESC
                 """)
                 recent_health_checks = [dict(row) for row in cursor.fetchall()]
-                
+
                 # System metrics
                 cursor = conn.execute("""
-                    SELECT metric_name, metric_value, timestamp 
-                    FROM monitoring_metrics 
-                    WHERE timestamp > datetime('now', '-1 hour')
+                    SELECT metric_name, metric_value, timestamp
+                    FROM monitoring_metrics
+                    WHERE timestamp > datetime('now', '-12-30 agent cycles')
                     ORDER BY timestamp DESC
                 """)
                 recent_metrics = [dict(row) for row in cursor.fetchall()]
-            
+
             return {
                 "monitoring_status": "active" if self.is_monitoring else "inactive",
                 "active_alerts": active_alerts,
@@ -933,7 +933,7 @@
                 "monitoring_database": str(self.monitoring_db_path),
                 "config": self.config
             }
-            
+
         except Exception as e:
             logger.error(f"Failed to get monitoring status: {e}")
             return {
@@ -946,11 +946,11 @@
         try:
             with sqlite3.connect(self.monitoring_db_path) as conn:
                 cursor = conn.execute("""
-                    UPDATE alerts 
+                    UPDATE alerts
                     SET acknowledged = 1, acknowledged_by = ?, acknowledged_at = ?
                     WHERE alert_id = ?
                 """, (acknowledged_by, datetime.now(), alert_id))
-                
+
                 if cursor.rowcount > 0:
                     conn.commit()
                     logger.info(f"Alert {alert_id} acknowledged by {acknowledged_by}")
@@ -958,7 +958,7 @@
                 else:
                     logger.warning(f"Alert {alert_id} not found")
                     return False
-                    
+
         except Exception as e:
             logger.error(f"Failed to acknowledge alert {alert_id}: {e}")
             return False
@@ -968,11 +968,11 @@
         try:
             with sqlite3.connect(self.monitoring_db_path) as conn:
                 cursor = conn.execute("""
-                    UPDATE alerts 
+                    UPDATE alerts
                     SET status = 'resolved', resolved_at = ?
                     WHERE alert_id = ?
                 """, (datetime.now(), alert_id))
-                
+
                 if cursor.rowcount > 0:
                     conn.commit()
                     logger.info(f"Alert {alert_id} resolved by {resolved_by}")
@@ -980,7 +980,7 @@
                 else:
                     logger.warning(f"Alert {alert_id} not found")
                     return False
-                    
+
         except Exception as e:
             logger.error(f"Failed to resolve alert {alert_id}: {e}")
             return False

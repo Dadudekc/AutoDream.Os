@@ -471,30 +471,6 @@
       }
     },
     {
-      "file_path": "tools\\competitive_progress_reporter.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "expected an indented block after function definition on line 48 (<unknown>, line 50)"
-      }
-    },
-    {
       "file_path": "tools\\double_check_protocols.py",
       "analysis": {
         "language": ".py",
@@ -516,6 +492,30 @@
         "has_async": false,
         "has_type_hints": false,
         "error": "expected an indented block after function definition on line 42 (<unknown>, line 44)"
+      }
+    },
+    {
+      "file_path": "tools\\competitive_progress_reporter.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "expected an indented block after function definition on line 49 (<unknown>, line 51)"
       }
     },
     {
@@ -751,12 +751,12 @@
       "priority": "MEDIUM"
     },
     {
-      "file_path": "tools\\competitive_progress_reporter.py",
+      "file_path": "tools\\double_check_protocols.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "tools\\double_check_protocols.py",
+      "file_path": "tools\\competitive_progress_reporter.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },

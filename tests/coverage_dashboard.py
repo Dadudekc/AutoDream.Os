@@ -166,17 +166,17 @@ class CoverageDashboard:
             elif coverage_pct < 50:
                 current_phase = "DEVELOPMENT PHASE"
                 next_milestone = "50% coverage"
-                time_to_next = "Within 4 hours"
+                time_to_next = "Within 48-120 agent cycles"
                 phase_status = "🏗️ IN DEVELOPMENT"
             elif coverage_pct < 75:
                 current_phase = "OPTIMIZATION PHASE"
                 next_milestone = "75% coverage"
-                time_to_next = "Within 8 hours"
+                time_to_next = "Within 96-240 agent cycles"
                 phase_status = "⚡ OPTIMIZING"
             elif coverage_pct < 85:
                 current_phase = "FINAL PUSH PHASE"
                 next_milestone = "85%+ coverage"
-                time_to_next = "Within 12 hours"
+                time_to_next = "Within 144-360 agent cycles"
                 phase_status = "🎯 FINAL PUSH"
             else:
                 current_phase = "MISSION ACCOMPLISHED"
@@ -199,19 +199,19 @@ Next Milestone: {next_milestone} ({time_to_next})
 **Agent-1 (Integration & Core Systems):**
 🎯 STATUS: AWAITING ACTIVATION
 📊 TARGET: 92% integration coverage
-⏰ DEADLINE: Complete within 2 hours (MANDATORY)
+⏰ DEADLINE: Complete within 24-60 agent cycles (MANDATORY)
 🚨 PRIORITY: MAXIMUM - Start immediately
 
 **Agent-2 (Architecture & Design):**
 🎯 STATUS: AWAITING ACTIVATION
 📊 TARGET: 88% architectural coverage
-⏰ DEADLINE: Complete within 1 hour (MANDATORY)
+⏰ DEADLINE: Complete within 12-30 agent cycles (MANDATORY)
 🚨 PRIORITY: MAXIMUM - Start immediately
 
 **Agent-3 (Infrastructure & DevOps):**
 🎯 STATUS: AWAITING ACTIVATION
 📊 TARGET: 90% infrastructure coverage
-⏰ DEADLINE: Complete within 1.5 hours (MANDATORY)
+⏰ DEADLINE: Complete within 1.5 * 12-30 agent cycles (MANDATORY)
 🚨 PRIORITY: MAXIMUM - Start immediately
 
 **Agent-4 (Quality Assurance - Captain):**
@@ -223,25 +223,25 @@ Next Milestone: {next_milestone} ({time_to_next})
 **Agent-5 (Business Intelligence):**
 🎯 STATUS: AWAITING ACTIVATION
 📊 TARGET: 89% data processing coverage
-⏰ DEADLINE: Complete within 1.5 hours (MANDATORY)
+⏰ DEADLINE: Complete within 1.5 * 12-30 agent cycles (MANDATORY)
 🚨 PRIORITY: MAXIMUM - Start immediately
 
 **Agent-6 (Coordination & Communication):**
 🎯 STATUS: AWAITING ACTIVATION
 📊 TARGET: 93% communication coverage
-⏰ DEADLINE: Complete within 1 hour (MANDATORY)
+⏰ DEADLINE: Complete within 12-30 agent cycles (MANDATORY)
 🚨 PRIORITY: MAXIMUM - Start immediately
 
 **Agent-7 (Web Development):**
 🎯 STATUS: AWAITING ACTIVATION
 📊 TARGET: 87% web coverage
-⏰ DEADLINE: Complete within 1.5 hours (MANDATORY)
+⏰ DEADLINE: Complete within 1.5 * 12-30 agent cycles (MANDATORY)
 🚨 PRIORITY: MAXIMUM - Start immediately
 
 **Agent-8 (Operations & Support):**
 🎯 STATUS: AWAITING ACTIVATION
 📊 TARGET: 91% operational coverage
-⏰ DEADLINE: Complete within 1 hour (MANDATORY)
+⏰ DEADLINE: Complete within 12-30 agent cycles (MANDATORY)
 🚨 PRIORITY: MAXIMUM - Start immediately
 
 **FINAL MISSION COORDINATION PROTOCOL:**

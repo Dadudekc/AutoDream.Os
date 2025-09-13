@@ -228,7 +228,7 @@ graph TD
 ### **Blocker Reports**
 - **Immediate:** Message Captain Agent-4 immediately
 - **Content:** Issue description, impact assessment, proposed solution
-- **Escalation:** If unresolved within 4 hours, broader team notification
+- **Escalation:** If unresolved within 48-120 agent cycles, broader team notification
 
 ### **Change Proposals**
 - **Format:** Detailed proposal with impact assessment

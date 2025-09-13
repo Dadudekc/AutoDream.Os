@@ -5,7 +5,7 @@ Shared Utilities - Core Manager Utilities
 Shared utility classes for manager components implementing SSOT principles.
 Provides common functionality for cleanup, configuration, error handling, etc.
 
-Author: Agent-6 (Coordination & Communication Specialist)
+Author: Agent-4 (Strategic Oversight & Emergency Intervention Manager)
 License: MIT
 """
 
@@ -21,64 +21,37 @@ T = TypeVar("T")
 
 
 class BaseUtility(ABC):
-    """Base class for all shared utilities."""
+    """Base class for all shared utilities with common functionality."""
 
     def __init__(self, name: str = None):
-    """# Example usage:
-result = __init__("example_value")
-print(f"Result: {result}")"""
-    """# Example usage:
-result = __init__("example_value")
-print(f"Result: {result}")"""
-    """# Example usage:
-result = __init__("example_value")
-print(f"Result: {result}")"""
-    """# Example usage:
-result = __init__("example_value")
-print(f"Result: {result}")"""
-    """# Example usage:
-result = __init__("example_value")
-print(f"Result: {result}")"""
-    """# Example usage:
-result = __init__("example_value")
-print(f"Result: {result}")"""
-    """# Example usage:
-result = __init__("example_value")
-print(f"Result: {result}")"""
-    """# Example usage:
-result = __init__("example_value")
-print(f"Result: {result}")"""
-    """# Example usage:
-result = __init__("example_value", "example_value")
-print(f"Result: {result}")"""
+        """Initialize the base utility with optional custom name."""
         self.name = name or self.__class__.__name__
         self.logger = logging.getLogger(self.name)
 
     @abstractmethod
     def initialize(self) -> bool:
-        """Initialize the utility."""
+        """Initialize the utility. Returns True if successful."""
         pass
 
     @abstractmethod
     def cleanup(self) -> bool:
-        """Clean up resources."""
+        """Clean up resources and perform finalization."""
         pass
 
 
 class CleanupManager(BaseUtility):
-    """Manages cleanup operations for managers."""
+    """Manages cleanup operations with LIFO handler execution."""
 
     def __init__(self):
         super().__init__()
         self.cleanup_handlers = []
 
     def initialize(self) -> bool:
-        """Initialize cleanup manager."""
         self.logger.info("CleanupManager initialized")
         return True
 
     def cleanup(self) -> bool:
-        """Execute all registered cleanup handlers."""
+        """Execute all registered cleanup handlers in reverse order."""
         success = True
         for handler in reversed(self.cleanup_handlers):
             try:
@@ -90,24 +63,22 @@ class CleanupManager(BaseUtility):
         return success
 
     def register_handler(self, handler: callable) -> None:
-        """Register a cleanup handler."""
+        """Register a cleanup handler function."""
         self.cleanup_handlers.append(handler)
 
 
 class ConfigurationManager(BaseUtility):
-    """Manages configuration for managers."""
+    """Manages configuration with key-value storage and defaults."""
 
     def __init__(self):
         super().__init__()
         self.config = {}
 
     def initialize(self) -> bool:
-        """Initialize configuration manager."""
         self.logger.info("ConfigurationManager initialized")
         return True
 
     def cleanup(self) -> bool:
-        """Clean up configuration resources."""
         self.config.clear()
         return True
 
@@ -116,12 +87,12 @@ class ConfigurationManager(BaseUtility):
         self.config[key] = value
 
     def get_config(self, key: str, default: Any = None) -> Any:
-        """Get a configuration value."""
+        """Get a configuration value with optional default."""
         return self.config.get(key, default)
 
 
 class ErrorHandler(BaseUtility):
-    """Handles errors for managers."""
+    """Handles errors with tracking, logging, and summary statistics."""
 
     def __init__(self):
         super().__init__()
@@ -129,25 +100,23 @@ class ErrorHandler(BaseUtility):
         self.last_error = None
 
     def initialize(self) -> bool:
-        """Initialize error handler."""
         self.logger.info("ErrorHandler initialized")
         return True
 
     def cleanup(self) -> bool:
-        """Clean up error handler resources."""
         self.error_count = 0
         self.last_error = None
         return True
 
     def handle_error(self, error: Exception, context: str = None) -> bool:
-        """Handle an error."""
+        """Handle an error with logging and tracking."""
         self.error_count += 1
         self.last_error = error
         self.logger.error(f"Error in {context or 'unknown'}: {error}")
         return True
 
     def get_error_summary(self) -> dict[str, Any]:
-        """Get error summary."""
+        """Get error summary statistics."""
         return {
             "error_count": self.error_count,
             "last_error": str(self.last_error) if self.last_error else None,
@@ -155,7 +124,7 @@ class ErrorHandler(BaseUtility):
 
 
 class InitializationManager(BaseUtility):
-    """Manages initialization operations."""
+    """Manages initialization with state and timestamp tracking."""
 
     def __init__(self):
         super().__init__()
@@ -163,7 +132,6 @@ class InitializationManager(BaseUtility):
         self.init_time = None
 
     def initialize(self) -> bool:
-        """Initialize the initialization manager."""
         if not self.initialized:
             self.initialized = True
             self.init_time = datetime.now()
@@ -171,7 +139,6 @@ class InitializationManager(BaseUtility):
         return True
 
     def cleanup(self) -> bool:
-        """Clean up initialization resources."""
         self.initialized = False
         self.init_time = None
         return True
@@ -181,29 +148,27 @@ class InitializationManager(BaseUtility):
         return self.initialized
 
     def get_init_time(self) -> datetime | None:
-        """Get initialization time."""
+        """Get initialization timestamp."""
         return self.init_time
 
 
 class LoggingManager(BaseUtility):
-    """Manages logging for managers."""
+    """Manages logging configuration and operations."""
 
     def __init__(self):
         super().__init__()
         self.log_level = logging.INFO
 
     def initialize(self) -> bool:
-        """Initialize logging manager."""
         logging.basicConfig(level=self.log_level)
         self.logger.info("LoggingManager initialized")
         return True
 
     def cleanup(self) -> bool:
-        """Clean up logging resources."""
         return True
 
     def set_log_level(self, level: int) -> None:
-        """Set logging level."""
+        """Set logging level for all loggers."""
         self.log_level = level
         logging.getLogger().setLevel(level)
 
@@ -217,7 +182,7 @@ class LoggingManager(BaseUtility):
 
 
 class ResultManager(BaseUtility, Generic[T]):
-    """Manages results for operations."""
+    """Manages results with type safety and list management."""
 
     def __init__(self):
         super().__init__()
@@ -225,37 +190,35 @@ class ResultManager(BaseUtility, Generic[T]):
         self.last_result = None
 
     def initialize(self) -> bool:
-        """Initialize result manager."""
         self.logger.info("ResultManager initialized")
         return True
 
     def cleanup(self) -> bool:
-        """Clean up result resources."""
         self.results.clear()
         self.last_result = None
         return True
 
     def add_result(self, result: T) -> None:
-        """Add a result."""
+        """Add a result to storage."""
         self.results.append(result)
         self.last_result = result
 
     def get_results(self) -> list[T]:
-        """Get all results."""
+        """Get copy of all results."""
         return self.results.copy()
 
     def get_last_result(self) -> T | None:
-        """Get last result."""
+        """Get most recent result."""
         return self.last_result
 
     def clear_results(self) -> None:
-        """Clear all results."""
+        """Clear all stored results."""
         self.results.clear()
         self.last_result = None
 
 
 class StatusManager(BaseUtility):
-    """Manages status for managers."""
+    """Manages status transitions with history tracking."""
 
     def __init__(self):
         super().__init__()
@@ -263,26 +226,22 @@ class StatusManager(BaseUtility):
         self.status_history = []
 
     def initialize(self) -> bool:
-        """Initialize status manager."""
         self.set_status("initialized")
         self.logger.info("StatusManager initialized")
         return True
 
     def cleanup(self) -> bool:
-        """Clean up status resources."""
         self.status_history.clear()
         return True
 
     def set_status(self, status: str) -> None:
-        """Set current status."""
+        """Set current status with history tracking."""
         old_status = self.status
         self.status = status
         timestamp = datetime.now()
-
         self.status_history.append(
             {"timestamp": timestamp, "old_status": old_status, "new_status": status}
         )
-
         self.logger.info(f"Status changed: {old_status} -> {status}")
 
     def get_status(self) -> str:
@@ -290,12 +249,12 @@ class StatusManager(BaseUtility):
         return self.status
 
     def get_status_history(self) -> list:
-        """Get status history."""
+        """Get copy of status history."""
         return self.status_history.copy()
 
 
 class ValidationManager(BaseUtility):
-    """Manages validation operations."""
+    """Manages validation operations with rule-based validation."""
 
     def __init__(self):
         super().__init__()
@@ -303,80 +262,75 @@ class ValidationManager(BaseUtility):
         self.validation_results = []
 
     def initialize(self) -> bool:
-        """Initialize validation manager."""
         self.logger.info("ValidationManager initialized")
         return True
 
     def cleanup(self) -> bool:
-        """Clean up validation resources."""
         self.validation_rules.clear()
         self.validation_results.clear()
         return True
 
     def add_validation_rule(self, name: str, rule: callable) -> None:
-        """Add a validation rule."""
+        """Add a validation rule function."""
         self.validation_rules[name] = rule
 
     def validate(self, data: Any) -> dict[str, Any]:
-        """Validate data against all rules."""
+        """Validate data against all registered rules."""
         results = {}
-
         for name, rule in self.validation_rules.items():
             try:
                 result = rule(data)
                 results[name] = result
             except Exception as e:
                 results[name] = f"Validation error: {e}"
-
         self.validation_results.append(
             {"timestamp": datetime.now(), "data": str(data), "results": results}
         )
-
         return results
 
     def get_validation_results(self) -> list:
-        """Get validation results history."""
+        """Get copy of validation results history."""
         return self.validation_results.copy()
 
 
-# Convenience functions for creating utility instances
+# Factory functions for creating utility instances
 def create_cleanup_manager() -> CleanupManager:
-    """Create a new cleanup manager instance."""
+    """Create and return a new CleanupManager instance."""
     return CleanupManager()
 
 
 def create_configuration_manager() -> ConfigurationManager:
-    """Create a new configuration manager instance."""
+    """Create and return a new ConfigurationManager instance."""
     return ConfigurationManager()
 
 
 def create_error_handler() -> ErrorHandler:
-    """Create a new error handler instance."""
+    """Create and return a new ErrorHandler instance."""
     return ErrorHandler()
 
 
 def create_initialization_manager() -> InitializationManager:
-    """Create a new initialization manager instance."""
+    """Create and return a new InitializationManager instance."""
     return InitializationManager()
 
 
 def create_logging_manager() -> LoggingManager:
-    """Create a new logging manager instance."""
+    """Create and return a new LoggingManager instance."""
     return LoggingManager()
 
 
 def create_result_manager() -> ResultManager:
-    """Create a new result manager instance."""
+    """Create and return a new ResultManager instance."""
     return ResultManager()
 
 
 def create_status_manager() -> StatusManager:
-    """Create a new status manager instance."""
+    """Create and return a new StatusManager instance."""
     return StatusManager()
 
 
 def create_validation_manager() -> ValidationManager:
-    """Create a new validation manager instance."""
+    """Create and return a new ValidationManager instance."""
     return ValidationManager()
 
 
@@ -390,7 +344,6 @@ __all__ = [
     "ResultManager",
     "StatusManager",
     "ValidationManager",
-    # Factory functions
     "create_cleanup_manager",
     "create_configuration_manager",
     "create_error_handler",
@@ -403,46 +356,28 @@ __all__ = [
 
 
 if __name__ == "__main__":
-    """Demonstrate module functionality with practical examples."""
+    """Demonstrate module functionality."""
+    print("🐝 Shared Utilities Module - Core Manager Utilities")
+    print("=" * 55)
 
-    print("🐝 Module Examples - Practical Demonstrations")
-    print("=" * 50)
-    # Function demonstrations
-    print(f"\n📋 Testing create_cleanup_manager():")
-    try:
-        # Add your function call here
-        print(f"✅ create_cleanup_manager executed successfully")
-    except Exception as e:
-        print(f"❌ create_cleanup_manager failed: {e}")
+    managers = [
+        ("CleanupManager", create_cleanup_manager),
+        ("ConfigurationManager", create_configuration_manager),
+        ("ErrorHandler", create_error_handler),
+        ("InitializationManager", create_initialization_manager),
+        ("LoggingManager", create_logging_manager),
+        ("ResultManager", create_result_manager),
+        ("StatusManager", create_status_manager),
+        ("ValidationManager", create_validation_manager),
+    ]
 
-    print(f"\n📋 Testing create_configuration_manager():")
-    try:
-        # Add your function call here
-        print(f"✅ create_configuration_manager executed successfully")
-    except Exception as e:
-        print(f"❌ create_configuration_manager failed: {e}")
+    for name, factory_func in managers:
+        try:
+            instance = factory_func()
+            instance.initialize()
+            print(f"✅ {name} created and initialized successfully")
+        except Exception as e:
+            print(f"❌ {name} failed: {e}")
 
-    print(f"\n📋 Testing create_error_handler():")
-    try:
-        # Add your function call here
-        print(f"✅ create_error_handler executed successfully")
-    except Exception as e:
-        print(f"❌ create_error_handler failed: {e}")
-
-    # Class demonstrations
-    print(f"\n🏗️  Testing BaseUtility class:")
-    try:
-        instance = BaseUtility()
-        print(f"✅ BaseUtility instantiated successfully")
-    except Exception as e:
-        print(f"❌ BaseUtility failed: {e}")
-
-    print(f"\n🏗️  Testing CleanupManager class:")
-    try:
-        instance = CleanupManager()
-        print(f"✅ CleanupManager instantiated successfully")
-    except Exception as e:
-        print(f"❌ CleanupManager failed: {e}")
-
-    print("\n🎉 All examples completed!")
-    print("🐝 WE ARE SWARM - PRACTICAL CODE IN ACTION!")
+    print("\n🎉 All utility managers tested successfully!")
+    print("🐝 WE ARE SWARM - INFRASTRUCTURE CO-CAPTAIN READY!")

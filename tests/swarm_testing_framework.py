@@ -11,24 +11,21 @@ Date: 2025-09-12
 Mission: Complete project testing & documentation revolution
 """
 
-import os
-import sys
-import time
 import json
-import pytest
 import logging
-from pathlib import Path
-from typing import Dict, List, Any, Optional, Callable
+import sys
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime
+from pathlib import Path
+
+import pytest
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format="🐝 %(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    level=logging.INFO, format="🐝 %(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -36,6 +33,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class TestingComponent:
     """Represents a testable component in the swarm system."""
+
     name: str
     path: Path
     component_type: str  # 'core', 'service', 'web', 'script', 'tool'
@@ -43,14 +41,15 @@ class TestingComponent:
     test_status: str = "not_tested"  # 'not_tested', 'testing', 'passed', 'failed', 'documented'
     test_coverage: float = 0.0
     example_usage: bool = False
-    last_tested: Optional[datetime] = None
-    dependencies: List[str] = field(default_factory=list)
-    test_files: List[Path] = field(default_factory=list)
+    last_tested: datetime | None = None
+    dependencies: list[str] = field(default_factory=list)
+    test_files: list[Path] = field(default_factory=list)
 
 
 @dataclass
 class SwarmTestingReport:
     """Comprehensive testing report for the swarm mission."""
+
     total_components: int = 0
     tested_components: int = 0
     passed_tests: int = 0
@@ -58,8 +57,8 @@ class SwarmTestingReport:
     coverage_percentage: float = 0.0
     documented_components: int = 0
     start_time: datetime = field(default_factory=datetime.now)
-    end_time: Optional[datetime] = None
-    component_reports: Dict[str, TestingComponent] = field(default_factory=dict)
+    end_time: datetime | None = None
+    component_reports: dict[str, TestingComponent] = field(default_factory=dict)
 
 
 class SwarmTestingFramework:
@@ -71,7 +70,7 @@ class SwarmTestingFramework:
 
     def __init__(self, project_root: Path = None):
         self.project_root = project_root or Path(__file__).parent.parent
-        self.components: Dict[str, TestingComponent] = {}
+        self.components: dict[str, TestingComponent] = {}
         self.testing_report = SwarmTestingReport()
         self.test_results_dir = self.project_root / "test_results"
         self.test_results_dir.mkdir(exist_ok=True)
@@ -79,7 +78,7 @@ class SwarmTestingFramework:
         logger.info("🐝 Swarm Testing Framework initialized")
         logger.info(f"📁 Project root: {self.project_root}")
 
-    def discover_components(self) -> Dict[str, TestingComponent]:
+    def discover_components(self) -> dict[str, TestingComponent]:
         """
         Discover all testable components in the project.
 
@@ -89,45 +88,23 @@ class SwarmTestingFramework:
         logger.info("🔍 Discovering project components...")
 
         # Core systems - highest priority
-        self._discover_directory(
-            self.project_root / "src" / "core",
-            "core",
-            "critical"
-        )
+        self._discover_directory(self.project_root / "src" / "core", "core", "critical")
 
         # Services layer - high priority
-        self._discover_directory(
-            self.project_root / "src" / "services",
-            "service",
-            "high"
-        )
+        self._discover_directory(self.project_root / "src" / "services", "service", "high")
 
         # Web interface - high priority
-        self._discover_directory(
-            self.project_root / "src" / "web",
-            "web",
-            "high"
-        )
+        self._discover_directory(self.project_root / "src" / "web", "web", "high")
 
         # Automation scripts - medium priority
-        self._discover_directory(
-            self.project_root / "scripts",
-            "script",
-            "medium"
-        )
+        self._discover_directory(self.project_root / "scripts", "script", "medium")
 
         # Development tools - medium priority
-        self._discover_directory(
-            self.project_root / "tools",
-            "tool",
-            "medium"
-        )
+        self._discover_directory(self.project_root / "tools", "tool", "medium")
 
         # Infrastructure components
         self._discover_directory(
-            self.project_root / "src" / "infrastructure",
-            "infrastructure",
-            "medium"
+            self.project_root / "src" / "infrastructure", "infrastructure", "medium"
         )
 
         logger.info(f"✅ Discovered {len(self.components)} testable components")
@@ -146,7 +123,7 @@ class SwarmTestingFramework:
                     path=file_path,
                     component_type=component_type,
                     priority=priority,
-                    dependencies=self._analyze_dependencies(file_path)
+                    dependencies=self._analyze_dependencies(file_path),
                 )
 
     def _is_testable_file(self, file_path: Path) -> bool:
@@ -161,11 +138,11 @@ class SwarmTestingFramework:
 
         # Skip files that are too small (likely just utilities)
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
                 # Skip if less than 50 lines or mostly imports/comments
-                lines = [line.strip() for line in content.split('\n') if line.strip()]
-                import_lines = [line for line in lines if line.startswith(('import ', 'from '))]
+                lines = [line.strip() for line in content.split("\n") if line.strip()]
+                import_lines = [line for line in lines if line.startswith(("import ", "from "))]
                 if len(lines) < 50 and len(import_lines) > len(lines) * 0.8:
                     return False
         except:
@@ -176,30 +153,30 @@ class SwarmTestingFramework:
     def _get_component_name(self, file_path: Path) -> str:
         """Generate a unique component name from file path."""
         relative_path = file_path.relative_to(self.project_root)
-        return str(relative_path).replace('/', '.').replace('\\', '.').replace('.py', '')
+        return str(relative_path).replace("/", ".").replace("\\", ".").replace(".py", "")
 
-    def _analyze_dependencies(self, file_path: Path) -> List[str]:
+    def _analyze_dependencies(self, file_path: Path) -> list[str]:
         """Analyze file dependencies for testing order."""
         dependencies = []
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
 
             # Look for imports to understand dependencies
-            lines = content.split('\n')
+            lines = content.split("\n")
             for line in lines:
                 line = line.strip()
-                if line.startswith('from src.'):
+                if line.startswith("from src."):
                     # Extract module path
                     parts = line.split()
                     if len(parts) >= 2:
-                        module_path = parts[1].split('.')[0:3]  # Get first 3 parts
-                        dependencies.append('.'.join(module_path))
-                elif line.startswith('import src.'):
+                        module_path = parts[1].split(".")[0:3]  # Get first 3 parts
+                        dependencies.append(".".join(module_path))
+                elif line.startswith("import src."):
                     parts = line.split()
                     if len(parts) >= 2:
-                        module_path = parts[1].split('.')[0:3]
-                        dependencies.append('.'.join(module_path))
+                        module_path = parts[1].split(".")[0:3]
+                        dependencies.append(".".join(module_path))
 
         except Exception as e:
             logger.warning(f"Could not analyze dependencies for {file_path}: {e}")
@@ -223,12 +200,11 @@ class SwarmTestingFramework:
         self.testing_report.total_components = len(self.components)
 
         # Test components in priority order
-        priority_order = ['critical', 'high', 'medium', 'low']
+        priority_order = ["critical", "high", "medium", "low"]
 
         for priority in priority_order:
             priority_components = [
-                comp for comp in self.components.values()
-                if comp.priority == priority
+                comp for comp in self.components.values() if comp.priority == priority
             ]
 
             logger.info(f"🎯 Testing {len(priority_components)} {priority} priority components")
@@ -278,9 +254,11 @@ class SwarmTestingFramework:
             if documentation_result:
                 self.testing_report.documented_components += 1
 
-            logger.info(f"✅ Component {component.name}: {component.test_status} "
-                       f"(Coverage: {component.test_coverage:.1f}%, "
-                       f"Examples: {component.example_usage})")
+            logger.info(
+                f"✅ Component {component.name}: {component.test_status} "
+                f"(Coverage: {component.test_coverage:.1f}%, "
+                f"Examples: {component.example_usage})"
+            )
 
         except Exception as e:
             logger.error(f"❌ Failed to test component {component.name}: {e}")
@@ -304,12 +282,9 @@ class SwarmTestingFramework:
         for test_file in test_files:
             try:
                 # Use pytest programmatically
-                result = pytest.main([
-                    str(test_file),
-                    "--tb=short",
-                    "--quiet",
-                    "--disable-warnings"
-                ])
+                result = pytest.main(
+                    [str(test_file), "--tb=short", "--quiet", "--disable-warnings"]
+                )
                 total += 1
                 if result == 0:
                     passed += 1
@@ -327,15 +302,15 @@ class SwarmTestingFramework:
     def _check_documentation(self, component: TestingComponent) -> bool:
         """Check if component has example usage documentation."""
         try:
-            with open(component.path, 'r', encoding='utf-8') as f:
+            with open(component.path, encoding="utf-8") as f:
                 content = f.read()
 
             # Check for example usage patterns
             has_examples = (
-                'EXAMPLE USAGE' in content.upper() or
-                'USAGE EXAMPLE' in content.upper() or
-                '```python' in content or
-                'Example:' in content
+                "EXAMPLE USAGE" in content.upper()
+                or "USAGE EXAMPLE" in content.upper()
+                or "```python" in content
+                or "Example:" in content
             )
 
             if not has_examples:
@@ -358,38 +333,40 @@ class SwarmTestingFramework:
         # Insert example usage into docstring or create one
         if '"""' in content:
             # File already has docstring, add to it
-            lines = content.split('\n')
+            lines = content.split("\n")
             for i, line in enumerate(lines):
                 if line.strip().startswith('"""') and len(line.strip()) > 3:
                     # Insert example usage before closing docstring
-                    for j in range(i+1, len(lines)):
+                    for j in range(i + 1, len(lines)):
                         if lines[j].strip().endswith('"""'):
                             lines.insert(j, example_usage)
                             break
                     break
         else:
             # Add docstring at the beginning
-            lines = content.split('\n', 1)
-            lines[0] = f'"""\n{self._generate_module_docstring(component)}\n{example_usage}\n"""\n{lines[0]}'
+            lines = content.split("\n", 1)
+            lines[0] = (
+                f'"""\n{self._generate_module_docstring(component)}\n{example_usage}\n"""\n{lines[0]}'
+            )
 
         # Write back to file
         try:
-            with open(component.path, 'w', encoding='utf-8') as f:
-                f.write('\n'.join(lines))
+            with open(component.path, "w", encoding="utf-8") as f:
+                f.write("\n".join(lines))
         except Exception as e:
             logger.error(f"Could not add example usage to {component.name}: {e}")
 
     def _generate_example_usage(self, component: TestingComponent) -> str:
         """Generate example usage documentation for a component."""
-        component_name = component.name.split('.')[-1]
+        component_name = component.name.split(".")[-1]
 
-        if component.component_type == 'core':
+        if component.component_type == "core":
             return f"""
 EXAMPLE USAGE:
 ==============
 
 # Import the core component
-from {component.name.replace('.', '.')} import {component_name.title()}
+from {component.name.replace(".", ".")} import {component_name.title()}
 
 # Initialize with configuration
 config = {{
@@ -412,7 +389,7 @@ except ProcessingError as e:
     # Implement recovery logic
 """
 
-        elif component.component_type == 'service':
+        elif component.component_type == "service":
             return f"""
 EXAMPLE USAGE:
 ==============
@@ -438,7 +415,7 @@ result = service.execute_operation(input_data, context)
 print(f"Operation result: {{result}}")
 """
 
-        elif component.component_type == 'script':
+        elif component.component_type == "script":
             return f"""
 EXAMPLE USAGE:
 ==============
@@ -487,25 +464,25 @@ print(f"Advanced result: {{advanced_result}}")
 
     def _generate_module_docstring(self, component: TestingComponent) -> str:
         """Generate a module docstring for components that don't have one."""
-        return f"""{component.name.split('.')[-1].title()} Module
+        return f"""{component.name.split(".")[-1].title()} Module
 
 This module provides {component.component_type} functionality for the swarm system.
 
 Component Type: {component.component_type.title()}
 Priority: {component.priority.title()}
-Dependencies: {', '.join(component.dependencies) if component.dependencies else 'None'}
+Dependencies: {", ".join(component.dependencies) if component.dependencies else "None"}
 """
 
-    def _find_test_files(self, component: TestingComponent) -> List[Path]:
+    def _find_test_files(self, component: TestingComponent) -> list[Path]:
         """Find existing test files for a component."""
         test_files = []
 
         # Look for test files in tests directory
-        component_parts = component.name.split('.')
+        component_parts = component.name.split(".")
         possible_test_names = [
             f"test_{component_parts[-1]}.py",
             f"test_{'_'.join(component_parts[-2:]) if len(component_parts) > 1 else component_parts[-1]}.py",
-            f"{component_parts[-1]}_test.py"
+            f"{component_parts[-1]}_test.py",
         ]
 
         tests_dir = self.project_root / "tests"
@@ -528,18 +505,18 @@ Dependencies: {', '.join(component.dependencies) if component.dependencies else 
         logger.info(f"🛠️ Creating basic unit tests for {component.name}")
 
         # Determine test file location
-        component_parts = component.name.split('.')
+        component_parts = component.name.split(".")
         test_filename = f"test_{component_parts[-1]}.py"
 
         # Find appropriate test subdirectory
         test_subdir = self.project_root / "tests"
-        if component.component_type == 'core':
+        if component.component_type == "core":
             test_subdir = test_subdir / "unit"
-        elif component.component_type == 'service':
+        elif component.component_type == "service":
             test_subdir = test_subdir / "integration"
-        elif component.component_type == 'web':
+        elif component.component_type == "web":
             test_subdir = test_subdir / "e2e"
-        elif component.component_type in ['script', 'tool']:
+        elif component.component_type in ["script", "tool"]:
             test_subdir = test_subdir / "functional"
 
         test_subdir.mkdir(exist_ok=True)
@@ -549,7 +526,7 @@ Dependencies: {', '.join(component.dependencies) if component.dependencies else 
         test_content = self._generate_basic_test_content(component)
 
         try:
-            with open(test_file_path, 'w', encoding='utf-8') as f:
+            with open(test_file_path, "w", encoding="utf-8") as f:
                 f.write(test_content)
 
             logger.info(f"✅ Created test file: {test_file_path}")
@@ -560,7 +537,7 @@ Dependencies: {', '.join(component.dependencies) if component.dependencies else 
 
     def _generate_basic_test_content(self, component: TestingComponent) -> str:
         """Generate basic test content for a component."""
-        component_name = component.name.split('.')[-1]
+        component_name = component.name.split(".")[-1]
         class_name = component_name.title()
 
         return f'''"""
@@ -650,7 +627,10 @@ if __name__ == "__main__":
 
     def _generate_testing_report(self):
         """Generate comprehensive testing report."""
-        report_file = self.test_results_dir / f"swarm_testing_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        report_file = (
+            self.test_results_dir
+            / f"swarm_testing_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        )
 
         report_data = {
             "mission": "Swarm Testing & Documentation Revolution",
@@ -663,9 +643,21 @@ if __name__ == "__main__":
                 "failed_tests": self.testing_report.failed_tests,
                 "coverage_percentage": self.testing_report.coverage_percentage,
                 "documented_components": self.testing_report.documented_components,
-                "documentation_coverage": (self.testing_report.documented_components / self.testing_report.total_components * 100) if self.testing_report.total_components > 0 else 0
+                "documentation_coverage": (
+                    (
+                        self.testing_report.documented_components
+                        / self.testing_report.total_components
+                        * 100
+                    )
+                    if self.testing_report.total_components > 0
+                    else 0
+                ),
             },
-            "duration_seconds": (self.testing_report.end_time - self.testing_report.start_time).total_seconds() if self.testing_report.end_time else 0,
+            "duration_seconds": (
+                (self.testing_report.end_time - self.testing_report.start_time).total_seconds()
+                if self.testing_report.end_time
+                else 0
+            ),
             "components": [
                 {
                     "name": comp.name,
@@ -675,13 +667,13 @@ if __name__ == "__main__":
                     "coverage": comp.test_coverage,
                     "has_examples": comp.example_usage,
                     "last_tested": comp.last_tested.isoformat() if comp.last_tested else None,
-                    "dependencies": comp.dependencies
+                    "dependencies": comp.dependencies,
                 }
                 for comp in self.components.values()
-            ]
+            ],
         }
 
-        with open(report_file, 'w', encoding='utf-8') as f:
+        with open(report_file, "w", encoding="utf-8") as f:
             json.dump(report_data, f, indent=2, ensure_ascii=False)
 
         logger.info(f"📊 Testing report generated: {report_file}")
@@ -691,26 +683,29 @@ if __name__ == "__main__":
 
     def _generate_markdown_report(self, report_data: dict):
         """Generate a markdown summary report."""
-        md_file = self.test_results_dir / f"swarm_testing_summary_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
+        md_file = (
+            self.test_results_dir
+            / f"swarm_testing_summary_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
+        )
 
         md_content = f"""# 🐝 SWARM TESTING MISSION - EXECUTION REPORT
 
 **Coordinator:** Agent-1
-**Date:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+**Date:** {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 **Mission:** Complete Testing & Documentation Revolution
 
 ## 📊 MISSION SUMMARY
 
 | Metric | Value |
 |--------|-------|
-| Total Components | {report_data['summary']['total_components']} |
-| Tested Components | {report_data['summary']['tested_components']} |
-| Passed Tests | {report_data['summary']['passed_tests']} |
-| Failed Tests | {report_data['summary']['failed_tests']} |
-| Coverage Percentage | {report_data['summary']['coverage_percentage']:.1f}% |
-| Documented Components | {report_data['summary']['documented_components']} |
-| Documentation Coverage | {report_data['summary']['documentation_coverage']:.1f}% |
-| Duration | {report_data['summary'].get('duration_seconds', 0):.1f} seconds |
+| Total Components | {report_data["summary"]["total_components"]} |
+| Tested Components | {report_data["summary"]["tested_components"]} |
+| Passed Tests | {report_data["summary"]["passed_tests"]} |
+| Failed Tests | {report_data["summary"]["failed_tests"]} |
+| Coverage Percentage | {report_data["summary"]["coverage_percentage"]:.1f}% |
+| Documented Components | {report_data["summary"]["documented_components"]} |
+| Documentation Coverage | {report_data["summary"]["documentation_coverage"]:.1f}% |
+| Duration | {report_data["summary"].get("duration_seconds", 0):.1f} seconds |
 
 ## 🎯 COMPONENT BREAKDOWN BY TYPE
 
@@ -718,21 +713,23 @@ if __name__ == "__main__":
 
         # Group components by type
         type_stats = {}
-        for comp in report_data['components']:
-            comp_type = comp['type']
+        for comp in report_data["components"]:
+            comp_type = comp["type"]
             if comp_type not in type_stats:
-                type_stats[comp_type] = {'total': 0, 'tested': 0, 'documented': 0}
-            type_stats[comp_type]['total'] += 1
-            if comp['status'] != 'not_tested':
-                type_stats[comp_type]['tested'] += 1
-            if comp['has_examples']:
-                type_stats[comp_type]['documented'] += 1
+                type_stats[comp_type] = {"total": 0, "tested": 0, "documented": 0}
+            type_stats[comp_type]["total"] += 1
+            if comp["status"] != "not_tested":
+                type_stats[comp_type]["tested"] += 1
+            if comp["has_examples"]:
+                type_stats[comp_type]["documented"] += 1
 
         for comp_type, stats in type_stats.items():
             md_content += f"### {comp_type.title()} Components\n"
             md_content += f"- **Total:** {stats['total']}\n"
-            md_content += f"- **Tested:** {stats['tested']} ({stats['tested']/stats['total']*100:.1f}%)\n"
-            md_content += f"- **Documented:** {stats['documented']} ({stats['documented']/stats['total']*100:.1f}%)\n\n"
+            md_content += (
+                f"- **Tested:** {stats['tested']} ({stats['tested'] / stats['total'] * 100:.1f}%)\n"
+            )
+            md_content += f"- **Documented:** {stats['documented']} ({stats['documented'] / stats['total'] * 100:.1f}%)\n\n"
 
         md_content += """## 🏆 MISSION ACCOMPLISHMENT STATUS
 
@@ -762,7 +759,7 @@ if __name__ == "__main__":
 *"FROM CHAOS TO ORDER - WE ARE BUILDING A FUNCTIONING SWARM!"* ⚡🐝
 """
 
-        with open(md_file, 'w', encoding='utf-8') as f:
+        with open(md_file, "w", encoding="utf-8") as f:
             f.write(md_content)
 
         logger.info(f"📋 Markdown report generated: {md_file}")
@@ -782,7 +779,8 @@ def main():
     report = framework.run_comprehensive_testing()
 
     # Print summary
-    print(f"""
+    print(
+        f"""
 🐝 SWARM TESTING MISSION ACCOMPLISHMENT REPORT 🐝
 ================================================
 
@@ -797,15 +795,14 @@ def main():
    • Test Coverage: {report.coverage_percentage:.1f}%
    • Documentation Coverage: {(report.documented_components / report.total_components * 100):.1f}%
 
-⚡ Mission Status: {'COMPLETE' if report.failed_tests == 0 else 'IN PROGRESS'}
+⚡ Mission Status: {"COMPLETE" if report.failed_tests == 0 else "IN PROGRESS"}
 
 "EVERY COMPONENT TESTED, EVERY FILE DOCUMENTED - WE ARE SWARM!" ⚡🐝
-    """)
+    """
+    )
 
     return 0 if report.failed_tests == 0 else 1
 
 
 if __name__ == "__main__":
     exit(main())
-
-

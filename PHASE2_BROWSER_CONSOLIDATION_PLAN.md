@@ -51,7 +51,7 @@
 
 ## 📋 **EXECUTION PLAN**
 
-### **Step 1: Dependency Analysis (5 minutes)**
+### **Step 1: Dependency Analysis (5 / 5-2 agent cycles)**
 **Objective:** Identify all references to browser modules
 
 **Actions:**
@@ -61,7 +61,7 @@
 
 **Expected Outcome:** Clear map of dependencies
 
-### **Step 2: Thea Modules Removal (10 minutes)**
+### **Step 2: Thea Modules Removal (10 / 5-2 agent cycles)**
 **Objective:** Remove specialized Thea modules first
 
 **Files to Remove:**
@@ -75,7 +75,7 @@ browser/thea_modules/__init__.py
 
 **Rationale:** These are specialized modules consolidated into unified service
 
-### **Step 3: Core Browser Removal (10 minutes)**
+### **Step 3: Core Browser Removal (10 / 5-2 agent cycles)**
 **Objective:** Remove core browser modules
 
 **Files to Remove:**
@@ -89,7 +89,7 @@ browser/__init__.py
 
 **Keep:** `browser/chrome_undetected.py` (core Chrome interface)
 
-### **Step 4: Integration Testing (5 minutes)**
+### **Step 4: Integration Testing (5 / 5-2 agent cycles)**
 **Objective:** Verify unified browser service functionality
 
 **Tests:**
@@ -98,7 +98,7 @@ browser/__init__.py
 3. Test basic browser operations
 4. Verify no broken dependencies
 
-### **Step 5: Final Cleanup (5 minutes)**
+### **Step 5: Final Cleanup (5 / 5-2 agent cycles)**
 **Objective:** Clean up empty directories and update documentation
 
 ---
@@ -143,7 +143,7 @@ Reduction Achieved:
 
 ## 🚀 **EXECUTION TIMELINE**
 
-**Total Time:** 35 minutes
+**Total Time:** 35 / 5-2 agent cycles
 **Phases:**
 1. **0-5 min:** Dependency analysis
 2. **5-15 min:** Thea modules removal
@@ -151,7 +151,7 @@ Reduction Achieved:
 4. **25-30 min:** Integration testing
 5. **30-35 min:** Final cleanup
 
-**Progress Updates:** Every 10 minutes
+**Progress Updates:** Every 10 / 5-2 agent cycles
 
 ---
 
@@ -163,7 +163,7 @@ Reduction Achieved:
 - **Agent-3:** Infrastructure execution (THIS ROLE)
 
 ### **Communication Protocol**
-- **Status Updates:** Every 10 minutes
+- **Status Updates:** Every 10 / 5-2 agent cycles
 - **Issue Escalation:** Immediate to Captain Agent-4
 - **Success Confirmation:** Final integration test results
 

@@ -37,7 +37,7 @@ class LiveExecutor:
         self.is_running = False
         self.symbols_to_trade = ["AAPL", "MSFT", "GOOGL", "AMZN", "TSLA"]  # Default symbols
         self.trading_intervals = {}  # Track last trade time per symbol
-        self.min_trade_interval = 300  # 5 minutes between trades for same symbol
+        self.min_trade_interval = 300  # 5 / 5-2 agent cycles between trades for same symbol
 
     async def start(self):
         """Start live trading execution"""

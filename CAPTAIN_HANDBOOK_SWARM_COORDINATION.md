@@ -5,6 +5,7 @@
 
 **Author**: Agent-4 (Captain) - Strategic Oversight & Emergency Intervention Manager
 **Last Updated**: 2025-09-10
+**Timeline Standard**: All durations expressed in agent response cycles (1 cycle = 2-5 minutes)
 **Status**: ACTIVE - Optimized 4-Agent Coordination System
 
 ---
@@ -24,7 +25,7 @@ The Swarm Coordination Workflows represent the evolution from full 8-agent coord
 ## 📋 **WORKFLOW EVOLUTION TIMELINE**
 
 ### **Phase 1: Initial 8-Agent Coordination (Challenges Identified)**
-**Duration**: Multiple cycles of testing and refinement
+**Duration**: Multiple agent response cycles of testing and refinement
 **Issues Encountered**:
 - **Command Complexity**: 8 simultaneous agents created decision bottlenecks
 - **Communication Overhead**: Excessive coordination latency and message volume
@@ -33,7 +34,7 @@ The Swarm Coordination Workflows represent the evolution from full 8-agent coord
 - **Execution Delays**: Consensus-driven decisions slowed operational tempo
 
 ### **Phase 2: Optimization Trials (Workflow Refinement)**
-**Duration**: Intensive testing and iteration cycles
+**Duration**: Intensive testing and iteration agent response cycles
 **Optimization Strategies Tested**:
 - **Hierarchical Command Structure**: Clear captain → commander → agents chain
 - **Role-Based Activation**: Agents activated based on task requirements
@@ -265,10 +266,10 @@ python resource_monitor.py --agent-utilization --task-distribution
 ### **Issue Escalation Matrix**
 | Issue Severity | Response Time | Escalation Path | Resolution Authority |
 |----------------|----------------|-----------------|---------------------|
-| **Critical** | Immediate (< 5 min) | Direct to Captain | Captain Override |
-| **High** | < 30 minutes | Commander → Captain | Captain Decision |
-| **Medium** | < 2 hours | Core Team → Commander | Commander Authority |
-| **Low** | < 24 hours | Agent → Core Team | Core Team Resolution |
+| **Critical** | Immediate (< 1 agent cycle) | Direct to Captain | Captain Override |
+| **High** | < 2 agent response cycles | Commander → Captain | Captain Decision |
+| **Medium** | < 5 agent response cycles | Core Team → Commander | Commander Authority |
+| **Low** | < 10 agent response cycles | Agent → Core Team | Core Team Resolution |
 
 ### **Crisis Management Protocol**
 ```bash
@@ -293,15 +294,15 @@ python crisis_review.py --analyze --recommendations
 ## 🎯 **WORKFLOW OPTIMIZATION CONTINUOUS IMPROVEMENT**
 
 ### **Regular Review Cycles**
-- **Daily**: Core team coordination effectiveness
-- **Weekly**: Overall workflow efficiency and bottlenecks
-- **Monthly**: Strategic optimization opportunities
-- **Quarterly**: Major workflow restructuring evaluation
+- **Every 3 Agent Response Cycles**: Core team coordination effectiveness
+- **Every 7 Agent Response Cycles**: Overall workflow efficiency and bottlenecks
+- **Every 30 Agent Response Cycles**: Strategic optimization opportunities
+- **Every 90 Agent Response Cycles**: Major workflow restructuring evaluation
 
 ### **Optimization Framework**
 ```bash
 # 1. Performance Data Collection
-python workflow_analyzer.py --collect-metrics --timeframe 30days
+python workflow_analyzer.py --collect-metrics --timeframe 30-agent-cycles
 
 # 2. Bottleneck Identification
 python bottleneck_detector.py --communication --decision-making --resources

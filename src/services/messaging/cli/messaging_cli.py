@@ -74,6 +74,12 @@ Examples:
         # List agents command
         list_parser = subparsers.add_parser("list", help="List available agents")
 
+        # Start onboarding command
+        start_parser = subparsers.add_parser("start", help="Start agent onboarding sequence")
+        start_parser.add_argument("--dry-run", action="store_true",
+                                help="Run in dry-run mode (no actual clicking/pasting)")
+        start_parser.add_argument("--agent", "-a", help="Specific agent to onboard (default: all agents)")
+
         return parser
 
     def run_cli_interface(self, args: Optional[List[str]] = None) -> int:
@@ -96,6 +102,8 @@ Examples:
                 return self._handle_show_status()
             elif parsed_args.command == "list":
                 return self._handle_list_agents()
+            elif parsed_args.command == "start":
+                return self._handle_start_onboarding(parsed_args)
             else:
                 parser.print_help()
                 return 0
@@ -191,6 +199,17 @@ Examples:
             return 0
         except Exception as e:
             print(f"❌ Error listing agents: {e}")
+            return 1
+
+    def _handle_start_onboarding(self, args) -> int:
+        """Handle starting agent onboarding sequence."""
+        try:
+            return self.messaging_service.start_agent_onboarding(
+                dry_run=args.dry_run,
+                specific_agent=args.agent
+            )
+        except Exception as e:
+            print(f"❌ Error starting onboarding: {e}")
             return 1
 
 

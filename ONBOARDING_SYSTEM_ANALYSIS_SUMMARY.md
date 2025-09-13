@@ -14,7 +14,7 @@ Step 3: Validation - Run tests, validate performance
 Step 4: Integration - Merge changes, resolve conflicts
 
 COORDINATION PROTOCOLS:
-- Progress updates every 4 hours
+- Progress updates every 48-120 agent cycles
 - Escalate blocking issues immediately
 - Coordinate with assigned agent pairs
 - Maintain V2 compliance throughout

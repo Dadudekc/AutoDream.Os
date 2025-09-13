@@ -324,4 +324,3 @@ const agents = await client.request('/agents');
 ---
 
 **🐝 WE ARE SWARM** - API versioning ensures smooth evolution and reliable integration across all swarm components.
-

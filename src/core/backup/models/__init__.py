@@ -36,7 +36,6 @@ __all__ = [
     "HealthCheckType",
     "MetricType",
     "MonitoringStatus",
-
     # Models
     "Alert",
     "AlertHistory",
@@ -45,4 +44,3 @@ __all__ = [
     "MonitoringDashboard",
     "MonitoringMetric",
 ]
-

@@ -30,36 +30,12 @@ class ResponseStatus(Enum):
 
 
 class TheaResponseService:
-
-EXAMPLE USAGE:
-==============
-
-# Import the service
-from src.services.thea.responses.thea_response_service import Thea_Response_ServiceService
-
-# Initialize service
-service = Thea_Response_ServiceService()
-
-# Basic service operation
-response = service.handle_request(request_data)
-print(f"Service response: {response}")
-
-# Service with dependency injection
-from src.core.dependency_container import Container
-
-container = Container()
-service = container.get(Thea_Response_ServiceService)
-
-# Execute service method
-result = service.execute_operation(input_data, context)
-print(f"Operation result: {result}")
-
-    """Handles response detection and capture for Thea communication."""
+    """Service for handling Thea responses."""
 
     def __init__(self, config: TheaConfig, browser_service: TheaBrowserService):
         self.config = config
         self.browser = browser_service
-        self.response_detector = ResponseDetector(browser_service)
+        # self.response_detector = ResponseDetector(browser_service)  # TODO: Implement ResponseDetector
 
     def wait_for_response(self, timeout: int = None) -> bool:
         """Wait for Thea to finish responding."""
@@ -260,4 +236,4 @@ print(f"Operation result: {result}")
 
 
 # Import ResponseDetector here to avoid circular imports
-from response_detector import ResponseDetector, ResponseWaitResult
+# from response_detector import ResponseDetector, ResponseWaitResult

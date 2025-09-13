@@ -27,17 +27,14 @@ __all__ = [
     "ConsolidatedAnalyticsService",
     "get_consolidated_analytics_service",
     "get_analytics_service",
-
     # Core components
     "MetricsCollector",
     "UsageAnalyticsEngine",
     "PerformanceDashboard",
     "AutomatedReportingSystem",
-
     # Factory functions
     "create_metrics_collector",
     "create_usage_analytics_engine",
     "create_performance_dashboard",
     "create_automated_reporting_system",
 ]
-

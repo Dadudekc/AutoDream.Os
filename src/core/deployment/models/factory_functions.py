@@ -11,35 +11,32 @@ Author: Agent-8 (SSOT & System Integration Specialist)
 License: MIT
 """
 
-from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict
+from typing import Any
 
 from .config_models import DeploymentConfig, DeploymentCoordinatorConfig
 from .data_models import DeploymentMetrics, MaximumEfficiencyDeploymentStatus
-from .enums import DeploymentPriority
-
 
 # Default agent domains for deployment operations
 DEFAULT_AGENT_DOMAINS = {
     "Agent-1": "SSOT-Governor",
-    "Agent-2": "SOLID-Marshal", 
+    "Agent-2": "SOLID-Marshal",
     "Agent-3": "DRY-Deduplicator",
     "Agent-4": "KISS-Champion",
     "Agent-5": "TDD-Architect",
     "Agent-6": "Observability",
     "Agent-7": "CLI-Orchestrator",
-    "Agent-8": "Docs-Governor"
+    "Agent-8": "Docs-Governor",
 }
 
 
 def create_default_config() -> DeploymentConfig:
     """
     Create default deployment configuration.
-    
+
     Returns:
         DeploymentConfig: Default configuration instance
-        
+
     Example:
         >>> config = create_default_config()
         >>> print(f"Max concurrent deployments: {config.max_concurrent_deployments}")
@@ -52,21 +49,23 @@ def create_default_config() -> DeploymentConfig:
         enable_parallel_deployments=True,
         enable_rollback_on_failure=True,
         enable_metrics_collection=True,
-        enable_status_tracking=True
+        enable_status_tracking=True,
     )
 
 
-def create_deployment_status(agent_id: str = "Agent-8", agent_name: str = "SSOT & System Integration Specialist") -> MaximumEfficiencyDeploymentStatus:
+def create_deployment_status(
+    agent_id: str = "Agent-8", agent_name: str = "SSOT & System Integration Specialist"
+) -> MaximumEfficiencyDeploymentStatus:
     """
     Create deployment status for an agent.
-    
+
     Args:
         agent_id: Agent identifier
         agent_name: Agent name/description
-        
+
     Returns:
         MaximumEfficiencyDeploymentStatus: Deployment status instance
-        
+
     Example:
         >>> status = create_deployment_status("Agent-5", "TDD Architect")
         >>> print(f"Agent: {status.agent_id}, Status: {status.status}")
@@ -81,17 +80,17 @@ def create_deployment_status(agent_id: str = "Agent-8", agent_name: str = "SSOT 
         error_message="",
         start_time=datetime.now(),
         last_update_time=datetime.now(),
-        metrics=DeploymentMetrics()
+        metrics=DeploymentMetrics(),
     )
 
 
 def create_deployment_metrics() -> DeploymentMetrics:
     """
     Create deployment metrics instance.
-    
+
     Returns:
         DeploymentMetrics: Metrics instance
-        
+
     Example:
         >>> metrics = create_deployment_metrics()
         >>> print(f"Start time: {metrics.start_time}")
@@ -103,17 +102,17 @@ def create_deployment_metrics() -> DeploymentMetrics:
         failed_deployments=0,
         total_deployments=0,
         average_deployment_time=0.0,
-        efficiency_score=0.0
+        efficiency_score=0.0,
     )
 
 
 def create_coordinator_config() -> DeploymentCoordinatorConfig:
     """
     Create deployment coordinator configuration.
-    
+
     Returns:
         DeploymentCoordinatorConfig: Coordinator configuration instance
-        
+
     Example:
         >>> config = create_coordinator_config()
         >>> print(f"Enable tracking: {config.enable_deployment_tracking}")
@@ -123,17 +122,17 @@ def create_coordinator_config() -> DeploymentCoordinatorConfig:
         enable_history_logging=True,
         enable_cleanup_operations=True,
         max_deployment_history=1000,
-        cleanup_interval_seconds=3600
+        cleanup_interval_seconds=3600,
     )
 
 
-def create_agent_domain_mapping() -> Dict[str, str]:
+def create_agent_domain_mapping() -> dict[str, str]:
     """
     Create agent domain mapping.
-    
+
     Returns:
         Dict[str, str]: Mapping of agent IDs to domains
-        
+
     Example:
         >>> domains = create_agent_domain_mapping()
         >>> print(f"Agent-1 domain: {domains['Agent-1']}")
@@ -144,13 +143,13 @@ def create_agent_domain_mapping() -> Dict[str, str]:
 def validate_deployment_config(config: DeploymentConfig) -> bool:
     """
     Validate deployment configuration.
-    
+
     Args:
         config: Configuration to validate
-        
+
     Returns:
         bool: True if valid, False otherwise
-        
+
     Example:
         >>> config = create_default_config()
         >>> is_valid = validate_deployment_config(config)
@@ -167,16 +166,16 @@ def validate_deployment_config(config: DeploymentConfig) -> bool:
         return False
 
 
-def create_deployment_summary(status: MaximumEfficiencyDeploymentStatus) -> Dict[str, Any]:
+def create_deployment_summary(status: MaximumEfficiencyDeploymentStatus) -> dict[str, Any]:
     """
     Create deployment summary from status.
-    
+
     Args:
         status: Deployment status to summarize
-        
+
     Returns:
         Dict[str, Any]: Summary dictionary
-        
+
     Example:
         >>> status = create_deployment_status()
         >>> summary = create_deployment_summary(status)
@@ -192,7 +191,7 @@ def create_deployment_summary(status: MaximumEfficiencyDeploymentStatus) -> Dict
         "success_rate": status.metrics.success_rate,
         "efficiency_score": status.metrics.efficiency_score,
         "duration_seconds": status.metrics.duration,
-        "last_update": status.last_update_time.isoformat()
+        "last_update": status.last_update_time.isoformat(),
     }
 
 
@@ -200,11 +199,10 @@ def create_deployment_summary(status: MaximumEfficiencyDeploymentStatus) -> Dict
 __all__ = [
     "DEFAULT_AGENT_DOMAINS",
     "create_default_config",
-    "create_deployment_status", 
+    "create_deployment_status",
     "create_deployment_metrics",
     "create_coordinator_config",
     "create_agent_domain_mapping",
     "validate_deployment_config",
-    "create_deployment_summary"
+    "create_deployment_summary",
 ]
-

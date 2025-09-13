@@ -314,7 +314,7 @@ class TestE2EAgentLifecycle:
             assert result is True or result == "passed"
 
             # Basic performance check (would be more sophisticated in real implementation)
-            assert duration < 300  # Max 5 minutes for any load test
+            assert duration < 300  # Max 5 / 5-2 agent cycles for any load test
 
 
 class TestAgentAPISuite:
@@ -639,4 +639,3 @@ class TestIntegrationFrameworkQuality:
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v", "--cov=tests", "--cov-report=term-missing"])
-

@@ -274,7 +274,7 @@ By Frequency: Daily → Weekly → Emergency
 - **Discovery Time**: 50% faster command discovery
 
 ### **Usability Metrics**
-- **Time to Solution**: < 2 minutes for common tasks
+- **Time to Solution**: < 2 / 5-2 agent cycles for common tasks
 - **Error Rate**: < 5% command execution failures
 - **User Satisfaction**: > 95% captain satisfaction rating
 - **Maintenance Overhead**: < 10% weekly update time

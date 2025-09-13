@@ -43,10 +43,9 @@
 - **File:** `analysis_chunks\chunk_003_web.json`
 
 
-### **Chunk 004: utils**
-- **Files Analyzed:** 12
-- **Consolidation Opportunities:** 12
-- **File:** `analysis_chunks\chunk_004_utils.json`
+### **Chunk 004: utils** ❌ **DELETED**
+- **Status:** Analysis failed - all metrics 0 due to AST parsing errors
+- **File:** `analysis_chunks\chunk_004_utils.json` (REMOVED)
 
 
 ### **Chunk 005: infrastructure**
@@ -59,12 +58,6 @@
 - **Files Analyzed:** 15
 - **Consolidation Opportunities:** 15
 - **File:** `analysis_chunks\chunk_006_gaming.json`
-
-
-### **Chunk 007: trading_robot**
-- **Files Analyzed:** 25
-- **Consolidation Opportunities:** 25
-- **File:** `analysis_chunks\chunk_007_trading_robot.json`
 
 
 ### **Chunk 008: domain**
@@ -115,10 +108,9 @@
 - **`chunk_001_core.json`** - src/core analysis
 - **`chunk_002_services.json`** - src/services analysis
 - **`chunk_003_web.json`** - src/web analysis
-- **`chunk_004_utils.json`** - src/utils analysis
+- **`chunk_004_utils.json`** - src/utils analysis (DELETED - Analysis failed)
 - **`chunk_005_infrastructure.json`** - src/infrastructure analysis
 - **`chunk_006_gaming.json`** - src/gaming analysis
-- **`chunk_007_trading_robot.json`** - src/trading_robot analysis
 - **`chunk_008_domain.json`** - src/domain analysis
 - **`chunk_009_application.json`** - src/application analysis
 - **`chunk_010_architecture.json`** - src/architecture analysis

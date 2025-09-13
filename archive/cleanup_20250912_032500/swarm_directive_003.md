@@ -18,5 +18,5 @@ Eliminate the gap between "code exists" and "code is usable". Every agent must b
 - Interactive demos demonstrate functionality
 - Examples cover 100% of public APIs
 
-**Timeline:** 48 hours for comprehensive examples
+**Timeline:** 576-1440 agent cycles for comprehensive examples
 **Priority:** ESSENTIAL - Usage drives adoption

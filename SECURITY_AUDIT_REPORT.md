@@ -202,7 +202,7 @@ All identified HIGH and CRITICAL severity vulnerabilities have been resolved. Th
 - ✅ **Input validation** strengthened across all interfaces
 - 🔍 **Ongoing monitoring** tools configured
 
-**Next Audit Recommended:** 90 days or upon major dependency updates.
+**Next Audit Recommended:** 90 * 288-720 agent cycles or upon major dependency updates.
 
 ---
 

@@ -11,23 +11,21 @@ Date: 2025-09-12
 Coverage: Complete user experience validation
 """
 
-import pytest
-import asyncio
-import json
-import time
-from typing import Dict, List, Any, Optional
-from unittest.mock import Mock, patch, AsyncMock
-import sys
 import os
+import sys
+import time
+from unittest.mock import AsyncMock
+
+import pytest
 
 # Add src to path for imports
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
-from web.vector_database.routes import app as vector_app
-from web.messaging_performance_dashboard import app as messaging_app
 from web.analytics_dashboard import app as analytics_app
+from web.messaging_performance_dashboard import app as messaging_app
 from web.simple_monitoring_dashboard import app as monitoring_app
 from web.swarm_monitoring_dashboard import app as swarm_app
+from web.vector_database.routes import app as vector_app
 
 
 class TestCompleteUserJourneyE2E:
@@ -48,6 +46,7 @@ class TestCompleteUserJourneyE2E:
 
         # Initialize test clients
         from fastapi.testclient import TestClient
+
         self.vector_client = TestClient(vector_app)
         self.messaging_client = TestClient(messaging_app)
         self.analytics_client = TestClient(analytics_app)
@@ -61,18 +60,18 @@ class TestCompleteUserJourneyE2E:
             {
                 "id": "doc_1",
                 "content": "Swarm intelligence and coordination patterns",
-                "metadata": {"type": "research", "priority": "high"}
+                "metadata": {"type": "research", "priority": "high"},
             },
             {
                 "id": "doc_2",
                 "content": "Performance optimization techniques",
-                "metadata": {"type": "technical", "priority": "medium"}
+                "metadata": {"type": "technical", "priority": "medium"},
             },
             {
                 "id": "doc_3",
                 "content": "Agent communication protocols",
-                "metadata": {"type": "protocol", "priority": "high"}
-            }
+                "metadata": {"type": "protocol", "priority": "high"},
+            },
         ]
 
     @pytest.mark.asyncio
@@ -129,7 +128,7 @@ class TestCompleteUserJourneyE2E:
         setup_payload = {
             "collection_name": collection_name,
             "dimension": 384,
-            "metadata": {"user_id": self.test_user_id, "purpose": "testing"}
+            "metadata": {"user_id": self.test_user_id, "purpose": "testing"},
         }
 
         response = self.vector_client.post("/api/collections/create", json=setup_payload)
@@ -141,7 +140,7 @@ class TestCompleteUserJourneyE2E:
         ingestion_payload = {
             "collection_name": collection_name,
             "documents": self.test_documents,
-            "batch_size": 10
+            "batch_size": 10,
         }
 
         response = self.vector_client.post("/api/documents/ingest", json=ingestion_payload)
@@ -155,7 +154,7 @@ class TestCompleteUserJourneyE2E:
             "collection_name": collection_name,
             "query": "swarm coordination and intelligence",
             "limit": 5,
-            "include_metadata": True
+            "include_metadata": True,
         }
 
         response = self.vector_client.post("/api/search/semantic", json=search_payload)
@@ -169,7 +168,7 @@ class TestCompleteUserJourneyE2E:
         analytics_payload = {
             "collection_name": collection_name,
             "analysis_type": "comprehensive",
-            "include_visualizations": True
+            "include_visualizations": True,
         }
 
         response = self.vector_client.post("/api/analytics/comprehensive", json=analytics_payload)
@@ -183,7 +182,7 @@ class TestCompleteUserJourneyE2E:
         export_payload = {
             "collection_name": collection_name,
             "format": "json",
-            "include_vectors": False
+            "include_vectors": False,
         }
 
         response = self.vector_client.post("/api/export", json=export_payload)
@@ -210,8 +209,8 @@ class TestCompleteUserJourneyE2E:
             "description": "Comprehensive end-to-end testing validation",
             "priority": "high",
             "agent_requirements": ["testing", "validation"],
-            "estimated_duration": 3600,  # 1 hour
-            "deadline": "2025-09-13T12:00:00Z"
+            "estimated_duration": 3600,  # 12-30 agent cycles
+            "deadline": "2025-09-13T12:00:00Z",
         }
 
         response = self.swarm_client.post("/api/tasks/create", json=task_payload)
@@ -224,7 +223,7 @@ class TestCompleteUserJourneyE2E:
         assignment_payload = {
             "task_id": task_id,
             "agent_id": "Agent-8",  # Testing specialist
-            "assignment_reason": "Specialized testing expertise required"
+            "assignment_reason": "Specialized testing expertise required",
         }
 
         response = self.swarm_client.post("/api/tasks/assign", json=assignment_payload)
@@ -247,7 +246,7 @@ class TestCompleteUserJourneyE2E:
             "recipient": "Agent-8",
             "message_type": "coordination",
             "content": "E2E testing mission initiated. Please begin comprehensive validation.",
-            "priority": "high"
+            "priority": "high",
         }
 
         response = self.messaging_client.post("/api/messages/send", json=message_payload)
@@ -260,7 +259,7 @@ class TestCompleteUserJourneyE2E:
             "task_id": task_id,
             "status": "in_progress",
             "progress_percentage": 25,
-            "notes": "Initial test suite setup completed"
+            "notes": "Initial test suite setup completed",
         }
 
         response = self.swarm_client.put(f"/api/tasks/{task_id}/status", json=status_update_payload)
@@ -301,7 +300,7 @@ class TestCompleteUserJourneyE2E:
             "test_type": "concurrent_users",
             "duration_seconds": 30,
             "concurrent_users": 50,
-            "target_endpoints": ["/api/search", "/api/analytics"]
+            "target_endpoints": ["/api/search", "/api/analytics"],
         }
 
         response = self.monitoring_client.post("/api/performance/load-test", json=load_test_payload)
@@ -317,7 +316,7 @@ class TestCompleteUserJourneyE2E:
         analysis_payload = {
             "baseline_id": baseline_id,
             "time_range": "last_hour",
-            "analysis_type": "comprehensive"
+            "analysis_type": "comprehensive",
         }
 
         response = self.analytics_client.post("/api/performance/analyze", json=analysis_payload)
@@ -333,7 +332,7 @@ class TestCompleteUserJourneyE2E:
             "threshold": 1000,  # 1 second
             "condition": "greater_than",
             "severity": "warning",
-            "notification_channels": ["dashboard", "email"]
+            "notification_channels": ["dashboard", "email"],
         }
 
         response = self.monitoring_client.post("/api/alerts/configure", json=alert_payload)
@@ -346,10 +345,12 @@ class TestCompleteUserJourneyE2E:
         optimization_payload = {
             "analysis_id": analysis_data["analysis_id"],
             "optimization_type": "automated",
-            "risk_tolerance": "medium"
+            "risk_tolerance": "medium",
         }
 
-        response = self.analytics_client.post("/api/optimization/recommend", json=optimization_payload)
+        response = self.analytics_client.post(
+            "/api/optimization/recommend", json=optimization_payload
+        )
         assert response.status_code == 200
         optimization_data = response.json()
         assert len(optimization_data["recommendations"]) > 0
@@ -368,16 +369,18 @@ class TestCompleteUserJourneyE2E:
             "source_config": {
                 "endpoint": "/api/agent-data",
                 "frequency": "real-time",
-                "data_types": ["performance", "coordination", "communication"]
+                "data_types": ["performance", "coordination", "communication"],
             },
             "processing_rules": {
                 "filter_duplicates": True,
                 "normalize_timestamps": True,
-                "validate_schema": True
-            }
+                "validate_schema": True,
+            },
         }
 
-        response = self.analytics_client.post("/api/data/sources/configure", json=data_source_payload)
+        response = self.analytics_client.post(
+            "/api/data/sources/configure", json=data_source_payload
+        )
         assert response.status_code == 201
         source_data = response.json()
         assert source_data["source_id"]
@@ -392,16 +395,16 @@ class TestCompleteUserJourneyE2E:
                     "agent_id": "Agent-1",
                     "metric_type": "performance",
                     "value": 95.5,
-                    "metadata": {"component": "coordinator"}
+                    "metadata": {"component": "coordinator"},
                 },
                 {
                     "timestamp": "2025-09-12T10:01:00Z",
                     "agent_id": "Agent-2",
                     "metric_type": "communication",
                     "value": 87.3,
-                    "metadata": {"component": "infrastructure"}
-                }
-            ]
+                    "metadata": {"component": "infrastructure"},
+                },
+            ],
         }
 
         response = self.analytics_client.post("/api/data/ingest", json=ingestion_payload)
@@ -415,7 +418,7 @@ class TestCompleteUserJourneyE2E:
             "time_range": "last_10_minutes",
             "group_by": "agent_id",
             "metrics": ["performance", "communication"],
-            "aggregation": "average"
+            "aggregation": "average",
         }
 
         response = self.analytics_client.post("/api/analytics/real-time", json=analytics_query)
@@ -430,7 +433,7 @@ class TestCompleteUserJourneyE2E:
             "prediction_type": "performance_trend",
             "time_horizon": "1_hour",
             "confidence_level": 0.85,
-            "factors": ["current_load", "historical_patterns", "agent_status"]
+            "factors": ["current_load", "historical_patterns", "agent_status"],
         }
 
         response = self.analytics_client.post("/api/analytics/predict", json=prediction_payload)
@@ -447,9 +450,9 @@ class TestCompleteUserJourneyE2E:
             "visualizations": [
                 {"type": "time_series", "metric": "performance"},
                 {"type": "heatmap", "metric": "communication"},
-                {"type": "predictive_chart", "metric": "trend_analysis"}
+                {"type": "predictive_chart", "metric": "trend_analysis"},
             ],
-            "refresh_interval": 30
+            "refresh_interval": 30,
         }
 
         response = self.analytics_client.post("/api/dashboard/create", json=dashboard_payload)
@@ -464,7 +467,7 @@ class TestCompleteUserJourneyE2E:
             "time_range": "last_hour",
             "format": "pdf",
             "include_visualizations": True,
-            "recipients": ["coordinator@swarm.ai"]
+            "recipients": ["coordinator@swarm.ai"],
         }
 
         response = self.analytics_client.post("/api/reports/generate", json=report_payload)
@@ -483,15 +486,8 @@ class TestCompleteUserJourneyE2E:
         # Phase 1: System Health Monitoring Setup
         health_config = {
             "monitored_components": ["database", "messaging", "coordination", "web"],
-            "health_checks": {
-                "frequency": 30,  # seconds
-                "timeout": 10,
-                "retry_attempts": 3
-            },
-            "alert_thresholds": {
-                "warning": 0.8,
-                "critical": 0.5
-            }
+            "health_checks": {"frequency": 30, "timeout": 10, "retry_attempts": 3},  # seconds
+            "alert_thresholds": {"warning": 0.8, "critical": 0.5},
         }
 
         response = self.monitoring_client.post("/api/health/configure", json=health_config)
@@ -504,7 +500,7 @@ class TestCompleteUserJourneyE2E:
             "fault_type": "network_latency",
             "target_component": "messaging",
             "duration_seconds": 30,
-            "intensity": "medium"
+            "intensity": "medium",
         }
 
         response = self.monitoring_client.post("/api/faults/inject", json=fault_payload)
@@ -518,7 +514,7 @@ class TestCompleteUserJourneyE2E:
             "stress_type": "high_load",
             "duration_seconds": 60,
             "target_throughput": 1000,  # requests per second
-            "monitor_components": ["web", "database", "messaging"]
+            "monitor_components": ["web", "database", "messaging"],
         }
 
         response = self.monitoring_client.post("/api/stress/test", json=stress_payload)
@@ -532,7 +528,7 @@ class TestCompleteUserJourneyE2E:
             "recovery_type": "automatic_failover",
             "trigger_condition": "component_unavailable",
             "recovery_timeout": 300,
-            "rollback_enabled": True
+            "rollback_enabled": True,
         }
 
         response = self.monitoring_client.post("/api/recovery/configure", json=recovery_payload)
@@ -545,7 +541,7 @@ class TestCompleteUserJourneyE2E:
             "scenario": "complete_system_failure",
             "recovery_point": "last_backup",
             "data_integrity_check": True,
-            "service_restoration_order": ["database", "messaging", "coordination", "web"]
+            "service_restoration_order": ["database", "messaging", "coordination", "web"],
         }
 
         response = self.monitoring_client.post("/api/disaster/recovery-test", json=disaster_payload)
@@ -558,7 +554,7 @@ class TestCompleteUserJourneyE2E:
         resilience_payload = {
             "analysis_period": "last_hour",
             "metrics": ["uptime", "recovery_time", "data_integrity", "service_availability"],
-            "benchmark_against": "industry_standards"
+            "benchmark_against": "industry_standards",
         }
 
         response = self.analytics_client.post("/api/resilience/analyze", json=resilience_payload)
@@ -570,13 +566,14 @@ class TestCompleteUserJourneyE2E:
 
 if __name__ == "__main__":
     # Run comprehensive E2E tests
-    pytest.main([
-        __file__,
-        "-v",
-        "--tb=short",
-        "--asyncio-mode=auto",
-        "--cov=src/web",
-        "--cov-report=html:htmlcov_e2e",
-        "--cov-report=term-missing"
-    ])
-
+    pytest.main(
+        [
+            __file__,
+            "-v",
+            "--tb=short",
+            "--asyncio-mode=auto",
+            "--cov=src/web",
+            "--cov-report=html:htmlcov_e2e",
+            "--cov-report=term-missing",
+        ]
+    )

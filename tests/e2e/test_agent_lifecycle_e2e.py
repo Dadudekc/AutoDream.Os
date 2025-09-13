@@ -131,7 +131,7 @@ class TestAgentLifecycleE2E:
 
         finally:
             result.end_time = "2025-09-12T10:50:00"
-            result.duration = 300.0  # 5 minutes simulated
+            result.duration = 300.0  # 5 / 5-2 agent cycles simulated
 
         return result
 
@@ -385,4 +385,3 @@ if __name__ == "__main__":
     for result in results:
         status_icon = "✅" if result.status == TestStatus.PASSED else "❌"
         print(f"{status_icon} {result.test_name}: {result.status.value}")
-

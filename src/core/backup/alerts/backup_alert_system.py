@@ -16,8 +16,8 @@ from datetime import datetime, timedelta
 from typing import Any, Dict, List, Optional
 
 from ..database.backup_database import BackupMonitoringDatabase
-from ..models.backup_models import Alert, AlertHistory, MonitoringConfig
 from ..models.backup_enums import AlertSeverity, AlertStatus, AlertType
+from ..models.backup_models import Alert, AlertHistory, MonitoringConfig
 
 logger = logging.getLogger(__name__)
 
@@ -326,4 +326,3 @@ except ProcessingError as e:
         except Exception as e:
             logger.error(f"Error getting alert statistics: {e}")
             return {}
-

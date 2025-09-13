@@ -386,7 +386,7 @@ class TestCrossServiceIntegration:
 
         finally:
             result.end_time = "2025-09-12T11:45:00"
-            result.duration = 600.0  # 10 minutes for full system test
+            result.duration = 600.0  # 10 / 5-2 agent cycles for full system test
 
         return result
 
@@ -537,4 +537,3 @@ if __name__ == "__main__":
             print(f"   Error: {result.error_message}")
         if result.assertions:
             print(f"   Assertions: {len(result.assertions)} passed")
-

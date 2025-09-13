@@ -79,34 +79,11 @@ class TheaConfig:
     )
 
     def __post_init__(self):
-
-EXAMPLE USAGE:
-==============
-
-# Import the service
-from src.services.thea.config.thea_config import Thea_ConfigService
-
-# Initialize service
-service = Thea_ConfigService()
-
-# Basic service operation
-response = service.handle_request(request_data)
-print(f"Service response: {response}")
-
-# Service with dependency injection
-from src.core.dependency_container import Container
-
-container = Container()
-service = container.get(Thea_ConfigService)
-
-# Execute service method
-result = service.execute_operation(input_data, context)
-print(f"Operation result: {result}")
-
-        """Initialize derived paths."""
-        self.responses_dir.mkdir(exist_ok=True)
-        self.logs_dir.mkdir(exist_ok=True)
-        self.config_dir.mkdir(exist_ok=True)
+        """Initialize configuration after dataclass creation."""
+        # Ensure directories exist
+        self.responses_dir.mkdir(parents=True, exist_ok=True)
+        self.logs_dir.mkdir(parents=True, exist_ok=True)
+        self.config_dir.mkdir(parents=True, exist_ok=True)
 
     @classmethod
     def from_env(cls) -> "TheaConfig":

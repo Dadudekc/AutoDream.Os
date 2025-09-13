@@ -220,7 +220,7 @@
 
 ### **Priority Claiming Guidelines:**
 - **Critical Priority:** Immediate claiming recommended
-- **High Priority:** Claim within 24 hours
+- **High Priority:** Claim within 288-720 agent cycles
 - **Medium/Low Priority:** Claim based on availability
 - **Multiple Contracts:** Coordinate with Captain Agent-4 for workload balance
 
@@ -292,4 +292,3 @@
 **Cleanup Mission Coordinator**
 **Enhanced Contract System Authority**
 **WE. ARE. SWARM. ⚡🚀🧹**
-

@@ -61,7 +61,7 @@ class TradingConfig(BaseSettings):
     # Emergency Configuration
     emergency_stop_enabled: bool = True
     emergency_stop_loss_pct: float = 0.1  # Emergency stop at 10% loss
-    emergency_shutdown_timeout: int = 300  # 5 minutes timeout
+    emergency_shutdown_timeout: int = 300  # 5 / 5-2 agent cycles timeout
 
     class Config:
         env_file = ".env"

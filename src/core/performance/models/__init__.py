@@ -10,7 +10,13 @@ License: MIT
 """
 
 from .performance_enums import AlertSeverity, AlertStatus, DashboardType, MetricType
-from .performance_models import Alert, ConsolidationPhase, DashboardMetric, DashboardWidget, PerformanceReport
+from .performance_models import (
+    Alert,
+    ConsolidationPhase,
+    DashboardMetric,
+    DashboardWidget,
+    PerformanceReport,
+)
 
 __all__ = [
     # Enums
@@ -18,7 +24,6 @@ __all__ = [
     "MetricType",
     "AlertSeverity",
     "AlertStatus",
-
     # Models
     "DashboardMetric",
     "DashboardWidget",
@@ -26,4 +31,3 @@ __all__ = [
     "Alert",
     "PerformanceReport",
 ]
-

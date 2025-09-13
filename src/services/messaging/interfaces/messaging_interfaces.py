@@ -11,13 +11,12 @@ License: MIT
 """
 
 from abc import ABC, abstractmethod
-from typing import List, Optional
 
 try:
-    from ..models.messaging_models import UnifiedMessage, MessageHistory
+    from ..models.messaging_models import MessageHistory, UnifiedMessage
 except ImportError:
     # Fallback for direct execution
-    from models.messaging_models import UnifiedMessage, MessageHistory
+    from models.messaging_models import MessageHistory, UnifiedMessage
 
 
 class MessageDeliveryProvider(ABC):
@@ -46,6 +45,7 @@ class PyAutoGUIDeliveryProvider(MessageDeliveryProvider):
         """Check if PyAutoGUI is available."""
         try:
             import pyautogui
+
             return True
         except ImportError:
             return False
@@ -68,7 +68,7 @@ class MessageHistoryProvider(ABC):
     """Abstract base class for message history providers."""
 
     @abstractmethod
-    def get_inbox_messages(self, agent_id: str) -> List[UnifiedMessage]:
+    def get_inbox_messages(self, agent_id: str) -> list[UnifiedMessage]:
         """Get messages from agent's inbox."""
         pass
 
@@ -78,7 +78,7 @@ class MessageHistoryProvider(ABC):
         pass
 
     @abstractmethod
-    def get_message_history(self, agent_id: str, limit: int = 10) -> List[MessageHistory]:
+    def get_message_history(self, agent_id: str, limit: int = 10) -> list[MessageHistory]:
         """Get message history for an agent."""
         pass
 
@@ -86,7 +86,7 @@ class MessageHistoryProvider(ABC):
 class FileBasedMessageHistoryProvider(MessageHistoryProvider):
     """File-based message history provider."""
 
-    def get_inbox_messages(self, agent_id: str) -> List[UnifiedMessage]:
+    def get_inbox_messages(self, agent_id: str) -> list[UnifiedMessage]:
         """Get messages from agent's inbox."""
         # Implementation would go here
         return []
@@ -96,7 +96,7 @@ class FileBasedMessageHistoryProvider(MessageHistoryProvider):
         # Implementation would go here
         return True
 
-    def get_message_history(self, agent_id: str, limit: int = 10) -> List[MessageHistory]:
+    def get_message_history(self, agent_id: str, limit: int = 10) -> list[MessageHistory]:
         """Get message history for an agent."""
         # Implementation would go here
         return []

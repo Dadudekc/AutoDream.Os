@@ -150,11 +150,11 @@
           "**Module Path Configuration**",
           "**Service Import Dependencies**",
           "\ud83d\udee0\ufe0f **IMMEDIATE ACTION PLAN**",
-          "**Phase 1: Import Resolution (Next 2 Hours)**",
-          "**Phase 2: Test Execution (Next 4 Hours)**",
+          "**Phase 1: Import Resolution (Next 24-60 agent cycles)**",
+          "**Phase 2: Test Execution (Next 48-120 agent cycles)**",
           "\ud83d\udcc8 **TARGET METRICS**",
-          "**Immediate Targets (Next 4 Hours)**",
-          "**Short-term Targets (Next 24 Hours)**",
+          "**Immediate Targets (Next 48-120 agent cycles)**",
+          "**Short-term Targets (Next 288-720 agent cycles)**",
           "**Mission Success Criteria**",
           "\ud83c\udfaf **CURRENT PROGRESS**",
           "**Completed Tasks**",
@@ -170,7 +170,7 @@
         "line_count": 197,
         "non_empty_lines": 157,
         "complexity": 25,
-        "file_size": 7457,
+        "file_size": 7528,
         "header_count": 25,
         "has_toc": false,
         "has_code": true,
@@ -215,8 +215,8 @@
           "**Completed Objectives**",
           "**Quality Deliverables**",
           "\ud83d\udccb **NEXT PHASE PREPARATION**",
-          "**Immediate Next Steps (Next 2 Hours)**",
-          "**Long-term Objectives (Next 24 Hours)**",
+          "**Immediate Next Steps (Next 24-60 agent cycles)**",
+          "**Long-term Objectives (Next 288-720 agent cycles)**",
           "\ud83c\udfc6 **2-HOUR MISSION SUCCESS SUMMARY**",
           "**Quantitative Success**",
           "**Qualitative Success**",
@@ -229,7 +229,7 @@
         "line_count": 212,
         "non_empty_lines": 162,
         "complexity": 36,
-        "file_size": 9810,
+        "file_size": 9833,
         "header_count": 36,
         "has_toc": false,
         "has_code": true,
@@ -255,10 +255,10 @@
           "\ud83d\udea8 **REMAINING CHALLENGES**",
           "**Critical Issues (Need Immediate Resolution)**",
           "\ud83d\udee0\ufe0f **IMMEDIATE ACTION PLAN**",
-          "**Phase 1: Import Resolution (Next 2 Hours)**",
-          "**Phase 2: Test Refinement (Next 2 Hours)**",
+          "**Phase 1: Import Resolution (Next 24-60 agent cycles)**",
+          "**Phase 2: Test Refinement (Next 24-60 agent cycles)**",
           "\ud83d\udcc8 **TARGET PROJECTION**",
-          "**Next 4 Hours Goals**",
+          "**Next 48-120 agent cycles Goals**",
           "**24-Hour Mission Goals**",
           "\ud83c\udfaf **ARCHITECTURAL VALIDATION STATUS**",
           "**Successfully Validated Patterns**",
@@ -277,7 +277,7 @@
         "line_count": 213,
         "non_empty_lines": 168,
         "complexity": 25,
-        "file_size": 9271,
+        "file_size": 9317,
         "header_count": 25,
         "has_toc": false,
         "has_code": true,
@@ -730,54 +730,6 @@
       }
     },
     {
-      "file_path": "tests\\test_commandresult.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "tests\\swarm_testing_framework.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
       "file_path": "tests\\test_unified_browser_service.py",
       "analysis": {
         "language": ".py",
@@ -1234,6 +1186,102 @@
       }
     },
     {
+      "file_path": "tests\\swarm_testing_framework.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "tests\\test_commandresult.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "tests\\test_messaging_registry.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "tests\\test_messaging_health_gate.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
       "file_path": "tests\\integration\\test_consolidated_services_integration.py",
       "analysis": {
         "language": ".py",
@@ -1259,54 +1307,6 @@
     },
     {
       "file_path": "tests\\integration\\test_final_integration_coverage.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "tests\\integration\\test_cross_service_integration.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "tests\\integration\\test_error_handling_integration.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -1474,16 +1474,6 @@
       "priority": "MEDIUM"
     },
     {
-      "file_path": "tests\\test_commandresult.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
-      "file_path": "tests\\swarm_testing_framework.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
       "file_path": "tests\\test_unified_browser_service.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
@@ -1579,22 +1569,32 @@
       "priority": "MEDIUM"
     },
     {
+      "file_path": "tests\\swarm_testing_framework.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "tests\\test_commandresult.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "tests\\test_messaging_registry.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "tests\\test_messaging_health_gate.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
       "file_path": "tests\\integration\\test_consolidated_services_integration.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
       "file_path": "tests\\integration\\test_final_integration_coverage.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
-      "file_path": "tests\\integration\\test_cross_service_integration.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
-      "file_path": "tests\\integration\\test_error_handling_integration.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     }

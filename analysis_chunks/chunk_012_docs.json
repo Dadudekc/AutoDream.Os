@@ -108,10 +108,10 @@
         "links": 0,
         "images": 0,
         "tables": 0,
-        "line_count": 2920,
-        "non_empty_lines": 2345,
+        "line_count": 2921,
+        "non_empty_lines": 2346,
         "complexity": 55,
-        "file_size": 144792,
+        "file_size": 142203,
         "header_count": 55,
         "has_toc": false,
         "has_code": true,
@@ -1010,10 +1010,10 @@
         "links": 13,
         "images": 0,
         "tables": 7,
-        "line_count": 961,
+        "line_count": 962,
         "non_empty_lines": 743,
         "complexity": 93,
-        "file_size": 23946,
+        "file_size": 23948,
         "header_count": 93,
         "has_toc": true,
         "has_code": true,
@@ -1064,10 +1064,10 @@
         "links": 8,
         "images": 0,
         "tables": 0,
-        "line_count": 1251,
+        "line_count": 1252,
         "non_empty_lines": 984,
         "complexity": 31,
-        "file_size": 40441,
+        "file_size": 40443,
         "header_count": 31,
         "has_toc": true,
         "has_code": true,
@@ -1173,7 +1173,7 @@
         "line_count": 440,
         "non_empty_lines": 356,
         "complexity": 83,
-        "file_size": 11212,
+        "file_size": 11187,
         "header_count": 83,
         "has_toc": false,
         "has_code": true,
@@ -1264,7 +1264,7 @@
         "line_count": 714,
         "non_empty_lines": 582,
         "complexity": 68,
-        "file_size": 34373,
+        "file_size": 34310,
         "header_count": 68,
         "has_toc": true,
         "has_code": true,
@@ -1405,12 +1405,66 @@
         "line_count": 879,
         "non_empty_lines": 681,
         "complexity": 118,
-        "file_size": 22033,
+        "file_size": 21763,
         "header_count": 118,
         "has_toc": true,
         "has_code": true,
         "has_images": false,
         "has_links": true
+      }
+    },
+    {
+      "file_path": "docs\\messaging_inventory.md",
+      "analysis": {
+        "language": ".md",
+        "functions": [],
+        "classes": {},
+        "headers": [
+          "Messaging Systems Inventory",
+          "\ud83d\udcca Overview",
+          "\ud83c\udfe5 Health Status",
+          "By Category:",
+          "\ud83d\udccb Systems Inventory",
+          "\ud83d\udd27 Ai Systems",
+          "Thea Communication Manager",
+          "Thea Messaging Service",
+          "\ud83d\udd27 Cli Systems",
+          "Fallback Delivery",
+          "Messaging CLI",
+          "Messaging Performance CLI",
+          "Swarm Onboarding Script",
+          "\ud83d\udd27 Core Systems",
+          "Consolidated Messaging Service",
+          "Inbox Delivery Provider",
+          "Messaging Interfaces",
+          "PyAutoGUI Delivery Provider",
+          "\ud83d\udd27 External Systems",
+          "Discord Agent Bot",
+          "Discord Communication Engine",
+          "Discord Webhook Integration",
+          "Messaging Gateway (Discord\u2194PyAutoGUI)",
+          "\ud83d\udd27 Supporting Systems",
+          "Broadcast Service",
+          "Coordinate Service",
+          "Message History Service",
+          "Onboarding Bridge",
+          "Task Handlers",
+          "\ud83d\udee0\ufe0f Tools",
+          "\ud83d\udcdd Notes"
+        ],
+        "code_blocks": 0,
+        "links": 0,
+        "images": 0,
+        "tables": 21,
+        "line_count": 217,
+        "non_empty_lines": 165,
+        "complexity": 31,
+        "file_size": 10005,
+        "header_count": 31,
+        "has_toc": false,
+        "has_code": false,
+        "has_images": false,
+        "has_links": false
       }
     },
     {
@@ -2576,35 +2630,21 @@
         "has_type_hints": false,
         "error": "module 'ast' has no attribute 'Decorator'"
       }
-    },
-    {
-      "file_path": "docs\\archive\\agent_scripts\\agent5_consolidation_coordination_manager.log",
-      "analysis": {
-        "language": ".log",
-        "functions": [],
-        "classes": {},
-        "line_count": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "error": "Unsupported file type"
-      }
     }
   ],
   "summary": {
     "total_files": 50,
-    "total_lines": 14069,
+    "total_lines": 14289,
     "total_functions": 0,
     "total_classes": 0,
     "total_imports": 0,
     "file_types": {
-      ".md": 42,
-      ".py": 7,
-      ".log": 1
+      ".md": 43,
+      ".py": 7
     },
     "avg_complexity_by_type": {
-      ".md": 34.30952380952381,
-      ".py": 0.0,
-      ".log": 0.0
+      ".md": 34.23255813953488,
+      ".py": 0.0
     }
   },
   "consolidation_opportunities": [
@@ -2722,6 +2762,11 @@
       "file_path": "docs\\DEVELOPER_GUIDE.md",
       "reason": "No functions - utility or config file",
       "priority": "HIGH"
+    },
+    {
+      "file_path": "docs\\messaging_inventory.md",
+      "reason": "No functions - utility or config file",
+      "priority": "LOW"
     },
     {
       "file_path": "docs\\adr\\ADR-001-ddd-hex.md",
@@ -2850,11 +2895,6 @@
     },
     {
       "file_path": "docs\\archive\\agent_scripts\\agent6_web_interface_coordinator.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
-      "file_path": "docs\\archive\\agent_scripts\\agent5_consolidation_coordination_manager.log",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     }

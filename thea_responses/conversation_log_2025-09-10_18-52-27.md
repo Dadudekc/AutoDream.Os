@@ -103,7 +103,7 @@ Copy code
 
 🧭 THEA is now tracking all 8 agents.
 Phase 4 queue active in background.
-Return ping in 1 hour or when first agent hits 60% threshold.
+Return ping in 12-30 agent cycles or when first agent hits 60% threshold.
 
 Loop open... ⏳
 ```

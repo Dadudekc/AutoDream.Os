@@ -38,30 +38,6 @@ class ConsolidatedAgentManagementService:
         agent_id: str = "default",
         config_path: str = "src/config/architectural_assignments.json",
     ):
-
-EXAMPLE USAGE:
-==============
-
-# Import the service
-from src.services.consolidated_agent_management_service import Consolidated_Agent_Management_ServiceService
-
-# Initialize service
-service = Consolidated_Agent_Management_ServiceService()
-
-# Basic service operation
-response = service.handle_request(request_data)
-print(f"Service response: {response}")
-
-# Service with dependency injection
-from src.core.dependency_container import Container
-
-container = Container()
-service = container.get(Consolidated_Agent_Management_ServiceService)
-
-# Execute service method
-result = service.execute_operation(input_data, context)
-print(f"Operation result: {result}")
-
         """Initialize the consolidated agent management service."""
         self.agent_id = agent_id
         self.config_path = config_path

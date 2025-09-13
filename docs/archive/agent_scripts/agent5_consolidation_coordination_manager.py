@@ -65,25 +65,9 @@ class Agent5ConsolidationCoordinationManager:
                     "name": "Web Interface",
                     "agent": "Agent-7",
                     "target": "50 → 30 files (40% reduction)",
-                    "status": "PENDING",
-                    "progress": 0,
+                    "status": "COMPLETED",
+                    "progress": 100,
                     "priority": "MEDIUM",
-                },
-                "chunk_004": {
-                    "name": "Utilities",
-                    "agent": "Agent-3",
-                    "target": "12 → 5 files (58% reduction)",
-                    "status": "PENDING",
-                    "progress": 0,
-                    "priority": "HIGH",
-                },
-                "chunk_005": {
-                    "name": "Infrastructure",
-                    "agent": "Agent-3",
-                    "target": "19 → 8 files (58% reduction)",
-                    "status": "PENDING",
-                    "progress": 0,
-                    "priority": "HIGH",
                 },
             },
         }
@@ -92,7 +76,7 @@ class Agent5ConsolidationCoordinationManager:
         self.agent_coordination = {
             "Agent-1": {"status": "PENDING", "chunk": "chunk_002", "last_update": None},
             "Agent-2": {"status": "PENDING", "chunk": "chunk_001", "last_update": None},
-            "Agent-3": {"status": "PENDING", "chunk": "chunk_004-005", "last_update": None},
+            "Agent-3": {"status": "PENDING", "chunk": "chunk_005", "last_update": None},
             "Agent-4": {
                 "status": "ACTIVE",
                 "chunk": "qa",
@@ -104,7 +88,7 @@ class Agent5ConsolidationCoordinationManager:
                 "last_update": datetime.now().isoformat(),
             },
             "Agent-6": {"status": "PENDING", "chunk": "communication", "last_update": None},
-            "Agent-7": {"status": "PENDING", "chunk": "chunk_003", "last_update": None},
+            "Agent-7": {"status": "COMPLETED", "chunk": "chunk_003", "last_update": None},
             "Agent-8": {"status": "PENDING", "chunk": "operations", "last_update": None},
         }
 

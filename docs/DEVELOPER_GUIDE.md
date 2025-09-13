@@ -142,7 +142,7 @@ pre-commit run --all-files
        def validate_message(self, message: UnifiedMessage) -> bool:
            # Only validates messages
            pass
-   
+
    # ❌ Bad: Multiple responsibilities
    class MessageHandler:
        def validate_message(self, message): pass
@@ -157,7 +157,7 @@ pre-commit run --all-files
        @abstractmethod
        def deliver(self, message: UnifiedMessage) -> bool:
            pass
-   
+
    class PyAutoGUIDelivery(MessageDeliveryMethod):
        def deliver(self, message: UnifiedMessage) -> bool:
            # Implementation
@@ -169,7 +169,7 @@ pre-commit run --all-files
    # ✅ Good: Subtypes are substitutable
    def process_delivery(delivery_method: MessageDeliveryMethod):
        return delivery_method.deliver(message)
-   
+
    # Works with any MessageDeliveryMethod implementation
    process_delivery(PyAutoGUIDelivery())
    process_delivery(InboxDelivery())
@@ -182,7 +182,7 @@ pre-commit run --all-files
        @abstractmethod
        def send_message(self, message: UnifiedMessage) -> bool:
            pass
-   
+
    class MessageReceiver(ABC):
        @abstractmethod
        def receive_message(self) -> UnifiedMessage:
@@ -195,7 +195,7 @@ pre-commit run --all-files
    class MessagingService:
        def __init__(self, delivery_method: MessageDeliveryMethod):
            self.delivery_method = delivery_method
-   
+
    # ❌ Bad: Depend on concrete implementations
    class MessagingService:
        def __init__(self):
@@ -243,17 +243,17 @@ def send_message(
 ) -> bool:
     """
     Send a message using the configured delivery method.
-    
+
     Args:
         message: The message to send
         retry_count: Number of retry attempts (default: 3)
-        
+
     Returns:
         bool: True if message sent successfully, False otherwise
-        
+
     Raises:
         MessagingError: If message delivery fails after all retries
-        
+
     Example:
         >>> message = UnifiedMessage(content="Hello", sender="Agent-1", recipient="Agent-2")
         >>> success = send_message(message)
@@ -273,10 +273,10 @@ def send_message(
 # src/services/messaging_service.py
 class MessagingService:
     """High-level messaging operations."""
-    
+
     def __init__(self, delivery_method: MessageDeliveryMethod):
         self.delivery_method = delivery_method
-    
+
     async def send_message(self, message: UnifiedMessage) -> bool:
         """Send message with error handling and retries."""
         pass
@@ -287,7 +287,7 @@ class MessagingService:
 # src/core/message_delivery.py
 class MessageDeliveryMethod(ABC):
     """Abstract base class for message delivery methods."""
-    
+
     @abstractmethod
     async def deliver(self, message: UnifiedMessage) -> bool:
         """Deliver message using specific method."""
@@ -299,7 +299,7 @@ class MessageDeliveryMethod(ABC):
 # src/infrastructure/pyautogui_delivery.py
 class PyAutoGUIDelivery(MessageDeliveryMethod):
     """PyAutoGUI-based message delivery."""
-    
+
     async def deliver(self, message: UnifiedMessage) -> bool:
         """Deliver message using PyAutoGUI automation."""
         pass
@@ -312,10 +312,10 @@ class PyAutoGUIDelivery(MessageDeliveryMethod):
 class ServiceContainer:
     def __init__(self):
         self._services = {}
-    
+
     def register(self, interface: type, implementation: type):
         self._services[interface] = implementation
-    
+
     def get(self, interface: type):
         return self._services[interface]()
 
@@ -331,10 +331,10 @@ delivery_method = container.get(MessageDeliveryMethod)
 # src/core/config.py
 class Config:
     """Centralized configuration management."""
-    
+
     def __init__(self, config_path: str = "config/unified_config.yaml"):
         self.config = self._load_config(config_path)
-    
+
     def get(self, key: str, default: Any = None) -> Any:
         """Get configuration value by key."""
         keys = key.split('.')
@@ -378,7 +378,7 @@ from src.services.consolidated_messaging_service import (
 
 class TestMessagingService:
     """Test suite for messaging service."""
-    
+
     @pytest.fixture
     def sample_message(self):
         """Create sample message for testing."""
@@ -389,26 +389,26 @@ class TestMessagingService:
             message_type=UnifiedMessageType.AGENT_TO_AGENT,
             priority=UnifiedMessagePriority.NORMAL
         )
-    
+
     @pytest.mark.asyncio
     async def test_send_message_success(self, sample_message):
         """Test successful message sending."""
         with patch('src.services.consolidated_messaging_service.deliver_message_pyautogui') as mock_deliver:
             mock_deliver.return_value = True
-            
+
             result = await send_message(sample_message)
-            
+
             assert result is True
             mock_deliver.assert_called_once()
-    
+
     @pytest.mark.asyncio
     async def test_send_message_failure(self, sample_message):
         """Test message sending failure."""
         with patch('src.services.consolidated_messaging_service.deliver_message_pyautogui') as mock_deliver:
             mock_deliver.return_value = False
-            
+
             result = await send_message(sample_message)
-            
+
             assert result is False
 ```
 
@@ -424,7 +424,7 @@ from src.services.consolidated_messaging_service import (
 
 class TestMessagingFlow:
     """Integration tests for messaging flow."""
-    
+
     @pytest.mark.asyncio
     async def test_complete_messaging_workflow(self):
         """Test complete messaging workflow."""
@@ -435,10 +435,10 @@ class TestMessagingFlow:
             recipient="Agent-1",
             message_type=UnifiedMessageType.AGENT_TO_AGENT
         )
-        
+
         success = await send_message(message)
         assert success is True
-        
+
         # Test broadcast
         broadcast_success = await broadcast_message(
             "Integration test broadcast",
@@ -520,7 +520,7 @@ Last Modified: 2024-01-01
 
 Example:
     Basic usage example showing how to use the module.
-    
+
     >>> from module_name import ClassName
     >>> instance = ClassName()
     >>> result = instance.method()
@@ -539,28 +539,28 @@ logger = logging.getLogger(__name__)
 class ExampleClass:
     """
     Brief description of the class.
-    
+
     Detailed description of the class, including its purpose,
     key functionality, and any important design decisions.
-    
+
     Attributes:
         attribute1 (type): Description of attribute1
         attribute2 (type): Description of attribute2
-        
+
     Example:
         >>> instance = ExampleClass("value1", "value2")
         >>> result = instance.method()
         >>> print(result)
     """
-    
+
     def __init__(self, param1: str, param2: str):
         """
         Initialize the ExampleClass.
-        
+
         Args:
             param1: Description of param1
             param2: Description of param2
-            
+
         Raises:
             ValueError: If param1 is empty
         """
@@ -581,34 +581,34 @@ def example_function(
 ) -> bool:
     """
     Brief description of the function.
-    
+
     Detailed description of what the function does, including
     any side effects, return values, and important behavior.
-    
+
     Args:
         required_param: Description of required parameter
         optional_param: Description of optional parameter (default: None)
         *args: Variable length argument list
         **kwargs: Arbitrary keyword arguments
-        
+
     Returns:
         bool: Description of return value
-        
+
     Raises:
         ValueError: When required_param is invalid
         RuntimeError: When operation fails
-        
+
     Example:
         >>> result = example_function("test", optional_param=42)
         >>> print(f"Result: {result}")
         Result: True
-        
+
     Note:
         Additional notes about the function's behavior or usage.
     """
     if not required_param:
         raise ValueError("required_param cannot be empty")
-    
+
     # Function implementation
     return True
 ```
@@ -627,11 +627,11 @@ Use the existing [API Reference](API_REFERENCE.md) as a template for documenting
    ```bash
    # Create feature branch
    git checkout -b feature/new-feature
-   
+
    # Make changes
    # Write tests
    # Update documentation
-   
+
    # Commit changes
    git add .
    git commit -m "feat: add new feature"
@@ -641,13 +641,13 @@ Use the existing [API Reference](API_REFERENCE.md) as a template for documenting
    ```bash
    # Run tests
    pytest
-   
+
    # Run linting
    ruff check src/
-   
+
    # Run formatting
    black src/
-   
+
    # Run pre-commit hooks
    pre-commit run --all-files
    ```
@@ -656,7 +656,7 @@ Use the existing [API Reference](API_REFERENCE.md) as a template for documenting
    ```bash
    # Push branch
    git push origin feature/new-feature
-   
+
    # Create pull request
    # Request review from team members
    # Address feedback
@@ -667,7 +667,7 @@ Use the existing [API Reference](API_REFERENCE.md) as a template for documenting
    # Merge to main branch
    git checkout main
    git merge feature/new-feature
-   
+
    # Tag release
    git tag -a v2.1.0 -m "Release version 2.1.0"
    git push origin v2.1.0
@@ -686,10 +686,10 @@ Use the existing [API Reference](API_REFERENCE.md) as a template for documenting
    ```bash
    # Run full test suite
    pytest --cov=src --cov-report=html
-   
+
    # Run integration tests
    pytest tests/integration/
-   
+
    # Run end-to-end tests
    pytest tests/e2e/
    ```
@@ -877,4 +877,3 @@ stats.print_stats()
 ---
 
 **📝 DISCORD DEVLOG REMINDER: Create a Discord devlog for this action in devlogs/ directory**
-

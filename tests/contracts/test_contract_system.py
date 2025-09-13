@@ -10,11 +10,7 @@ Created: 2025-09-12
 Coverage Target: 85%+ for contract system components
 """
 
-import json
-import os
-import sys
 from datetime import datetime, timedelta
-from unittest.mock import Mock, patch
 
 import pytest
 
@@ -29,24 +25,30 @@ except ImportError:
     class ContractSystem:
         def __init__(self, *args, **kwargs):
             pass
+
         def create_contract(self, *args, **kwargs):
             return {"contract_id": "test-123", "status": "created"}
+
         def validate_contract(self, *args, **kwargs):
             return True
+
         def claim_contract(self, *args, **kwargs):
             return {"status": "claimed", "xp_reward": 100}
 
     class ContractValidator:
         def __init__(self, *args, **kwargs):
             pass
+
         def validate_requirements(self, *args, **kwargs):
             return True
+
         def check_completion_criteria(self, *args, **kwargs):
             return True
 
     class XPTracker:
         def __init__(self, *args, **kwargs):
             pass
+
         def award_xp(self, *args, **kwargs):
             return {"total_xp": 150, "level": 2}
 
@@ -68,24 +70,32 @@ class TestContractCreation:
                 "Resolve 633+ merge conflicts",
                 "Remove corrupted files",
                 "Clean technical debt",
-                "Update documentation"
+                "Update documentation",
             ],
             "completion_criteria": [
                 "All merge conflicts resolved",
                 "No corrupted files remaining",
                 "Technical debt eliminated",
-                "Documentation updated"
+                "Documentation updated",
             ],
             "deadline": "2025-09-15T23:59:59Z",
             "created_by": "Agent-7",
-            "status": "available"
+            "status": "available",
         }
 
         # Validate required fields
         required_fields = [
-            "contract_id", "title", "description", "priority",
-            "xp_reward", "agent", "scope", "requirements",
-            "completion_criteria", "deadline", "status"
+            "contract_id",
+            "title",
+            "description",
+            "priority",
+            "xp_reward",
+            "agent",
+            "scope",
+            "requirements",
+            "completion_criteria",
+            "deadline",
+            "status",
         ]
 
         for field in required_fields:
@@ -114,7 +124,7 @@ class TestContractCreation:
                 "requirements": ["Test requirement"],
                 "completion_criteria": ["Test completion"],
                 "deadline": "2025-09-15T23:59:59Z",
-                "status": "available"
+                "status": "available",
             }
             test_contracts.append(contract)
 
@@ -134,7 +144,7 @@ class TestContractCreation:
             "SERVICE_SPECIFIC",
             "MODULE_SPECIFIC",
             "FILE_SPECIFIC",
-            "TEST"
+            "TEST",
         ]
 
         for scope in valid_scopes:
@@ -149,7 +159,7 @@ class TestContractCreation:
                 "requirements": ["Test requirement"],
                 "completion_criteria": ["Test completion"],
                 "deadline": "2025-09-15T23:59:59Z",
-                "status": "available"
+                "status": "available",
             }
 
             assert contract["scope"] in valid_scopes
@@ -160,7 +170,7 @@ class TestContractCreation:
             "CRITICAL": {"base_xp": 500, "multiplier": 1.5},
             "HIGH": {"base_xp": 300, "multiplier": 1.2},
             "MEDIUM": {"base_xp": 150, "multiplier": 1.0},
-            "LOW": {"base_xp": 50, "multiplier": 0.8}
+            "LOW": {"base_xp": 50, "multiplier": 0.8},
         }
 
         # Test XP calculation for different priorities
@@ -175,13 +185,9 @@ class TestContractCreation:
         from datetime import datetime
 
         # Test valid deadline formats
-        valid_deadlines = [
-            "2025-09-15T23:59:59Z",
-            "2025-12-31T00:00:00Z",
-            "2026-01-01T12:00:00Z"
-        ]
+        valid_deadlines = ["2025-09-15T23:59:59Z", "2025-12-31T00:00:00Z", "2026-01-01T12:00:00Z"]
 
-        iso_pattern = r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$'
+        iso_pattern = r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$"
 
         for deadline in valid_deadlines:
             assert re.match(iso_pattern, deadline), f"Invalid deadline format: {deadline}"
@@ -199,19 +205,19 @@ class TestContractClaiming:
         available_contract = {
             "contract_id": "AVAILABLE-001",
             "status": "available",
-            "agent": "AVAILABLE_TO_ALL"
+            "agent": "AVAILABLE_TO_ALL",
         }
 
         claimed_contract = {
             "contract_id": "CLAIMED-001",
             "status": "claimed",
-            "claimed_by": "Agent-1"
+            "claimed_by": "Agent-1",
         }
 
         expired_contract = {
             "contract_id": "EXPIRED-001",
             "status": "expired",
-            "deadline": "2020-01-01T00:00:00Z"
+            "deadline": "2020-01-01T00:00:00Z",
         }
 
         # Test availability
@@ -231,22 +237,22 @@ class TestContractClaiming:
             {
                 "contract": {"agent": "AVAILABLE_TO_ALL"},
                 "agents": ["Agent-1", "Agent-2", "Agent-7"],
-                "expected_eligible": ["Agent-1", "Agent-2", "Agent-7"]
+                "expected_eligible": ["Agent-1", "Agent-2", "Agent-7"],
             },
             {
                 "contract": {"agent": "Agent-7"},
                 "agents": ["Agent-1", "Agent-2", "Agent-7"],
-                "expected_eligible": ["Agent-7"]
+                "expected_eligible": ["Agent-7"],
             },
             {
                 "contract": {"agent": "SPECIALIST_ONLY", "specialization": "Web Development"},
                 "agents": [
                     {"id": "Agent-1", "specialization": "Integration"},
                     {"id": "Agent-7", "specialization": "Web Development"},
-                    {"id": "Agent-8", "specialization": "Operations"}
+                    {"id": "Agent-8", "specialization": "Operations"},
                 ],
-                "expected_eligible": ["Agent-7"]
-            }
+                "expected_eligible": ["Agent-7"],
+            },
         ]
 
         for scenario in contract_scenarios:
@@ -272,7 +278,7 @@ class TestContractClaiming:
         claim_request = {
             "contract_id": "TEST-001",
             "agent_id": "Agent-7",
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
         result = contract_system.claim_contract(claim_request)
@@ -287,9 +293,21 @@ class TestContractClaiming:
 
         # Simulate concurrent claims
         claim_requests = [
-            {"contract_id": "CONCURRENT-001", "agent_id": "Agent-1", "timestamp": "2025-09-12T10:00:00Z"},
-            {"contract_id": "CONCURRENT-001", "agent_id": "Agent-2", "timestamp": "2025-09-12T10:00:01Z"},
-            {"contract_id": "CONCURRENT-001", "agent_id": "Agent-7", "timestamp": "2025-09-12T10:00:02Z"}
+            {
+                "contract_id": "CONCURRENT-001",
+                "agent_id": "Agent-1",
+                "timestamp": "2025-09-12T10:00:00Z",
+            },
+            {
+                "contract_id": "CONCURRENT-001",
+                "agent_id": "Agent-2",
+                "timestamp": "2025-09-12T10:00:01Z",
+            },
+            {
+                "contract_id": "CONCURRENT-001",
+                "agent_id": "Agent-7",
+                "timestamp": "2025-09-12T10:00:02Z",
+            },
         ]
 
         results = []
@@ -313,10 +331,18 @@ class TestContractExecution:
         """Test contract progress tracking."""
         progress_updates = [
             {"stage": "started", "progress": 10, "description": "Contract claimed and initialized"},
-            {"stage": "requirements_gathering", "progress": 25, "description": "Analyzed requirements"},
-            {"stage": "implementation", "progress": 60, "description": "Core implementation completed"},
+            {
+                "stage": "requirements_gathering",
+                "progress": 25,
+                "description": "Analyzed requirements",
+            },
+            {
+                "stage": "implementation",
+                "progress": 60,
+                "description": "Core implementation completed",
+            },
             {"stage": "testing", "progress": 80, "description": "Testing and validation completed"},
-            {"stage": "completion", "progress": 100, "description": "Contract fully completed"}
+            {"stage": "completion", "progress": 100, "description": "Contract fully completed"},
         ]
 
         # Validate progress flow
@@ -340,36 +366,34 @@ class TestContractExecution:
                 "completion_criteria": [
                     "All merge conflicts resolved",
                     "No corrupted files remaining",
-                    "Technical debt eliminated"
+                    "Technical debt eliminated",
                 ],
                 "evidence": {
                     "merge_conflicts_resolved": 633,
                     "corrupted_files_removed": 15,
-                    "technical_debt_score": 85  # Improved from 45 to 85
+                    "technical_debt_score": 85,  # Improved from 45 to 85
                 },
-                "expected_complete": True
+                "expected_complete": True,
             },
             {
                 "contract_id": "FEATURE-001",
                 "completion_criteria": [
                     "New feature implemented",
                     "Tests written and passing",
-                    "Documentation updated"
+                    "Documentation updated",
                 ],
                 "evidence": {
                     "feature_implemented": True,
                     "tests_passing": True,
-                    "documentation_updated": False  # Not yet completed
+                    "documentation_updated": False,  # Not yet completed
                 },
-                "expected_complete": False
-            }
+                "expected_complete": False,
+            },
         ]
 
         for scenario in completion_scenarios:
             result = contract_validator.check_completion_criteria(
-                scenario["contract_id"],
-                scenario["completion_criteria"],
-                scenario["evidence"]
+                scenario["contract_id"], scenario["completion_criteria"], scenario["evidence"]
             )
 
             assert result == scenario["expected_complete"]
@@ -382,15 +406,15 @@ class TestContractExecution:
                 "requirements": ["Task A", "Task B", "Task C", "Task D"],
                 "completed_tasks": ["Task A", "Task B"],
                 "expected_completion_percentage": 50,
-                "can_claim_partial_xp": True
+                "can_claim_partial_xp": True,
             },
             {
                 "contract_id": "ALL_OR_NOTHING-001",
                 "requirements": ["Critical Task A", "Critical Task B"],
                 "completed_tasks": ["Critical Task A"],
                 "expected_completion_percentage": 50,
-                "can_claim_partial_xp": False  # All-or-nothing contract
-            }
+                "can_claim_partial_xp": False,  # All-or-nothing contract
+            },
         ]
 
         for scenario in partial_completion_scenarios:
@@ -414,21 +438,21 @@ class TestContractExecution:
                 "contract_id": "ON_TIME-001",
                 "deadline": (current_time + timedelta(days=1)).isoformat(),
                 "status": "claimed",
-                "expected_expired": False
+                "expected_expired": False,
             },
             {
                 "contract_id": "EXPIRED-001",
                 "deadline": (current_time - timedelta(days=1)).isoformat(),
                 "status": "claimed",
-                "expected_expired": True
+                "expected_expired": True,
             },
             {
                 "contract_id": "GRACE_PERIOD-001",
                 "deadline": (current_time - timedelta(hours=1)).isoformat(),
                 "status": "claimed",
                 "grace_period_hours": 24,
-                "expected_expired": False  # Within grace period
-            }
+                "expected_expired": False,  # Within grace period
+            },
         ]
 
         for scenario in deadline_scenarios:
@@ -455,29 +479,27 @@ class TestXPRewards:
                 "base_xp": 100,
                 "complexity_multiplier": 1.0,
                 "quality_bonus": 1.1,
-                "expected_total_xp": 110
+                "expected_total_xp": 110,
             },
             {
                 "contract_id": "COMPLEX-001",
                 "base_xp": 500,
                 "complexity_multiplier": 1.5,
                 "quality_bonus": 1.2,
-                "expected_total_xp": 900
+                "expected_total_xp": 900,
             },
             {
                 "contract_id": "CRITICAL-001",
                 "base_xp": 1000,
                 "complexity_multiplier": 2.0,
                 "quality_bonus": 1.3,
-                "expected_total_xp": 2600
-            }
+                "expected_total_xp": 2600,
+            },
         ]
 
         for scenario in reward_scenarios:
             calculated_xp = (
-                scenario["base_xp"] *
-                scenario["complexity_multiplier"] *
-                scenario["quality_bonus"]
+                scenario["base_xp"] * scenario["complexity_multiplier"] * scenario["quality_bonus"]
             )
 
             assert calculated_xp == scenario["expected_total_xp"]
@@ -491,7 +513,7 @@ class TestXPRewards:
             "agent_id": "Agent-7",
             "contract_id": "COMPLETED-001",
             "xp_amount": 250,
-            "reason": "Contract completion"
+            "reason": "Contract completion",
         }
 
         result = xp_tracker.award_xp(award_request)
@@ -507,7 +529,7 @@ class TestXPRewards:
             {"agent_id": "Agent-1", "total_xp": 2500, "level": 5, "contracts_completed": 12},
             {"agent_id": "Agent-7", "total_xp": 1800, "level": 4, "contracts_completed": 9},
             {"agent_id": "Agent-2", "total_xp": 1200, "level": 3, "contracts_completed": 6},
-            {"agent_id": "Agent-8", "total_xp": 900, "level": 2, "contracts_completed": 4}
+            {"agent_id": "Agent-8", "total_xp": 900, "level": 2, "contracts_completed": 4},
         ]
 
         # Validate leaderboard ordering
@@ -528,22 +550,22 @@ class TestXPRewards:
                 "failure_reason": "deadline_exceeded",
                 "original_xp": 200,
                 "penalty_percentage": 50,
-                "expected_penalty_xp": 100
+                "expected_penalty_xp": 100,
             },
             {
                 "contract_id": "ABANDONED-001",
                 "failure_reason": "contract_abandoned",
                 "original_xp": 300,
                 "penalty_percentage": 75,
-                "expected_penalty_xp": 225
+                "expected_penalty_xp": 225,
             },
             {
                 "contract_id": "LOW_QUALITY-001",
                 "failure_reason": "quality_standards_not_met",
                 "original_xp": 150,
                 "penalty_percentage": 25,
-                "expected_penalty_xp": 37  # Rounded down
-            }
+                "expected_penalty_xp": 37,  # Rounded down
+            },
         ]
 
         for scenario in penalty_scenarios:
@@ -563,7 +585,7 @@ class TestContractSystemIntegration:
             "title": "Integration Test Contract",
             "xp_reward": 100,
             "priority": "MEDIUM",
-            "recipients": ["Agent-1", "Agent-2", "Agent-7"]
+            "recipients": ["Agent-1", "Agent-2", "Agent-7"],
         }
 
         # Validate message structure
@@ -579,20 +601,20 @@ class TestContractSystemIntegration:
                 "contract_id": "BROADCAST-001",
                 "status": "available",
                 "broadcast_channels": ["agent_inbox", "swarm_coordination"],
-                "target_agents": "all"
+                "target_agents": "all",
             },
             {
                 "contract_id": "BROADCAST-002",
                 "status": "claimed",
                 "broadcast_channels": ["agent_inbox", "captain_log"],
-                "target_agents": ["Agent-7"]
+                "target_agents": ["Agent-7"],
             },
             {
                 "contract_id": "BROADCAST-003",
                 "status": "completed",
                 "broadcast_channels": ["swarm_celebration", "xp_leaderboard"],
-                "target_agents": "all"
-            }
+                "target_agents": "all",
+            },
         ]
 
         for update in status_updates:
@@ -608,22 +630,22 @@ class TestContractSystemIntegration:
                 "event": "created",
                 "timestamp": "2025-09-12T09:00:00Z",
                 "actor": "Agent-7",
-                "details": {"xp_reward": 200, "priority": "HIGH"}
+                "details": {"xp_reward": 200, "priority": "HIGH"},
             },
             {
                 "contract_id": "AUDIT-001",
                 "event": "claimed",
                 "timestamp": "2025-09-12T09:15:00Z",
                 "actor": "Agent-2",
-                "details": {"agent_id": "Agent-2"}
+                "details": {"agent_id": "Agent-2"},
             },
             {
                 "contract_id": "AUDIT-001",
                 "event": "completed",
                 "timestamp": "2025-09-12T11:30:00Z",
                 "actor": "Agent-2",
-                "details": {"xp_awarded": 200, "quality_score": 95}
-            }
+                "details": {"xp_awarded": 200, "quality_score": 95},
+            },
         ]
 
         # Validate audit trail
@@ -640,15 +662,17 @@ class TestContractSystemIntegration:
         """Test contract system performance metrics."""
         performance_metrics = {
             "contract_creation_rate": "5.2 contracts/hour",
-            "average_completion_time": "4.7 hours",
+            "average_completion_time": "4.7 * 12-30 agent cycles",
             "claim_to_completion_ratio": 0.87,
             "xp_distribution_efficiency": 0.94,
-            "system_uptime": "99.9%"
+            "system_uptime": "99.9%",
         }
 
         # Validate performance thresholds
         assert float(performance_metrics["contract_creation_rate"].split()[0]) > 0
-        assert float(performance_metrics["average_completion_time"].split()[0]) < 24  # Less than 24 hours
+        assert (
+            float(performance_metrics["average_completion_time"].split()[0]) < 24
+        )  # Less than 288-720 agent cycles
         assert float(performance_metrics["claim_to_completion_ratio"]) > 0.8
         assert float(performance_metrics["xp_distribution_efficiency"]) > 0.9
         assert float(performance_metrics["system_uptime"].replace("%", "")) > 99.0
@@ -656,4 +680,3 @@ class TestContractSystemIntegration:
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v", "--cov=contracts", "--cov-report=term-missing"])
-

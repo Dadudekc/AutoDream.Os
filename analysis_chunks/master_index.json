@@ -1,5 +1,5 @@
 {
-  "analysis_timestamp": "2025-09-12T04:03:04.769663",
+  "analysis_timestamp": "2025-09-12T18:09:05.118189",
   "project_root": "D:\\Agent_Cellphone_V2_Repository",
   "chunk_size": 50,
   "total_directories": 14,
@@ -8,21 +8,21 @@
       ".": {
         "files": {
           "": 5,
-          ".md": 63,
+          ".md": 68,
           ".yaml": 2,
           ".example": 2,
           ".cjs": 1,
           ".toml": 1,
-          ".py": 31,
+          ".py": 34,
           ".json": 18,
           ".txt": 11,
           ".ps1": 1,
           ".js": 1,
           ".ini": 2
         },
-        "file_count": 138,
+        "file_count": 146,
         "subdirs": 39,
-        "total_files": 138
+        "total_files": 146
       },
       ".ruff_cache": {
         "files": {
@@ -30,7 +30,7 @@
           "": 1
         },
         "file_count": 2,
-        "subdirs": 1,
+        "subdirs": 2,
         "total_files": 2
       },
       ".ruff_cache\\0.6.9": {
@@ -40,6 +40,14 @@
         "file_count": 132,
         "subdirs": 0,
         "total_files": 132
+      },
+      ".ruff_cache\\0.13.0": {
+        "files": {
+          "": 8
+        },
+        "file_count": 8,
+        "subdirs": 0,
+        "total_files": 8
       },
       "analysis": {
         "files": {
@@ -599,12 +607,12 @@
       "tests": {
         "files": {
           ".md": 5,
-          ".py": 40,
+          ".py": 42,
           "": 1
         },
-        "file_count": 46,
+        "file_count": 48,
         "subdirs": 13,
-        "total_files": 46
+        "total_files": 48
       },
       "tests\\integration": {
         "files": {
@@ -756,7 +764,7 @@
           ".py": 5
         },
         "file_count": 5,
-        "subdirs": 17,
+        "subdirs": 18,
         "total_files": 5
       },
       "src\\web": {
@@ -1043,7 +1051,7 @@
           ".py": 11
         },
         "file_count": 11,
-        "subdirs": 5,
+        "subdirs": 7,
         "total_files": 11
       },
       "src\\services\\messaging\\delivery": {
@@ -1075,16 +1083,48 @@
           ".py": 3
         },
         "file_count": 3,
-        "subdirs": 0,
+        "subdirs": 1,
         "total_files": 3
+      },
+      "src\\services\\messaging\\providers\\fallback_provider": {
+        "files": {
+          ".py": 1
+        },
+        "file_count": 1,
+        "subdirs": 0,
+        "total_files": 1
       },
       "src\\services\\messaging\\cli": {
         "files": {
           ".py": 3
         },
         "file_count": 3,
-        "subdirs": 0,
+        "subdirs": 1,
         "total_files": 3
+      },
+      "src\\services\\messaging\\cli\\perf_cli": {
+        "files": {
+          ".py": 1
+        },
+        "file_count": 1,
+        "subdirs": 0,
+        "total_files": 1
+      },
+      "src\\services\\messaging\\broadcast_service": {
+        "files": {
+          ".py": 1
+        },
+        "file_count": 1,
+        "subdirs": 0,
+        "total_files": 1
+      },
+      "src\\services\\messaging\\history_service": {
+        "files": {
+          ".py": 1
+        },
+        "file_count": 1,
+        "subdirs": 0,
+        "total_files": 1
       },
       "src\\services\\analytics": {
         "files": {
@@ -1096,11 +1136,12 @@
       },
       "src\\core": {
         "files": {
-          ".py": 55
+          ".py": 56,
+          ".md": 1
         },
-        "file_count": 55,
-        "subdirs": 15,
-        "total_files": 55
+        "file_count": 57,
+        "subdirs": 16,
+        "total_files": 57
       },
       "src\\core\\consolidation": {
         "files": {
@@ -1333,6 +1374,14 @@
         "subdirs": 0,
         "total_files": 2
       },
+      "src\\core\\messaging": {
+        "files": {
+          ".py": 3
+        },
+        "file_count": 3,
+        "subdirs": 0,
+        "total_files": 3
+      },
       "src\\application": {
         "files": {
           ".py": 1
@@ -1379,8 +1428,40 @@
           ".py": 22
         },
         "file_count": 22,
-        "subdirs": 0,
+        "subdirs": 4,
         "total_files": 22
+      },
+      "src\\discord_commander\\commands": {
+        "files": {
+          ".py": 1
+        },
+        "file_count": 1,
+        "subdirs": 0,
+        "total_files": 1
+      },
+      "src\\discord_commander\\communication_engine": {
+        "files": {
+          ".py": 1
+        },
+        "file_count": 1,
+        "subdirs": 0,
+        "total_files": 1
+      },
+      "src\\discord_commander\\webhook": {
+        "files": {
+          ".py": 1
+        },
+        "file_count": 1,
+        "subdirs": 0,
+        "total_files": 1
+      },
+      "src\\discord_commander\\messaging_gateway": {
+        "files": {
+          ".py": 1
+        },
+        "file_count": 1,
+        "subdirs": 0,
+        "total_files": 1
       },
       "src\\domain": {
         "files": {
@@ -1625,6 +1706,22 @@
         "subdirs": 0,
         "total_files": 1
       },
+      "src\\onboarding": {
+        "files": {
+          ".py": 1
+        },
+        "file_count": 1,
+        "subdirs": 1,
+        "total_files": 1
+      },
+      "src\\onboarding\\onboarding_bridge": {
+        "files": {
+          ".py": 1
+        },
+        "file_count": 1,
+        "subdirs": 0,
+        "total_files": 1
+      },
       "tools": {
         "files": {
           ".json": 4,
@@ -1673,11 +1770,11 @@
       },
       "agent_workspaces\\Agent-1\\inbox": {
         "files": {
-          ".md": 37
+          ".md": 43
         },
-        "file_count": 37,
+        "file_count": 43,
         "subdirs": 0,
-        "total_files": 37
+        "total_files": 43
       },
       "agent_workspaces\\Agent-8": {
         "files": {
@@ -1728,11 +1825,11 @@
       },
       "agent_workspaces\\Agent-8\\inbox": {
         "files": {
-          ".md": 20
+          ".md": 23
         },
-        "file_count": 20,
+        "file_count": 23,
         "subdirs": 0,
-        "total_files": 20
+        "total_files": 23
       },
       "agent_workspaces\\Agent-2": {
         "files": {
@@ -1745,11 +1842,11 @@
       },
       "agent_workspaces\\Agent-2\\inbox": {
         "files": {
-          ".md": 18
+          ".md": 23
         },
-        "file_count": 18,
+        "file_count": 23,
         "subdirs": 0,
-        "total_files": 18
+        "total_files": 23
       },
       "agent_workspaces\\Agent-3": {
         "files": {
@@ -1763,11 +1860,11 @@
       },
       "agent_workspaces\\Agent-3\\inbox": {
         "files": {
-          ".md": 21
+          ".md": 26
         },
-        "file_count": 21,
+        "file_count": 26,
         "subdirs": 0,
-        "total_files": 21
+        "total_files": 26
       },
       "agent_workspaces\\Agent-4": {
         "files": {
@@ -1781,11 +1878,11 @@
       },
       "agent_workspaces\\Agent-4\\inbox": {
         "files": {
-          ".md": 32
+          ".md": 36
         },
-        "file_count": 32,
+        "file_count": 36,
         "subdirs": 0,
-        "total_files": 32
+        "total_files": 36
       },
       "agent_workspaces\\Agent-5": {
         "files": {
@@ -1815,11 +1912,11 @@
       },
       "agent_workspaces\\Agent-6\\inbox": {
         "files": {
-          ".md": 17
+          ".md": 20
         },
-        "file_count": 17,
+        "file_count": 20,
         "subdirs": 0,
-        "total_files": 17
+        "total_files": 20
       },
       "agent_workspaces\\Agent-7": {
         "files": {
@@ -1833,12 +1930,12 @@
       },
       "agent_workspaces\\Agent-7\\inbox": {
         "files": {
-          ".md": 17,
+          ".md": 18,
           ".json": 1
         },
-        "file_count": 18,
+        "file_count": 19,
         "subdirs": 0,
-        "total_files": 18
+        "total_files": 19
       },
       "agent_workspaces\\meeting": {
         "files": {
@@ -1878,11 +1975,11 @@
       },
       "agent_workspaces\\history": {
         "files": {
-          ".json": 21
+          ".json": 25
         },
-        "file_count": 21,
+        "file_count": 25,
         "subdirs": 0,
-        "total_files": 21
+        "total_files": 25
       },
       "agent_workspaces\\agents": {
         "files": {},
@@ -1892,11 +1989,11 @@
       },
       "agent_workspaces\\agents\\inbox": {
         "files": {
-          ".md": 3
+          ".md": 5
         },
-        "file_count": 3,
+        "file_count": 5,
         "subdirs": 0,
-        "total_files": 3
+        "total_files": 5
       },
       "agent_workspaces\\Cursor - Agent-1": {
         "files": {},
@@ -1965,21 +2062,21 @@
       },
       ".github\\workflows": {
         "files": {
-          ".yml": 5
+          ".yml": 6
         },
-        "file_count": 5,
+        "file_count": 6,
         "subdirs": 0,
-        "total_files": 5
+        "total_files": 6
       },
       "config": {
         "files": {
           ".yml": 1,
-          ".json": 6,
-          ".yaml": 3
+          ".json": 7,
+          ".yaml": 4
         },
-        "file_count": 10,
+        "file_count": 12,
         "subdirs": 0,
-        "total_files": 10
+        "total_files": 12
       },
       "data": {
         "files": {
@@ -2034,11 +2131,11 @@
       },
       "devlogs": {
         "files": {
-          ".md": 271
+          ".md": 273
         },
-        "file_count": 271,
+        "file_count": 273,
         "subdirs": 7,
-        "total_files": 271
+        "total_files": 273
       },
       "devlogs\\agent_work": {
         "files": {
@@ -2098,11 +2195,11 @@
       },
       "docs": {
         "files": {
-          ".md": 23
+          ".md": 24
         },
-        "file_count": 23,
+        "file_count": 24,
         "subdirs": 9,
-        "total_files": 23
+        "total_files": 24
       },
       "docs\\adr": {
         "files": {
@@ -2852,7 +2949,7 @@
           ".md": 2
         },
         "file_count": 28,
-        "subdirs": 4,
+        "subdirs": 5,
         "total_files": 28
       },
       "scripts\\execution": {
@@ -2884,26 +2981,34 @@
         "file_count": 2,
         "subdirs": 0,
         "total_files": 2
+      },
+      "scripts\\messaging": {
+        "files": {
+          ".py": 6
+        },
+        "file_count": 6,
+        "subdirs": 0,
+        "total_files": 6
       }
     },
-    "total_files": 2993,
-    "total_dirs": 366,
+    "total_files": 3071,
+    "total_dirs": 379,
     "file_types": {
-      "": 144,
-      ".md": 957,
-      ".yaml": 17,
+      "": 152,
+      ".md": 995,
+      ".yaml": 18,
       ".example": 2,
       ".cjs": 1,
       ".toml": 1,
-      ".py": 1210,
-      ".json": 352,
+      ".py": 1235,
+      ".json": 357,
       ".txt": 49,
       ".ps1": 2,
       ".js": 188,
       ".ini": 2,
       ".tag": 2,
       ".db": 3,
-      ".yml": 7,
+      ".yml": 8,
       ".jsonl": 8,
       ".npy": 1,
       ".png": 14,
@@ -2926,7 +3031,11 @@
       "directory": "src/core",
       "file_path": "analysis_chunks\\chunk_001_core.json",
       "files_analyzed": 50,
-      "consolidation_opportunities": 50
+      "consolidation_opportunities": 50,
+      "status": "COMPLETED",
+      "reduction_achieved": "96%",
+      "target_met": true,
+      "unified_system": "unified_core_system.py"
     },
     {
       "chunk_id": 2,
@@ -2934,20 +3043,6 @@
       "file_path": "analysis_chunks\\chunk_002_services.json",
       "files_analyzed": 50,
       "consolidation_opportunities": 50
-    },
-    {
-      "chunk_id": 3,
-      "directory": "src/web",
-      "file_path": "analysis_chunks\\chunk_003_web.json",
-      "files_analyzed": 50,
-      "consolidation_opportunities": 9
-    },
-    {
-      "chunk_id": 4,
-      "directory": "src/utils",
-      "file_path": "analysis_chunks\\chunk_004_utils.json",
-      "files_analyzed": 6,
-      "consolidation_opportunities": 6
     },
     {
       "chunk_id": 5,
@@ -2962,13 +3057,6 @@
       "file_path": "analysis_chunks\\chunk_006_gaming.json",
       "files_analyzed": 15,
       "consolidation_opportunities": 15
-    },
-    {
-      "chunk_id": 7,
-      "directory": "src/trading_robot",
-      "file_path": "analysis_chunks\\chunk_007_trading_robot.json",
-      "files_analyzed": 25,
-      "consolidation_opportunities": 25
     },
     {
       "chunk_id": 8,
@@ -3009,8 +3097,8 @@
       "chunk_id": 13,
       "directory": "scripts",
       "file_path": "analysis_chunks\\chunk_013_scripts.json",
-      "files_analyzed": 38,
-      "consolidation_opportunities": 38
+      "files_analyzed": 44,
+      "consolidation_opportunities": 44
     },
     {
       "chunk_id": 14,

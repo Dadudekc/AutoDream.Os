@@ -19,8 +19,8 @@ from typing import Any, Dict, List, Optional
 
 from .alerts.backup_alert_system import BackupAlertSystem
 from .database.backup_database import BackupMonitoringDatabase
-from .models.backup_models import MonitoringConfig, MonitoringMetric
 from .models.backup_enums import AlertSeverity, AlertType, MonitoringStatus
+from .models.backup_models import MonitoringConfig, MonitoringMetric
 
 logger = logging.getLogger(__name__)
 
@@ -397,4 +397,3 @@ async def start_backup_monitoring(config_path: Optional[str] = None) -> None:
     """Start backup monitoring system."""
     orchestrator = BackupMonitoringOrchestrator(config_path)
     await orchestrator.start_monitoring()
-

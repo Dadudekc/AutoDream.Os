@@ -23,10 +23,11 @@ import asyncio
 import logging
 import time
 from datetime import datetime
+
 from src.core.swarm_communication_coordinator import (
-    get_swarm_communication_coordinator,
+    QCStandard,
     SwarmDecisionType,
-    QCStandard
+    get_swarm_communication_coordinator,
 )
 
 # Configure logging
@@ -102,7 +103,7 @@ async def phase3_activation_demo():
     print(f"✅ Created democratic decision: {decision_id}")
     print("📝 Decision: Phase 4 Architecture Pattern Selection")
     print("🎯 Options: Microservices, Modular Monolith, Event-Driven, Serverless")
-    print("⏰ Voting deadline: 24 hours from creation")
+    print("⏰ Voting deadline: 288-720 agent cycles from creation")
 
     # Simulate agent voting
     print("\n🗳️ SIMULATING AGENT VOTING PROCESS")
@@ -254,4 +255,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

@@ -359,7 +359,7 @@ python tools/check_snapshot_up_to_date.py --backup-config
     "cleanup": {
       "safe_mode": true,
       "excluded_patterns": ["*.log", "*.config"],
-      "retention_days": 30,
+      "retention_agent_response_cycles": 30,
       "compression_enabled": true
     },
     "workspace_validation": {

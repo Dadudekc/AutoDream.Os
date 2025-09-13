@@ -95,19 +95,19 @@ graph TB
     A[Discord Bot] --> B[Messaging Service]
     C[CLI Interface] --> B
     D[Web Interface] --> B
-    
+
     B --> E[Coordinate Manager]
     B --> F[Backup Service]
     B --> G[Role Manager]
-    
+
     E --> H[Coordinate Loader]
     F --> I[Backup Core]
     G --> J[Business Continuity]
-    
+
     H --> K[Configuration]
     I --> L[File System]
     J --> M[Recovery Plans]
-    
+
     B --> N[PyAutoGUI]
     B --> O[Inbox Delivery]
 ```
@@ -303,7 +303,7 @@ graph TB
 #### **Dependency Injection**
 ```python
 class MessagingService:
-    def __init__(self, coordinate_loader: CoordinateLoader, 
+    def __init__(self, coordinate_loader: CoordinateLoader,
                  backup_service: BackupService):
         self.coordinate_loader = coordinate_loader
         self.backup_service = backup_service
@@ -314,12 +314,12 @@ class MessagingService:
 class EventBus:
     def __init__(self):
         self.subscribers = {}
-    
+
     def subscribe(self, event_type: str, handler: Callable):
         if event_type not in self.subscribers:
             self.subscribers[event_type] = []
         self.subscribers[event_type].append(handler)
-    
+
     def publish(self, event_type: str, data: Any):
         if event_type in self.subscribers:
             for handler in self.subscribers[event_type]:
@@ -333,7 +333,7 @@ class EventBus:
 class WebhookHandler:
     def __init__(self, messaging_service: MessagingService):
         self.messaging_service = messaging_service
-    
+
     async def handle_webhook(self, webhook_data: dict):
         # Process webhook data
         message = self.create_message_from_webhook(webhook_data)
@@ -346,7 +346,7 @@ class APIClient:
     def __init__(self, base_url: str, api_key: str):
         self.base_url = base_url
         self.api_key = api_key
-    
+
     async def get_system_status(self) -> dict:
         # Make API call
         response = await self.http_client.get(f"{self.base_url}/status")
@@ -411,7 +411,7 @@ class CacheManager:
     def __init__(self, ttl: int = 300):
         self.cache = {}
         self.ttl = ttl
-    
+
     def get(self, key: str) -> Any:
         if key in self.cache:
             value, timestamp = self.cache[key]
@@ -420,7 +420,7 @@ class CacheManager:
             else:
                 del self.cache[key]
         return None
-    
+
     def set(self, key: str, value: Any):
         self.cache[key] = (value, time.time())
 ```
@@ -439,10 +439,10 @@ class AsyncMessagingService:
 class ResourceManager:
     def __init__(self, max_connections: int = 100):
         self.semaphore = asyncio.Semaphore(max_connections)
-    
+
     async def acquire_resource(self):
         await self.semaphore.acquire()
-    
+
     def release_resource(self):
         self.semaphore.release()
 ```
@@ -466,7 +466,7 @@ class LoadBalancer:
     def __init__(self, services: List[MessagingService]):
         self.services = services
         self.current_index = 0
-    
+
     def get_service(self) -> MessagingService:
         service = self.services[self.current_index]
         self.current_index = (self.current_index + 1) % len(self.services)
@@ -478,10 +478,10 @@ class LoadBalancer:
 class ServiceRegistry:
     def __init__(self):
         self.services = {}
-    
+
     def register_service(self, name: str, service: Any):
         self.services[name] = service
-    
+
     def get_service(self, name: str) -> Any:
         return self.services.get(name)
 ```
@@ -639,7 +639,7 @@ services:
     volumes:
       - ./config:/app/config
       - ./logs:/app/logs
-  
+
   backup-service:
     build: .
     command: ["python", "-m", "src.core.backup_disaster_recovery"]
@@ -712,4 +712,3 @@ services:
 ---
 
 **📝 DISCORD DEVLOG REMINDER: Create a Discord devlog for this action in devlogs/ directory**
-

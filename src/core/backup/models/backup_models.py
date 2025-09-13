@@ -14,7 +14,15 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any, Dict, List, Optional
 
-from .backup_enums import AlertSeverity, AlertStatus, AlertType, HealthCheckStatus, HealthCheckType, MetricType, MonitoringStatus
+from .backup_enums import (
+    AlertSeverity,
+    AlertStatus,
+    AlertType,
+    HealthCheckStatus,
+    HealthCheckType,
+    MetricType,
+    MonitoringStatus,
+)
 
 
 @dataclass
@@ -205,4 +213,3 @@ class MonitoringDashboard:
         }
         self.widgets.append(widget)
         self.last_updated = datetime.now()
-

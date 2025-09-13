@@ -11,10 +11,10 @@ License: MIT
 """
 
 import json
-import os
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Any
+from typing import Any
+
 
 class PerformanceDoubleCheckSystem:
     """Automated double-check coverage system for performance optimizations."""
@@ -24,7 +24,7 @@ class PerformanceDoubleCheckSystem:
         self.mission_tracking_file = Path("performance_mission_tracking.json")
         self.required_coverage = 50.0
 
-    def initialize_double_check_system(self) -> Dict[str, Any]:
+    def initialize_double_check_system(self) -> dict[str, Any]:
         """Initialize the double-check tracking system."""
         double_check_data = {
             "system_initialized": True,
@@ -35,29 +35,34 @@ class PerformanceDoubleCheckSystem:
                 "total_optimizations": 0,
                 "double_checked_optimizations": 0,
                 "current_coverage_percent": 0.0,
-                "coverage_target_met": False
+                "coverage_target_met": False,
             },
             "verification_agents": [
                 "Agent-1 (Performance)",
                 "Agent-5 (Services)",
                 "Agent-7 (Infrastructure)",
-                "Agent-4 (Captain Oversight)"
+                "Agent-4 (Captain Oversight)",
             ],
-            "last_updated": datetime.now().isoformat()
+            "last_updated": datetime.now().isoformat(),
         }
 
-        with open(self.double_check_file, 'w') as f:
+        with open(self.double_check_file, "w") as f:
             json.dump(double_check_data, f, indent=2)
 
         return double_check_data
 
-    def register_optimization(self, optimization_type: str, description: str,
-                            estimated_impact_percent: float, agent_id: str) -> str:
+    def register_optimization(
+        self,
+        optimization_type: str,
+        description: str,
+        estimated_impact_percent: float,
+        agent_id: str,
+    ) -> str:
         """Register a new optimization requiring double-check coverage."""
         if not self.double_check_file.exists():
             self.initialize_double_check_system()
 
-        with open(self.double_check_file, 'r') as f:
+        with open(self.double_check_file) as f:
             data = json.load(f)
 
         optimization_id = f"OPT-{agent_id}-{datetime.now().strftime('%Y%m%d_%H%M%S')}"
@@ -73,7 +78,7 @@ class PerformanceDoubleCheckSystem:
             "double_check_agent": None,
             "verification_status": "PENDING",
             "verification_notes": "",
-            "actual_impact_measured": 0.0
+            "actual_impact_measured": 0.0,
         }
 
         data["double_checks"].append(optimization_record)
@@ -83,9 +88,11 @@ class PerformanceDoubleCheckSystem:
         # Update coverage statistics
         total = data["coverage_statistics"]["total_optimizations"]
         double_checked = data["coverage_statistics"]["double_checked_optimizations"]
-        data["coverage_statistics"]["current_coverage_percent"] = (double_checked / total * 100) if total > 0 else 0
+        data["coverage_statistics"]["current_coverage_percent"] = (
+            (double_checked / total * 100) if total > 0 else 0
+        )
 
-        with open(self.double_check_file, 'w') as f:
+        with open(self.double_check_file, "w") as f:
             json.dump(data, f, indent=2)
 
         return optimization_id
@@ -95,7 +102,7 @@ class PerformanceDoubleCheckSystem:
         if not self.double_check_file.exists():
             return False
 
-        with open(self.double_check_file, 'r') as f:
+        with open(self.double_check_file) as f:
             data = json.load(f)
 
         # Find the optimization
@@ -113,18 +120,23 @@ class PerformanceDoubleCheckSystem:
         optimization["verification_status"] = "IN_PROGRESS"
 
         # Update file
-        with open(self.double_check_file, 'w') as f:
+        with open(self.double_check_file, "w") as f:
             json.dump(data, f, indent=2)
 
         return True
 
-    def complete_double_check(self, optimization_id: str, verification_result: str,
-                            verification_notes: str, actual_impact_percent: float = 0.0) -> bool:
+    def complete_double_check(
+        self,
+        optimization_id: str,
+        verification_result: str,
+        verification_notes: str,
+        actual_impact_percent: float = 0.0,
+    ) -> bool:
         """Complete a double-check verification."""
         if not self.double_check_file.exists():
             return False
 
-        with open(self.double_check_file, 'r') as f:
+        with open(self.double_check_file) as f:
             data = json.load(f)
 
         # Find and update the optimization
@@ -148,20 +160,24 @@ class PerformanceDoubleCheckSystem:
         # Update coverage statistics
         total = data["coverage_statistics"]["total_optimizations"]
         double_checked = data["coverage_statistics"]["double_checked_optimizations"]
-        data["coverage_statistics"]["current_coverage_percent"] = (double_checked / total * 100) if total > 0 else 0
-        data["coverage_statistics"]["coverage_target_met"] = data["coverage_statistics"]["current_coverage_percent"] >= self.required_coverage
+        data["coverage_statistics"]["current_coverage_percent"] = (
+            (double_checked / total * 100) if total > 0 else 0
+        )
+        data["coverage_statistics"]["coverage_target_met"] = (
+            data["coverage_statistics"]["current_coverage_percent"] >= self.required_coverage
+        )
 
-        with open(self.double_check_file, 'w') as f:
+        with open(self.double_check_file, "w") as f:
             json.dump(data, f, indent=2)
 
         return True
 
-    def get_coverage_report(self) -> Dict[str, Any]:
+    def get_coverage_report(self) -> dict[str, Any]:
         """Get current double-check coverage report."""
         if not self.double_check_file.exists():
             return self.initialize_double_check_system()
 
-        with open(self.double_check_file, 'r') as f:
+        with open(self.double_check_file) as f:
             data = json.load(f)
 
         return {
@@ -170,19 +186,19 @@ class PerformanceDoubleCheckSystem:
             "total_optimizations": data["coverage_statistics"]["total_optimizations"],
             "double_checked": data["coverage_statistics"]["double_checked_optimizations"],
             "pending_verifications": len(data["pending_verifications"]),
-            "required_coverage": self.required_coverage
+            "required_coverage": self.required_coverage,
         }
 
-    def get_pending_verifications(self) -> List[Dict[str, Any]]:
+    def get_pending_verifications(self) -> list[dict[str, Any]]:
         """Get list of optimizations pending verification."""
         if not self.double_check_file.exists():
             return []
 
-        with open(self.double_check_file, 'r') as f:
+        with open(self.double_check_file) as f:
             data = json.load(f)
 
-        return [opt for opt in data["double_checks"]
-                if opt["verification_status"] == "PENDING"]
+        return [opt for opt in data["double_checks"] if opt["verification_status"] == "PENDING"]
+
 
 def main():
     """CLI interface for double-check system."""
@@ -210,7 +226,7 @@ python performance_double_check_system.py --complete --opt-id OPT-001 --result V
 python performance_double_check_system.py --report
 
 🐝 WE ARE SWARM - QUALITY THROUGH VERIFICATION!
-        """
+        """,
     )
 
     parser.add_argument("--register", action="store_true", help="Register new optimization")
@@ -223,7 +239,9 @@ python performance_double_check_system.py --report
     parser.add_argument("--description", help="Optimization description")
     parser.add_argument("--impact", type=float, help="Estimated impact percentage")
     parser.add_argument("--agent", help="Agent ID")
-    parser.add_argument("--result", choices=["VERIFIED", "REJECTED", "MODIFIED"], help="Verification result")
+    parser.add_argument(
+        "--result", choices=["VERIFIED", "REJECTED", "MODIFIED"], help="Verification result"
+    )
     parser.add_argument("--notes", help="Verification notes")
 
     args = parser.parse_args()
@@ -268,6 +286,6 @@ python performance_double_check_system.py --report
     else:
         parser.print_help()
 
+
 if __name__ == "__main__":
     exit(main())
-

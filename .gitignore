@@ -119,3 +119,4 @@ reports/metrics/
 # Corrupted/unreadable files
 src/web/static/js/framework/system-integration-test-core.js
 src/web/static/js/framework_disabled/
+.env

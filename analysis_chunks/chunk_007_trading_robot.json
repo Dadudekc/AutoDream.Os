@@ -3,7 +3,7 @@
   "directory": "src/trading_robot",
   "files_analyzed": [
     {
-      "file_path": "src\\trading_robot\\core\\dependency_injection.py",
+      "file_path": "src/trading_robot/repositories/trading_repository.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -27,7 +27,7 @@
       }
     },
     {
-      "file_path": "src\\trading_robot\\core\\__init__.py",
+      "file_path": "src/trading_robot/repositories/__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -51,7 +51,7 @@
       }
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\trading_repository.py",
+      "file_path": "src/trading_robot/repositories/models/trading_models.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -75,7 +75,7 @@
       }
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\__init__.py",
+      "file_path": "src/trading_robot/repositories/models/position.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -99,7 +99,7 @@
       }
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\implementations\\in_memory_trading_repository.py",
+      "file_path": "src/trading_robot/repositories/models/trade.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -123,7 +123,7 @@
       }
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\implementations\\trading_repository_impl.py",
+      "file_path": "src/trading_robot/repositories/models/portfolio.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -147,7 +147,7 @@
       }
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\implementations\\__init__.py",
+      "file_path": "src/trading_robot/repositories/models/__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -171,7 +171,7 @@
       }
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\interfaces\\portfolio_repository_interface.py",
+      "file_path": "src/trading_robot/repositories/interfaces/trading_repository_interface.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -195,7 +195,7 @@
       }
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\interfaces\\position_repository_interface.py",
+      "file_path": "src/trading_robot/repositories/interfaces/portfolio_repository_interface.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -219,7 +219,7 @@
       }
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\interfaces\\trading_repository_interface.py",
+      "file_path": "src/trading_robot/repositories/interfaces/__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -243,7 +243,7 @@
       }
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\interfaces\\__init__.py",
+      "file_path": "src/trading_robot/repositories/interfaces/position_repository_interface.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -267,7 +267,7 @@
       }
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\models\\portfolio.py",
+      "file_path": "src/trading_robot/repositories/implementations/trading_repository_impl.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -291,7 +291,7 @@
       }
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\models\\position.py",
+      "file_path": "src/trading_robot/repositories/implementations/in_memory_trading_repository.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -315,7 +315,7 @@
       }
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\models\\trade.py",
+      "file_path": "src/trading_robot/repositories/implementations/__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -339,7 +339,7 @@
       }
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\models\\trading_models.py",
+      "file_path": "src/trading_robot/core/dependency_injection.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -363,7 +363,7 @@
       }
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\models\\__init__.py",
+      "file_path": "src/trading_robot/core/__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -387,7 +387,7 @@
       }
     },
     {
-      "file_path": "src\\trading_robot\\services\\trading_bi_analytics.py",
+      "file_path": "src/trading_robot/services/trading_service.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -411,7 +411,7 @@
       }
     },
     {
-      "file_path": "src\\trading_robot\\services\\trading_service.py",
+      "file_path": "src/trading_robot/services/trading_bi_analytics.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -435,7 +435,7 @@
       }
     },
     {
-      "file_path": "src\\trading_robot\\services\\__init__.py",
+      "file_path": "src/trading_robot/services/__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -459,7 +459,7 @@
       }
     },
     {
-      "file_path": "src\\trading_robot\\services\\analytics\\market_trend_engine.py",
+      "file_path": "src/trading_robot/services/analytics/risk_analysis_engine.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -483,7 +483,7 @@
       }
     },
     {
-      "file_path": "src\\trading_robot\\services\\analytics\\performance_metrics_engine.py",
+      "file_path": "src/trading_robot/services/analytics/performance_metrics_engine.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -507,7 +507,7 @@
       }
     },
     {
-      "file_path": "src\\trading_robot\\services\\analytics\\risk_analysis_engine.py",
+      "file_path": "src/trading_robot/services/analytics/trading_bi_orchestrator.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -531,7 +531,7 @@
       }
     },
     {
-      "file_path": "src\\trading_robot\\services\\analytics\\trading_bi_models.py",
+      "file_path": "src/trading_robot/services/analytics/market_trend_engine.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -555,7 +555,7 @@
       }
     },
     {
-      "file_path": "src\\trading_robot\\services\\analytics\\trading_bi_orchestrator.py",
+      "file_path": "src/trading_robot/services/analytics/trading_bi_models.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -579,7 +579,7 @@
       }
     },
     {
-      "file_path": "src\\trading_robot\\services\\analytics\\__init__.py",
+      "file_path": "src/trading_robot/services/analytics/__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -618,127 +618,127 @@
   },
   "consolidation_opportunities": [
     {
-      "file_path": "src\\trading_robot\\core\\dependency_injection.py",
+      "file_path": "src/trading_robot/repositories/trading_repository.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\trading_robot\\core\\__init__.py",
+      "file_path": "src/trading_robot/repositories/__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\trading_repository.py",
+      "file_path": "src/trading_robot/repositories/models/trading_models.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\__init__.py",
+      "file_path": "src/trading_robot/repositories/models/position.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\implementations\\in_memory_trading_repository.py",
+      "file_path": "src/trading_robot/repositories/models/trade.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\implementations\\trading_repository_impl.py",
+      "file_path": "src/trading_robot/repositories/models/portfolio.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\implementations\\__init__.py",
+      "file_path": "src/trading_robot/repositories/models/__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\interfaces\\portfolio_repository_interface.py",
+      "file_path": "src/trading_robot/repositories/interfaces/trading_repository_interface.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\interfaces\\position_repository_interface.py",
+      "file_path": "src/trading_robot/repositories/interfaces/portfolio_repository_interface.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\interfaces\\trading_repository_interface.py",
+      "file_path": "src/trading_robot/repositories/interfaces/__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\interfaces\\__init__.py",
+      "file_path": "src/trading_robot/repositories/interfaces/position_repository_interface.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\models\\portfolio.py",
+      "file_path": "src/trading_robot/repositories/implementations/trading_repository_impl.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\models\\position.py",
+      "file_path": "src/trading_robot/repositories/implementations/in_memory_trading_repository.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\models\\trade.py",
+      "file_path": "src/trading_robot/repositories/implementations/__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\models\\trading_models.py",
+      "file_path": "src/trading_robot/core/dependency_injection.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\models\\__init__.py",
+      "file_path": "src/trading_robot/core/__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\trading_robot\\services\\trading_bi_analytics.py",
+      "file_path": "src/trading_robot/services/trading_service.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\trading_robot\\services\\trading_service.py",
+      "file_path": "src/trading_robot/services/trading_bi_analytics.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\trading_robot\\services\\__init__.py",
+      "file_path": "src/trading_robot/services/__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\trading_robot\\services\\analytics\\market_trend_engine.py",
+      "file_path": "src/trading_robot/services/analytics/risk_analysis_engine.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\trading_robot\\services\\analytics\\performance_metrics_engine.py",
+      "file_path": "src/trading_robot/services/analytics/performance_metrics_engine.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\trading_robot\\services\\analytics\\risk_analysis_engine.py",
+      "file_path": "src/trading_robot/services/analytics/trading_bi_orchestrator.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\trading_robot\\services\\analytics\\trading_bi_models.py",
+      "file_path": "src/trading_robot/services/analytics/market_trend_engine.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\trading_robot\\services\\analytics\\trading_bi_orchestrator.py",
+      "file_path": "src/trading_robot/services/analytics/trading_bi_models.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\trading_robot\\services\\analytics\\__init__.py",
+      "file_path": "src/trading_robot/services/analytics/__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     }

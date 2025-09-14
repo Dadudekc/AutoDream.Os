@@ -3,7 +3,7 @@
   "directory": "src/gaming",
   "files_analyzed": [
     {
-      "file_path": "src\\gaming\\__init__.py",
+      "file_path": "src/gaming/performance_validation.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -27,7 +27,7 @@
       }
     },
     {
-      "file_path": "src\\gaming\\performance_validation.py",
+      "file_path": "src/gaming/gaming_integration_core.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -51,7 +51,7 @@
       }
     },
     {
-      "file_path": "src\\gaming\\gaming_integration_core.py",
+      "file_path": "src/gaming/__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -75,7 +75,7 @@
       }
     },
     {
-      "file_path": "src\\gaming\\handlers\\gaming_alert_handlers.py",
+      "file_path": "src/gaming/models/gaming_models.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -99,7 +99,7 @@
       }
     },
     {
-      "file_path": "src\\gaming\\handlers\\__init__.py",
+      "file_path": "src/gaming/models/__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -123,7 +123,7 @@
       }
     },
     {
-      "file_path": "src\\gaming\\integration\\__init__.py",
+      "file_path": "src/gaming/models/gaming_alert_models.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -147,7 +147,7 @@
       }
     },
     {
-      "file_path": "src\\gaming\\integration\\models.py",
+      "file_path": "src/gaming/handlers/gaming_alert_handlers.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -171,7 +171,7 @@
       }
     },
     {
-      "file_path": "src\\gaming\\integration\\core.py",
+      "file_path": "src/gaming/handlers/__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -195,7 +195,7 @@
       }
     },
     {
-      "file_path": "src\\gaming\\models\\gaming_alert_models.py",
+      "file_path": "src/gaming/integration/core.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -219,7 +219,7 @@
       }
     },
     {
-      "file_path": "src\\gaming\\models\\gaming_models.py",
+      "file_path": "src/gaming/integration/models.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -243,7 +243,7 @@
       }
     },
     {
-      "file_path": "src\\gaming\\models\\__init__.py",
+      "file_path": "src/gaming/integration/__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -267,7 +267,7 @@
       }
     },
     {
-      "file_path": "src\\gaming\\utils\\gaming_alert_utils.py",
+      "file_path": "src/gaming/utils/gaming_monitors.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -291,7 +291,7 @@
       }
     },
     {
-      "file_path": "src\\gaming\\utils\\gaming_handlers.py",
+      "file_path": "src/gaming/utils/gaming_handlers.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -315,7 +315,7 @@
       }
     },
     {
-      "file_path": "src\\gaming\\utils\\gaming_monitors.py",
+      "file_path": "src/gaming/utils/gaming_alert_utils.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -339,7 +339,7 @@
       }
     },
     {
-      "file_path": "src\\gaming\\utils\\__init__.py",
+      "file_path": "src/gaming/utils/__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -378,77 +378,77 @@
   },
   "consolidation_opportunities": [
     {
-      "file_path": "src\\gaming\\__init__.py",
+      "file_path": "src/gaming/performance_validation.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\gaming\\performance_validation.py",
+      "file_path": "src/gaming/gaming_integration_core.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\gaming\\gaming_integration_core.py",
+      "file_path": "src/gaming/__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\gaming\\handlers\\gaming_alert_handlers.py",
+      "file_path": "src/gaming/models/gaming_models.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\gaming\\handlers\\__init__.py",
+      "file_path": "src/gaming/models/__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\gaming\\integration\\__init__.py",
+      "file_path": "src/gaming/models/gaming_alert_models.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\gaming\\integration\\models.py",
+      "file_path": "src/gaming/handlers/gaming_alert_handlers.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\gaming\\integration\\core.py",
+      "file_path": "src/gaming/handlers/__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\gaming\\models\\gaming_alert_models.py",
+      "file_path": "src/gaming/integration/core.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\gaming\\models\\gaming_models.py",
+      "file_path": "src/gaming/integration/models.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\gaming\\models\\__init__.py",
+      "file_path": "src/gaming/integration/__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\gaming\\utils\\gaming_alert_utils.py",
+      "file_path": "src/gaming/utils/gaming_monitors.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\gaming\\utils\\gaming_handlers.py",
+      "file_path": "src/gaming/utils/gaming_handlers.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\gaming\\utils\\gaming_monitors.py",
+      "file_path": "src/gaming/utils/gaming_alert_utils.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\gaming\\utils\\__init__.py",
+      "file_path": "src/gaming/utils/__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     }

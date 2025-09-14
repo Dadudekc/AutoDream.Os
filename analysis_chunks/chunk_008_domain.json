@@ -3,7 +3,7 @@
   "directory": "src/domain",
   "files_analyzed": [
     {
-      "file_path": "src\\domain\\__init__.py",
+      "file_path": "src/domain/domain_events.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -27,7 +27,7 @@
       }
     },
     {
-      "file_path": "src\\domain\\domain_events.py",
+      "file_path": "src/domain/__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -51,7 +51,7 @@
       }
     },
     {
-      "file_path": "src\\domain\\entities\\__init__.py",
+      "file_path": "src/domain/value_objects/ids.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -75,7 +75,7 @@
       }
     },
     {
-      "file_path": "src\\domain\\entities\\agent.py",
+      "file_path": "src/domain/value_objects/__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -99,7 +99,7 @@
       }
     },
     {
-      "file_path": "src\\domain\\entities\\task.py",
+      "file_path": "src/domain/ports/task_repository.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -123,7 +123,7 @@
       }
     },
     {
-      "file_path": "src\\domain\\ports\\__init__.py",
+      "file_path": "src/domain/ports/message_bus.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -147,7 +147,7 @@
       }
     },
     {
-      "file_path": "src\\domain\\ports\\agent_repository.py",
+      "file_path": "src/domain/ports/__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -171,7 +171,7 @@
       }
     },
     {
-      "file_path": "src\\domain\\ports\\clock.py",
+      "file_path": "src/domain/ports/agent_repository.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -195,7 +195,7 @@
       }
     },
     {
-      "file_path": "src\\domain\\ports\\logger.py",
+      "file_path": "src/domain/ports/logger.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -219,7 +219,7 @@
       }
     },
     {
-      "file_path": "src\\domain\\ports\\message_bus.py",
+      "file_path": "src/domain/ports/browser.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -243,7 +243,7 @@
       }
     },
     {
-      "file_path": "src\\domain\\ports\\task_repository.py",
+      "file_path": "src/domain/ports/clock.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -267,7 +267,7 @@
       }
     },
     {
-      "file_path": "src\\domain\\ports\\browser.py",
+      "file_path": "src/domain/services/assignment_service.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -291,7 +291,7 @@
       }
     },
     {
-      "file_path": "src\\domain\\services\\__init__.py",
+      "file_path": "src/domain/services/__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -315,7 +315,7 @@
       }
     },
     {
-      "file_path": "src\\domain\\services\\assignment_service.py",
+      "file_path": "src/domain/entities/agent.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -339,7 +339,7 @@
       }
     },
     {
-      "file_path": "src\\domain\\value_objects\\__init__.py",
+      "file_path": "src/domain/entities/task.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -363,7 +363,7 @@
       }
     },
     {
-      "file_path": "src\\domain\\value_objects\\ids.py",
+      "file_path": "src/domain/entities/__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -402,82 +402,82 @@
   },
   "consolidation_opportunities": [
     {
-      "file_path": "src\\domain\\__init__.py",
+      "file_path": "src/domain/domain_events.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\domain\\domain_events.py",
+      "file_path": "src/domain/__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\domain\\entities\\__init__.py",
+      "file_path": "src/domain/value_objects/ids.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\domain\\entities\\agent.py",
+      "file_path": "src/domain/value_objects/__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\domain\\entities\\task.py",
+      "file_path": "src/domain/ports/task_repository.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\domain\\ports\\__init__.py",
+      "file_path": "src/domain/ports/message_bus.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\domain\\ports\\agent_repository.py",
+      "file_path": "src/domain/ports/__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\domain\\ports\\clock.py",
+      "file_path": "src/domain/ports/agent_repository.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\domain\\ports\\logger.py",
+      "file_path": "src/domain/ports/logger.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\domain\\ports\\message_bus.py",
+      "file_path": "src/domain/ports/browser.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\domain\\ports\\task_repository.py",
+      "file_path": "src/domain/ports/clock.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\domain\\ports\\browser.py",
+      "file_path": "src/domain/services/assignment_service.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\domain\\services\\__init__.py",
+      "file_path": "src/domain/services/__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\domain\\services\\assignment_service.py",
+      "file_path": "src/domain/entities/agent.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\domain\\value_objects\\__init__.py",
+      "file_path": "src/domain/entities/task.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\domain\\value_objects\\ids.py",
+      "file_path": "src/domain/entities/__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     }

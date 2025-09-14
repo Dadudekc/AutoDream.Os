@@ -3,7 +3,7 @@
   "directory": "src/architecture",
   "files_analyzed": [
     {
-      "file_path": "src\\architecture\\design_patterns.py",
+      "file_path": "src/architecture/unified_architecture_core.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -27,7 +27,7 @@
       }
     },
     {
-      "file_path": "src\\architecture\\system_integration.py",
+      "file_path": "src/architecture/design_patterns.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -51,7 +51,7 @@
       }
     },
     {
-      "file_path": "src\\architecture\\unified_architecture_core.py",
+      "file_path": "src/architecture/system_integration.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -75,7 +75,7 @@
       }
     },
     {
-      "file_path": "src\\architecture\\__init__.py",
+      "file_path": "src/architecture/__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -114,22 +114,22 @@
   },
   "consolidation_opportunities": [
     {
-      "file_path": "src\\architecture\\design_patterns.py",
+      "file_path": "src/architecture/unified_architecture_core.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\architecture\\system_integration.py",
+      "file_path": "src/architecture/design_patterns.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\architecture\\unified_architecture_core.py",
+      "file_path": "src/architecture/system_integration.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\architecture\\__init__.py",
+      "file_path": "src/architecture/__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     }

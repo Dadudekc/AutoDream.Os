@@ -3,7 +3,7 @@
   "directory": "src/core",
   "files_analyzed": [
     {
-      "file_path": "src\\core\\coordinate_loader.py",
+      "file_path": "src/core/agent_coordination.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -27,7 +27,7 @@
       }
     },
     {
-      "file_path": "src\\core\\agent_docs_integration.py",
+      "file_path": "src/core/coordinator_models.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -51,7 +51,7 @@
       }
     },
     {
-      "file_path": "src\\core\\agent_documentation_service.py",
+      "file_path": "src/core/core_configuration.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -75,7 +75,7 @@
       }
     },
     {
-      "file_path": "src\\core\\workspace_agent_registry.py",
+      "file_path": "src/core/agent_context_manager.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -99,7 +99,7 @@
       }
     },
     {
-      "file_path": "src\\core\\coordinator_interfaces.py",
+      "file_path": "src/core/unified_monitoring_coordinator.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -123,7 +123,7 @@
       }
     },
     {
-      "file_path": "src\\core\\coordinator_models.py",
+      "file_path": "src/core/documentation_indexing_service.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -147,7 +147,7 @@
       }
     },
     {
-      "file_path": "src\\core\\coordinator_registry.py",
+      "file_path": "src/core/performance_unified.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -171,7 +171,7 @@
       }
     },
     {
-      "file_path": "src\\core\\documentation_indexing_service.py",
+      "file_path": "src/core/core_interfaces.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -195,7 +195,7 @@
       }
     },
     {
-      "file_path": "src\\core\\documentation_search_service.py",
+      "file_path": "src/core/integration_unified.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -219,7 +219,7 @@
       }
     },
     {
-      "file_path": "src\\core\\message_queue.py",
+      "file_path": "src/core/operational_monitoring_baseline.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -243,7 +243,7 @@
       }
     },
     {
-      "file_path": "src\\core\\metrics.py",
+      "file_path": "src/core/metrics.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -267,7 +267,7 @@
       }
     },
     {
-      "file_path": "src\\core\\search_history_service.py",
+      "file_path": "src/core/message_queue_statistics.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -291,7 +291,7 @@
       }
     },
     {
-      "file_path": "src\\core\\unified_data_processing_system.py",
+      "file_path": "src/core/unified_logging_system.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -315,7 +315,7 @@
       }
     },
     {
-      "file_path": "src\\core\\unified_import_system.py",
+      "file_path": "src/core/unified_logging_system_engine.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -339,7 +339,7 @@
       }
     },
     {
-      "file_path": "src\\core\\unified_logging_system_engine.py",
+      "file_path": "src/core/routing_tracer.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -363,7 +363,7 @@
       }
     },
     {
-      "file_path": "src\\core\\unified_logging_system_models.py",
+      "file_path": "src/core/unified_logging_system_models.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -387,7 +387,7 @@
       }
     },
     {
-      "file_path": "src\\core\\vector_database.py",
+      "file_path": "src/core/ssot_unified.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -411,7 +411,7 @@
       }
     },
     {
-      "file_path": "src\\core\\coordinator_status_parser.py",
+      "file_path": "src/core/message_queue_interfaces.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -435,7 +435,7 @@
       }
     },
     {
-      "file_path": "src\\core\\message_queue_interfaces.py",
+      "file_path": "src/core/unified_data_processing_system.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -459,7 +459,7 @@
       }
     },
     {
-      "file_path": "src\\core\\message_queue_persistence.py",
+      "file_path": "src/core/core_utilities.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -483,7 +483,7 @@
       }
     },
     {
-      "file_path": "src\\core\\message_queue_statistics.py",
+      "file_path": "src/core/enhanced_unified_config.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -507,7 +507,7 @@
       }
     },
     {
-      "file_path": "src\\core\\agent_context_manager.py",
+      "file_path": "src/core/coordinator_interfaces.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -531,7 +531,7 @@
       }
     },
     {
-      "file_path": "src\\core\\unified_config.py",
+      "file_path": "src/core/analytics_unified.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -555,7 +555,7 @@
       }
     },
     {
-      "file_path": "src\\core\\__init__.py",
+      "file_path": "src/core/env_loader.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -579,7 +579,7 @@
       }
     },
     {
-      "file_path": "src\\core\\env_loader.py",
+      "file_path": "src/core/validation_unified.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -603,7 +603,7 @@
       }
     },
     {
-      "file_path": "src\\core\\unified_logging_system.py",
+      "file_path": "src/core/managers_unified.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -627,7 +627,7 @@
       }
     },
     {
-      "file_path": "src\\core\\shared_utilities.py",
+      "file_path": "src/core/coordination_unified.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -651,7 +651,7 @@
       }
     },
     {
-      "file_path": "src\\core\\vector_integration_analytics.py",
+      "file_path": "src/core/vector_unified.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -675,7 +675,7 @@
       }
     },
     {
-      "file_path": "src\\core\\config_core.py",
+      "file_path": "src/core/messaging_core.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -699,7 +699,7 @@
       }
     },
     {
-      "file_path": "src\\core\\messaging_core.py",
+      "file_path": "src/core/unified_import_system.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -723,7 +723,7 @@
       }
     },
     {
-      "file_path": "src\\core\\messaging_pyautogui.py",
+      "file_path": "src/core/emergency_unified.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -747,7 +747,7 @@
       }
     },
     {
-      "file_path": "src\\core\\analytics\\coordinators\\analytics_coordinator.py",
+      "file_path": "src/core/error_handling_unified.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -771,7 +771,7 @@
       }
     },
     {
-      "file_path": "src\\core\\analytics\\coordinators\\processing_coordinator.py",
+      "file_path": "src/core/unified_messaging.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -795,7 +795,7 @@
       }
     },
     {
-      "file_path": "src\\core\\analytics\\coordinators\\__init__.py",
+      "file_path": "src/core/coordinator_status_parser.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -819,7 +819,7 @@
       }
     },
     {
-      "file_path": "src\\core\\analytics\\engines\\batch_analytics_engine.py",
+      "file_path": "src/core/onboarding_service.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -843,7 +843,7 @@
       }
     },
     {
-      "file_path": "src\\core\\analytics\\engines\\caching_engine.py",
+      "file_path": "src/core/messaging_pyautogui.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -867,7 +867,7 @@
       }
     },
     {
-      "file_path": "src\\core\\analytics\\engines\\coordination_analytics_engine.py",
+      "file_path": "src/core/swarm_coordination.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -891,7 +891,7 @@
       }
     },
     {
-      "file_path": "src\\core\\analytics\\engines\\metrics_engine.py",
+      "file_path": "src/core/engines_unified.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -915,7 +915,7 @@
       }
     },
     {
-      "file_path": "src\\core\\analytics\\engines\\realtime_analytics_engine.py",
+      "file_path": "src/core/message_queue.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -939,7 +939,7 @@
       }
     },
     {
-      "file_path": "src\\core\\analytics\\engines\\__init__.py",
+      "file_path": "src/core/coordinator_registry.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -963,7 +963,7 @@
       }
     },
     {
-      "file_path": "src\\core\\analytics\\intelligence\\anomaly_detection_engine.py",
+      "file_path": "src/core/config_core.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -987,7 +987,7 @@
       }
     },
     {
-      "file_path": "src\\core\\analytics\\intelligence\\business_intelligence_engine_core.py",
+      "file_path": "src/core/vector_integration_analytics.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -1011,7 +1011,7 @@
       }
     },
     {
-      "file_path": "src\\core\\analytics\\intelligence\\business_intelligence_engine_operations.py",
+      "file_path": "src/core/refactoring_unified.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -1035,7 +1035,7 @@
       }
     },
     {
-      "file_path": "src\\core\\analytics\\intelligence\\pattern_analysis_engine.py",
+      "file_path": "src/core/performance_monitoring_dashboard.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -1059,7 +1059,7 @@
       }
     },
     {
-      "file_path": "src\\core\\analytics\\intelligence\\predictive_modeling_engine.py",
+      "file_path": "src/core/agent_documentation_service.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -1083,7 +1083,7 @@
       }
     },
     {
-      "file_path": "src\\core\\analytics\\intelligence\\business_intelligence_engine.py",
+      "file_path": "src/core/unified_config.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -1107,7 +1107,7 @@
       }
     },
     {
-      "file_path": "src\\core\\analytics\\intelligence\\__init__.py",
+      "file_path": "src/core/verified_messaging_service.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -1131,7 +1131,7 @@
       }
     },
     {
-      "file_path": "src\\core\\analytics\\intelligence\\pattern_analysis\\anomaly_detector.py",
+      "file_path": "src/core/health_metrics.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -1155,7 +1155,7 @@
       }
     },
     {
-      "file_path": "src\\core\\analytics\\intelligence\\pattern_analysis\\pattern_extractor.py",
+      "file_path": "src/core/coordinate_loader.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -1179,7 +1179,7 @@
       }
     },
     {
-      "file_path": "src\\core\\analytics\\intelligence\\pattern_analysis\\__init__.py",
+      "file_path": "src/core/heartbeat_verification.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -1218,252 +1218,252 @@
   },
   "consolidation_opportunities": [
     {
-      "file_path": "src\\core\\coordinate_loader.py",
+      "file_path": "src/core/agent_coordination.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\agent_docs_integration.py",
+      "file_path": "src/core/coordinator_models.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\agent_documentation_service.py",
+      "file_path": "src/core/core_configuration.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\workspace_agent_registry.py",
+      "file_path": "src/core/agent_context_manager.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\coordinator_interfaces.py",
+      "file_path": "src/core/unified_monitoring_coordinator.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\coordinator_models.py",
+      "file_path": "src/core/documentation_indexing_service.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\coordinator_registry.py",
+      "file_path": "src/core/performance_unified.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\documentation_indexing_service.py",
+      "file_path": "src/core/core_interfaces.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\documentation_search_service.py",
+      "file_path": "src/core/integration_unified.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\message_queue.py",
+      "file_path": "src/core/operational_monitoring_baseline.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\metrics.py",
+      "file_path": "src/core/metrics.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\search_history_service.py",
+      "file_path": "src/core/message_queue_statistics.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\unified_data_processing_system.py",
+      "file_path": "src/core/unified_logging_system.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\unified_import_system.py",
+      "file_path": "src/core/unified_logging_system_engine.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\unified_logging_system_engine.py",
+      "file_path": "src/core/routing_tracer.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\unified_logging_system_models.py",
+      "file_path": "src/core/unified_logging_system_models.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\vector_database.py",
+      "file_path": "src/core/ssot_unified.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\coordinator_status_parser.py",
+      "file_path": "src/core/message_queue_interfaces.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\message_queue_interfaces.py",
+      "file_path": "src/core/unified_data_processing_system.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\message_queue_persistence.py",
+      "file_path": "src/core/core_utilities.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\message_queue_statistics.py",
+      "file_path": "src/core/enhanced_unified_config.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\agent_context_manager.py",
+      "file_path": "src/core/coordinator_interfaces.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\unified_config.py",
+      "file_path": "src/core/analytics_unified.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\__init__.py",
+      "file_path": "src/core/env_loader.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\env_loader.py",
+      "file_path": "src/core/validation_unified.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\unified_logging_system.py",
+      "file_path": "src/core/managers_unified.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\shared_utilities.py",
+      "file_path": "src/core/coordination_unified.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\vector_integration_analytics.py",
+      "file_path": "src/core/vector_unified.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\config_core.py",
+      "file_path": "src/core/messaging_core.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\messaging_core.py",
+      "file_path": "src/core/unified_import_system.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\messaging_pyautogui.py",
+      "file_path": "src/core/emergency_unified.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\analytics\\coordinators\\analytics_coordinator.py",
+      "file_path": "src/core/error_handling_unified.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\analytics\\coordinators\\processing_coordinator.py",
+      "file_path": "src/core/unified_messaging.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\analytics\\coordinators\\__init__.py",
+      "file_path": "src/core/coordinator_status_parser.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\analytics\\engines\\batch_analytics_engine.py",
+      "file_path": "src/core/onboarding_service.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\analytics\\engines\\caching_engine.py",
+      "file_path": "src/core/messaging_pyautogui.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\analytics\\engines\\coordination_analytics_engine.py",
+      "file_path": "src/core/swarm_coordination.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\analytics\\engines\\metrics_engine.py",
+      "file_path": "src/core/engines_unified.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\analytics\\engines\\realtime_analytics_engine.py",
+      "file_path": "src/core/message_queue.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\analytics\\engines\\__init__.py",
+      "file_path": "src/core/coordinator_registry.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\analytics\\intelligence\\anomaly_detection_engine.py",
+      "file_path": "src/core/config_core.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\analytics\\intelligence\\business_intelligence_engine_core.py",
+      "file_path": "src/core/vector_integration_analytics.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\analytics\\intelligence\\business_intelligence_engine_operations.py",
+      "file_path": "src/core/refactoring_unified.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\analytics\\intelligence\\pattern_analysis_engine.py",
+      "file_path": "src/core/performance_monitoring_dashboard.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\analytics\\intelligence\\predictive_modeling_engine.py",
+      "file_path": "src/core/agent_documentation_service.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\analytics\\intelligence\\business_intelligence_engine.py",
+      "file_path": "src/core/unified_config.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\analytics\\intelligence\\__init__.py",
+      "file_path": "src/core/verified_messaging_service.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\analytics\\intelligence\\pattern_analysis\\anomaly_detector.py",
+      "file_path": "src/core/health_metrics.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\analytics\\intelligence\\pattern_analysis\\pattern_extractor.py",
+      "file_path": "src/core/coordinate_loader.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\analytics\\intelligence\\pattern_analysis\\__init__.py",
+      "file_path": "src/core/heartbeat_verification.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     }

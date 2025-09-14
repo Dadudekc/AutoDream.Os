@@ -3,7 +3,7 @@
   "directory": "src/application",
   "files_analyzed": [
     {
-      "file_path": "src\\application\\__init__.py",
+      "file_path": "src/application/__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -27,7 +27,7 @@
       }
     },
     {
-      "file_path": "src\\application\\use_cases\\assign_task_uc.py",
+      "file_path": "src/application/use_cases/assign_task_uc.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -51,7 +51,7 @@
       }
     },
     {
-      "file_path": "src\\application\\use_cases\\complete_task_uc.py",
+      "file_path": "src/application/use_cases/complete_task_uc.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -75,7 +75,7 @@
       }
     },
     {
-      "file_path": "src\\application\\use_cases\\__init__.py",
+      "file_path": "src/application/use_cases/__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -114,22 +114,22 @@
   },
   "consolidation_opportunities": [
     {
-      "file_path": "src\\application\\__init__.py",
+      "file_path": "src/application/__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\application\\use_cases\\assign_task_uc.py",
+      "file_path": "src/application/use_cases/assign_task_uc.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\application\\use_cases\\complete_task_uc.py",
+      "file_path": "src/application/use_cases/complete_task_uc.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\application\\use_cases\\__init__.py",
+      "file_path": "src/application/use_cases/__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     }

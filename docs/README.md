@@ -16,15 +16,15 @@
 
 ## **📚 Unified Documentation Structure**
 
-### **🏗️ Architecture & Standards**
-- `V2_COMPLIANCE_README.md` - **V2 compliance standards and guidelines**
-- `AGENTS.md` - **Agent roles and responsibilities**
+### **🏗️ Core Documentation (Consolidated)**
+- `CAPTAIN_HANDBOOK.md` - **Complete operational handbook (consolidated from 5 files)**
+- `AGENTS.md` - **Unified agent documentation with quick reference**
+- `README.md` - **Main project README**
 - `CHANGELOG.md` - **Project changelog and updates**
 
 ### **📖 Guides & Implementation**
-- `CAPTAIN_AGENT_4_OPERATIONAL_HANDBOOK.md` - **Captain's strategic operations guide**
+- `ONBOARDING_GUIDE.md` - **Agent onboarding guide (SSOT)**
 - `QUICK_START.md` - **Quick start guide**
-- `README.md` - **Main project README**
 
 ### **🔧 Technical Specifications**
 - `MESSAGING_API_SPECIFICATIONS.md` - **Messaging system API specs**
@@ -97,6 +97,8 @@ docs/
 ## **🧹 Consolidation Achievements**
 
 ### **✅ Successfully Consolidated:**
+- **5 Captain Handbook files** → **1 unified CAPTAIN_HANDBOOK.md** (2,400+ lines consolidated)
+- **3 Agent documentation files** → **1 unified AGENTS.md** with quick reference
 - **50+ documentation files** from scattered agent workspaces
 - **Unified naming conventions** (lowercase with underscores)
 - **Professional file organization** by category and purpose
@@ -105,17 +107,23 @@ docs/
 - **Maintained single source of truth** for all documentation
 
 ### **🎯 Key Improvements:**
+- **Captain Handbook Consolidation**: 5 separate files (2,400+ lines) → 1 comprehensive handbook
+- **Agent Documentation Unification**: Combined main docs with quick reference for easy access
 - **Standardized file naming** across all documentation
 - **Logical categorization** by purpose and audience
 - **Easy navigation** with comprehensive index
 - **Professional appearance** with consistent formatting
 - **Reduced clutter** in root and agent workspace directories
+- **Eliminated redundancy**: Removed 7 redundant documentation files
 
 ---
 
 ## **📊 Documentation Metrics**
 
 - **Total Files Consolidated:** 50+ documentation files
+- **Captain Handbook Files:** 5 → 1 (2,400+ lines consolidated)
+- **Agent Documentation Files:** 3 → 1 (unified with quick reference)
+- **Redundant Files Removed:** 7 redundant documentation files
 - **Categories Organized:** 8 distinct documentation categories
 - **Naming Standardized:** All files follow consistent conventions
 - **Redundancy Eliminated:** Duplicate and outdated content removed

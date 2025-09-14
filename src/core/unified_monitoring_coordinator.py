@@ -39,10 +39,12 @@ except ImportError:
     AutomatedHealthCheckSystem = None
 
 try:
-    from .performance_monitoring_dashboard import (
+    from .performance_monitoring_dashboard_refactored import (
+        PerformanceMonitoringDashboard,
+    )
+    from .performance import (
         DashboardType,
         MetricType,
-        PerformanceMonitoringDashboard,
     )
 except ImportError:
     PerformanceMonitoringDashboard = None

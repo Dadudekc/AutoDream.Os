@@ -295,7 +295,7 @@ class VerificationSuite:
         """Test messaging system integration."""
         try:
             from core.message_queue import AsyncQueueProcessor, MessageQueue
-            from services.messaging_core import UnifiedMessagingCore
+            from src.core.messaging_core import UnifiedMessagingCore
 
             # Test unified messaging with queue integration
             core = UnifiedMessagingCore()
@@ -370,7 +370,7 @@ class VerificationSuite:
     def _test_complete_messaging_workflow(self):
         """Test complete messaging workflow."""
         try:
-            from services.messaging_core import UnifiedMessagingCore
+            from src.core.messaging_core import UnifiedMessagingCore
 
             core = UnifiedMessagingCore()
 
@@ -399,7 +399,7 @@ class VerificationSuite:
     def _test_agent_onboarding_workflow(self):
         """Test agent onboarding workflow."""
         try:
-            from services.messaging_core import UnifiedMessagingCore
+            from src.core.messaging_core import UnifiedMessagingCore
 
             core = UnifiedMessagingCore()
 
@@ -473,7 +473,7 @@ class VerificationSuite:
     def _test_message_throughput(self):
         """Test message throughput."""
         try:
-            from services.messaging_core import UnifiedMessagingCore
+            from src.core.messaging_core import UnifiedMessagingCore
 
             core = UnifiedMessagingCore()
 

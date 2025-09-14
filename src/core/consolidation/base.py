@@ -5,7 +5,7 @@ import shutil
 from collections.abc import Iterable
 from pathlib import Path
 
-from ...utils.config_core import get_config
+from ...core.config_core import get_config
 
 """Base utilities for consolidation tasks.
 

@@ -58,3 +58,15 @@
 
 ==================================================
 
+# 🚨 CAPTAIN MESSAGE - system_to_agent
+
+**From**: SYSTEM
+**To**: Agent-8
+**Priority**: urgent
+**Timestamp**: 2025-09-14 12:57:21.086884
+**Tags**: system
+
+🚨 EMERGENCY TEST: Routing fixes verification
+
+==================================================
+

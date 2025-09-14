@@ -1,0 +1,415 @@
+{
+  "start_time": "2025-09-14T12:20:35.937441",
+  "tests": {
+    "verified_messaging": {
+      "status": "passed",
+      "system_health": {
+        "message_success_rate": 0.0,
+        "average_response_time": 0.0,
+        "agent_availability": {
+          "Agent-1": true,
+          "Agent-2": true,
+          "Agent-3": true,
+          "Agent-4": true,
+          "Agent-5": true,
+          "Agent-6": true,
+          "Agent-7": true,
+          "Agent-8": true
+        },
+        "routing_table_status": {
+          "Agent-1": {
+            "last_verified": 1757852435.9381475,
+            "coordinates_available": true
+          },
+          "Agent-2": {
+            "last_verified": 1757852435.938168,
+            "coordinates_available": true
+          },
+          "Agent-3": {
+            "last_verified": 1757852435.938176,
+            "coordinates_available": true
+          },
+          "Agent-4": {
+            "last_verified": 1757852435.9381812,
+            "coordinates_available": true
+          },
+          "Agent-5": {
+            "last_verified": 1757852435.9381862,
+            "coordinates_available": true
+          },
+          "Agent-6": {
+            "last_verified": 1757852435.9381912,
+            "coordinates_available": true
+          },
+          "Agent-7": {
+            "last_verified": 1757852435.9381957,
+            "coordinates_available": true
+          },
+          "Agent-8": {
+            "last_verified": 1757852435.9381998,
+            "coordinates_available": true
+          }
+        },
+        "active_messages": 0
+      },
+      "route_verification": {
+        "valid": true,
+        "expected_agent": "Agent-8",
+        "actual_agent": "Agent-8",
+        "verification_hash": "41f50c86d668e0de"
+      },
+      "message_success_rate": 0.0,
+      "average_response_time": 0.0
+    },
+    "routing_tracer": {
+      "status": "passed",
+      "routing_statistics": {
+        "total_traces": 0,
+        "successful_deliveries": 0,
+        "failed_deliveries": 0,
+        "verification_failures": 0,
+        "success_rate": 0.0,
+        "verification_success_rate": 0.0,
+        "average_processing_time_ms": 0.0,
+        "routing_paths": {},
+        "last_updated": "2025-09-14T12:20:35.939844"
+      },
+      "agent8_analysis": {
+        "agent_id": "Agent-8",
+        "message_count": 0,
+        "analysis": "No messages found"
+      },
+      "checksum_verification": {
+        "original_checksum": "6325afdb882e53729dc8ccc80253cf67e7b59159c88a41ef56aef4a57a391aa5",
+        "calculated_checksum": "6325afdb882e53729dc8ccc80253cf67e7b59159c88a41ef56aef4a57a391aa5",
+        "verification_passed": true,
+        "message_integrity": true
+      }
+    },
+    "heartbeat_verification": {
+      "status": "passed",
+      "system_health": {
+        "total_agents": 8,
+        "online_agents": 8,
+        "offline_agents": 0,
+        "online_agent_list": [
+          "Agent-1",
+          "Agent-2",
+          "Agent-3",
+          "Agent-4",
+          "Agent-5",
+          "Agent-6",
+          "Agent-7",
+          "Agent-8"
+        ],
+        "offline_agent_list": [],
+        "average_response_time_ms": 0.0,
+        "system_health": "HEALTHY",
+        "recent_emergency_broadcasts": 0,
+        "last_health_check": "2025-09-14T12:20:35.939930",
+        "agent_details": {
+          "Agent-1": {
+            "is_online": true,
+            "last_heartbeat": "2025-09-14T12:20:35.939157",
+            "response_time_ms": 0.0,
+            "consecutive_failures": 0,
+            "last_error": null
+          },
+          "Agent-2": {
+            "is_online": true,
+            "last_heartbeat": "2025-09-14T12:20:35.939161",
+            "response_time_ms": 0.0,
+            "consecutive_failures": 0,
+            "last_error": null
+          },
+          "Agent-3": {
+            "is_online": true,
+            "last_heartbeat": "2025-09-14T12:20:35.939163",
+            "response_time_ms": 0.0,
+            "consecutive_failures": 0,
+            "last_error": null
+          },
+          "Agent-4": {
+            "is_online": true,
+            "last_heartbeat": "2025-09-14T12:20:35.939164",
+            "response_time_ms": 0.0,
+            "consecutive_failures": 0,
+            "last_error": null
+          },
+          "Agent-5": {
+            "is_online": true,
+            "last_heartbeat": "2025-09-14T12:20:35.939165",
+            "response_time_ms": 0.0,
+            "consecutive_failures": 0,
+            "last_error": null
+          },
+          "Agent-6": {
+            "is_online": true,
+            "last_heartbeat": "2025-09-14T12:20:35.939165",
+            "response_time_ms": 0.0,
+            "consecutive_failures": 0,
+            "last_error": null
+          },
+          "Agent-7": {
+            "is_online": true,
+            "last_heartbeat": "2025-09-14T12:20:35.939166",
+            "response_time_ms": 0.0,
+            "consecutive_failures": 0,
+            "last_error": null
+          },
+          "Agent-8": {
+            "is_online": true,
+            "last_heartbeat": "2025-09-14T12:20:35.939167",
+            "response_time_ms": 0.0,
+            "consecutive_failures": 0,
+            "last_error": null
+          }
+        }
+      },
+      "agent8_status": {
+        "is_online": true,
+        "last_heartbeat": "2025-09-14T12:20:35.939167",
+        "response_time_ms": 0.0,
+        "consecutive_failures": 0
+      },
+      "online_agents": [
+        "Agent-1",
+        "Agent-2",
+        "Agent-3",
+        "Agent-4",
+        "Agent-5",
+        "Agent-6",
+        "Agent-7",
+        "Agent-8"
+      ],
+      "offline_agents": [],
+      "total_agents": 8
+    },
+    "swarm_health_monitor": {
+      "status": "passed",
+      "current_health": {
+        "overall_health": "unknown",
+        "health_score": 0.0,
+        "critical_issues": [
+          "Health monitoring not yet initialized"
+        ],
+        "recommendations": [
+          "Initialize health monitoring system"
+        ]
+      },
+      "health_history_count": 0,
+      "monitoring_active": true
+    },
+    "agent8_routing": {
+      "status": "passed",
+      "coordinates": {
+        "x": 1611,
+        "y": 941,
+        "available": true
+      },
+      "route_verification": {
+        "valid": true,
+        "expected_agent": "Agent-8",
+        "actual_agent": "Agent-8"
+      },
+      "health_status": {
+        "is_online": true,
+        "status": "healthy",
+        "health_score": 1.0
+      }
+    },
+    "message_delivery": {
+      "status": "passed",
+      "delivery_results": {
+        "Agent-1": {
+          "route_valid": true,
+          "expected_agent": "Agent-1",
+          "actual_agent": "Agent-1"
+        },
+        "Agent-4": {
+          "route_valid": true,
+          "expected_agent": "Agent-4",
+          "actual_agent": "Agent-4"
+        },
+        "Agent-8": {
+          "route_valid": true,
+          "expected_agent": "Agent-8",
+          "actual_agent": "Agent-8"
+        }
+      },
+      "successful_routes": 3,
+      "total_tests": 3
+    },
+    "system_health": {
+      "status": "passed",
+      "messaging_health": {
+        "message_success_rate": 0.0,
+        "average_response_time": 0.0,
+        "agent_availability": {
+          "Agent-1": true,
+          "Agent-2": true,
+          "Agent-3": true,
+          "Agent-4": true,
+          "Agent-5": true,
+          "Agent-6": true,
+          "Agent-7": true,
+          "Agent-8": true
+        },
+        "routing_table_status": {
+          "Agent-1": {
+            "last_verified": 1757852435.9381475,
+            "coordinates_available": true
+          },
+          "Agent-2": {
+            "last_verified": 1757852435.938168,
+            "coordinates_available": true
+          },
+          "Agent-3": {
+            "last_verified": 1757852435.938176,
+            "coordinates_available": true
+          },
+          "Agent-4": {
+            "last_verified": 1757852435.9381812,
+            "coordinates_available": true
+          },
+          "Agent-5": {
+            "last_verified": 1757852435.9381862,
+            "coordinates_available": true
+          },
+          "Agent-6": {
+            "last_verified": 1757852435.9381912,
+            "coordinates_available": true
+          },
+          "Agent-7": {
+            "last_verified": 1757852435.9381957,
+            "coordinates_available": true
+          },
+          "Agent-8": {
+            "last_verified": 1757852435.9381998,
+            "coordinates_available": true
+          }
+        },
+        "active_messages": 0
+      },
+      "heartbeat_health": {
+        "total_agents": 8,
+        "online_agents": 8,
+        "offline_agents": 0,
+        "online_agent_list": [
+          "Agent-1",
+          "Agent-2",
+          "Agent-3",
+          "Agent-4",
+          "Agent-5",
+          "Agent-6",
+          "Agent-7",
+          "Agent-8"
+        ],
+        "offline_agent_list": [],
+        "average_response_time_ms": 0.0,
+        "system_health": "HEALTHY",
+        "recent_emergency_broadcasts": 0,
+        "last_health_check": "2025-09-14T12:20:35.940114",
+        "agent_details": {
+          "Agent-1": {
+            "is_online": true,
+            "last_heartbeat": "2025-09-14T12:20:35.939157",
+            "response_time_ms": 0.0,
+            "consecutive_failures": 0,
+            "last_error": null
+          },
+          "Agent-2": {
+            "is_online": true,
+            "last_heartbeat": "2025-09-14T12:20:35.939161",
+            "response_time_ms": 0.0,
+            "consecutive_failures": 0,
+            "last_error": null
+          },
+          "Agent-3": {
+            "is_online": true,
+            "last_heartbeat": "2025-09-14T12:20:35.939163",
+            "response_time_ms": 0.0,
+            "consecutive_failures": 0,
+            "last_error": null
+          },
+          "Agent-4": {
+            "is_online": true,
+            "last_heartbeat": "2025-09-14T12:20:35.939164",
+            "response_time_ms": 0.0,
+            "consecutive_failures": 0,
+            "last_error": null
+          },
+          "Agent-5": {
+            "is_online": true,
+            "last_heartbeat": "2025-09-14T12:20:35.939165",
+            "response_time_ms": 0.0,
+            "consecutive_failures": 0,
+            "last_error": null
+          },
+          "Agent-6": {
+            "is_online": true,
+            "last_heartbeat": "2025-09-14T12:20:35.939165",
+            "response_time_ms": 0.0,
+            "consecutive_failures": 0,
+            "last_error": null
+          },
+          "Agent-7": {
+            "is_online": true,
+            "last_heartbeat": "2025-09-14T12:20:35.939166",
+            "response_time_ms": 0.0,
+            "consecutive_failures": 0,
+            "last_error": null
+          },
+          "Agent-8": {
+            "is_online": true,
+            "last_heartbeat": "2025-09-14T12:20:35.939167",
+            "response_time_ms": 0.0,
+            "consecutive_failures": 0,
+            "last_error": null
+          }
+        }
+      },
+      "swarm_health": {
+        "overall_health": "unknown",
+        "health_score": 0.0,
+        "critical_issues": [
+          "Health monitoring not yet initialized"
+        ]
+      }
+    },
+    "emergency_response": {
+      "status": "passed",
+      "emergency_alert_ready": true,
+      "emergency_route_available": true,
+      "emergency_route_test": true,
+      "test_alert": {
+        "content": "🚨 EMERGENCY TEST: Routing fixes verification",
+        "sender": "SYSTEM",
+        "priority": "URGENT",
+        "target_agents": [
+          "Agent-4"
+        ]
+      }
+    }
+  },
+  "overall_status": "PASSED",
+  "summary": {
+    "total_tests": 8,
+    "passed_tests": 8,
+    "failed_tests": 0,
+    "pass_rate": 1.0,
+    "passed_test_names": [
+      "verified_messaging",
+      "routing_tracer",
+      "heartbeat_verification",
+      "swarm_health_monitor",
+      "agent8_routing",
+      "message_delivery",
+      "system_health",
+      "emergency_response"
+    ],
+    "failed_test_names": []
+  },
+  "end_time": "2025-09-14T12:20:35.941376",
+  "duration_seconds": 0.003938
+}

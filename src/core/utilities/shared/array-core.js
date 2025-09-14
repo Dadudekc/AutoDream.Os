@@ -1,61 +1,73 @@
 /**
- * @fileoverview Array Utility Implementation - Enterprise-grade array manipulation utility
- * @version 2.0.0
+ * @fileoverview Shared Array Utilities Core - Universal JavaScript Implementation
+ * @version 3.0.0
  * @author Agent-7 (Web Development Specialist)
  * @created 2024-01-01
  * @updated 2024-01-01
+ * 
+ * Universal array utility functions that work in both Node.js and browser environments.
+ * This is the core implementation that both TypeScript and JavaScript utilities will use.
  */
-
-import { 
-  IArrayUtility, IArrayResult, IArraySearchResult, IArraySortOptions, 
-  IArrayFilterOptions, IArrayGroupOptions, IArrayTransformOptions 
-} from '../interfaces/IArrayUtility';
 
 /**
- * Enterprise Array Utility Implementation
+ * Universal Array Utilities Core
  * Provides comprehensive array manipulation, analysis, and transformation capabilities
+ * Works in both Node.js and browser environments
  */
-export class ArrayUtility implements IArrayUtility {
-  private config: any = {};
-  private metrics = {
-    totalOperations: 0,
-    totalProcessingTime: 0,
-    cacheHits: 0,
-    cacheMisses: 0,
-    errors: 0,
-    memoryUsage: 0
-  };
-  private cache = new Map<string, any>();
-  private maxCacheSize = 1000;
+export class ArrayCore {
+  constructor(config = {}) {
+    this.config = {
+      maxCacheSize: 1000,
+      enableMetrics: true,
+      enableCaching: true,
+      ...config
+    };
+    
+    this.metrics = {
+      totalOperations: 0,
+      totalProcessingTime: 0,
+      cacheHits: 0,
+      cacheMisses: 0,
+      errors: 0,
+      memoryUsage: 0
+    };
+    
+    this.cache = new Map();
+    this.maxCacheSize = this.config.maxCacheSize;
+  }
 
-  async initialize(config: any = {}): Promise<void> {
+  /**
+   * Initialize the array utility with configuration
+   */
+  async initialize(config = {}) {
     try {
-      this.config = {
-        maxCacheSize: 1000,
-        enableMetrics: true,
-        enableCaching: true,
-        ...config
-      };
+      this.config = { ...this.config, ...config };
       this.maxCacheSize = this.config.maxCacheSize;
     } catch (error) {
       this.metrics.errors++;
-      throw new Error(`ArrayUtility initialization failed: ${error}`);
+      throw new Error(`ArrayCore initialization failed: ${error}`);
     }
   }
 
-  async cleanup(): Promise<void> {
+  /**
+   * Clean up resources and reset state
+   */
+  async cleanup() {
     try {
       this.cache.clear();
       this.resetMetrics();
     } catch (error) {
-      throw new Error(`ArrayUtility cleanup failed: ${error}`);
+      throw new Error(`ArrayCore cleanup failed: ${error}`);
     }
   }
 
+  /**
+   * Get utility metadata and capabilities
+   */
   getMetadata() {
     return {
-      name: 'ArrayUtility',
-      version: '2.0.0',
+      name: 'ArrayCore',
+      version: '3.0.0',
       capabilities: [
         'search', 'filter', 'sort', 'transform', 'analysis',
         'manipulation', 'validation', 'generation', 'performance'
@@ -66,7 +78,10 @@ export class ArrayUtility implements IArrayUtility {
 
   // === BASIC ARRAY OPERATIONS ===
 
-  create<T>(length: number, fillValue?: T, options: IArrayTransformOptions = {}): IArrayResult<T[]> {
+  /**
+   * Create array with specified length and fill value
+   */
+  create(length, fillValue, options = {}) {
     const startTime = performance.now();
     
     try {
@@ -83,7 +98,10 @@ export class ArrayUtility implements IArrayUtility {
     }
   }
 
-  clone<T>(array: T[], options: IArrayTransformOptions = {}): IArrayResult<T[]> {
+  /**
+   * Clone array with optional deep cloning
+   */
+  clone(array, options = {}) {
     const startTime = performance.now();
     
     try {
@@ -100,11 +118,10 @@ export class ArrayUtility implements IArrayUtility {
     }
   }
 
-  merge<T>(arrays: T[][], options: {
-    unique?: boolean;
-    preserveOrder?: boolean;
-    sort?: boolean;
-  } = {}): IArrayResult<T[]> {
+  /**
+   * Merge multiple arrays with options
+   */
+  merge(arrays, options = {}) {
     const startTime = performance.now();
     
     try {
@@ -130,7 +147,10 @@ export class ArrayUtility implements IArrayUtility {
     }
   }
 
-  flatten<T>(array: T[], depth: number = Infinity, options: IArrayTransformOptions = {}): IArrayResult<T[]> {
+  /**
+   * Flatten nested arrays
+   */
+  flatten(array, depth = Infinity, options = {}) {
     const startTime = performance.now();
     
     try {
@@ -149,7 +169,10 @@ export class ArrayUtility implements IArrayUtility {
 
   // === ARRAY SEARCH & FILTERING ===
 
-  find<T>(array: T[], predicate: ((item: T, index: number) => boolean) | T, options: IArrayFilterOptions = {}): IArraySearchResult<T> {
+  /**
+   * Find element in array with predicate
+   */
+  find(array, predicate, options = {}) {
     try {
       if (!Array.isArray(array)) {
         return { found: false, index: -1, count: 0 };
@@ -159,10 +182,10 @@ export class ArrayUtility implements IArrayUtility {
       const searchArray = array.slice(offset, limit ? offset + limit : undefined);
       
       let index = -1;
-      let value: T | undefined;
+      let value;
       
       if (typeof predicate === 'function') {
-        index = searchArray.findIndex(predicate as (item: T, index: number) => boolean);
+        index = searchArray.findIndex(predicate);
         value = index >= 0 ? searchArray[index] : undefined;
       } else {
         index = searchArray.indexOf(predicate);
@@ -180,20 +203,23 @@ export class ArrayUtility implements IArrayUtility {
     }
   }
 
-  findAll<T>(array: T[], predicate: ((item: T, index: number) => boolean) | T, options: IArrayFilterOptions = {}): IArraySearchResult<T> {
+  /**
+   * Find all elements matching predicate
+   */
+  findAll(array, predicate, options = {}) {
     try {
       if (!Array.isArray(array)) {
         return { found: false, index: -1, count: 0 };
       }
 
-      const indices: number[] = [];
-      const values: T[] = [];
+      const indices = [];
+      const values = [];
       
       array.forEach((item, index) => {
         let matches = false;
         
         if (typeof predicate === 'function') {
-          matches = (predicate as (item: T, index: number) => boolean)(item, index);
+          matches = predicate(item, index);
         } else {
           matches = item === predicate;
         }
@@ -216,7 +242,10 @@ export class ArrayUtility implements IArrayUtility {
     }
   }
 
-  filter<T>(array: T[], predicate: ((item: T, index: number) => boolean) | T, options: IArrayFilterOptions = {}): IArrayResult<T[]> {
+  /**
+   * Filter array with predicate
+   */
+  filter(array, predicate, options = {}) {
     const startTime = performance.now();
     
     try {
@@ -225,10 +254,10 @@ export class ArrayUtility implements IArrayUtility {
       }
 
       const { offset = 0, limit } = options;
-      let result: T[];
+      let result;
       
       if (typeof predicate === 'function') {
-        result = array.filter(predicate as (item: T, index: number) => boolean);
+        result = array.filter(predicate);
       } else {
         result = array.filter(item => item === predicate);
       }
@@ -245,11 +274,10 @@ export class ArrayUtility implements IArrayUtility {
     }
   }
 
-  unique<T>(array: T[], options: {
-    key?: string | ((item: T) => any);
-    caseSensitive?: boolean;
-    preserveOrder?: boolean;
-  } = {}): IArrayResult<T[]> {
+  /**
+   * Remove duplicates from array
+   */
+  unique(array, options = {}) {
     const startTime = performance.now();
     
     try {
@@ -268,7 +296,10 @@ export class ArrayUtility implements IArrayUtility {
 
   // === ARRAY SORTING ===
 
-  sort<T>(array: T[], options: IArraySortOptions = {}): IArrayResult<T[]> {
+  /**
+   * Sort array with advanced options
+   */
+  sort(array, options = {}) {
     const startTime = performance.now();
     
     try {
@@ -313,7 +344,10 @@ export class ArrayUtility implements IArrayUtility {
 
   // === ARRAY TRANSFORMATION ===
 
-  map<T, U>(array: T[], mapper: (item: T, index: number) => U, options: IArrayTransformOptions = {}): IArrayResult<U[]> {
+  /**
+   * Map array elements
+   */
+  map(array, mapper, options = {}) {
     const startTime = performance.now();
     
     try {
@@ -330,7 +364,10 @@ export class ArrayUtility implements IArrayUtility {
     }
   }
 
-  reduce<T, U>(array: T[], reducer: (accumulator: U, item: T, index: number) => U, initialValue: U, options: IArrayTransformOptions = {}): IArrayResult<U> {
+  /**
+   * Reduce array to single value
+   */
+  reduce(array, reducer, initialValue, options = {}) {
     const startTime = performance.now();
     
     try {
@@ -347,7 +384,10 @@ export class ArrayUtility implements IArrayUtility {
     }
   }
 
-  groupBy<T>(array: T[], options: IArrayGroupOptions): IArrayResult<Record<string, T[]>> {
+  /**
+   * Group array elements by key
+   */
+  groupBy(array, options) {
     const startTime = performance.now();
     
     try {
@@ -356,7 +396,7 @@ export class ArrayUtility implements IArrayUtility {
       }
 
       const { key, sort = false, sortDirection = 'asc' } = options;
-      const groups: Record<string, T[]> = {};
+      const groups = {};
       
       array.forEach(item => {
         const groupKey = key 
@@ -383,10 +423,10 @@ export class ArrayUtility implements IArrayUtility {
     }
   }
 
-  chunk<T>(array: T[], size: number, options: {
-    preserveRemainder?: boolean;
-    fillValue?: T;
-  } = {}): IArrayResult<T[][]> {
+  /**
+   * Chunk array into smaller arrays
+   */
+  chunk(array, size, options = {}) {
     const startTime = performance.now();
     
     try {
@@ -395,7 +435,7 @@ export class ArrayUtility implements IArrayUtility {
       }
 
       const { preserveRemainder = true, fillValue } = options;
-      const result: T[][] = [];
+      const result = [];
       
       for (let i = 0; i < array.length; i += size) {
         const chunk = array.slice(i, i + size);
@@ -421,23 +461,10 @@ export class ArrayUtility implements IArrayUtility {
 
   // === ARRAY ANALYSIS ===
 
-  analyze<T>(array: T[], options: {
-    numeric?: boolean;
-    includeFrequency?: boolean;
-    includeDistribution?: boolean;
-  } = {}): {
-    length: number;
-    isEmpty: boolean;
-    hasDuplicates: boolean;
-    uniqueCount: number;
-    min?: number;
-    max?: number;
-    average?: number;
-    median?: number;
-    mode?: any;
-    frequency?: Record<string, number>;
-    distribution?: Record<string, number>;
-  } {
+  /**
+   * Analyze array statistics
+   */
+  analyze(array, options = {}) {
     try {
       if (!Array.isArray(array)) {
         return {
@@ -455,7 +482,7 @@ export class ArrayUtility implements IArrayUtility {
       const hasDuplicates = uniqueArray.length !== length;
       const uniqueCount = uniqueArray.length;
 
-      const result: any = {
+      const result = {
         length,
         isEmpty,
         hasDuplicates,
@@ -463,7 +490,7 @@ export class ArrayUtility implements IArrayUtility {
       };
 
       if (numeric && length > 0) {
-        const numbers = array.filter(item => typeof item === 'number') as number[];
+        const numbers = array.filter(item => typeof item === 'number');
         if (numbers.length > 0) {
           result.min = Math.min(...numbers);
           result.max = Math.max(...numbers);
@@ -494,20 +521,13 @@ export class ArrayUtility implements IArrayUtility {
 
   // === ARRAY VALIDATION ===
 
-  validate<T>(array: T[], schema?: {
-    type?: string;
-    minLength?: number;
-    maxLength?: number;
-    unique?: boolean;
-    required?: boolean;
-  }): {
-    isValid: boolean;
-    errors: string[];
-    warnings: string[];
-  } {
+  /**
+   * Validate array against schema
+   */
+  validate(array, schema) {
     try {
-      const errors: string[] = [];
-      const warnings: string[] = [];
+      const errors = [];
+      const warnings = [];
       
       if (!Array.isArray(array)) {
         errors.push('Input is not an array');
@@ -548,29 +568,32 @@ export class ArrayUtility implements IArrayUtility {
     }
   }
 
-  isEmpty<T>(array: T[]): boolean {
+  /**
+   * Check if array is empty
+   */
+  isEmpty(array) {
     return !Array.isArray(array) || array.length === 0;
   }
 
-  isUnique<T>(array: T[], options?: {
-    key?: string | ((item: T) => any);
-    caseSensitive?: boolean;
-  }): boolean {
+  /**
+   * Check if array contains unique values
+   */
+  isUnique(array, options) {
     if (!Array.isArray(array)) return false;
     return this.removeDuplicates(array, options).length === array.length;
   }
 
   // === ARRAY GENERATION ===
 
-  range(start: number, end: number, options: {
-    step?: number;
-    inclusive?: boolean;
-  } = {}): IArrayResult<number[]> {
+  /**
+   * Generate range of numbers
+   */
+  range(start, end, options = {}) {
     const startTime = performance.now();
     
     try {
       const { step = 1, inclusive = true } = options;
-      const result: number[] = [];
+      const result = [];
       
       const actualEnd = inclusive ? end : end - 1;
       
@@ -588,6 +611,9 @@ export class ArrayUtility implements IArrayUtility {
 
   // === PERFORMANCE & MONITORING ===
 
+  /**
+   * Get performance metrics
+   */
   getMetrics() {
     return {
       totalOperations: this.metrics.totalOperations,
@@ -604,11 +630,17 @@ export class ArrayUtility implements IArrayUtility {
     };
   }
 
-  clearCache(): void {
+  /**
+   * Clear performance cache
+   */
+  clearCache() {
     this.cache.clear();
   }
 
-  resetMetrics(): void {
+  /**
+   * Reset performance metrics
+   */
+  resetMetrics() {
     this.metrics = {
       totalOperations: 0,
       totalProcessingTime: 0,
@@ -619,7 +651,10 @@ export class ArrayUtility implements IArrayUtility {
     };
   }
 
-  optimize<T>(array: T[], options?: any): IArrayResult<T[]> {
+  /**
+   * Optimize array
+   */
+  optimize(array, options) {
     const startTime = performance.now();
     
     try {
@@ -640,7 +675,7 @@ export class ArrayUtility implements IArrayUtility {
 
   // === PRIVATE HELPER METHODS ===
 
-  private createSuccessResult<T>(data: T): IArrayResult<T> {
+  createSuccessResult(data) {
     return {
       success: true,
       data,
@@ -651,7 +686,7 @@ export class ArrayUtility implements IArrayUtility {
     };
   }
 
-  private createErrorResult(error: string): IArrayResult {
+  createErrorResult(error) {
     return {
       success: false,
       error,
@@ -662,19 +697,19 @@ export class ArrayUtility implements IArrayUtility {
     };
   }
 
-  private updateMetrics(startTime: number): void {
+  updateMetrics(startTime) {
     const processingTime = performance.now() - startTime;
     this.metrics.totalOperations++;
     this.metrics.totalProcessingTime += processingTime;
     this.metrics.memoryUsage = this.cache.size;
   }
 
-  private deepClone<T>(obj: T): T {
+  deepClone(obj) {
     if (obj === null || typeof obj !== 'object') return obj;
-    if (obj instanceof Date) return new Date(obj.getTime()) as any;
-    if (obj instanceof Array) return obj.map(item => this.deepClone(item)) as any;
+    if (obj instanceof Date) return new Date(obj.getTime());
+    if (obj instanceof Array) return obj.map(item => this.deepClone(item));
     if (typeof obj === 'object') {
-      const cloned: any = {};
+      const cloned = {};
       for (const key in obj) {
         if (obj.hasOwnProperty(key)) {
           cloned[key] = this.deepClone(obj[key]);
@@ -685,10 +720,10 @@ export class ArrayUtility implements IArrayUtility {
     return obj;
   }
 
-  private flattenArray<T>(array: T[], depth: number): T[] {
+  flattenArray(array, depth) {
     if (depth <= 0) return array;
     
-    return array.reduce((acc: T[], item) => {
+    return array.reduce((acc, item) => {
       if (Array.isArray(item)) {
         acc.push(...this.flattenArray(item, depth - 1));
       } else {
@@ -698,11 +733,7 @@ export class ArrayUtility implements IArrayUtility {
     }, []);
   }
 
-  private removeDuplicates<T>(array: T[], options?: {
-    key?: string | ((item: T) => any);
-    caseSensitive?: boolean;
-    preserveOrder?: boolean;
-  }): T[] {
+  removeDuplicates(array, options) {
     const { key, caseSensitive = true, preserveOrder = true } = options || {};
     
     if (!key) {
@@ -712,7 +743,7 @@ export class ArrayUtility implements IArrayUtility {
     }
 
     const seen = new Set();
-    const result: T[] = [];
+    const result = [];
     
     for (const item of array) {
       let keyValue = typeof key === 'function' ? key(item) : item[key];
@@ -730,8 +761,8 @@ export class ArrayUtility implements IArrayUtility {
     return result;
   }
 
-  private calculateFrequency<T>(array: T[]): Record<string, number> {
-    const frequency: Record<string, number> = {};
+  calculateFrequency(array) {
+    const frequency = {};
     
     for (const item of array) {
       const key = String(item);
@@ -741,3 +772,6 @@ export class ArrayUtility implements IArrayUtility {
     return frequency;
   }
 }
+
+// Export for both CommonJS and ES modules
+export default ArrayCore;

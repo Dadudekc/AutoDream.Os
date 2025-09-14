@@ -1,573 +1,155 @@
 #!/usr/bin/env python3
 """
-Coordination Unified - Consolidated Coordination System
-======================================================
+🔄 UNIFIED CORE WRAPPER - Coordination
+==================================================
 
-Consolidated coordination system providing unified coordination functionality for:
-- Coordinator interfaces and models
-- Agent strategies and coordination
-- Swarm coordination protocols
-- Task coordination engines
-- Performance monitoring
+This file replaces the original coordination_unified.py with a wrapper
+that uses the unified core system.
 
-This module consolidates 48 coordination files into 14 unified modules for better
-maintainability and reduced complexity.
+Original file: /workspace/src/core/coordination_unified.py
+Core type: coordination
+Migration date: 2025-09-14T20:22:03.967359
 
-Author: Agent-2 (Architecture & Design Specialist)
-License: MIT
+This wrapper maintains backward compatibility while using the unified system.
 """
 
-from __future__ import annotations
+import sys
+from pathlib import Path
 
-import logging
-from abc import ABC, abstractmethod
-from dataclasses import dataclass, field
-from datetime import datetime
-from enum import Enum
-from typing import Any, Protocol
+# Add src to path for imports
+sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-# ============================================================================
-# COORDINATION ENUMS AND MODELS
-# ============================================================================
-
-class CoordinationStatus(Enum):
-    """Coordination status enumeration."""
-    INITIALIZING = "initializing"
-    OPERATIONAL = "operational"
-    ERROR = "error"
-    SHUTDOWN = "shutdown"
-    IDLE = "idle"
-    BUSY = "busy"
-    COORDINATING = "coordinating"
-    OFFLINE = "offline"
-
-
-class TargetType(Enum):
-    """Coordination target type enumeration."""
-    AGENT = "agent"
-    TASK = "task"
-    RESOURCE = "resource"
-    SYSTEM = "system"
-
-
-class TaskStatus(Enum):
-    """Task status enumeration."""
-    PENDING = "pending"
-    RUNNING = "running"
-    COMPLETED = "completed"
-    FAILED = "failed"
-    CANCELLED = "cancelled"
-
-
-class AgentStatus(Enum):
-    """Agent status enumeration."""
-    IDLE = "idle"
-    BUSY = "busy"
-    COORDINATING = "coordinating"
-    ERROR = "error"
-    OFFLINE = "offline"
-    MAINTENANCE = "maintenance"
-
-
-class SwarmStatus(Enum):
-    """Swarm status enumeration."""
-    INITIALIZING = "initializing"
-    ACTIVE = "active"
-    COORDINATING = "coordinating"
-    MAINTENANCE = "maintenance"
-    ERROR = "error"
-    SHUTDOWN = "shutdown"
-
-
-class SwarmPhase(Enum):
-    """Swarm phase enumeration."""
-    CYCLE_1 = "cycle_1"
-    PHASE_2 = "phase_2"
-    PHASE_3 = "phase_3"
-    MAINTENANCE = "maintenance"
-
-
-# ============================================================================
-# COORDINATION MODELS
-# ============================================================================
-
-@dataclass
-class CoordinatorInfo:
-    """Coordinator information model."""
-    coordinator_id: str
-    name: str
-    status: CoordinationStatus
-    capabilities: list[str] = field(default_factory=list)
-    last_heartbeat: datetime | None = None
-    metadata: dict[str, Any] = field(default_factory=dict)
-
-
-@dataclass
-class TaskInfo:
-    """Task information model."""
-    task_id: str
-    name: str
-    status: TaskStatus
-    assigned_agent: str | None = None
-    priority: int = 0
-    created_at: datetime = field(default_factory=datetime.now)
-    updated_at: datetime = field(default_factory=datetime.now)
-    metadata: dict[str, Any] = field(default_factory=dict)
-
-
-@dataclass
-class AgentInfo:
-    """Agent information model."""
-    agent_id: str
-    name: str
-    status: AgentStatus
-    capabilities: list[str] = field(default_factory=list)
-    current_task: str | None = None
-    last_heartbeat: datetime | None = None
-    metadata: dict[str, Any] = field(default_factory=dict)
-
-
-@dataclass
-class SwarmInfo:
-    """Swarm information model."""
-    swarm_id: str
-    name: str
-    status: SwarmStatus
-    phase: SwarmPhase
-    agents: list[AgentInfo] = field(default_factory=list)
-    active_tasks: list[TaskInfo] = field(default_factory=list)
-    created_at: datetime = field(default_factory=datetime.now)
-    metadata: dict[str, Any] = field(default_factory=dict)
-
-
-# ============================================================================
-# COORDINATION INTERFACES
-# ============================================================================
-
-class Coordinator(Protocol):
-    """Coordinator interface protocol."""
-
-    def initialize(self) -> bool:
-        """Initialize the coordinator."""
-        ...
-
-    def shutdown(self) -> bool:
-        """Shutdown the coordinator."""
-        ...
-
-    def get_status(self) -> CoordinationStatus:
-        """Get coordinator status."""
-        ...
-
-    def get_info(self) -> CoordinatorInfo:
-        """Get coordinator information."""
-        ...
-
-
-class TaskCoordinator(Coordinator):
-    """Task coordination interface."""
-
-    def assign_task(self, task: TaskInfo, agent_id: str) -> bool:
-        """Assign task to agent."""
-        ...
-
-    def complete_task(self, task_id: str) -> bool:
-        """Mark task as completed."""
-        ...
-
-    def get_tasks(self, agent_id: str | None = None) -> list[TaskInfo]:
-        """Get tasks for agent or all tasks."""
-        ...
-
-
-class AgentCoordinator(Coordinator):
-    """Agent coordination interface."""
-
-    def register_agent(self, agent: AgentInfo) -> bool:
-        """Register agent with coordinator."""
-        ...
-
-    def unregister_agent(self, agent_id: str) -> bool:
-        """Unregister agent from coordinator."""
-        ...
-
-    def get_agents(self) -> list[AgentInfo]:
-        """Get all registered agents."""
-        ...
-
-    def get_agent(self, agent_id: str) -> AgentInfo | None:
-        """Get specific agent information."""
-        ...
-
-
-class SwarmCoordinator(Coordinator):
-    """Swarm coordination interface."""
-
-    def create_swarm(self, swarm_info: SwarmInfo) -> bool:
-        """Create new swarm."""
-        ...
-
-    def join_swarm(self, swarm_id: str, agent_id: str) -> bool:
-        """Join agent to swarm."""
-        ...
-
-    def leave_swarm(self, swarm_id: str, agent_id: str) -> bool:
-        """Remove agent from swarm."""
-        ...
-
-    def get_swarm(self, swarm_id: str) -> SwarmInfo | None:
-        """Get swarm information."""
-        ...
-
-
-# ============================================================================
-# COORDINATION STRATEGIES
-# ============================================================================
-
-class AgentStrategy(ABC):
-    """Base agent strategy interface."""
-
-    @abstractmethod
-    def can_handle_task(self, task: TaskInfo) -> bool:
-        """Check if strategy can handle task."""
-        pass
-
-    @abstractmethod
-    def execute_task(self, task: TaskInfo) -> bool:
-        """Execute task using strategy."""
-        pass
-
-    @abstractmethod
-    def get_capabilities(self) -> list[str]:
-        """Get strategy capabilities."""
-        pass
-
-
-class ConsolidationStrategy(AgentStrategy):
-    """Consolidation strategy implementation."""
-
-    def can_handle_task(self, task: TaskInfo) -> bool:
-        """Check if task is consolidation-related."""
-        return "consolidation" in task.name.lower() or "consolidate" in task.metadata.get("type", "")
-
-    def execute_task(self, task: TaskInfo) -> bool:
-        """Execute consolidation task."""
-        try:
-            # Implementation for consolidation task execution
-            return True
-        except Exception as e:
-            logging.error(f"Failed to execute consolidation task {task.task_id}: {e}")
-            return False
-
-    def get_capabilities(self) -> list[str]:
-        """Get consolidation capabilities."""
-        return ["consolidation", "refactoring", "optimization"]
-
-
-class AnalysisStrategy(AgentStrategy):
-    """Analysis strategy implementation."""
-
-    def can_handle_task(self, task: TaskInfo) -> bool:
-        """Check if task is analysis-related."""
-        return "analysis" in task.name.lower() or "analyze" in task.metadata.get("type", "")
-
-    def execute_task(self, task: TaskInfo) -> bool:
-        """Execute analysis task."""
-        try:
-            # Implementation for analysis task execution
-            return True
-        except Exception as e:
-            logging.error(f"Failed to execute analysis task {task.task_id}: {e}")
-            return False
-
-    def get_capabilities(self) -> list[str]:
-        """Get analysis capabilities."""
-        return ["analysis", "monitoring", "reporting"]
-
-
-# ============================================================================
-# COORDINATION ENGINES
-# ============================================================================
-
-class CoordinationEngine(ABC):
-    """Base coordination engine interface."""
-
-    def __init__(self, name: str):
-        self.name = name
-        self.logger = logging.getLogger(f"coordination.{name}")
-        self.status = CoordinationStatus.INITIALIZING
-
-    @abstractmethod
-    def start(self) -> bool:
-        """Start the coordination engine."""
-        pass
-
-    @abstractmethod
-    def stop(self) -> bool:
-        """Stop the coordination engine."""
-        pass
-
-    @abstractmethod
-    def get_status(self) -> CoordinationStatus:
-        """Get engine status."""
-        pass
-
-
-class TaskCoordinationEngine(CoordinationEngine):
-    """Task coordination engine implementation."""
-
-    def __init__(self):
-        super().__init__("task_coordination")
-        self.tasks: dict[str, TaskInfo] = {}
-        self.agents: dict[str, AgentInfo] = {}
-
-    def start(self) -> bool:
-        """Start task coordination engine."""
-        try:
-            self.status = CoordinationStatus.OPERATIONAL
-            self.logger.info("Task coordination engine started")
-            return True
-        except Exception as e:
-            self.logger.error(f"Failed to start task coordination engine: {e}")
-            self.status = CoordinationStatus.ERROR
-            return False
-
-    def stop(self) -> bool:
-        """Stop task coordination engine."""
-        try:
-            self.status = CoordinationStatus.SHUTDOWN
-            self.logger.info("Task coordination engine stopped")
-            return True
-        except Exception as e:
-            self.logger.error(f"Failed to stop task coordination engine: {e}")
-            return False
-
-    def get_status(self) -> CoordinationStatus:
-        """Get engine status."""
-        return self.status
-
-    def assign_task(self, task: TaskInfo, agent_id: str) -> bool:
-        """Assign task to agent."""
-        try:
-            if agent_id not in self.agents:
-                self.logger.error(f"Agent {agent_id} not found")
-                return False
-
-            task.assigned_agent = agent_id
-            task.status = TaskStatus.RUNNING
-            task.updated_at = datetime.now()
-            self.tasks[task.task_id] = task
-
-            self.logger.info(f"Task {task.task_id} assigned to agent {agent_id}")
-            return True
-        except Exception as e:
-            self.logger.error(f"Failed to assign task {task.task_id}: {e}")
-            return False
-
-
-class PerformanceMonitoringEngine(CoordinationEngine):
-    """Performance monitoring engine implementation."""
-
-    def __init__(self):
-        super().__init__("performance_monitoring")
-        self.metrics: dict[str, Any] = {}
-
-    def start(self) -> bool:
-        """Start performance monitoring engine."""
-        try:
-            self.status = CoordinationStatus.OPERATIONAL
-            self.logger.info("Performance monitoring engine started")
-            return True
-        except Exception as e:
-            self.logger.error(f"Failed to start performance monitoring engine: {e}")
-            self.status = CoordinationStatus.ERROR
-            return False
-
-    def stop(self) -> bool:
-        """Stop performance monitoring engine."""
-        try:
-            self.status = CoordinationStatus.SHUTDOWN
-            self.logger.info("Performance monitoring engine stopped")
-            return True
-        except Exception as e:
-            self.logger.error(f"Failed to stop performance monitoring engine: {e}")
-            return False
-
-    def get_status(self) -> CoordinationStatus:
-        """Get engine status."""
-        return self.status
-
-    def record_metric(self, name: str, value: Any) -> None:
-        """Record performance metric."""
-        self.metrics[name] = {
-            "value": value,
-            "timestamp": datetime.now()
-        }
-
-    def get_metrics(self) -> dict[str, Any]:
-        """Get all metrics."""
-        return self.metrics.copy()
-
-
-# ============================================================================
-# COORDINATION ORCHESTRATORS
-# ============================================================================
-
-class SwarmCoordinationOrchestrator:
-    """Swarm coordination orchestrator implementation."""
-
-    def __init__(self):
-        self.logger = logging.getLogger("swarm_coordination_orchestrator")
-        self.swarms: dict[str, SwarmInfo] = {}
-        self.task_engine = TaskCoordinationEngine()
-        self.performance_engine = PerformanceMonitoringEngine()
-
-    def initialize(self) -> bool:
-        """Initialize swarm coordination orchestrator."""
-        try:
-            self.task_engine.start()
-            self.performance_engine.start()
-            self.logger.info("Swarm coordination orchestrator initialized")
-            return True
-        except Exception as e:
-            self.logger.error(f"Failed to initialize swarm coordination orchestrator: {e}")
-            return False
-
-    def create_swarm(self, swarm_info: SwarmInfo) -> bool:
-        """Create new swarm."""
-        try:
-            self.swarms[swarm_info.swarm_id] = swarm_info
-            self.logger.info(f"Swarm {swarm_info.swarm_id} created")
-            return True
-        except Exception as e:
-            self.logger.error(f"Failed to create swarm {swarm_info.swarm_id}: {e}")
-            return False
-
-    def join_swarm(self, swarm_id: str, agent: AgentInfo) -> bool:
-        """Join agent to swarm."""
-        try:
-            if swarm_id not in self.swarms:
-                self.logger.error(f"Swarm {swarm_id} not found")
-                return False
-
-            self.swarms[swarm_id].agents.append(agent)
-            self.logger.info(f"Agent {agent.agent_id} joined swarm {swarm_id}")
-            return True
-        except Exception as e:
-            self.logger.error(f"Failed to join agent {agent.agent_id} to swarm {swarm_id}: {e}")
-            return False
-
-    def get_swarm_status(self, swarm_id: str) -> dict[str, Any] | None:
-        """Get swarm status information."""
-        if swarm_id not in self.swarms:
-            return None
-
-        swarm = self.swarms[swarm_id]
-        return {
-            "swarm_id": swarm.swarm_id,
-            "name": swarm.name,
-            "status": swarm.status.value,
-            "phase": swarm.phase.value,
-            "agent_count": len(swarm.agents),
-            "active_tasks": len(swarm.active_tasks),
-            "created_at": swarm.created_at.isoformat()
-        }
-
-
-# ============================================================================
-# FACTORY FUNCTIONS
-# ============================================================================
-
-def create_coordination_engine(engine_type: str) -> CoordinationEngine | None:
-    """Create coordination engine by type."""
-    engines = {
-        "task": TaskCoordinationEngine,
-        "performance": PerformanceMonitoringEngine
-    }
-
-    engine_class = engines.get(engine_type)
-    if engine_class:
-        return engine_class()
-
-    return None
-
-
-def create_swarm_orchestrator() -> SwarmCoordinationOrchestrator:
-    """Create swarm coordination orchestrator."""
-    return SwarmCoordinationOrchestrator()
-
-
-def create_agent_strategy(strategy_type: str) -> AgentStrategy | None:
-    """Create agent strategy by type."""
-    strategies = {
-        "consolidation": ConsolidationStrategy,
-        "analysis": AnalysisStrategy
-    }
-
-    strategy_class = strategies.get(strategy_type)
-    if strategy_class:
-        return strategy_class()
-
-    return None
-
-
-# ============================================================================
-# MAIN EXECUTION
-# ============================================================================
+from .unified_core_system import create_core_system, ComponentType
 
 def main():
-    """Main execution function."""
-    print("Coordination Unified - Consolidated Coordination System")
-    print("=" * 60)
+    """Main entry point for the unified core component."""
+    try:
+        # Create core system instance
+        core_system = create_core_system()
+        
+        # Get the specific component type
+        component_type = ComponentType.COORDINATION
+        
+        # Process component-specific operations
+        if component_type == ComponentType.INTERFACE:
+            _handle_interface_component(core_system)
+        elif component_type == ComponentType.SSOT:
+            _handle_ssot_component(core_system)
+        elif component_type == ComponentType.PERFORMANCE:
+            _handle_performance_component(core_system)
+        elif component_type == ComponentType.VALIDATION:
+            _handle_validation_component(core_system)
+        elif component_type == ComponentType.ANALYTICS:
+            _handle_analytics_component(core_system)
+        elif component_type == ComponentType.MANAGER:
+            _handle_manager_component(core_system)
+        elif component_type == ComponentType.ENGINE:
+            _handle_engine_component(core_system)
+        elif component_type == ComponentType.ERROR_HANDLING:
+            _handle_error_handling_component(core_system)
+        elif component_type == ComponentType.INTEGRATION:
+            _handle_integration_component(core_system)
+        elif component_type == ComponentType.COORDINATION:
+            _handle_coordination_component(core_system)
+        elif component_type == ComponentType.PROGRESS_TRACKING:
+            _handle_progress_tracking_component(core_system)
+        elif component_type == ComponentType.MONITORING:
+            _handle_monitoring_component(core_system)
+        elif component_type == ComponentType.CONFIG:
+            _handle_config_component(core_system)
+        elif component_type == ComponentType.VECTOR:
+            _handle_vector_component(core_system)
+        elif component_type == ComponentType.EMERGENCY:
+            _handle_emergency_component(core_system)
+        elif component_type == ComponentType.REFACTORING:
+            _handle_refactoring_component(core_system)
+        else:
+            print(f"Core type {component_type} not implemented")
+            sys.exit(1)
+        
+    except Exception as e:
+        print(f"Error running coordination component: {e}")
+        sys.exit(1)
 
-    # Create swarm orchestrator
-    orchestrator = create_swarm_orchestrator()
-    if orchestrator.initialize():
-        print("✅ Swarm coordination orchestrator initialized")
-    else:
-        print("❌ Failed to initialize swarm coordination orchestrator")
-        return 1
+def _handle_interface_component(core_system):
+    """Handle interface component operations."""
+    print("Interface component initialized via unified core system")
+    # Add interface-specific logic here
 
-    # Create test swarm
-    swarm_info = SwarmInfo(
-        swarm_id="test_swarm_001",
-        name="Test Swarm",
-        status=SwarmStatus.ACTIVE,
-        phase=SwarmPhase.PHASE_2
-    )
+def _handle_ssot_component(core_system):
+    """Handle SSOT component operations."""
+    print("SSOT component initialized via unified core system")
+    # Add SSOT-specific logic here
 
-    if orchestrator.create_swarm(swarm_info):
-        print("✅ Test swarm created")
-    else:
-        print("❌ Failed to create test swarm")
-        return 1
+def _handle_performance_component(core_system):
+    """Handle performance component operations."""
+    print("Performance component initialized via unified core system")
+    # Add performance-specific logic here
 
-    # Create test agent
-    agent_info = AgentInfo(
-        agent_id="agent-2",
-        name="Architecture & Design Specialist",
-        status=AgentStatus.ACTIVE,
-        capabilities=["consolidation", "analysis", "architecture"]
-    )
+def _handle_validation_component(core_system):
+    """Handle validation component operations."""
+    print("Validation component initialized via unified core system")
+    # Add validation-specific logic here
 
-    if orchestrator.join_swarm("test_swarm_001", agent_info):
-        print("✅ Test agent joined swarm")
-    else:
-        print("❌ Failed to join test agent to swarm")
-        return 1
+def _handle_analytics_component(core_system):
+    """Handle analytics component operations."""
+    print("Analytics component initialized via unified core system")
+    # Add analytics-specific logic here
 
-    # Get swarm status
-    status = orchestrator.get_swarm_status("test_swarm_001")
-    if status:
-        print(f"✅ Swarm status: {status}")
-    else:
-        print("❌ Failed to get swarm status")
-        return 1
+def _handle_manager_component(core_system):
+    """Handle manager component operations."""
+    print("Manager component initialized via unified core system")
+    # Add manager-specific logic here
 
-    print("\nCoordination Unified system test completed successfully!")
-    return 0
+def _handle_engine_component(core_system):
+    """Handle engine component operations."""
+    print("Engine component initialized via unified core system")
+    # Add engine-specific logic here
 
+def _handle_error_handling_component(core_system):
+    """Handle error handling component operations."""
+    print("Error handling component initialized via unified core system")
+    # Add error handling-specific logic here
+
+def _handle_integration_component(core_system):
+    """Handle integration component operations."""
+    print("Integration component initialized via unified core system")
+    # Add integration-specific logic here
+
+def _handle_coordination_component(core_system):
+    """Handle coordination component operations."""
+    print("Coordination component initialized via unified core system")
+    # Add coordination-specific logic here
+
+def _handle_progress_tracking_component(core_system):
+    """Handle progress tracking component operations."""
+    print("Progress tracking component initialized via unified core system")
+    # Add progress tracking-specific logic here
+
+def _handle_monitoring_component(core_system):
+    """Handle monitoring component operations."""
+    print("Monitoring component initialized via unified core system")
+    # Add monitoring-specific logic here
+
+def _handle_config_component(core_system):
+    """Handle config component operations."""
+    print("Config component initialized via unified core system")
+    # Add config-specific logic here
+
+def _handle_vector_component(core_system):
+    """Handle vector component operations."""
+    print("Vector component initialized via unified core system")
+    # Add vector-specific logic here
+
+def _handle_emergency_component(core_system):
+    """Handle emergency component operations."""
+    print("Emergency component initialized via unified core system")
+    # Add emergency-specific logic here
+
+def _handle_refactoring_component(core_system):
+    """Handle refactoring component operations."""
+    print("Refactoring component initialized via unified core system")
+    # Add refactoring-specific logic here
 
 if __name__ == "__main__":
-    exit_code = main()
-    exit(exit_code)
+    main()

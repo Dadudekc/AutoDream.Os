@@ -19,7 +19,6 @@
 🚨 **IMMEDIATE ACTIONS REQUIRED:**
 1. **Check your inbox** for any pending messages
 2. **Update your status.json** with current timestamp
-<<<<<<< HEAD
 3. **Check agent statuses** using captain snapshot
 4. **Create next round of tasks** for agents
 5. **Begin system oversight** and momentum maintenance
@@ -48,10 +47,6 @@ tail -f runtime/agent_logs/Agent-1.log.jsonl
 - **Coordinate task assignments** - Ensure all agents have work
 - **Maintain swarm momentum** - Keep all agents active and productive
 - **Track progress metrics** - Monitor completion rates and quality
-=======
-3. **Create next round of tasks** for agents
-4. **Begin system oversight** and momentum maintenance
->>>>>>> origin/codex/catalog-functions-in-utils-directories
 
 🎯 **SUCCESS CRITERIA:** All agents actively working, system momentum maintained, stall prevention active, 8x efficiency maintained
 

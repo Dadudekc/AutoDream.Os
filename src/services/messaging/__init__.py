@@ -1,81 +1,124 @@
-#!/usr/bin/env python3
 """
-Unified Messaging System - V2 Compliant Consolidation
-===================================================
+Unified Messaging Service Layer - V2 Compliant Enterprise Services
+================================================================
 
-Consolidated messaging system providing unified messaging functionality.
-V2 COMPLIANT: This module consolidates 1404 lines into modular components.
+Consolidated service layer providing enterprise-ready messaging functionality.
 
-Previously monolithic implementation refactored into focused modules:
-- models/ (data models and enums)
-- interfaces/ (abstract interfaces)
-- providers/ (delivery providers)
-- cli/ (command-line interface)
-- consolidated_messaging_service.py (main coordinator)
+V2 Compliance: <300 lines per module, single responsibility
+Enterprise Ready: High availability, scalability, monitoring, security
 
-All modules are V2 compliant (<300 lines, focused responsibilities).
-
-Author: Agent-5 (Business Intelligence Specialist)
+Author: Agent-4 (Captain) - V2_SWARM Consolidation
 License: MIT
 """
 
-from .cli import MessagingCLI
-from .consolidated_messaging_service import (
-    ConsolidatedMessagingService,
-    get_consolidated_messaging_service,
-    get_messaging_service,
+# Core messaging services
+from .unified_service import (
+    UnifiedMessagingService,
+    get_unified_messaging_service,
+    send_message_to_agent,
+    broadcast_to_swarm,
+    get_messaging_status,
+    unified_messaging_service,
 )
-from .interfaces import (
-    FileBasedMessageHistoryProvider,
-    InboxDeliveryProvider,
-    MessageDeliveryProvider,
-    MessageHistoryProvider,
-    PyAutoGUIDeliveryProvider,
-)
-from .models import (
-    AgentCoordinates,
-    DeliveryMethod,
-    MessageHistory,
-    MessageStatus,
-    MessagingMetrics,
-    RecipientType,
-    UnifiedMessage,
-    UnifiedMessagePriority,
-    UnifiedMessageTag,
-    UnifiedMessageType,
-)
-from .providers import InboxMessageDelivery as InboxDelivery, PyAutoGUIMessageDelivery
 
-# Maintain backward compatibility
+# CLI services
+from .cli.messaging_cli import (
+    UnifiedMessagingCLI,
+)
+
+# Onboarding services
+from .onboarding.onboarding_service import (
+    OnboardingService,
+    get_onboarding_service,
+    onboard_agent,
+    onboard_swarm,
+    onboarding_service,
+)
+
+from .onboarding.message_generator import (
+    OnboardingMessageGenerator,
+    MessageStyle,
+    MessageType,
+    get_message_generator,
+    generate_onboarding_message,
+    generate_coordination_message,
+    message_generator,
+)
+
+# Broadcast services
+from .broadcast.broadcast_service import (
+    BroadcastService,
+    BroadcastType,
+    BroadcastPriority,
+    get_broadcast_service,
+    broadcast_message,
+    broadcast_emergency_alert,
+    broadcast_coordination_message,
+    broadcast_service,
+)
+
+from .broadcast.coordination_service import (
+    CoordinationService,
+    CoordinationStatus,
+    TaskPriority,
+    CoordinationTask,
+    get_coordination_service,
+    assign_task,
+    complete_task,
+    request_status_updates,
+    coordination_service,
+)
+
+# Service exports
 __all__ = [
-    # Main service
-    "ConsolidatedMessagingService",
-    "get_consolidated_messaging_service",
-    "get_messaging_service",
-
-    # CLI
-    "MessagingCLI",
-
-    # Models and enums
-    "UnifiedMessage",
-    "UnifiedMessageType",
-    "UnifiedMessagePriority",
-    "UnifiedMessageTag",
-    "DeliveryMethod",
-    "MessageStatus",
-    "RecipientType",
-    "AgentCoordinates",
-    "MessageHistory",
-    "MessagingMetrics",
-
-    # Interfaces
-    "MessageDeliveryProvider",
-    "PyAutoGUIDeliveryProvider",
-    "InboxDeliveryProvider",
-    "MessageHistoryProvider",
-    "FileBasedMessageHistoryProvider",
-
-    # Providers
-    "InboxDelivery",
-    "PyAutoGUIMessageDelivery",
+    # Core services
+    "UnifiedMessagingService",
+    "get_unified_messaging_service",
+    "send_message_to_agent",
+    "broadcast_to_swarm",
+    "get_messaging_status",
+    "unified_messaging_service",
+    
+    # CLI services
+    "UnifiedMessagingCLI",
+    
+    # Onboarding services
+    "OnboardingService",
+    "get_onboarding_service",
+    "onboard_agent",
+    "onboard_swarm",
+    "onboarding_service",
+    
+    "OnboardingMessageGenerator",
+    "MessageStyle",
+    "MessageType",
+    "get_message_generator",
+    "generate_onboarding_message",
+    "generate_coordination_message",
+    "message_generator",
+    
+    # Broadcast services
+    "BroadcastService",
+    "BroadcastType",
+    "BroadcastPriority",
+    "get_broadcast_service",
+    "broadcast_message",
+    "broadcast_emergency_alert",
+    "broadcast_coordination_message",
+    "broadcast_service",
+    
+    "CoordinationService",
+    "CoordinationStatus",
+    "TaskPriority",
+    "CoordinationTask",
+    "get_coordination_service",
+    "assign_task",
+    "complete_task",
+    "request_status_updates",
+    "coordination_service",
 ]
+
+# Version info
+__version__ = "2.0.0"
+__author__ = "Agent-4 (Captain) - V2_SWARM"
+__license__ = "MIT"

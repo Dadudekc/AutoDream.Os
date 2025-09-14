@@ -52,7 +52,6 @@ class AgentOnboarding:
             "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "current_mission": "Agent onboarding and task assignment",
             "mission_priority": "HIGH - Complete onboarding and begin task execution",
-<<<<<<< HEAD
             "current_tasks": [
                 "Complete onboarding",
                 "Claim first contract",
@@ -64,32 +63,13 @@ class AgentOnboarding:
         }
 
         with open(workspace_dir / "status.json", "w", encoding="utf-8") as f:
-            write_json(status_data, f, indent=2)
-
-        return workspace_dir
-
-=======
-            "current_tasks": ["Complete onboarding", "Claim first contract", "Begin task execution"],
-            "completed_tasks": [],
-            "achievements": ["Agent activation successful"],
-            "next_actions": ["Claim first contract using --get-next-task"]
-        }
-        
-        with open(workspace_dir / "status.json", "w", encoding="utf-8") as f:
             json.dump(status_data, f, indent=2)
-        
+
         return workspace_dir
-    
->>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
     def send_captain_acknowledgment(self, agent_id):
         """Send acknowledgment message to Captain Agent-4."""
         captain_inbox = self.workspace_root / "Agent-4" / "inbox"
         captain_inbox.mkdir(parents=True, exist_ok=True)
-<<<<<<< HEAD
-
-=======
-        
->>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
         message = f"""# Agent {agent_id} - Onboarding Complete
 
 **Agent ID**: {agent_id}
@@ -111,112 +91,11 @@ class AgentOnboarding:
 
 **WE. ARE. SWARM.** ⚡️🔥
 """
-<<<<<<< HEAD
 
         ack_file = captain_inbox / f"AGENT_{agent_id}_ONBOARDING_COMPLETE.md"
         with open(ack_file, "w", encoding="utf-8") as f:
             f.write(message)
 
-    def run_contract_assignment(self, agent_id):
-        """Run the contract assignment command."""
-        try:
-            result = subprocess.run(
-                [
-                    sys.executable,
-                    "-m",
-                    "src.services.messaging_cli",
-                    "--agent",
-                    agent_id,
-                    "--get-next-task",
-                ],
-                capture_output=True,
-                text=True,
-                check=True,
-            )
-            return result.stdout
-        except subprocess.CalledProcessError as e:
-            return f"Error running contract assignment: {e.stderr}"
-
-    def display_onboarding_summary(self, agent_id, workspace_dir):
-        """Display onboarding completion summary."""
-        get_logger(__name__).info("\n" + "=" * 60)
-        get_logger(__name__).info("🎯 **AGENT ONBOARDING COMPLETE** 🎯")
-        get_logger(__name__).info("=" * 60)
-        get_logger(__name__).info(f"✅ **Agent ID**: {agent_id}")
-        get_logger(__name__).info(f"✅ **Role**: {self.available_agents[agent_id]}")
-        get_logger(__name__).info(f"✅ **Workspace**: {workspace_dir}")
-        get_logger(__name__).info(f"✅ **Status File**: {workspace_dir}/status.json")
-        get_logger(__name__).info(f"✅ **Inbox**: {workspace_dir}/inbox/")
-        get_logger(__name__).info(f"✅ **Captain Acknowledgment**: Sent to Agent-4")
-        get_logger(__name__).info()
-        get_logger(__name__).info("🚀 **IMMEDIATE NEXT STEPS**:")
-        get_logger(__name__).info("1. Claim your first contract:")
-        get_logger(__name__).info(
-            f"   python -m src.services.messaging_cli --agent {agent_id} --get-next-task"
-        )
-        get_logger(__name__).info("2. Begin task execution immediately")
-        get_logger(__name__).info("3. Check your inbox regularly for messages")
-        get_logger(__name__).info("4. Update status.json with every action")
-        get_logger(__name__).info(
-            "5. Maintain 8x efficiency through active participation"
-        )
-        get_logger(__name__).info()
-        get_logger(__name__).info("📋 **CRITICAL PROTOCOLS**:")
-        get_logger(__name__).info("- Always check inbox before starting new work")
-        get_logger(__name__).info("- Respond to all messages within 1 agent cycle")
-        get_logger(__name__).info(
-            "- Update status.json with timestamp for every action"
-        )
-        get_logger(__name__).info("- Preserve work context across task transitions")
-        get_logger(__name__).info("- Follow V2 compliance standards")
-        get_logger(__name__).info()
-        get_logger(__name__).info("⚡ **WE. ARE. SWARM.** 🚀🔥")
-        get_logger(__name__).info("=" * 60)
-
-    def run_onboarding(self):
-        """Run the complete onboarding process."""
-        get_logger(__name__).info("🎯 **AGENT SWARM ONBOARDING SYSTEM** 🎯")
-        get_logger(__name__).info("=" * 50)
-
-        # Find available agent ID
-        agent_id = self.get_available_agent_id()
-        if not get_unified_validator().validate_required(agent_id):
-            get_logger(__name__).info("❌ ERROR: No available agent IDs found!")
-            get_logger(__name__).info(
-                "All agents are currently assigned. Contact Captain Agent-4 for assistance."
-            )
-            return False
-
-        get_logger(__name__).info(f"🎯 **ASSIGNED AGENT ID**: {agent_id}")
-        get_logger(__name__).info(f"🎯 **ROLE**: {self.available_agents[agent_id]}")
-        get_logger(__name__).info()
-
-        # Create workspace
-        get_logger(__name__).info("📁 Creating agent workspace...")
-        workspace_dir = self.create_agent_workspace(agent_id)
-        get_logger(__name__).info(f"✅ Workspace created: {workspace_dir}")
-
-        # Send captain acknowledgment
-        get_logger(__name__).info("📬 Sending acknowledgment to Captain Agent-4...")
-        self.send_captain_acknowledgment(agent_id)
-        get_logger(__name__).info("✅ Acknowledgment sent")
-
-        # Run contract assignment
-        get_logger(__name__).info("📋 Running contract assignment...")
-        contract_output = self.run_contract_assignment(agent_id)
-        get_logger(__name__).info("✅ Contract assignment completed")
-
-        # Display summary
-        self.display_onboarding_summary(agent_id, workspace_dir)
-
-        return True
-
-=======
-        
-        ack_file = captain_inbox / f"AGENT_{agent_id}_ONBOARDING_COMPLETE.md"
-        with open(ack_file, "w", encoding="utf-8") as f:
-            f.write(message)
-    
     def run_contract_assignment(self, agent_id):
         """Run the contract assignment command."""
         try:
@@ -227,7 +106,7 @@ class AgentOnboarding:
             return result.stdout
         except subprocess.CalledProcessError as e:
             return f"Error running contract assignment: {e.stderr}"
-    
+
     def display_onboarding_summary(self, agent_id, workspace_dir):
         """Display onboarding completion summary."""
         print("\n" + "="*60)
@@ -257,41 +136,41 @@ class AgentOnboarding:
         print()
         print("⚡ **WE. ARE. SWARM.** 🚀🔥")
         print("="*60)
-    
+
     def run_onboarding(self):
         """Run the complete onboarding process."""
         print("🎯 **AGENT SWARM ONBOARDING SYSTEM** 🎯")
         print("="*50)
-        
+
         # Find available agent ID
         agent_id = self.get_available_agent_id()
         if not agent_id:
             print("❌ ERROR: No available agent IDs found!")
             print("All agents are currently assigned. Contact Captain Agent-4 for assistance.")
             return False
-        
+
         print(f"🎯 **ASSIGNED AGENT ID**: {agent_id}")
         print(f"🎯 **ROLE**: {self.available_agents[agent_id]}")
         print()
-        
+
         # Create workspace
         print("📁 Creating agent workspace...")
         workspace_dir = self.create_agent_workspace(agent_id)
         print(f"✅ Workspace created: {workspace_dir}")
-        
+
         # Send captain acknowledgment
         print("📬 Sending acknowledgment to Captain Agent-4...")
         self.send_captain_acknowledgment(agent_id)
         print("✅ Acknowledgment sent")
-        
+
         # Run contract assignment
         print("📋 Running contract assignment...")
         contract_output = self.run_contract_assignment(agent_id)
         print("✅ Contract assignment completed")
-        
+
         # Display summary
         self.display_onboarding_summary(agent_id, workspace_dir)
-        
+
         return True
 
 def main():
@@ -308,7 +187,6 @@ def main():
         print("\n❌ **ONBOARDING FAILED** ❌")
         print("Please contact Captain Agent-4 for assistance.")
         sys.exit(1)
->>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
 
 if __name__ == "__main__":
     main()

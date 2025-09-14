@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - Unified Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .dashboard-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .dashboard-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+        
+        .dashboard-description {
+            color: #718096;
+            font-size: 1.1rem;
+        }
+        
+        .dashboard-controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            align-items: center;
+        }
+        
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: #4299e1;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #3182ce;
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+        
+        .btn-secondary:hover {
+            background: #cbd5e0;
+        }
+        
+        .dashboard-content {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .metric-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .metric-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-unit {
+            font-size: 1rem;
+            color: #a0aec0;
+            margin-left: 0.5rem;
+        }
+        
+        .metric-trend {
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .trend-up {
+            color: #38a169;
+        }
+        
+        .trend-down {
+            color: #e53e3e;
+        }
+        
+        .trend-stable {
+            color: #718096;
+        }
+        
+        .widgets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .widget {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .widget-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .widget-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        .widget-content {
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #718096;
+        }
+        
+        .alerts-section {
+            margin-top: 2rem;
+        }
+        
+        .alert {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-left: 4px solid #e53e3e;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .alert-warning {
+            border-left-color: #ed8936;
+        }
+        
+        .alert-info {
+            border-left-color: #4299e1;
+        }
+        
+        .alert-success {
+            border-left-color: #38a169;
+        }
+        
+        .alert-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .alert-level {
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+        }
+        
+        .alert-timestamp {
+            font-size: 0.8rem;
+            color: #a0aec0;
+        }
+        
+        .alert-message {
+            color: #4a5568;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        
+        .status-online {
+            background: #38a169;
+        }
+        
+        .status-offline {
+            background: #e53e3e;
+        }
+        
+        .status-warning {
+            background: #ed8936;
+        }
+        
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+            color: #718096;
+        }
+        
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #e2e8f0;
+            border-top: 2px solid #4299e1;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 0.5rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-content {
+                padding: 1rem;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .widgets-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .dashboard-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-header">
+        <h1 class="dashboard-title">{{ title }}</h1>
+        <p class="dashboard-description">{{ description }}</p>
+        <div class="dashboard-controls">
+            <button class="btn btn-primary" onclick="refreshDashboard()">
+                🔄 Refresh
+            </button>
+            <button class="btn btn-secondary" onclick="toggleAutoRefresh()">
+                ⏱️ Auto Refresh
+            </button>
+            <span class="status-indicator status-online"></span>
+            <span>Connected</span>
+        </div>
+    </div>
+    
+    <div class="dashboard-content">
+        <div class="metrics-grid" id="metricsGrid">
+            <div class="loading">
+                <div class="spinner"></div>
+                Loading metrics...
+            </div>
+        </div>
+        
+        <div class="widgets-grid" id="widgetsGrid">
+            {% for widget in widgets %}
+            <div class="widget">
+                <div class="widget-header">
+                    <h3 class="widget-title">{{ widget.title() }}</h3>
+                </div>
+                <div class="widget-content" id="widget-{{ widget }}">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        Loading {{ widget }}...
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="alerts-section" id="alertsSection">
+            <h2>Active Alerts</h2>
+            <div id="alertsContainer">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    Loading alerts...
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let autoRefreshInterval;
+        let autoRefreshEnabled = false;
+        
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboard();
+            connectWebSocket();
+        });
+        
+        async function loadDashboard() {
+            try {
+                const response = await fetch('/api/dashboard/data');
+                const data = await response.json();
+                updateDashboard(data);
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+                showError('Failed to load dashboard data');
+            }
+        }
+        
+        function updateDashboard(data) {
+            updateMetrics(data.metrics || []);
+            updateAlerts(data.alerts || []);
+            
+            // Update dashboard-specific data
+            if (data.dashboard_type === 'swarm_monitoring' && data.agent_statuses) {
+                updateAgentStatuses(data.agent_statuses);
+            }
+        }
+        
+        function updateMetrics(metrics) {
+            const metricsGrid = document.getElementById('metricsGrid');
+            
+            if (metrics.length === 0) {
+                metricsGrid.innerHTML = '<div class="loading">No metrics available</div>';
+                return;
+            }
+            
+            metricsGrid.innerHTML = metrics.map(metric => `
+                <div class="metric-card">
+                    <div class="metric-title">${metric.name.replace(/_/g, ' ')}</div>
+                    <div class="metric-value">
+                        ${metric.value}
+                        <span class="metric-unit">${metric.unit}</span>
+                    </div>
+                    ${metric.trend ? `
+                        <div class="metric-trend trend-${metric.trend}">
+                            ${metric.trend === 'up' ? '↗' : metric.trend === 'down' ? '↘' : '→'}
+                            ${metric.trend}
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+        
+        function updateAlerts(alerts) {
+            const alertsContainer = document.getElementById('alertsContainer');
+            
+            if (alerts.length === 0) {
+                alertsContainer.innerHTML = '<div class="loading">No active alerts</div>';
+                return;
+            }
+            
+            alertsContainer.innerHTML = alerts.map(alert => `
+                <div class="alert alert-${alert.level}">
+                    <div class="alert-header">
+                        <span class="alert-level">${alert.level}</span>
+                        <span class="alert-timestamp">${new Date(alert.timestamp).toLocaleString()}</span>
+                    </div>
+                    <div class="alert-message">${alert.message}</div>
+                </div>
+            `).join('');
+        }
+        
+        function updateAgentStatuses(agentStatuses) {
+            // Update agent status widgets if they exist
+            const agentWidget = document.getElementById('widget-agent_status');
+            if (agentWidget) {
+                agentWidget.innerHTML = agentStatuses.map(agent => `
+                    <div style="margin-bottom: 1rem;">
+                        <span class="status-indicator status-${agent.status === 'active' ? 'online' : 'offline'}"></span>
+                        <strong>${agent.agent_id}</strong>: ${agent.status}
+                        <br>
+                        <small>Phase: ${agent.current_phase}</small>
+                    </div>
+                `).join('');
+            }
+        }
+        
+        function connectWebSocket() {
+            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const ws = new WebSocket(`${protocol}//${window.location.host}/ws`);
+            
+            ws.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+                updateDashboard(data);
+            };
+            
+            ws.onclose = function() {
+                console.log('WebSocket connection closed');
+                // Attempt to reconnect after 5 seconds
+                setTimeout(connectWebSocket, 5000);
+            };
+            
+            ws.onerror = function(error) {
+                console.error('WebSocket error:', error);
+            };
+        }
+        
+        function refreshDashboard() {
+            loadDashboard();
+        }
+        
+        function toggleAutoRefresh() {
+            autoRefreshEnabled = !autoRefreshEnabled;
+            
+            if (autoRefreshEnabled) {
+                autoRefreshInterval = setInterval(loadDashboard, 5000);
+                document.querySelector('.btn-secondary').textContent = '⏱️ Auto Refresh ON';
+            } else {
+                clearInterval(autoRefreshInterval);
+                document.querySelector('.btn-secondary').textContent = '⏱️ Auto Refresh';
+            }
+        }
+        
+        function showError(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'alert alert-warning';
+            errorDiv.innerHTML = `
+                <div class="alert-header">
+                    <span class="alert-level">Error</span>
+                    <span class="alert-timestamp">${new Date().toLocaleString()}</span>
+                </div>
+                <div class="alert-message">${message}</div>
+            `;
+            
+            const alertsContainer = document.getElementById('alertsContainer');
+            alertsContainer.insertBefore(errorDiv, alertsContainer.firstChild);
+        }
+    </script>
+</body>
+</html>

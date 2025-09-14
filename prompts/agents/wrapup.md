@@ -1,16 +1,9 @@
 # 🚨 **AGENT WRAPUP SEQUENCE - QUALITY ASSURANCE MANDATORY** 🚨
 
-<<<<<<< HEAD
 **Agent:** `{agent_id}`
 **Session End Time:** `{timestamp}`
 **Mission:** `{mission_name}`
 **Status:** WRAPUP SEQUENCE INITIATED
-=======
-**Agent:** `{agent_id}`  
-**Session End Time:** `{timestamp}`  
-**Mission:** `{mission_name}`  
-**Status:** WRAPUP SEQUENCE INITIATED  
->>>>>>> origin/codex/catalog-functions-in-utils-directories
 
 ---
 

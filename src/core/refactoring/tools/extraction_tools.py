@@ -116,15 +116,36 @@ class ExtractionTools:
 
     def _extract_models(self, tree: ast.AST) -> str:
         """Extract model-related code."""
-        # Simplified extraction - in practice, you'd parse AST more carefully
-        return "# Models extracted from refactoring\n# TODO: Implement proper model extraction\n"
+        models = []
+        for node in ast.walk(tree):
+            if isinstance(node, ast.ClassDef):
+                # Check if class looks like a model (has dataclass decorator, BaseModel, etc.)
+                for decorator in node.decorator_list:
+                    if (isinstance(decorator, ast.Name) and 
+                        decorator.id in ['dataclass', 'BaseModel']):
+                        models.append(ast.unparse(node))
+                        break
+        return "\n\n".join(models) if models else "# No models found for extraction\n"
 
     def _extract_utils(self, tree: ast.AST) -> str:
         """Extract utility-related code."""
-        # Simplified extraction - in practice, you'd parse AST more carefully
-        return "# Utils extracted from refactoring\n# TODO: Implement proper utility extraction\n"
+        utils = []
+        for node in ast.walk(tree):
+            if isinstance(node, ast.FunctionDef):
+                # Check if function looks like a utility (static methods, helper functions)
+                if (not node.name.startswith('_') or 
+                    any(decorator.id == 'staticmethod' for decorator in node.decorator_list 
+                        if isinstance(decorator, ast.Name))):
+                    utils.append(ast.unparse(node))
+        return "\n\n".join(utils) if utils else "# No utility functions found for extraction\n"
 
     def _extract_core(self, tree: ast.AST) -> str:
         """Extract core-related code."""
-        # Simplified extraction - in practice, you'd parse AST more carefully
-        return "# Core extracted from refactoring\n# TODO: Implement proper core extraction\n"
+        core_classes = []
+        for node in ast.walk(tree):
+            if isinstance(node, ast.ClassDef):
+                # Check if class looks like core functionality (managers, coordinators, etc.)
+                if any(keyword in node.name.lower() for keyword in 
+                      ['manager', 'coordinator', 'service', 'engine', 'handler']):
+                    core_classes.append(ast.unparse(node))
+        return "\n\n".join(core_classes) if core_classes else "# No core classes found for extraction\n"

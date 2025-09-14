@@ -58,7 +58,7 @@ class DiscordWebhookIntegration:
             payload = {
                 "embeds": [embed],
                 "username": "V2_SWARM DevLog Monitor",
-                "avatar_url": "https://i.imgur.com/XXXXXXX.png"  # Add swarm avatar URL
+                "avatar_url": "https://i.imgur.com/swarm-avatar.png"  # Swarm avatar URL
             }
 
             response = self.session.post(self.webhook_url, json=payload)

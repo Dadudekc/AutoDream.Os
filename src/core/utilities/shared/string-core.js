@@ -1,58 +1,64 @@
 /**
- * @fileoverview String Utility Implementation - Enterprise-grade string manipulation utility
- * @version 2.0.0
+ * @fileoverview Shared String Utilities Core - Universal JavaScript Implementation
+ * @version 3.0.0
  * @author Agent-7 (Web Development Specialist)
  * @created 2024-01-01
  * @updated 2024-01-01
+ * 
+ * Universal string utility functions that work in both Node.js and browser environments.
+ * This is the core implementation that both TypeScript and JavaScript utilities will use.
  */
-
-import { IStringUtility, IStringResult, IStringValidation, IStringTransformOptions, IStringSearchOptions, IStringFormatOptions } from '../interfaces/IStringUtility';
 
 /**
- * Enterprise String Utility Implementation
+ * Universal String Utilities Core
  * Provides comprehensive string manipulation, validation, and transformation capabilities
+ * Works in both Node.js and browser environments
  */
-export class StringUtility implements IStringUtility {
-  private config: any = {};
-  private metrics = {
-    totalOperations: 0,
-    totalProcessingTime: 0,
-    cacheHits: 0,
-    cacheMisses: 0,
-    errors: 0,
-    memoryUsage: 0
-  };
-  private cache = new Map<string, any>();
-  private maxCacheSize = 1000;
+export class StringCore {
+  constructor(config = {}) {
+    this.config = {
+      defaultLocale: 'en-US',
+      maxCacheSize: 1000,
+      enableMetrics: true,
+      enableCaching: true,
+      ...config
+    };
+    
+    this.metrics = {
+      totalOperations: 0,
+      totalProcessingTime: 0,
+      cacheHits: 0,
+      cacheMisses: 0,
+      errors: 0,
+      memoryUsage: 0
+    };
+    
+    this.cache = new Map();
+    this.maxCacheSize = this.config.maxCacheSize;
+  }
 
   /**
    * Initialize the string utility with configuration
    */
-  async initialize(config: any = {}): Promise<void> {
+  async initialize(config = {}) {
     try {
-      this.config = {
-        defaultLocale: 'en-US',
-        maxCacheSize: 1000,
-        enableMetrics: true,
-        enableCaching: true,
-        ...config
-      };
+      this.config = { ...this.config, ...config };
       this.maxCacheSize = this.config.maxCacheSize;
     } catch (error) {
       this.metrics.errors++;
-      throw new Error(`StringUtility initialization failed: ${error}`);
+      throw new Error(`StringCore initialization failed: ${error}`);
     }
   }
 
   /**
    * Clean up resources and reset state
    */
-  async cleanup(): Promise<void> {
+  async cleanup() {
     try {
       this.cache.clear();
       this.resetMetrics();
     } catch (error) {
-      throw new Error(`StringUtility cleanup failed: ${error}`);
+      throw new Error(`StringCore cleanup failed: ${error}`);
     }
   }
 
@@ -61,8 +67,8 @@ export class StringUtility implements IStringUtility {
    */
   getMetadata() {
     return {
-      name: 'StringUtility',
-      version: '2.0.0',
+      name: 'StringCore',
+      version: '3.0.0',
       capabilities: [
         'caseConversion', 'validation', 'search', 'formatting',
         'encoding', 'analysis', 'generation', 'performance'
@@ -76,7 +82,7 @@ export class StringUtility implements IStringUtility {
   /**
    * Convert string to different cases
    */
-  toCase(str: string, caseType: 'upper' | 'lower' | 'title' | 'camel' | 'pascal' | 'snake' | 'kebab'): IStringResult {
+  toCase(str, caseType) {
     const startTime = performance.now();
     
     try {
@@ -84,7 +90,7 @@ export class StringUtility implements IStringUtility {
         return this.createErrorResult('Invalid input string');
       }
 
-      let result: string;
+      let result;
       
       switch (caseType) {
         case 'upper':
@@ -135,7 +141,7 @@ export class StringUtility implements IStringUtility {
   /**
    * Trim whitespace with advanced options
    */
-  trim(str: string, options: { chars?: string; sides?: 'left' | 'right' | 'both' } = {}): IStringResult {
+  trim(str, options = {}) {
     const startTime = performance.now();
     
     try {
@@ -164,7 +170,7 @@ export class StringUtility implements IStringUtility {
   /**
    * Pad string to specified length
    */
-  pad(str: string, length: number, options: { char?: string; side?: 'left' | 'right' | 'both' } = {}): IStringResult {
+  pad(str, length, options = {}) {
     const startTime = performance.now();
     
     try {
@@ -182,7 +188,7 @@ export class StringUtility implements IStringUtility {
       const paddingLength = length - currentLength;
       const padding = char.repeat(paddingLength);
       
-      let result: string;
+      let result;
       switch (side) {
         case 'left':
           result = padding + str;
@@ -210,7 +216,7 @@ export class StringUtility implements IStringUtility {
   /**
    * Reverse string with encoding support
    */
-  reverse(str: string, options: IStringTransformOptions = {}): IStringResult {
+  reverse(str, options = {}) {
     const startTime = performance.now();
     
     try {
@@ -247,7 +253,7 @@ export class StringUtility implements IStringUtility {
   /**
    * Validate email format
    */
-  validateEmail(email: string): IStringValidation {
+  validateEmail(email) {
     try {
       if (!email || typeof email !== 'string') {
         return { isValid: false, errors: ['Invalid input'], warnings: [] };
@@ -255,8 +261,8 @@ export class StringUtility implements IStringUtility {
 
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       const isValid = emailRegex.test(email);
-      const errors: string[] = [];
-      const warnings: string[] = [];
+      const errors = [];
+      const warnings = [];
 
       if (!isValid) {
         errors.push('Invalid email format');
@@ -279,14 +285,14 @@ export class StringUtility implements IStringUtility {
   /**
    * Validate URL format
    */
-  validateUrl(url: string): IStringValidation {
+  validateUrl(url) {
     try {
       if (!url || typeof url !== 'string') {
         return { isValid: false, errors: ['Invalid input'], warnings: [] };
       }
 
-      const errors: string[] = [];
-      const warnings: string[] = [];
+      const errors = [];
+      const warnings = [];
       let isValid = true;
 
       try {
@@ -309,15 +315,15 @@ export class StringUtility implements IStringUtility {
   /**
    * Validate phone number format
    */
-  validatePhone(phone: string, format: string = 'US'): IStringValidation {
+  validatePhone(phone, format = 'US') {
     try {
       if (!phone || typeof phone !== 'string') {
         return { isValid: false, errors: ['Invalid input'], warnings: [] };
       }
 
       const cleaned = phone.replace(/\D/g, '');
-      const errors: string[] = [];
-      const warnings: string[] = [];
+      const errors = [];
+      const warnings = [];
       let isValid = true;
 
       const patterns = {
@@ -326,7 +332,7 @@ export class StringUtility implements IStringUtility {
         INTERNATIONAL: /^\+?[1-9]\d{1,14}$/
       };
 
-      const pattern = patterns[format as keyof typeof patterns] || patterns.INTERNATIONAL;
+      const pattern = patterns[format] || patterns.INTERNATIONAL;
       
       if (!pattern.test(cleaned)) {
         isValid = false;
@@ -346,13 +352,7 @@ export class StringUtility implements IStringUtility {
   /**
    * Validate password strength
    */
-  validatePassword(password: string, options: {
-    minLength?: number;
-    requireUppercase?: boolean;
-    requireLowercase?: boolean;
-    requireNumbers?: boolean;
-    requireSpecialChars?: boolean;
-  } = {}): IStringValidation {
+  validatePassword(password, options = {}) {
     try {
       if (!password || typeof password !== 'string') {
         return { isValid: false, errors: ['Invalid input'], warnings: [] };
@@ -366,8 +366,8 @@ export class StringUtility implements IStringUtility {
         requireSpecialChars = true
       } = options;
 
-      const errors: string[] = [];
-      const warnings: string[] = [];
+      const errors = [];
+      const warnings = [];
 
       if (password.length < minLength) {
         errors.push(`Password must be at least ${minLength} characters long`);
@@ -402,14 +402,14 @@ export class StringUtility implements IStringUtility {
   /**
    * Validate JSON string
    */
-  validateJson(jsonStr: string): IStringValidation {
+  validateJson(jsonStr) {
     try {
       if (!jsonStr || typeof jsonStr !== 'string') {
         return { isValid: false, errors: ['Invalid input'], warnings: [] };
       }
 
-      const errors: string[] = [];
-      const warnings: string[] = [];
+      const errors = [];
+      const warnings = [];
 
       try {
         JSON.parse(jsonStr);
@@ -426,7 +426,7 @@ export class StringUtility implements IStringUtility {
   /**
    * Validate UUID format
    */
-  validateUuid(uuid: string): IStringValidation {
+  validateUuid(uuid) {
     try {
       if (!uuid || typeof uuid !== 'string') {
         return { isValid: false, errors: ['Invalid input'], warnings: [] };
@@ -434,8 +434,8 @@ export class StringUtility implements IStringUtility {
 
       const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
       const isValid = uuidRegex.test(uuid);
-      const errors: string[] = [];
-      const warnings: string[] = [];
+      const errors = [];
+      const warnings = [];
 
       if (!isValid) {
         errors.push('Invalid UUID format');
@@ -452,11 +452,7 @@ export class StringUtility implements IStringUtility {
   /**
    * Advanced string search with multiple options
    */
-  search(str: string, searchTerm: string, options: IStringSearchOptions = {}): {
-    found: boolean;
-    matches: Array<{ index: number; length: number; value: string }>;
-    count: number;
-  } {
+  search(str, searchTerm, options = {}) {
     try {
       if (!str || !searchTerm) {
         return { found: false, matches: [], count: 0 };
@@ -487,7 +483,7 @@ export class StringUtility implements IStringUtility {
       }
 
       const regexObj = new RegExp(pattern, caseSensitive ? 'g' : 'gi');
-      const matches: Array<{ index: number; length: number; value: string }> = [];
+      const matches = [];
       let match;
 
       while ((match = regexObj.exec(searchStr)) !== null) {
@@ -511,11 +507,7 @@ export class StringUtility implements IStringUtility {
   /**
    * Replace text with advanced options
    */
-  replace(str: string, searchTerm: string, replacement: string, options: {
-    global?: boolean;
-    caseSensitive?: boolean;
-    regex?: boolean;
-  } = {}): IStringResult {
+  replace(str, searchTerm, replacement, options = {}) {
     const startTime = performance.now();
     
     try {
@@ -546,11 +538,7 @@ export class StringUtility implements IStringUtility {
   /**
    * Replace multiple patterns at once
    */
-  replaceMultiple(str: string, replacements: Array<{
-    search: string;
-    replace: string;
-    options?: any;
-  }>): IStringResult {
+  replaceMultiple(str, replacements) {
     const startTime = performance.now();
     
     try {
@@ -563,7 +551,7 @@ export class StringUtility implements IStringUtility {
       for (const replacement of replacements) {
         const replaceResult = this.replace(result, replacement.search, replacement.replace, replacement.options);
         if (replaceResult.success) {
-          result = replaceResult.data!;
+          result = replaceResult.data;
         } else {
           return replaceResult;
         }
@@ -582,7 +570,7 @@ export class StringUtility implements IStringUtility {
   /**
    * Format string with placeholders
    */
-  format(template: string, values: Record<string, any>, options: IStringFormatOptions = {}): IStringResult {
+  format(template, values, options = {}) {
     const startTime = performance.now();
     
     try {
@@ -608,7 +596,7 @@ export class StringUtility implements IStringUtility {
   /**
    * Format currency
    */
-  formatCurrency(amount: number, options: IStringFormatOptions = {}): IStringResult {
+  formatCurrency(amount, options = {}) {
     const startTime = performance.now();
     
     try {
@@ -636,7 +624,7 @@ export class StringUtility implements IStringUtility {
   /**
    * Format date string
    */
-  formatDate(date: Date | string, options: IStringFormatOptions = {}): IStringResult {
+  formatDate(date, options = {}) {
     const startTime = performance.now();
     
     try {
@@ -648,14 +636,14 @@ export class StringUtility implements IStringUtility {
 
       const { locale = 'en-US', dateFormat = 'short' } = options;
       
-      const formatOptions: Intl.DateTimeFormatOptions = {
+      const formatOptions = {
         short: { year: 'numeric', month: 'short', day: 'numeric' },
         long: { year: 'numeric', month: 'long', day: 'numeric' },
         time: { hour: '2-digit', minute: '2-digit' },
         datetime: { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }
       };
 
-      const result = new Intl.DateTimeFormat(locale, formatOptions[dateFormat as keyof typeof formatOptions] || formatOptions.short)
+      const result = new Intl.DateTimeFormat(locale, formatOptions[dateFormat] || formatOptions.short)
         .format(dateObj);
 
       this.updateMetrics(startTime);
@@ -669,7 +657,7 @@ export class StringUtility implements IStringUtility {
   /**
    * Format number with locale support
    */
-  formatNumber(number: number, options: IStringFormatOptions = {}): IStringResult {
+  formatNumber(number, options = {}) {
     const startTime = performance.now();
     
     try {
@@ -697,7 +685,7 @@ export class StringUtility implements IStringUtility {
   /**
    * Encode string to different formats
    */
-  encode(str: string, encoding: 'base64' | 'url' | 'html' | 'unicode'): IStringResult {
+  encode(str, encoding) {
     const startTime = performance.now();
     
     try {
@@ -705,7 +693,7 @@ export class StringUtility implements IStringUtility {
         return this.createErrorResult('Invalid input string');
       }
 
-      let result: string;
+      let result;
       
       switch (encoding) {
         case 'base64':
@@ -716,7 +704,7 @@ export class StringUtility implements IStringUtility {
           break;
         case 'html':
           result = str.replace(/[&<>"']/g, (match) => {
-            const entities: Record<string, string> = {
+            const entities = {
               '&': '&amp;',
               '<': '&lt;',
               '>': '&gt;',
@@ -746,7 +734,7 @@ export class StringUtility implements IStringUtility {
   /**
    * Decode string from different formats
    */
-  decode(str: string, encoding: 'base64' | 'url' | 'html' | 'unicode'): IStringResult {
+  decode(str, encoding) {
     const startTime = performance.now();
     
     try {
@@ -754,7 +742,7 @@ export class StringUtility implements IStringUtility {
         return this.createErrorResult('Invalid input string');
       }
 
-      let result: string;
+      let result;
       
       switch (encoding) {
         case 'base64':
@@ -765,7 +753,7 @@ export class StringUtility implements IStringUtility {
           break;
         case 'html':
           result = str.replace(/&amp;|&lt;|&gt;|&quot;|&#39;/g, (match) => {
-            const entities: Record<string, string> = {
+            const entities = {
               '&amp;': '&',
               '&lt;': '<',
               '&gt;': '>',
@@ -795,7 +783,7 @@ export class StringUtility implements IStringUtility {
   /**
    * Hash string using various algorithms
    */
-  async hash(str: string, algorithm: 'md5' | 'sha1' | 'sha256' | 'sha512'): Promise<IStringResult> {
+  async hash(str, algorithm) {
     const startTime = performance.now();
     
     try {
@@ -822,14 +810,7 @@ export class StringUtility implements IStringUtility {
   /**
    * Analyze string statistics
    */
-  analyze(str: string): {
-    length: number;
-    wordCount: number;
-    lineCount: number;
-    charFrequency: Record<string, number>;
-    readabilityScore?: number;
-    language?: string;
-  } {
+  analyze(str) {
     try {
       if (!str || typeof str !== 'string') {
         return {
@@ -844,7 +825,7 @@ export class StringUtility implements IStringUtility {
       const wordCount = str.trim().split(/\s+/).filter(word => word.length > 0).length;
       const lineCount = str.split('\n').length;
       
-      const charFrequency: Record<string, number> = {};
+      const charFrequency = {};
       for (const char of str) {
         charFrequency[char] = (charFrequency[char] || 0) + 1;
       }
@@ -874,13 +855,13 @@ export class StringUtility implements IStringUtility {
   /**
    * Extract patterns from string
    */
-  extractPatterns(str: string, pattern: string | 'email' | 'url' | 'phone' | 'date'): string[] {
+  extractPatterns(str, pattern) {
     try {
       if (!str || typeof str !== 'string') {
         return [];
       }
 
-      let regex: RegExp;
+      let regex;
       
       if (typeof pattern === 'string') {
         regex = new RegExp(pattern, 'gi');
@@ -904,7 +885,7 @@ export class StringUtility implements IStringUtility {
   /**
    * Calculate string similarity
    */
-  similarity(str1: string, str2: string, algorithm: 'levenshtein' | 'jaro' | 'cosine' = 'levenshtein'): number {
+  similarity(str1, str2, algorithm = 'levenshtein') {
     try {
       if (!str1 || !str2) {
         return 0;
@@ -930,10 +911,7 @@ export class StringUtility implements IStringUtility {
   /**
    * Slice string with advanced options
    */
-  slice(str: string, start: number, end?: number, options: {
-    preserveWords?: boolean;
-    addEllipsis?: boolean;
-  } = {}): IStringResult {
+  slice(str, start, end, options = {}) {
     const startTime = performance.now();
     
     try {
@@ -966,11 +944,7 @@ export class StringUtility implements IStringUtility {
   /**
    * Split string with advanced options
    */
-  split(str: string, delimiter: string | RegExp, options: {
-    limit?: number;
-    trimItems?: boolean;
-    removeEmpty?: boolean;
-  } = {}): string[] {
+  split(str, delimiter, options = {}) {
     try {
       if (!str || typeof str !== 'string') {
         return [];
@@ -997,10 +971,7 @@ export class StringUtility implements IStringUtility {
   /**
    * Join array of strings
    */
-  join(strings: string[], separator: string, options: {
-    filterEmpty?: boolean;
-    trimItems?: boolean;
-  } = {}): IStringResult {
+  join(strings, separator, options = {}) {
     const startTime = performance.now();
     
     try {
@@ -1035,14 +1006,7 @@ export class StringUtility implements IStringUtility {
   /**
    * Generate random string
    */
-  generateRandom(length: number, options: {
-    charset?: string;
-    includeUppercase?: boolean;
-    includeLowercase?: boolean;
-    includeNumbers?: boolean;
-    includeSpecial?: boolean;
-    excludeSimilar?: boolean;
-  } = {}): IStringResult {
+  generateRandom(length, options = {}) {
     const startTime = performance.now();
     
     try {
@@ -1092,11 +1056,11 @@ export class StringUtility implements IStringUtility {
   /**
    * Generate UUID
    */
-  generateUuid(version: number = 4): IStringResult {
+  generateUuid(version = 4) {
     const startTime = performance.now();
     
     try {
-      let result: string;
+      let result;
       
       if (version === 4) {
         result = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
@@ -1119,11 +1083,7 @@ export class StringUtility implements IStringUtility {
   /**
    * Generate slug from string
    */
-  generateSlug(str: string, options: {
-    separator?: string;
-    maxLength?: number;
-    preserveCase?: boolean;
-  } = {}): IStringResult {
+  generateSlug(str, options = {}) {
     const startTime = performance.now();
     
     try {
@@ -1180,14 +1140,14 @@ export class StringUtility implements IStringUtility {
   /**
    * Clear performance cache
    */
-  clearCache(): void {
+  clearCache() {
     this.cache.clear();
   }
 
   /**
    * Reset performance metrics
    */
-  resetMetrics(): void {
+  resetMetrics() {
     this.metrics = {
       totalOperations: 0,
       totalProcessingTime: 0,
@@ -1200,7 +1160,7 @@ export class StringUtility implements IStringUtility {
 
   // === PRIVATE HELPER METHODS ===
 
-  private createSuccessResult(data: string): IStringResult {
+  createSuccessResult(data) {
     return {
       success: true,
       data,
@@ -1211,7 +1171,7 @@ export class StringUtility implements IStringUtility {
     };
   }
 
-  private createErrorResult(error: string): IStringResult {
+  createErrorResult(error) {
     return {
       success: false,
       error,
@@ -1222,18 +1182,18 @@ export class StringUtility implements IStringUtility {
     };
   }
 
-  private updateMetrics(startTime: number): void {
+  updateMetrics(startTime) {
     const processingTime = performance.now() - startTime;
     this.metrics.totalOperations++;
     this.metrics.totalProcessingTime += processingTime;
     this.metrics.memoryUsage = this.cache.size;
   }
 
-  private escapeRegex(str: string): string {
+  escapeRegex(str) {
     return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
 
-  private levenshteinSimilarity(str1: string, str2: string): number {
+  levenshteinSimilarity(str1, str2) {
     const matrix = Array(str2.length + 1).fill(null).map(() => Array(str1.length + 1).fill(null));
     
     for (let i = 0; i <= str1.length; i++) matrix[0][i] = i;
@@ -1254,7 +1214,7 @@ export class StringUtility implements IStringUtility {
     return maxLength === 0 ? 1 : (maxLength - matrix[str2.length][str1.length]) / maxLength;
   }
 
-  private jaroSimilarity(str1: string, str2: string): number {
+  jaroSimilarity(str1, str2) {
     if (str1 === str2) return 1;
     
     const matchWindow = Math.floor(Math.max(str1.length, str2.length) / 2) - 1;
@@ -1292,9 +1252,9 @@ export class StringUtility implements IStringUtility {
     return (matches / str1.length + matches / str2.length + (matches - transpositions / 2) / matches) / 3;
   }
 
-  private cosineSimilarity(str1: string, str2: string): number {
-    const getCharFrequency = (str: string) => {
-      const freq: Record<string, number> = {};
+  cosineSimilarity(str1, str2) {
+    const getCharFrequency = (str) => {
+      const freq = {};
       for (const char of str.toLowerCase()) {
         freq[char] = (freq[char] || 0) + 1;
       }
@@ -1322,3 +1282,6 @@ export class StringUtility implements IStringUtility {
     return norm1 === 0 || norm2 === 0 ? 0 : dotProduct / (Math.sqrt(norm1) * Math.sqrt(norm2));
   }
 }
+
+// Export for both CommonJS and ES modules
+export default StringCore;

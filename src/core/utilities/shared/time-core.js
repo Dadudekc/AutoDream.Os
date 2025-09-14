@@ -1,63 +1,75 @@
 /**
- * @fileoverview Time Utility Implementation - Enterprise-grade time manipulation utility
- * @version 2.0.0
+ * @fileoverview Shared Time Utilities Core - Universal JavaScript Implementation
+ * @version 3.0.0
  * @author Agent-7 (Web Development Specialist)
  * @created 2024-01-01
  * @updated 2024-01-01
+ * 
+ * Universal time utility functions that work in both Node.js and browser environments.
+ * This is the core implementation that both TypeScript and JavaScript utilities will use.
  */
-
-import { 
-  ITimeUtility, ITimeResult, ITimeFormatOptions, ITimeCalculationOptions, 
-  ITimeValidationOptions, ITimeRangeOptions 
-} from '../interfaces/ITimeUtility';
 
 /**
- * Enterprise Time Utility Implementation
+ * Universal Time Utilities Core
  * Provides comprehensive time manipulation, formatting, and calculation capabilities
+ * Works in both Node.js and browser environments
  */
-export class TimeUtility implements ITimeUtility {
-  private config: any = {};
-  private metrics = {
-    totalOperations: 0,
-    totalProcessingTime: 0,
-    cacheHits: 0,
-    cacheMisses: 0,
-    errors: 0,
-    memoryUsage: 0
-  };
-  private cache = new Map<string, any>();
-  private maxCacheSize = 1000;
+export class TimeCore {
+  constructor(config = {}) {
+    this.config = {
+      defaultTimezone: 'UTC',
+      defaultLocale: 'en-US',
+      maxCacheSize: 1000,
+      enableMetrics: true,
+      enableCaching: true,
+      ...config
+    };
+    
+    this.metrics = {
+      totalOperations: 0,
+      totalProcessingTime: 0,
+      cacheHits: 0,
+      cacheMisses: 0,
+      errors: 0,
+      memoryUsage: 0
+    };
+    
+    this.cache = new Map();
+    this.maxCacheSize = this.config.maxCacheSize;
+  }
 
-  async initialize(config: any = {}): Promise<void> {
+  /**
+   * Initialize the time utility with configuration
+   */
+  async initialize(config = {}) {
     try {
-      this.config = {
-        defaultTimezone: 'UTC',
-        defaultLocale: 'en-US',
-        maxCacheSize: 1000,
-        enableMetrics: true,
-        enableCaching: true,
-        ...config
-      };
+      this.config = { ...this.config, ...config };
       this.maxCacheSize = this.config.maxCacheSize;
     } catch (error) {
       this.metrics.errors++;
-      throw new Error(`TimeUtility initialization failed: ${error}`);
+      throw new Error(`TimeCore initialization failed: ${error}`);
     }
   }
 
-  async cleanup(): Promise<void> {
+  /**
+   * Clean up resources and reset state
+   */
+  async cleanup() {
     try {
       this.cache.clear();
       this.resetMetrics();
     } catch (error) {
-      throw new Error(`TimeUtility cleanup failed: ${error}`);
+      throw new Error(`TimeCore cleanup failed: ${error}`);
     }
   }
 
+  /**
+   * Get utility metadata and capabilities
+   */
   getMetadata() {
     return {
-      name: 'TimeUtility',
-      version: '2.0.0',
+      name: 'TimeCore',
+      version: '3.0.0',
       capabilities: [
         'creation', 'parsing', 'formatting', 'calculation', 'validation',
         'comparison', 'conversion', 'ranges', 'business', 'performance'
@@ -68,15 +80,14 @@ export class TimeUtility implements ITimeUtility {
 
   // === TIME CREATION & PARSING ===
 
-  create(input?: any, options: {
-    timezone?: string;
-    locale?: string;
-    format?: string;
-  } = {}): ITimeResult {
+  /**
+   * Create date from input
+   */
+  create(input, options = {}) {
     const startTime = performance.now();
     
     try {
-      let result: Date;
+      let result;
       
       if (!input) {
         result = new Date();
@@ -102,12 +113,10 @@ export class TimeUtility implements ITimeUtility {
     }
   }
 
-  parse(dateString: string, options: {
-    format?: string;
-    timezone?: string;
-    locale?: string;
-    strict?: boolean;
-  } = {}): ITimeResult {
+  /**
+   * Parse date string with format
+   */
+  parse(dateString, options = {}) {
     const startTime = performance.now();
     
     try {
@@ -116,7 +125,7 @@ export class TimeUtility implements ITimeUtility {
       }
 
       const { strict = false } = options;
-      let result: Date;
+      let result;
 
       if (options.format) {
         result = this.parseWithFormat(dateString, options.format);
@@ -143,11 +152,10 @@ export class TimeUtility implements ITimeUtility {
     }
   }
 
-  now(options: {
-    timezone?: string;
-    format?: string;
-    precision?: 'milliseconds' | 'seconds';
-  } = {}): ITimeResult {
+  /**
+   * Get current time
+   */
+  now(options = {}) {
     const startTime = performance.now();
     
     try {
@@ -167,10 +175,10 @@ export class TimeUtility implements ITimeUtility {
     }
   }
 
-  utc(options: {
-    format?: string;
-    precision?: 'milliseconds' | 'seconds';
-  } = {}): ITimeResult {
+  /**
+   * Get UTC time
+   */
+  utc(options = {}) {
     const startTime = performance.now();
     
     try {
@@ -193,7 +201,10 @@ export class TimeUtility implements ITimeUtility {
 
   // === TIME FORMATTING ===
 
-  format(date: Date | string, options: ITimeFormatOptions = {}): ITimeResult {
+  /**
+   * Format date with options
+   */
+  format(date, options = {}) {
     const startTime = performance.now();
     
     try {
@@ -212,12 +223,12 @@ export class TimeUtility implements ITimeUtility {
         includeTimezone = false
       } = options;
 
-      let result: string;
+      let result;
 
       if (customFormat) {
         result = this.formatWithCustomFormat(dateObj, customFormat);
       } else {
-        const formatOptions: Intl.DateTimeFormatOptions = this.getFormatOptions(format, includeTime, includeDate);
+        const formatOptions = this.getFormatOptions(format, includeTime, includeDate);
         result = new Intl.DateTimeFormat(locale, {
           ...formatOptions,
           timeZone
@@ -236,12 +247,10 @@ export class TimeUtility implements ITimeUtility {
     }
   }
 
-  formatRelative(date: Date | string, options: {
-    baseDate?: Date | string;
-    locale?: string;
-    precision?: 'seconds' | 'minutes' | 'hours' | 'days' | 'weeks' | 'months' | 'years';
-    includeSuffix?: boolean;
-  } = {}): ITimeResult {
+  /**
+   * Format relative time
+   */
+  formatRelative(date, options = {}) {
     const startTime = performance.now();
     
     try {
@@ -262,7 +271,7 @@ export class TimeUtility implements ITimeUtility {
       const diffYears = Math.floor(diffDays / 365);
 
       const { precision = 'days', includeSuffix = true } = options;
-      let result: string;
+      let result;
 
       if (Math.abs(diffYears) >= 1 && ['years', 'months', 'days', 'hours', 'minutes', 'seconds'].includes(precision)) {
         result = `${Math.abs(diffYears)} year${Math.abs(diffYears) !== 1 ? 's' : ''}`;
@@ -300,7 +309,10 @@ export class TimeUtility implements ITimeUtility {
 
   // === TIME CALCULATIONS ===
 
-  add(date: Date | string, amount: number, options: ITimeCalculationOptions = {}): ITimeResult {
+  /**
+   * Add time to date
+   */
+  add(date, amount, options = {}) {
     const startTime = performance.now();
     
     try {
@@ -353,11 +365,17 @@ export class TimeUtility implements ITimeUtility {
     }
   }
 
-  subtract(date: Date | string, amount: number, options: ITimeCalculationOptions = {}): ITimeResult {
+  /**
+   * Subtract time from date
+   */
+  subtract(date, amount, options = {}) {
     return this.add(date, -amount, options);
   }
 
-  difference(date1: Date | string, date2: Date | string, options: ITimeCalculationOptions = {}): ITimeResult {
+  /**
+   * Calculate difference between dates
+   */
+  difference(date1, date2, options = {}) {
     const startTime = performance.now();
     
     try {
@@ -375,7 +393,7 @@ export class TimeUtility implements ITimeUtility {
         diffMs = Math.abs(diffMs);
       }
 
-      let result: number;
+      let result;
       switch (unit) {
         case 'milliseconds':
           result = diffMs;
@@ -415,15 +433,13 @@ export class TimeUtility implements ITimeUtility {
 
   // === TIME VALIDATION ===
 
-  validate(date: any, options: ITimeValidationOptions = {}): {
-    isValid: boolean;
-    errors: string[];
-    warnings: string[];
-    normalizedDate?: Date;
-  } {
+  /**
+   * Validate date
+   */
+  validate(date, options = {}) {
     try {
-      const errors: string[] = [];
-      const warnings: string[] = [];
+      const errors = [];
+      const warnings = [];
       
       const dateObj = this.toDate(date);
       if (!dateObj || isNaN(dateObj.getTime())) {
@@ -471,15 +487,18 @@ export class TimeUtility implements ITimeUtility {
     }
   }
 
-  isValid(date: any): boolean {
+  /**
+   * Check if date is valid
+   */
+  isValid(date) {
     const dateObj = this.toDate(date);
     return dateObj !== null && !isNaN(dateObj.getTime());
   }
 
-  isPast(date: Date | string, options: {
-    includeToday?: boolean;
-    timezone?: string;
-  } = {}): boolean {
+  /**
+   * Check if date is in the past
+   */
+  isPast(date, options = {}) {
     const dateObj = this.toDate(date);
     if (!dateObj) return false;
 
@@ -492,10 +511,10 @@ export class TimeUtility implements ITimeUtility {
     return dateObj < now;
   }
 
-  isFuture(date: Date | string, options: {
-    includeToday?: boolean;
-    timezone?: string;
-  } = {}): boolean {
+  /**
+   * Check if date is in the future
+   */
+  isFuture(date, options = {}) {
     const dateObj = this.toDate(date);
     if (!dateObj) return false;
 
@@ -508,9 +527,10 @@ export class TimeUtility implements ITimeUtility {
     return dateObj > now;
   }
 
-  isToday(date: Date | string, options: {
-    timezone?: string;
-  } = {}): boolean {
+  /**
+   * Check if date is today
+   */
+  isToday(date, options = {}) {
     const dateObj = this.toDate(date);
     if (!dateObj) return false;
 
@@ -518,9 +538,10 @@ export class TimeUtility implements ITimeUtility {
     return dateObj.toDateString() === today.toDateString();
   }
 
-  isWeekend(date: Date | string, options: {
-    timezone?: string;
-  } = {}): boolean {
+  /**
+   * Check if date is weekend
+   */
+  isWeekend(date, options = {}) {
     const dateObj = this.toDate(date);
     if (!dateObj) return false;
 
@@ -528,19 +549,19 @@ export class TimeUtility implements ITimeUtility {
     return day === 0 || day === 6; // Sunday or Saturday
   }
 
-  isBusinessDay(date: Date | string, options: {
-    timezone?: string;
-    excludeHolidays?: boolean;
-  } = {}): boolean {
+  /**
+   * Check if date is business day
+   */
+  isBusinessDay(date, options = {}) {
     return !this.isWeekend(date, options);
   }
 
   // === TIME COMPARISONS ===
 
-  compare(date1: Date | string, date2: Date | string, options: {
-    precision?: 'milliseconds' | 'seconds' | 'minutes' | 'hours' | 'days';
-    timezone?: string;
-  } = {}): number {
+  /**
+   * Compare two dates
+   */
+  compare(date1, date2, options = {}) {
     const dateObj1 = this.toDate(date1);
     const dateObj2 = this.toDate(date2);
     
@@ -566,6 +587,9 @@ export class TimeUtility implements ITimeUtility {
 
   // === PERFORMANCE & MONITORING ===
 
+  /**
+   * Get performance metrics
+   */
   getMetrics() {
     return {
       totalOperations: this.metrics.totalOperations,
@@ -582,11 +606,17 @@ export class TimeUtility implements ITimeUtility {
     };
   }
 
-  clearCache(): void {
+  /**
+   * Clear performance cache
+   */
+  clearCache() {
     this.cache.clear();
   }
 
-  resetMetrics(): void {
+  /**
+   * Reset performance metrics
+   */
+  resetMetrics() {
     this.metrics = {
       totalOperations: 0,
       totalProcessingTime: 0,
@@ -599,7 +629,7 @@ export class TimeUtility implements ITimeUtility {
 
   // === PRIVATE HELPER METHODS ===
 
-  private createSuccessResult<T>(data: T): ITimeResult {
+  createSuccessResult(data) {
     return {
       success: true,
       data,
@@ -610,7 +640,7 @@ export class TimeUtility implements ITimeUtility {
     };
   }
 
-  private createErrorResult(error: string): ITimeResult {
+  createErrorResult(error) {
     return {
       success: false,
       error,
@@ -621,14 +651,14 @@ export class TimeUtility implements ITimeUtility {
     };
   }
 
-  private updateMetrics(startTime: number): void {
+  updateMetrics(startTime) {
     const processingTime = performance.now() - startTime;
     this.metrics.totalOperations++;
     this.metrics.totalProcessingTime += processingTime;
     this.metrics.memoryUsage = this.cache.size;
   }
 
-  private toDate(input: any): Date | null {
+  toDate(input) {
     if (!input) return null;
     if (input instanceof Date) return new Date(input);
     if (typeof input === 'string' || typeof input === 'number') {
@@ -638,9 +668,9 @@ export class TimeUtility implements ITimeUtility {
     return null;
   }
 
-  private parseWithFormat(dateString: string, format: string): Date {
+  parseWithFormat(dateString, format) {
     // Basic format parsing - can be enhanced
-    const patterns: Record<string, RegExp> = {
+    const patterns = {
       'YYYY-MM-DD': /^(\d{4})-(\d{2})-(\d{2})$/,
       'MM/DD/YYYY': /^(\d{2})\/(\d{2})\/(\d{4})$/,
       'DD/MM/YYYY': /^(\d{2})\/(\d{2})\/(\d{4})$/,
@@ -669,7 +699,7 @@ export class TimeUtility implements ITimeUtility {
     return new Date(dateString);
   }
 
-  private tryAlternativeParsing(dateString: string): Date {
+  tryAlternativeParsing(dateString) {
     // Try common date formats
     const formats = [
       /^(\d{4})-(\d{2})-(\d{2})$/,
@@ -691,8 +721,8 @@ export class TimeUtility implements ITimeUtility {
     return new Date(dateString);
   }
 
-  private getFormatOptions(format: string, includeTime: boolean, includeDate: boolean): Intl.DateTimeFormatOptions {
-    const baseOptions: Intl.DateTimeFormatOptions = {};
+  getFormatOptions(format, includeTime, includeDate) {
+    const baseOptions = {};
 
     if (includeDate) {
       switch (format) {
@@ -731,7 +761,7 @@ export class TimeUtility implements ITimeUtility {
     return baseOptions;
   }
 
-  private formatWithCustomFormat(date: Date, format: string): string {
+  formatWithCustomFormat(date, format) {
     // Basic custom format implementation
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -749,7 +779,7 @@ export class TimeUtility implements ITimeUtility {
       .replace('ss', seconds);
   }
 
-  private addBusinessDays(date: Date, days: number): Date {
+  addBusinessDays(date, days) {
     const result = new Date(date);
     let addedDays = 0;
 
@@ -763,3 +793,6 @@ export class TimeUtility implements ITimeUtility {
     return result;
   }
 }
+
+// Export for both CommonJS and ES modules
+export default TimeCore;

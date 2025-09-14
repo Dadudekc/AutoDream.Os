@@ -19,7 +19,7 @@ import pytest
 # Import operational components for load testing
 try:
     from src.core.operational_monitoring_baseline import OperationalMonitoringBaseline
-    from src.core.performance_monitoring_dashboard import PerformanceMonitoringDashboard
+    from src.core.performance_monitoring_dashboard_refactored import PerformanceMonitoringDashboard
     LOAD_TESTING_AVAILABLE = True
 except ImportError:
     LOAD_TESTING_AVAILABLE = False

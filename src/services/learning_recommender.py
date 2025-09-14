@@ -8,7 +8,9 @@ V2 Compliance: < 100 lines, single responsibility.
 Author: Agent-2 (Architecture & Design Specialist)
 """
 
+import json
 import logging
+from pathlib import Path
 from typing import Any
 
 from .vector_database import get_vector_database_service, search_vector_database
@@ -53,7 +55,16 @@ class LearningRecommender:
             "min_confidence": 0.6
         }
 
-        # TODO: Load from config file if provided
+        # Load from config file if provided
+        config_file = Path("config/learning_recommender.json")
+        if config_file.exists():
+            try:
+                with open(config_file, 'r') as f:
+                    file_config = json.load(f)
+                    default_config.update(file_config)
+            except Exception as e:
+                logger.warning(f"Could not load config file: {e}")
+        
         return default_config
 
     def get_learning_recommendations(self) -> list[dict[str, Any]]:

@@ -1,77 +1,81 @@
 /**
- * @fileoverview Logging Utility Implementation - Enterprise-grade logging utility
- * @version 2.0.0
+ * @fileoverview Shared Logging Utilities Core - Universal JavaScript Implementation
+ * @version 3.0.0
  * @author Agent-7 (Web Development Specialist)
  * @created 2024-01-01
  * @updated 2024-01-01
+ * 
+ * Universal logging utility functions that work in both Node.js and browser environments.
+ * This is the core implementation that both TypeScript and JavaScript utilities will use.
  */
-
-import { 
-  ILoggingUtility, ILogEntry, ILoggingConfig, LogLevel, ILogFilter, 
-  ILogAggregation, IPerformanceMetrics 
-} from '../interfaces/ILoggingUtility';
 
 /**
- * Enterprise Logging Utility Implementation
+ * Universal Logging Utilities Core
  * Provides comprehensive logging, monitoring, and analytics capabilities
+ * Works in both Node.js and browser environments
  */
-export class LoggingUtility implements ILoggingUtility {
-  private config: ILoggingConfig = {
-    level: LogLevel.INFO,
-    enableConsole: true,
-    enableFile: false,
-    enableRemote: false,
-    format: 'json',
-    includeStackTrace: true,
-    enableMetrics: true,
-    enablePerformance: true
-  };
-  
-  private logs: ILogEntry[] = [];
-  private performanceOperations = new Map<string, { startTime: number; context: Record<string, any> }>();
-  private metrics: IPerformanceMetrics = {
-    totalLogs: 0,
-    logsByLevel: {},
-    averageLogSize: 0,
-    errorRate: 0,
-    performanceOverhead: 0,
-    memoryUsage: 0
-  };
-  
-  private transports: Array<{
-    id: string;
-    type: string;
-    config: any;
-    status: 'active' | 'inactive' | 'error';
-    lastActivity?: Date;
-  }> = [];
-  
-  private defaultContext: Record<string, any> = {};
-  private defaultMetadata: ILogEntry['metadata'] = {};
+export class LoggingCore {
+  constructor(config = {}) {
+    this.config = {
+      level: 'INFO',
+      enableConsole: true,
+      enableFile: false,
+      enableRemote: false,
+      format: 'json',
+      includeStackTrace: true,
+      enableMetrics: true,
+      enablePerformance: true,
+      ...config
+    };
+    
+    this.logs = [];
+    this.performanceOperations = new Map();
+    this.metrics = {
+      totalLogs: 0,
+      logsByLevel: {},
+      averageLogSize: 0,
+      errorRate: 0,
+      performanceOverhead: 0,
+      memoryUsage: 0
+    };
+    
+    this.transports = [];
+    this.defaultContext = {};
+    this.defaultMetadata = {};
+  }
 
-  async initialize(config: ILoggingConfig = {}): Promise<void> {
+  /**
+   * Initialize the logging utility with configuration
+   */
+  async initialize(config = {}) {
     try {
       this.config = { ...this.config, ...config };
       this.initializeTransports();
     } catch (error) {
-      throw new Error(`LoggingUtility initialization failed: ${error}`);
+      throw new Error(`LoggingCore initialization failed: ${error}`);
     }
   }
 
-  async cleanup(): Promise<void> {
+  /**
+   * Clean up resources and reset state
+   */
+  async cleanup() {
     try {
       this.logs = [];
       this.performanceOperations.clear();
       this.transports = [];
     } catch (error) {
-      throw new Error(`LoggingUtility cleanup failed: ${error}`);
+      throw new Error(`LoggingCore cleanup failed: ${error}`);
     }
   }
 
+  /**
+   * Get utility metadata and capabilities
+   */
   getMetadata() {
     return {
-      name: 'LoggingUtility',
-      version: '2.0.0',
+      name: 'LoggingCore',
+      version: '3.0.0',
       capabilities: [
         'logging', 'monitoring', 'analytics', 'performance', 'filtering',
         'aggregation', 'export', 'health', 'diagnostics'
@@ -82,37 +86,58 @@ export class LoggingUtility implements ILoggingUtility {
 
   // === BASIC LOGGING METHODS ===
 
-  trace(message: string, context?: Record<string, any>, metadata?: ILogEntry['metadata']): void {
-    this.log(LogLevel.TRACE, message, context, metadata);
+  /**
+   * Log trace message
+   */
+  trace(message, context, metadata) {
+    this.log('TRACE', message, context, metadata);
   }
 
-  debug(message: string, context?: Record<string, any>, metadata?: ILogEntry['metadata']): void {
-    this.log(LogLevel.DEBUG, message, context, metadata);
+  /**
+   * Log debug message
+   */
+  debug(message, context, metadata) {
+    this.log('DEBUG', message, context, metadata);
   }
 
-  info(message: string, context?: Record<string, any>, metadata?: ILogEntry['metadata']): void {
-    this.log(LogLevel.INFO, message, context, metadata);
+  /**
+   * Log info message
+   */
+  info(message, context, metadata) {
+    this.log('INFO', message, context, metadata);
   }
 
-  warn(message: string, context?: Record<string, any>, metadata?: ILogEntry['metadata']): void {
-    this.log(LogLevel.WARN, message, context, metadata);
+  /**
+   * Log warning message
+   */
+  warn(message, context, metadata) {
+    this.log('WARN', message, context, metadata);
   }
 
-  error(message: string, error?: Error, context?: Record<string, any>, metadata?: ILogEntry['metadata']): void {
-    this.log(LogLevel.ERROR, message, { ...context, error: error?.message, stack: error?.stack }, metadata);
+  /**
+   * Log error message
+   */
+  error(message, error, context, metadata) {
+    this.log('ERROR', message, { ...context, error: error?.message, stack: error?.stack }, metadata);
   }
 
-  fatal(message: string, error?: Error, context?: Record<string, any>, metadata?: ILogEntry['metadata']): void {
-    this.log(LogLevel.FATAL, message, { ...context, error: error?.message, stack: error?.stack }, metadata);
+  /**
+   * Log fatal message
+   */
+  fatal(message, error, context, metadata) {
+    this.log('FATAL', message, { ...context, error: error?.message, stack: error?.stack }, metadata);
   }
 
-  log(level: LogLevel, message: string, context?: Record<string, any>, metadata?: ILogEntry['metadata']): void {
+  /**
+   * Core logging method
+   */
+  log(level, message, context, metadata) {
     try {
-      if (level < this.config.level!) {
+      if (this.getLevelValue(level) < this.getLevelValue(this.config.level)) {
         return;
       }
 
-      const logEntry: ILogEntry = {
+      const logEntry = {
         timestamp: new Date(),
         level,
         message,
@@ -129,7 +154,10 @@ export class LoggingUtility implements ILoggingUtility {
 
   // === ADVANCED LOGGING ===
 
-  async time<T>(level: LogLevel, message: string, operation: () => T | Promise<T>, context?: Record<string, any>): Promise<T> {
+  /**
+   * Time an operation
+   */
+  async time(level, message, operation, context) {
     const startTime = performance.now();
     const operationId = this.generateOperationId();
     
@@ -149,7 +177,7 @@ export class LoggingUtility implements ILoggingUtility {
       return result;
     } catch (error) {
       const executionTime = performance.now() - startTime;
-      this.error(`${message} failed after ${executionTime.toFixed(2)}ms`, error as Error, {
+      this.error(`${message} failed after ${executionTime.toFixed(2)}ms`, error, {
         ...context,
         executionTime,
         operationId
@@ -159,7 +187,10 @@ export class LoggingUtility implements ILoggingUtility {
     }
   }
 
-  logMethod(level: LogLevel, methodName: string, args: any[], result: any, executionTime: number, context?: Record<string, any>): void {
+  /**
+   * Log method execution
+   */
+  logMethod(level, methodName, args, result, executionTime, context) {
     this.log(level, `Method ${methodName} executed`, {
       ...context,
       methodName,
@@ -169,7 +200,10 @@ export class LoggingUtility implements ILoggingUtility {
     });
   }
 
-  logApiCall(level: LogLevel, method: string, url: string, statusCode: number, requestBody?: any, responseBody?: any, executionTime?: number, context?: Record<string, any>): void {
+  /**
+   * Log API call
+   */
+  logApiCall(level, method, url, statusCode, requestBody, responseBody, executionTime, context) {
     this.log(level, `API ${method} ${url} - ${statusCode}`, {
       ...context,
       method,
@@ -181,7 +215,10 @@ export class LoggingUtility implements ILoggingUtility {
     });
   }
 
-  logUserAction(level: LogLevel, action: string, userId: string, context?: Record<string, any>, metadata?: ILogEntry['metadata']): void {
+  /**
+   * Log user action
+   */
+  logUserAction(level, action, userId, context, metadata) {
     this.log(level, `User action: ${action}`, {
       ...context,
       action,
@@ -189,7 +226,10 @@ export class LoggingUtility implements ILoggingUtility {
     }, { ...metadata, userId });
   }
 
-  logBusinessEvent(level: LogLevel, event: string, data: Record<string, any>, context?: Record<string, any>, metadata?: ILogEntry['metadata']): void {
+  /**
+   * Log business event
+   */
+  logBusinessEvent(level, event, data, context, metadata) {
     this.log(level, `Business event: ${event}`, {
       ...context,
       event,
@@ -199,7 +239,10 @@ export class LoggingUtility implements ILoggingUtility {
 
   // === LOG MANAGEMENT ===
 
-  async getLogs(filter?: ILogFilter, limit?: number, offset?: number): Promise<ILogEntry[]> {
+  /**
+   * Get logs with filtering
+   */
+  async getLogs(filter, limit, offset) {
     try {
       let filteredLogs = this.logs;
 
@@ -217,12 +260,15 @@ export class LoggingUtility implements ILoggingUtility {
 
       return filteredLogs;
     } catch (error) {
-      this.error('Failed to get logs', error as Error);
+      this.error('Failed to get logs', error);
       return [];
     }
   }
 
-  async clearLogs(filter?: ILogFilter): Promise<void> {
+  /**
+   * Clear logs
+   */
+  async clearLogs(filter) {
     try {
       if (filter) {
         this.logs = this.logs.filter(log => !this.matchesFilter(log, filter));
@@ -230,14 +276,14 @@ export class LoggingUtility implements ILoggingUtility {
         this.logs = [];
       }
     } catch (error) {
-      this.error('Failed to clear logs', error as Error);
+      this.error('Failed to clear logs', error);
     }
   }
 
-  async exportLogs(filter?: ILogFilter, format: 'json' | 'csv' | 'txt' = 'json', options?: {
-    includeHeaders?: boolean;
-    dateFormat?: string;
-  }): Promise<string> {
+  /**
+   * Export logs
+   */
+  async exportLogs(filter, format = 'json', options = {}) {
     try {
       const logs = await this.getLogs(filter);
       
@@ -252,27 +298,17 @@ export class LoggingUtility implements ILoggingUtility {
           throw new Error(`Unsupported export format: ${format}`);
       }
     } catch (error) {
-      this.error('Failed to export logs', error as Error);
+      this.error('Failed to export logs', error);
       return '';
     }
   }
 
   // === LOG ANALYSIS ===
 
-  async getStatistics(filter?: ILogFilter, timeRange?: {
-    start: Date;
-    end: Date;
-  }): Promise<{
-    totalLogs: number;
-    logsByLevel: Record<string, number>;
-    logsBySource: Record<string, number>;
-    errorRate: number;
-    averageLogSize: number;
-    timeRange: {
-      start: Date;
-      end: Date;
-    };
-  }> {
+  /**
+   * Get log statistics
+   */
+  async getStatistics(filter, timeRange) {
     try {
       let filteredLogs = this.logs;
 
@@ -286,21 +322,20 @@ export class LoggingUtility implements ILoggingUtility {
         );
       }
 
-      const logsByLevel: Record<string, number> = {};
-      const logsBySource: Record<string, number> = {};
+      const logsByLevel = {};
+      const logsBySource = {};
       let totalSize = 0;
       let errorCount = 0;
 
       filteredLogs.forEach(log => {
-        const levelName = LogLevel[log.level];
-        logsByLevel[levelName] = (logsByLevel[levelName] || 0) + 1;
+        logsByLevel[log.level] = (logsByLevel[log.level] || 0) + 1;
         
         const source = log.metadata?.source || 'unknown';
         logsBySource[source] = (logsBySource[source] || 0) + 1;
         
         totalSize += JSON.stringify(log).length;
         
-        if (log.level >= LogLevel.ERROR) {
+        if (this.getLevelValue(log.level) >= this.getLevelValue('ERROR')) {
           errorCount++;
         }
       });
@@ -317,7 +352,7 @@ export class LoggingUtility implements ILoggingUtility {
         }
       };
     } catch (error) {
-      this.error('Failed to get statistics', error as Error);
+      this.error('Failed to get statistics', error);
       return {
         totalLogs: 0,
         logsByLevel: {},
@@ -329,15 +364,12 @@ export class LoggingUtility implements ILoggingUtility {
     }
   }
 
-  async searchLogs(query: string, options?: {
-    caseSensitive?: boolean;
-    regex?: boolean;
-    fields?: string[];
-    limit?: number;
-    offset?: number;
-  }): Promise<ILogEntry[]> {
+  /**
+   * Search logs
+   */
+  async searchLogs(query, options = {}) {
     try {
-      const { caseSensitive = false, regex = false, fields = ['message'], limit, offset } = options || {};
+      const { caseSensitive = false, regex = false, fields = ['message'], limit, offset } = options;
       
       let filteredLogs = this.logs;
       
@@ -369,18 +401,24 @@ export class LoggingUtility implements ILoggingUtility {
 
       return filteredLogs;
     } catch (error) {
-      this.error('Failed to search logs', error as Error);
+      this.error('Failed to search logs', error);
       return [];
     }
   }
 
   // === PERFORMANCE MONITORING ===
 
-  getPerformanceMetrics(): IPerformanceMetrics {
+  /**
+   * Get performance metrics
+   */
+  getPerformanceMetrics() {
     return { ...this.metrics };
   }
 
-  startPerformanceMonitoring(operation: string, context?: Record<string, any>): string {
+  /**
+   * Start performance monitoring
+   */
+  startPerformanceMonitoring(operation, context) {
     const operationId = this.generateOperationId();
     this.performanceOperations.set(operationId, {
       startTime: performance.now(),
@@ -389,7 +427,10 @@ export class LoggingUtility implements ILoggingUtility {
     return operationId;
   }
 
-  endPerformanceMonitoring(operationId: string, result?: any): void {
+  /**
+   * End performance monitoring
+   */
+  endPerformanceMonitoring(operationId, result) {
     const operation = this.performanceOperations.get(operationId);
     if (operation) {
       const executionTime = performance.now() - operation.startTime;
@@ -404,24 +445,32 @@ export class LoggingUtility implements ILoggingUtility {
 
   // === CONFIGURATION & MANAGEMENT ===
 
-  async updateConfig(config: Partial<ILoggingConfig>): Promise<void> {
+  /**
+   * Update configuration
+   */
+  async updateConfig(config) {
     this.config = { ...this.config, ...config };
     this.initializeTransports();
   }
 
-  getConfig(): ILoggingConfig {
+  /**
+   * Get configuration
+   */
+  getConfig() {
     return { ...this.config };
   }
 
-  setLogLevel(level: LogLevel): void {
+  /**
+   * Set log level
+   */
+  setLogLevel(level) {
     this.config.level = level;
   }
 
-  setOutputs(outputs: {
-    console?: boolean;
-    file?: boolean;
-    remote?: boolean;
-  }): void {
+  /**
+   * Set outputs
+   */
+  setOutputs(outputs) {
     if (outputs.console !== undefined) this.config.enableConsole = outputs.console;
     if (outputs.file !== undefined) this.config.enableFile = outputs.file;
     if (outputs.remote !== undefined) this.config.enableRemote = outputs.remote;
@@ -429,35 +478,46 @@ export class LoggingUtility implements ILoggingUtility {
 
   // === UTILITY METHODS ===
 
-  createChild(context?: Record<string, any>, metadata?: ILogEntry['metadata']): ILoggingUtility {
-    const child = new LoggingUtility();
+  /**
+   * Create child logger
+   */
+  createChild(context, metadata) {
+    const child = new LoggingCore();
     child.config = { ...this.config };
     child.defaultContext = { ...this.defaultContext, ...context };
     child.defaultMetadata = { ...this.defaultMetadata, ...metadata };
     return child;
   }
 
-  withCorrelation(correlationId: string, context?: Record<string, any>): ILoggingUtility {
+  /**
+   * Create logger with correlation ID
+   */
+  withCorrelation(correlationId, context) {
     return this.createChild({ ...context, correlationId }, { correlationId });
   }
 
-  withUser(userId: string, context?: Record<string, any>): ILoggingUtility {
+  /**
+   * Create logger with user ID
+   */
+  withUser(userId, context) {
     return this.createChild({ ...context, userId }, { userId });
   }
 
-  withSession(sessionId: string, context?: Record<string, any>): ILoggingUtility {
+  /**
+   * Create logger with session ID
+   */
+  withSession(sessionId, context) {
     return this.createChild({ ...context, sessionId }, { sessionId });
   }
 
   // === HEALTH & MONITORING ===
 
-  getHealthStatus(): {
-    status: 'healthy' | 'warning' | 'error';
-    issues: string[];
-    metrics: IPerformanceMetrics;
-  } {
-    const issues: string[] = [];
-    let status: 'healthy' | 'warning' | 'error' = 'healthy';
+  /**
+   * Get health status
+   */
+  getHealthStatus() {
+    const issues = [];
+    let status = 'healthy';
 
     if (this.metrics.errorRate > 0.1) {
       issues.push('High error rate detected');
@@ -481,7 +541,10 @@ export class LoggingUtility implements ILoggingUtility {
     };
   }
 
-  async testLogging(level: LogLevel = LogLevel.INFO): Promise<boolean> {
+  /**
+   * Test logging
+   */
+  async testLogging(level = 'INFO') {
     try {
       this.log(level, 'Test log message', { test: true });
       return true;
@@ -490,21 +553,10 @@ export class LoggingUtility implements ILoggingUtility {
     }
   }
 
-  getDiagnostics(): {
-    configuration: ILoggingConfig;
-    transports: Array<{
-      id: string;
-      type: string;
-      status: 'active' | 'inactive' | 'error';
-      lastActivity?: Date;
-    }>;
-    performance: IPerformanceMetrics;
-    errors: Array<{
-      timestamp: Date;
-      error: string;
-      context?: Record<string, any>;
-    }>;
-  } {
+  /**
+   * Get diagnostics
+   */
+  getDiagnostics() {
     return {
       configuration: this.getConfig(),
       transports: [...this.transports],
@@ -515,7 +567,7 @@ export class LoggingUtility implements ILoggingUtility {
 
   // === PRIVATE HELPER METHODS ===
 
-  private processLogEntry(logEntry: ILogEntry): void {
+  processLogEntry(logEntry) {
     this.logs.push(logEntry);
     
     if (this.config.enableConsole) {
@@ -531,60 +583,58 @@ export class LoggingUtility implements ILoggingUtility {
     }
   }
 
-  private logToConsole(logEntry: ILogEntry): void {
-    const levelName = LogLevel[logEntry.level];
+  logToConsole(logEntry) {
     const timestamp = logEntry.timestamp.toISOString();
-    const message = `[${timestamp}] ${levelName}: ${logEntry.message}`;
+    const message = `[${timestamp}] ${logEntry.level}: ${logEntry.message}`;
     
     switch (logEntry.level) {
-      case LogLevel.TRACE:
-      case LogLevel.DEBUG:
+      case 'TRACE':
+      case 'DEBUG':
         console.debug(message, logEntry.context);
         break;
-      case LogLevel.INFO:
+      case 'INFO':
         console.info(message, logEntry.context);
         break;
-      case LogLevel.WARN:
+      case 'WARN':
         console.warn(message, logEntry.context);
         break;
-      case LogLevel.ERROR:
-      case LogLevel.FATAL:
+      case 'ERROR':
+      case 'FATAL':
         console.error(message, logEntry.context);
         break;
     }
   }
 
-  private logToFile(logEntry: ILogEntry): void {
+  logToFile(logEntry) {
     // File logging implementation would go here
     // This is a placeholder for the actual file system operations
   }
 
-  private logToRemote(logEntry: ILogEntry): void {
+  logToRemote(logEntry) {
     // Remote logging implementation would go here
     // This is a placeholder for the actual remote API calls
   }
 
-  private updateMetrics(logEntry: ILogEntry): void {
+  updateMetrics(logEntry) {
     this.metrics.totalLogs++;
     
-    const levelName = LogLevel[logEntry.level];
-    this.metrics.logsByLevel[levelName] = (this.metrics.logsByLevel[levelName] || 0) + 1;
+    this.metrics.logsByLevel[logEntry.level] = (this.metrics.logsByLevel[logEntry.level] || 0) + 1;
     
     const logSize = JSON.stringify(logEntry).length;
     this.metrics.averageLogSize = (this.metrics.averageLogSize + logSize) / 2;
     
-    if (logEntry.level >= LogLevel.ERROR) {
+    if (this.getLevelValue(logEntry.level) >= this.getLevelValue('ERROR')) {
       this.metrics.errorRate = (this.metrics.errorRate + 1) / this.metrics.totalLogs;
     }
     
     this.metrics.memoryUsage = this.logs.length * this.metrics.averageLogSize;
   }
 
-  private filterLogs(logs: ILogEntry[], filter: ILogFilter): ILogEntry[] {
+  filterLogs(logs, filter) {
     return logs.filter(log => this.matchesFilter(log, filter));
   }
 
-  private matchesFilter(log: ILogEntry, filter: ILogFilter): boolean {
+  matchesFilter(log, filter) {
     if (filter.level !== undefined && log.level !== filter.level) {
       return false;
     }
@@ -622,9 +672,9 @@ export class LoggingUtility implements ILoggingUtility {
     return true;
   }
 
-  private getFieldValue(log: ILogEntry, field: string): any {
+  getFieldValue(log, field) {
     const fields = field.split('.');
-    let value: any = log;
+    let value = log;
     
     for (const f of fields) {
       value = value?.[f];
@@ -633,15 +683,15 @@ export class LoggingUtility implements ILoggingUtility {
     return value;
   }
 
-  private sanitizeArgs(args: any[]): any[] {
+  sanitizeArgs(args) {
     return args.map(arg => this.sanitizeData(arg));
   }
 
-  private sanitizeResult(result: any): any {
+  sanitizeResult(result) {
     return this.sanitizeData(result);
   }
 
-  private sanitizeData(data: any): any {
+  sanitizeData(data) {
     if (data === null || data === undefined) {
       return data;
     }
@@ -665,11 +715,11 @@ export class LoggingUtility implements ILoggingUtility {
     return data;
   }
 
-  private exportToCSV(logs: ILogEntry[], options?: any): string {
+  exportToCSV(logs, options) {
     const headers = ['timestamp', 'level', 'message', 'source', 'userId'];
     const rows = logs.map(log => [
       log.timestamp.toISOString(),
-      LogLevel[log.level],
+      log.level,
       log.message,
       log.metadata?.source || '',
       log.metadata?.userId || ''
@@ -678,19 +728,18 @@ export class LoggingUtility implements ILoggingUtility {
     return [headers.join(','), ...rows.map(row => row.join(','))].join('\n');
   }
 
-  private exportToText(logs: ILogEntry[], options?: any): string {
+  exportToText(logs, options) {
     return logs.map(log => {
       const timestamp = log.timestamp.toISOString();
-      const level = LogLevel[log.level];
-      return `[${timestamp}] ${level}: ${log.message}`;
+      return `[${timestamp}] ${log.level}: ${log.message}`;
     }).join('\n');
   }
 
-  private generateOperationId(): string {
+  generateOperationId() {
     return `op_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }
 
-  private initializeTransports(): void {
+  initializeTransports() {
     // Initialize logging transports based on configuration
     this.transports = [];
     
@@ -721,4 +770,19 @@ export class LoggingUtility implements ILoggingUtility {
       });
     }
   }
+
+  getLevelValue(level) {
+    const levels = {
+      'TRACE': 0,
+      'DEBUG': 1,
+      'INFO': 2,
+      'WARN': 3,
+      'ERROR': 4,
+      'FATAL': 5
+    };
+    return levels[level] || 2;
+  }
 }
+
+// Export for both CommonJS and ES modules
+export default LoggingCore;

@@ -18,7 +18,7 @@ import pytest
 try:
     from src.core.automated_health_check_system import AutomatedHealthCheckSystem
     from src.core.operational_monitoring_baseline import OperationalMonitoringBaseline
-    from src.core.performance_monitoring_dashboard import PerformanceMonitoringDashboard
+    from src.core.performance_monitoring_dashboard_refactored import PerformanceMonitoringDashboard
     OPERATIONAL_COMPONENTS_AVAILABLE = True
 except ImportError:
     OPERATIONAL_COMPONENTS_AVAILABLE = False

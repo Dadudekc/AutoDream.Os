@@ -17,7 +17,7 @@ import pytest
 
 # Import system components for stability testing
 try:
-    from src.core.performance_monitoring_dashboard import PerformanceMonitoringDashboard
+    from src.core.performance_monitoring_dashboard_refactored import PerformanceMonitoringDashboard
     from src.core.unified_logging_system import UnifiedLoggingSystem
     from src.core.unified_messaging import UnifiedMessagingCore
     STABILITY_COMPONENTS_AVAILABLE = True

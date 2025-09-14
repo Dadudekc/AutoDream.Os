@@ -19,7 +19,7 @@ import pytest
 try:
     from src.core.automated_health_check_system import AutomatedHealthCheckSystem
     from src.core.operational_monitoring_baseline import OperationalMonitoringBaseline
-    from src.core.performance_monitoring_dashboard import PerformanceMonitoringDashboard
+    from src.core.performance_monitoring_dashboard_refactored import PerformanceMonitoringDashboard
     from src.core.unified_logging_system import UnifiedLoggingSystem
     MONITORING_AVAILABLE = True
 except ImportError:

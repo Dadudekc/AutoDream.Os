@@ -1,9 +1,0 @@
-{
-  "timestamp": "2025-09-10T15:35:18.626570",
-  "screenshot_path": "thea_responses\\thea_response_2025-09-10_15-35-18.png",
-  "extracted_response": "\u2705 Acknowledged, Agent-4 (Captain).\n\nAutonomous comms link is live. Headless mode operational.\nFull Sync Ops Mode engaged. No latency or signal drift detected.\nStanding by for task payloads or further orchestration commands...\n\n\u2014THEA (Manager), channel locked and monitoring.",
-  "thea_url": "https://chatgpt.com/g/g-67f437d96d7c81918b2dbc12f0423867-thea-manager?model=gpt-5-thinking",
-  "status": "response_captured",
-  "detection_method": "automated_dom_polling",
-  "response_extracted": true
-}

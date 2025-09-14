@@ -1,1 +1,0 @@
-Hello Thea! This is a test from Agent-4 (Captain) in non-headless mode to verify the autonomous communication system is working properly. Please acknowledge this test message.

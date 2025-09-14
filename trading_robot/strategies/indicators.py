@@ -2,27 +2,8 @@
 Technical Analysis Indicators
 """
 
-# Standard imports
-import os
-import sys
-from typing import Any, Dict, List, Optional
-
-# Setup path for imports
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
-
-# Lazy loading for performance optimization
-try:
-    from src.core.aggressive_lazy_loader import lazy_import
-
-    # Lazy load heavy modules for 30%+ performance improvement
-    pd = lazy_import("pandas", "pd")
-    np = lazy_import("numpy", "np")
-    plt = lazy_import("matplotlib.pyplot", "plt")
-except ImportError:
-    # Fallback to direct imports if lazy loading fails
-    import matplotlib.pyplot as plt
-    import numpy as np
-    import pandas as pd
+import numpy as np
+import pandas as pd
 
 
 class TechnicalIndicators:
@@ -48,9 +29,8 @@ class TechnicalIndicators:
         return 100 - (100 / (1 + rs))
 
     @staticmethod
-    def macd(
-        data: pd.Series, fast_period: int = 12, slow_period: int = 26, signal_period: int = 9
-    ) -> tuple[pd.Series, pd.Series, pd.Series]:
+    def macd(data: pd.Series, fast_period: int = 12, slow_period: int = 26,
+             signal_period: int = 9) -> tuple[pd.Series, pd.Series, pd.Series]:
         """MACD (Moving Average Convergence Divergence)"""
         fast_ema = TechnicalIndicators.ema(data, fast_period)
         slow_ema = TechnicalIndicators.ema(data, slow_period)
@@ -60,9 +40,7 @@ class TechnicalIndicators:
         return macd_line, signal_line, histogram
 
     @staticmethod
-    def bollinger_bands(
-        data: pd.Series, period: int = 20, std_dev: float = 2.0
-    ) -> tuple[pd.Series, pd.Series, pd.Series]:
+    def bollinger_bands(data: pd.Series, period: int = 20, std_dev: float = 2.0) -> tuple[pd.Series, pd.Series, pd.Series]:
         """Bollinger Bands"""
         sma = TechnicalIndicators.sma(data, period)
         std = data.rolling(window=period).std()
@@ -71,9 +49,8 @@ class TechnicalIndicators:
         return upper_band, sma, lower_band
 
     @staticmethod
-    def stochastic_oscillator(
-        high: pd.Series, low: pd.Series, close: pd.Series, k_period: int = 14, d_period: int = 3
-    ) -> tuple[pd.Series, pd.Series]:
+    def stochastic_oscillator(high: pd.Series, low: pd.Series, close: pd.Series,
+                            k_period: int = 14, d_period: int = 3) -> tuple[pd.Series, pd.Series]:
         """Stochastic Oscillator"""
         lowest_low = low.rolling(window=k_period).min()
         highest_high = high.rolling(window=k_period).max()
@@ -94,9 +71,7 @@ class TechnicalIndicators:
         return true_range.rolling(window=period).mean()
 
     @staticmethod
-    def williams_r(
-        high: pd.Series, low: pd.Series, close: pd.Series, period: int = 14
-    ) -> pd.Series:
+    def williams_r(high: pd.Series, low: pd.Series, close: pd.Series, period: int = 14) -> pd.Series:
         """Williams %R"""
         highest_high = high.rolling(window=period).max()
         lowest_low = low.rolling(window=period).min()
@@ -107,9 +82,7 @@ class TechnicalIndicators:
         """Commodity Channel Index"""
         typical_price = (high + low + close) / 3
         sma = typical_price.rolling(window=period).mean()
-        mean_deviation = typical_price.rolling(window=period).apply(
-            lambda x: np.mean(np.abs(x - x.mean()))
-        )
+        mean_deviation = typical_price.rolling(window=period).apply(lambda x: np.mean(np.abs(x - x.mean())))
         return (typical_price - sma) / (0.015 * mean_deviation)
 
     @staticmethod
@@ -132,9 +105,9 @@ class TechnicalIndicators:
             if i == 0:
                 obv_values.append(volume.iloc[i])
             else:
-                if close.iloc[i] > close.iloc[i - 1]:
+                if close.iloc[i] > close.iloc[i-1]:
                     obv += volume.iloc[i]
-                elif close.iloc[i] < close.iloc[i - 1]:
+                elif close.iloc[i] < close.iloc[i-1]:
                     obv -= volume.iloc[i]
                 else:
                     obv = obv
@@ -160,13 +133,13 @@ class TechnicalIndicators:
         """Fibonacci Retracement Levels"""
         diff = high - low
         return {
-            "0.0%": high,
-            "23.6%": high - (diff * 0.236),
-            "38.2%": high - (diff * 0.382),
-            "50.0%": high - (diff * 0.5),
-            "61.8%": high - (diff * 0.618),
-            "78.6%": high - (diff * 0.786),
-            "100.0%": low,
+            '0.0%': high,
+            '23.6%': high - (diff * 0.236),
+            '38.2%': high - (diff * 0.382),
+            '50.0%': high - (diff * 0.5),
+            '61.8%': high - (diff * 0.618),
+            '78.6%': high - (diff * 0.786),
+            '100.0%': low
         }
 
     @staticmethod
@@ -174,13 +147,13 @@ class TechnicalIndicators:
         """Pivot Points"""
         pivot = (high + low + close) / 3
         return {
-            "pivot": pivot,
-            "r1": (2 * pivot) - low,
-            "s1": (2 * pivot) - high,
-            "r2": pivot + (high - low),
-            "s2": pivot - (high - low),
-            "r3": high + 2 * (pivot - low),
-            "s3": low - 2 * (high - pivot),
+            'pivot': pivot,
+            'r1': (2 * pivot) - low,
+            's1': (2 * pivot) - high,
+            'r2': pivot + (high - low),
+            's2': pivot - (high - low),
+            'r3': high + 2 * (pivot - low),
+            's3': low - 2 * (high - pivot)
         }
 
     @staticmethod

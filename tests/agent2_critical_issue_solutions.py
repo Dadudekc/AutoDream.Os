@@ -30,7 +30,7 @@ class CriticalIssueSolver:
             self.project_root / "src" / "core",
             self.project_root / "src" / "services",
             self.project_root / "src" / "utils",
-            self.project_root / "src" / "config",
+            self.project_root / "src" / "config"
         ]
 
         resolved_paths = []
@@ -41,17 +41,15 @@ class CriticalIssueSolver:
                 print(f"  ✅ Added to sys.path: {path}")
 
         # Set PYTHONPATH for subprocess compatibility
-        current_pythonpath = os.environ.get("PYTHONPATH", "")
+        current_pythonpath = os.environ.get('PYTHONPATH', '')
         if resolved_paths:
-            os.environ["PYTHONPATH"] = os.pathsep.join(
-                resolved_paths + ([current_pythonpath] if current_pythonpath else [])
-            )
+            os.environ['PYTHONPATH'] = os.pathsep.join(resolved_paths + ([current_pythonpath] if current_pythonpath else []))
 
         # Test critical imports
         critical_modules = [
-            ("src.services.consolidated_messaging_service", "ConsolidatedMessagingService"),
-            ("src.core.coordinate_loader", "CoordinateLoader"),
-            ("src.core.unified_messaging", "UnifiedMessagingSystem"),
+            ('src.services.consolidated_messaging_service', 'ConsolidatedMessagingService'),
+            ('src.core.coordinate_loader', 'CoordinateLoader'),
+            ('src.core.unified_messaging', 'UnifiedMessagingSystem'),
         ]
 
         import_results = {}
@@ -60,26 +58,23 @@ class CriticalIssueSolver:
                 module = __import__(module_path, fromlist=[class_name])
                 cls = getattr(module, class_name, None)
                 if cls:
-                    import_results[module_path] = {"status": "SUCCESS", "class": class_name}
+                    import_results[module_path] = {'status': 'SUCCESS', 'class': class_name}
                     print(f"  ✅ Successfully imported: {class_name}")
                 else:
-                    import_results[module_path] = {
-                        "status": "PARTIAL",
-                        "error": f"Class {class_name} not found",
-                    }
+                    import_results[module_path] = {'status': 'PARTIAL', 'error': f'Class {class_name} not found'}
                     print(f"  ⚠️  Module imported but class {class_name} not found")
             except ImportError as e:
-                import_results[module_path] = {"status": "FAILED", "error": str(e)}
+                import_results[module_path] = {'status': 'FAILED', 'error': str(e)}
                 print(f"  ❌ Import failed: {module_path} - {e}")
             except Exception as e:
-                import_results[module_path] = {"status": "ERROR", "error": str(e)}
+                import_results[module_path] = {'status': 'ERROR', 'error': str(e)}
                 print(f"  ⚠️  Import error: {module_path} - {e}")
 
-        self.solutions["import_errors"] = {
-            "paths_resolved": len(resolved_paths),
-            "pythonpath_set": bool(os.environ.get("PYTHONPATH")),
-            "import_results": import_results,
-            "working_pattern": """
+        self.solutions['import_errors'] = {
+            'paths_resolved': len(resolved_paths),
+            'pythonpath_set': bool(os.environ.get('PYTHONPATH')),
+            'import_results': import_results,
+            'working_pattern': '''
 # Add this at the start of your test files:
 import sys
 from pathlib import Path
@@ -91,7 +86,7 @@ src_paths = [
 ]
 for path in src_paths:
     sys.path.insert(0, str(path))
-""",
+'''
         }
 
     def solve_file_corruption(self):
@@ -150,10 +145,10 @@ if __name__ == "__main__":
     print("Tests completed successfully")
 '''
 
-        self.solutions["file_corruption"] = {
-            "template_provided": True,
-            "corruption_resistant_pattern": test_template,
-            "safe_import_function": '''
+        self.solutions['file_corruption'] = {
+            'template_provided': True,
+            'corruption_resistant_pattern': test_template,
+            'safe_import_function': '''
 def safe_import(module_path, class_name):
     """Safely import modules with fallback"""
     try:
@@ -162,12 +157,12 @@ def safe_import(module_path, class_name):
     except (ImportError, AttributeError):
         return None
 ''',
-            "recommendations": [
-                "Use safe_import pattern for all external dependencies",
-                "Create independent test functions that can run without external files",
-                "Use try/except blocks around file operations",
-                "Implement fallback behaviors for missing components",
-            ],
+            'recommendations': [
+                'Use safe_import pattern for all external dependencies',
+                'Create independent test functions that can run without external files',
+                'Use try/except blocks around file operations',
+                'Implement fallback behaviors for missing components'
+            ]
         }
 
         print("  ✅ Corruption-resistant test template created")
@@ -178,7 +173,7 @@ def safe_import(module_path, class_name):
         """Solution for unknown pytest markers"""
         print("\n🏷️  SOLVING UNKNOWN MARKERS...")
 
-        marker_config = """# pytest.ini - Marker Configuration
+        marker_config = '''# pytest.ini - Marker Configuration
 [tool:pytest]
 markers =
     solid: SOLID principle compliance tests
@@ -195,7 +190,7 @@ testpaths = tests
 python_files = test_*.py *_test.py
 python_classes = Test*
 python_functions = test_*
-"""
+'''
 
         marker_usage_examples = '''
 # Example usage of markers in test files:
@@ -226,24 +221,19 @@ def test_with_agent2_framework():
     pass
 '''
 
-        self.solutions["unknown_markers"] = {
-            "pytest_config": marker_config,
-            "usage_examples": marker_usage_examples,
-            "custom_markers": [
-                "solid",
-                "dependency_injection",
-                "architectural_pattern",
-                "integration",
-                "performance",
-                "error_handling",
-                "swarm_coordination",
+        self.solutions['unknown_markers'] = {
+            'pytest_config': marker_config,
+            'usage_examples': marker_usage_examples,
+            'custom_markers': [
+                'solid', 'dependency_injection', 'architectural_pattern',
+                'integration', 'performance', 'error_handling', 'swarm_coordination'
             ],
-            "setup_instructions": [
-                "1. Create pytest.ini file in project root",
-                "2. Copy marker configuration above",
-                "3. Use markers in test functions as shown in examples",
-                "4. Run pytest with --strict-markers to validate",
-            ],
+            'setup_instructions': [
+                '1. Create pytest.ini file in project root',
+                '2. Copy marker configuration above',
+                '3. Use markers in test functions as shown in examples',
+                '4. Run pytest with --strict-markers to validate'
+            ]
         }
 
         print("  ✅ Pytest marker configuration provided")
@@ -326,15 +316,15 @@ def test_integration_example():
         assert True, "Integration test completed (services may not be fully available)"
 '''
 
-        self.solutions["integration_gaps"] = {
-            "integration_framework": integration_framework,
-            "testing_approach": [
-                "Use safe service loading with fallbacks",
-                "Test integration capabilities when services are available",
-                "Implement mock services for isolated testing",
-                "Create integration test fixtures",
+        self.solutions['integration_gaps'] = {
+            'integration_framework': integration_framework,
+            'testing_approach': [
+                'Use safe service loading with fallbacks',
+                'Test integration capabilities when services are available',
+                'Implement mock services for isolated testing',
+                'Create integration test fixtures'
             ],
-            "mock_strategy": '''
+            'mock_strategy': '''
 # Mock strategy for integration testing:
 def create_mock_service():
     """Create mock service for testing"""
@@ -345,14 +335,14 @@ def create_mock_service():
             return f"Mock broadcast: {message}"
     return MockService()
 ''',
-            "fixture_setup": '''
+            'fixture_setup': '''
 # conftest.py fixture for integration testing:
 @pytest.fixture
 def integration_framework():
     """Fixture providing integration testing framework"""
     from integration_test_framework import IntegrationTestFramework
     return IntegrationTestFramework()
-''',
+'''
         }
 
         print("  ✅ Integration testing framework provided")
@@ -364,41 +354,41 @@ def integration_framework():
         print("\n📋 GENERATING COMPREHENSIVE SOLUTION REPORT...")
 
         report = {
-            "timestamp": datetime.now().isoformat(),
-            "agent": "Agent-2 (Architecture & Design Specialist)",
-            "mission": "Critical Issue Resolution Support for Swarm Testing",
-            "solutions": self.solutions,
-            "summary": {
-                "issues_addressed": len(self.solutions),
-                "resources_provided": [
-                    "Import resolution framework",
-                    "Corruption-resistant test template",
-                    "Pytest marker configuration",
-                    "Integration testing framework",
+            'timestamp': datetime.now().isoformat(),
+            'agent': 'Agent-2 (Architecture & Design Specialist)',
+            'mission': 'Critical Issue Resolution Support for Swarm Testing',
+            'solutions': self.solutions,
+            'summary': {
+                'issues_addressed': len(self.solutions),
+                'resources_provided': [
+                    'Import resolution framework',
+                    'Corruption-resistant test template',
+                    'Pytest marker configuration',
+                    'Integration testing framework'
                 ],
-                "immediate_actions": [
-                    "Copy import resolution patterns to test files",
-                    "Use corruption-resistant test template",
-                    "Configure pytest markers in pytest.ini",
-                    "Implement integration testing framework",
+                'immediate_actions': [
+                    'Copy import resolution patterns to test files',
+                    'Use corruption-resistant test template',
+                    'Configure pytest markers in pytest.ini',
+                    'Implement integration testing framework'
                 ],
-                "support_available": [
-                    "Import error diagnosis and fixing",
-                    "File corruption workaround strategies",
-                    "Marker configuration assistance",
-                    "Integration testing guidance",
-                ],
+                'support_available': [
+                    'Import error diagnosis and fixing',
+                    'File corruption workaround strategies',
+                    'Marker configuration assistance',
+                    'Integration testing guidance'
+                ]
             },
-            "coordination_status": {
-                "framework_ready": True,
-                "cross_agent_support": True,
-                "documentation_complete": True,
-                "implementation_examples": True,
-            },
+            'coordination_status': {
+                'framework_ready': True,
+                'cross_agent_support': True,
+                'documentation_complete': True,
+                'implementation_examples': True
+            }
         }
 
         # Save comprehensive report
-        with open("agent2_critical_issue_solutions.json", "w") as f:
+        with open('agent2_critical_issue_solutions.json', 'w') as f:
             json.dump(report, f, indent=2)
 
         print("  ✅ Comprehensive solution report generated")
@@ -433,13 +423,11 @@ def integration_framework():
 
         return report
 
-
 def main():
     """Main execution"""
     solver = CriticalIssueSolver()
     solutions_report = solver.execute_all_solutions()
     return solutions_report
-
 
 if __name__ == "__main__":
     main()

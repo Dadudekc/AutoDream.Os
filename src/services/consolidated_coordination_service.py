@@ -28,35 +28,10 @@ from .models.messaging_models import (
 
 logger = logging.getLogger(__name__)
 
-
 class ConsolidatedCoordinationService:
     """Unified coordination service combining strategy, command handling, and coordination."""
 
     def __init__(self, name: str = "ConsolidatedCoordinator"):
-
-EXAMPLE USAGE:
-==============
-
-# Import the service
-from src.services.consolidated_coordination_service import Consolidated_Coordination_ServiceService
-
-# Initialize service
-service = Consolidated_Coordination_ServiceService()
-
-# Basic service operation
-response = service.handle_request(request_data)
-print(f"Service response: {response}")
-
-# Service with dependency injection
-from src.core.dependency_container import Container
-
-container = Container()
-service = container.get(Consolidated_Coordination_ServiceService)
-
-# Execute service method
-result = service.execute_operation(input_data, context)
-print(f"Operation result: {result}")
-
         """Initialize the consolidated coordination service."""
         self.name = name
         self.logger = logging.getLogger(__name__)
@@ -91,7 +66,7 @@ print(f"Operation result: {result}")
                 SenderType.AGENT: "standard",
                 SenderType.SYSTEM: "system_priority",
                 SenderType.HUMAN: "standard",
-            },
+            }
         }
 
     def _initialize_routing_table(self) -> dict[str, Any]:
@@ -104,7 +79,7 @@ print(f"Operation result: {result}")
             "broadcast": {"timeout": 15, "retries": 2},
             "coordination_priority": {"timeout": 5, "retries": 3},
             "system_priority": {"timeout": 3, "retries": 3},
-            "highest_priority": {"timeout": 0, "retries": 5},
+            "highest_priority": {"timeout": 0, "retries": 5}
         }
 
     def determine_coordination_strategy(self, message: UnifiedMessage) -> str:
@@ -145,22 +120,19 @@ print(f"Operation result: {result}")
             "retries": routing_config["retries"],
             "priority": message.priority.value,
             "message_type": message.message_type.value,
-            "sender_type": message.sender_type.value,
+            "sender_type": message.sender_type.value
         }
 
     def can_handle_command(self, command: str) -> bool:
         """Check if this service can handle the given command."""
-        supported_commands = ["coordinates", "list_agents", "status", "help", "ping", "shutdown"]
+        supported_commands = [
+            "coordinates", "list_agents", "status", "help", "ping", "shutdown"
+        ]
         return command in supported_commands
 
-    async def process_command(
-        self,
-        command: str,
-        args: dict[str, Any],
-        coordinate_handler=None,
-        message_handler=None,
-        service=None,
-    ) -> dict[str, Any]:
+    async def process_command(self, command: str, args: dict[str, Any],
+                            coordinate_handler=None, message_handler=None,
+                            service=None) -> dict[str, Any]:
         """Process CLI command."""
         try:
             self.command_count += 1
@@ -179,19 +151,21 @@ print(f"Operation result: {result}")
             elif command == "shutdown":
                 result = await self._handle_shutdown_command()
             else:
-                result = {"success": False, "error": f"Unknown command: {command}", "data": {}}
+                result = {
+                    "success": False,
+                    "error": f"Unknown command: {command}",
+                    "data": {}
+                }
 
             # Record command execution
             execution_time = time.time() - start_time
-            self.command_history.append(
-                {
-                    "command": command,
-                    "args": args,
-                    "success": result.get("success", False),
-                    "execution_time": execution_time,
-                    "timestamp": time.time(),
-                }
-            )
+            self.command_history.append({
+                "command": command,
+                "args": args,
+                "success": result.get("success", False),
+                "execution_time": execution_time,
+                "timestamp": time.time()
+            })
 
             if result.get("success", False):
                 self.successful_commands += 1
@@ -203,21 +177,36 @@ print(f"Operation result: {result}")
         except Exception as e:
             self.logger.error(f"Error processing command {command}: {e}")
             self.failed_commands += 1
-            return {"success": False, "error": str(e), "data": {}}
+            return {
+                "success": False,
+                "error": str(e),
+                "data": {}
+            }
 
     async def _handle_coordinates_command(self, coordinate_handler) -> dict[str, Any]:
         """Handle coordinates command."""
         if not coordinate_handler:
-            return {"success": False, "error": "Coordinate handler not available", "data": {}}
+            return {
+                "success": False,
+                "error": "Coordinate handler not available",
+                "data": {}
+            }
 
         try:
             coordinates = await coordinate_handler.get_all_coordinates()
             return {
                 "success": True,
-                "data": {"coordinates": coordinates, "count": len(coordinates)},
+                "data": {
+                    "coordinates": coordinates,
+                    "count": len(coordinates)
+                }
             }
         except Exception as e:
-            return {"success": False, "error": f"Failed to get coordinates: {e}", "data": {}}
+            return {
+                "success": False,
+                "error": f"Failed to get coordinates: {e}",
+                "data": {}
+            }
 
     async def _handle_list_agents_command(self) -> dict[str, Any]:
         """Handle list agents command."""
@@ -235,11 +224,15 @@ print(f"Operation result: {result}")
                 "data": {
                     "agents": agents,
                     "agent_count": len(agents),
-                    "formatted": formatted_agents,
-                },
+                    "formatted": formatted_agents
+                }
             }
         except Exception as e:
-            return {"success": False, "error": f"Failed to list agents: {e}", "data": {}}
+            return {
+                "success": False,
+                "error": f"Failed to list agents: {e}",
+                "data": {}
+            }
 
     async def _handle_status_command(self) -> dict[str, Any]:
         """Handle status command."""
@@ -251,9 +244,9 @@ print(f"Operation result: {result}")
                     "total_commands": self.command_count,
                     "successful_commands": self.successful_commands,
                     "failed_commands": self.failed_commands,
-                    "success_rate": (self.successful_commands / max(self.command_count, 1)) * 100,
-                },
-            },
+                    "success_rate": (self.successful_commands / max(self.command_count, 1)) * 100
+                }
+            }
         }
 
     async def _handle_help_command(self) -> dict[str, Any]:
@@ -273,21 +266,20 @@ Available Commands:
             "data": {
                 "help_text": help_text.strip(),
                 "supported_commands": [
-                    "coordinates",
-                    "list_agents",
-                    "status",
-                    "help",
-                    "ping",
-                    "shutdown",
-                ],
-            },
+                    "coordinates", "list_agents", "status", "help", "ping", "shutdown"
+                ]
+            }
         }
 
     async def _handle_ping_command(self) -> dict[str, Any]:
         """Handle ping command."""
         return {
             "success": True,
-            "data": {"message": "pong", "timestamp": time.time(), "coordinator": self.name},
+            "data": {
+                "message": "pong",
+                "timestamp": time.time(),
+                "coordinator": self.name
+            }
         }
 
     async def _handle_shutdown_command(self) -> dict[str, Any]:
@@ -295,7 +287,10 @@ Available Commands:
         self.shutdown()
         return {
             "success": True,
-            "data": {"message": f"Coordinator {self.name} shut down", "timestamp": time.time()},
+            "data": {
+                "message": f"Coordinator {self.name} shut down",
+                "timestamp": time.time()
+            }
         }
 
     def get_status(self) -> dict[str, Any]:
@@ -313,7 +308,7 @@ Available Commands:
             "successful_commands": self.successful_commands,
             "failed_commands": self.failed_commands,
             "success_rate": (self.successful_commands / max(self.command_count, 1)) * 100,
-            "recent_commands": self.command_history[-10:],  # Last 10 commands
+            "recent_commands": self.command_history[-10:]  # Last 10 commands
         }
 
     def process_message(self, message: UnifiedMessage) -> dict[str, Any]:
@@ -329,23 +324,15 @@ Available Commands:
             if not validation["valid"]:
                 self.failed_commands += 1
                 # Record in history
-                self.command_history.append(
-                    {
-                        "timestamp": time.time(),
-                        "message_id": message.id,
-                        "sender": message.sender,
-                        "strategy": strategy,
-                        "success": False,
-                        "status": "failed",
-                    }
-                )
-                return {
-                    "success": False,
-                    "error": "Invalid message",
-                    "strategy": strategy,
-                    "status": "failed",
+                self.command_history.append({
                     "timestamp": time.time(),
-                }
+                    "message_id": message.id,
+                    "sender": message.sender,
+                    "strategy": strategy,
+                    "success": False,
+                    "status": "failed"
+                })
+                return {"success": False, "error": "Invalid message", "strategy": strategy, "status": "failed", "timestamp": time.time()}
 
             # Process based on strategy
             result = self._execute_coordination_strategy(message, strategy, message)
@@ -356,16 +343,14 @@ Available Commands:
                 self.failed_commands += 1
 
             # Record in history
-            self.command_history.append(
-                {
-                    "timestamp": time.time(),
-                    "message_id": message.id,
-                    "sender": message.sender,
-                    "strategy": strategy,
-                    "success": result["success"],
-                    "status": result.get("status", "unknown"),
-                }
-            )
+            self.command_history.append({
+                "timestamp": time.time(),
+                "message_id": message.id,
+                "sender": message.sender,
+                "strategy": strategy,
+                "success": result["success"],
+                "status": result.get("status", "unknown")
+            })
 
             return result
 
@@ -373,23 +358,15 @@ Available Commands:
             self.failed_commands += 1
             self.logger.error(f"Error processing message: {e}")
             # Record in history even on exception
-            self.command_history.append(
-                {
-                    "timestamp": time.time(),
-                    "message_id": message.id,
-                    "sender": message.sender,
-                    "strategy": "error",
-                    "success": False,
-                    "status": "failed",
-                }
-            )
-            return {
-                "success": False,
-                "error": str(e),
-                "strategy": "error",
-                "status": "failed",
+            self.command_history.append({
                 "timestamp": time.time(),
-            }
+                "message_id": message.id,
+                "sender": message.sender,
+                "strategy": "error",
+                "success": False,
+                "status": "failed"
+            })
+            return {"success": False, "error": str(e), "strategy": "error", "status": "failed", "timestamp": time.time()}
 
     def process_bulk_messages(self, messages: list[UnifiedMessage]) -> list[dict[str, Any]]:
         """Process multiple messages in batch."""
@@ -421,21 +398,20 @@ Available Commands:
             is_valid = False
             errors.append("invalid_sender_type")
 
-        return {"valid": is_valid, "errors": errors if errors else None}
+        return {
+            "valid": is_valid,
+            "errors": errors if errors else None
+        }
 
     def determine_coordination_strategy(self, message: UnifiedMessage) -> str:
         """Determine the coordination strategy for a message."""
         # Check for highest priority combinations first
-        if (
-            message.sender_type == SenderType.COORDINATOR
-            and message.message_type == UnifiedMessageType.AGENT_TO_COORDINATOR
-        ):
+        if (message.sender_type == SenderType.COORDINATOR and
+            message.message_type == UnifiedMessageType.AGENT_TO_COORDINATOR):
             return "highest_priority"
 
-        if (
-            message.sender_type == SenderType.COORDINATOR
-            and message.priority == UnifiedMessagePriority.URGENT
-        ):
+        if (message.sender_type == SenderType.COORDINATOR and
+            message.priority == UnifiedMessagePriority.URGENT):
             return "immediate"
 
         # COORDINATOR sender gets highest priority regardless of other factors
@@ -474,7 +450,6 @@ Available Commands:
     def get_service_status(self) -> dict[str, Any]:
         """Get service status."""
         import time
-
         return {
             "name": self.name,
             "status": self.status["status"],
@@ -485,7 +460,7 @@ Available Commands:
             "success_rate": (self.successful_commands / max(self.command_count, 1)) * 100,
             "active_rules": len(self.coordination_rules),
             "routing_entries": len(self.routing_table),
-            "uptime": time.time() - getattr(self, "_start_time", time.time()),
+            "uptime": time.time() - getattr(self, '_start_time', time.time())
         }
 
     def validate_routing_table(self) -> bool:
@@ -514,9 +489,7 @@ Available Commands:
         self.command_history.clear()
         self.logger.info("Service reset to initial state")
 
-    def _execute_coordination_strategy(
-        self, message: UnifiedMessage, strategy: str, message_obj: UnifiedMessage = None
-    ) -> dict[str, Any]:
+    def _execute_coordination_strategy(self, message: UnifiedMessage, strategy: str, message_obj: UnifiedMessage = None) -> dict[str, Any]:
         """Execute the determined coordination strategy."""
         # Simulate strategy execution
         base_result = {
@@ -525,7 +498,7 @@ Available Commands:
             "timestamp": time.time(),
             "priority": message_obj.priority.value if message_obj else None,
             "message_type": message_obj.message_type.value if message_obj else None,
-            "routing": self.get_routing_config(strategy),
+            "routing": self.get_routing_config(strategy)
         }
 
         if strategy == "highest_priority":

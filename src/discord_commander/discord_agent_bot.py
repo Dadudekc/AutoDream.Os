@@ -26,9 +26,7 @@ import discord
 from discord.ext import commands
 
 try:
-    from .agent_communication_engine_core import (
-        AgentCommunicationEngineCore as AgentCommunicationEngine,
-    )
+    from .agent_communication_engine_core import AgentCommunicationEngine
     from .command_router import CommandRouter
     from .discord_commander_models import CommandResult
     from .embeds import EmbedManager
@@ -38,7 +36,6 @@ try:
     from .rate_limits import RateLimiter
     from .security_policies import allow_channel, allow_guild, allow_user
     from .structured_logging import configure_logging
-
     try:
         from ..integration.messaging_gateway import MessagingGateway
         from .handlers_agent_summary import setup as setup_agent_summary
@@ -50,9 +47,7 @@ try:
 except ImportError as e:
     print(f"⚠️ Primary imports failed: {e}")
     try:
-        from agent_communication_engine_core import (
-            AgentCommunicationEngineCore as AgentCommunicationEngine,
-        )
+        from agent_communication_engine_core import AgentCommunicationEngine
         from command_router import CommandRouter
         from discord_commander_models import CommandResult
         from embeds import EmbedManager
@@ -62,7 +57,6 @@ except ImportError as e:
         from rate_limits import RateLimiter
         from security_policies import allow_channel, allow_guild, allow_user
         from structured_logging import configure_logging
-
         try:
             from handlers_agent_summary import setup as setup_agent_summary
 
@@ -92,7 +86,7 @@ except ImportError as e:
 class DiscordAgentBot(commands.Bot):
     """Streamlined Discord bot for V2_SWARM agent coordination."""
 
-    def __init__(self, command_prefix: str = "!", intents=None):
+    def __init__(self, command_prefix: str = '!', intents=None):
         """Initialize Discord agent bot."""
         if intents is None:
             intents = discord.Intents.default()
@@ -128,8 +122,7 @@ class DiscordAgentBot(commands.Bot):
                 sys.path.insert(0, str(current_dir))
 
             from integration.messaging_gateway import MessagingGateway
-
-            coordinates_path = os.getenv("COORDINATES_PATH", "config/coordinates.json")
+            coordinates_path = os.getenv('COORDINATES_PATH', 'config/coordinates.json')
             self.messaging_gateway = MessagingGateway(coordinates_path)
             print("✅ MessagingGateway initialized for PyAutoGUI integration")
         except Exception as e:
@@ -140,8 +133,8 @@ class DiscordAgentBot(commands.Bot):
         self.agent_coordinates = self._load_agent_coordinates()
 
         # Initialize rate limiter
-        global_rate = int(os.getenv("RATE_LIMIT_GLOBAL_PER_SEC", "5"))
-        user_cooldown = int(os.getenv("RATE_LIMIT_USER_COOLDOWN_SEC", "2"))
+        global_rate = int(os.getenv('RATE_LIMIT_GLOBAL_PER_SEC', '5'))
+        user_cooldown = int(os.getenv('RATE_LIMIT_USER_COOLDOWN_SEC', '2'))
         self.rate_limiter = RateLimiter(global_rate, user_cooldown)
 
         # Load configuration
@@ -154,20 +147,20 @@ class DiscordAgentBot(commands.Bot):
             try:
                 with open(config_path) as f:
                     config = json.load(f)
-                    self.allowed_channels = config.get("allowed_channels", [])
-                    self.admin_users = config.get("admin_users", [])
-                    self.command_timeout = config.get("command_timeout", 300)
-                    self.max_concurrent_commands = config.get("max_concurrent_commands", 10)
+                    self.allowed_channels = config.get('allowed_channels', [])
+                    self.admin_users = config.get('admin_users', [])
+                    self.command_timeout = config.get('command_timeout', 300)
+                    self.max_concurrent_commands = config.get('max_concurrent_commands', 10)
             except Exception as e:
                 print(f"⚠️  Failed to load Discord bot config: {e}")
 
     def _load_agent_coordinates(self) -> dict[str, dict[str, Any]]:
         """Load agent coordinates configuration."""
-        coordinates_path = os.getenv("COORDINATES_PATH", "config/coordinates.json")
+        coordinates_path = os.getenv('COORDINATES_PATH', 'config/coordinates.json')
         try:
             with open(coordinates_path) as f:
                 data = json.load(f)
-                return data.get("agents", {})
+                return data.get('agents', {})
         except Exception as e:
             print(f"⚠️  Failed to load coordinates: {e}. Using defaults.")
             # Return default agent coordinates
@@ -176,7 +169,7 @@ class DiscordAgentBot(commands.Bot):
                     "chat_input_coordinates": [0, 0],
                     "onboarding_coordinates": [0, 0],
                     "description": f"Agent {agent}",
-                    "active": True,
+                    "active": True
                 }
                 for agent in [f"Agent-{i}" for i in range(1, 9)]
             }
@@ -219,7 +212,6 @@ class DiscordAgentBot(commands.Bot):
             try:
                 # Try to import and setup agent summary handler
                 from .handlers_agent_summary import setup as setup_agent_summary
-
                 await setup_agent_summary(self, self.messaging_gateway)
                 print("✅ Agent summary commands registered successfully")
             except Exception as e:
@@ -232,7 +224,7 @@ class DiscordAgentBot(commands.Bot):
             target_channel = None
 
             # Check for configured allowed channels first
-            if hasattr(self, "allowed_channels") and self.allowed_channels:
+            if hasattr(self, 'allowed_channels') and self.allowed_channels:
                 for guild in self.guilds:
                     for channel_id in self.allowed_channels:
                         channel = guild.get_channel(channel_id)
@@ -272,9 +264,7 @@ class DiscordAgentBot(commands.Bot):
                 )
 
                 await target_channel.send(notification_msg)
-                print(
-                    f"✅ Startup notification sent to #{target_channel.name} in {target_channel.guild.name}"
-                )
+                print(f"✅ Startup notification sent to #{target_channel.name} in {target_channel.guild.name}")
             else:
                 print("⚠️  No suitable channel found to send startup notification")
 
@@ -283,9 +273,7 @@ class DiscordAgentBot(commands.Bot):
             # Fallback: try to send a simple message
             try:
                 if target_channel:
-                    await target_channel.send(
-                        "🐝 Discord Commander Online - V2_SWARM Bot Connected!"
-                    )
+                    await target_channel.send("🐝 Discord Commander Online - V2_SWARM Bot Connected!")
             except:
                 print("❌ Even fallback notification failed")
 
@@ -297,22 +285,8 @@ class DiscordAgentBot(commands.Bot):
 
         # Check security policies
         guild_id = message.guild.id if message.guild else None
-        if (
-            not allow_guild(guild_id)
-            or not allow_channel(message.channel.id)
-            or not allow_user(message.author.id)
-        ):
+        if not allow_guild(guild_id) or not allow_channel(message.channel.id) or not allow_user(message.author.id):
             return
-
-        # Handle keyboard shortcuts for urgent messages (Ctrl+Enter simulation)
-        try:
-            from .discord_dynamic_agent_commands import handle_keyboard_shortcut
-
-            handled = await handle_keyboard_shortcut(message, self)
-            if handled:
-                return  # Message was handled by keyboard shortcut
-        except Exception as e:
-            print(f"Keyboard shortcut handler error: {e}")
 
         # Apply rate limiting
         try:
@@ -340,25 +314,25 @@ class DiscordAgentBot(commands.Bot):
             # Parse command using command router
             cmd_type, args, remaining = self.command_router.parse_command(content)
 
-            if cmd_type == "unknown":
+            if cmd_type == 'unknown':
                 return
 
             # Validate command
             is_valid, error_msg = self.command_router.validate_command(cmd_type, args, content)
             if not is_valid:
                 error_embed = self.embed_manager.create_response_embed(
-                    "error", title="❌ Invalid Command", description=error_msg
+                    'error',
+                    title="❌ Invalid Command",
+                    description=error_msg
                 )
                 await channel.send(embed=error_embed)
                 return
 
             # Check concurrent command limit
-            total_active = (
-                self.agent_handlers.get_active_command_count()
-                + self.swarm_handlers.get_active_broadcast_count()
-            )
+            total_active = (self.agent_handlers.get_active_command_count() +
+                          self.swarm_handlers.get_active_broadcast_count())
             if total_active >= self.max_concurrent_commands:
-                embed = self.embed_manager.create_response_embed("too_many_commands")
+                embed = self.embed_manager.create_response_embed('too_many_commands')
                 await channel.send(embed=embed)
                 return
 
@@ -368,107 +342,103 @@ class DiscordAgentBot(commands.Bot):
             # Route to appropriate handler
             response_data = None
 
-            if cmd_type == "prompt":
+            if cmd_type == 'prompt':
                 response_data = await self.agent_handlers.handle_prompt_command(context)
-            elif cmd_type == "status":
+            elif cmd_type == 'status':
                 response_data = await self.agent_handlers.handle_status_command(context)
-            elif cmd_type == "swarm":
+            elif cmd_type == 'swarm':
                 response_data = await self.swarm_handlers.handle_swarm_command(context)
-            elif cmd_type == "urgent":
+            elif cmd_type == 'urgent':
                 response_data = await self.swarm_handlers.handle_urgent_command(context)
-            elif cmd_type == "agents":
+            elif cmd_type == 'agents':
                 agents = self.swarm_handlers.get_swarm_agent_list()
-                embed = self.embed_manager.create_response_embed(
-                    "agents", agents=agents, author=author
-                )
+                embed = self.embed_manager.create_response_embed('agents', agents=agents, author=author)
                 await channel.send(embed=embed)
                 return
-            elif cmd_type == "help":
-                embed = self.embed_manager.create_response_embed("help", author=author)
+            elif cmd_type == 'help':
+                embed = self.embed_manager.create_response_embed('help', author=author)
                 await channel.send(embed=embed)
                 return
-            elif cmd_type == "ping":
+            elif cmd_type == 'ping':
                 # Calculate latency (simplified)
                 latency = 42  # ms (would be calculated from message timestamps)
                 active_commands = self.agent_handlers.get_active_command_count()
                 embed = self.embed_manager.create_response_embed(
-                    "ping", latency=latency, active_commands=active_commands
+                    'ping',
+                    latency=latency,
+                    active_commands=active_commands
                 )
                 await channel.send(embed=embed)
                 return
 
             # Handle response
             if response_data:
-                if response_data.get("ignore"):
+                if response_data.get('ignore'):
                     return
 
-                embed = response_data["embed"]
-                follow_up = response_data.get("follow_up", False)
+                embed = response_data['embed']
+                follow_up = response_data.get('follow_up', False)
 
                 if follow_up:
                     # Send initial response and handle followup
                     response_msg = await channel.send(embed=embed)
-                    command_id = response_data.get("command_id")
+                    command_id = response_data.get('command_id')
 
-                    if command_id and cmd_type == "prompt":
+                    if command_id and cmd_type == 'prompt':
                         # Handle agent prompt followup
                         try:
                             result = await self.agent_engine.send_to_agent_inbox(
-                                response_data["agent_id"],
+                                response_data['agent_id'],
                                 args[1],  # prompt
-                                f"Discord User {author} (ID: {author.id})",
+                                f"Discord User {author} (ID: {author.id})"
                             )
-                            followup_data = await self.agent_handlers.handle_prompt_followup(
-                                command_id, result
-                            )
-                            if followup_data and followup_data.get("edit"):
-                                await response_msg.edit(embed=followup_data["embed"])
+                            followup_data = await self.agent_handlers.handle_prompt_followup(command_id, result)
+                            if followup_data and followup_data.get('edit'):
+                                await response_msg.edit(embed=followup_data['embed'])
                         except Exception as e:
                             error_embed = self.embed_manager.create_response_embed(
-                                "error",
+                                'error',
                                 title="❌ Agent Communication Error",
                                 description="Error communicating with agent.",
-                                error=str(e),
+                                error=str(e)
                             )
                             await response_msg.edit(embed=error_embed)
 
-                    elif command_id and cmd_type == "swarm":
+                    elif command_id and cmd_type == 'swarm':
                         # Handle swarm broadcast followup
                         try:
                             result = await self.swarm_handlers.execute_swarm_broadcast(
-                                response_data["message"], f"Discord User {author} (ID: {author.id})"
+                                response_data['message'],
+                                f"Discord User {author} (ID: {author.id})"
                             )
-                            followup_data = await self.swarm_handlers.handle_swarm_followup(
-                                command_id, result
-                            )
-                            if followup_data and followup_data.get("edit"):
-                                await response_msg.edit(embed=followup_data["embed"])
+                            followup_data = await self.swarm_handlers.handle_swarm_followup(command_id, result)
+                            if followup_data and followup_data.get('edit'):
+                                await response_msg.edit(embed=followup_data['embed'])
                         except Exception as e:
                             error_embed = self.embed_manager.create_response_embed(
-                                "error",
+                                'error',
                                 title="❌ Swarm Broadcast Error",
                                 description="Error broadcasting to swarm.",
-                                error=str(e),
+                                error=str(e)
                             )
                             await response_msg.edit(embed=error_embed)
 
-                    elif command_id and cmd_type == "urgent":
+                    elif command_id and cmd_type == 'urgent':
                         # Handle urgent broadcast followup
                         try:
                             result = await self.swarm_handlers.execute_urgent_broadcast(
-                                response_data["message"], f"Discord User {author} (ID: {author.id})"
+                                response_data['message'],
+                                f"Discord User {author} (ID: {author.id})"
                             )
-                            followup_data = await self.swarm_handlers.handle_urgent_followup(
-                                command_id, result
-                            )
-                            if followup_data and followup_data.get("edit"):
-                                await response_msg.edit(embed=followup_data["embed"])
+                            followup_data = await self.swarm_handlers.handle_urgent_followup(command_id, result)
+                            if followup_data and followup_data.get('edit'):
+                                await response_msg.edit(embed=followup_data['embed'])
                         except Exception as e:
                             error_embed = self.embed_manager.create_response_embed(
-                                "error",
+                                'error',
                                 title="❌ Urgent Broadcast Error",
                                 description="Error sending urgent broadcast.",
-                                error=str(e),
+                                error=str(e)
                             )
                             await response_msg.edit(embed=error_embed)
                 else:
@@ -478,29 +448,26 @@ class DiscordAgentBot(commands.Bot):
         except Exception as e:
             print(f"❌ Error processing command: {e}")
             error_embed = self.embed_manager.create_response_embed(
-                "error",
+                'error',
                 title="❌ Command Processing Error",
                 description="An error occurred while processing your command.",
-                error=str(e),
+                error=str(e)
             )
             await message.channel.send(embed=error_embed)
 
     def get_command_stats(self) -> dict[str, Any]:
         """Get bot command statistics."""
         return {
-            "active_agent_commands": self.agent_handlers.get_active_command_count(),
-            "active_swarm_broadcasts": self.swarm_handlers.get_active_broadcast_count(),
-            "total_active": (
-                self.agent_handlers.get_active_command_count()
-                + self.swarm_handlers.get_active_broadcast_count()
-            ),
+            'active_agent_commands': self.agent_handlers.get_active_command_count(),
+            'active_swarm_broadcasts': self.swarm_handlers.get_active_broadcast_count(),
+            'total_active': (self.agent_handlers.get_active_command_count() +
+                           self.swarm_handlers.get_active_broadcast_count())
         }
 
     async def _register_dynamic_agent_commands(self):
         """Register dynamic agent commands using the new system."""
         try:
             from .discord_dynamic_agent_commands import setup_dynamic_agent_commands
-
             await setup_dynamic_agent_commands(self)
             print("✅ Dynamic agent commands registered (prefix + slash)")
         except Exception as e:
@@ -510,7 +477,6 @@ class DiscordAgentBot(commands.Bot):
 
     def _register_basic_fallback_commands(self):
         """Register basic fallback commands if dynamic system fails."""
-
         # Register a simple agent command as fallback
         @self.command(name="simple_agent")
         async def simple_agent(ctx, agent_num: int, *, message: str):
@@ -538,7 +504,7 @@ class DiscordAgentBotManager:
         """Initialize bot manager."""
         self.bot = None
         self.config_path = Path("config/discord_bot_config.json")
-        self.token = os.getenv("DISCORD_BOT_TOKEN")
+        self.token = os.getenv('DISCORD_BOT_TOKEN')
 
     def create_bot(self, token: str = None) -> DiscordAgentBot:
         """Create and configure Discord agent bot."""
@@ -546,9 +512,7 @@ class DiscordAgentBotManager:
             self.token = token
 
         if not self.token:
-            raise ValueError(
-                "Discord bot token not provided. Set DISCORD_BOT_TOKEN environment variable."
-            )
+            raise ValueError("Discord bot token not provided. Set DISCORD_BOT_TOKEN environment variable.")
 
         self.bot = DiscordAgentBot()
         return self.bot
@@ -556,7 +520,7 @@ class DiscordAgentBotManager:
     def save_config(self, config: dict[str, Any]):
         """Save bot configuration."""
         self.config_path.parent.mkdir(parents=True, exist_ok=True)
-        with open(self.config_path, "w") as f:
+        with open(self.config_path, 'w') as f:
             json.dump(config, f, indent=2)
 
     def load_config(self) -> dict[str, Any]:
@@ -569,10 +533,10 @@ class DiscordAgentBotManager:
                 print(f"⚠️  Failed to load bot config: {e}")
 
         return {
-            "allowed_channels": [],
-            "admin_users": [],
-            "command_timeout": 300,
-            "max_concurrent_commands": 10,
+            'allowed_channels': [],
+            'admin_users': [],
+            'command_timeout': 300,
+            'max_concurrent_commands': 10
         }
 
     async def start_bot(self, token: str = None):
@@ -640,7 +604,7 @@ if __name__ == "__main__":
         if len(sys.argv) > 1:
             token = sys.argv[1]
         else:
-            token = os.getenv("DISCORD_BOT_TOKEN")
+            token = os.getenv('DISCORD_BOT_TOKEN')
 
         if not token:
             print("❌ No Discord bot token provided.")

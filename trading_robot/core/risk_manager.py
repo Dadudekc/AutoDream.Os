@@ -1,13 +1,11 @@
 """
 Risk Management System for Trading Robot
 """
-
 from datetime import datetime, time
 from typing import Any
 
-from loguru import logger
-
 from config.settings import config
+from loguru import logger
 
 
 class RiskManager:
@@ -23,9 +21,8 @@ class RiskManager:
         self.positions = {}
         self.trade_history = []
 
-    def validate_trade(
-        self, symbol: str, quantity: int, price: float, side: str, order_type: str = "market"
-    ) -> tuple[bool, str]:
+    def validate_trade(self, symbol: str, quantity: int, price: float,
+                      side: str, order_type: str = "market") -> tuple[bool, str]:
         """Validate if a trade meets risk management criteria"""
 
         # Check daily loss limit
@@ -38,8 +35,8 @@ class RiskManager:
 
         # Check position limits
         if symbol in self.positions:
-            current_qty = self.positions[symbol]["quantity"]
-            if side == "buy":
+            current_qty = self.positions[symbol]['quantity']
+            if side == 'buy':
                 new_qty = current_qty + quantity
             else:
                 new_qty = current_qty - quantity
@@ -98,9 +95,7 @@ class RiskManager:
         if config.emergency_stop_enabled:
             self._check_emergency_stop()
 
-        logger.debug(
-            f"💰 Portfolio value: ${self.portfolio_value:.2f} (Daily P&L: ${self.daily_pnl:.2f})"
-        )
+        logger.debug(f"💰 Portfolio value: ${self.portfolio_value:.2f} (Daily P&L: ${self.daily_pnl:.2f})")
 
     def _check_emergency_stop(self):
         """Check for emergency stop conditions"""
@@ -128,45 +123,46 @@ class RiskManager:
         # For now, just log the emergency
         # In production, this would trigger actual emergency procedures
 
-    def record_trade(self, symbol: str, side: str, quantity: int, price: float, pnl: float = 0.0):
+    def record_trade(self, symbol: str, side: str, quantity: int,
+                    price: float, pnl: float = 0.0):
         """Record a completed trade"""
         self.daily_trades += 1
 
         trade_record = {
-            "timestamp": datetime.now(),
-            "symbol": symbol,
-            "side": side,
-            "quantity": quantity,
-            "price": price,
-            "pnl": pnl,
-            "portfolio_value": self.portfolio_value,
+            'timestamp': datetime.now(),
+            'symbol': symbol,
+            'side': side,
+            'quantity': quantity,
+            'price': price,
+            'pnl': pnl,
+            'portfolio_value': self.portfolio_value
         }
 
         self.trade_history.append(trade_record)
 
         # Update positions
         if symbol not in self.positions:
-            self.positions[symbol] = {"quantity": 0, "avg_price": 0.0}
+            self.positions[symbol] = {'quantity': 0, 'avg_price': 0.0}
 
-        current_qty = self.positions[symbol]["quantity"]
-        current_avg_price = self.positions[symbol]["avg_price"]
+        current_qty = self.positions[symbol]['quantity']
+        current_avg_price = self.positions[symbol]['avg_price']
 
-        if side == "buy":
+        if side == 'buy':
             # Update average price for long positions
             total_value = (current_qty * current_avg_price) + (quantity * price)
             new_qty = current_qty + quantity
             new_avg_price = total_value / new_qty if new_qty > 0 else 0
 
-            self.positions[symbol]["quantity"] = new_qty
-            self.positions[symbol]["avg_price"] = new_avg_price
+            self.positions[symbol]['quantity'] = new_qty
+            self.positions[symbol]['avg_price'] = new_avg_price
 
-        elif side == "sell":
+        elif side == 'sell':
             # Reduce position
             new_qty = current_qty - quantity
             if new_qty <= 0:
                 del self.positions[symbol]
             else:
-                self.positions[symbol]["quantity"] = new_qty
+                self.positions[symbol]['quantity'] = new_qty
 
         logger.info(f"📊 Trade recorded: {side} {quantity} {symbol} @ ${price:.2f}")
 
@@ -177,28 +173,22 @@ class RiskManager:
         largest_position = 0.0
 
         for symbol, position in self.positions.items():
-            position_value = position["quantity"] * position["avg_price"]
+            position_value = position['quantity'] * position['avg_price']
             total_exposure += position_value
             largest_position = max(largest_position, position_value)
 
-        concentration_pct = (
-            (largest_position / self.portfolio_value) * 100 if self.portfolio_value > 0 else 0
-        )
-        exposure_pct = (
-            (total_exposure / self.portfolio_value) * 100 if self.portfolio_value > 0 else 0
-        )
+        concentration_pct = (largest_position / self.portfolio_value) * 100 if self.portfolio_value > 0 else 0
+        exposure_pct = (total_exposure / self.portfolio_value) * 100 if self.portfolio_value > 0 else 0
 
         return {
-            "total_exposure": total_exposure,
-            "exposure_percentage": exposure_pct,
-            "position_count": position_count,
-            "concentration_percentage": concentration_pct,
-            "daily_pnl": self.daily_pnl,
-            "daily_pnl_percentage": (
-                (self.daily_pnl / self.daily_start_value) * 100 if self.daily_start_value > 0 else 0
-            ),
-            "daily_trades": self.daily_trades,
-            "remaining_daily_trades": max(0, self.max_daily_trades - self.daily_trades),
+            'total_exposure': total_exposure,
+            'exposure_percentage': exposure_pct,
+            'position_count': position_count,
+            'concentration_percentage': concentration_pct,
+            'daily_pnl': self.daily_pnl,
+            'daily_pnl_percentage': (self.daily_pnl / self.daily_start_value) * 100 if self.daily_start_value > 0 else 0,
+            'daily_trades': self.daily_trades,
+            'remaining_daily_trades': max(0, self.max_daily_trades - self.daily_trades)
         }
 
     def check_market_hours(self) -> bool:
@@ -217,26 +207,24 @@ class RiskManager:
 
         return market_open <= current_time <= market_close
 
-    def calculate_stop_loss_price(
-        self, entry_price: float, side: str, stop_loss_pct: float = None
-    ) -> float:
+    def calculate_stop_loss_price(self, entry_price: float, side: str,
+                                stop_loss_pct: float = None) -> float:
         """Calculate stop loss price"""
         if stop_loss_pct is None:
             stop_loss_pct = config.default_stop_loss_pct
 
-        if side == "buy":
+        if side == 'buy':
             return entry_price * (1 - stop_loss_pct)
         else:
             return entry_price * (1 + stop_loss_pct)
 
-    def calculate_take_profit_price(
-        self, entry_price: float, side: str, take_profit_pct: float = None
-    ) -> float:
+    def calculate_take_profit_price(self, entry_price: float, side: str,
+                                  take_profit_pct: float = None) -> float:
         """Calculate take profit price"""
         if take_profit_pct is None:
             take_profit_pct = config.default_take_profit_pct
 
-        if side == "buy":
+        if side == 'buy':
             return entry_price * (1 + take_profit_pct)
         else:
             return entry_price * (1 - take_profit_pct)
@@ -256,20 +244,20 @@ class RiskManager:
 RISK MANAGEMENT REPORT
 ======================
 Portfolio Value: ${self.portfolio_value:.2f}
-Daily P&L: ${metrics["daily_pnl"]:.2f} ({metrics["daily_pnl_percentage"]:.2f}%)
+Daily P&L: ${metrics['daily_pnl']:.2f} ({metrics['daily_pnl_percentage']:.2f}%)
 
 Position Metrics:
-- Total Exposure: ${metrics["total_exposure"]:.2f}
-- Exposure %: {metrics["exposure_percentage"]:.1f}%
-- Position Count: {metrics["position_count"]}
-- Largest Position: {metrics["concentration_percentage"]:.1f}%
+- Total Exposure: ${metrics['total_exposure']:.2f}
+- Exposure %: {metrics['exposure_percentage']:.1f}%
+- Position Count: {metrics['position_count']}
+- Largest Position: {metrics['concentration_percentage']:.1f}%
 
 Trading Limits:
-- Daily Trades: {metrics["daily_trades"]}/{self.max_daily_trades}
-- Remaining Trades: {metrics["remaining_daily_trades"]}
+- Daily Trades: {metrics['daily_trades']}/{self.max_daily_trades}
+- Remaining Trades: {metrics['remaining_daily_trades']}
 - Daily Loss Limit: ${self.max_daily_loss:.2f}
 
-Risk Status: {"⚠️ HIGH RISK" if metrics["exposure_percentage"] > 50 else "✅ NORMAL"}
+Risk Status: {'⚠️ HIGH RISK' if metrics['exposure_percentage'] > 50 else '✅ NORMAL'}
         """
 
         return report.strip()
@@ -299,22 +287,20 @@ class RiskMonitor:
         metrics = self.risk_manager.get_portfolio_risk_metrics()
 
         # Check exposure limits
-        if metrics["exposure_percentage"] > 80:
+        if metrics['exposure_percentage'] > 80:
             alerts.append("🚨 HIGH EXPOSURE: Portfolio exposure above 80%")
 
         # Check concentration limits
-        if metrics["concentration_percentage"] > 20:
+        if metrics['concentration_percentage'] > 20:
             alerts.append("⚠️ HIGH CONCENTRATION: Single position above 20%")
 
         # Check daily loss limits
-        if metrics["daily_pnl_percentage"] < -3:
+        if metrics['daily_pnl_percentage'] < -3:
             alerts.append(f"⚠️ DAILY LOSS: {metrics['daily_pnl_percentage']:.1f}% loss today")
 
         # Check trading frequency
-        if metrics["daily_trades"] >= self.risk_manager.max_daily_trades * 0.8:
-            alerts.append(
-                f"⚠️ HIGH TRADING FREQUENCY: {metrics['daily_trades']}/{self.risk_manager.max_daily_trades} trades"
-            )
+        if metrics['daily_trades'] >= self.risk_manager.max_daily_trades * 0.8:
+            alerts.append(f"⚠️ HIGH TRADING FREQUENCY: {metrics['daily_trades']}/{self.risk_manager.max_daily_trades} trades")
 
         # Check market hours
         if not self.risk_manager.check_market_hours():
@@ -326,10 +312,8 @@ class RiskMonitor:
         """Log risk alerts"""
         for alert in alerts:
             logger.warning(alert)
-            self.alerts.append(
-                {
-                    "timestamp": datetime.now(),
-                    "alert": alert,
-                    "level": "WARNING" if "⚠️" in alert else "CRITICAL" if "🚨" in alert else "INFO",
-                }
-            )
+            self.alerts.append({
+                'timestamp': datetime.now(),
+                'alert': alert,
+                'level': 'WARNING' if '⚠️' in alert else 'CRITICAL' if '🚨' in alert else 'INFO'
+            })

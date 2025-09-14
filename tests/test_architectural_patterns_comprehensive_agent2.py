@@ -35,8 +35,8 @@ sys.path.insert(0, str(project_root / "src" / "core"))
 sys.path.insert(0, str(project_root / "src" / "services"))
 
 # Set PYTHONPATH environment variable as fallback
-if str(src_path) not in os.environ.get("PYTHONPATH", ""):
-    os.environ["PYTHONPATH"] = str(src_path) + os.pathsep + os.environ.get("PYTHONPATH", "")
+if str(src_path) not in os.environ.get('PYTHONPATH', ''):
+    os.environ['PYTHONPATH'] = str(src_path) + os.pathsep + os.environ.get('PYTHONPATH', '')
 
 print(f"Python path updated. Src path: {src_path}")
 print(f"Python path includes: {[p for p in sys.path if 'Agent_Cellphone' in p or 'src' in p]}")
@@ -57,15 +57,15 @@ class TestSOLIDPrinciplesComprehensive:
             from src.services.consolidated_messaging_service import ConsolidatedMessagingService
 
             service = ConsolidatedMessagingService()
-            methods = [m for m in dir(service) if not m.startswith("_")]
-            messaging_methods = ["send_message_pyautogui", "broadcast_message", "list_agents"]
+            methods = [m for m in dir(service) if not m.startswith('_')]
+            messaging_methods = ['send_message_pyautogui', 'broadcast_message', 'list_agents']
 
             # Verify single responsibility focus
             available_messaging_methods = [m for m in messaging_methods if m in methods]
             assert len(available_messaging_methods) > 0, "Service should have messaging methods"
 
             # Should not have unrelated responsibilities
-            unrelated_methods = ["save_file", "process_payment", "render_html"]
+            unrelated_methods = ['save_file', 'process_payment', 'render_html']
             for method in unrelated_methods:
                 assert method not in methods, f"Service should not have {method}"
 
@@ -100,23 +100,17 @@ class TestSOLIDPrinciplesComprehensive:
             coord_loader = CoordinateLoader()
 
             # Check for extension points
-            extensible_methods = ["send_message_pyautogui", "broadcast_message", "list_agents"]
+            extensible_methods = ['send_message_pyautogui', 'broadcast_message', 'list_agents']
             available_methods = [m for m in extensible_methods if hasattr(service, m)]
 
             # Should have multiple extension methods
-            assert len(available_methods) >= 2, (
-                f"Service should have extensible methods, found: {available_methods}"
-            )
+            assert len(available_methods) >= 2, f"Service should have extensible methods, found: {available_methods}"
 
             # Test coordinate loader extensibility
-            assert hasattr(coord_loader, "get_all_agents"), "CoordinateLoader should be extensible"
-            assert hasattr(coord_loader, "get_chat_coordinates"), (
-                "CoordinateLoader should support multiple coordinate types"
-            )
+            assert hasattr(coord_loader, 'get_all_agents'), "CoordinateLoader should be extensible"
+            assert hasattr(coord_loader, 'get_chat_coordinates'), "CoordinateLoader should support multiple coordinate types"
 
-            print(
-                f"✅ OCP: Services support extension with {len(available_methods)} extensible methods"
-            )
+            print(f"✅ OCP: Services support extension with {len(available_methods)} extensible methods")
             assert True
 
         except ImportError as e:
@@ -141,20 +135,18 @@ class TestSOLIDPrinciplesComprehensive:
             coord_loader = CoordinateLoader()
 
             # Both should provide similar interfaces for agent management
-            assert hasattr(msg_service, "list_agents"), "MessageService should list agents"
-            assert hasattr(coord_loader, "get_all_agents"), "CoordinateLoader should list agents"
+            assert hasattr(msg_service, 'list_agents'), "MessageService should list agents"
+            assert hasattr(coord_loader, 'get_all_agents'), "CoordinateLoader should list agents"
 
             # Test actual functionality
             msg_agents = msg_service.list_agents()
             coord_agents = coord_loader.get_all_agents()
 
             # Should both return collections (substitutable behavior)
-            assert hasattr(msg_agents, "__iter__"), "MessageService should return iterable"
-            assert hasattr(coord_agents, "__iter__"), "CoordinateLoader should return iterable"
+            assert hasattr(msg_agents, '__iter__'), "MessageService should return iterable"
+            assert hasattr(coord_agents, '__iter__'), "CoordinateLoader should return iterable"
 
-            print(
-                "✅ LSP: Services demonstrate substitutable behavior through consistent interfaces"
-            )
+            print("✅ LSP: Services demonstrate substitutable behavior through consistent interfaces")
             assert True
 
         except ImportError as e:
@@ -179,40 +171,16 @@ class TestSOLIDPrinciplesComprehensive:
             coord_loader = CoordinateLoader()
 
             # Check method focus for each service
-            msg_methods = [
-                m
-                for m in dir(msg_service)
-                if not m.startswith("_")
-                and not callable(getattr(msg_service, m, None))
-                or callable(getattr(msg_service, m, None))
-            ]
-            coord_methods = [
-                m
-                for m in dir(coord_loader)
-                if not m.startswith("_")
-                and not callable(getattr(coord_loader, m, None))
-                or callable(getattr(coord_loader, m, None))
-            ]
+            msg_methods = [m for m in dir(msg_service) if not m.startswith('_') and not callable(getattr(msg_service, m, None)) or callable(getattr(msg_service, m, None))]
+            coord_methods = [m for m in dir(coord_loader) if not m.startswith('_') and not callable(getattr(coord_loader, m, None)) or callable(getattr(coord_loader, m, None))]
 
             # Services should have reasonable method counts (not bloated interfaces)
-            assert len(msg_methods) < 20, (
-                f"MessageService interface too large: {len(msg_methods)} methods"
-            )
-            assert len(coord_methods) < 15, (
-                f"CoordinateLoader interface too large: {len(coord_methods)} methods"
-            )
+            assert len(msg_methods) < 20, f"MessageService interface too large: {len(msg_methods)} methods"
+            assert len(coord_methods) < 15, f"CoordinateLoader interface too large: {len(coord_methods)} methods"
 
             # Should have focused, related methods
-            msg_focus_methods = [
-                m
-                for m in msg_methods
-                if "message" in m.lower() or "agent" in m.lower() or "broadcast" in m.lower()
-            ]
-            coord_focus_methods = [
-                m
-                for m in coord_methods
-                if "coordinate" in m.lower() or "agent" in m.lower() or "chat" in m.lower()
-            ]
+            msg_focus_methods = [m for m in msg_methods if 'message' in m.lower() or 'agent' in m.lower() or 'broadcast' in m.lower()]
+            coord_focus_methods = [m for m in coord_methods if 'coordinate' in m.lower() or 'agent' in m.lower() or 'chat' in m.lower()]
 
             # Should have good focus ratios
             if msg_methods:
@@ -254,19 +222,15 @@ class TestSOLIDPrinciplesComprehensive:
             coord_params = list(coord_init.parameters.keys())
 
             # Should accept dependencies (not be hardcoded)
-            has_msg_deps = len([p for p in msg_params if p not in ["self", "args", "kwargs"]]) > 0
-            has_coord_deps = (
-                len([p for p in coord_params if p not in ["self", "args", "kwargs"]]) > 0
-            )
+            has_msg_deps = len([p for p in msg_params if p not in ['self', 'args', 'kwargs']]) > 0
+            has_coord_deps = len([p for p in coord_params if p not in ['self', 'args', 'kwargs']]) > 0
 
             # At least one service should demonstrate dependency injection
             assert has_msg_deps or has_coord_deps, "At least one service should accept dependencies"
 
             # Test actual functionality (should work without hardcoded dependencies)
             agents = coord_loader.get_all_agents()
-            assert isinstance(agents, list), (
-                "CoordinateLoader should work with injected dependencies"
-            )
+            assert isinstance(agents, list), "CoordinateLoader should work with injected dependencies"
 
             print("✅ DIP: Services demonstrate dependency inversion through abstraction")
             assert True
@@ -292,21 +256,17 @@ class TestDependencyInjectionComprehensive:
             from src.services.consolidated_architectural_service import ArchitecturalPrinciple
 
             # Verify ArchitecturalPrinciple is available for injection
-            assert hasattr(ArchitecturalPrinciple, "SINGLE_RESPONSIBILITY")
-            assert hasattr(ArchitecturalPrinciple, "OPEN_CLOSED")
-            assert hasattr(ArchitecturalPrinciple, "DEPENDENCY_INVERSION")
+            assert hasattr(ArchitecturalPrinciple, 'SINGLE_RESPONSIBILITY')
+            assert hasattr(ArchitecturalPrinciple, 'OPEN_CLOSED')
+            assert hasattr(ArchitecturalPrinciple, 'DEPENDENCY_INVERSION')
 
             # Test that architectural principles can be injected
-            principles = [
-                ArchitecturalPrinciple.SINGLE_RESPONSIBILITY,
-                ArchitecturalPrinciple.OPEN_CLOSED,
-                ArchitecturalPrinciple.DEPENDENCY_INVERSION,
-            ]
+            principles = [ArchitecturalPrinciple.SINGLE_RESPONSIBILITY,
+                         ArchitecturalPrinciple.OPEN_CLOSED,
+                         ArchitecturalPrinciple.DEPENDENCY_INVERSION]
 
             assert len(principles) == 3, "Should have core architectural principles"
-            assert all(isinstance(p, ArchitecturalPrinciple) for p in principles), (
-                "All should be ArchitecturalPrinciple instances"
-            )
+            assert all(isinstance(p, ArchitecturalPrinciple) for p in principles), "All should be ArchitecturalPrinciple instances"
 
             print("✅ Constructor Injection: Architectural principles available for injection")
             assert True
@@ -417,18 +377,12 @@ class TestArchitecturalPatternsComprehensive:
 
                 # Test different retrieval methods
                 onboarding_coords = loader.get_onboarding_coordinates(first_agent)
-                assert onboarding_coords is not None, (
-                    "Repository should support multiple access patterns"
-                )
+                assert onboarding_coords is not None, "Repository should support multiple access patterns"
 
                 # Verify data consistency
-                assert coords != onboarding_coords, (
-                    "Different access patterns should return different but valid data"
-                )
+                assert coords != onboarding_coords, "Different access patterns should return different but valid data"
 
-            print(
-                f"✅ Repository Pattern: Successfully managing data access for {len(agents)} entities"
-            )
+            print(f"✅ Repository Pattern: Successfully managing data access for {len(agents)} entities")
             assert True
 
         except ImportError as e:
@@ -450,13 +404,11 @@ class TestArchitecturalPatternsComprehensive:
             service = ConsolidatedMessagingService()
 
             # Test facade providing simple interface to complex operations
-            methods = [m for m in dir(service) if not m.startswith("_")]
+            methods = [m for m in dir(service) if not m.startswith('_')]
 
             # Should have high-level methods (facade methods)
-            high_level_methods = [
-                m for m in methods if len(m.split("_")) <= 3
-            ]  # Simple method names
-            complex_methods = [m for m in methods if len(m.split("_")) > 3]  # Complex method names
+            high_level_methods = [m for m in methods if len(m.split('_')) <= 3]  # Simple method names
+            complex_methods = [m for m in methods if len(m.split('_')) > 3]   # Complex method names
 
             # Should have both simple facade methods and complex underlying methods
             assert len(high_level_methods) > 0, "Should have facade methods"
@@ -466,9 +418,7 @@ class TestArchitecturalPatternsComprehensive:
             agents = service.list_agents()
             assert isinstance(agents, list), "Facade should provide simple interface"
 
-            print(
-                f"✅ Facade Pattern: {len(high_level_methods)} facade methods hiding {len(complex_methods)} complex operations"
-            )
+            print(f"✅ Facade Pattern: {len(high_level_methods)} facade methods hiding {len(complex_methods)} complex operations")
             assert True
 
         except ImportError as e:
@@ -505,15 +455,11 @@ class TestArchitecturalPatternsComprehensive:
 
                 # Should be coordinate tuples
                 assert isinstance(chat_coords, tuple), "Chat coordinates should be tuple"
-                assert isinstance(onboarding_coords, tuple), (
-                    "Onboarding coordinates should be tuple"
-                )
+                assert isinstance(onboarding_coords, tuple), "Onboarding coordinates should be tuple"
                 assert len(chat_coords) == 2, "Coordinates should be (x, y) pairs"
                 assert len(onboarding_coords) == 2, "Coordinates should be (x, y) pairs"
 
-            print(
-                f"✅ Adapter Pattern: Successfully adapting coordinate formats for {len(agents)} agents"
-            )
+            print(f"✅ Adapter Pattern: Successfully adapting coordinate formats for {len(agents)} agents")
             assert True
 
         except ImportError as e:
@@ -553,9 +499,7 @@ class TestArchitecturalPatternsComprehensive:
 
                 assert coords1 == coords2, "Singleton should provide consistent data access"
 
-            print(
-                "✅ Singleton Pattern: Confirmed singleton behavior with consistent state management"
-            )
+            print("✅ Singleton Pattern: Confirmed singleton behavior with consistent state management")
             assert True
 
         except ImportError as e:
@@ -583,11 +527,11 @@ class TestArchitecturalIntegrityComprehensive:
             service = ConsolidatedMessagingService()
 
             # Verify architectural principles are properly integrated
-            assert hasattr(ArchitecturalPrinciple, "SINGLE_RESPONSIBILITY")
-            assert hasattr(service, "send_message_pyautogui"), "Service should follow SRP"
+            assert hasattr(ArchitecturalPrinciple, 'SINGLE_RESPONSIBILITY')
+            assert hasattr(service, 'send_message_pyautogui'), "Service should follow SRP"
 
             # Test that service follows architectural guidelines
-            assert hasattr(service, "broadcast_message"), "Service should be extensible (OCP)"
+            assert hasattr(service, 'broadcast_message'), "Service should be extensible (OCP)"
 
             print("✅ Module Coupling: Architectural principles properly integrated across modules")
             assert True
@@ -613,14 +557,12 @@ class TestArchitecturalIntegrityComprehensive:
             source = inspect.getsource(CoordinateLoader)
 
             # Infrastructure layer should not contain business logic
-            business_terms = ["business", "workflow", "process", "policy"]
+            business_terms = ['business', 'workflow', 'process', 'policy']
             for term in business_terms:
-                assert term not in source.lower(), (
-                    f"Layer violation: {term} found in infrastructure"
-                )
+                assert term not in source.lower(), f"Layer violation: {term} found in infrastructure"
 
             # Should focus on infrastructure concerns
-            infra_terms = ["coordinate", "load", "agent", "data"]
+            infra_terms = ['coordinate', 'load', 'agent', 'data']
             infra_focus = sum(1 for term in infra_terms if term in source.lower())
             assert infra_focus > 0, "Infrastructure layer should focus on infrastructure concerns"
 
@@ -646,19 +588,15 @@ class TestArchitecturalIntegrityComprehensive:
             source = inspect.getsource(CoordinateLoader)
 
             # Dependencies should point inward (infrastructure <- domain <- application)
-            outer_dependencies = ["web", "api", "interface", "presentation", "ui"]
+            outer_dependencies = ['web', 'api', 'interface', 'presentation', 'ui']
             for dep in outer_dependencies:
-                assert dep not in source.lower(), (
-                    f"Wrong dependency direction: {dep} dependency found"
-                )
+                assert dep not in source.lower(), f"Wrong dependency direction: {dep} dependency found"
 
             # Should depend on inner layers or same layer
-            inner_dependencies = ["core", "data", "model", "entity"]
+            inner_dependencies = ['core', 'data', 'model', 'entity']
             valid_inner_deps = sum(1 for dep in inner_dependencies if dep in source.lower())
 
-            print(
-                "✅ Dependency Direction: Dependencies flow inward correctly through architectural layers"
-            )
+            print("✅ Dependency Direction: Dependencies flow inward correctly through architectural layers")
             assert True
 
         except ImportError as e:
@@ -692,17 +630,13 @@ class TestErrorHandlingArchitectural:
                 # This should handle invalid agent gracefully
                 coords = loader.get_chat_coordinates("nonexistent_agent_12345")
                 # If it doesn't raise an exception, it should return None or handle gracefully
-                assert coords is None or isinstance(coords, tuple), (
-                    "Should handle invalid input gracefully"
-                )
+                assert coords is None or isinstance(coords, tuple), "Should handle invalid input gracefully"
             except ValueError:
                 # Expected behavior for invalid agent
                 assert True, "Properly handles invalid agent with ValueError"
             except Exception as e:
                 # Any other exception should be reasonable
-                assert "coordinates" in str(e).lower() or "agent" in str(e).lower(), (
-                    f"Unexpected error: {e}"
-                )
+                assert "coordinates" in str(e).lower() or "agent" in str(e).lower(), f"Unexpected error: {e}"
 
             print("✅ Exception Hierarchy: Comprehensive error handling validated")
             assert True
@@ -733,9 +667,7 @@ class TestErrorHandlingArchitectural:
 
                 # Test successful operation
                 coords = loader.get_chat_coordinates(valid_agent)
-                assert coords is not None, (
-                    "Should successfully retrieve coordinates for valid agent"
-                )
+                assert coords is not None, "Should successfully retrieve coordinates for valid agent"
 
                 # Test error recovery for invalid operations
                 try:
@@ -745,9 +677,7 @@ class TestErrorHandlingArchitectural:
                 except ValueError:
                     assert True, "Properly raises ValueError for invalid agent"
                 except Exception as e:
-                    assert "coordinate" in str(e).lower() or "agent" in str(e).lower(), (
-                        f"Unexpected error type: {e}"
-                    )
+                    assert "coordinate" in str(e).lower() or "agent" in str(e).lower(), f"Unexpected error type: {e}"
 
             print("✅ Error Recovery Patterns: Comprehensive error recovery validated")
             assert True

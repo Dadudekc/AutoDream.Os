@@ -1,30 +1,22 @@
 """
 Comprehensive Test Suite for Trading Robot
 """
-
 import os
 import sys
 from unittest.mock import Mock, patch
 
-# AGGRESSIVE LAZY LOADING - CRITICAL PERFORMANCE OPTIMIZATION
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
-from src.core.aggressive_lazy_loader import lazy_import
-
-# Lazy load heavy modules for 30%+ performance improvement
-np = lazy_import('numpy', 'np')
-pd = lazy_import('pandas', 'pd')
-
+import numpy as np
+import pandas as pd
 import pytest
 
 # Add parent directory to path for imports
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from backtesting.backtester import Backtester, BacktestResult
-from strategies.base_strategy import MeanReversionStrategy, TrendFollowingStrategy
-
 from config.settings import config
 from core.alpaca_client import AlpacaClient
 from core.risk_manager import RiskManager
+from strategies.base_strategy import MeanReversionStrategy, TrendFollowingStrategy
 
 
 class TestAlpacaClient:
@@ -33,13 +25,13 @@ class TestAlpacaClient:
     @pytest.fixture
     def mock_api(self):
         """Mock Alpaca API"""
-        with patch("core.alpaca_client.tradeapi") as mock_tradeapi:
+        with patch('core.alpaca_client.tradeapi') as mock_tradeapi:
             mock_api_instance = Mock()
             mock_tradeapi.REST.return_value = mock_api_instance
             mock_api_instance.get_account.return_value = {
-                "cash": 100000,
-                "portfolio_value": 100000,
-                "buying_power": 200000,
+                'cash': 100000,
+                'portfolio_value': 100000,
+                'buying_power': 200000
             }
             yield mock_api_instance
 
@@ -58,22 +50,15 @@ class TestAlpacaClient:
 
         account_info = client.get_account_info()
 
-        assert "cash" in account_info
-        assert "portfolio_value" in account_info
-        assert account_info["cash"] == 100000
+        assert 'cash' in account_info
+        assert 'portfolio_value' in account_info
+        assert account_info['cash'] == 100000
 
     def test_get_positions(self, mock_api):
         """Test getting positions"""
         mock_api.list_positions.return_value = [
-            Mock(
-                symbol="AAPL",
-                qty=100,
-                avg_entry_price=150.0,
-                current_price=155.0,
-                market_value=15500.0,
-                unrealized_pl=500.0,
-                unrealized_plpc=0.0333,
-            )
+            Mock(symbol='AAPL', qty=100, avg_entry_price=150.0, current_price=155.0,
+                 market_value=15500.0, unrealized_pl=500.0, unrealized_plpc=0.0333)
         ]
 
         client = AlpacaClient()
@@ -83,8 +68,8 @@ class TestAlpacaClient:
         positions = client.get_positions()
 
         assert len(positions) == 1
-        assert positions[0]["symbol"] == "AAPL"
-        assert positions[0]["qty"] == 100
+        assert positions[0]['symbol'] == 'AAPL'
+        assert positions[0]['qty'] == 100
 
 
 class TestRiskManager:
@@ -104,7 +89,10 @@ class TestRiskManager:
     def test_validate_trade_success(self, risk_manager):
         """Test successful trade validation"""
         is_valid, reason = risk_manager.validate_trade(
-            symbol="AAPL", quantity=10, price=150.0, side="buy"
+            symbol='AAPL',
+            quantity=10,
+            price=150.0,
+            side='buy'
         )
 
         assert is_valid
@@ -115,7 +103,10 @@ class TestRiskManager:
         risk_manager.daily_pnl = -4000  # Below limit
 
         is_valid, reason = risk_manager.validate_trade(
-            symbol="AAPL", quantity=10, price=150.0, side="buy"
+            symbol='AAPL',
+            quantity=10,
+            price=150.0,
+            side='buy'
         )
 
         assert not is_valid
@@ -147,7 +138,7 @@ class TestTradingStrategies:
     @pytest.fixture
     def sample_data(self):
         """Create sample market data"""
-        dates = pd.date_range(start="2023-01-01", periods=100, freq="D")
+        dates = pd.date_range(start='2023-01-01', periods=100, freq='D')
         np.random.seed(42)
 
         # Generate realistic price data
@@ -155,19 +146,16 @@ class TestTradingStrategies:
         prices = []
         for i in range(100):
             change = np.random.normal(0, 0.02)  # 2% daily volatility
-            base_price *= 1 + change
+            base_price *= (1 + change)
             prices.append(base_price)
 
-        return pd.DataFrame(
-            {
-                "open": prices,
-                "high": [p * 1.01 for p in prices],  # High is 1% above close
-                "low": [p * 0.99 for p in prices],  # Low is 1% below close
-                "close": prices,
-                "volume": np.random.randint(1000000, 5000000, 100),
-            },
-            index=dates,
-        )
+        return pd.DataFrame({
+            'open': prices,
+            'high': [p * 1.01 for p in prices],  # High is 1% above close
+            'low': [p * 0.99 for p in prices],   # Low is 1% below close
+            'close': prices,
+            'volume': np.random.randint(1000000, 5000000, 100)
+        }, index=dates)
 
     def test_trend_following_strategy(self, sample_data):
         """Test trend following strategy"""
@@ -176,9 +164,9 @@ class TestTradingStrategies:
         # Test with valid data
         result = strategy.analyze(sample_data, "TEST")
 
-        assert hasattr(result, "signal")
-        assert hasattr(result, "confidence")
-        assert hasattr(result, "symbol")
+        assert hasattr(result, 'signal')
+        assert hasattr(result, 'confidence')
+        assert hasattr(result, 'symbol')
         assert result.symbol == "TEST"
 
     def test_mean_reversion_strategy(self, sample_data):
@@ -187,8 +175,8 @@ class TestTradingStrategies:
 
         result = strategy.analyze(sample_data, "TEST")
 
-        assert hasattr(result, "signal")
-        assert hasattr(result, "confidence")
+        assert hasattr(result, 'signal')
+        assert hasattr(result, 'confidence')
         assert result.symbol == "TEST"
 
     def test_data_validation(self, sample_data):
@@ -208,7 +196,7 @@ class TestBacktester:
     @pytest.fixture
     def sample_data(self):
         """Create sample market data for backtesting"""
-        dates = pd.date_range(start="2023-01-01", periods=252, freq="D")  # 1 year
+        dates = pd.date_range(start='2023-01-01', periods=252, freq='D')  # 1 year
         np.random.seed(123)
 
         # Generate trending price data
@@ -218,19 +206,16 @@ class TestBacktester:
 
         for i in range(252):
             change = np.random.normal(trend, 0.02)
-            base_price *= 1 + change
+            base_price *= (1 + change)
             prices.append(base_price)
 
-        return pd.DataFrame(
-            {
-                "open": prices,
-                "high": [p * 1.01 for p in prices],
-                "low": [p * 0.99 for p in prices],
-                "close": prices,
-                "volume": np.random.randint(1000000, 5000000, 252),
-            },
-            index=dates,
-        )
+        return pd.DataFrame({
+            'open': prices,
+            'high': [p * 1.01 for p in prices],
+            'low': [p * 0.99 for p in prices],
+            'close': prices,
+            'volume': np.random.randint(1000000, 5000000, 252)
+        }, index=dates)
 
     def test_backtest_initialization(self, sample_data):
         """Test backtester initialization"""
@@ -248,9 +233,9 @@ class TestBacktester:
         result = backtester.run_backtest(strategy, sample_data, "TEST")
 
         assert isinstance(result, BacktestResult)
-        assert hasattr(result, "total_trades")
-        assert hasattr(result, "win_rate")
-        assert hasattr(result, "total_return")
+        assert hasattr(result, 'total_trades')
+        assert hasattr(result, 'win_rate')
+        assert hasattr(result, 'total_return')
 
     def test_calculate_metrics(self):
         """Test performance metrics calculation"""
@@ -258,9 +243,9 @@ class TestBacktester:
 
         # Mock some trades
         result.trades = [
-            {"pnl": 1000, "symbol": "TEST"},
-            {"pnl": -500, "symbol": "TEST"},
-            {"pnl": 800, "symbol": "TEST"},
+            {'pnl': 1000, 'symbol': 'TEST'},
+            {'pnl': -500, 'symbol': 'TEST'},
+            {'pnl': 800, 'symbol': 'TEST'}
         ]
 
         result.calculate_metrics()
@@ -268,7 +253,7 @@ class TestBacktester:
         assert result.total_trades == 3
         assert result.winning_trades == 2
         assert result.losing_trades == 1
-        assert result.win_rate == 2 / 3
+        assert result.win_rate == 2/3
 
 
 class TestIntegration:
@@ -280,10 +265,9 @@ class TestIntegration:
         # This would be a comprehensive integration test
         # For now, just ensure components can be imported and initialized
 
-        from strategies.base_strategy import TrendFollowingStrategy
-
         from core.alpaca_client import AlpacaClient
         from core.risk_manager import RiskManager
+        from strategies.base_strategy import TrendFollowingStrategy
 
         # Test component initialization
         client = AlpacaClient()
@@ -305,7 +289,7 @@ def pytest_configure(config):
 # Test utilities
 def create_mock_market_data(symbol: str, periods: int = 100) -> pd.DataFrame:
     """Create mock market data for testing"""
-    dates = pd.date_range(start="2023-01-01", periods=periods, freq="D")
+    dates = pd.date_range(start='2023-01-01', periods=periods, freq='D')
     np.random.seed(42)
 
     base_price = 100.0
@@ -313,19 +297,16 @@ def create_mock_market_data(symbol: str, periods: int = 100) -> pd.DataFrame:
 
     for i in range(periods):
         change = np.random.normal(0, 0.02)
-        base_price *= 1 + change
+        base_price *= (1 + change)
         prices.append(base_price)
 
-    return pd.DataFrame(
-        {
-            "open": prices,
-            "high": [p * 1.01 for p in prices],
-            "low": [p * 0.99 for p in prices],
-            "close": prices,
-            "volume": np.random.randint(1000000, 5000000, periods),
-        },
-        index=dates,
-    )
+    return pd.DataFrame({
+        'open': prices,
+        'high': [p * 1.01 for p in prices],
+        'low': [p * 0.99 for p in prices],
+        'close': prices,
+        'volume': np.random.randint(1000000, 5000000, periods)
+    }, index=dates)
 
 
 def run_all_tests():
@@ -335,20 +316,14 @@ def run_all_tests():
 
     try:
         # Run pytest
-        result = subprocess.run(
-            [
-                sys.executable,
-                "-m",
-                "pytest",
-                "tests/",
-                "-v",
-                "--tb=short",
-                "--cov=.",
-                "--cov-report=html",
-            ],
-            capture_output=True,
-            text=True,
-        )
+        result = subprocess.run([
+            sys.executable, "-m", "pytest",
+            "tests/",
+            "-v",
+            "--tb=short",
+            "--cov=.",
+            "--cov-report=html"
+        ], capture_output=True, text=True)
 
         print("STDOUT:")
         print(result.stdout)

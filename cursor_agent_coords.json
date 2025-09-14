@@ -1,54 +1,74 @@
 {
-  "version": "2.0",
-  "last_updated": "2025-09-12T12:34:00Z",
+  "description": "Agent coordinate configuration - Single Source of Truth for all agent coordinates",
+  "version": "2.0.0",
+  "last_updated": "2025-09-06T22:16:34.064295",
+  "coordinate_system": {
+    "origin": "top-left",
+    "unit": "pixels",
+    "multi_monitor_support": true
+  },
   "agents": {
     "Agent-1": {
-      "active": true,
       "chat_input_coordinates": [-1269, 481],
-      "onboarding_coordinates": [-1265, 171],
-      "description": "Infrastructure Specialist"
+      "onboarding_input_coords": [-1265, 171],
+      "description": "Integration & Core Systems Specialist",
+      "active": true
     },
     "Agent-2": {
-      "active": true,
       "chat_input_coordinates": [-308, 480],
-      "onboarding_coordinates": [-304, 170],
-      "description": "Data Processing Expert"
+      "onboarding_input_coords": [-296, 180],
+      "description": "Architecture & Design Specialist",
+      "active": true
     },
     "Agent-3": {
-      "active": true,
       "chat_input_coordinates": [-1269, 1001],
-      "onboarding_coordinates": [-1265, 691],
-      "description": "Quality Assurance Lead"
+      "onboarding_input_coords": [-1276, 698],
+      "description": "Infrastructure & DevOps Specialist",
+      "active": true
     },
     "Agent-4": {
-      "active": true,
       "chat_input_coordinates": [-308, 1000],
-      "onboarding_coordinates": [-304, 690],
-      "description": "Project Coordinator"
+      "onboarding_input_coords": [-304, 700],
+      "description": "Quality Assurance Specialist (CAPTAIN)",
+      "active": true
     },
     "Agent-5": {
-      "active": true,
       "chat_input_coordinates": [652, 421],
-      "onboarding_coordinates": [656, 111],
-      "description": "Business Intelligence"
+      "onboarding_input_coords": [691, 105],
+      "description": "Business Intelligence Specialist",
+      "active": true
     },
     "Agent-6": {
-      "active": true,
       "chat_input_coordinates": [1612, 419],
-      "onboarding_coordinates": [1616, 109],
-      "description": "Code Quality Specialist"
+      "onboarding_input_coords": [1674, 112],
+      "description": "Coordination & Communication Specialist",
+      "active": true
     },
     "Agent-7": {
-      "active": true,
-      "chat_input_coordinates": [920, 851],
-      "onboarding_coordinates": [924, 541],
-      "description": "Web Development Expert"
+      "chat_input_coordinates": [698, 936],
+      "onboarding_input_coords": [697, 630],
+      "description": "Web Development Specialist",
+      "active": true
     },
     "Agent-8": {
-      "active": true,
       "chat_input_coordinates": [1611, 941],
-      "onboarding_coordinates": [1615, 631],
-      "description": "Integration Specialist"
+      "onboarding_input_coords": [1673, 639],
+      "description": "Operations & Support Specialist",
+      "active": true
     }
+  },
+  "fallback_behavior": {
+    "default_offset": [-50, 0],
+    "retry_attempts": 3,
+    "error_handling": "graceful_degradation"
+  },
+  "validation_rules": {
+    "coordinate_bounds": {
+      "min_x": -2000,
+      "max_x": 2000,
+      "min_y": 0,
+      "max_y": 1500
+    },
+    "required_fields": ["chat_input_coordinates", "onboarding_input_coords"]
   }
 }

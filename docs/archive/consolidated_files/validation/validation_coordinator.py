@@ -32,7 +32,11 @@ class ValidationCoordinator:
 
     def validate(self, data: Any, rules: dict[str, Any]) -> dict[str, Any]:
         """Validate data using registered engines."""
-        results = {"valid": True, "errors": [], "warnings": []}
+        results = {
+            "valid": True,
+            "errors": [],
+            "warnings": []
+        }
 
         for rule_name, rule_config in rules.items():
             try:

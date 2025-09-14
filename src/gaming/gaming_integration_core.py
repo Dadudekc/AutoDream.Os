@@ -25,7 +25,6 @@ logger = logging.getLogger(__name__)
 # DIP: Abstract interfaces for dependency injection
 class IGameSessionManager(Protocol):
     """Interface for game session management (ISP: Segregated interface)."""
-
     def create_session(self, game_type: str, player_id: str) -> dict[str, Any] | None: ...
     def get_session(self, session_id: str) -> dict[str, Any] | None: ...
     def end_session(self, session_id: str) -> bool: ...
@@ -34,7 +33,6 @@ class IGameSessionManager(Protocol):
 
 class IEntertainmentSystemManager(Protocol):
     """Interface for entertainment system management (ISP: Segregated interface)."""
-
     def register_system(self, system_id: str, system_type: str) -> bool: ...
     def get_system(self, system_id: str) -> dict[str, Any] | None: ...
     def get_all_systems(self) -> list[dict[str, Any]]: ...
@@ -42,7 +40,6 @@ class IEntertainmentSystemManager(Protocol):
 
 class IIntegrationHandler(Protocol):
     """Interface for integration event handlers (ISP: Segregated interface)."""
-
     def handle_event(self, event: dict[str, Any]) -> dict[str, Any]: ...
 
 
@@ -87,7 +84,7 @@ class GameSession:
             "start_time": self.start_time.isoformat(),
             "status": self.status,
             "score": self.score,
-            "level": self.level,
+            "level": self.level
         }
 
 
@@ -107,7 +104,7 @@ class EntertainmentSystem:
             "system_id": self.system_id,
             "system_type": self.system_type,
             "status": self.status,
-            "last_activity": self.last_activity.isoformat(),
+            "last_activity": self.last_activity.isoformat()
         }
 
 
@@ -153,7 +150,9 @@ class GameSessionManager:
     def get_active_sessions(self) -> list[dict[str, Any]]:
         """Get active game sessions."""
         return [
-            session.to_dict() for session in self.sessions.values() if session.status == "active"
+            session.to_dict()
+            for session in self.sessions.values()
+            if session.status == "active"
         ]
 
 
@@ -238,12 +237,10 @@ class IntegrationEventHandler:
 class GamingIntegrationCore:
     """Gaming integration core - SOLID Compliant: Uses composition and interfaces."""
 
-    def __init__(
-        self,
-        config: dict[str, Any] | None = None,
-        session_manager: IGameSessionManager | None = None,
-        system_manager: IEntertainmentSystemManager | None = None,
-    ):
+    def __init__(self,
+                 config: dict[str, Any] | None = None,
+                 session_manager: IGameSessionManager | None = None,
+                 system_manager: IEntertainmentSystemManager | None = None):
         """Initialize with dependency injection."""
         self.config = config or {}
         self.status = IntegrationStatus.DISCONNECTED
@@ -290,7 +287,7 @@ class GamingIntegrationCore:
             logger.warning("Gaming integration not initialized")
             return None
         # Handle both enum and string inputs
-        game_type_str = game_type.value if hasattr(game_type, "value") else str(game_type)
+        game_type_str = game_type.value if hasattr(game_type, 'value') else str(game_type)
         return self.session_manager.create_session(game_type_str, player_id)
 
     def get_game_session(self, session_id: str) -> dict[str, Any] | None:
@@ -346,9 +343,8 @@ class GamingIntegrationCore:
             "initialized": self.is_initialized,
             "session_count": len(self.session_manager.get_active_sessions()),
             "system_count": len(self.system_manager.get_all_systems()),
-            "handler_count": len(self.event_handlers),
+            "handler_count": len(self.event_handlers)
         }
-
 
 # Factory function for backward compatibility
 def create_gaming_integration_core(config: dict[str, Any] | None = None) -> GamingIntegrationCore:

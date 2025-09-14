@@ -27,6 +27,7 @@ from typing import Any
 # Import modular handlers
 try:
     from .command_handler_module import CommandHandler
+    from .contract_handler_module import ContractHandler
     from .coordinate_handler_module import CoordinateHandler
     from .onboarding_handler_module import OnboardingHandler
     from .utility_handler_module import UtilityHandler
@@ -36,7 +37,6 @@ except ImportError as e:
 # ================================
 # TYPE DEFINITIONS & ENUMS
 # ================================
-
 
 class HandlerType(Enum):
     COMMAND = "command"
@@ -49,13 +49,11 @@ class HandlerType(Enum):
     AGENT_ASSIGNMENT = "agent_assignment"
     AGENT_STATUS = "agent_status"
 
-
 class HandlerPriority(Enum):
     LOW = 1
     NORMAL = 2
     HIGH = 3
     URGENT = 4
-
 
 class HandlerStatus(Enum):
     PENDING = "pending"
@@ -64,11 +62,9 @@ class HandlerStatus(Enum):
     FAILED = "failed"
     CANCELLED = "cancelled"
 
-
 @dataclass
 class HandlerRequest:
     """Standardized handler request structure"""
-
     id: str
     type: HandlerType
     priority: HandlerPriority
@@ -78,37 +74,11 @@ class HandlerRequest:
     result: Any | None = None
     error: str | None = None
 
-
 # ================================
 # UNIFIED HANDLERS ORCHESTRATOR
 # ================================
 
-
 class UnifiedHandlersOrchestrator:
-
-EXAMPLE USAGE:
-==============
-
-# Import the service
-from src.services.handlers_orchestrator import Handlers_OrchestratorService
-
-# Initialize service
-service = Handlers_OrchestratorService()
-
-# Basic service operation
-response = service.handle_request(request_data)
-print(f"Service response: {response}")
-
-# Service with dependency injection
-from src.core.dependency_container import Container
-
-container = Container()
-service = container.get(Handlers_OrchestratorService)
-
-# Execute service method
-result = service.execute_operation(input_data, context)
-print(f"Operation result: {result}")
-
     """
     Main orchestrator for all handler operations
     Coordinates all handler modules for V2 compliance
@@ -127,6 +97,7 @@ print(f"Operation result: {result}")
         """Initialize all handler modules"""
         try:
             self.command_handler = CommandHandler()
+            self.contract_handler = ContractHandler()
             self.coordinate_handler = CoordinateHandler()
             self.onboarding_handler = OnboardingHandler()
             self.utility_handler = UtilityHandler()
@@ -134,13 +105,14 @@ print(f"Operation result: {result}")
             # Map handler types to methods
             self._handlers = {
                 HandlerType.COMMAND: self.command_handler.process_command,
+                HandlerType.CONTRACT: self.contract_handler.process_contract,
                 HandlerType.COORDINATE: self.coordinate_handler.process_coordinate,
                 HandlerType.ONBOARDING: self.onboarding_handler.process_onboarding,
                 HandlerType.UTILITY: self.utility_handler.process_utility,
                 HandlerType.ROLE: self._handle_role_command,
                 HandlerType.OVERNIGHT: self._handle_overnight,
                 HandlerType.AGENT_ASSIGNMENT: self._handle_agent_assignment,
-                HandlerType.AGENT_STATUS: self._handle_agent_status,
+                HandlerType.AGENT_STATUS: self._handle_agent_status
             }
 
             self.logger.info("Unified Handlers Orchestrator initialized")
@@ -177,26 +149,20 @@ print(f"Operation result: {result}")
 
         return request
 
-    def submit_request(
-        self,
-        handler_type: HandlerType,
-        data: dict[str, Any],
-        priority: HandlerPriority = HandlerPriority.NORMAL,
-    ) -> str:
+    def submit_request(self, handler_type: HandlerType, data: dict[str, Any],
+                      priority: HandlerPriority = HandlerPriority.NORMAL) -> str:
         """
         Submit a new handler request
         Returns request ID for tracking
         """
-        request_id = (
-            f"{handler_type.value}_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{hash(str(data))}"
-        )
+        request_id = f"{handler_type.value}_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{hash(str(data))}"
 
         request = HandlerRequest(
             id=request_id,
             type=handler_type,
             priority=priority,
             data=data,
-            created_at=datetime.now(),
+            created_at=datetime.now()
         )
 
         self._active_requests[request_id] = request
@@ -212,9 +178,9 @@ print(f"Operation result: {result}")
 
     def _handle_role_command(self, request: HandlerRequest) -> dict[str, Any]:
         """Handle role-based commands"""
-        role = request.data.get("role", "")
-        command = request.data.get("command", "")
-        context = request.data.get("context", {})
+        role = request.data.get('role', '')
+        command = request.data.get('command', '')
+        context = request.data.get('context', {})
 
         # Role-based command routing
         if role == "coordinator":
@@ -229,27 +195,27 @@ print(f"Operation result: {result}")
     def _handle_coordinator_command(self, command: str, context: dict[str, Any]) -> dict[str, Any]:
         """Handle coordinator role commands"""
         if command == "coordinate_agents":
-            return self.coordinate_agents(context.get("agents", []))
+            return self.coordinate_agents(context.get('agents', []))
         elif command == "assign_tasks":
-            return self.assign_tasks(context.get("assignments", []))
+            return self.assign_tasks(context.get('assignments', []))
         else:
             return {"error": f"Unknown coordinator command: {command}"}
 
     def _handle_specialist_command(self, command: str, context: dict[str, Any]) -> dict[str, Any]:
         """Handle specialist role commands"""
         if command == "analyze_domain":
-            return self.analyze_domain(context.get("domain", ""))
+            return self.analyze_domain(context.get('domain', ''))
         elif command == "provide_expertise":
-            return self.provide_expertise(context.get("topic", ""))
+            return self.provide_expertise(context.get('topic', ''))
         else:
             return {"error": f"Unknown specialist command: {command}"}
 
     def _handle_analyst_command(self, command: str, context: dict[str, Any]) -> dict[str, Any]:
         """Handle analyst role commands"""
         if command == "generate_report":
-            return self.generate_report(context.get("report_type", ""))
+            return self.generate_report(context.get('report_type', ''))
         elif command == "analyze_data":
-            return self.analyze_data(context.get("data", {}))
+            return self.analyze_data(context.get('data', {}))
         else:
             return {"error": f"Unknown analyst command: {command}"}
 
@@ -259,8 +225,8 @@ print(f"Operation result: {result}")
 
     def _handle_overnight(self, request: HandlerRequest) -> dict[str, Any]:
         """Handle overnight processing operations"""
-        operation = request.data.get("operation", "")
-        schedule = request.data.get("schedule", {})
+        operation = request.data.get('operation', '')
+        schedule = request.data.get('schedule', {})
 
         if operation == "schedule_task":
             return self.schedule_overnight_task(schedule)
@@ -277,9 +243,9 @@ print(f"Operation result: {result}")
 
         return {
             "task_id": task_id,
-            "scheduled_for": schedule.get("time", "02:00"),
-            "operation": schedule.get("operation", ""),
-            "status": "scheduled",
+            "scheduled_for": schedule.get('time', '02:00'),
+            "operation": schedule.get('operation', ''),
+            "status": "scheduled"
         }
 
     def process_overnight_batch(self, schedule: dict[str, Any]) -> dict[str, Any]:
@@ -288,17 +254,17 @@ print(f"Operation result: {result}")
 
         return {
             "batch_id": batch_id,
-            "items_count": schedule.get("items_count", 0),
-            "operation": schedule.get("operation", ""),
-            "status": "processing",
+            "items_count": schedule.get('items_count', 0),
+            "operation": schedule.get('operation', ''),
+            "status": "processing"
         }
 
     def perform_overnight_maintenance(self, schedule: dict[str, Any]) -> dict[str, Any]:
         """Perform maintenance operations overnight"""
         return {
-            "maintenance_type": schedule.get("type", "general"),
-            "scheduled_for": schedule.get("time", "03:00"),
-            "status": "scheduled",
+            "maintenance_type": schedule.get('type', 'general'),
+            "scheduled_for": schedule.get('time', '03:00'),
+            "status": "scheduled"
         }
 
     # ================================
@@ -307,20 +273,20 @@ print(f"Operation result: {result}")
 
     def _handle_agent_assignment(self, request: HandlerRequest) -> dict[str, Any]:
         """Handle agent assignment operations"""
-        agent_id = request.data.get("agent_id", "")
-        task_data = request.data.get("task_data", {})
+        agent_id = request.data.get('agent_id', '')
+        task_data = request.data.get('task_data', {})
 
         return self.assign_task_to_agent(agent_id, task_data)
 
     def assign_task_to_agent(self, agent_id: str, task_data: dict[str, Any]) -> dict[str, Any]:
         """Assign a task to an agent"""
-        task_id = task_data.get("id", f"task_{datetime.now().strftime('%Y%m%d_%H%M%S')}")
+        task_id = task_data.get('id', f"task_{datetime.now().strftime('%Y%m%d_%H%M%S')}")
 
         return {
             "agent_id": agent_id,
             "task_id": task_id,
             "assigned_at": datetime.now().isoformat(),
-            "status": "assigned",
+            "status": "assigned"
         }
 
     # ================================
@@ -329,13 +295,13 @@ print(f"Operation result: {result}")
 
     def _handle_agent_status(self, request: HandlerRequest) -> dict[str, Any]:
         """Handle agent status operations"""
-        agent_id = request.data.get("agent_id", "")
-        status_type = request.data.get("type", "info")
+        agent_id = request.data.get('agent_id', '')
+        status_type = request.data.get('type', 'info')
 
         if status_type == "info":
             return self.get_agent_status(agent_id)
         elif status_type == "update":
-            return self.update_agent_status(agent_id, request.data.get("updates", {}))
+            return self.update_agent_status(agent_id, request.data.get('updates', {}))
         elif status_type == "health":
             return self.check_agent_health(agent_id)
         else:
@@ -349,7 +315,7 @@ print(f"Operation result: {result}")
             "last_active": datetime.now().isoformat(),
             "assigned_tasks_count": 0,
             "capabilities": ["handler_processing"],
-            "position": [0, 0],
+            "position": [0, 0]
         }
 
     def update_agent_status(self, agent_id: str, updates: dict[str, Any]) -> dict[str, Any]:
@@ -358,7 +324,7 @@ print(f"Operation result: {result}")
             "agent_id": agent_id,
             "updated_fields": list(updates.keys()),
             "updated_at": datetime.now().isoformat(),
-            "status": "updated",
+            "status": "updated"
         }
 
     def check_agent_health(self, agent_id: str) -> dict[str, Any]:
@@ -367,7 +333,7 @@ print(f"Operation result: {result}")
             "agent_id": agent_id,
             "health_status": "healthy",
             "last_active": datetime.now().isoformat(),
-            "assigned_tasks": 0,
+            "assigned_tasks": 0
         }
 
     # ================================
@@ -382,7 +348,7 @@ print(f"Operation result: {result}")
             "id": task_id,
             "created_at": datetime.now().isoformat(),
             "status": "created",
-            **task_data,
+            **task_data
         }
 
         return task
@@ -393,7 +359,7 @@ print(f"Operation result: {result}")
             "task_id": task_id,
             "updated_fields": list(updates.keys()),
             "updated_at": datetime.now().isoformat(),
-            "status": "updated",
+            "status": "updated"
         }
 
     def complete_task(self, task_id: str) -> dict[str, Any]:
@@ -401,14 +367,13 @@ print(f"Operation result: {result}")
         return {
             "task_id": task_id,
             "completed_at": datetime.now().isoformat(),
-            "status": "completed",
+            "status": "completed"
         }
 
     def get_system_status(self) -> dict[str, Any]:
         """Get overall system status"""
         try:
             from src.core.coordinate_loader import get_coordinate_loader
-
             loader = get_coordinate_loader()
             active_agents = len(loader.get_all_agents())
         except Exception:
@@ -419,7 +384,7 @@ print(f"Operation result: {result}")
             "active_requests": len(self._active_requests),
             "total_commands_processed": len(self._command_history),
             "system_health": "operational",
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now().isoformat()
         }
 
     def coordinate_agents(self, agents: list[str]) -> dict[str, Any]:
@@ -428,7 +393,7 @@ print(f"Operation result: {result}")
             "agents": agents,
             "coordination_type": "multi-agent",
             "coordinated_at": datetime.now().isoformat(),
-            "status": "coordinated",
+            "status": "coordinated"
         }
 
     def assign_tasks(self, assignments: list[dict[str, Any]]) -> dict[str, Any]:
@@ -436,14 +401,15 @@ print(f"Operation result: {result}")
         results = []
         for assignment in assignments:
             result = self.assign_task_to_agent(
-                assignment.get("agent_id", ""), assignment.get("task_data", {})
+                assignment.get('agent_id', ''),
+                assignment.get('task_data', {})
             )
             results.append(result)
 
         return {
             "assignments_processed": len(results),
             "results": results,
-            "assigned_at": datetime.now().isoformat(),
+            "assigned_at": datetime.now().isoformat()
         }
 
     def analyze_domain(self, domain: str) -> dict[str, Any]:
@@ -452,7 +418,7 @@ print(f"Operation result: {result}")
             "domain": domain,
             "analysis_type": "specialist",
             "analyzed_at": datetime.now().isoformat(),
-            "status": "analyzed",
+            "status": "analyzed"
         }
 
     def provide_expertise(self, topic: str) -> dict[str, Any]:
@@ -461,7 +427,7 @@ print(f"Operation result: {result}")
             "topic": topic,
             "expertise_type": "specialist",
             "provided_at": datetime.now().isoformat(),
-            "status": "provided",
+            "status": "provided"
         }
 
     def generate_report(self, report_type: str) -> dict[str, Any]:
@@ -469,7 +435,7 @@ print(f"Operation result: {result}")
         return {
             "report_type": report_type,
             "generated_at": datetime.now().isoformat(),
-            "status": "generated",
+            "status": "generated"
         }
 
     def analyze_data(self, data: dict[str, Any]) -> dict[str, Any]:
@@ -478,21 +444,19 @@ print(f"Operation result: {result}")
             "data_points": len(data),
             "analysis_type": "data",
             "analyzed_at": datetime.now().isoformat(),
-            "status": "analyzed",
+            "status": "analyzed"
         }
 
     def _log_request(self, request: HandlerRequest):
         """Log a processed request"""
-        self._command_history.append(
-            {
-                "request_id": request.id,
-                "type": request.type.value,
-                "priority": request.priority.value,
-                "status": request.status.value,
-                "processed_at": datetime.now().isoformat(),
-                "has_error": request.error is not None,
-            }
-        )
+        self._command_history.append({
+            "request_id": request.id,
+            "type": request.type.value,
+            "priority": request.priority.value,
+            "status": request.status.value,
+            "processed_at": datetime.now().isoformat(),
+            "has_error": request.error is not None
+        })
 
         # Keep only last 1000 entries
         if len(self._command_history) > 1000:
@@ -507,19 +471,16 @@ print(f"Operation result: {result}")
             "command_history_size": len(self._command_history),
             "v2_compliance": "READY",
             "modular_handlers": ["command", "contract", "coordinate", "onboarding", "utility"],
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now().isoformat()
         }
-
 
 # ================================
 # FACTORY FUNCTIONS
 # ================================
 
-
 def create_unified_handlers_orchestrator() -> UnifiedHandlersOrchestrator:
     """Create unified handlers orchestrator instance"""
     return UnifiedHandlersOrchestrator()
-
 
 # ================================
 # V2 COMPLIANCE VALIDATION

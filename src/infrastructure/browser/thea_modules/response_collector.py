@@ -32,28 +32,6 @@ class TheaResponseCollector:
         self._last_cursor_position = None
 
     def collect_full_response(self, timeout: float = 120.0) -> str | None:
-
-EXAMPLE USAGE:
-==============
-
-# Basic usage example
-from src.infrastructure.browser.thea_modules.response_collector import Response_Collector
-
-# Initialize and use
-instance = Response_Collector()
-result = instance.execute()
-print(f"Execution result: {result}")
-
-# Advanced configuration
-config = {
-    "option1": "value1",
-    "option2": True
-}
-
-instance = Response_Collector(config)
-advanced_result = instance.execute_advanced()
-print(f"Advanced result: {advanced_result}")
-
         """
         Collect full response using enhanced DOM polling and cursor detection.
 
@@ -122,9 +100,9 @@ print(f"Advanced result: {advanced_result}")
 
             # Try fallback selectors
             fallback_selectors = [
-                ".message-content:last-child",
-                ".markdown:last-child",
-                "[data-message-id]:last-child",
+                '.message-content:last-child',
+                '.markdown:last-child',
+                '[data-message-id]:last-child'
             ]
 
             for selector in fallback_selectors:
@@ -200,10 +178,10 @@ print(f"Advanced result: {advanced_result}")
     def get_response_metadata(self) -> dict[str, Any]:
         """Get metadata about the current response."""
         return {
-            "has_response": self._extract_current_response() is not None,
-            "is_complete": self._is_response_complete(),
-            "response_length": len(self._extract_current_response() or ""),
-            "timestamp": time.time(),
+            'has_response': self._extract_current_response() is not None,
+            'is_complete': self._is_response_complete(),
+            'response_length': len(self._extract_current_response() or ""),
+            'timestamp': time.time()
         }
 
 
@@ -224,17 +202,17 @@ class TheaResponseMonitor:
     def get_progress(self) -> dict[str, Any]:
         """Get current progress of response collection."""
         if not self._start_time:
-            return {"status": "not_started"}
+            return {'status': 'not_started'}
 
         elapsed = time.time() - self._start_time
         metadata = self.collector.get_response_metadata()
 
         return {
-            "status": "in_progress" if not metadata["is_complete"] else "complete",
-            "elapsed_time": elapsed,
-            "has_response": metadata["has_response"],
-            "response_length": metadata["response_length"],
-            "is_complete": metadata["is_complete"],
+            'status': 'in_progress' if not metadata['is_complete'] else 'complete',
+            'elapsed_time': elapsed,
+            'has_response': metadata['has_response'],
+            'response_length': metadata['response_length'],
+            'is_complete': metadata['is_complete']
         }
 
     def should_continue(self, max_time: float = 120.0) -> bool:

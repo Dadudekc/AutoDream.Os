@@ -1,0 +1,96 @@
+{
+  "coordination_timestamp": "2025-09-09T03:07:02.087460",
+  "system_status": {
+    "cursor_coordinates_loaded": true,
+    "active_coordinates": 8,
+    "total_agents": 8,
+    "multi_monitor_setup": true,
+    "system_ready": true
+  },
+  "total_agents": 8,
+  "successful_invitations": 8,
+  "results": {
+    "Agent-1": {
+      "success": true,
+      "specialist_role": "Integration & Core Systems Specialist",
+      "coordinates": [
+        -1269,
+        481
+      ],
+      "timestamp": "2025-09-09T03:06:54.552457",
+      "message_length": 1240
+    },
+    "Agent-2": {
+      "success": true,
+      "specialist_role": "Architecture & Design Specialist",
+      "coordinates": [
+        -308,
+        480
+      ],
+      "timestamp": "2025-09-09T03:06:55.556267",
+      "message_length": 1225
+    },
+    "Agent-3": {
+      "success": true,
+      "specialist_role": "Infrastructure & DevOps Specialist",
+      "coordinates": [
+        -1269,
+        1001
+      ],
+      "timestamp": "2025-09-09T03:06:56.560348",
+      "message_length": 1231
+    },
+    "Agent-4": {
+      "success": true,
+      "specialist_role": "Quality Assurance Specialist (CAPTAIN)",
+      "coordinates": [
+        -308,
+        1000
+      ],
+      "timestamp": "2025-09-09T03:06:57.563343",
+      "message_length": 1243
+    },
+    "Agent-5": {
+      "success": true,
+      "specialist_role": "Business Intelligence Specialist",
+      "coordinates": [
+        652,
+        421
+      ],
+      "timestamp": "2025-09-09T03:06:58.565874",
+      "message_length": 1225
+    },
+    "Agent-6": {
+      "success": true,
+      "specialist_role": "Coordination & Communication Specialist",
+      "coordinates": [
+        1612,
+        419
+      ],
+      "timestamp": "2025-09-09T03:06:59.568459",
+      "message_length": 1246
+    },
+    "Agent-7": {
+      "success": true,
+      "specialist_role": "Web Development Specialist",
+      "coordinates": [
+        920,
+        851
+      ],
+      "timestamp": "2025-09-09T03:07:00.575086",
+      "message_length": 1207
+    },
+    "Agent-8": {
+      "success": true,
+      "specialist_role": "Operations & Support Specialist",
+      "coordinates": [
+        1611,
+        941
+      ],
+      "timestamp": "2025-09-09T03:07:01.586004",
+      "message_length": 1222
+    }
+  },
+  "debate_topic": "Architecture Consolidation: 683 files \u2192 ~250 files",
+  "cursor_automation_used": true
+}

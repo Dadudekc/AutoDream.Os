@@ -20,30 +20,6 @@ class TaskContextManager:
     """Manages task context and search operations."""
 
     def __init__(self, agent_id: str, config_path: str | None = None):
-
-EXAMPLE USAGE:
-==============
-
-# Import the service
-from src.services.task_context_manager import Task_Context_ManagerService
-
-# Initialize service
-service = Task_Context_ManagerService()
-
-# Basic service operation
-response = service.handle_request(request_data)
-print(f"Service response: {response}")
-
-# Service with dependency injection
-from src.core.dependency_container import Container
-
-container = Container()
-service = container.get(Task_Context_ManagerService)
-
-# Execute service method
-result = service.execute_operation(input_data, context)
-print(f"Operation result: {result}")
-
         """Initialize task context manager."""
         self.agent_id = agent_id
         self.logger = logging.getLogger(__name__)
@@ -82,9 +58,7 @@ print(f"Operation result: {result}")
                 "devlog_insights": [format_search_result(r) for r in devlog_insights],
                 "recommendations": generate_recommendations(similar_tasks),
                 "context_loaded": True,
-                "search_results_count": len(similar_tasks)
-                + len(related_messages)
-                + len(devlog_insights),
+                "search_results_count": len(similar_tasks) + len(related_messages) + len(devlog_insights),
             }
 
         except Exception as e:
@@ -98,7 +72,11 @@ print(f"Operation result: {result}")
     def _search_similar_tasks(self, task_description: str) -> list[Any]:
         """Search for similar tasks in agent work."""
         try:
-            query = SearchQuery(query=task_description, collection_name="agent_work", limit=5)
+            query = SearchQuery(
+                query=task_description,
+                collection_name="agent_work",
+                limit=5
+            )
             return search_vector_database(query)
         except Exception as e:
             self.logger.error(f"Error searching similar tasks: {e}")
@@ -107,7 +85,11 @@ print(f"Operation result: {result}")
     def _search_related_messages(self, task_description: str) -> list[Any]:
         """Search for related messages in agent inbox."""
         try:
-            query = SearchQuery(query=task_description, collection_name="agent_messages", limit=3)
+            query = SearchQuery(
+                query=task_description,
+                collection_name="agent_messages",
+                limit=3
+            )
             return search_vector_database(query)
         except Exception as e:
             self.logger.error(f"Error searching related messages: {e}")
@@ -117,7 +99,9 @@ print(f"Operation result: {result}")
         """Search for devlog insights related to the task."""
         try:
             query = SearchQuery(
-                query=f"devlog {task_description}", collection_name="agent_work", limit=3
+                query=f"devlog {task_description}",
+                collection_name="agent_work",
+                limit=3
             )
             return search_vector_database(query)
         except Exception as e:

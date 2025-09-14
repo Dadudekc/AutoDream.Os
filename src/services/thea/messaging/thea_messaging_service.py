@@ -23,7 +23,6 @@ from ..responses.thea_response_service import TheaResponseService
 
 class MessageStatus(Enum):
     """Message sending status."""
-
     SENT = "sent"
     FAILED = "failed"
     PENDING = "pending"
@@ -32,12 +31,7 @@ class MessageStatus(Enum):
 class TheaMessagingService:
     """Handles message sending and receiving for Thea communication."""
 
-    def __init__(
-        self,
-        config: TheaConfig,
-        browser_service: TheaBrowserService,
-        response_service: TheaResponseService,
-    ):
+    def __init__(self, config: TheaConfig, browser_service: TheaBrowserService, response_service: TheaResponseService):
         self.config = config
         self.browser = browser_service
         self.response_service = response_service
@@ -134,7 +128,7 @@ class TheaMessagingService:
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         message_path = self.config.responses_dir / f"sent_message_{timestamp}.txt"
 
-        with open(message_path, "w", encoding="utf-8") as f:
+        with open(message_path, 'w', encoding='utf-8') as f:
             f.write(message)
 
         return message_path
@@ -161,7 +155,7 @@ WE ARE SWARM"""
         """Load message from template file."""
         try:
             if self.config.message_template_path.exists():
-                with open(self.config.message_template_path, encoding="utf-8") as f:
+                with open(self.config.message_template_path, encoding='utf-8') as f:
                     return f.read().strip()
         except Exception as e:
             print(f"⚠️  Could not load message template: {e}")

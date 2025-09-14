@@ -4,6 +4,6 @@
 from . import find_large_files, setup_discord_bot
 
 __all__ = [
-    "find_large_files",
-    "setup_discord_bot",
+    'find_large_files',
+    'setup_discord_bot',
 ]

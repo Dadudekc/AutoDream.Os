@@ -4,5 +4,5 @@
 from . import agent_strategies
 
 __all__ = [
-    "agent_strategies",
+    'agent_strategies',
 ]

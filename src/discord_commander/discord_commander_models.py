@@ -17,7 +17,6 @@ from typing import Any
 @dataclass
 class CommandResult:
     """Result of a Discord commander command execution."""
-
     success: bool
     message: str
     data: dict[str, Any] | None = None
@@ -38,7 +37,7 @@ def create_command_result(
     data: dict[str, Any] | None = None,
     agent: str | None = None,
     execution_time: float | None = None,
-    error_code: str | None = None,
+    error_code: str | None = None
 ) -> CommandResult:
     """Factory function to create CommandResult instances."""
     return CommandResult(
@@ -47,14 +46,13 @@ def create_command_result(
         data=data,
         agent=agent,
         execution_time=execution_time,
-        error_code=error_code,
+        error_code=error_code
     )
 
 
 @dataclass
 class DiscordMessage:
     """Discord message structure."""
-
     content: str
     author: str
     channel: str
@@ -71,7 +69,6 @@ class DiscordMessage:
 @dataclass
 class AgentCommand:
     """Agent command structure."""
-
     agent_id: str
     command: str
     parameters: dict[str, Any] | None = None
@@ -88,7 +85,6 @@ class AgentCommand:
 @dataclass
 class CommunicationStats:
     """Communication statistics."""
-
     messages_sent: int = 0
     messages_received: int = 0
     commands_executed: int = 0
@@ -104,5 +100,5 @@ class CommunicationStats:
             "commands_executed": self.commands_executed,
             "errors_encountered": self.errors_encountered,
             "average_response_time": self.average_response_time,
-            "uptime_percentage": self.uptime_percentage,
+            "uptime_percentage": self.uptime_percentage
         }

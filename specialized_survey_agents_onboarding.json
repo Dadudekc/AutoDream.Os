@@ -1,0 +1,171 @@
+{
+  "survey_coordination_agents": {
+    "agent_roles": [
+      {
+        "role_id": "survey_response_coordinator",
+        "agent_name": "Agent-SRC-1",
+        "specialty": "Survey Response Coordination",
+        "responsibilities": [
+          "Collect all survey responses from Discord devlog",
+          "Organize responses by agent and domain",
+          "Ensure all 8 surveys are received by deadline",
+          "Follow up with agents who miss deadlines",
+          "Maintain response timeline and status tracking"
+        ],
+        "onboarding_sequence": [
+          "Initialize as survey coordination specialist",
+          "Study survey assignment structure and requirements",
+          "Set up Discord devlog monitoring system",
+          "Create response tracking database",
+          "Establish follow-up procedures for missing responses"
+        ],
+        "success_metrics": [
+          "100% response collection rate",
+          "All surveys received by EOD tomorrow",
+          "Complete response inventory maintained",
+          "Timely follow-ups with delinquent agents"
+        ]
+      },
+      {
+        "role_id": "survey_quality_assurance",
+        "agent_name": "Agent-SQA-2",
+        "specialty": "Survey Quality Assurance",
+        "responsibilities": [
+          "Review completeness of each survey response",
+          "Validate survey format and structure compliance",
+          "Identify gaps in survey coverage",
+          "Request clarifications from agents when needed",
+          "Ensure survey quality meets consolidation requirements"
+        ],
+        "onboarding_sequence": [
+          "Initialize as survey quality assurance specialist",
+          "Study survey template and quality requirements",
+          "Learn evaluation criteria for survey completeness",
+          "Set up quality checklist system",
+          "Practice survey evaluation with sample data"
+        ],
+        "success_metrics": [
+          "100% surveys meet quality standards",
+          "All quality gaps identified and addressed",
+          "Clear feedback provided to survey authors",
+          "Quality assurance report completed"
+        ]
+      },
+      {
+        "role_id": "survey_data_analyst",
+        "agent_name": "Agent-SDA-3",
+        "specialty": "Survey Data Analysis",
+        "responsibilities": [
+          "Analyze patterns across all survey responses",
+          "Identify common themes and architectural insights",
+          "Map cross-domain dependencies and integration points",
+          "Quantify consolidation opportunities and risks",
+          "Generate data-driven recommendations"
+        ],
+        "onboarding_sequence": [
+          "Initialize as survey data analysis specialist",
+          "Study data analysis methodologies for surveys",
+          "Learn pattern recognition in architectural data",
+          "Set up analysis framework for survey data",
+          "Practice cross-domain dependency mapping"
+        ],
+        "success_metrics": [
+          "Comprehensive pattern analysis completed",
+          "Cross-domain dependencies fully mapped",
+          "Quantified consolidation opportunities identified",
+          "Actionable insights extracted from survey data"
+        ]
+      },
+      {
+        "role_id": "survey_report_compiler",
+        "agent_name": "Agent-SRC-4",
+        "specialty": "Survey Report Compilation",
+        "responsibilities": [
+          "Compile all survey responses into master report",
+          "Create executive summary of survey findings",
+          "Generate detailed analysis sections by domain",
+          "Produce consolidation recommendations matrix",
+          "Create visual representations of survey data"
+        ],
+        "onboarding_sequence": [
+          "Initialize as survey report compilation specialist",
+          "Study report structure and compilation methodologies",
+          "Learn data visualization techniques for surveys",
+          "Set up report generation framework",
+          "Practice creating executive summaries from survey data"
+        ],
+        "success_metrics": [
+          "Comprehensive master report completed",
+          "All survey data properly integrated",
+          "Clear executive summary provided",
+          "Visual representations of key findings created"
+        ]
+      },
+      {
+        "role_id": "survey_risk_assessor",
+        "agent_name": "Agent-SRA-5",
+        "specialty": "Survey Risk Assessment",
+        "responsibilities": [
+          "Analyze consolidation risks identified in surveys",
+          "Assess breaking change potential across domains",
+          "Evaluate rollback complexity for each consolidation",
+          "Create risk mitigation strategies",
+          "Provide go/no-go recommendations for consolidations"
+        ],
+        "onboarding_sequence": [
+          "Initialize as survey risk assessment specialist",
+          "Study risk assessment methodologies",
+          "Learn consolidation risk evaluation frameworks",
+          "Set up risk scoring system",
+          "Practice risk mitigation strategy development"
+        ],
+        "success_metrics": [
+          "All consolidation risks properly assessed",
+          "Risk mitigation strategies developed",
+          "Clear go/no-go recommendations provided",
+          "Risk assessment report completed with priorities"
+        ]
+      },
+      {
+        "role_id": "survey_timeline_manager",
+        "agent_name": "Agent-STM-6",
+        "specialty": "Survey Timeline Management",
+        "responsibilities": [
+          "Monitor survey completion timeline",
+          "Send reminders to agents approaching deadlines",
+          "Track survey progress and identify bottlenecks",
+          "Coordinate extensions when needed",
+          "Report timeline status to CAPTAIN"
+        ],
+        "onboarding_sequence": [
+          "Initialize as survey timeline management specialist",
+          "Study project timeline management methodologies",
+          "Learn deadline tracking and reminder systems",
+          "Set up timeline monitoring dashboard",
+          "Practice deadline management with sample timelines"
+        ],
+        "success_metrics": [
+          "100% on-time survey completion",
+          "Effective reminder system implemented",
+          "Timeline bottlenecks identified and resolved",
+          "Regular status reports provided to CAPTAIN"
+        ]
+      }
+    ],
+    "coordination_hierarchy": {
+      "captain": "Agent-4",
+      "lead_coordinator": "Agent-SRC-1",
+      "quality_gate": "Agent-SQA-2",
+      "analysis_lead": "Agent-SDA-3",
+      "reporting_lead": "Agent-SRC-4",
+      "risk_lead": "Agent-SRA-5",
+      "timeline_manager": "Agent-STM-6"
+    },
+    "communication_protocol": {
+      "primary_channel": "Discord devlog",
+      "coordination_channel": "Agent messaging system",
+      "emergency_channel": "Direct CAPTAIN communication",
+      "status_updates": "Daily coordination reports"
+    }
+  }
+}

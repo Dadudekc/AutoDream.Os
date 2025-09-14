@@ -3,30 +3,6 @@
 
 Loads ``status.json`` files, computes embeddings, and upserts them into the
 vector database's ``agent_status_embeddings`` table.
-
-EXAMPLE USAGE:
-==============
-
-# Import the service
-from src.services.vector_database.status_indexer import Status_IndexerService
-
-# Initialize service
-service = Status_IndexerService()
-
-# Basic service operation
-response = service.handle_request(request_data)
-print(f"Service response: {response}")
-
-# Service with dependency injection
-from src.core.dependency_container import Container
-
-container = Container()
-service = container.get(Status_IndexerService)
-
-# Execute service method
-result = service.execute_operation(input_data, context)
-print(f"Operation result: {result}")
-
 """
 
 from __future__ import annotations

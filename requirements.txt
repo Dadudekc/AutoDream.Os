@@ -1,12 +1,9 @@
 # Core dependencies
 pyyaml>=6.0
 pathlib2>=2.3.7; python_version < "3.4"
-pydantic>=2.0.0
-pydantic-settings>=2.0.0
 
 # CLI and utilities
 click>=8.0.0
-pyperclip>=1.8.0
 
 # Development and testing (minimal runtime deps)
 pytest>=7.0.0

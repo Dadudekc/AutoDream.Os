@@ -26,7 +26,6 @@ from typing import Any
 
 try:
     import psutil
-
     PSUTIL_AVAILABLE = True
 except ImportError:
     psutil = None
@@ -41,18 +40,17 @@ from pydantic import BaseModel
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
+    format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler("swarm_monitoring_dashboard.log", encoding="utf-8"),
-        logging.StreamHandler(),
-    ],
+        logging.FileHandler('swarm_monitoring_dashboard.log', encoding='utf-8'),
+        logging.StreamHandler()
+    ]
 )
 logger = logging.getLogger(__name__)
 
 
 class AgentStatus(BaseModel):
     """Agent status model"""
-
     agent_id: str
     status: str
     current_phase: str
@@ -66,30 +64,7 @@ class AgentStatus(BaseModel):
 
 
 class Alert(BaseModel):
-
-EXAMPLE USAGE:
-==============
-
-# Basic usage example
-from src.web.swarm_monitoring_dashboard import Swarm_Monitoring_Dashboard
-
-# Initialize and use
-instance = Swarm_Monitoring_Dashboard()
-result = instance.execute()
-print(f"Execution result: {result}")
-
-# Advanced configuration
-config = {
-    "option1": "value1",
-    "option2": True
-}
-
-instance = Swarm_Monitoring_Dashboard(config)
-advanced_result = instance.execute_advanced()
-print(f"Advanced result: {advanced_result}")
-
     """Alert model"""
-
     alert_id: str
     level: str
     message: str
@@ -114,7 +89,7 @@ class SwarmMonitoringDashboard:
         self.app = FastAPI(
             title="SWARM Monitoring Dashboard",
             description="Real-time monitoring dashboard for SWARM intelligence operations",
-            version="1.0.0",
+            version="1.0.0"
         )
 
         # Setup paths
@@ -148,28 +123,23 @@ class SwarmMonitoringDashboard:
         @self.app.get("/", response_class=HTMLResponse)
         async def dashboard(request: Request):
             """Main dashboard page"""
-            return self.templates.TemplateResponse(
-                "dashboard.html",
-                {
-                    "request": request,
-                    "title": "SWARM Monitoring Dashboard",
-                    "timestamp": datetime.now().isoformat(),
-                },
-            )
+            return self.templates.TemplateResponse("dashboard.html", {
+                "request": request,
+                "title": "SWARM Monitoring Dashboard",
+                "timestamp": datetime.now().isoformat()
+            })
 
         @self.app.get("/api/agents/status")
         async def get_agents_status():
             """Get status of all agents"""
             try:
                 agents_status = await self._get_all_agents_status()
-                return JSONResponse(
-                    content={
-                        "timestamp": datetime.now().isoformat(),
-                        "agents": [agent.dict() for agent in agents_status],
-                        "total_agents": len(agents_status),
-                        "active_agents": len([a for a in agents_status if a.status != "OFFLINE"]),
-                    }
-                )
+                return JSONResponse(content={
+                    "timestamp": datetime.now().isoformat(),
+                    "agents": [agent.dict() for agent in agents_status],
+                    "total_agents": len(agents_status),
+                    "active_agents": len([a for a in agents_status if a.status != "OFFLINE"])
+                })
             except Exception as e:
                 logger.error(f"Error getting agents status: {e}")
                 raise HTTPException(status_code=500, detail=str(e))
@@ -179,9 +149,10 @@ class SwarmMonitoringDashboard:
             """Get system performance metrics"""
             try:
                 metrics = await self._get_system_metrics()
-                return JSONResponse(
-                    content={"timestamp": datetime.now().isoformat(), "metrics": metrics}
-                )
+                return JSONResponse(content={
+                    "timestamp": datetime.now().isoformat(),
+                    "metrics": metrics
+                })
             except Exception as e:
                 logger.error(f"Error getting system metrics: {e}")
                 raise HTTPException(status_code=500, detail=str(e))
@@ -190,16 +161,13 @@ class SwarmMonitoringDashboard:
         async def get_alerts(resolved: bool = False, limit: int = 50):
             """Get active alerts"""
             try:
-                filtered_alerts = [alert for alert in self.alerts if alert.resolved == resolved][
-                    :limit
-                ]
-                return JSONResponse(
-                    content={
-                        "timestamp": datetime.now().isoformat(),
-                        "alerts": [alert.dict() for alert in filtered_alerts],
-                        "total": len(filtered_alerts),
-                    }
-                )
+                filtered_alerts = [alert for alert in self.alerts
+                                 if alert.resolved == resolved][:limit]
+                return JSONResponse(content={
+                    "timestamp": datetime.now().isoformat(),
+                    "alerts": [alert.dict() for alert in filtered_alerts],
+                    "total": len(filtered_alerts)
+                })
             except Exception as e:
                 logger.error(f"Error getting alerts: {e}")
                 raise HTTPException(status_code=500, detail=str(e))
@@ -209,9 +177,10 @@ class SwarmMonitoringDashboard:
             """Get consolidation progress across all agents"""
             try:
                 progress = await self._calculate_consolidation_progress()
-                return JSONResponse(
-                    content={"timestamp": datetime.now().isoformat(), "progress": progress}
-                )
+                return JSONResponse(content={
+                    "timestamp": datetime.now().isoformat(),
+                    "progress": progress
+                })
             except Exception as e:
                 logger.error(f"Error getting consolidation progress: {e}")
                 raise HTTPException(status_code=500, detail=str(e))
@@ -259,25 +228,23 @@ class SwarmMonitoringDashboard:
 
             try:
                 if status_file.exists():
-                    with open(status_file, encoding="utf-8") as f:
+                    with open(status_file, encoding='utf-8') as f:
                         data = json.load(f)
 
                     # Convert timestamp strings to datetime
-                    last_updated = datetime.fromisoformat(
-                        data.get("last_updated", datetime.now().isoformat())
-                    )
+                    last_updated = datetime.fromisoformat(data.get('last_updated', datetime.now().isoformat()))
 
                     agent_status = AgentStatus(
                         agent_id=agent_id,
-                        status=data.get("status", "UNKNOWN"),
-                        current_phase=data.get("current_phase", "UNKNOWN"),
+                        status=data.get('status', 'UNKNOWN'),
+                        current_phase=data.get('current_phase', 'UNKNOWN'),
                         last_updated=last_updated,
-                        current_mission=data.get("current_mission"),
-                        mission_priority=data.get("mission_priority"),
-                        progress_percentage=data.get("progress_percentage"),
-                        active_tasks=data.get("current_tasks", []),
-                        completed_tasks=data.get("completed_tasks", []),
-                        coordination_status=data.get("coordination_status", {}),
+                        current_mission=data.get('current_mission'),
+                        mission_priority=data.get('mission_priority'),
+                        progress_percentage=data.get('progress_percentage'),
+                        active_tasks=data.get('current_tasks', []),
+                        completed_tasks=data.get('completed_tasks', []),
+                        coordination_status=data.get('coordination_status', {})
                     )
                     agents_status.append(agent_status)
                 else:
@@ -289,7 +256,7 @@ class SwarmMonitoringDashboard:
                         last_updated=datetime.now(),
                         active_tasks=[],
                         completed_tasks=[],
-                        coordination_status={},
+                        coordination_status={}
                     )
                     agents_status.append(agent_status)
 
@@ -302,7 +269,7 @@ class SwarmMonitoringDashboard:
                     last_updated=datetime.now(),
                     active_tasks=[],
                     completed_tasks=[],
-                    coordination_status={"error": str(e)},
+                    coordination_status={"error": str(e)}
                 )
                 agents_status.append(agent_status)
 
@@ -323,13 +290,13 @@ class SwarmMonitoringDashboard:
                     "disk_total": 0,
                     "process_memory": 0,
                     "psutil_available": False,
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now().isoformat()
                 }
 
             # CPU and memory metrics
             cpu_percent = psutil.cpu_percent(interval=1)
             memory = psutil.virtual_memory()
-            disk = psutil.disk_usage("/")
+            disk = psutil.disk_usage('/')
 
             # Process information
             process = psutil.Process()
@@ -345,7 +312,7 @@ class SwarmMonitoringDashboard:
                 "disk_total": disk.total,
                 "process_memory": process_memory.rss,
                 "psutil_available": True,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now().isoformat()
             }
 
             self.system_metrics = metrics
@@ -356,7 +323,7 @@ class SwarmMonitoringDashboard:
             return {
                 "error": str(e),
                 "psutil_available": PSUTIL_AVAILABLE,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now().isoformat()
             }
 
     async def _calculate_consolidation_progress(self) -> dict[str, Any]:
@@ -386,10 +353,10 @@ class SwarmMonitoringDashboard:
                         "agent_id": agent.agent_id,
                         "progress": agent.progress_percentage or 0,
                         "active_tasks": len(agent.active_tasks),
-                        "completed_tasks": len(agent.completed_tasks),
+                        "completed_tasks": len(agent.completed_tasks)
                     }
                     for agent in agents_status
-                ],
+                ]
             }
 
         except Exception as e:
@@ -409,12 +376,15 @@ class SwarmMonitoringDashboard:
                 "system_metrics": system_metrics,
                 "consolidation_progress": consolidation_progress,
                 "active_alerts": [alert.dict() for alert in self.alerts if not alert.resolved],
-                "total_alerts": len([a for a in self.alerts if not a.resolved]),
+                "total_alerts": len([a for a in self.alerts if not a.resolved])
             }
 
         except Exception as e:
             logger.error(f"Error getting dashboard data: {e}")
-            return {"timestamp": datetime.now().isoformat(), "error": str(e)}
+            return {
+                "timestamp": datetime.now().isoformat(),
+                "error": str(e)
+            }
 
     async def _broadcast_update(self):
         """Broadcast updates to all connected WebSocket clients"""
@@ -443,7 +413,10 @@ class SwarmMonitoringDashboard:
             return
 
         self.is_running = True
-        self.monitoring_thread = threading.Thread(target=self._monitoring_loop, daemon=True)
+        self.monitoring_thread = threading.Thread(
+            target=self._monitoring_loop,
+            daemon=True
+        )
         self.monitoring_thread.start()
         logger.info("🚀 Swarm monitoring dashboard started")
 
@@ -485,10 +458,8 @@ class SwarmMonitoringDashboard:
                 else:
                     # Check for status changes
                     cached = self.agent_status_cache[agent.agent_id]
-                    if (
-                        cached.status != agent.status
-                        or cached.current_mission != agent.current_mission
-                    ):
+                    if (cached.status != agent.status or
+                        cached.current_mission != agent.current_mission):
                         logger.info(f"📊 Status change detected for {agent.agent_id}")
                         self.agent_status_cache[agent.agent_id] = agent
 
@@ -987,7 +958,7 @@ class SwarmMonitoringDashboard:
         """
 
         template_file = self.templates_dir / "dashboard.html"
-        with open(template_file, "w", encoding="utf-8") as f:
+        with open(template_file, 'w', encoding='utf-8') as f:
             f.write(template_content)
 
         logger.info(f"✅ HTML template created at {template_file}")

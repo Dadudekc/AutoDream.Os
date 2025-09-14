@@ -20,33 +20,6 @@ class ExecutionManager:
     """SSOT execution management functionality."""
 
     def __init__(self):
-
-EXAMPLE USAGE:
-==============
-
-# Import the core component
-from src.core.ssot.unified_ssot.execution.execution_manager import Execution_Manager
-
-# Initialize with configuration
-config = {
-    "setting1": "value1",
-    "setting2": "value2"
-}
-
-component = Execution_Manager(config)
-
-# Execute primary functionality
-result = component.process_data(input_data)
-print(f"Processing result: {result}")
-
-# Advanced usage with error handling
-try:
-    advanced_result = component.advanced_operation(data, options={"optimize": True})
-    print(f"Advanced operation completed: {advanced_result}")
-except ProcessingError as e:
-    print(f"Operation failed: {e}")
-    # Implement recovery logic
-
         """Initialize execution manager."""
         self.execution_history: list[SSOTIntegrationResult] = []
         self.performance_metrics: dict[str, Any] = {}

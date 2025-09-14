@@ -26,9 +26,7 @@ def find_duplicate_files(directory: str, similarity_threshold: float = 0.8) -> l
                 with open(file_path, encoding="utf-8") as f:
                     content = f.read()
                 normalized_content = _normalize_content(content)
-                content_hash = hashlib.md5(
-                    normalized_content.encode(), usedforsecurity=False
-                ).hexdigest()
+                content_hash = hashlib.md5(normalized_content.encode()).hexdigest()
                 file_hashes[content_hash].append(str(file_path))
             except Exception:
                 continue

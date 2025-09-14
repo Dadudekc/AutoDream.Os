@@ -23,7 +23,7 @@
       "type": "string",
       "enum": [
         "File Management & Cleanup",
-        "Configuration & Infrastructure",
+        "Configuration & Infrastructure", 
         "Core Systems & Architecture",
         "Quality Assurance & V2 Compliance",
         "Integration & Tooling",

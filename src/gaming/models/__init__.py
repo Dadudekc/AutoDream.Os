@@ -4,7 +4,7 @@
 from . import gaming_alert_models, gaming_models, test_models
 
 __all__ = [
-    "gaming_alert_models",
-    "gaming_models",
-    "test_models",
+    'gaming_alert_models',
+    'gaming_models',
+    'test_models',
 ]

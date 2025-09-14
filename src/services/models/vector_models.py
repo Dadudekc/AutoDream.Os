@@ -16,7 +16,6 @@ from typing import Any
 
 class EmbeddingModel(Enum):
     """Supported embedding models."""
-
     SENTENCE_TRANSFORMERS = "sentence_transformers"
     OPENAI = "openai"
     HUGGINGFACE = "huggingface"
@@ -26,32 +25,7 @@ class EmbeddingModel(Enum):
 
 
 class DocumentType(Enum):
-
-EXAMPLE USAGE:
-==============
-
-# Import the service
-from src.services.models.vector_models import Vector_ModelsService
-
-# Initialize service
-service = Vector_ModelsService()
-
-# Basic service operation
-response = service.handle_request(request_data)
-print(f"Service response: {response}")
-
-# Service with dependency injection
-from src.core.dependency_container import Container
-
-container = Container()
-service = container.get(Vector_ModelsService)
-
-# Execute service method
-result = service.execute_operation(input_data, context)
-print(f"Operation result: {result}")
-
     """Document types for vector database."""
-
     MESSAGE = "message"
     DEVLOG = "devlog"
     CONTRACT = "contract"
@@ -62,7 +36,6 @@ print(f"Operation result: {result}")
 
 class SearchType(Enum):
     """Search types for vector database."""
-
     SIMILARITY = "similarity"
     MAX_MARGINAL_RELEVANCE = "mmr"
     FILTERED = "filtered"
@@ -80,26 +53,26 @@ class VectorDocument:
     updated_at: datetime
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "VectorDocument":
+    def from_dict(cls, data: dict[str, Any]) -> 'VectorDocument':
         """Create from dictionary."""
         return cls(
-            id=data["id"],
-            content=data["content"],
-            embedding=data["embedding"],
-            metadata=data.get("metadata", {}),
-            created_at=datetime.fromisoformat(data["created_at"]),
-            updated_at=datetime.fromisoformat(data["updated_at"]),
+            id=data['id'],
+            content=data['content'],
+            embedding=data['embedding'],
+            metadata=data.get('metadata', {}),
+            created_at=datetime.fromisoformat(data['created_at']),
+            updated_at=datetime.fromisoformat(data['updated_at'])
         )
 
     def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
-            "id": self.id,
-            "content": self.content,
-            "embedding": self.embedding,
-            "metadata": self.metadata,
-            "created_at": self.created_at.isoformat(),
-            "updated_at": self.updated_at.isoformat(),
+            'id': self.id,
+            'content': self.content,
+            'embedding': self.embedding,
+            'metadata': self.metadata,
+            'created_at': self.created_at.isoformat(),
+            'updated_at': self.updated_at.isoformat()
         }
 
 

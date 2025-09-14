@@ -1,0 +1,14 @@
+{
+  "agent_id": "Agent-SDA-3",
+  "role": "SSOT",
+  "specialty": "Survey Data Analysis",
+  "status": "ACTIVE",
+  "onboarded": true,
+  "onboarding_timestamp": "2025-09-09T08:34:48.378869",
+  "capabilities": [
+    "survey_coordination",
+    "data_collection",
+    "report_generation",
+    "quality_assurance"
+  ]
+}

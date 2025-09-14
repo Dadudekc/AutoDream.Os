@@ -20,28 +20,6 @@ class TheaBrowserOperations:
     """Handles basic browser operations for Thea Manager."""
 
     def __init__(self, driver: Any, config_manager: Any):
-
-EXAMPLE USAGE:
-==============
-
-# Basic usage example
-from src.infrastructure.browser.thea_modules.browser_ops import Browser_Ops
-
-# Initialize and use
-instance = Browser_Ops()
-result = instance.execute()
-print(f"Execution result: {result}")
-
-# Advanced configuration
-config = {
-    "option1": "value1",
-    "option2": True
-}
-
-instance = Browser_Ops(config)
-advanced_result = instance.execute_advanced()
-print(f"Advanced result: {advanced_result}")
-
         """Initialize browser operations with driver and configuration."""
         self.driver = driver
         self.config_manager = config_manager
@@ -133,14 +111,14 @@ print(f"Advanced result: {advanced_result}")
 
         # Try primary selector first
         try:
-            element = self.driver.find_element_by_css_selector(selectors["input"])
+            element = self.driver.find_element_by_css_selector(selectors['input'])
             if element and element.is_displayed():
                 return element
         except:
             pass
 
         # Try fallback selectors
-        for selector in fallback_selectors["input"]:
+        for selector in fallback_selectors['input']:
             try:
                 element = self.driver.find_element_by_css_selector(selector)
                 if element and element.is_displayed():
@@ -157,14 +135,14 @@ print(f"Advanced result: {advanced_result}")
 
         # Try primary selector first
         try:
-            element = self.driver.find_element_by_css_selector(selectors["send_button"])
+            element = self.driver.find_element_by_css_selector(selectors['send_button'])
             if element and element.is_displayed():
                 return element
         except:
             pass
 
         # Try fallback selectors
-        for selector in fallback_selectors["send"]:
+        for selector in fallback_selectors['send']:
             try:
                 element = self.driver.find_element_by_css_selector(selector)
                 if element and element.is_displayed():
@@ -208,19 +186,19 @@ print(f"Advanced result: {advanced_result}")
         """Get current page status information."""
         try:
             return {
-                "url": self.driver.current_url,
-                "title": self.driver.title,
-                "input_available": self._is_input_available(),
-                "last_action": self._last_action_time,
-                "ready_for_input": self.wait_for_response_ready(5.0),
+                'url': self.driver.current_url,
+                'title': self.driver.title,
+                'input_available': self._is_input_available(),
+                'last_action': self._last_action_time,
+                'ready_for_input': self.wait_for_response_ready(5.0)
             }
         except Exception as e:
             return {
-                "error": str(e),
-                "url": "unknown",
-                "title": "unknown",
-                "input_available": False,
-                "ready_for_input": False,
+                'error': str(e),
+                'url': 'unknown',
+                'title': 'unknown',
+                'input_available': False,
+                'ready_for_input': False
             }
 
 

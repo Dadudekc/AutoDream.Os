@@ -37,33 +37,6 @@ AUTO_CLEANUP_COMPLETED_DECISIONS: Final[bool] = get_config("AUTO_CLEANUP_COMPLET
 """Enable automatic cleanup of completed decision records."""
 
 CLEANUP_INTERVAL_MINUTES: Final[int] = get_config("CLEANUP_INTERVAL_MINUTES", 15)
-
-EXAMPLE USAGE:
-==============
-
-# Import the core component
-from src.core.constants.decision import Decision
-
-# Initialize with configuration
-config = {
-    "setting1": "value1",
-    "setting2": "value2"
-}
-
-component = Decision(config)
-
-# Execute primary functionality
-result = component.process_data(input_data)
-print(f"Processing result: {result}")
-
-# Advanced usage with error handling
-try:
-    advanced_result = component.advanced_operation(data, options={"optimize": True})
-    print(f"Advanced operation completed: {advanced_result}")
-except ProcessingError as e:
-    print(f"Operation failed: {e}")
-    # Implement recovery logic
-
 """Interval in minutes between automatic cleanup operations."""
 
 # History and storage

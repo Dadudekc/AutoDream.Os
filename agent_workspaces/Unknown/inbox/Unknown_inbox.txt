@@ -1,0 +1,268 @@
+
+==================================================
+[A2A] DiscordOps → Unknown
+Priority: REGULAR
+Tags: coordination
+
+Discord integration test - coordinates fixed
+
+You are Unknown
+Timestamp: 2025-09-11 17:10:35.649541
+==================================================
+
+
+==================================================
+[A2A] DiscordOps → Unknown
+Priority: REGULAR
+Tags: coordination
+
+hey
+
+🔎 QUICK STATUS PING:
+- 3 bullets: (1) current task, (2) blockers, (3) ETA.
+- Keep it under 60 seconds.
+
+
+You are Unknown
+Timestamp: 2025-09-11 17:10:42.556236
+==================================================
+
+
+==================================================
+[A2A] DiscordOps → Unknown
+Priority: REGULAR
+Tags: coordination
+
+Discord integration test to Agent-1
+
+You are Unknown
+Timestamp: 2025-09-11 17:10:57.410823
+==================================================
+
+
+==================================================
+[A2A] DiscordOps → Unknown
+Priority: REGULAR
+Tags: coordination
+
+Discord integration test to Agent-2
+
+You are Unknown
+Timestamp: 2025-09-11 17:10:57.412819
+==================================================
+
+
+==================================================
+[A2A] DiscordOps → Unknown
+Priority: REGULAR
+Tags: coordination
+
+Discord integration test to Agent-3
+
+You are Unknown
+Timestamp: 2025-09-11 17:10:57.413823
+==================================================
+
+
+==================================================
+[A2A] DiscordOps → Unknown
+Priority: REGULAR
+Tags: coordination
+
+Discord integration test to Agent-4
+
+You are Unknown
+Timestamp: 2025-09-11 17:10:57.414829
+==================================================
+
+
+==================================================
+[A2A] DiscordOps → Unknown
+Priority: REGULAR
+Tags: coordination
+
+Discord integration test to Agent-5
+
+You are Unknown
+Timestamp: 2025-09-11 17:10:57.415822
+==================================================
+
+
+==================================================
+[A2A] DiscordOps → Unknown
+Priority: REGULAR
+Tags: coordination
+
+Discord integration test to Agent-6
+
+You are Unknown
+Timestamp: 2025-09-11 17:10:57.416826
+==================================================
+
+
+==================================================
+[A2A] DiscordOps → Unknown
+Priority: REGULAR
+Tags: coordination
+
+Discord integration test to Agent-7
+
+You are Unknown
+Timestamp: 2025-09-11 17:10:57.417827
+==================================================
+
+
+==================================================
+[A2A] DiscordOps → Unknown
+Priority: REGULAR
+Tags: coordination
+
+Discord integration test to Agent-8
+
+You are Unknown
+Timestamp: 2025-09-11 17:10:57.418824
+==================================================
+
+
+==================================================
+[A2A] DiscordOps → Unknown
+Priority: REGULAR
+Tags: coordination
+
+Test message to Agent-1
+
+You are Unknown
+Timestamp: 2025-09-11 17:11:02.268884
+==================================================
+
+
+==================================================
+[A2A] DiscordOps → Unknown
+Priority: REGULAR
+Tags: coordination
+
+Test message to Agent-4
+
+You are Unknown
+Timestamp: 2025-09-11 17:11:02.270882
+==================================================
+
+
+==================================================
+[A2A] DiscordOps → Unknown
+Priority: REGULAR
+Tags: coordination
+
+Test message to Agent-8
+
+You are Unknown
+Timestamp: 2025-09-11 17:11:02.271883
+==================================================
+
+
+==================================================
+[A2A] DiscordOps → Unknown
+Priority: REGULAR
+Tags: coordination
+
+DEBUG: Testing Discord integration with full logging
+
+You are Unknown
+Timestamp: 2025-09-11 17:14:17.158180
+==================================================
+
+
+==================================================
+[A2A] DiscordOps → Unknown
+Priority: REGULAR
+Tags: coordination
+
+Test message to Agent-1
+
+You are Unknown
+Timestamp: 2025-09-11 17:14:47.415815
+==================================================
+
+
+==================================================
+[A2A] DiscordOps → Unknown
+Priority: REGULAR
+Tags: coordination
+
+Test message to Agent-2
+
+You are Unknown
+Timestamp: 2025-09-11 17:14:47.918272
+==================================================
+
+
+==================================================
+[A2A] DiscordOps → Unknown
+Priority: REGULAR
+Tags: coordination
+
+Test message to Agent-3
+
+You are Unknown
+Timestamp: 2025-09-11 17:14:48.419825
+==================================================
+
+
+==================================================
+[A2A] DiscordOps → Unknown
+Priority: REGULAR
+Tags: coordination
+
+Test message to Agent-4
+
+You are Unknown
+Timestamp: 2025-09-11 17:14:48.921003
+==================================================
+
+
+==================================================
+[A2A] DiscordOps → Unknown
+Priority: REGULAR
+Tags: coordination
+
+ROUTING TEST: This should go to Agent-1
+
+You are Unknown
+Timestamp: 2025-09-11 17:15:27.468722
+==================================================
+
+
+==================================================
+[A2A] DiscordOps → Unknown
+Priority: REGULAR
+Tags: coordination
+
+ROUTING TEST: This should go to Agent-2
+
+You are Unknown
+Timestamp: 2025-09-11 17:15:27.972172
+==================================================
+
+
+==================================================
+[A2A] DiscordOps → Unknown
+Priority: REGULAR
+Tags: coordination
+
+ROUTING TEST: This should go to Agent-3
+
+You are Unknown
+Timestamp: 2025-09-11 17:15:28.474639
+==================================================
+
+
+==================================================
+[A2A] DiscordOps → Unknown
+Priority: REGULAR
+Tags: coordination
+
+ROUTING TEST: This should go to Agent-4
+
+You are Unknown
+Timestamp: 2025-09-11 17:15:28.975963
+==================================================

@@ -2,7 +2,6 @@
 """
 Alpaca Trading Robot - Main Entry Point
 """
-
 import asyncio
 import signal
 import sys
@@ -88,7 +87,6 @@ class TradingRobot:
 
 async def main():
     """Main entry point"""
-
     # Setup signal handlers
     def signal_handler(signum, frame):
         logger.info(f"Received signal {signum}, shutting down...")
@@ -113,7 +111,12 @@ async def main():
 
 if __name__ == "__main__":
     # Setup logging
-    logger.add(config.log_file, rotation="288-720 agent cycles", retention="30 * 288-720 agent cycles", level=config.log_level)
+    logger.add(
+        config.log_file,
+        rotation="1 day",
+        retention="30 days",
+        level=config.log_level
+    )
 
     # Run the trading robot
     asyncio.run(main())

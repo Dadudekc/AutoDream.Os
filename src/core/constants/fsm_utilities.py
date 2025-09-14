@@ -66,33 +66,6 @@ def create_custom_state(
     dependencies: list[str] = None,
     metadata: dict[str, Any] = None,
 ) -> StateDefinition:
-
-EXAMPLE USAGE:
-==============
-
-# Import the core component
-from src.core.constants.fsm_utilities import Fsm_Utilities
-
-# Initialize with configuration
-config = {
-    "setting1": "value1",
-    "setting2": "value2"
-}
-
-component = Fsm_Utilities(config)
-
-# Execute primary functionality
-result = component.process_data(input_data)
-print(f"Processing result: {result}")
-
-# Advanced usage with error handling
-try:
-    advanced_result = component.advanced_operation(data, options={"optimize": True})
-    print(f"Advanced operation completed: {advanced_result}")
-except ProcessingError as e:
-    print(f"Operation failed: {e}")
-    # Implement recovery logic
-
     """Create custom FSM state with V2 compliance."""
     return StateDefinition(
         name=name,

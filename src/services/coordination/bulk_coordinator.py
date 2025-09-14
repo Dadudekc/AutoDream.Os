@@ -22,30 +22,6 @@ class BulkCoordinator:
     """Handles bulk message coordination and grouping.
 
     Manages bulk message processing, grouping by strategy, and batch coordination.
-
-EXAMPLE USAGE:
-==============
-
-# Import the service
-from src.services.coordination.bulk_coordinator import Bulk_CoordinatorService
-
-# Initialize service
-service = Bulk_CoordinatorService()
-
-# Basic service operation
-response = service.handle_request(request_data)
-print(f"Service response: {response}")
-
-# Service with dependency injection
-from src.core.dependency_container import Container
-
-container = Container()
-service = container.get(Bulk_CoordinatorService)
-
-# Execute service method
-result = service.execute_operation(input_data, context)
-print(f"Operation result: {result}")
-
     """
 
     def __init__(self):

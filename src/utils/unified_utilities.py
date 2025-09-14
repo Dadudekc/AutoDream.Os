@@ -60,18 +60,20 @@ def get_unified_utility() -> UnifiedUtility:
 
 def get_logger(name: str, log_level: str = "INFO") -> logging.Logger:
     """Get a configured logger with the given name.
-
+    
     Args:
         name: Logger name
         log_level: Logging level
-
+        
     Returns:
         Logger: Configured logger instance
     """
     logger = logging.getLogger(name)
     if not logger.handlers:
         handler = logging.StreamHandler()
-        formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+        formatter = logging.Formatter(
+            '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        )
         handler.setFormatter(formatter)
         logger.addHandler(handler)
         logger.setLevel(getattr(logging, log_level.upper(), logging.INFO))

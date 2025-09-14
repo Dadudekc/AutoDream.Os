@@ -1,0 +1,14 @@
+{
+  "agent_id": "Agent-SQA-2",
+  "role": "TDD",
+  "specialty": "Survey Quality Assurance",
+  "status": "ACTIVE",
+  "onboarded": true,
+  "onboarding_timestamp": "2025-09-09T08:34:48.307799",
+  "capabilities": [
+    "survey_coordination",
+    "data_collection",
+    "report_generation",
+    "quality_assurance"
+  ]
+}

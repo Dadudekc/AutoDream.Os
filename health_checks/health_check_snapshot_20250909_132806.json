@@ -1,0 +1,425 @@
+{
+  "timestamp": "2025-09-09T13:28:06.882678",
+  "health_status": {
+    "timestamp": "2025-09-09T13:28:06.882678",
+    "overall_status": "critical",
+    "checks_summary": {
+      "total": 13,
+      "enabled": 13,
+      "healthy": 10,
+      "warning": 1,
+      "critical": 2,
+      "unknown": 0
+    },
+    "alerts_summary": {
+      "total_active": 0,
+      "critical_alerts": 0,
+      "warning_alerts": 0
+    },
+    "monitoring_status": "active"
+  },
+  "detailed_report": {
+    "timestamp": "2025-09-09T13:28:06.882678",
+    "health_checks": [
+      {
+        "check_id": "sys_cpu_001",
+        "name": "CPU Usage Health Check",
+        "check_type": "system",
+        "component": "cpu",
+        "description": "Monitor CPU usage and detect overload conditions",
+        "interval_seconds": 30,
+        "timeout_seconds": 5,
+        "enabled": true,
+        "last_execution": "2025-09-09T13:27:52.320709",
+        "failure_count": 1,
+        "success_count": 0
+      },
+      {
+        "check_id": "sys_mem_001",
+        "name": "Memory Usage Health Check",
+        "check_type": "system",
+        "component": "memory",
+        "description": "Monitor memory usage and detect memory pressure",
+        "interval_seconds": 30,
+        "timeout_seconds": 5,
+        "enabled": true,
+        "last_execution": "2025-09-09T13:27:52.390777",
+        "failure_count": 0,
+        "success_count": 1
+      },
+      {
+        "check_id": "sys_disk_001",
+        "name": "Disk Space Health Check",
+        "check_type": "system",
+        "component": "disk",
+        "description": "Monitor disk space usage and detect low space conditions",
+        "interval_seconds": 300,
+        "timeout_seconds": 10,
+        "enabled": true,
+        "last_execution": "2025-09-09T13:27:52.390777",
+        "failure_count": 0,
+        "success_count": 1
+      },
+      {
+        "check_id": "sys_net_001",
+        "name": "Network Connectivity Health Check",
+        "check_type": "system",
+        "component": "network",
+        "description": "Monitor network connectivity and latency",
+        "interval_seconds": 60,
+        "timeout_seconds": 10,
+        "enabled": true,
+        "last_execution": "2025-09-09T13:27:52.390777",
+        "failure_count": 0,
+        "success_count": 1
+      },
+      {
+        "check_id": "app_resp_001",
+        "name": "Application Response Time Check",
+        "check_type": "application",
+        "component": "response_time",
+        "description": "Monitor application response times for performance issues",
+        "interval_seconds": 60,
+        "timeout_seconds": 30,
+        "enabled": true,
+        "last_execution": "2025-09-09T13:27:52.390777",
+        "failure_count": 0,
+        "success_count": 1
+      },
+      {
+        "check_id": "app_err_001",
+        "name": "Application Error Rate Check",
+        "check_type": "application",
+        "component": "error_rate",
+        "description": "Monitor application error rates for stability issues",
+        "interval_seconds": 60,
+        "timeout_seconds": 10,
+        "enabled": true,
+        "last_execution": "2025-09-09T13:27:52.390777",
+        "failure_count": 0,
+        "success_count": 1
+      },
+      {
+        "check_id": "app_svc_001",
+        "name": "Service Availability Check",
+        "check_type": "application",
+        "component": "services",
+        "description": "Monitor critical service availability",
+        "interval_seconds": 30,
+        "timeout_seconds": 15,
+        "enabled": true,
+        "last_execution": "2025-09-09T13:27:52.390777",
+        "failure_count": 0,
+        "success_count": 1
+      },
+      {
+        "check_id": "consolidation_progress_001",
+        "name": "Consolidation Progress Health Check",
+        "check_type": "consolidation",
+        "component": "progress",
+        "description": "Monitor consolidation progress and detect stalls",
+        "interval_seconds": 300,
+        "timeout_seconds": 30,
+        "enabled": true,
+        "last_execution": "2025-09-09T13:27:52.390777",
+        "failure_count": 0,
+        "success_count": 1
+      },
+      {
+        "check_id": "consolidation_perf_001",
+        "name": "Consolidation Performance Impact Check",
+        "check_type": "consolidation",
+        "component": "performance",
+        "description": "Monitor performance impact during consolidation",
+        "interval_seconds": 60,
+        "timeout_seconds": 15,
+        "enabled": true,
+        "last_execution": "2025-09-09T13:27:52.390777",
+        "failure_count": 0,
+        "success_count": 1
+      },
+      {
+        "check_id": "consolidation_integrity_001",
+        "name": "Consolidation File Integrity Check",
+        "check_type": "consolidation",
+        "component": "integrity",
+        "description": "Verify file integrity during consolidation operations",
+        "interval_seconds": 600,
+        "timeout_seconds": 60,
+        "enabled": true,
+        "last_execution": "2025-09-09T13:27:52.390777",
+        "failure_count": 0,
+        "success_count": 1
+      },
+      {
+        "check_id": "consolidation_sla_001",
+        "name": "Consolidation SLA Compliance Check",
+        "check_type": "consolidation",
+        "component": "sla",
+        "description": "Monitor SLA compliance during consolidation",
+        "interval_seconds": 120,
+        "timeout_seconds": 20,
+        "enabled": true,
+        "last_execution": "2025-09-09T13:27:52.390777",
+        "failure_count": 1,
+        "success_count": 0
+      },
+      {
+        "check_id": "sec_config_001",
+        "name": "Security Configuration Health Check",
+        "check_type": "security",
+        "component": "configuration",
+        "description": "Verify security configurations are intact",
+        "interval_seconds": 3600,
+        "timeout_seconds": 30,
+        "enabled": true,
+        "last_execution": "2025-09-09T13:27:52.390777",
+        "failure_count": 0,
+        "success_count": 1
+      },
+      {
+        "check_id": "sec_access_001",
+        "name": "Access Control Health Check",
+        "check_type": "security",
+        "component": "access_control",
+        "description": "Monitor access control mechanisms",
+        "interval_seconds": 1800,
+        "timeout_seconds": 20,
+        "enabled": true,
+        "last_execution": "2025-09-09T13:27:52.390777",
+        "failure_count": 0,
+        "success_count": 1
+      }
+    ],
+    "recent_results": [
+      {
+        "check_id": "sys_cpu_001",
+        "check_type": "system",
+        "component": "cpu",
+        "status": "critical",
+        "response_time_ms": 1000.9095668792725,
+        "timestamp": "2025-09-09T13:27:52.320709",
+        "details": {
+          "cpu_usage_percent": 100.0,
+          "cpu_count": 12,
+          "cpu_freq_current": 3400.0
+        },
+        "error_message": null,
+        "recommendations": [
+          "Reduce CPU load",
+          "Scale up CPU resources",
+          "Optimize CPU-intensive processes"
+        ]
+      },
+      {
+        "check_id": "sys_mem_001",
+        "check_type": "system",
+        "component": "memory",
+        "status": "warning",
+        "response_time_ms": 70.068359375,
+        "timestamp": "2025-09-09T13:27:52.390777",
+        "details": {
+          "memory_total_gb": 31.95388412475586,
+          "memory_used_gb": 25.769886016845703,
+          "memory_available_gb": 6.183998107910156,
+          "memory_usage_percent": 80.6
+        },
+        "error_message": null,
+        "recommendations": [
+          "Monitor memory usage",
+          "Consider memory optimization"
+        ]
+      },
+      {
+        "check_id": "sys_disk_001",
+        "check_type": "system",
+        "component": "disk",
+        "status": "healthy",
+        "response_time_ms": 0.0,
+        "timestamp": "2025-09-09T13:27:52.390777",
+        "details": {
+          "disk_total_gb": 1862.9990234375,
+          "disk_used_gb": 282.49365234375,
+          "disk_free_gb": 1580.50537109375,
+          "disk_usage_percent": 15.2
+        },
+        "error_message": null,
+        "recommendations": []
+      },
+      {
+        "check_id": "sys_net_001",
+        "check_type": "system",
+        "component": "network",
+        "status": "healthy",
+        "response_time_ms": 0.0,
+        "timestamp": "2025-09-09T13:27:52.390777",
+        "details": {
+          "connectivity_test": "simulated"
+        },
+        "error_message": null,
+        "recommendations": [
+          "Network connectivity verified"
+        ]
+      },
+      {
+        "check_id": "app_resp_001",
+        "check_type": "application",
+        "component": "response_time",
+        "status": "healthy",
+        "response_time_ms": 0.0,
+        "timestamp": "2025-09-09T13:27:52.390777",
+        "details": {
+          "response_time_ms": 245.0,
+          "endpoint": "simulated_api",
+          "method": "GET"
+        },
+        "error_message": null,
+        "recommendations": []
+      },
+      {
+        "check_id": "app_err_001",
+        "check_type": "application",
+        "component": "error_rate",
+        "status": "healthy",
+        "response_time_ms": 0.0,
+        "timestamp": "2025-09-09T13:27:52.390777",
+        "details": {
+          "error_rate_percent": 0.05,
+          "total_requests": 10000,
+          "error_requests": 5
+        },
+        "error_message": null,
+        "recommendations": []
+      },
+      {
+        "check_id": "app_svc_001",
+        "check_type": "application",
+        "component": "services",
+        "status": "healthy",
+        "response_time_ms": 0.0,
+        "timestamp": "2025-09-09T13:27:52.390777",
+        "details": {
+          "core_service": "healthy",
+          "messaging_service": "healthy",
+          "analytics_service": "healthy"
+        },
+        "error_message": null,
+        "recommendations": []
+      },
+      {
+        "check_id": "consolidation_progress_001",
+        "check_type": "consolidation",
+        "component": "progress",
+        "status": "healthy",
+        "response_time_ms": 0.0,
+        "timestamp": "2025-09-09T13:27:52.390777",
+        "details": {
+          "progress_percent": 15.0,
+          "files_consolidated": 42,
+          "target_files": 283,
+          "estimated_completion": "2025-09-15"
+        },
+        "error_message": null,
+        "recommendations": []
+      },
+      {
+        "check_id": "consolidation_perf_001",
+        "check_type": "consolidation",
+        "component": "performance",
+        "status": "healthy",
+        "response_time_ms": 0.0,
+        "timestamp": "2025-09-09T13:27:52.390777",
+        "details": {
+          "performance_impact_percent": 2.5,
+          "baseline_response_time": 250.0,
+          "current_response_time": 256.25,
+          "cpu_impact": 1.2,
+          "memory_impact": 3.1
+        },
+        "error_message": null,
+        "recommendations": []
+      },
+      {
+        "check_id": "consolidation_integrity_001",
+        "check_type": "consolidation",
+        "component": "integrity",
+        "status": "healthy",
+        "response_time_ms": 0.0,
+        "timestamp": "2025-09-09T13:27:52.390777",
+        "details": {
+          "integrity_status": "verified",
+          "files_checked": 746,
+          "corrupted_files": 0,
+          "last_integrity_check": "2025-09-09T13:27:52.390777"
+        },
+        "error_message": null,
+        "recommendations": []
+      },
+      {
+        "check_id": "consolidation_sla_001",
+        "check_type": "consolidation",
+        "component": "sla",
+        "status": "critical",
+        "response_time_ms": 0.0,
+        "timestamp": "2025-09-09T13:27:52.390777",
+        "details": {
+          "sla_compliance_percent": 97.8,
+          "required_uptime": 99.9,
+          "current_uptime": 99.95,
+          "downtime_minutes": 3.6
+        },
+        "error_message": null,
+        "recommendations": [
+          "Address SLA violations",
+          "Implement immediate remediation"
+        ]
+      },
+      {
+        "check_id": "sec_config_001",
+        "check_type": "security",
+        "component": "configuration",
+        "status": "healthy",
+        "response_time_ms": 0.0,
+        "timestamp": "2025-09-09T13:27:52.390777",
+        "details": {
+          "config_status": "compliant",
+          "vulnerabilities_found": 0,
+          "last_security_scan": "2025-09-09T13:27:52.390777",
+          "security_policies": [
+            "encryption_enabled",
+            "access_control_active"
+          ]
+        },
+        "error_message": null,
+        "recommendations": []
+      },
+      {
+        "check_id": "sec_access_001",
+        "check_type": "security",
+        "component": "access_control",
+        "status": "healthy",
+        "response_time_ms": 0.0,
+        "timestamp": "2025-09-09T13:27:52.390777",
+        "details": {
+          "access_status": "secure",
+          "failed_auth_attempts": 2,
+          "active_sessions": 15,
+          "locked_accounts": 0
+        },
+        "error_message": null,
+        "recommendations": []
+      }
+    ],
+    "active_alerts": [],
+    "system_info": {
+      "monitoring_active": true,
+      "check_interval_seconds": 30,
+      "total_results_history": 13,
+      "alert_thresholds": {
+        "consecutive_failures": 3,
+        "response_time_threshold_ms": 5000,
+        "alert_cooldown_minutes": 15
+      }
+    }
+  }
+}

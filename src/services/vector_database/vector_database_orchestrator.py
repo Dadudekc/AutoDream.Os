@@ -30,30 +30,6 @@ class VectorDatabaseService:
     """Service interface for vector database operations."""
 
     def __init__(self, config: VectorDatabaseConfig | None = None):
-
-EXAMPLE USAGE:
-==============
-
-# Import the service
-from src.services.vector_database.vector_database_orchestrator import Vector_Database_OrchestratorService
-
-# Initialize service
-service = Vector_Database_OrchestratorService()
-
-# Basic service operation
-response = service.handle_request(request_data)
-print(f"Service response: {response}")
-
-# Service with dependency injection
-from src.core.dependency_container import Container
-
-container = Container()
-service = container.get(Vector_Database_OrchestratorService)
-
-# Execute service method
-result = service.execute_operation(input_data, context)
-print(f"Operation result: {result}")
-
         """Initialize vector database service."""
         self.logger = logging.getLogger(__name__)
         self.engine = VectorDatabaseEngine(config)
@@ -61,7 +37,9 @@ print(f"Operation result: {result}")
         self.logger.info("VectorDatabaseService initialized")
 
     def add_document(
-        self, document: VectorDocument, collection_name: str = "default"
+        self,
+        document: VectorDocument,
+        collection_name: str = "default"
     ) -> VectorDatabaseResult:
         """Add a document to the vector database."""
         return self.engine.add_document(document, collection_name)
@@ -71,22 +49,29 @@ print(f"Operation result: {result}")
         query: str,
         collection_name: str = "default",
         limit: int = 10,
-        document_types: list[DocumentType] | None = None,
+        document_types: list[DocumentType] | None = None
     ) -> list[SearchResult]:
         """Search documents in the vector database."""
         search_query = SearchQuery(
-            query=query, collection_name=collection_name, limit=limit, document_types=document_types
+            query=query,
+            collection_name=collection_name,
+            limit=limit,
+            document_types=document_types
         )
         return self.engine.search_documents(search_query)
 
     def get_document(
-        self, document_id: str, collection_name: str = "default"
+        self,
+        document_id: str,
+        collection_name: str = "default"
     ) -> VectorDocument | None:
         """Retrieve a document by ID."""
         return self.engine.get_document(document_id, collection_name)
 
     def delete_document(
-        self, document_id: str, collection_name: str = "default"
+        self,
+        document_id: str,
+        collection_name: str = "default"
     ) -> VectorDatabaseResult:
         """Delete a document by ID."""
         return self.engine.delete_document(document_id, collection_name)
@@ -108,7 +93,7 @@ print(f"Operation result: {result}")
                 "max_collections": self.config.max_collections,
                 "max_documents_per_collection": self.config.max_documents_per_collection,
                 "enable_persistence": self.config.enable_persistence,
-            },
+            }
         }
 
 
@@ -125,7 +110,8 @@ def get_vector_database_service() -> VectorDatabaseService:
 
 
 def add_document_to_vector_db(
-    document: VectorDocument, collection_name: str = "default"
+    document: VectorDocument,
+    collection_name: str = "default"
 ) -> VectorDatabaseResult:
     """Add a document to the vector database."""
     service = get_vector_database_service()
@@ -136,7 +122,7 @@ def search_vector_database(
     query: str,
     collection_name: str = "default",
     limit: int = 10,
-    document_types: list[DocumentType] | None = None,
+    document_types: list[DocumentType] | None = None
 ) -> list[SearchResult]:
     """Search the vector database."""
     service = get_vector_database_service()

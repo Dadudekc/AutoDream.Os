@@ -27,7 +27,7 @@ class ProjectAnalyzer:
     def analyze_python_file(self, file_path: str) -> dict[str, Any]:
         """Analyze a Python file with comprehensive metadata."""
         try:
-            with open(file_path, encoding="utf-8") as f:
+            with open(file_path, encoding='utf-8') as f:
                 content = f.read()
 
             tree = ast.parse(content)
@@ -53,9 +53,7 @@ class ProjectAnalyzer:
                     classes[node.name] = {
                         "methods": methods,
                         "line_count": len(node.body),
-                        "base_classes": [
-                            base.id for base in node.bases if isinstance(base, ast.Name)
-                        ],
+                        "base_classes": [base.id for base in node.bases if isinstance(base, ast.Name)]
                     }
                     complexity_indicators += 1
                 elif isinstance(node, (ast.Import, ast.ImportFrom)):
@@ -67,16 +65,12 @@ class ProjectAnalyzer:
                 elif isinstance(node, ast.Decorator):
                     if isinstance(node.decorator, ast.Name):
                         decorators.append(node.decorator.id)
-                elif (
-                    isinstance(node, ast.Expr)
-                    and isinstance(node.value, ast.Constant)
-                    and isinstance(node.value.value, str)
-                ):
+                elif isinstance(node, ast.Expr) and isinstance(node.value, ast.Constant) and isinstance(node.value.value, str):
                     if node.value.value.strip().startswith(('"""', "'''")):
                         docstrings.append(node.value.value.strip())
 
             non_empty_lines = [line for line in lines if line.strip()]
-            comment_lines = [line for line in lines if line.strip().startswith("#")]
+            comment_lines = [line for line in lines if line.strip().startswith('#')]
 
             return {
                 "language": ".py",
@@ -94,11 +88,9 @@ class ProjectAnalyzer:
                 "function_count": len(functions),
                 "class_count": len(classes),
                 "has_main": "__main__" in content,
-                "has_tests": any(
-                    keyword in content.lower() for keyword in ["test", "pytest", "unittest"]
-                ),
+                "has_tests": any(keyword in content.lower() for keyword in ["test", "pytest", "unittest"]),
                 "has_async": "async" in content,
-                "has_type_hints": ":" in content and "->" in content,
+                "has_type_hints": ":" in content and "->" in content
             }
         except Exception as e:
             return {
@@ -120,27 +112,25 @@ class ProjectAnalyzer:
                 "has_tests": False,
                 "has_async": False,
                 "has_type_hints": False,
-                "error": str(e),
+                "error": str(e)
             }
 
     def analyze_js_file(self, file_path: str) -> dict[str, Any]:
         """Analyze a JavaScript file with enhanced metadata."""
         try:
-            with open(file_path, encoding="utf-8") as f:
+            with open(file_path, encoding='utf-8') as f:
                 content = f.read()
 
-            functions = re.findall(r"function\s+(\w+)\s*\(", content)
-            classes = re.findall(r"class\s+(\w+)", content)
+            functions = re.findall(r'function\s+(\w+)\s*\(', content)
+            classes = re.findall(r'class\s+(\w+)', content)
             imports = re.findall(r'import\s+.*?from\s+[\'"]([^\'"]+)[\'"]', content)
-            exports = re.findall(
-                r"export\s+(?:default\s+)?(?:function\s+(\w+)|const\s+(\w+)|class\s+(\w+))", content
-            )
-            async_functions = re.findall(r"async\s+function\s+(\w+)", content)
-            arrow_functions = re.findall(r"const\s+(\w+)\s*=\s*\([^)]*\)\s*=>", content)
+            exports = re.findall(r'export\s+(?:default\s+)?(?:function\s+(\w+)|const\s+(\w+)|class\s+(\w+))', content)
+            async_functions = re.findall(r'async\s+function\s+(\w+)', content)
+            arrow_functions = re.findall(r'const\s+(\w+)\s*=\s*\([^)]*\)\s*=>', content)
 
             lines = content.splitlines()
             non_empty_lines = [line for line in lines if line.strip()]
-            comment_lines = [line for line in lines if line.strip().startswith(("//", "/*", "*"))]
+            comment_lines = [line for line in lines if line.strip().startswith(('//', '/*', '*'))]
 
             return {
                 "language": ".js",
@@ -162,7 +152,7 @@ class ProjectAnalyzer:
                 "has_arrow_functions": len(arrow_functions) > 0,
                 "has_es6": "=>" in content or "class " in content,
                 "has_jquery": "$" in content,
-                "has_react": "React" in content or "useState" in content,
+                "has_react": "React" in content or "useState" in content
             }
         except Exception as e:
             return {
@@ -186,20 +176,20 @@ class ProjectAnalyzer:
                 "has_es6": False,
                 "has_jquery": False,
                 "has_react": False,
-                "error": str(e),
+                "error": str(e)
             }
 
     def analyze_md_file(self, file_path: str) -> dict[str, Any]:
         """Analyze a Markdown file with comprehensive metadata."""
         try:
-            with open(file_path, encoding="utf-8") as f:
+            with open(file_path, encoding='utf-8') as f:
                 content = f.read()
 
-            headers = re.findall(r"^#+\s+(.+)$", content, re.MULTILINE)
-            code_blocks = re.findall(r"```(\w+)?\n(.*?)```", content, re.DOTALL)
-            links = re.findall(r"\[([^\]]+)\]\(([^)]+)\)", content)
-            images = re.findall(r"!\[([^\]]*)\]\(([^)]+)\)", content)
-            tables = re.findall(r"\|.*\|", content)
+            headers = re.findall(r'^#+\s+(.+)$', content, re.MULTILINE)
+            code_blocks = re.findall(r'```(\w+)?\n(.*?)```', content, re.DOTALL)
+            links = re.findall(r'\[([^\]]+)\]\(([^)]+)\)', content)
+            images = re.findall(r'!\[([^\]]*)\]\(([^)]+)\)', content)
+            tables = re.findall(r'\|.*\|', content)
 
             lines = content.splitlines()
             non_empty_lines = [line for line in lines if line.strip()]
@@ -221,7 +211,7 @@ class ProjectAnalyzer:
                 "has_toc": "Table of Contents" in content or "## Contents" in content,
                 "has_code": len(code_blocks) > 0,
                 "has_images": len(images) > 0,
-                "has_links": len(links) > 0,
+                "has_links": len(links) > 0
             }
         except Exception as e:
             return {
@@ -242,22 +232,18 @@ class ProjectAnalyzer:
                 "has_code": False,
                 "has_images": False,
                 "has_links": False,
-                "error": str(e),
+                "error": str(e)
             }
 
     def analyze_yaml_file(self, file_path: str) -> dict[str, Any]:
         """Analyze a YAML file with comprehensive metadata."""
         try:
-            with open(file_path, encoding="utf-8") as f:
+            with open(file_path, encoding='utf-8') as f:
                 content = f.read()
 
             lines = content.splitlines()
-            keys = [
-                line.split(":")[0].strip()
-                for line in lines
-                if ":" in line and not line.startswith("#")
-            ]
-            comments = [line for line in lines if line.strip().startswith("#")]
+            keys = [line.split(':')[0].strip() for line in lines if ':' in line and not line.startswith('#')]
+            comments = [line for line in lines if line.strip().startswith('#')]
             non_empty_lines = [line for line in lines if line.strip()]
 
             return {
@@ -272,9 +258,7 @@ class ProjectAnalyzer:
                 "file_size": os.path.getsize(file_path),
                 "key_count": len(keys),
                 "has_comments": len(comments) > 0,
-                "is_config": any(
-                    keyword in content.lower() for keyword in ["config", "settings", "default"]
-                ),
+                "is_config": any(keyword in content.lower() for keyword in ["config", "settings", "default"])
             }
         except Exception as e:
             return {
@@ -290,20 +274,20 @@ class ProjectAnalyzer:
                 "key_count": 0,
                 "has_comments": False,
                 "is_config": False,
-                "error": str(e),
+                "error": str(e)
             }
 
     def analyze_file(self, file_path: str) -> dict[str, Any]:
         """Analyze a file based on its extension."""
         ext = Path(file_path).suffix.lower()
 
-        if ext == ".py":
+        if ext == '.py':
             return self.analyze_python_file(file_path)
-        elif ext == ".js":
+        elif ext == '.js':
             return self.analyze_js_file(file_path)
-        elif ext == ".md":
+        elif ext == '.md':
             return self.analyze_md_file(file_path)
-        elif ext in [".yml", ".yaml"]:
+        elif ext in ['.yml', '.yaml']:
             return self.analyze_yaml_file(file_path)
         else:
             return {
@@ -313,7 +297,7 @@ class ProjectAnalyzer:
                 "line_count": 0,
                 "complexity": 0,
                 "file_size": 0,
-                "error": "Unsupported file type",
+                "error": "Unsupported file type"
             }
 
     def get_project_structure(self) -> dict[str, Any]:
@@ -325,20 +309,20 @@ class ProjectAnalyzer:
 
         for root, dirs, files in os.walk(self.project_root):
             rel_path = os.path.relpath(root, self.project_root)
-            if rel_path == ".":
-                rel_path = ""
+            if rel_path == '.':
+                rel_path = ''
 
             # Skip certain directories
-            skip_dirs = ["__pycache__", ".git", "node_modules", "venv", ".venv", "env"]
+            skip_dirs = ['__pycache__', '.git', 'node_modules', 'venv', '.venv', 'env']
             dirs[:] = [d for d in dirs if d not in skip_dirs]
 
             file_counts = Counter(Path(f).suffix.lower() for f in files)
 
-            structure[rel_path or "."] = {
+            structure[rel_path or '.'] = {
                 "files": file_counts,
                 "file_count": len(files),
                 "subdirs": len(dirs),
-                "total_files": len(files),
+                "total_files": len(files)
             }
 
             total_files += len(files)
@@ -349,7 +333,7 @@ class ProjectAnalyzer:
             "structure": structure,
             "total_files": total_files,
             "total_dirs": total_dirs,
-            "file_types": dict(file_types),
+            "file_types": dict(file_types)
         }
 
     def analyze_directory_chunk(self, directory: str, chunk_id: int) -> dict[str, Any]:
@@ -372,7 +356,7 @@ class ProjectAnalyzer:
 
         for root, dirs, files in os.walk(directory):
             # Skip certain directories
-            skip_dirs = ["__pycache__", ".git", "node_modules", "venv", ".venv", "env"]
+            skip_dirs = ['__pycache__', '.git', 'node_modules', 'venv', '.venv', 'env']
             dirs[:] = [d for d in dirs if d not in skip_dirs]
 
             for file in files:
@@ -385,35 +369,36 @@ class ProjectAnalyzer:
                 print(f"  📄 Analyzing: {rel_path}")
                 analysis = self.analyze_file(file_path)
 
-                files_analyzed.append({"file_path": rel_path, "analysis": analysis})
+                files_analyzed.append({
+                    "file_path": rel_path,
+                    "analysis": analysis
+                })
 
                 # Update totals
                 total_files += 1
-                total_lines += analysis.get("line_count", 0)
-                total_functions += analysis.get("function_count", 0)
-                total_classes += analysis.get("class_count", 0)
-                total_imports += analysis.get("import_count", 0)
+                total_lines += analysis.get('line_count', 0)
+                total_functions += analysis.get('function_count', 0)
+                total_classes += analysis.get('class_count', 0)
+                total_imports += analysis.get('import_count', 0)
 
                 # Track file types
-                file_type = analysis.get("language", "unknown")
+                file_type = analysis.get('language', 'unknown')
                 file_types[file_type] += 1
 
                 # Track complexity
-                complexity_by_type[file_type].append(analysis.get("complexity", 0))
+                complexity_by_type[file_type].append(analysis.get('complexity', 0))
 
                 # Track imports
-                if analysis.get("imports"):
-                    imports_by_file[rel_path] = analysis["imports"]
+                if analysis.get('imports'):
+                    imports_by_file[rel_path] = analysis['imports']
 
                 # Identify consolidation opportunities
                 if self.identify_consolidation_opportunity(analysis, rel_path):
-                    consolidation_opportunities.append(
-                        {
-                            "file_path": rel_path,
-                            "reason": self.get_consolidation_reason(analysis),
-                            "priority": self.get_consolidation_priority(analysis),
-                        }
-                    )
+                    consolidation_opportunities.append({
+                        "file_path": rel_path,
+                        "reason": self.get_consolidation_reason(analysis),
+                        "priority": self.get_consolidation_priority(analysis)
+                    })
 
             if total_files >= self.chunk_size:
                 break
@@ -421,9 +406,7 @@ class ProjectAnalyzer:
         # Calculate averages
         avg_complexity_by_type = {}
         for file_type, complexities in complexity_by_type.items():
-            avg_complexity_by_type[file_type] = (
-                sum(complexities) / len(complexities) if complexities else 0
-            )
+            avg_complexity_by_type[file_type] = sum(complexities) / len(complexities) if complexities else 0
 
         return {
             "chunk_id": chunk_id,
@@ -436,20 +419,20 @@ class ProjectAnalyzer:
                 "total_classes": total_classes,
                 "total_imports": total_imports,
                 "file_types": dict(file_types),
-                "avg_complexity_by_type": avg_complexity_by_type,
+                "avg_complexity_by_type": avg_complexity_by_type
             },
             "consolidation_opportunities": consolidation_opportunities,
-            "imports_analysis": dict(imports_by_file),
+            "imports_analysis": dict(imports_by_file)
         }
 
     def identify_consolidation_opportunity(self, analysis: dict[str, Any], file_path: str) -> bool:
         """Identify if a file is a consolidation opportunity."""
         # Small files with few functions
-        if analysis.get("line_count", 0) < 50 and analysis.get("function_count", 0) < 3:
+        if analysis.get('line_count', 0) < 50 and analysis.get('function_count', 0) < 3:
             return True
 
         # Files with no functions or classes
-        if analysis.get("function_count", 0) == 0 and analysis.get("class_count", 0) == 0:
+        if analysis.get('function_count', 0) == 0 and analysis.get('class_count', 0) == 0:
             return True
 
         # Duplicate patterns
@@ -457,16 +440,16 @@ class ProjectAnalyzer:
             return True
 
         # Very small files
-        if analysis.get("file_size", 0) < 1000:
+        if analysis.get('file_size', 0) < 1000:
             return True
 
         return False
 
     def get_consolidation_reason(self, analysis: dict[str, Any]) -> str:
         """Get reason for consolidation."""
-        if analysis.get("line_count", 0) < 50:
+        if analysis.get('line_count', 0) < 50:
             return "Small file - potential merge candidate"
-        elif analysis.get("function_count", 0) == 0:
+        elif analysis.get('function_count', 0) == 0:
             return "No functions - utility or config file"
         elif "messaging_pyautogui" in str(analysis):
             return "Duplicate PyAutoGUI module"
@@ -481,7 +464,7 @@ class ProjectAnalyzer:
             return "HIGH"
         elif "config" in str(analysis):
             return "HIGH"
-        elif analysis.get("line_count", 0) < 30:
+        elif analysis.get('line_count', 0) < 30:
             return "MEDIUM"
         else:
             return "LOW"
@@ -500,7 +483,7 @@ class ProjectAnalyzer:
             "chunk_size": self.chunk_size,
             "total_directories": len(directories),
             "project_structure": structure,
-            "chunks": [],
+            "chunks": []
         }
 
         chunk_id = 1
@@ -514,28 +497,24 @@ class ProjectAnalyzer:
 
             # Save chunk file
             chunk_file = self.output_dir / f"chunk_{chunk_id:03d}_{Path(directory).name}.json"
-            with open(chunk_file, "w", encoding="utf-8") as f:
+            with open(chunk_file, 'w', encoding='utf-8') as f:
                 json.dump(chunk_analysis, f, indent=2)
 
             # Add to master index
-            master_index["chunks"].append(
-                {
-                    "chunk_id": chunk_id,
-                    "directory": directory,
-                    "file_path": str(chunk_file),
-                    "files_analyzed": chunk_analysis["summary"]["total_files"],
-                    "consolidation_opportunities": len(
-                        chunk_analysis["consolidation_opportunities"]
-                    ),
-                }
-            )
+            master_index["chunks"].append({
+                "chunk_id": chunk_id,
+                "directory": directory,
+                "file_path": str(chunk_file),
+                "files_analyzed": chunk_analysis["summary"]["total_files"],
+                "consolidation_opportunities": len(chunk_analysis["consolidation_opportunities"])
+            })
 
             print(f"✅ Chunk {chunk_id} saved: {chunk_file}")
             chunk_id += 1
 
         # Save master index
         master_file = self.output_dir / "master_index.json"
-        with open(master_file, "w", encoding="utf-8") as f:
+        with open(master_file, 'w', encoding='utf-8') as f:
             json.dump(master_index, f, indent=2)
 
         # Generate consolidation summary
@@ -549,16 +528,14 @@ class ProjectAnalyzer:
     def generate_consolidation_summary(self, master_index: dict[str, Any]) -> None:
         """Generate consolidation summary report."""
         total_files = sum(chunk["files_analyzed"] for chunk in master_index["chunks"])
-        total_opportunities = sum(
-            chunk["consolidation_opportunities"] for chunk in master_index["chunks"]
-        )
+        total_opportunities = sum(chunk["consolidation_opportunities"] for chunk in master_index["chunks"])
 
         summary = f"""# 📊 **COMPREHENSIVE PROJECT ANALYSIS - CONSOLIDATION SUMMARY**
 
-**Generated by:** Agent-2 (Architecture & Design Specialist)
-**Analysis Date:** {self.analysis_timestamp}
-**Project Root:** {self.project_root}
-**Analysis Type:** Chunked Comprehensive Analysis
+**Generated by:** Agent-2 (Architecture & Design Specialist)  
+**Analysis Date:** {self.analysis_timestamp}  
+**Project Root:** {self.project_root}  
+**Analysis Type:** Chunked Comprehensive Analysis  
 
 ---
 
@@ -615,7 +592,7 @@ Focus on chunks with the most consolidation opportunities for maximum impact.
 
 ### **Chunk Processing Order:**
 1. **Core Modules** - Foundation consolidation
-2. **Services** - Business logic optimization
+2. **Services** - Business logic optimization  
 3. **Web Interface** - Frontend consolidation
 4. **Utilities** - Common functionality unification
 5. **Configuration** - Settings consolidation
@@ -633,11 +610,10 @@ Focus on chunks with the most consolidation opportunities for maximum impact.
 
         # Save summary
         summary_file = self.output_dir / "consolidation_summary.md"
-        with open(summary_file, "w", encoding="utf-8") as f:
+        with open(summary_file, 'w', encoding='utf-8') as f:
             f.write(summary)
 
         print(f"📋 Consolidation summary: {summary_file}")
-
 
 def main():
     """Main analysis function."""
@@ -656,7 +632,7 @@ def main():
         "tests",
         "docs",
         "scripts",
-        "tools",
+        "tools"
     ]
 
     # Initialize analyzer
@@ -664,7 +640,6 @@ def main():
 
     # Generate chunked reports
     analyzer.generate_chunk_reports(analysis_directories)
-
 
 if __name__ == "__main__":
     main()

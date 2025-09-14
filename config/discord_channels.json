@@ -2,7 +2,7 @@
   "agent-1": {
     "name": "agent-1",
     "webhook_url": null,
-    "channel_id": "1387514611351421079",
+    "channel_id": null,
     "description": "Agent-1 Integration Specialist Channel",
     "agent": "Agent-1",
     "color": 1752220,
@@ -18,7 +18,7 @@
   "agent-2": {
     "name": "agent-2",
     "webhook_url": null,
-    "channel_id": "1387514933041696900",
+    "channel_id": null,
     "description": "Agent-2 Architecture & Design Channel",
     "agent": "Agent-2",
     "color": 3447003,
@@ -34,7 +34,7 @@
   "agent-3": {
     "name": "agent-3",
     "webhook_url": null,
-    "channel_id": "1387515009621430392",
+    "channel_id": null,
     "description": "Agent-3 DevOps Specialist Channel",
     "agent": "Agent-3",
     "color": 10181046,
@@ -50,7 +50,7 @@
   "agent-4": {
     "name": "agent-4",
     "webhook_url": null,
-    "channel_id": "1387514978348826664",
+    "channel_id": null,
     "description": "Agent-4 QA & Captain Channel",
     "agent": "Agent-4",
     "color": 15158332,
@@ -66,7 +66,7 @@
   "agent-5": {
     "name": "agent-5",
     "webhook_url": null,
-    "channel_id": "1415916580910665758",
+    "channel_id": null,
     "description": "Agent-5 Channel",
     "agent": "Agent-5",
     "color": 15965202,
@@ -82,7 +82,7 @@
   "agent-6": {
     "name": "agent-6",
     "webhook_url": null,
-    "channel_id": "1415916621847072828",
+    "channel_id": null,
     "description": "Agent-6 Communication Specialist Channel",
     "agent": "Agent-6",
     "color": 2600544,
@@ -98,7 +98,7 @@
   "agent-7": {
     "name": "agent-7",
     "webhook_url": null,
-    "channel_id": "1415916665283022980",
+    "channel_id": null,
     "description": "Agent-7 Web Development Channel",
     "agent": "Agent-7",
     "color": 9807270,
@@ -114,7 +114,7 @@
   "agent-8": {
     "name": "agent-8",
     "webhook_url": null,
-    "channel_id": "1415916707704213565",
+    "channel_id": null,
     "description": "Agent-8 Coordination Channel",
     "agent": "Agent-8",
     "color": 9323693,

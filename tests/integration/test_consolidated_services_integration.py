@@ -35,12 +35,10 @@ try:
         UnifiedMessageType,
     )
     from services.models.vector_models import EmbeddingModel, VectorDocument
-
     SERVICES_AVAILABLE = True
 except ImportError as e:
     print(f"⚠️  Services not available: {e}")
     SERVICES_AVAILABLE = False
-
     # Create mock classes for testing
     class MockConsolidatedMessagingService:
         def __init__(self, dry_run=False, **kwargs):
@@ -55,7 +53,6 @@ except ImportError as e:
         def __init__(self, coordinator_id=None, dry_run=False, **kwargs):
             self.coordinator_id = coordinator_id
             self.dry_run = dry_run
-
     ConsolidatedMessagingService = MockConsolidatedMessagingService
     ConsolidatedVectorService = MockConsolidatedVectorService
     ConsolidatedCoordinationService = MockConsolidatedCoordinationService
@@ -80,9 +77,9 @@ class TestConsolidatedServicesIntegration:
 
         # Test service initialization
         assert self.messaging_service is not None
-        assert hasattr(self.messaging_service, "load_coordinates_from_json")
-        assert hasattr(self.messaging_service, "send_message_pyautogui")
-        assert hasattr(self.messaging_service, "broadcast_message")
+        assert hasattr(self.messaging_service, 'load_coordinates_from_json')
+        assert hasattr(self.messaging_service, 'send_message_pyautogui')
+        assert hasattr(self.messaging_service, 'broadcast_message')
 
         # Verify service attributes
         assert self.messaging_service.dry_run is True
@@ -95,9 +92,9 @@ class TestConsolidatedServicesIntegration:
 
         # Test service initialization
         assert self.vector_service is not None
-        assert hasattr(self.vector_service, "generate_embeddings")
-        assert hasattr(self.vector_service, "store_document")
-        assert hasattr(self.vector_service, "search_documents")
+        assert hasattr(self.vector_service, 'generate_embeddings')
+        assert hasattr(self.vector_service, 'store_document')
+        assert hasattr(self.vector_service, 'search_documents')
 
         # Verify service configuration
         assert self.vector_service.agent_id == "test-agent"
@@ -111,9 +108,9 @@ class TestConsolidatedServicesIntegration:
 
         # Test service initialization
         assert self.coordination_service is not None
-        assert hasattr(self.coordination_service, "determine_coordination_strategy")
-        assert hasattr(self.coordination_service, "process_message")
-        assert hasattr(self.coordination_service, "get_command_stats")
+        assert hasattr(self.coordination_service, 'determine_coordination_strategy')
+        assert hasattr(self.coordination_service, 'process_message')
+        assert hasattr(self.coordination_service, 'get_command_stats')
 
         # Verify service configuration
         assert self.coordination_service.name == "integration-test-coordinator"
@@ -126,21 +123,18 @@ class TestConsolidatedServicesIntegration:
 
         # Mock coordinate loader
         mock_loader = Mock()
-        mock_loader.get_all_agents.return_value = ["Agent-1", "Agent-2", "Agent-3"]
+        mock_loader.get_all_agents.return_value = ['Agent-1', 'Agent-2', 'Agent-3']
         mock_loader.is_agent_active.return_value = True
         mock_loader.get_chat_coordinates.side_effect = [(100, 200), (300, 400), (500, 600)]
 
-        with patch(
-            "services.consolidated_messaging_service.get_coordinate_loader",
-            return_value=mock_loader,
-        ):
+        with patch('services.consolidated_messaging_service.get_coordinate_loader', return_value=mock_loader):
             coords = self.messaging_service.load_coordinates_from_json()
 
             assert len(coords) == 3
-            assert "Agent-1" in coords
-            assert "Agent-2" in coords
-            assert "Agent-3" in coords
-            assert coords["Agent-1"] == (100, 200)
+            assert 'Agent-1' in coords
+            assert 'Agent-2' in coords
+            assert 'Agent-3' in coords
+            assert coords['Agent-1'] == (100, 200)
 
     @pytest.mark.integration
     def test_cross_service_embedding_generation(self):
@@ -150,11 +144,11 @@ class TestConsolidatedServicesIntegration:
 
         test_texts = ["Integration test message", "Vector service validation"]
 
-        with patch("services.consolidated_vector_service.SentenceTransformer") as mock_transformer:
+        with patch('services.consolidated_vector_service.SentenceTransformer') as mock_transformer:
             mock_encoder = Mock()
             mock_encoder.encode.return_value = [
                 [0.1, 0.2, 0.3, 0.4, 0.5],
-                [0.6, 0.7, 0.8, 0.9, 1.0],
+                [0.6, 0.7, 0.8, 0.9, 1.0]
             ]
             mock_transformer.return_value = mock_encoder
 
@@ -176,7 +170,7 @@ class TestConsolidatedServicesIntegration:
             recipient="Agent-2",
             message_type=UnifiedMessageType.COORDINATION,
             priority=UnifiedMessagePriority.URGENT,
-            sender_type="agent",
+            sender_type="agent"
         )
 
         result = self.coordination_service.process_message(test_message)
@@ -193,9 +187,12 @@ class TestConsolidatedServicesIntegration:
             pytest.skip("Consolidated services not available")
 
         # Create a coordination message via messaging service
-        with patch("services.consolidated_messaging_service.PYAUTOGUI_AVAILABLE", False):
+        with patch('services.consolidated_messaging_service.PYAUTOGUI_AVAILABLE', False):
             result = self.messaging_service.send_message_pyautogui(
-                "Agent-2", "Coordination test message", "HIGH", "COORDINATION"
+                "Agent-2",
+                "Coordination test message",
+                "HIGH",
+                "COORDINATION"
             )
 
             # In dry run mode, should succeed
@@ -211,14 +208,14 @@ class TestConsolidatedServicesIntegration:
         doc = VectorDocument(
             id="integration-test-doc",
             content="Test document for integration validation",
-            metadata={"test_type": "integration", "service": "vector"},
+            metadata={"test_type": "integration", "service": "vector"}
         )
 
         # Mock the engine for testing
         mock_engine = Mock()
         mock_engine.store.return_value = Mock(success=True, message="Stored successfully")
 
-        with patch.object(self.vector_service, "_engine", mock_engine):
+        with patch.object(self.vector_service, '_engine', mock_engine):
             result = self.vector_service.store_document(doc)
 
             assert result.success is True
@@ -234,10 +231,7 @@ class TestConsolidatedServicesIntegration:
         mock_messaging_core = Mock()
         mock_messaging_core.send_message.return_value = True
 
-        with patch(
-            "services.consolidated_messaging_service.get_messaging_core",
-            return_value=mock_messaging_core,
-        ):
+        with patch('services.consolidated_messaging_service.get_messaging_core', return_value=mock_messaging_core):
             results = self.messaging_service.broadcast_message("Integration broadcast test")
 
             assert isinstance(results, dict)
@@ -252,28 +246,24 @@ class TestConsolidatedServicesIntegration:
             pytest.skip("Consolidated services not available")
 
         # Test messaging service error handling
-        with patch("services.consolidated_messaging_service.PYAUTOGUI_AVAILABLE", False):
+        with patch('services.consolidated_messaging_service.PYAUTOGUI_AVAILABLE', False):
             result = self.messaging_service.send_message_pyautogui("Invalid-Agent", "Test")
             assert result is False
 
         # Test vector service error handling
-        with patch.object(self.vector_service, "_engine", None):
+        with patch.object(self.vector_service, '_engine', None):
             doc = VectorDocument(id="test", content="test")
             result = self.vector_service.store_document(doc)
             assert result.success is False
 
         # Test coordination service error handling
-        with patch.object(
-            self.coordination_service,
-            "determine_coordination_strategy",
-            side_effect=Exception("Coordination error"),
-        ):
+        with patch.object(self.coordination_service, 'determine_coordination_strategy', side_effect=Exception("Coordination error")):
             test_message = UnifiedMessage(
                 content="Error test",
                 sender="Agent-1",
                 recipient="Agent-2",
                 message_type=UnifiedMessageType.AGENT_TO_AGENT,
-                priority=UnifiedMessagePriority.NORMAL,
+                priority=UnifiedMessagePriority.NORMAL
             )
 
             result = self.coordination_service.process_message(test_message)
@@ -291,9 +281,7 @@ class TestConsolidatedServicesIntegration:
         # Test messaging service performance
         start_time = time.time()
         for i in range(10):
-            self.messaging_service.send_message_pyautogui(
-                f"Agent-{i % 3 + 1}", f"Performance test {i}"
-            )
+            self.messaging_service.send_message_pyautogui(f"Agent-{i%3+1}", f"Performance test {i}")
         messaging_time = time.time() - start_time
 
         # Should complete within reasonable time (dry run is fast)
@@ -303,15 +291,13 @@ class TestConsolidatedServicesIntegration:
         start_time = time.time()
         messages = []
         for i in range(10):
-            messages.append(
-                UnifiedMessage(
-                    content=f"Performance message {i}",
-                    sender="Agent-1",
-                    recipient="Agent-2",
-                    message_type=UnifiedMessageType.AGENT_TO_AGENT,
-                    priority=UnifiedMessagePriority.NORMAL,
-                )
-            )
+            messages.append(UnifiedMessage(
+                content=f"Performance message {i}",
+                sender="Agent-1",
+                recipient="Agent-2",
+                message_type=UnifiedMessageType.AGENT_TO_AGENT,
+                priority=UnifiedMessagePriority.NORMAL
+            ))
 
         results = self.coordination_service.process_bulk_messages(messages)
         coordination_time = time.time() - start_time
@@ -336,7 +322,7 @@ class TestConsolidatedServicesIntegration:
                 sender="Agent-1",
                 recipient="Agent-2",
                 message_type=UnifiedMessageType.AGENT_TO_AGENT,
-                priority=UnifiedMessagePriority.NORMAL,
+                priority=UnifiedMessagePriority.NORMAL
             )
             self.coordination_service.process_message(message)
 
@@ -359,9 +345,10 @@ class TestConsolidatedServicesIntegration:
         # Create a complete workflow: Message -> Coordination -> Processing
 
         # Step 1: Create and send message
-        with patch("services.consolidated_messaging_service.PYAUTOGUI_AVAILABLE", False):
+        with patch('services.consolidated_messaging_service.PYAUTOGUI_AVAILABLE', False):
             message_result = self.messaging_service.send_message_pyautogui(
-                "Agent-2", "End-to-end integration test message"
+                "Agent-2",
+                "End-to-end integration test message"
             )
             assert message_result is True
 
@@ -371,7 +358,7 @@ class TestConsolidatedServicesIntegration:
             sender="Agent-1",
             recipient="coordinator",
             message_type=UnifiedMessageType.COORDINATION,
-            priority=UnifiedMessagePriority.HIGH,
+            priority=UnifiedMessagePriority.HIGH
         )
 
         coord_result = self.coordination_service.process_message(coord_message)
@@ -408,7 +395,7 @@ class TestCriticalServiceIntegration:
         assert isinstance(coords, dict)
 
         # Test message sending (various scenarios)
-        with patch("services.consolidated_messaging_service.PYAUTOGUI_AVAILABLE", False):
+        with patch('services.consolidated_messaging_service.PYAUTOGUI_AVAILABLE', False):
             assert service.send_message_pyautogui("Agent-1", "test") is True
 
         # Test broadcasting
@@ -429,7 +416,7 @@ class TestCriticalServiceIntegration:
 
         # Test embedding generation
         test_texts = ["Vector integration test"]
-        with patch("services.consolidated_vector_service.SentenceTransformer") as mock_transformer:
+        with patch('services.consolidated_vector_service.SentenceTransformer') as mock_transformer:
             mock_encoder = Mock()
             mock_encoder.encode.return_value = [[0.1, 0.2, 0.3]]
             mock_transformer.return_value = mock_encoder
@@ -445,12 +432,12 @@ class TestCriticalServiceIntegration:
         mock_engine.store.return_value = Mock(success=True)
         mock_engine.search.return_value = Mock(documents=[], scores=[], total_found=0)
 
-        with patch.object(service, "_engine", mock_engine):
+        with patch.object(service, '_engine', mock_engine):
             store_result = service.store_document(doc)
             assert store_result.success is True
 
             search_results = service.search_documents(Mock(query="test"))
-            assert hasattr(search_results, "documents")
+            assert hasattr(search_results, 'documents')
 
     @pytest.mark.critical
     def test_coordination_service_line_coverage(self):
@@ -466,7 +453,7 @@ class TestCriticalServiceIntegration:
             sender="Agent-1",
             recipient="Agent-2",
             message_type=UnifiedMessageType.AGENT_TO_AGENT,
-            priority=UnifiedMessagePriority.NORMAL,
+            priority=UnifiedMessagePriority.NORMAL
         )
 
         result = service.process_message(test_message)
@@ -487,15 +474,12 @@ class TestCriticalServiceIntegration:
 
 
 if __name__ == "__main__":
-    pytest.main(
-        [
-            __file__,
-            "-v",
-            "--cov=src/services",
-            "--cov-report=html",
-            "--cov-report=term-missing",
-            "--tb=short",
-            "-k",
-            "test_consolidated_services_integration or test_critical_service_integration",
-        ]
-    )
+    pytest.main([
+        __file__,
+        "-v",
+        "--cov=src/services",
+        "--cov-report=html",
+        "--cov-report=term-missing",
+        "--tb=short",
+        "-k", "test_consolidated_services_integration or test_critical_service_integration"
+    ])

@@ -1,18 +1,16 @@
 """
 Trading Robot Web Dashboard
 """
-
 import asyncio
 from datetime import datetime
 from typing import Any
 
 import uvicorn
+from config.settings import config
 from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from loguru import logger
-
-from config.settings import config
 
 
 class TradingDashboard:
@@ -50,7 +48,7 @@ class TradingDashboard:
                     "portfolio_value": portfolio_value,
                     "cash_balance": account_info.get("cash", 0),
                     "positions": positions,
-                    "total_positions": len(positions),
+                    "total_positions": len(positions)
                 }
             except Exception as e:
                 logger.error(f"Error getting status: {e}")
@@ -66,7 +64,7 @@ class TradingDashboard:
                 return {
                     "positions": positions,
                     "account": account_info,
-                    "total_positions": len(positions),
+                    "total_positions": len(positions)
                 }
             except Exception as e:
                 logger.error(f"Error getting portfolio: {e}")
@@ -77,7 +75,11 @@ class TradingDashboard:
             """Get market data for a symbol"""
             try:
                 data = await self.trading_engine.get_market_data(symbol, timeframe, limit)
-                return {"symbol": symbol, "timeframe": timeframe, "data": data}
+                return {
+                    "symbol": symbol,
+                    "timeframe": timeframe,
+                    "data": data
+                }
             except Exception as e:
                 logger.error(f"Error getting market data: {e}")
                 return {"error": str(e)}
@@ -133,7 +135,10 @@ class TradingDashboard:
 
             # Start server in background
             config_obj = uvicorn.Config(
-                self.app, host=config.web_host, port=config.web_port, log_level="info"
+                self.app,
+                host=config.web_host,
+                port=config.web_port,
+                log_level="info"
             )
             server = uvicorn.Server(config_obj)
 
@@ -190,7 +195,7 @@ class TradingDashboard:
                 "portfolio_value": portfolio_value,
                 "cash_balance": account_info.get("cash", 0),
                 "positions": positions,
-                "total_positions": len(positions),
+                "total_positions": len(positions)
             }
         except Exception as e:
             logger.error(f"Error getting status: {e}")
@@ -390,7 +395,6 @@ DASHBOARD_HTML = """
 </html>
 """
 
-
 # Create templates directory and dashboard template
 def create_templates():
     """Create template files"""
@@ -404,7 +408,6 @@ def create_templates():
         f.write(DASHBOARD_HTML)
 
     logger.info("📄 Dashboard templates created")
-
 
 # Create templates when module is imported
 create_templates()

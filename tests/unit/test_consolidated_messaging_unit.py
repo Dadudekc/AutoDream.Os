@@ -33,7 +33,6 @@ try:
         SWARM_AGENTS,
         ConsolidatedMessagingService,
     )
-
     SERVICES_AVAILABLE = True
 except ImportError:
     SERVICES_AVAILABLE = False
@@ -65,7 +64,7 @@ class TestConsolidatedMessagingServiceUnit:
         if not SERVICES_AVAILABLE:
             pytest.skip("Services not available")
 
-        with patch("services.consolidated_messaging_service.MESSAGING_AVAILABLE", False):
+        with patch('services.consolidated_messaging_service.MESSAGING_AVAILABLE', False):
             service = ConsolidatedMessagingService()
             coords = service.load_coordinates_from_json()
             assert coords == {}
@@ -77,19 +76,16 @@ class TestConsolidatedMessagingServiceUnit:
             pytest.skip("Services not available")
 
         mock_loader = Mock()
-        mock_loader.get_all_agents.return_value = ["Agent-1", "Agent-2"]
+        mock_loader.get_all_agents.return_value = ['Agent-1', 'Agent-2']
         mock_loader.is_agent_active.return_value = True
         mock_loader.get_chat_coordinates.side_effect = [(100, 200), (300, 400)]
 
-        with patch(
-            "services.consolidated_messaging_service.get_coordinate_loader",
-            return_value=mock_loader,
-        ):
+        with patch('services.consolidated_messaging_service.get_coordinate_loader', return_value=mock_loader):
             coords = self.service.load_coordinates_from_json()
 
             assert len(coords) == 2
-            assert coords["Agent-1"] == (100, 200)
-            assert coords["Agent-2"] == (300, 400)
+            assert coords['Agent-1'] == (100, 200)
+            assert coords['Agent-2'] == (300, 400)
             mock_loader.get_all_agents.assert_called_once()
 
     @pytest.mark.unit
@@ -99,19 +95,16 @@ class TestConsolidatedMessagingServiceUnit:
             pytest.skip("Services not available")
 
         mock_loader = Mock()
-        mock_loader.get_all_agents.return_value = ["Agent-1", "Invalid-Agent"]
+        mock_loader.get_all_agents.return_value = ['Agent-1', 'Invalid-Agent']
         mock_loader.is_agent_active.return_value = True
         mock_loader.get_chat_coordinates.side_effect = [(100, 200), ValueError("Invalid agent")]
 
-        with patch(
-            "services.consolidated_messaging_service.get_coordinate_loader",
-            return_value=mock_loader,
-        ):
+        with patch('services.consolidated_messaging_service.get_coordinate_loader', return_value=mock_loader):
             coords = self.service.load_coordinates_from_json()
 
             assert len(coords) == 1
-            assert "Agent-1" in coords
-            assert "Invalid-Agent" not in coords
+            assert 'Agent-1' in coords
+            assert 'Invalid-Agent' not in coords
 
     @pytest.mark.unit
     def test_send_message_pyautogui_dry_run_unit(self):
@@ -128,7 +121,7 @@ class TestConsolidatedMessagingServiceUnit:
         if not SERVICES_AVAILABLE:
             pytest.skip("Services not available")
 
-        with patch("services.consolidated_messaging_service.PYAUTOGUI_AVAILABLE", False):
+        with patch('services.consolidated_messaging_service.PYAUTOGUI_AVAILABLE', False):
             service = ConsolidatedMessagingService()
             result = service.send_message_pyautogui("Agent-1", "Test message")
             assert result is False
@@ -140,25 +133,19 @@ class TestConsolidatedMessagingServiceUnit:
             pytest.skip("Required services not available")
 
         mock_loader = Mock()
-        mock_loader.get_all_agents.return_value = ["Agent-1"]
+        mock_loader.get_all_agents.return_value = ['Agent-1']
         mock_loader.is_agent_active.return_value = True
         mock_loader.get_chat_coordinates.return_value = (100, 200)
 
-        with (
-            patch(
-                "services.consolidated_messaging_service.get_coordinate_loader",
-                return_value=mock_loader,
-            ),
-            patch("pyautogui.moveTo"),
-            patch("pyautogui.click"),
-            patch("pyautogui.typewrite"),
-            patch("pyautogui.hotkey"),
-            patch("time.sleep"),
-        ):
+        with patch('services.consolidated_messaging_service.get_coordinate_loader', return_value=mock_loader), \
+             patch('pyautogui.moveTo'), \
+             patch('pyautogui.click'), \
+             patch('pyautogui.typewrite'), \
+             patch('pyautogui.hotkey'), \
+             patch('time.sleep'):
+
             service = ConsolidatedMessagingService()
-            result = service.send_message_pyautogui(
-                "Agent-1", "Test message", "HIGH", "COORDINATION"
-            )
+            result = service.send_message_pyautogui("Agent-1", "Test message", "HIGH", "COORDINATION")
             assert result is True
 
     @pytest.mark.unit
@@ -168,14 +155,11 @@ class TestConsolidatedMessagingServiceUnit:
             pytest.skip("Services not available")
 
         mock_loader = Mock()
-        mock_loader.get_all_agents.return_value = ["Agent-1"]
+        mock_loader.get_all_agents.return_value = ['Agent-1']
         mock_loader.is_agent_active.return_value = True
         mock_loader.get_chat_coordinates.side_effect = ValueError("Agent not found")
 
-        with patch(
-            "services.consolidated_messaging_service.get_coordinate_loader",
-            return_value=mock_loader,
-        ):
+        with patch('services.consolidated_messaging_service.get_coordinate_loader', return_value=mock_loader):
             result = self.service.send_message_pyautogui("Invalid-Agent", "Test message")
             assert result is False
 
@@ -188,10 +172,7 @@ class TestConsolidatedMessagingServiceUnit:
         mock_messaging_core = Mock()
         mock_messaging_core.send_message.return_value = True
 
-        with patch(
-            "services.consolidated_messaging_service.get_messaging_core",
-            return_value=mock_messaging_core,
-        ):
+        with patch('services.consolidated_messaging_service.get_messaging_core', return_value=mock_messaging_core):
             service = ConsolidatedMessagingService()
             results = service.broadcast_message("Test broadcast")
 
@@ -206,7 +187,7 @@ class TestConsolidatedMessagingServiceUnit:
         if not SERVICES_AVAILABLE:
             pytest.skip("Services not available")
 
-        with patch("services.consolidated_messaging_service.MESSAGING_AVAILABLE", False):
+        with patch('services.consolidated_messaging_service.MESSAGING_AVAILABLE', False):
             service = ConsolidatedMessagingService()
             results = service.broadcast_message("Test broadcast")
 
@@ -233,7 +214,7 @@ class TestConsolidatedMessagingServiceUnit:
             pytest.skip("Services not available")
 
         # Test with messaging unavailable
-        with patch("services.consolidated_messaging_service.MESSAGING_AVAILABLE", False):
+        with patch('services.consolidated_messaging_service.MESSAGING_AVAILABLE', False):
             service = ConsolidatedMessagingService()
             history = service.show_message_history()
             assert history == []
@@ -243,10 +224,7 @@ class TestConsolidatedMessagingServiceUnit:
         mock_history = [{"id": "1", "content": "Test message"}]
         mock_messaging_core.get_message_history.return_value = mock_history
 
-        with patch(
-            "services.consolidated_messaging_service.get_messaging_core",
-            return_value=mock_messaging_core,
-        ):
+        with patch('services.consolidated_messaging_service.get_messaging_core', return_value=mock_messaging_core):
             service = ConsolidatedMessagingService()
             history = service.show_message_history()
             assert history == mock_history
@@ -325,10 +303,7 @@ class TestConsolidatedMessagingServiceUnit:
         mock_loader = Mock()
         mock_loader.get_all_agents.side_effect = Exception("Loader failure")
 
-        with patch(
-            "services.consolidated_messaging_service.get_coordinate_loader",
-            return_value=mock_loader,
-        ):
+        with patch('services.consolidated_messaging_service.get_coordinate_loader', return_value=mock_loader):
             coords = self.service.load_coordinates_from_json()
             assert coords == {}
 
@@ -341,10 +316,7 @@ class TestConsolidatedMessagingServiceUnit:
         mock_messaging_core = Mock()
         mock_messaging_core.send_message.side_effect = Exception("Messaging failure")
 
-        with patch(
-            "services.consolidated_messaging_service.get_messaging_core",
-            return_value=mock_messaging_core,
-        ):
+        with patch('services.consolidated_messaging_service.get_messaging_core', return_value=mock_messaging_core):
             service = ConsolidatedMessagingService()
             results = service.broadcast_message("Test")
 
@@ -397,11 +369,11 @@ class TestConsolidatedMessagingServiceUnit:
             pytest.skip("Services not available")
 
         expected_methods = [
-            "load_coordinates_from_json",
-            "send_message_pyautogui",
-            "broadcast_message",
-            "list_agents",
-            "show_message_history",
+            'load_coordinates_from_json',
+            'send_message_pyautogui',
+            'broadcast_message',
+            'list_agents',
+            'show_message_history'
         ]
 
         for method_name in expected_methods:
@@ -440,7 +412,7 @@ class TestMessagingServiceEdgeCases:
 
         special_messages = [
             "Message with unicode: 🚀🐝💻",
-            'Message with quotes: "Hello World"',
+            "Message with quotes: \"Hello World\"",
             "Message with newlines:\nLine 1\nLine 2",
             "Message with tabs:\tTabbed\tContent",
             "Message with slashes: C:\\path\\to\\file",
@@ -477,7 +449,7 @@ class TestMessagingServiceEdgeCases:
         service = ConsolidatedMessagingService()
 
         # Simulate various failures and recoveries
-        with patch("services.consolidated_messaging_service.PYAUTOGUI_AVAILABLE", False):
+        with patch('services.consolidated_messaging_service.PYAUTOGUI_AVAILABLE', False):
             # Should fail when PyAutoGUI unavailable
             result = service.send_message_pyautogui("Agent-1", "Test")
             assert result is False
@@ -489,13 +461,11 @@ class TestMessagingServiceEdgeCases:
 
 
 if __name__ == "__main__":
-    pytest.main(
-        [
-            __file__,
-            "-v",
-            "--cov=src/services/consolidated_messaging_service",
-            "--cov-report=html",
-            "--cov-report=term-missing",
-            "--tb=short",
-        ]
-    )
+    pytest.main([
+        __file__,
+        "-v",
+        "--cov=src/services/consolidated_messaging_service",
+        "--cov-report=html",
+        "--cov-report=term-missing",
+        "--tb=short"
+    ])

@@ -24,7 +24,6 @@ from typing import Any
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-
 class FunctionalityVerifier:
     """Comprehensive functionality verification system."""
 
@@ -35,28 +34,6 @@ class FunctionalityVerifier:
         self.results_dir.mkdir(exist_ok=True)
 
     def generate_functionality_signature(self) -> dict[str, Any]:
-
-EXAMPLE USAGE:
-==============
-
-# Basic usage example
-from tools.functionality_verification import Functionality_Verification
-
-# Initialize and use
-instance = Functionality_Verification()
-result = instance.execute()
-print(f"Execution result: {result}")
-
-# Advanced configuration
-config = {
-    "option1": "value1",
-    "option2": True
-}
-
-instance = Functionality_Verification(config)
-advanced_result = instance.execute_advanced()
-print(f"Advanced result: {advanced_result}")
-
         """Generate comprehensive functionality signature."""
 
         signature = {
@@ -67,14 +44,14 @@ print(f"Advanced result: {advanced_result}")
             "imports": {},
             "tests": {},
             "apis": {},
-            "configurations": {},
+            "configurations": {}
         }
 
         # Scan Python files
         for py_file in self.project_root.rglob("*.py"):
             if self._should_include_file(py_file):
                 try:
-                    content = py_file.read_text(encoding="utf-8")
+                    content = py_file.read_text(encoding='utf-8')
                     file_hash = hashlib.md5(content.encode()).hexdigest()
 
                     signature["files"][str(py_file.relative_to(self.project_root))] = {
@@ -82,7 +59,7 @@ print(f"Advanced result: {advanced_result}")
                         "size": len(content),
                         "functions": self._extract_functions(content),
                         "classes": self._extract_classes(content),
-                        "imports": self._extract_imports(content),
+                        "imports": self._extract_imports(content)
                     }
                 except Exception as e:
                     print(f"Warning: Could not process {py_file}: {e}")
@@ -99,7 +76,7 @@ print(f"Advanced result: {advanced_result}")
             "*.pyc",
             ".pytest_cache",
             "verification_results",
-            "runtime/backups",
+            "runtime/backups"
         ]
 
         file_str = str(file_path)
@@ -112,10 +89,9 @@ print(f"Advanced result: {advanced_result}")
     def _extract_functions(self, content: str) -> list[str]:
         """Extract function definitions from Python code."""
         import re
-
         functions = []
-        pattern = r"^def\s+(\w+)\s*\("
-        for line in content.split("\n"):
+        pattern = r'^def\s+(\w+)\s*\('
+        for line in content.split('\n'):
             match = re.match(pattern, line.strip())
             if match:
                 functions.append(match.group(1))
@@ -124,10 +100,9 @@ print(f"Advanced result: {advanced_result}")
     def _extract_classes(self, content: str) -> list[str]:
         """Extract class definitions from Python code."""
         import re
-
         classes = []
-        pattern = r"^class\s+(\w+)"
-        for line in content.split("\n"):
+        pattern = r'^class\s+(\w+)'
+        for line in content.split('\n'):
             match = re.match(pattern, line.strip())
             if match:
                 classes.append(match.group(1))
@@ -136,10 +111,12 @@ print(f"Advanced result: {advanced_result}")
     def _extract_imports(self, content: str) -> list[str]:
         """Extract import statements from Python code."""
         import re
-
         imports = []
-        patterns = [r"^import\s+([\w.]+)", r"^from\s+([\w.]+)\s+import"]
-        for line in content.split("\n"):
+        patterns = [
+            r'^import\s+([\w.]+)',
+            r'^from\s+([\w.]+)\s+import'
+        ]
+        for line in content.split('\n'):
             for pattern in patterns:
                 match = re.match(pattern, line.strip())
                 if match:
@@ -148,14 +125,14 @@ print(f"Advanced result: {advanced_result}")
 
     def save_baseline(self, signature: dict[str, Any]) -> None:
         """Save functionality baseline."""
-        with open(self.baseline_file, "w", encoding="utf-8") as f:
+        with open(self.baseline_file, 'w', encoding='utf-8') as f:
             json.dump(signature, f, indent=2, ensure_ascii=False)
         print(f"✅ Baseline saved to {self.baseline_file}")
 
     def load_baseline(self) -> dict[str, Any] | None:
         """Load functionality baseline."""
         if self.baseline_file.exists():
-            with open(self.baseline_file, encoding="utf-8") as f:
+            with open(self.baseline_file, encoding='utf-8') as f:
                 return json.load(f)
         return None
 
@@ -174,7 +151,7 @@ print(f"Advanced result: {advanced_result}")
             "new_functions": [],
             "new_classes": [],
             "import_changes": [],
-            "risk_assessment": "LOW",
+            "risk_assessment": "LOW"
         }
 
         # Compare files
@@ -236,7 +213,7 @@ print(f"Advanced result: {advanced_result}")
             "tests_run": [],
             "tests_passed": [],
             "tests_failed": [],
-            "functionality_status": "UNKNOWN",
+            "functionality_status": "UNKNOWN"
         }
 
         # Define agent-specific tests
@@ -249,7 +226,7 @@ print(f"Advanced result: {advanced_result}")
                     shell=True,
                     capture_output=True,
                     text=True,
-                    timeout=300,  # 5 minute timeout
+                    timeout=300  # 5 minute timeout
                 )
 
                 results["tests_run"].append(test_name)
@@ -257,21 +234,24 @@ print(f"Advanced result: {advanced_result}")
                 if result.returncode == 0:
                     results["tests_passed"].append(test_name)
                 else:
-                    results["tests_failed"].append(
-                        {
-                            "test": test_name,
-                            "return_code": result.returncode,
-                            "stdout": result.stdout[-500:],  # Last 500 chars
-                            "stderr": result.stderr[-500:],  # Last 500 chars
-                        }
-                    )
+                    results["tests_failed"].append({
+                        "test": test_name,
+                        "return_code": result.returncode,
+                        "stdout": result.stdout[-500:],  # Last 500 chars
+                        "stderr": result.stderr[-500:]   # Last 500 chars
+                    })
 
             except subprocess.TimeoutExpired:
-                results["tests_failed"].append(
-                    {"test": test_name, "error": "TIMEOUT", "timeout_seconds": 300}
-                )
+                results["tests_failed"].append({
+                    "test": test_name,
+                    "error": "TIMEOUT",
+                    "timeout_seconds": 300
+                })
             except Exception as e:
-                results["tests_failed"].append({"test": test_name, "error": str(e)})
+                results["tests_failed"].append({
+                    "test": test_name,
+                    "error": str(e)
+                })
 
         # Determine overall status
         if not results["tests_run"]:
@@ -289,38 +269,38 @@ print(f"Advanced result: {advanced_result}")
         """Get agent-specific test commands."""
         base_tests = {
             "import_test": "python -c \"import sys; sys.path.insert(0, '.'); from src.services.* import *; print('Imports OK')\"",
-            "basic_functionality": "python -c \"print('Basic Python OK')\"",
+            "basic_functionality": "python -c \"print('Basic Python OK')\""
         }
 
         agent_specific_tests = {
             "Agent-1": {
                 "integration_test": "python -m pytest tests/integration/ -v --tb=short",
-                "api_test": "python -c \"from src.services.messaging_cli import *; print('API OK')\"",
+                "api_test": "python -c \"from src.services.messaging_cli import *; print('API OK')\""
             },
             "Agent-2": {
                 "architecture_test": "python -c \"from src.core.constants.fsm import *; print('Architecture OK')\"",
-                "solid_test": "python -m pytest tests/test_solid_principles.py -v",
+                "solid_test": "python -m pytest tests/test_solid_principles.py -v"
             },
             "Agent-3": {
                 "infrastructure_test": "python -c \"from src.core.deployment import *; print('Infrastructure OK')\"",
-                "performance_test": "python -m pytest tests/performance/ -v --tb=short",
+                "performance_test": "python -m pytest tests/performance/ -v --tb=short"
             },
             "Agent-4": {
                 "quality_test": "python -m pytest tests/ -k 'smoke' -v",
-                "consolidation_test": "python -c \"from src.core.unified_config import *; print('Config OK')\"",
+                "consolidation_test": "python -c \"from src.core.unified_config import *; print('Config OK')\""
             },
             "Agent-6": {
                 "messaging_test": "python -m src.services.messaging_cli --check-status",
-                "communication_test": "python -c \"from src.services.messaging_pyautogui import *; print('Messaging OK')\"",
+                "communication_test": "python -c \"from src.services.messaging_pyautogui import *; print('Messaging OK')\""
             },
             "Agent-7": {
                 "web_test": "python -c \"from src.web.frontend import *; print('Web OK')\"",
-                "frontend_test": "python -c \"print('Frontend components accessible')\"",
+                "frontend_test": "python -c \"print('Frontend components accessible')\""
             },
             "Agent-8": {
-                "operations_test": "python -c \"from src.services.consolidated_miscellaneous_service import *; print('Operations OK')\"",
-                "workflow_test": "python -c \"print('Workflows accessible')\"",
-            },
+                "operations_test": "python -c \"from src.services.contract_service import *; print('Operations OK')\"",
+                "workflow_test": "python -c \"print('Workflows accessible')\""
+            }
         }
 
         tests = base_tests.copy()
@@ -329,9 +309,8 @@ print(f"Advanced result: {advanced_result}")
 
         return tests
 
-    def generate_verification_report(
-        self, comparison: dict[str, Any], agent_results: list[dict[str, Any]]
-    ) -> str:
+    def generate_verification_report(self, comparison: dict[str, Any],
+                                   agent_results: list[dict[str, Any]]) -> str:
         """Generate comprehensive verification report."""
         report = []
         report.append("# 🔍 CONSOLIDATION VERIFICATION REPORT")
@@ -350,51 +329,47 @@ print(f"Advanced result: {advanced_result}")
         # Agent Status
         report.append("## 👥 AGENT VERIFICATION STATUS")
         for agent_result in agent_results:
-            status = agent_result.get("functionality_status", "UNKNOWN")
+            status = agent_result.get('functionality_status', 'UNKNOWN')
             status_icon = {
-                "FULLY_FUNCTIONAL": "✅",
-                "MINOR_ISSUES": "⚠️",
-                "SIGNIFICANT_ISSUES": "❌",
-                "NO_TESTS": "❓",
-            }.get(status, "❓")
+                'FULLY_FUNCTIONAL': '✅',
+                'MINOR_ISSUES': '⚠️',
+                'SIGNIFICANT_ISSUES': '❌',
+                'NO_TESTS': '❓'
+            }.get(status, '❓')
 
-            passed = len(agent_result.get("tests_passed", []))
-            total = len(agent_result.get("tests_run", []))
-            report.append(
-                f"- {status_icon} **{agent_result['agent_id']}**: {passed}/{total} tests passed"
-            )
+            passed = len(agent_result.get('tests_passed', []))
+            total = len(agent_result.get('tests_run', []))
+            report.append(f"- {status_icon} **{agent_result['agent_id']}**: {passed}/{total} tests passed")
         report.append("")
 
         # Detailed Changes
-        if comparison.get("functions_lost"):
+        if comparison.get('functions_lost'):
             report.append("## ⚠️ FUNCTIONS/CLASSES LOST")
-            for item in comparison["functions_lost"][:20]:  # Show first 20
+            for item in comparison['functions_lost'][:20]:  # Show first 20
                 report.append(f"- ❌ {item}")
-            if len(comparison["functions_lost"]) > 20:
+            if len(comparison['functions_lost']) > 20:
                 report.append(f"- ... and {len(comparison['functions_lost']) - 20} more")
             report.append("")
 
-        if comparison.get("files_changed"):
+        if comparison.get('files_changed'):
             report.append("## 📁 FILES CHANGED")
-            for change in comparison["files_changed"][:20]:  # Show first 20
+            for change in comparison['files_changed'][:20]:  # Show first 20
                 report.append(f"- 📄 {change}")
-            if len(comparison["files_changed"]) > 20:
+            if len(comparison['files_changed']) > 20:
                 report.append(f"- ... and {len(comparison['files_changed']) - 20} more")
             report.append("")
 
         # Recommendations
         report.append("## 🎯 RECOMMENDATIONS")
-        if comparison.get("functions_lost"):
-            report.append(
-                "❌ **IMMEDIATE ACTION REQUIRED:** Functions/classes lost during consolidation"
-            )
+        if comparison.get('functions_lost'):
+            report.append("❌ **IMMEDIATE ACTION REQUIRED:** Functions/classes lost during consolidation")
             report.append("   - Review consolidation approach")
             report.append("   - Consider selective rollback")
-        elif comparison.get("risk_assessment") == "HIGH":
+        elif comparison.get('risk_assessment') == 'HIGH':
             report.append("⚠️ **HIGH RISK:** Significant changes detected")
             report.append("   - Conduct thorough manual testing")
             report.append("   - Prepare rollback procedures")
-        elif comparison.get("risk_assessment") == "MEDIUM":
+        elif comparison.get('risk_assessment') == 'MEDIUM':
             report.append("🟡 **MEDIUM RISK:** Moderate changes detected")
             report.append("   - Continue with enhanced monitoring")
             report.append("   - Complete agent verification")
@@ -414,9 +389,7 @@ def main():
     parser.add_argument("--baseline", action="store_true", help="Generate functionality baseline")
     parser.add_argument("--compare", action="store_true", help="Compare with baseline")
     parser.add_argument("--agent-id", help="Run agent-specific verification")
-    parser.add_argument(
-        "--comprehensive", action="store_true", help="Run comprehensive verification"
-    )
+    parser.add_argument("--comprehensive", action="store_true", help="Run comprehensive verification")
     parser.add_argument("--report", action="store_true", help="Generate verification report")
 
     args = parser.parse_args()
@@ -439,9 +412,9 @@ def main():
         print(f"   Tests Passed: {len(results['tests_passed'])}")
         print(f"   Tests Failed: {len(results['tests_failed'])}")
 
-        if results["tests_failed"]:
+        if results['tests_failed']:
             print("   Failed Tests:")
-            for failure in results["tests_failed"]:
+            for failure in results['tests_failed']:
                 print(f"     - {failure['test']}: {failure.get('error', 'FAILED')}")
 
     elif args.comprehensive:
@@ -451,15 +424,7 @@ def main():
 
         # Run agent verifications
         agent_results = []
-        for agent_id in [
-            "Agent-1",
-            "Agent-2",
-            "Agent-3",
-            "Agent-4",
-            "Agent-6",
-            "Agent-7",
-            "Agent-8",
-        ]:
+        for agent_id in ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-6", "Agent-7", "Agent-8"]:
             print(f"Verifying {agent_id}...")
             result = verifier.run_agent_specific_verification(agent_id)
             agent_results.append(result)
@@ -468,11 +433,8 @@ def main():
         report = verifier.generate_verification_report(comparison, agent_results)
 
         # Save report
-        report_file = (
-            verifier.results_dir
-            / f"verification_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
-        )
-        with open(report_file, "w", encoding="utf-8") as f:
+        report_file = verifier.results_dir / f"verification_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
+        with open(report_file, 'w', encoding='utf-8') as f:
             f.write(report)
 
         print("✅ Comprehensive verification complete")
@@ -485,9 +447,7 @@ def main():
         print(f"   Files Changed: {len(comparison.get('files_changed', []))}")
         print(f"   Agents Verified: {len(agent_results)}")
 
-        functional_agents = sum(
-            1 for r in agent_results if r.get("functionality_status") == "FULLY_FUNCTIONAL"
-        )
+        functional_agents = sum(1 for r in agent_results if r.get('functionality_status') == 'FULLY_FUNCTIONAL')
         print(f"   Fully Functional: {functional_agents}/{len(agent_results)}")
 
     else:

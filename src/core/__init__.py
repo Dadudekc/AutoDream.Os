@@ -1,5 +1,8 @@
 # AUTO-GENERATED __init__.py
 # DO NOT EDIT MANUALLY - changes may be overwritten
 
-# Core module exports - avoid circular imports
-__all__ = []
+from . import unified_config
+
+__all__ = [
+    'unified_config',
+]

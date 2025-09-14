@@ -17,7 +17,6 @@ import pytest
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-
 class TestCoreMessagingService:
     """Test consolidated messaging service."""
 
@@ -26,8 +25,8 @@ class TestCoreMessagingService:
     def test_messaging_service_initialization(self, mock_messaging_service):
         """Test messaging service initializes correctly."""
         assert mock_messaging_service is not None
-        assert hasattr(mock_messaging_service, "send_message")
-        assert hasattr(mock_messaging_service, "receive_message")
+        assert hasattr(mock_messaging_service, 'send_message')
+        assert hasattr(mock_messaging_service, 'receive_message')
 
     @pytest.mark.unit
     @pytest.mark.agent1
@@ -58,9 +57,7 @@ class TestCoreMessagingService:
     def test_message_format_validation(self, sample_message):
         """Test message format validation."""
         from tests.conftest import assert_message_format
-
         assert_message_format(sample_message)
-
 
 class TestVectorDatabaseIntegration:
     """Test vector database integration."""
@@ -99,7 +96,6 @@ class TestVectorDatabaseIntegration:
         # Mock database connection test
         assert True  # Placeholder for actual connection test
 
-
 class TestCoordinationServiceDependencies:
     """Test coordination service dependencies."""
 
@@ -135,15 +131,12 @@ class TestCoordinationServiceDependencies:
         assert info == {"active": True, "participants": 8}
         mock_coordination_service.get_session_info.assert_called_once_with("session_123")
 
-
 class TestCoreSystemIntegration:
     """Test core system integration scenarios."""
 
     @pytest.mark.integration
     @pytest.mark.agent1
-    def test_messaging_coordination_integration(
-        self, mock_messaging_service, mock_coordination_service
-    ):
+    def test_messaging_coordination_integration(self, mock_messaging_service, mock_coordination_service):
         """Test messaging and coordination service integration."""
         # Create session
         session_id = mock_coordination_service.create_session("test_agent")
@@ -158,9 +151,7 @@ class TestCoreSystemIntegration:
 
     @pytest.mark.integration
     @pytest.mark.agent1
-    def test_vector_database_messaging_integration(
-        self, mock_vector_database, mock_messaging_service
-    ):
+    def test_vector_database_messaging_integration(self, mock_vector_database, mock_messaging_service):
         """Test vector database and messaging integration."""
         # Store vector
         vector_id = mock_vector_database.store_vector([0.1, 0.2, 0.3])
@@ -181,7 +172,6 @@ class TestCoreSystemIntegration:
         # This would test the full integration of messaging, coordination, and vector database
         # For now, we'll use mocks to simulate the workflow
         assert True  # Placeholder for full workflow test
-
 
 class TestErrorHandling:
     """Test error handling in core systems."""
@@ -214,7 +204,6 @@ class TestErrorHandling:
         with pytest.raises(Exception, match="Storage error"):
             mock_vector_database.store_vector([0.1, 0.2, 0.3])
 
-
 class TestPerformanceBenchmarks:
     """Test performance benchmarks for core systems."""
 
@@ -222,7 +211,6 @@ class TestPerformanceBenchmarks:
     @pytest.mark.agent1
     def test_messaging_performance(self, mock_messaging_service, benchmark_function):
         """Test messaging service performance."""
-
         def send_test_message():
             return mock_messaging_service.send_message({"content": "test"})
 
@@ -233,7 +221,6 @@ class TestPerformanceBenchmarks:
     @pytest.mark.agent1
     def test_vector_search_performance(self, mock_vector_database, benchmark_function):
         """Test vector search performance."""
-
         def search_test():
             return mock_vector_database.search_similar([0.1, 0.2, 0.3])
 

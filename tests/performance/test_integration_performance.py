@@ -38,7 +38,6 @@ try:
         UnifiedMessageType,
     )
     from services.models.vector_models import EmbeddingModel, VectorDocument
-
     SERVICES_AVAILABLE = True
 except ImportError:
     SERVICES_AVAILABLE = False
@@ -71,7 +70,8 @@ class TestIntegrationPerformance:
 
         for i in range(message_count):
             self.messaging_service.send_message_pyautogui(
-                f"Agent-{i % 8 + 1}", f"Throughput test message {i}"
+                f"Agent-{i%8+1}",
+                f"Throughput test message {i}"
             )
 
         end_time = time.time()
@@ -111,15 +111,13 @@ class TestIntegrationPerformance:
             # Create batch
             messages = []
             for i in range(batch_size):
-                messages.append(
-                    UnifiedMessage(
-                        content=f"Bulk performance test {i}",
-                        sender="Agent-1",
-                        recipient="Agent-2",
-                        message_type=UnifiedMessageType.AGENT_TO_AGENT,
-                        priority=UnifiedMessagePriority.NORMAL,
-                    )
-                )
+                messages.append(UnifiedMessage(
+                    content=f"Bulk performance test {i}",
+                    sender="Agent-1",
+                    recipient="Agent-2",
+                    message_type=UnifiedMessageType.AGENT_TO_AGENT,
+                    priority=UnifiedMessagePriority.NORMAL
+                ))
 
             # Process batch
             results = self.coordination_service.process_bulk_messages(messages)
@@ -137,9 +135,7 @@ class TestIntegrationPerformance:
             assert messages_per_second > 50  # At least 50 messages/second
             assert memory_increase < 100  # Less than 100MB increase
 
-            print(
-                f"Batch Size {batch_size}: {messages_per_second:.2f} msg/sec, {memory_increase:.2f}MB memory"
-            )
+            print(f"Batch Size {batch_size}: {messages_per_second:.2f} msg/sec, {memory_increase:.2f}MB memory")
 
     @pytest.mark.performance
     def test_vector_service_embedding_performance(self):
@@ -151,19 +147,14 @@ class TestIntegrationPerformance:
         test_batches = [
             ["Short text for embedding"],
             ["This is a medium length text for testing embedding performance and throughput"] * 5,
-            [
-                "Performance test document with substantial content for benchmarking embedding generation speed and memory usage"
-            ]
-            * 10,
+            ["Performance test document with substantial content for benchmarking embedding generation speed and memory usage"] * 10
         ]
 
         for batch in test_batches:
             baseline_memory = self.process.memory_info().rss / 1024 / 1024
             start_time = time.time()
 
-            with patch(
-                "services.consolidated_vector_service.SentenceTransformer"
-            ) as mock_transformer:
+            with patch('services.consolidated_vector_service.SentenceTransformer') as mock_transformer:
                 mock_encoder = Mock()
                 # Create embeddings array matching batch size
                 mock_encoder.encode.return_value = [[0.1, 0.2, 0.3] for _ in batch]
@@ -182,9 +173,7 @@ class TestIntegrationPerformance:
             assert memory_increase < 200  # Less than 200MB increase
 
             texts_per_second = len(batch) / processing_time
-            print(
-                f"Batch Size {len(batch)}: {texts_per_second:.2f} texts/sec, {processing_time:.3f}s, {memory_increase:.2f}MB"
-            )
+            print(f"Batch Size {len(batch)}: {texts_per_second:.2f} texts/sec, {processing_time:.3f}s, {memory_increase:.2f}MB")
 
     @pytest.mark.performance
     def test_cross_service_performance_integration(self):
@@ -200,7 +189,7 @@ class TestIntegrationPerformance:
 
         for i in range(workflow_iterations):
             # Step 1: Messaging
-            with patch("services.consolidated_messaging_service.PYAUTOGUI_AVAILABLE", False):
+            with patch('services.consolidated_messaging_service.PYAUTOGUI_AVAILABLE', False):
                 self.messaging_service.send_message_pyautogui("Agent-2", f"Workflow test {i}")
 
             # Step 2: Coordination
@@ -209,7 +198,7 @@ class TestIntegrationPerformance:
                 sender="Agent-1",
                 recipient="coordinator",
                 message_type=UnifiedMessageType.COORDINATION,
-                priority=UnifiedMessagePriority.NORMAL,
+                priority=UnifiedMessagePriority.NORMAL
             )
             self.coordination_service.process_message(coord_message)
 
@@ -217,10 +206,10 @@ class TestIntegrationPerformance:
             doc = VectorDocument(
                 id=f"workflow-doc-{i}",
                 content=f"Workflow content {i}",
-                metadata={"iteration": i, "workflow": "performance_test"},
+                metadata={"iteration": i, "workflow": "performance_test"}
             )
 
-            with patch.object(self.vector_service, "_engine", Mock()) as mock_engine:
+            with patch.object(self.vector_service, '_engine', Mock()) as mock_engine:
                 mock_engine.store.return_value = Mock(success=True)
                 self.vector_service.store_document(doc)
 
@@ -257,43 +246,37 @@ class TestIntegrationPerformance:
 
             messages = []
             for i in range(load_level):
-                messages.append(
-                    UnifiedMessage(
-                        content=f"Scalability test {i}",
-                        sender="Agent-1",
-                        recipient="Agent-2",
-                        message_type=UnifiedMessageType.AGENT_TO_AGENT,
-                        priority=UnifiedMessagePriority.NORMAL,
-                    )
-                )
+                messages.append(UnifiedMessage(
+                    content=f"Scalability test {i}",
+                    sender="Agent-1",
+                    recipient="Agent-2",
+                    message_type=UnifiedMessageType.AGENT_TO_AGENT,
+                    priority=UnifiedMessagePriority.NORMAL
+                ))
 
             results = self.coordination_service.process_bulk_messages(messages)
             processing_time = time.time() - start_time
 
             messages_per_second = load_level / processing_time
-            performance_results.append(
-                {
-                    "load_level": load_level,
-                    "processing_time": processing_time,
-                    "messages_per_second": messages_per_second,
-                    "all_successful": all(r["status"] == "processed" for r in results),
-                }
-            )
+            performance_results.append({
+                'load_level': load_level,
+                'processing_time': processing_time,
+                'messages_per_second': messages_per_second,
+                'all_successful': all(r["status"] == "processed" for r in results)
+            })
 
         # Analyze scalability
         for result in performance_results:
-            print(
-                f"Load {result['load_level']}: {result['messages_per_second']:.2f} msg/sec, {result['processing_time']:.3f}s"
-            )
+            print(f"Load {result['load_level']}: {result['messages_per_second']:.2f} msg/sec, {result['processing_time']:.3f}s")
 
             # Performance should not degrade significantly
-            assert result["messages_per_second"] > 10  # Minimum 10 msg/sec
-            assert result["all_successful"] is True
+            assert result['messages_per_second'] > 10  # Minimum 10 msg/sec
+            assert result['all_successful'] is True
 
         # Check for performance degradation (should be minimal)
         if len(performance_results) >= 2:
-            first_throughput = performance_results[0]["messages_per_second"]
-            last_throughput = performance_results[-1]["messages_per_second"]
+            first_throughput = performance_results[0]['messages_per_second']
+            last_throughput = performance_results[-1]['messages_per_second']
             degradation_percent = (first_throughput - last_throughput) / first_throughput * 100
 
             # Allow up to 50% degradation under extreme load
@@ -318,7 +301,7 @@ class TestIntegrationPerformance:
                     sender="Agent-1",
                     recipient="Agent-2",
                     message_type=UnifiedMessageType.AGENT_TO_AGENT,
-                    priority=UnifiedMessagePriority.NORMAL,
+                    priority=UnifiedMessagePriority.NORMAL
                 )
                 self.coordination_service.process_message(message)
 
@@ -352,17 +335,15 @@ class TestIntegrationPerformance:
 
         import threading
 
-        results = {"messaging": [], "coordination": [], "vector": []}
+        results = {'messaging': [], 'coordination': [], 'vector': []}
         errors = []
 
         def messaging_worker():
             """Worker for messaging operations."""
             try:
                 for i in range(100):
-                    result = self.messaging_service.send_message_pyautogui(
-                        "Agent-2", f"Concurrent msg {i}"
-                    )
-                    results["messaging"].append(result)
+                    result = self.messaging_service.send_message_pyautogui("Agent-2", f"Concurrent msg {i}")
+                    results['messaging'].append(result)
             except Exception as e:
                 errors.append(f"Messaging error: {e}")
 
@@ -375,10 +356,10 @@ class TestIntegrationPerformance:
                         sender="Agent-1",
                         recipient="Agent-2",
                         message_type=UnifiedMessageType.AGENT_TO_AGENT,
-                        priority=UnifiedMessagePriority.NORMAL,
+                        priority=UnifiedMessagePriority.NORMAL
                     )
                     result = self.coordination_service.process_message(message)
-                    results["coordination"].append(result["status"])
+                    results['coordination'].append(result['status'])
             except Exception as e:
                 errors.append(f"Coordination error: {e}")
 
@@ -386,13 +367,11 @@ class TestIntegrationPerformance:
             """Worker for vector operations."""
             try:
                 for i in range(50):  # Fewer vector operations as they're more expensive
-                    doc = VectorDocument(
-                        id=f"concurrent-doc-{i}", content=f"Concurrent content {i}"
-                    )
-                    with patch.object(self.vector_service, "_engine", Mock()) as mock_engine:
+                    doc = VectorDocument(id=f"concurrent-doc-{i}", content=f"Concurrent content {i}")
+                    with patch.object(self.vector_service, '_engine', Mock()) as mock_engine:
                         mock_engine.store.return_value = Mock(success=True)
                         result = self.vector_service.store_document(doc)
-                        results["vector"].append(result.success)
+                        results['vector'].append(result.success)
             except Exception as e:
                 errors.append(f"Vector error: {e}")
 
@@ -400,7 +379,7 @@ class TestIntegrationPerformance:
         threads = [
             threading.Thread(target=messaging_worker),
             threading.Thread(target=coordination_worker),
-            threading.Thread(target=vector_worker),
+            threading.Thread(target=vector_worker)
         ]
 
         start_time = time.time()
@@ -414,11 +393,9 @@ class TestIntegrationPerformance:
         total_time = end_time - start_time
 
         # Analyze results
-        messaging_success_rate = sum(results["messaging"]) / len(results["messaging"]) * 100
-        coordination_success_rate = (
-            results["coordination"].count("processed") / len(results["coordination"]) * 100
-        )
-        vector_success_rate = sum(results["vector"]) / len(results["vector"]) * 100
+        messaging_success_rate = sum(results['messaging']) / len(results['messaging']) * 100
+        coordination_success_rate = results['coordination'].count('processed') / len(results['coordination']) * 100
+        vector_success_rate = sum(results['vector']) / len(results['vector']) * 100
 
         # Performance assertions
         assert len(errors) == 0  # No errors should occur
@@ -450,7 +427,7 @@ class TestIntegrationPerformance:
                 sender="Agent-1",
                 recipient="Agent-2",
                 message_type=UnifiedMessageType.AGENT_TO_AGENT,
-                priority=UnifiedMessagePriority.NORMAL,
+                priority=UnifiedMessagePriority.NORMAL
             )
             coordination.process_message(message)
             normal_times.append(time.time() - start)
@@ -458,11 +435,7 @@ class TestIntegrationPerformance:
         normal_avg = statistics.mean(normal_times)
 
         # Introduce failures
-        with patch.object(
-            coordination,
-            "determine_coordination_strategy",
-            side_effect=Exception("Simulated failure"),
-        ):
+        with patch.object(coordination, 'determine_coordination_strategy', side_effect=Exception("Simulated failure")):
             failure_times = []
             for i in range(10):
                 start = time.time()
@@ -471,7 +444,7 @@ class TestIntegrationPerformance:
                     sender="Agent-1",
                     recipient="Agent-2",
                     message_type=UnifiedMessageType.AGENT_TO_AGENT,
-                    priority=UnifiedMessagePriority.NORMAL,
+                    priority=UnifiedMessagePriority.NORMAL
                 )
                 coordination.process_message(message)
                 failure_times.append(time.time() - start)
@@ -485,7 +458,7 @@ class TestIntegrationPerformance:
                 sender="Agent-1",
                 recipient="Agent-2",
                 message_type=UnifiedMessageType.AGENT_TO_AGENT,
-                priority=UnifiedMessagePriority.NORMAL,
+                priority=UnifiedMessagePriority.NORMAL
             )
             coordination.process_message(message)
             recovery_times.append(time.time() - start)
@@ -502,16 +475,13 @@ class TestIntegrationPerformance:
 
 
 if __name__ == "__main__":
-    pytest.main(
-        [
-            __file__,
-            "-v",
-            "--cov=src/services",
-            "--cov-report=html",
-            "--cov-report=term-missing",
-            "--tb=short",
-            "--durations=10",
-            "-k",
-            "performance",
-        ]
-    )
+    pytest.main([
+        __file__,
+        "-v",
+        "--cov=src/services",
+        "--cov-report=html",
+        "--cov-report=term-missing",
+        "--tb=short",
+        "--durations=10",
+        "-k", "performance"
+    ])

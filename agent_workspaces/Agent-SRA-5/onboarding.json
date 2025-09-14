@@ -1,0 +1,9 @@
+{
+  "agent_id": "Agent-SRA-5",
+  "role": "DRY",
+  "specialty": "Survey Risk Assessment",
+  "onboarded": true,
+  "hard_onboarding": true,
+  "capabilities_assigned": true,
+  "survey_ready": true
+}

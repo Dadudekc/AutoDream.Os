@@ -20,30 +20,6 @@ class StatsTracker:
 
     Manages statistics collection, calculation, and reporting for coordination
     operations.
-
-EXAMPLE USAGE:
-==============
-
-# Import the service
-from src.services.coordination.stats_tracker import Stats_TrackerService
-
-# Initialize service
-service = Stats_TrackerService()
-
-# Basic service operation
-response = service.handle_request(request_data)
-print(f"Service response: {response}")
-
-# Service with dependency injection
-from src.core.dependency_container import Container
-
-container = Container()
-service = container.get(Stats_TrackerService)
-
-# Execute service method
-result = service.execute_operation(input_data, context)
-print(f"Operation result: {result}")
-
     """
 
     def __init__(self):

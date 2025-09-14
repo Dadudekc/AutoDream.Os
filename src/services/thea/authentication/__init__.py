@@ -10,4 +10,4 @@ License: MIT
 
 from .thea_authentication_service import AuthStatus, TheaAuthenticationService
 
-__all__ = ["TheaAuthenticationService", "AuthStatus"]
+__all__ = ['TheaAuthenticationService', 'AuthStatus']

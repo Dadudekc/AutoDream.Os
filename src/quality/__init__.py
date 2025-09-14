@@ -4,5 +4,5 @@
 from . import proof_ledger
 
 __all__ = [
-    "proof_ledger",
+    'proof_ledger',
 ]

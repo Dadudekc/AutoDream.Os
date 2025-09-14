@@ -4,7 +4,7 @@
 from . import bulk_coordinator, stats_tracker, strategy_coordinator
 
 __all__ = [
-    "bulk_coordinator",
-    "stats_tracker",
-    "strategy_coordinator",
+    'bulk_coordinator',
+    'stats_tracker',
+    'strategy_coordinator',
 ]

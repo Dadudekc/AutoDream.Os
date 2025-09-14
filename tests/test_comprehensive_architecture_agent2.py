@@ -32,8 +32,8 @@ sys.path.insert(0, str(project_root / "src" / "core"))
 sys.path.insert(0, str(project_root / "src" / "services"))
 
 # Set PYTHONPATH environment variable as fallback
-if str(src_path) not in os.environ.get("PYTHONPATH", ""):
-    os.environ["PYTHONPATH"] = str(src_path) + os.pathsep + os.environ.get("PYTHONPATH", "")
+if str(src_path) not in os.environ.get('PYTHONPATH', ''):
+    os.environ['PYTHONPATH'] = str(src_path) + os.pathsep + os.environ.get('PYTHONPATH', '')
 
 print(f"Python path updated. Src path: {src_path}")
 print(f"Python path includes: {[p for p in sys.path if 'Agent_Cellphone' in p or 'src' in p]}")
@@ -41,12 +41,10 @@ print(f"Python path includes: {[p for p in sys.path if 'Agent_Cellphone' in p or
 # Test framework setup
 try:
     import pytest
-
     HAS_PYTEST = True
 except ImportError:
     HAS_PYTEST = False
     print("⚠️ pytest not available, running tests manually")
-
 
 class TestSOLIDPrinciplesCompliance:
     """Comprehensive SOLID principles validation."""
@@ -60,21 +58,19 @@ class TestSOLIDPrinciplesCompliance:
             from src.services.consolidated_messaging_service import ConsolidatedMessagingService
 
             # Should only handle messaging operations
-            methods = [m for m in dir(ConsolidatedMessagingService) if not m.startswith("_")]
-            messaging_methods = ["send_message_pyautogui", "broadcast_message", "list_agents"]
+            methods = [m for m in dir(ConsolidatedMessagingService) if not m.startswith('_')]
+            messaging_methods = ['send_message_pyautogui', 'broadcast_message', 'list_agents']
 
             # Verify messaging focus - check for available methods
             available_messaging_methods = [m for m in messaging_methods if m in methods]
             assert len(available_messaging_methods) > 0, "Service should have messaging methods"
 
             # Should not have unrelated responsibilities (file operations, payments, etc.)
-            unrelated_methods = ["save_file", "process_payment", "render_html"]
+            unrelated_methods = ['save_file', 'process_payment', 'render_html']
             for method in unrelated_methods:
                 assert method not in methods, f"Service should not have {method}"
 
-            print(
-                f"✅ SRP: ConsolidatedMessagingService has single messaging responsibility with {len(available_messaging_methods)} messaging methods"
-            )
+            print(f"✅ SRP: ConsolidatedMessagingService has single messaging responsibility with {len(available_messaging_methods)} messaging methods")
             return True
 
         except ImportError as e:
@@ -93,13 +89,11 @@ class TestSOLIDPrinciplesCompliance:
             service = ConsolidatedMessagingService()
 
             # Test extensibility through available methods
-            extensible_methods = ["send_message_pyautogui", "broadcast_message", "list_agents"]
+            extensible_methods = ['send_message_pyautogui', 'broadcast_message', 'list_agents']
             available_methods = [m for m in extensible_methods if hasattr(service, m)]
 
             assert len(available_methods) > 0, "Service should have extensible methods"
-            print(
-                f"✅ OCP: Service supports extension with {len(available_methods)} extensible methods"
-            )
+            print(f"✅ OCP: Service supports extension with {len(available_methods)} extensible methods")
             return True
 
         except ImportError as e:
@@ -124,12 +118,8 @@ class TestSOLIDPrinciplesCompliance:
 
             # Test that services can be used interchangeably where appropriate
             # Both should have initialization and core functionality
-            assert hasattr(msg_service, "broadcast_message"), (
-                "MessageService should have broadcast capability"
-            )
-            assert hasattr(coord_loader, "get_all_agents"), (
-                "CoordinateLoader should have agent listing"
-            )
+            assert hasattr(msg_service, 'broadcast_message'), "MessageService should have broadcast capability"
+            assert hasattr(coord_loader, 'get_all_agents'), "CoordinateLoader should have agent listing"
 
             # Test polymorphism - different services handling similar operations
             msg_agents = msg_service.list_agents()
@@ -139,9 +129,7 @@ class TestSOLIDPrinciplesCompliance:
             assert isinstance(msg_agents, list), "MessageService should return agent list"
             assert isinstance(coord_agents, list), "CoordinateLoader should return agent list"
 
-            print(
-                "✅ LSP: Services demonstrate substitutable behavior through consistent interfaces"
-            )
+            print("✅ LSP: Services demonstrate substitutable behavior through consistent interfaces")
             return True
 
         except ImportError as e:
@@ -159,22 +147,18 @@ class TestSOLIDPrinciplesCompliance:
             from src.services.consolidated_messaging_service import ConsolidatedMessagingService
 
             # Should only expose necessary methods
-            methods = [m for m in dir(ConsolidatedMessagingService) if not m.startswith("_")]
+            methods = [m for m in dir(ConsolidatedMessagingService) if not m.startswith('_')]
 
             # Count different types of methods
-            messaging_methods = len([m for m in methods if "message" in m.lower()])
-            utility_methods = len([m for m in methods if m in ["__init__", "__str__", "__repr__"]])
+            messaging_methods = len([m for m in methods if 'message' in m.lower()])
+            utility_methods = len([m for m in methods if m in ['__init__', '__str__', '__repr__']])
             total_methods = len(methods)
 
             # Should have reasonable method concentration
             concentration_ratio = messaging_methods / max(total_methods, 1)
-            assert concentration_ratio > 0.5, (
-                f"Interface too broad: {concentration_ratio:.2f} messaging focus"
-            )
+            assert concentration_ratio > 0.5, f"Interface too broad: {concentration_ratio:.2f} messaging focus"
 
-            print(
-                f"✅ ISP: Interface focused with {concentration_ratio:.2f} messaging concentration"
-            )
+            print(f"✅ ISP: Interface focused with {concentration_ratio:.2f} messaging concentration")
             return True
 
         except ImportError as e:
@@ -193,9 +177,7 @@ class TestSOLIDPrinciplesCompliance:
             params = list(init_signature.parameters.keys())
 
             # Should accept dependencies through constructor (not hard-coded)
-            has_dependency_params = (
-                len([p for p in params if p not in ["self", "args", "kwargs"]]) > 0
-            )
+            has_dependency_params = len([p for p in params if p not in ['self', 'args', 'kwargs']]) > 0
 
             if has_dependency_params:
                 print("✅ DIP: Service accepts dependencies through constructor")
@@ -221,8 +203,8 @@ class TestDependencyInjectionPatterns:
             from src.services.consolidated_architectural_service import ArchitecturalPrinciple
 
             # Verify ArchitecturalPrinciple is available for dependency injection
-            assert hasattr(ArchitecturalPrinciple, "SINGLE_RESPONSIBILITY")
-            assert hasattr(ArchitecturalPrinciple, "DEPENDENCY_INVERSION")
+            assert hasattr(ArchitecturalPrinciple, 'SINGLE_RESPONSIBILITY')
+            assert hasattr(ArchitecturalPrinciple, 'DEPENDENCY_INVERSION')
 
             # Test with coordinate loader which has dependency injection
             from src.core.coordinate_loader import get_coordinate_loader
@@ -233,12 +215,10 @@ class TestDependencyInjectionPatterns:
             params = list(init_signature.parameters.keys())
 
             # Should have parameters for dependency injection
-            dependency_params = [p for p in params if p not in ["self", "args", "kwargs"]]
+            dependency_params = [p for p in params if p not in ['self', 'args', 'kwargs']]
 
             if dependency_params:
-                print(
-                    f"✅ Constructor Injection: Found {len(dependency_params)} dependency parameters"
-                )
+                print(f"✅ Constructor Injection: Found {len(dependency_params)} dependency parameters")
                 print("✅ Architectural Dependencies: ArchitecturalPrinciple enum available")
             else:
                 print("⚠️ Constructor Injection: No dependency parameters found")
@@ -284,10 +264,8 @@ class TestDependencyInjectionPatterns:
             from src.services.consolidated_messaging_service import ConsolidatedMessagingService
 
             # Look for factory-like methods
-            methods = [m for m in dir(ConsolidatedMessagingService) if not m.startswith("_")]
-            factory_methods = [
-                m for m in methods if "create" in m.lower() or "factory" in m.lower()
-            ]
+            methods = [m for m in dir(ConsolidatedMessagingService) if not m.startswith('_')]
+            factory_methods = [m for m in methods if 'create' in m.lower() or 'factory' in m.lower()]
 
             if factory_methods:
                 print(f"✅ Factory Pattern: Found factory methods: {factory_methods}")
@@ -340,12 +318,10 @@ class TestArchitecturalPatterns:
             service = ConsolidatedMessagingService()
 
             # Test simple interface to complex operations
-            methods = [m for m in dir(service) if not m.startswith("_")]
+            methods = [m for m in dir(service) if not m.startswith('_')]
 
             # Should have high-level methods that hide complexity
-            high_level_methods = [
-                m for m in methods if len(m.split("_")) <= 3
-            ]  # Simple method names
+            high_level_methods = [m for m in methods if len(m.split('_')) <= 3]  # Simple method names
 
             if high_level_methods:
                 print(f"✅ Facade Pattern: Found {len(high_level_methods)} high-level methods")
@@ -423,15 +399,15 @@ class TestArchitecturalIntegrity:
             from src.services.consolidated_messaging_service import ConsolidatedMessagingService
 
             # Verify ArchitecturalPrinciple is accessible and used properly
-            assert hasattr(ArchitecturalPrinciple, "SINGLE_RESPONSIBILITY")
-            assert hasattr(ArchitecturalPrinciple, "DEPENDENCY_INVERSION")
+            assert hasattr(ArchitecturalPrinciple, 'SINGLE_RESPONSIBILITY')
+            assert hasattr(ArchitecturalPrinciple, 'DEPENDENCY_INVERSION')
 
             # Check for proper architectural principle usage
             msg_service = ConsolidatedMessagingService()
 
             # Verify service follows architectural principles
-            assert hasattr(msg_service, "send_message_pyautogui"), "Service should follow SRP"
-            assert hasattr(msg_service, "broadcast_message"), "Service should be extensible (OCP)"
+            assert hasattr(msg_service, 'send_message_pyautogui'), "Service should follow SRP"
+            assert hasattr(msg_service, 'broadcast_message'), "Service should be extensible (OCP)"
 
             print("✅ Module Coupling: Architectural principles properly integrated")
             print("✅ Module Coupling: No circular dependencies in architectural design")
@@ -455,11 +431,9 @@ class TestArchitecturalIntegrity:
             source = inspect.getsource(CoordinateLoader)
 
             # Should not contain business terms
-            business_terms = ["business", "workflow", "process", "policy"]
+            business_terms = ['business', 'workflow', 'process', 'policy']
             for term in business_terms:
-                assert term not in source.lower(), (
-                    f"Layer violation: {term} found in infrastructure"
-                )
+                assert term not in source.lower(), f"Layer violation: {term} found in infrastructure"
 
             print("✅ Layer Separation: Infrastructure layer properly separated")
             return True
@@ -478,7 +452,7 @@ class TestArchitecturalIntegrity:
             source = inspect.getsource(CoordinateLoader)
 
             # Core should not depend on outer layers
-            outer_dependencies = ["web", "api", "interface", "presentation"]
+            outer_dependencies = ['web', 'api', 'interface', 'presentation']
             for dep in outer_dependencies:
                 assert dep not in source.lower(), f"Wrong dependency direction: {dep}"
 
@@ -559,7 +533,7 @@ def run_architectural_tests():
         print("-" * 50)
 
         # Get all test methods
-        test_methods = [method for method in dir(test_suite) if method.startswith("test_")]
+        test_methods = [method for method in dir(test_suite) if method.startswith('test_')]
 
         for method_name in test_methods:
             total_tests += 1
@@ -596,9 +570,7 @@ def run_architectural_tests():
 
     print("\n🏗️ MISSION STATUS: Comprehensive architectural testing completed")
     print("📈 TARGET: 85%+ coverage for architectural components")
-    print(
-        f"🎯 CURRENT STATUS: {(passed_tests / total_tests * 100):.1f}% architectural coverage achieved"
-    )
+    print(f"🎯 CURRENT STATUS: {(passed_tests / total_tests * 100):.1f}% architectural coverage achieved")
     print("🎯 NEXT: Expand test coverage and integrate with pytest framework")
 
     return passed_tests, failed_tests

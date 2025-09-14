@@ -23,40 +23,14 @@ from typing import Any
 
 logger = logging.getLogger(__name__)
 
-
 # Placeholder classes for missing dependencies to fix import issues
 class AgentAssignmentManager:
     """Placeholder for AgentAssignmentManager - to be implemented."""
-
     def __init__(self):
         pass
 
 
 class ArchitecturalPrinciple(Enum):
-
-EXAMPLE USAGE:
-==============
-
-# Import the service
-from src.services.consolidated_architectural_service import Consolidated_Architectural_ServiceService
-
-# Initialize service
-service = Consolidated_Architectural_ServiceService()
-
-# Basic service operation
-response = service.handle_request(request_data)
-print(f"Service response: {response}")
-
-# Service with dependency injection
-from src.core.dependency_container import Container
-
-container = Container()
-service = container.get(Consolidated_Architectural_ServiceService)
-
-# Execute service method
-result = service.execute_operation(input_data, context)
-print(f"Operation result: {result}")
-
     """Core architectural principles for professional development."""
 
     # SOLID Principles
@@ -394,9 +368,8 @@ class ComplianceValidator:
             ArchitecturalPrinciple.DEPENDENCY_INVERSION: self._validate_dependency_inversion,
         }
 
-    def validate_compliance(
-        self, agent_id: str, principle: ArchitecturalPrinciple, code_analysis: dict[str, Any]
-    ) -> ComplianceValidationResult:
+    def validate_compliance(self, agent_id: str, principle: ArchitecturalPrinciple,
+                           code_analysis: dict[str, Any]) -> ComplianceValidationResult:
         """Validate compliance with architectural principle."""
         validator = self.validation_rules.get(principle, self._default_validation)
         issues = validator(code_analysis)
@@ -408,7 +381,7 @@ class ComplianceValidator:
             compliant=compliant,
             issues=issues,
             recommendations=self._generate_recommendations(principle, issues),
-            validated_at=datetime.now().isoformat(),
+            validated_at=datetime.now().isoformat()
         )
 
     def _validate_single_responsibility(self, code_analysis: dict[str, Any]) -> list[str]:
@@ -445,9 +418,8 @@ class ComplianceValidator:
         """Default validation for unspecified principles."""
         return []
 
-    def _generate_recommendations(
-        self, principle: ArchitecturalPrinciple, issues: list[str]
-    ) -> list[str]:
+    def _generate_recommendations(self, principle: ArchitecturalPrinciple,
+                                 issues: list[str]) -> list[str]:
         """Generate recommendations based on validation issues."""
         recommendations = []
         if issues:
@@ -471,7 +443,8 @@ class ConsolidatedArchitecturalService:
 
         # Initialize onboarding manager
         self.onboarding_manager = ArchitecturalOnboardingManager(
-            self.assignment_manager, self.compliance_validator
+            self.assignment_manager,
+            self.compliance_validator
         )
 
     def _create_assignment_manager(self):
@@ -482,9 +455,7 @@ class ConsolidatedArchitecturalService:
         """Create compliance validator."""
         return ComplianceValidator()
 
-    def get_principle_guidance(
-        self, principle: ArchitecturalPrinciple
-    ) -> ArchitecturalGuidance | None:
+    def get_principle_guidance(self, principle: ArchitecturalPrinciple) -> ArchitecturalGuidance | None:
         """Get guidance for a specific principle."""
         principles = PrincipleDefinitions.get_all_principles()
         return principles.get(principle)
@@ -501,9 +472,7 @@ class ConsolidatedArchitecturalService:
         """Assign a principle to an agent."""
         self.assignment_manager.assign_principle(agent_id, principle)
 
-    def validate_agent_compliance(
-        self, agent_id: str, code_changes: list[str]
-    ) -> ComplianceValidationResult:
+    def validate_agent_compliance(self, agent_id: str, code_changes: list[str]) -> ComplianceValidationResult:
         """Validate agent compliance with their assigned principle."""
         principle = self.get_agent_principle(agent_id)
         if not principle:
@@ -513,16 +482,14 @@ class ConsolidatedArchitecturalService:
                 compliant=False,
                 issues=["No principle assigned to agent"],
                 recommendations=["Assign an architectural principle to the agent"],
-                validated_at=datetime.now().isoformat(),
+                validated_at=datetime.now().isoformat()
             )
 
         return self.compliance_validator.validate_agent_compliance(
             agent_id, principle, code_changes
         )
 
-    def onboard_agent(
-        self, agent_id: str, principle: ArchitecturalPrinciple | None = None
-    ) -> dict[str, Any]:
+    def onboard_agent(self, agent_id: str, principle: ArchitecturalPrinciple | None = None) -> dict[str, Any]:
         """Onboard an agent with architectural responsibilities."""
         if principle:
             self.assign_principle(agent_id, principle)
@@ -537,9 +504,7 @@ class ConsolidatedArchitecturalService:
         """Generate onboarding message for an agent."""
         return self.onboarding_manager.generate_onboarding_message(agent_id)
 
-    def get_comprehensive_principle_report(
-        self, principle: ArchitecturalPrinciple
-    ) -> dict[str, Any]:
+    def get_comprehensive_principle_report(self, principle: ArchitecturalPrinciple) -> dict[str, Any]:
         """Get comprehensive report for a principle."""
         guidance = self.get_principle_guidance(principle)
         agents = self.assignment_manager.get_agents_by_principle(principle)
@@ -550,7 +515,7 @@ class ConsolidatedArchitecturalService:
             "description": guidance.description if guidance else "No description available",
             "assigned_agents": agents,
             "guidance": guidance.__dict__ if guidance else {},
-            "agent_count": len(agents),
+            "agent_count": len(agents)
         }
 
     def get_system_architecture_summary(self) -> dict[str, Any]:
@@ -569,7 +534,7 @@ class ConsolidatedArchitecturalService:
             "total_principles": len(all_principles),
             "principle_distribution": principle_counts,
             "assignments": all_assignments,
-            "principles": {p.value: g.display_name for p, g in all_principles.items()},
+            "principles": {p.value: g.display_name for p, g in all_principles.items()}
         }
 
 
@@ -588,7 +553,7 @@ class ArchitecturalOnboardingManager:
             return {
                 "success": False,
                 "error": f"No principle assigned to agent {agent_id}",
-                "onboarding_status": "failed",
+                "onboarding_status": "failed"
             }
 
         # Generate onboarding guidance
@@ -599,7 +564,7 @@ class ArchitecturalOnboardingManager:
             "agent_id": agent_id,
             "principle": principle.value,
             "guidance": guidance,
-            "onboarding_status": "completed",
+            "onboarding_status": "completed"
         }
 
     def get_onboarding_status(self, agent_id: str) -> dict[str, Any]:
@@ -609,7 +574,7 @@ class ArchitecturalOnboardingManager:
             "agent_id": agent_id,
             "principle_assigned": principle is not None,
             "principle": principle.value if principle else None,
-            "onboarding_complete": principle is not None,
+            "onboarding_complete": principle is not None
         }
 
     def generate_onboarding_message(self, agent_id: str) -> str:
@@ -633,9 +598,7 @@ class ArchitecturalOnboardingManager:
 **Remember:** "WE ARE SWARM" - Architectural excellence through collaboration!
         """.strip()
 
-    def _generate_onboarding_guidance(
-        self, agent_id: str, principle: ArchitecturalPrinciple
-    ) -> dict[str, Any]:
+    def _generate_onboarding_guidance(self, agent_id: str, principle: ArchitecturalPrinciple) -> dict[str, Any]:
         """Generate onboarding guidance."""
         return {
             "principle": principle.value,
@@ -643,12 +606,12 @@ class ArchitecturalOnboardingManager:
                 "Implement principle in all code changes",
                 "Validate compliance before commits",
                 "Review other agents' code for principle violations",
-                "Contribute to architectural discussions",
+                "Contribute to architectural discussions"
             ],
             "validation_rules": [
                 "All code changes must comply with assigned principle",
                 "Tests must validate architectural contracts",
                 "Documentation must reflect architectural decisions",
-                "Reviews must consider architectural impact",
-            ],
+                "Reviews must consider architectural impact"
+            ]
         }

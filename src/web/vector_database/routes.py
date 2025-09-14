@@ -35,28 +35,6 @@ def index():
 @vector_db_bp.route("/search", methods=["POST"])
 @VectorDatabaseMiddleware.add_cors_headers
 def search():
-
-EXAMPLE USAGE:
-==============
-
-# Basic usage example
-from src.web.vector_database.routes import Routes
-
-# Initialize and use
-instance = Routes()
-result = instance.execute()
-print(f"Execution result: {result}")
-
-# Advanced configuration
-config = {
-    "option1": "value1",
-    "option2": True
-}
-
-instance = Routes(config)
-advanced_result = instance.execute_advanced()
-print(f"Advanced result: {advanced_result}")
-
     """Perform semantic search on vector database."""
     return SearchHandler.handle_search()
 

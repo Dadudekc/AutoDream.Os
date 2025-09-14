@@ -41,7 +41,6 @@ try:
         load_coordinates_from_json,
         send_message_with_fallback,
     )
-
     MESSAGING_AVAILABLE = True
 except ImportError:
     MESSAGING_AVAILABLE = False
@@ -49,7 +48,6 @@ except ImportError:
 # Import coordinate system
 try:
     from src.core.coordinate_loader import get_coordinate_loader
-
     COORDINATES_AVAILABLE = True
 except ImportError:
     COORDINATES_AVAILABLE = False
@@ -58,7 +56,6 @@ except ImportError:
 @dataclass
 class DebateParticipant:
     """Represents a debate participant."""
-
     agent_id: str
     specialty: str
     contribution_count: int = 0
@@ -68,32 +65,7 @@ class DebateParticipant:
 
 @dataclass
 class DebateArgument:
-
-EXAMPLE USAGE:
-==============
-
-# Import the service
-from src.services.consolidated_debate_service import Consolidated_Debate_ServiceService
-
-# Initialize service
-service = Consolidated_Debate_ServiceService()
-
-# Basic service operation
-response = service.handle_request(request_data)
-print(f"Service response: {response}")
-
-# Service with dependency injection
-from src.core.dependency_container import Container
-
-container = Container()
-service = container.get(Consolidated_Debate_ServiceService)
-
-# Execute service method
-result = service.execute_operation(input_data, context)
-print(f"Operation result: {result}")
-
     """Represents a debate argument."""
-
     id: str
     author_agent: str
     supports_option: str
@@ -151,11 +123,11 @@ class ConsolidatedDebateService:
             root = tree.getroot()
 
             # Load participants
-            for participant_elem in root.findall(".//participant"):
-                agent_id = participant_elem.find("agent_id")
+            for participant_elem in root.findall('.//participant'):
+                agent_id = participant_elem.find('agent_id')
                 if agent_id is not None:
                     agent_id = agent_id.text.strip()
-                    specialty_elem = participant_elem.find("specialty")
+                    specialty_elem = participant_elem.find('specialty')
                     specialty = specialty_elem.text if specialty_elem is not None else "Unknown"
 
                     # Get coordinates if available
@@ -167,20 +139,22 @@ class ConsolidatedDebateService:
                             pass
 
                     self.participants[agent_id] = DebateParticipant(
-                        agent_id=agent_id, specialty=specialty, coordinates=coords
+                        agent_id=agent_id,
+                        specialty=specialty,
+                        coordinates=coords
                     )
 
             # Load arguments
-            for arg_elem in root.findall(".//argument"):
-                author = arg_elem.find("author_agent")
-                option = arg_elem.find("supports_option")
-                title = arg_elem.find("title")
-                content = arg_elem.find("content")
+            for arg_elem in root.findall('.//argument'):
+                author = arg_elem.find('author_agent')
+                option = arg_elem.find('supports_option')
+                title = arg_elem.find('title')
+                content = arg_elem.find('content')
 
                 if all([author, option, title, content]):
-                    confidence = float(arg_elem.find("confidence").text or 0.5)
-                    feasibility = float(arg_elem.find("technical_feasibility").text or 0.5)
-                    value = float(arg_elem.find("business_value").text or 0.5)
+                    confidence = float(arg_elem.find('confidence').text or 0.5)
+                    feasibility = float(arg_elem.find('technical_feasibility').text or 0.5)
+                    value = float(arg_elem.find('business_value').text or 0.5)
 
                     argument = DebateArgument(
                         id=str(uuid.uuid4()),
@@ -191,7 +165,7 @@ class ConsolidatedDebateService:
                         confidence=confidence,
                         technical_feasibility=feasibility,
                         business_value=business_value,
-                        timestamp=datetime.now(),
+                        timestamp=datetime.now()
                     )
                     self.arguments.append(argument)
 
@@ -200,9 +174,7 @@ class ConsolidatedDebateService:
                         self.participants[author.text].contribution_count += 1
                         self.participants[author.text].last_contribution = datetime.now()
 
-            print(
-                f"✅ Loaded {len(self.participants)} participants and {len(self.arguments)} arguments"
-            )
+            print(f"✅ Loaded {len(self.participants)} participants and {len(self.arguments)} arguments")
 
         except Exception as e:
             print(f"❌ Failed to load debate data: {e}")
@@ -221,7 +193,7 @@ class ConsolidatedDebateService:
             "Agent-5": "Business Intelligence Specialist",
             "Agent-6": "Coordination & Communication Specialist",
             "Agent-7": "Web Development Specialist",
-            "Agent-8": "Operations & Support Specialist",
+            "Agent-8": "Operations & Support Specialist"
         }
 
         for agent_id, specialty in default_participants.items():
@@ -233,7 +205,9 @@ class ConsolidatedDebateService:
                     pass
 
             self.participants[agent_id] = DebateParticipant(
-                agent_id=agent_id, specialty=specialty, coordinates=coords
+                agent_id=agent_id,
+                specialty=specialty,
+                coordinates=coords
             )
 
     def get_debate_status(self) -> dict[str, Any]:
@@ -241,18 +215,14 @@ class ConsolidatedDebateService:
         return {
             "topic": self.debate_topic,
             "total_participants": len(self.participants),
-            "active_participants": len(
-                [p for p in self.participants.values() if p.contribution_count > 0]
-            ),
+            "active_participants": len([p for p in self.participants.values() if p.contribution_count > 0]),
             "total_arguments": len(self.arguments),
-            "pending_participants": [
-                pid for pid, p in self.participants.items() if p.contribution_count == 0
-            ],
+            "pending_participants": [pid for pid, p in self.participants.items() if p.contribution_count == 0],
             "coordination_systems": {
                 "messaging": MESSAGING_AVAILABLE,
                 "coordinates": COORDINATES_AVAILABLE,
-                "cursor_automation": PYAUTOGUI_AVAILABLE,
-            },
+                "cursor_automation": PYAUTOGUI_AVAILABLE
+            }
         }
 
     def invite_all_agents(self) -> dict[str, bool]:
@@ -267,11 +237,11 @@ class ConsolidatedDebateService:
 
 Topic: {self.debate_topic}
 
-Your expertise is needed! As a {self.participants.get("Agent-4", DebateParticipant("Agent-4", "Specialist")).specialty}, your perspective is crucial for this architectural decision.
+Your expertise is needed! As a {self.participants.get('Agent-4', DebateParticipant('Agent-4', 'Specialist')).specialty}, your perspective is crucial for this architectural decision.
 
 Please contribute your arguments using the debate participation tool.
 
-Status: {self.get_debate_status()["active_participants"]}/{self.get_debate_status()["total_participants"]} agents have contributed.
+Status: {self.get_debate_status()['active_participants']}/{self.get_debate_status()['total_participants']} agents have contributed.
 
 Use: python debate_participation_tool.py --agent-id YOUR_AGENT --add-argument
 """
@@ -279,7 +249,9 @@ Use: python debate_participation_tool.py --agent-id YOUR_AGENT --add-argument
         for agent_id in self.participants.keys():
             try:
                 success = send_message_with_fallback(
-                    agent_id=agent_id, message=invitation_message, sender="SWARM_CAPTAIN"
+                    agent_id=agent_id,
+                    message=invitation_message,
+                    sender="SWARM_CAPTAIN"
                 )
                 results[agent_id] = success
                 time.sleep(0.5)  # Rate limiting
@@ -311,7 +283,7 @@ The architecture consolidation debate is still active and needs your input!
 Topic: {self.debate_topic}
 Current Status: {len(pending)} agents still need to contribute
 
-Your specialized perspective as a {self.participants.get("Agent-4", DebateParticipant("Agent-4", "Specialist")).specialty} is essential for reaching swarm consensus.
+Your specialized perspective as a {self.participants.get('Agent-4', DebateParticipant('Agent-4', 'Specialist')).specialty} is essential for reaching swarm consensus.
 
 Use: python debate_participation_tool.py --agent-id YOUR_AGENT --add-argument
 """
@@ -319,7 +291,9 @@ Use: python debate_participation_tool.py --agent-id YOUR_AGENT --add-argument
         for agent_id in pending:
             try:
                 success = send_message_with_fallback(
-                    agent_id=agent_id, message=reminder_message, sender="SWARM_CAPTAIN"
+                    agent_id=agent_id,
+                    message=reminder_message,
+                    sender="SWARM_CAPTAIN"
                 )
                 results[agent_id] = success
                 time.sleep(0.5)
@@ -358,8 +332,8 @@ Use: python debate_participation_tool.py --agent-id YOUR_AGENT --add-argument
             "top_contributors": sorted(
                 [(p.agent_id, p.contribution_count) for p in self.participants.values()],
                 key=lambda x: x[1],
-                reverse=True,
-            )[:3],
+                reverse=True
+            )[:3]
         }
 
     def save_debate_state(self):
@@ -411,4 +385,8 @@ if __name__ == "__main__":
     main()
 
 
-__all__ = ["ConsolidatedDebateService", "DebateParticipant", "DebateArgument"]
+__all__ = [
+    "ConsolidatedDebateService",
+    "DebateParticipant",
+    "DebateArgument"
+]

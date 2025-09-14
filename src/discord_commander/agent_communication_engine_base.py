@@ -18,8 +18,7 @@ except ImportError:
     # Fallback for direct execution
     import os
     import sys
-
-    sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
+    sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
     from utils.unified_utilities import get_unified_utility
 
 
@@ -38,7 +37,9 @@ class AgentCommunicationEngineBase(ABC):
         # Avoid duplicate handlers
         if not logger.handlers:
             handler = logging.StreamHandler()
-            formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+            formatter = logging.Formatter(
+                "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+            )
             handler.setFormatter(formatter)
             logger.addHandler(handler)
 
@@ -57,17 +58,14 @@ class AgentCommunicationEngineBase(ABC):
     def format_timestamp(self) -> str:
         """Format current timestamp."""
         from datetime import datetime
-
         return datetime.utcnow().isoformat()
 
-    def create_message_metadata(
-        self, sender: str, recipient: str, priority: str = "NORMAL"
-    ) -> dict:
+    def create_message_metadata(self, sender: str, recipient: str, priority: str = "NORMAL") -> dict:
         """Create message metadata."""
         return {
             "sender": sender,
             "recipient": recipient,
             "priority": priority,
             "timestamp": self.format_timestamp(),
-            "source": "discord_commander",
+            "source": "discord_commander"
         }

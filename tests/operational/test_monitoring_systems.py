@@ -18,11 +18,9 @@ try:
     from src.core.automated_health_check_system import AutomatedHealthCheckSystem
     from src.core.performance_monitoring_dashboard import PerformanceMonitoringDashboard
     from src.core.unified_logging_system import UnifiedLoggingSystem
-
     MONITORING_AVAILABLE = True
 except ImportError:
     MONITORING_AVAILABLE = False
-
     # Create mock classes for testing
     class PerformanceMonitoringDashboard:
         def __init__(self):
@@ -30,29 +28,20 @@ except ImportError:
 
         def get_system_metrics(self):
             if self.high_cpu_mode:
-                return {"cpu_usage": 95, "memory_usage": 85, "disk_usage": 40, "network_io": 25}
-            return {"cpu_usage": 50, "memory_usage": 60, "disk_usage": 40, "network_io": 25}
+                return {'cpu_usage': 95, 'memory_usage': 85, 'disk_usage': 40, 'network_io': 25}
+            return {'cpu_usage': 50, 'memory_usage': 60, 'disk_usage': 40, 'network_io': 25}
 
-        def check_system_health(self):
-            return True
+        def check_system_health(self): return True
 
         def set_high_cpu_mode(self, enabled=True):
             self.high_cpu_mode = enabled
 
     class AutomatedHealthCheckSystem:
-        def run_health_checks(self):
-            return [
-                {"check_name": "cpu", "status": "healthy"},
-                {"check_name": "memory", "status": "healthy"},
-            ]
-
-        def get_health_status(self):
-            return "healthy"
+        def run_health_checks(self): return [{'check_name': 'cpu', 'status': 'healthy'}, {'check_name': 'memory', 'status': 'healthy'}]
+        def get_health_status(self): return "healthy"
 
     class UnifiedLoggingSystem:
-        def log_event(self, *args, **kwargs):
-            pass
-
+        def log_event(self, *args, **kwargs): pass
 
 @pytest.mark.operational
 @pytest.mark.monitoring
@@ -67,15 +56,15 @@ class TestPerformanceMonitoringDashboard:
         metrics = dashboard.get_system_metrics()
 
         # Verify essential metrics are present
-        required_metrics = ["cpu_usage", "memory_usage", "disk_usage", "network_io"]
+        required_metrics = ['cpu_usage', 'memory_usage', 'disk_usage', 'network_io']
         for metric in required_metrics:
             assert metric in metrics or any(metric in key for key in metrics.keys())
 
         # Verify metrics are reasonable values
-        if "cpu_usage" in metrics:
-            assert 0 <= metrics["cpu_usage"] <= 100
-        if "memory_usage" in metrics:
-            assert 0 <= metrics["memory_usage"] <= 100
+        if 'cpu_usage' in metrics:
+            assert 0 <= metrics['cpu_usage'] <= 100
+        if 'memory_usage' in metrics:
+            assert 0 <= metrics['memory_usage'] <= 100
 
     def test_health_status_monitoring(self, system_monitor):
         """Test system health status monitoring."""
@@ -89,7 +78,7 @@ class TestPerformanceMonitoringDashboard:
 
         # If string, should be a valid health status
         if isinstance(health_status, str):
-            valid_statuses = ["healthy", "warning", "critical", "unknown"]
+            valid_statuses = ['healthy', 'warning', 'critical', 'unknown']
             assert health_status.lower() in valid_statuses
 
     def test_performance_threshold_alerting(self, system_monitor):
@@ -103,8 +92,8 @@ class TestPerformanceMonitoringDashboard:
         metrics = dashboard.get_system_metrics()
 
         # Should detect high CPU usage
-        if "cpu_usage" in metrics:
-            assert metrics["cpu_usage"] >= 90
+        if 'cpu_usage' in metrics:
+            assert metrics['cpu_usage'] >= 90
 
     def test_historical_performance_tracking(self, system_monitor):
         """Test tracking of historical performance data."""
@@ -121,11 +110,10 @@ class TestPerformanceMonitoringDashboard:
 
         # CPU and memory should be reasonable values
         for metrics in [initial_metrics, follow_up_metrics]:
-            if "cpu_usage" in metrics:
-                assert 0 <= metrics["cpu_usage"] <= 100
-            if "memory_usage" in metrics:
-                assert 0 <= metrics["memory_usage"] <= 100
-
+            if 'cpu_usage' in metrics:
+                assert 0 <= metrics['cpu_usage'] <= 100
+            if 'memory_usage' in metrics:
+                assert 0 <= metrics['memory_usage'] <= 100
 
 @pytest.mark.operational
 @pytest.mark.monitoring
@@ -145,7 +133,7 @@ class TestAutomatedHealthCheckSystem:
         # Each result should have basic structure
         for result in results:
             if isinstance(result, dict):
-                assert "check_name" in result or "status" in result
+                assert 'check_name' in result or 'status' in result
 
     def test_health_status_reporting(self, system_monitor):
         """Test health status reporting functionality."""
@@ -159,7 +147,7 @@ class TestAutomatedHealthCheckSystem:
         assert len(status) > 0
 
         # Should be a recognized health status
-        valid_statuses = ["healthy", "degraded", "critical", "unknown"]
+        valid_statuses = ['healthy', 'degraded', 'critical', 'unknown']
         assert status.lower() in [s.lower() for s in valid_statuses]
 
     def test_critical_service_monitoring(self, system_monitor):
@@ -170,19 +158,18 @@ class TestAutomatedHealthCheckSystem:
         results = health_system.run_health_checks()
 
         # Should include critical system checks
-        critical_checks = ["cpu", "memory", "disk", "network"]
+        critical_checks = ['cpu', 'memory', 'disk', 'network']
         found_checks = []
 
         for result in results:
             if isinstance(result, dict):
-                check_name = result.get("check_name", "").lower()
+                check_name = result.get('check_name', '').lower()
                 for critical in critical_checks:
                     if critical in check_name:
                         found_checks.append(critical)
 
         # Should find at least some critical checks
         assert len(found_checks) > 0 or len(results) > 0
-
 
 @pytest.mark.operational
 @pytest.mark.monitoring
@@ -195,9 +182,9 @@ class TestUnifiedLoggingSystem:
 
         # Test logging different event types
         test_events = [
-            {"level": "INFO", "message": "Test info message", "component": "test"},
-            {"level": "WARNING", "message": "Test warning message", "component": "test"},
-            {"level": "ERROR", "message": "Test error message", "component": "test"},
+            {'level': 'INFO', 'message': 'Test info message', 'component': 'test'},
+            {'level': 'WARNING', 'message': 'Test warning message', 'component': 'test'},
+            {'level': 'ERROR', 'message': 'Test error message', 'component': 'test'}
         ]
 
         for event in test_events:
@@ -206,24 +193,25 @@ class TestUnifiedLoggingSystem:
                 logger.log_event(**event)
             except Exception as e:
                 # Logging failures should be handled gracefully
-                assert "logging" in str(e).lower() or isinstance(e, (AttributeError, TypeError))
+                assert 'logging' in str(e).lower() or isinstance(e, (AttributeError, TypeError))
 
     def test_log_level_filtering(self, system_monitor):
         """Test filtering of log messages by level."""
         logger = UnifiedLoggingSystem()
 
         # Test different log levels
-        levels = ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
+        levels = ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']
 
         for level in levels:
             try:
                 logger.log_event(
-                    level=level, message=f"Test {level} message", component="test_filtering"
+                    level=level,
+                    message=f'Test {level} message',
+                    component='test_filtering'
                 )
             except Exception:
                 # Level filtering should be handled gracefully
                 pass
-
 
 @pytest.mark.operational
 @pytest.mark.monitoring
@@ -235,12 +223,12 @@ class TestSystemResourceMonitoring:
         health = system_monitor.get_system_health()
 
         # CPU usage should be a reasonable percentage
-        assert "cpu_percent" in health
-        assert isinstance(health["cpu_percent"], (int, float))
-        assert 0 <= health["cpu_percent"] <= 100
+        assert 'cpu_percent' in health
+        assert isinstance(health['cpu_percent'], (int, float))
+        assert 0 <= health['cpu_percent'] <= 100
 
         # Should not be extremely high (unless system is actually under load)
-        if health["cpu_percent"] > 95:
+        if health['cpu_percent'] > 95:
             # If CPU is very high, it might be a test environment issue
             pytest.skip(f"CPU usage too high for testing: {health['cpu_percent']}%")
 
@@ -249,18 +237,18 @@ class TestSystemResourceMonitoring:
         health = system_monitor.get_system_health()
 
         # Memory usage should be a reasonable percentage
-        assert "memory_percent" in health
-        assert isinstance(health["memory_percent"], (int, float))
-        assert 0 <= health["memory_percent"] <= 100
+        assert 'memory_percent' in health
+        assert isinstance(health['memory_percent'], (int, float))
+        assert 0 <= health['memory_percent'] <= 100
 
     def test_disk_usage_monitoring(self, system_monitor):
         """Test disk usage monitoring."""
         health = system_monitor.get_system_health()
 
         # Disk usage should be a reasonable percentage
-        assert "disk_usage" in health
-        assert isinstance(health["disk_usage"], (int, float))
-        assert 0 <= health["disk_usage"] <= 100
+        assert 'disk_usage' in health
+        assert isinstance(health['disk_usage'], (int, float))
+        assert 0 <= health['disk_usage'] <= 100
 
     def test_system_stability_assessment(self, system_monitor):
         """Test overall system stability assessment."""
@@ -276,7 +264,6 @@ class TestSystemResourceMonitoring:
         if not (initial_stable and final_stable):
             pytest.skip("System not stable for testing - likely environment issue")
 
-
 @pytest.mark.operational
 @pytest.mark.monitoring
 class TestOperationalAlerting:
@@ -285,15 +272,15 @@ class TestOperationalAlerting:
     def test_performance_alert_thresholds(self, system_monitor):
         """Test alerting when performance thresholds are exceeded."""
         # Simulate high resource usage
-        with patch("psutil.cpu_percent", return_value=98):
-            with patch("psutil.virtual_memory") as mock_memory:
+        with patch('psutil.cpu_percent', return_value=98):
+            with patch('psutil.virtual_memory') as mock_memory:
                 mock_memory.return_value.percent = 95
 
                 health = system_monitor.get_system_health()
 
                 # Should detect high usage
-                assert health["cpu_percent"] >= 95
-                assert health["memory_percent"] >= 90
+                assert health['cpu_percent'] >= 95
+                assert health['memory_percent'] >= 90
 
     def test_system_health_alerts(self, system_monitor):
         """Test health status alerts."""
@@ -302,7 +289,7 @@ class TestOperationalAlerting:
         assert isinstance(normal_health, bool)
 
         # Test with mocked high usage
-        with patch("psutil.cpu_percent", return_value=97):
+        with patch('psutil.cpu_percent', return_value=97):
             high_usage_health = system_monitor.check_stability()
             # Should potentially return False for very high usage
             assert isinstance(high_usage_health, bool)
@@ -317,10 +304,9 @@ class TestOperationalAlerting:
         assert len(health_data) > 0
 
         # Keys should be consistent
-        expected_keys = ["cpu_percent", "memory_percent", "disk_usage"]
+        expected_keys = ['cpu_percent', 'memory_percent', 'disk_usage']
         for key in expected_keys:
             assert key in health_data
-
 
 # Integration tests for monitoring systems
 @pytest.mark.integration
@@ -339,7 +325,7 @@ class TestMonitoringSystemIntegration:
 
         # Data should be reasonable
         for key, value in health.items():
-            if "percent" in key:
+            if 'percent' in key:
                 assert isinstance(value, (int, float))
                 assert 0 <= value <= 100
 
@@ -357,7 +343,7 @@ class TestMonitoringSystemIntegration:
 
         # Values should be reasonable (not all zeros or extreme values)
         for data in data_points:
-            cpu = data.get("cpu_percent", 0)
-            memory = data.get("memory_percent", 0)
+            cpu = data.get('cpu_percent', 0)
+            memory = data.get('memory_percent', 0)
             assert 0 <= cpu <= 100
             assert 0 <= memory <= 100

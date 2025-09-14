@@ -4,5 +4,5 @@
 from . import ssot_models
 
 __all__ = [
-    "ssot_models",
+    'ssot_models',
 ]

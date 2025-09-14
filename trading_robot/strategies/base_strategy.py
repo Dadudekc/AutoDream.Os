@@ -1,27 +1,17 @@
 """
 Base Trading Strategy Framework
 """
-
 from abc import ABC, abstractmethod
 from enum import Enum
 from typing import Any
 
-# AGGRESSIVE LAZY LOADING - CRITICAL PERFORMANCE OPTIMIZATION
-import os
-import sys
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
-from src.core.aggressive_lazy_loader import lazy_import
-
-# Lazy load heavy modules for 30%+ performance improvement
-pd = lazy_import('pandas', 'pd')
-
+import pandas as pd
 from loguru import logger
 from strategies.indicators import TechnicalIndicators
 
 
 class Signal(Enum):
     """Trading signals"""
-
     BUY = "BUY"
     SELL = "SELL"
     HOLD = "HOLD"
@@ -30,14 +20,8 @@ class Signal(Enum):
 class StrategyResult:
     """Result of strategy analysis"""
 
-    def __init__(
-        self,
-        symbol: str,
-        signal: Signal,
-        confidence: float,
-        indicators: dict[str, Any] = None,
-        metadata: dict[str, Any] = None,
-    ):
+    def __init__(self, symbol: str, signal: Signal, confidence: float,
+                 indicators: dict[str, Any] = None, metadata: dict[str, Any] = None):
         self.symbol = symbol
         self.signal = signal
         self.confidence = confidence
@@ -59,9 +43,8 @@ class BaseStrategy(ABC):
         """Analyze market data and generate trading signal"""
         pass
 
-    def calculate_position_size(
-        self, account_balance: float, price: float, risk_pct: float = 0.01
-    ) -> int:
+    def calculate_position_size(self, account_balance: float, price: float,
+                              risk_pct: float = 0.01) -> int:
         """Calculate position size based on risk management"""
         risk_amount = account_balance * risk_pct
         position_size = risk_amount / price
@@ -69,7 +52,7 @@ class BaseStrategy(ABC):
 
     def validate_data(self, data: pd.DataFrame) -> bool:
         """Validate that data has required columns and sufficient length"""
-        required_columns = ["open", "high", "low", "close", "volume"]
+        required_columns = ['open', 'high', 'low', 'close', 'volume']
         min_length = 50  # Minimum data points needed for analysis
 
         if len(data) < min_length:
@@ -83,28 +66,39 @@ class BaseStrategy(ABC):
 
         return True
 
-    def get_indicator_value(self, data: pd.DataFrame, indicator_name: str, **params) -> pd.Series:
+    def get_indicator_value(self, data: pd.DataFrame, indicator_name: str,
+                           **params) -> pd.Series:
         """Get indicator value with caching"""
         # This could be extended with caching mechanism
         if indicator_name == "sma":
-            return self.indicators.sma(data["close"], params.get("period", 20))
+            return self.indicators.sma(data['close'], params.get('period', 20))
         elif indicator_name == "ema":
-            return self.indicators.ema(data["close"], params.get("period", 20))
+            return self.indicators.ema(data['close'], params.get('period', 20))
         elif indicator_name == "rsi":
-            return self.indicators.rsi(data["close"], params.get("period", 14))
+            return self.indicators.rsi(data['close'], params.get('period', 14))
         elif indicator_name == "macd":
             macd_line, signal_line, histogram = self.indicators.macd(
-                data["close"],
-                params.get("fast_period", 12),
-                params.get("slow_period", 26),
-                params.get("signal_period", 9),
+                data['close'],
+                params.get('fast_period', 12),
+                params.get('slow_period', 26),
+                params.get('signal_period', 9)
             )
-            return {"macd_line": macd_line, "signal_line": signal_line, "histogram": histogram}
+            return {
+                'macd_line': macd_line,
+                'signal_line': signal_line,
+                'histogram': histogram
+            }
         elif indicator_name == "bollinger_bands":
             upper, middle, lower = self.indicators.bollinger_bands(
-                data["close"], params.get("period", 20), params.get("std_dev", 2.0)
+                data['close'],
+                params.get('period', 20),
+                params.get('std_dev', 2.0)
             )
-            return {"upper": upper, "middle": middle, "lower": lower}
+            return {
+                'upper': upper,
+                'middle': middle,
+                'lower': lower
+            }
         else:
             raise ValueError(f"Unknown indicator: {indicator_name}")
 
@@ -157,7 +151,11 @@ class TrendFollowingStrategy(BaseStrategy):
             symbol=symbol,
             signal=signal,
             confidence=confidence,
-            indicators={"fast_ma": latest_fast, "slow_ma": latest_slow, "rsi": latest_rsi},
+            indicators={
+                'fast_ma': latest_fast,
+                'slow_ma': latest_slow,
+                'rsi': latest_rsi
+            }
         )
 
 
@@ -177,10 +175,10 @@ class MeanReversionStrategy(BaseStrategy):
         bb = self.get_indicator_value(data, "bollinger_bands", period=20)
 
         # Get latest values
-        latest_price = data["close"].iloc[-1]
+        latest_price = data['close'].iloc[-1]
         latest_rsi = rsi.iloc[-1]
-        upper_bb = bb["upper"].iloc[-1]
-        lower_bb = bb["lower"].iloc[-1]
+        upper_bb = bb['upper'].iloc[-1]
+        lower_bb = bb['lower'].iloc[-1]
 
         # Generate signal
         signal = Signal.HOLD
@@ -200,11 +198,11 @@ class MeanReversionStrategy(BaseStrategy):
             signal=signal,
             confidence=confidence,
             indicators={
-                "rsi": latest_rsi,
-                "price": latest_price,
-                "upper_bb": upper_bb,
-                "lower_bb": lower_bb,
-            },
+                'rsi': latest_rsi,
+                'price': latest_price,
+                'upper_bb': upper_bb,
+                'lower_bb': lower_bb
+            }
         )
 
 
@@ -236,9 +234,7 @@ class StrategyManager:
             try:
                 result = strategy.analyze(data, symbol)
                 results.append(result)
-                logger.debug(
-                    f"📊 {strategy_name} signal for {symbol}: {result.signal.value} ({result.confidence:.2f})"
-                )
+                logger.debug(f"📊 {strategy_name} signal for {symbol}: {result.signal.value} ({result.confidence:.2f})")
             except Exception as e:
                 logger.error(f"❌ Error in {strategy_name} for {symbol}: {e}")
 

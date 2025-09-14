@@ -4,6 +4,6 @@
 from . import config, types
 
 __all__ = [
-    "config",
-    "types",
+    'config',
+    'types',
 ]

@@ -1,7 +1,5 @@
 # Changelog
 
-## [Unreleased]
-
 ## [2.0.0] - 2025-09-08
 
 ### 🎯 Major Release - V2 Compliance & Autonomous Swarm Operations
@@ -108,10 +106,6 @@ This release transforms the Agent Cellphone system from a basic messaging platfo
 
 ---
 
-## Previous Versions
-- [1.0.0] - Initial release with basic messaging and coordination
-- [1.5.0] - Enhanced messaging with basic automation features
-
 ## [Unreleased]
 ### Added
 - Shared `load_simple_config` helper for agent vector integration modules.
@@ -189,3 +183,4 @@ This release transforms the Agent Cellphone system from a basic messaging platfo
 - **System Integration**: Comprehensive cross-agent validation
 - **Performance Optimization**: Measurable system improvements
 - **Devlog System**: Complete restoration and operational
+

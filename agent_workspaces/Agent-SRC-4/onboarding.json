@@ -1,0 +1,9 @@
+{
+  "agent_id": "Agent-SRC-4",
+  "role": "SOLID",
+  "specialty": "Survey Report Compilation",
+  "onboarded": true,
+  "hard_onboarding": true,
+  "capabilities_assigned": true,
+  "survey_ready": true
+}

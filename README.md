@@ -1,24 +1,6 @@
 # 🚀 **AutoDream OS - Agent Cellphone V2**
 **WE. ARE. SWARM.**
 
-[![V2 Compliance](https://img.shields.io/badge/V2-Compliant-brightgreen.svg)](https://github.com/your-repo)
-[![Test Coverage](https://img.shields.io/badge/Test%20Coverage-100%25-brightgreen.svg)](https://github.com/your-repo)
-[![SOLID Principles](https://img.shields.io/badge/SOLID-Implemented-blue.svg)](https://github.com/your-repo)
-[![Python 3.8+](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://python.org)
-
-## 📋 **Table of Contents**
-
-- [🐝 What "WE ARE SWARM" Means](#-what-we-are-swarm-means)
-- [🎯 Swarm Architecture Overview](#-swarm-architecture-overview)
-- [🏆 Core Features](#-core-features)
-- [🚀 Getting Started](#-getting-started)
-- [📚 Documentation](#-documentation)
-- [🧪 Testing](#-testing)
-- [🔧 Configuration](#-configuration)
-- [📊 System Status](#-system-status)
-- [🤝 Contributing](#-contributing)
-- [📄 License](#-license)
-
 ## 🐝 **What "WE ARE SWARM" Means**
 
 **"WE ARE SWARM"** refers to our **Cursor IDE Automation System** where 8 autonomous agents are positioned at specific coordinates across multiple monitors in the Cursor IDE. This is a **physical automation system** that enables real-time coordination between AI agents through automated mouse and keyboard interactions.
@@ -618,3 +600,4 @@ logger = get_logger(__name__)
 ```
 
 This centralizes configuration and removes the need for module-level `logging.basicConfig` calls.
+

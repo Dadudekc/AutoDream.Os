@@ -1,0 +1,19 @@
+{
+  "service_files": 33,
+  "core_subsystems": 27,
+  "import_patterns": {
+    "core_to_services": 6,
+    "services_to_core": 5,
+    "cross_service": 0,
+    "external_dependencies": 9
+  },
+  "capabilities": {
+    "monitoring": 268,
+    "logging": 267,
+    "error_handling": 315,
+    "configuration": 230,
+    "coordination": 142,
+    "messaging": 131
+  },
+  "duplicate_groups": 0
+}

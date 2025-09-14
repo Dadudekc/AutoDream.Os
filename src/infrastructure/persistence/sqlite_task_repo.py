@@ -37,28 +37,6 @@ class SqliteTaskRepository(TaskRepository):
         """Initialize the database schema."""
         with self._get_connection() as conn:
             conn.execute(
-
-EXAMPLE USAGE:
-==============
-
-# Basic usage example
-from src.infrastructure.persistence.sqlite_task_repo import Sqlite_Task_Repo
-
-# Initialize and use
-instance = Sqlite_Task_Repo()
-result = instance.execute()
-print(f"Execution result: {result}")
-
-# Advanced configuration
-config = {
-    "option1": "value1",
-    "option2": True
-}
-
-instance = Sqlite_Task_Repo(config)
-advanced_result = instance.execute_advanced()
-print(f"Advanced result: {advanced_result}")
-
                 """
                 CREATE TABLE IF NOT EXISTS tasks (
                     id TEXT PRIMARY KEY,

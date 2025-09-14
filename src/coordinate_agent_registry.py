@@ -8,12 +8,12 @@ from typing import Any
 
 
 def _load_coordinates() -> dict[str, dict[str, Any]]:
-    """Load agent coordinates from the config/coordinates.json SSOT."""
-    # Try to find the coordinate file in the config directory
-    coord_file = Path(__file__).parent.parent / "config" / "coordinates.json"
+    """Load agent coordinates from the cursor_agent_coords.json SSOT."""
+    # Try to find the coordinate file in the project root
+    coord_file = Path(__file__).parent.parent / "cursor_agent_coords.json"
     if not coord_file.exists():
-        # Fallback to project root config directory
-        coord_file = Path("config/coordinates.json")
+        # Fallback to current directory
+        coord_file = Path("cursor_agent_coords.json")
 
     data = json.loads(coord_file.read_text(encoding="utf-8"))
     agents: dict[str, dict[str, Any]] = {}

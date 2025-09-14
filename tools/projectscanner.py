@@ -37,28 +37,6 @@ CACHE_FILE = "dependency_cache.json"
 # Language Analyzer
 # ---------------------------------
 class LanguageAnalyzer:
-
-EXAMPLE USAGE:
-==============
-
-# Basic usage example
-from tools.projectscanner import Projectscanner
-
-# Initialize and use
-instance = Projectscanner()
-result = instance.execute()
-print(f"Execution result: {result}")
-
-# Advanced configuration
-config = {
-    "option1": "value1",
-    "option2": True
-}
-
-instance = Projectscanner(config)
-advanced_result = instance.execute_advanced()
-print(f"Advanced result: {advanced_result}")
-
     """Handles language-specific code analysis for different programming languages."""
 
     def __init__(self):
@@ -548,19 +526,15 @@ class ModularReportGenerator:
                             "files": [],
                             "total_functions": 0,
                             "total_classes": 0,
-                            "total_complexity": 0,
+                            "total_complexity": 0
                         }
-                    agent_analysis[agent_id]["files"].append(
-                        {
-                            "path": file_path,
-                            "functions": len(file_data.get("functions", [])),
-                            "classes": len(file_data.get("classes", [])),
-                            "complexity": file_data.get("complexity", 0),
-                        }
-                    )
-                    agent_analysis[agent_id]["total_functions"] += len(
-                        file_data.get("functions", [])
-                    )
+                    agent_analysis[agent_id]["files"].append({
+                        "path": file_path,
+                        "functions": len(file_data.get("functions", [])),
+                        "classes": len(file_data.get("classes", [])),
+                        "complexity": file_data.get("complexity", 0)
+                    })
+                    agent_analysis[agent_id]["total_functions"] += len(file_data.get("functions", []))
                     agent_analysis[agent_id]["total_classes"] += len(file_data.get("classes", []))
                     agent_analysis[agent_id]["total_complexity"] += file_data.get("complexity", 0)
 
@@ -586,29 +560,23 @@ class ModularReportGenerator:
                             "total_functions": 0,
                             "total_classes": 0,
                             "languages": set(),
-                            "total_complexity": 0,
+                            "total_complexity": 0
                         }
 
-                    module_analysis[module]["files"].append(
-                        {
-                            "path": file_path,
-                            "language": file_data.get("language", "unknown"),
-                            "functions": len(file_data.get("functions", [])),
-                            "classes": len(file_data.get("classes", [])),
-                            "complexity": file_data.get("complexity", 0),
-                        }
-                    )
-                    module_analysis[module]["total_functions"] += len(
-                        file_data.get("functions", [])
-                    )
+                    module_analysis[module]["files"].append({
+                        "path": file_path,
+                        "language": file_data.get("language", "unknown"),
+                        "functions": len(file_data.get("functions", [])),
+                        "classes": len(file_data.get("classes", [])),
+                        "complexity": file_data.get("complexity", 0)
+                    })
+                    module_analysis[module]["total_functions"] += len(file_data.get("functions", []))
                     module_analysis[module]["total_classes"] += len(file_data.get("classes", []))
                     module_analysis[module]["languages"].add(file_data.get("language", "unknown"))
                     module_analysis[module]["total_complexity"] += file_data.get("complexity", 0)
 
                     # Convert set to list for JSON serialization
-                    module_analysis[module]["languages"] = list(
-                        module_analysis[module]["languages"]
-                    )
+                    module_analysis[module]["languages"] = list(module_analysis[module]["languages"])
 
         # Save module analysis
         output_path = analysis_dir / "module_analysis.json"
@@ -629,17 +597,15 @@ class ModularReportGenerator:
                     "total_functions": 0,
                     "total_classes": 0,
                     "total_complexity": 0,
-                    "file_count": 0,
+                    "file_count": 0
                 }
 
-            file_type_analysis[file_type]["files"].append(
-                {
-                    "path": file_path,
-                    "functions": len(file_data.get("functions", [])),
-                    "classes": len(file_data.get("classes", [])),
-                    "complexity": file_data.get("complexity", 0),
-                }
-            )
+            file_type_analysis[file_type]["files"].append({
+                "path": file_path,
+                "functions": len(file_data.get("functions", [])),
+                "classes": len(file_data.get("classes", [])),
+                "complexity": file_data.get("complexity", 0)
+            })
             file_type_analysis[file_type]["total_functions"] += len(file_data.get("functions", []))
             file_type_analysis[file_type]["total_classes"] += len(file_data.get("classes", []))
             file_type_analysis[file_type]["total_complexity"] += file_data.get("complexity", 0)
@@ -660,11 +626,11 @@ class ModularReportGenerator:
             "average_complexity": 0,
             "total_files": 0,
             "complexity_ranges": {
-                "simple": [],  # complexity 1-5
-                "moderate": [],  # complexity 6-15
-                "complex": [],  # complexity 16-30
-                "very_complex": [],  # complexity > 30
-            },
+                "simple": [],      # complexity 1-5
+                "moderate": [],    # complexity 6-15
+                "complex": [],     # complexity 16-30
+                "very_complex": [] # complexity > 30
+            }
         }
 
         total_complexity = 0
@@ -687,18 +653,17 @@ class ModularReportGenerator:
 
             # Track high and low complexity files
             if complexity >= 20:
-                complexity_analysis["high_complexity_files"].append(
-                    {
-                        "path": file_path,
-                        "complexity": complexity,
-                        "functions": len(file_data.get("functions", [])),
-                        "classes": len(file_data.get("classes", [])),
-                    }
-                )
+                complexity_analysis["high_complexity_files"].append({
+                    "path": file_path,
+                    "complexity": complexity,
+                    "functions": len(file_data.get("functions", [])),
+                    "classes": len(file_data.get("classes", []))
+                })
             elif complexity <= 3:
-                complexity_analysis["low_complexity_files"].append(
-                    {"path": file_path, "complexity": complexity}
-                )
+                complexity_analysis["low_complexity_files"].append({
+                    "path": file_path,
+                    "complexity": complexity
+                })
 
         if file_count > 0:
             complexity_analysis["average_complexity"] = total_complexity / file_count
@@ -717,7 +682,7 @@ class ModularReportGenerator:
             "most_imported_modules": {},
             "circular_dependencies": [],
             "external_dependencies": set(),
-            "internal_dependencies": {},
+            "internal_dependencies": {}
         }
 
         # This is a simplified version - in practice you'd parse actual imports
@@ -729,13 +694,11 @@ class ModularReportGenerator:
                     "file_path": file_path,
                     "functions": file_data.get("functions", []),
                     "classes": file_data.get("classes", []),
-                    "estimated_dependencies": [],  # Would be populated by actual import parsing
+                    "estimated_dependencies": []  # Would be populated by actual import parsing
                 }
 
         # Convert set to list for JSON
-        dependency_analysis["external_dependencies"] = list(
-            dependency_analysis["external_dependencies"]
-        )
+        dependency_analysis["external_dependencies"] = list(dependency_analysis["external_dependencies"])
 
         # Save dependency analysis
         output_path = analysis_dir / "dependency_analysis.json"
@@ -754,30 +717,20 @@ class ModularReportGenerator:
                 "total_functions": 0,
                 "total_classes": 0,
                 "total_complexity": 0,
-                "languages_used": set(),
+                "languages_used": set()
             },
-            "recommendations": [],
+            "recommendations": []
         }
 
         # Calculate metrics
         for file_path, file_data in self.analysis.items():
-            architecture_overview["code_metrics"]["total_functions"] += len(
-                file_data.get("functions", [])
-            )
-            architecture_overview["code_metrics"]["total_classes"] += len(
-                file_data.get("classes", [])
-            )
-            architecture_overview["code_metrics"]["total_complexity"] += file_data.get(
-                "complexity", 0
-            )
-            architecture_overview["code_metrics"]["languages_used"].add(
-                file_data.get("language", "unknown")
-            )
+            architecture_overview["code_metrics"]["total_functions"] += len(file_data.get("functions", []))
+            architecture_overview["code_metrics"]["total_classes"] += len(file_data.get("classes", []))
+            architecture_overview["code_metrics"]["total_complexity"] += file_data.get("complexity", 0)
+            architecture_overview["code_metrics"]["languages_used"].add(file_data.get("language", "unknown"))
 
         # Convert set to list
-        architecture_overview["code_metrics"]["languages_used"] = list(
-            architecture_overview["code_metrics"]["languages_used"]
-        )
+        architecture_overview["code_metrics"]["languages_used"] = list(architecture_overview["code_metrics"]["languages_used"])
 
         # Generate structure overview
         for file_path in self.analysis.keys():

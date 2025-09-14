@@ -36,96 +36,235 @@ class Violation:
 
 
 class PythonStandardEnforcer:
-    """Enforces Python coding standards including LOC limits."""
+    """Enforces Dream.OS Python coding standards."""
 
     def __init__(self):
-        """Initialize the standard enforcer."""
-        self.violations = []
+        self.violations: list[Violation] = []
+        self.checked_files = 0
 
-    def check_file(self, file_path: str) -> list[Violation]:
-        """Check a single file for violations."""
-        violations = []
+        # LOC limits
+        self.max_file_loc = 400
+        self.max_class_loc = 100
+        self.max_function_loc = 50
+
+    def enforce_standards(self, root_path: str = "src") -> bool:
+        """Enforce Python coding standards on all Python files.
+
+        Args:
+            root_path: Root path to scan for Python files
+
+        Returns:
+            bool: True if no violations found, False otherwise
+        """
+        logger.info("🎯 Dream.OS Python Coding Standard Enforcer")
+        logger.info("=" * 60)
+        logger.info(f"📊 Scanning: {root_path}")
+        logger.info(
+            f"📏 LOC Limits: File ≤ {self.max_file_loc}, Class ≤ {self.max_class_loc}, Function ≤ {self.max_function_loc}"
+        )
+        logger.info("=" * 60)
+
+        python_files = self._find_python_files(root_path)
+
+        for file_path in python_files:
+            self._check_file(file_path)
+
+        self._report_results()
+        return len(self.violations) == 0
+
+    def _find_python_files(self, root_path: str) -> list[str]:
+        """Find all Python files in the given path."""
+        python_files = []
+        root = Path(root_path)
+
+        if not root.exists():
+            logger.info(f"❌ Root path does not exist: {root_path}")
+            return []
+
+        for file_path in root.rglob("*.py"):
+            # Skip test files, __pycache__, and venv directories
+            if (
+                not str(file_path).startswith("__pycache__")
+                and not str(file_path).startswith("venv")
+                and not str(file_path).startswith(".venv")
+                and "test" not in str(file_path).lower()
+            ):
+                python_files.append(str(file_path))
+
+        return python_files
+
+    def _check_file(self, file_path: str) -> None:
+        """Check a single Python file for violations."""
         try:
-            with open(file_path, "r", encoding="utf-8") as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
 
-            # Parse AST
-            tree = ast.parse(content)
-
-            # Check line count
             lines = content.split("\n")
-            if len(lines) > 400:
-                violations.append(
+            self.checked_files += 1
+
+            # Check file-level LOC limit
+            if len(lines) > self.max_file_loc:
+                self.violations.append(
                     Violation(
                         file_path=file_path,
-                        line_number=len(lines),
-                        violation_type="FILE_TOO_LONG",
-                        message=f"File has {len(lines)} lines, exceeds 400 LOC limit",
-                        severity="ERROR",
+                        line_number=1,
+                        violation_type="file_loc_limit",
+                        message=f"File exceeds {self.max_file_loc} LOC limit ({len(lines)} lines)",
+                        severity="error",
                     )
                 )
 
-            # Check class and function lengths
-            for node in ast.walk(tree):
-                if isinstance(node, ast.ClassDef):
-                    class_lines = node.end_lineno - node.lineno + 1
-                    if class_lines > 100:
-                        violations.append(
-                            Violation(
-                                file_path=file_path,
-                                line_number=node.lineno,
-                                violation_type="CLASS_TOO_LONG",
-                                message=f"Class '{node.name}' has {class_lines} lines, exceeds 100 LOC limit",
-                                severity="ERROR",
-                            )
-                        )
+            # Parse AST for structural analysis
+            try:
+                tree = ast.parse(content, filename=file_path)
+                self._analyze_ast(tree, file_path, content)
+            except SyntaxError as e:
+                self.violations.append(
+                    Violation(
+                        file_path=file_path,
+                        line_number=e.lineno or 1,
+                        violation_type="syntax_error",
+                        message=f"Syntax error: {e.msg}",
+                        severity="error",
+                    )
+                )
 
-                elif isinstance(node, ast.FunctionDef):
-                    func_lines = node.end_lineno - node.lineno + 1
-                    if func_lines > 50:
-                        violations.append(
-                            Violation(
-                                file_path=file_path,
-                                line_number=node.lineno,
-                                violation_type="FUNCTION_TOO_LONG",
-                                message=f"Function '{node.name}' has {func_lines} lines, exceeds 50 LOC limit",
-                                severity="ERROR",
-                            )
-                        )
+            # Check for other violations
+            self._check_coding_violations(file_path, content, lines)
 
         except Exception as e:
-            violations.append(
+            logger.info(f"❌ Error checking file {file_path}: {e}")
+
+    def _analyze_ast(self, tree: ast.AST, file_path: str, content: str) -> None:
+        """Analyze AST for structural violations."""
+        for node in ast.walk(tree):
+            if isinstance(node, ast.ClassDef):
+                class_loc = self._get_node_loc(node, content)
+                if class_loc > self.max_class_loc:
+                    self.violations.append(
+                        Violation(
+                            file_path=file_path,
+                            line_number=node.lineno,
+                            violation_type="class_loc_limit",
+                            message=f"Class '{node.name}' exceeds {self.max_class_loc} LOC limit ({class_loc} lines)",
+                            severity="warning",
+                        )
+                    )
+
+            elif isinstance(node, ast.FunctionDef):
+                func_loc = self._get_node_loc(node, content)
+                if func_loc > self.max_function_loc:
+                    self.violations.append(
+                        Violation(
+                            file_path=file_path,
+                            line_number=node.lineno,
+                            violation_type="function_loc_limit",
+                            message=f"Function '{node.name}' exceeds {self.max_function_loc} LOC limit ({func_loc} lines)",
+                            severity="warning",
+                        )
+                    )
+
+    def _get_node_loc(self, node: ast.AST, content: str) -> int:
+        """Get lines of code for an AST node."""
+        lines = content.split("\n")
+        start_line = getattr(node, "lineno", 1) - 1
+        end_line = getattr(node, "end_lineno", len(lines))
+
+        # Count non-empty, non-comment lines
+        loc = 0
+        for i in range(start_line, min(end_line, len(lines))):
+            line = lines[i].strip()
+            if line and not line.startswith("#"):
+                loc += 1
+
+        return loc
+
+    def _check_coding_violations(self, file_path: str, content: str, lines: list[str]) -> None:
+        """Check for other coding standard violations."""
+        # Check for print statements in non-test files
+        if "get_logger(__name__).info(" in content and "test" not in file_path.lower():
+            self.violations.append(
                 Violation(
                     file_path=file_path,
-                    line_number=0,
-                    violation_type="PARSE_ERROR",
-                    message=f"Failed to parse file: {str(e)}",
-                    severity="ERROR",
+                    line_number=1,
+                    violation_type="print_statement",
+                    message="Print statement found in non-test file (use logging instead)",
+                    severity="warning",
                 )
             )
 
-        return violations
+        # Check for TODO comments without assignee
+        for i, line in enumerate(lines, 1):
+            if "TODO" in line and "TODO:" not in line:
+                self.violations.append(
+                    Violation(
+                        file_path=file_path,
+                        line_number=i,
+                        violation_type="todo_format",
+                        message="TODO comment should be formatted as 'TODO: description'",
+                        severity="info",
+                    )
+                )
 
+        # Check for long lines (> 100 characters)
+        for i, line in enumerate(lines, 1):
+            if len(line) > 100 and not line.strip().startswith("#"):
+                self.violations.append(
+                    Violation(
+                        file_path=file_path,
+                        line_number=i,
+                        violation_type="line_length",
+                        message=f"Line exceeds 100 characters ({len(line)} chars)",
+                        severity="warning",
+                    )
+                )
 
-def main():
-    """Main entry point for the script."""
-    import argparse
+    def _report_results(self) -> None:
+        """Report enforcement results."""
+        logger.info("\n📊 ENFORCEMENT RESULTS")
+        logger.info("=" * 60)
+        logger.info(f"📁 Files checked: {self.checked_files}")
+        logger.info(f"🚨 Violations found: {len(self.violations)}")
 
-    parser = argparse.ArgumentParser(description="Enforce Python coding standards")
-    parser.add_argument("--input-file", help="Input file to check")
-    parser.add_argument("--output-dir", help="Output directory for results")
+        if self.violations:
+            logger.info("\n🚨 VIOLATIONS:")
+            logger.info("-" * 60)
 
-    args = parser.parse_args()
+            # Group violations by type
+            violation_counts = {}
+            for violation in self.violations:
+                violation_type = violation.violation_type
+                violation_counts[violation_type] = violation_counts.get(violation_type, 0) + 1
 
-    enforcer = PythonStandardEnforcer()
+            # Show summary by type
+            for violation_type, count in violation_counts.items():
+                logger.info(f"  {violation_type}: {count}")
 
-    if args.input_file:
-        violations = enforcer.check_file(args.input_file)
-        for violation in violations:
-            logger.error(f"{violation.file_path}:{violation.line_number} - {violation.message}")
-    else:
-        logger.info("No input file specified. Use --input-file to check a specific file.")
+            logger.info("\n📋 TOP VIOLATIONS:")
+            logger.info("-" * 60)
+
+            # Show first 10 violations
+            for i, violation in enumerate(self.violations[:10], 1):
+                severity_icon = {"error": "❌", "warning": "⚠️", "info": "ℹ️"}.get(
+                    violation.severity, "❓"
+                )
+
+                logger.info(f"{i}. {severity_icon} {violation.file_path}:{violation.line_number}")
+                logger.info(f"   {violation.message}")
+
+            if len(self.violations) > 10:
+                logger.info(f"   ... and {len(self.violations) - 10} more violations")
+
+            logger.info("\n❌ STANDARD ENFORCEMENT FAILED")
+            logger.info("🔧 Fix violations and re-run enforcement")
+        else:
+            logger.info("\n✅ ALL STANDARDS PASSED!")
+            logger.info("🎉 Dream.OS Python Coding Standard v1.0 compliance achieved")
+            logger.info("📏 All LOC limits respected, no violations found")
+
+        logger.info("=" * 60)
 
 
 if __name__ == "__main__":
-    main()
+    enforcer = PythonStandardEnforcer()
+    enforcer.enforce_standards()

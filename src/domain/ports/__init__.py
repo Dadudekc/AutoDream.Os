@@ -4,10 +4,10 @@
 from . import agent_repository, browser, clock, logger, message_bus, task_repository
 
 __all__ = [
-    "agent_repository",
-    "browser",
-    "clock",
-    "logger",
-    "message_bus",
-    "task_repository",
+    'agent_repository',
+    'browser',
+    'clock',
+    'logger',
+    'message_bus',
+    'task_repository',
 ]

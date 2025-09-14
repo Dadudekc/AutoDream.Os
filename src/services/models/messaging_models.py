@@ -10,32 +10,7 @@ from uuid import uuid4
 
 
 class MessageType(Enum):
-
-EXAMPLE USAGE:
-==============
-
-# Import the service
-from src.services.models.messaging_models import Messaging_ModelsService
-
-# Initialize service
-service = Messaging_ModelsService()
-
-# Basic service operation
-response = service.handle_request(request_data)
-print(f"Service response: {response}")
-
-# Service with dependency injection
-from src.core.dependency_container import Container
-
-container = Container()
-service = container.get(Messaging_ModelsService)
-
-# Execute service method
-result = service.execute_operation(input_data, context)
-print(f"Operation result: {result}")
-
     """Types of messages in the system."""
-
     CHAT = "chat"
     ONBOARDING = "onboarding"
     COORDINATION = "coordination"
@@ -48,7 +23,6 @@ print(f"Operation result: {result}")
 
 class MessagePriority(Enum):
     """Message priority levels."""
-
     LOW = "low"
     NORMAL = "normal"
     HIGH = "high"
@@ -58,7 +32,6 @@ class MessagePriority(Enum):
 
 class MessageStatus(Enum):
     """Message delivery status."""
-
     PENDING = "pending"
     SENT = "sent"
     DELIVERED = "delivered"
@@ -70,7 +43,6 @@ class MessageStatus(Enum):
 @dataclass
 class Message:
     """Core message model."""
-
     id: str
     sender: str
     recipient: str
@@ -96,7 +68,7 @@ class Message:
         priority: MessagePriority = MessagePriority.NORMAL,
         metadata: dict[str, Any] | None = None,
         reply_to: str | None = None,
-        thread_id: str | None = None,
+        thread_id: str | None = None
     ) -> Message:
         """Create a new message."""
         return cls(
@@ -110,14 +82,13 @@ class Message:
             created_at=datetime.now(),
             metadata=metadata or {},
             reply_to=reply_to,
-            thread_id=thread_id,
+            thread_id=thread_id
         )
 
 
 @dataclass
 class AgentMessage:
     """Message specifically for agent communication."""
-
     message: Message
     agent_id: str
     coordinates: tuple[int, int] | None = None
@@ -133,7 +104,6 @@ class AgentMessage:
 @dataclass
 class MessageThread:
     """Message thread for conversation tracking."""
-
     id: str
     participants: list[str]
     created_at: datetime
@@ -142,9 +112,7 @@ class MessageThread:
     metadata: dict[str, Any] | None = None
 
     @classmethod
-    def create(
-        cls, participants: list[str], metadata: dict[str, Any] | None = None
-    ) -> MessageThread:
+    def create(cls, participants: list[str], metadata: dict[str, Any] | None = None) -> MessageThread:
         """Create a new message thread."""
         thread_id = str(uuid4())
         now = datetime.now()
@@ -154,14 +122,13 @@ class MessageThread:
             created_at=now,
             last_activity=now,
             messages=[],
-            metadata=metadata or {},
+            metadata=metadata or {}
         )
 
 
 @dataclass
 class InboxMessage:
     """Message in agent inbox."""
-
     message: Message
     agent_id: str
     received_at: datetime
@@ -177,7 +144,6 @@ class InboxMessage:
 @dataclass
 class MessageDeliveryResult:
     """Result of message delivery attempt."""
-
     message_id: str
     success: bool
     delivery_method: str
@@ -190,7 +156,6 @@ class MessageDeliveryResult:
 @dataclass
 class AgentStatus:
     """Agent status information."""
-
     agent_id: str
     is_online: bool
     last_seen: datetime
@@ -207,7 +172,6 @@ class AgentStatus:
 @dataclass
 class MessageQueue:
     """Message queue for processing."""
-
     agent_id: str
     messages: list[Message]
     max_size: int = 100

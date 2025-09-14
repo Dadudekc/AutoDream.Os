@@ -5,10 +5,10 @@ Chrome Undetected Browser Adapter
 Basic Chrome browser adapter using undetected-chromedriver.
 """
 
+
 try:
     from selenium import webdriver
     from selenium.webdriver.chrome.options import Options
-
     SELENIUM_AVAILABLE = True
 except ImportError:
     SELENIUM_AVAILABLE = False
@@ -23,37 +23,15 @@ class ChromeUndetected:
         self.driver = None
 
     def open(self, profile: str | None = None) -> None:
-
-EXAMPLE USAGE:
-==============
-
-# Basic usage example
-from src.infrastructure.browser.chrome_undetected import Chrome_Undetected
-
-# Initialize and use
-instance = Chrome_Undetected()
-result = instance.execute()
-print(f"Execution result: {result}")
-
-# Advanced configuration
-config = {
-    "option1": "value1",
-    "option2": True
-}
-
-instance = Chrome_Undetected(config)
-advanced_result = instance.execute_advanced()
-print(f"Advanced result: {advanced_result}")
-
         """Open Chrome browser."""
         if not SELENIUM_AVAILABLE:
             raise ImportError("Selenium is required for browser functionality")
 
         options = Options()
         if self.headless:
-            options.add_argument("--headless")
+            options.add_argument('--headless')
         if self.user_data_dir:
-            options.add_argument(f"--user-data-dir={self.user_data_dir}")
+            options.add_argument(f'--user-data-dir={self.user_data_dir}')
 
         # Basic Chrome setup (would use undetected-chromedriver in production)
         self.driver = webdriver.Chrome(options=options)

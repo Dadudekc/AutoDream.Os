@@ -23,3 +23,4 @@ def _load_coordinates() -> dict[str, dict[str, Any]]:
 
 
 COORDINATES: dict[str, dict[str, Any]] = _load_coordinates()
+

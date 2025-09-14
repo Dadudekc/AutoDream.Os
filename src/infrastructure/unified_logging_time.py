@@ -32,7 +32,6 @@ logger = logging.getLogger(__name__)
 
 class LogLevel(Enum):
     """Enumeration of log levels."""
-
     DEBUG = "DEBUG"
     INFO = "INFO"
     WARNING = "WARNING"
@@ -43,7 +42,6 @@ class LogLevel(Enum):
 @dataclass
 class LoggingConfig:
     """Configuration for logging operations."""
-
     level: LogLevel = LogLevel.INFO
     format: str = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     date_format: str = "%Y-%m-%d %H:%M:%S"
@@ -58,7 +56,6 @@ class LoggingConfig:
 @dataclass
 class TimeConfig:
     """Configuration for time operations."""
-
     timezone: str = "UTC"
     time_format: str = "%Y-%m-%d %H:%M:%S"
     date_format: str = "%Y-%m-%d"
@@ -94,9 +91,7 @@ class LoggerInterface(ABC):
         pass
 
     @abstractmethod
-    def log(
-        self, level: LogLevel, message: str, exception: Exception = None, **context: Any
-    ) -> None:
+    def log(self, level: LogLevel, message: str, exception: Exception = None, **context: Any) -> None:
         """Log message with specific level."""
         pass
 
@@ -129,12 +124,12 @@ class ColorFormatter(logging.Formatter):
     """Logging formatter with color support."""
 
     COLORS = {
-        "DEBUG": "\033[36m",  # Cyan
-        "INFO": "\033[32m",  # Green
-        "WARNING": "\033[33m",  # Yellow
-        "ERROR": "\033[31m",  # Red
-        "CRITICAL": "\033[35m",  # Magenta
-        "RESET": "\033[0m",  # Reset
+        'DEBUG': '\033[36m',      # Cyan
+        'INFO': '\033[32m',       # Green
+        'WARNING': '\033[33m',    # Yellow
+        'ERROR': '\033[31m',      # Red
+        'CRITICAL': '\033[35m',   # Magenta
+        'RESET': '\033[0m'        # Reset
     }
 
     def __init__(self, fmt: str, datefmt: str, use_colors: bool = True):
@@ -145,9 +140,7 @@ class ColorFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
         """Format log record with optional colors."""
         if self.use_colors and record.levelname in self.COLORS:
-            colored_level = (
-                f"{self.COLORS[record.levelname]}{record.levelname}{self.COLORS['RESET']}"
-            )
+            colored_level = f"{self.COLORS[record.levelname]}{record.levelname}{self.COLORS['RESET']}"
             record.levelname = colored_level
 
         return super().format(record)
@@ -172,7 +165,7 @@ class UnifiedLogger(LoggerInterface):
             LogLevel.INFO: logging.INFO,
             LogLevel.WARNING: logging.WARNING,
             LogLevel.ERROR: logging.ERROR,
-            LogLevel.CRITICAL: logging.CRITICAL,
+            LogLevel.CRITICAL: logging.CRITICAL
         }
         self._logger.setLevel(level_mapping[config.level])
 
@@ -182,7 +175,9 @@ class UnifiedLogger(LoggerInterface):
     def _setup_handlers(self) -> None:
         """Setup logging handlers based on configuration."""
         formatter = ColorFormatter(
-            self.config.format, self.config.date_format, self.config.enable_colors
+            self.config.format,
+            self.config.date_format,
+            self.config.enable_colors
         )
 
         # Console handler
@@ -201,15 +196,13 @@ class UnifiedLogger(LoggerInterface):
             file_handler = RotatingFileHandler(
                 self.config.log_file,
                 maxBytes=self.config.max_file_size,
-                backupCount=self.config.backup_count,
+                backupCount=self.config.backup_count
             )
-            file_handler.setFormatter(
-                ColorFormatter(
-                    self.config.format,
-                    self.config.date_format,
-                    False,  # No colors in log files
-                )
-            )
+            file_handler.setFormatter(ColorFormatter(
+                self.config.format,
+                self.config.date_format,
+                False  # No colors in log files
+            ))
             self._logger.addHandler(file_handler)
 
     def _map_log_level(self, level: LogLevel) -> int:
@@ -247,9 +240,7 @@ class UnifiedLogger(LoggerInterface):
             context["exception"] = str(exception)
         self._logger.critical(message, extra=context)
 
-    def log(
-        self, level: LogLevel, message: str, exception: Exception = None, **context: Any
-    ) -> None:
+    def log(self, level: LogLevel, message: str, exception: Exception = None, **context: Any) -> None:
         """Log message with specific level."""
         if exception:
             context["exception"] = str(exception)
@@ -272,7 +263,7 @@ class SystemClock(ClockInterface):
             # For simplicity, using UTC offset parsing
             # In production, you might want to use pytz or dateutil
             try:
-                offset_hours = int(self.config.timezone.replace("UTC", ""))
+                offset_hours = int(self.config.timezone.replace('UTC', ''))
                 return timezone(timedelta(hours=offset_hours))
             except:
                 return UTC
@@ -382,11 +373,11 @@ class LogStatistics:
         """Initialize log statistics."""
         self.logger = logger
         self.stats: dict[str, int] = {
-            "debug": 0,
-            "info": 0,
-            "warning": 0,
-            "error": 0,
-            "critical": 0,
+            'debug': 0,
+            'info': 0,
+            'warning': 0,
+            'error': 0,
+            'critical': 0
         }
 
     def increment_stat(self, level: str) -> None:
@@ -408,7 +399,9 @@ class UnifiedLoggingTimeService:
     """Main unified logging and time service interface."""
 
     def __init__(
-        self, logging_config: LoggingConfig | None = None, time_config: TimeConfig | None = None
+        self,
+        logging_config: LoggingConfig | None = None,
+        time_config: TimeConfig | None = None
     ):
         """Initialize unified logging and time service."""
         self.logging_config = logging_config or LoggingConfig()
@@ -429,27 +422,27 @@ class UnifiedLoggingTimeService:
     def debug(self, message: str, **context: Any) -> None:
         """Log debug message."""
         self.logger.debug(message, **context)
-        self.log_stats.increment_stat("debug")
+        self.log_stats.increment_stat('debug')
 
     def info(self, message: str, **context: Any) -> None:
         """Log info message."""
         self.logger.info(message, **context)
-        self.log_stats.increment_stat("info")
+        self.log_stats.increment_stat('info')
 
     def warning(self, message: str, **context: Any) -> None:
         """Log warning message."""
         self.logger.warning(message, **context)
-        self.log_stats.increment_stat("warning")
+        self.log_stats.increment_stat('warning')
 
     def error(self, message: str, exception: Exception = None, **context: Any) -> None:
         """Log error message."""
         self.logger.error(message, exception, **context)
-        self.log_stats.increment_stat("error")
+        self.log_stats.increment_stat('error')
 
     def critical(self, message: str, exception: Exception = None, **context: Any) -> None:
         """Log critical message."""
         self.logger.critical(message, exception, **context)
-        self.log_stats.increment_stat("critical")
+        self.log_stats.increment_stat('critical')
 
     # Time operations
     def now(self) -> datetime:
@@ -529,21 +522,26 @@ class UnifiedLoggingTimeService:
             "console_logging": self.logging_config.console_enabled,
             "file_logging": self.logging_config.file_enabled,
             "log_file": self.logging_config.log_file,
-            "log_stats": self.get_log_stats(),
+            "log_stats": self.get_log_stats()
         }
 
 
 def create_logging_time_service(
-    log_level: LogLevel = LogLevel.INFO, timezone: str = "UTC", enable_file_logging: bool = True
+    log_level: LogLevel = LogLevel.INFO,
+    timezone: str = "UTC",
+    enable_file_logging: bool = True
 ) -> UnifiedLoggingTimeService:
     """Factory function to create logging and time service."""
-    logging_config = LoggingConfig(level=log_level, file_enabled=enable_file_logging)
+    logging_config = LoggingConfig(
+        level=log_level,
+        file_enabled=enable_file_logging
+    )
     time_config = TimeConfig(timezone=timezone)
 
     return UnifiedLoggingTimeService(logging_config, time_config)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     # Example usage
     service = create_logging_time_service()
 
@@ -563,7 +561,7 @@ if __name__ == "__main__":
 
     # Test time differences
     diff_seconds = service.time_diff_seconds(now, tomorrow)
-    print(f"⏰ Time difference: {diff_seconds} seconds ({diff_seconds / 86400:.1f} days)")
+    print(f"⏰ Time difference: {diff_seconds} seconds ({diff_seconds/86400:.1f} days)")
 
     # Get service info
     info = service.get_service_info()

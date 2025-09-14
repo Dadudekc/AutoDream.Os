@@ -18,7 +18,6 @@ from ...thea.config.thea_config import TheaConfig
 
 class BrowserMode(Enum):
     """Browser automation modes."""
-
     SELENIUM = "selenium"
     MANUAL = "manual"
 
@@ -39,7 +38,6 @@ class TheaBrowserService:
             import undetected_chromedriver as uc
             from selenium import webdriver
             from webdriver_manager.chrome import ChromeDriverManager
-
             return True
         except ImportError:
             return False
@@ -66,7 +64,6 @@ class TheaBrowserService:
             try:
                 print("🔍 Trying undetected Chrome driver...")
                 import undetected_chromedriver as uc
-
                 self.driver = uc.Chrome(options=options)
                 print("✅ Undetected Chrome driver initialized")
             except Exception as e:
@@ -74,7 +71,6 @@ class TheaBrowserService:
                 print("🔄 Falling back to standard Chrome driver...")
                 from selenium import webdriver
                 from webdriver_manager.chrome import ChromeDriverManager
-
                 self.driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
                 print("✅ Standard Chrome driver initialized")
 
@@ -186,7 +182,7 @@ class TheaBrowserService:
             input_field.clear()
 
             # Send message line by line to respect Shift+Enter for line breaks
-            lines = message.split("\n")
+            lines = message.split('\n')
             for i, line in enumerate(lines):
                 if i > 0:  # Not the first line
                     input_field.send_keys(Keys.SHIFT + Keys.RETURN)

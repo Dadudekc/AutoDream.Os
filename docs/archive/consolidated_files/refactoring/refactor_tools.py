@@ -34,7 +34,6 @@ class ExtractionPlan:
     extraction_rules: list[str]
     estimated_impact: str
 
-
 from ..unified_import_system import get_unified_import_system
 
 
@@ -123,7 +122,9 @@ class RefactorTools:
 
             # Execute refactoring
             extraction_success = self.execute_extraction(extraction_plan)
-            optimization_success = self.execute_optimization(optimization_plan, file_path)
+            optimization_success = self.execute_optimization(
+                optimization_plan, file_path
+            )
 
             return extraction_success and optimization_success
         except Exception:
@@ -180,10 +181,11 @@ def execute_optimization(plan: OptimizationPlan, file_path: str) -> bool:
     return get_refactor_tools().execute_optimization(plan, file_path)
 
 
+
+
 @dataclass
 class ConsolidationPlan:
     """Plan for consolidating duplicate code."""
-
     duplicate_groups: list[list[str]]
     consolidation_targets: list[str]
     consolidation_rules: list[str]
@@ -193,7 +195,6 @@ class ConsolidationPlan:
 @dataclass
 class OptimizationPlan:
     """Plan for optimizing code structure."""
-
     optimization_targets: list[str]
     optimization_rules: list[str]
     performance_improvements: list[str]
@@ -259,7 +260,7 @@ def perform_extraction(plan: ExtractionPlan) -> bool:
             return True  # No extraction needed
 
         source_path = Path(plan.source_file)
-        source_content = source_path.read_text(encoding="utf-8")
+        source_content = source_path.read_text(encoding='utf-8')
 
         # Parse the source file
         tree = ast.parse(source_content)
@@ -277,7 +278,7 @@ def perform_extraction(plan: ExtractionPlan) -> bool:
             elif "utils" in target_file:
                 target_path.write_text(utils, encoding="utf-8")
             elif "core" in target_file:
-                target_path.write_text(core, encoding="utf-8")
+                target_path.write_text(core, encoding='utf-8')
 
         return True
     except Exception as e:
@@ -375,12 +376,7 @@ def create_optimization_plan(directory: str) -> OptimizationPlan:
 
 def perform_optimization(plan: dict[str, Any]) -> dict[str, Any]:
     """Perform the actual optimization."""
-    result = {
-        "success": True,
-        "applied_optimizations": [],
-        "quality_score_improvement": 0.0,
-        "errors": [],
-    }
+    result = {"success": True, "applied_optimizations": [], "quality_score_improvement": 0.0, "errors": []}
     for target in plan["optimization_targets"]:
         try:
             optimization = {
@@ -455,7 +451,7 @@ def _extract_core(tree: ast.AST) -> str:
 def _apply_optimization_rules(file_path: str, rules: list[str]) -> None:
     """Apply optimization rules to a file."""
     try:
-        with open(file_path, encoding="utf-8") as f:
+        with open(file_path, encoding='utf-8') as f:
             content = f.read()
 
         # Apply basic optimizations
@@ -485,7 +481,7 @@ def _remove_unused_imports(content: str) -> str:
         if not line.strip().startswith("import ") or "#" in line:
             filtered_lines.append(line)
 
-    return "\n".join(filtered_lines)
+    return '\n'.join(filtered_lines)
 
 
 def _optimize_class_structure(content: str) -> str:

@@ -70,7 +70,7 @@ Thank you!
         # Save the message for reference
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         message_path = self.config.responses_dir / f"sent_message_{timestamp}.txt"
-        with open(message_path, "w", encoding="utf-8") as f:
+        with open(message_path, 'w', encoding='utf-8') as f:
             f.write(message)
         print(f"💾 Message saved: {message_path}")
 
@@ -126,9 +126,7 @@ Thank you!
             self.auth_service.save_session_cookies(self.browser_service)
 
             # Success Summary
-            self._print_success_summary(
-                message, screenshot_path, template_path, message_path, timestamp
-            )
+            self._print_success_summary(message, screenshot_path, template_path, message_path, timestamp)
 
             return True
 
@@ -138,14 +136,7 @@ Thank you!
         finally:
             self.cleanup()
 
-    def _print_success_summary(
-        self,
-        message: str,
-        screenshot_path: Path,
-        template_path: Path,
-        message_path: Path,
-        timestamp: str,
-    ) -> None:
+    def _print_success_summary(self, message: str, screenshot_path: Path, template_path: Path, message_path: Path, timestamp: str) -> None:
         """Print comprehensive success summary."""
         print("\n🎉 COMMUNICATION CYCLE COMPLETE!")
         print("=" * 50)
@@ -153,9 +144,7 @@ Thank you!
         print(f"   📤 Message sent: {len(message)} characters")
         print(f"   💾 Message saved: {message_path}")
         print(f"   📸 Response captured: {screenshot_path}")
-        print(
-            f"   📋 Conversation log: {self.config.responses_dir}/conversation_log_{timestamp}.md"
-        )
+        print(f"   📋 Conversation log: {self.config.responses_dir}/conversation_log_{timestamp}.md")
         print(f"   📝 Analysis template: {template_path}")
         print()
         print("🎯 NEXT STEPS:")
@@ -175,7 +164,7 @@ Thank you!
 
         template = f"""# Thea Response Analysis
 
-**Captured:** {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+**Captured:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 **Screenshot:** {screenshot_path}
 
 ## Captured Response
@@ -203,7 +192,7 @@ Thank you!
 **Analysis completed by:** Agent-4 (Captain)
 """
 
-        with open(template_path, "w") as f:
+        with open(template_path, 'w') as f:
             f.write(template)
         print(f"✅ Analysis template created: {template_path}")
 
@@ -235,7 +224,7 @@ Thank you!
             "selenium_available": self.browser_service._selenium_available,
             "cookies_available": self.auth_service.cookie_manager.has_valid_cookies(),
             "responses_dir": str(self.config.responses_dir),
-            "logs_dir": str(self.config.logs_dir),
+            "logs_dir": str(self.config.logs_dir)
         }
 
     def cleanup(self) -> None:

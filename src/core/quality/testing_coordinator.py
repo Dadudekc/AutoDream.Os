@@ -15,7 +15,6 @@ from typing import Any
 
 class TestType(Enum):
     """Test type enumeration."""
-
     UNIT = "unit"
     INTEGRATION = "integration"
     FUNCTIONAL = "functional"
@@ -23,11 +22,9 @@ class TestType(Enum):
     SECURITY = "security"
     REGRESSION = "regression"
 
-
 @dataclass
 class TestResult:
     """Test result data structure."""
-
     test_name: str
     test_type: TestType
     status: str  # PASSED, FAILED, SKIPPED, ERROR
@@ -35,11 +32,9 @@ class TestResult:
     message: str
     details: dict[str, Any]
 
-
 @dataclass
 class TestSuite:
     """Test suite data structure."""
-
     name: str
     test_type: TestType
     test_count: int
@@ -49,7 +44,6 @@ class TestSuite:
     errors: int
     duration: float
     coverage: float
-
 
 class TestingCoordinator:
     """Comprehensive testing coordination and validation system."""
@@ -74,32 +68,32 @@ class TestingCoordinator:
         # Run unit tests
         print("\n🔬 Running unit tests...")
         unit_results = self._run_unit_tests()
-        test_suites["unit"] = unit_results
+        test_suites['unit'] = unit_results
 
         # Run integration tests
         print("\n🔗 Running integration tests...")
         integration_results = self._run_integration_tests()
-        test_suites["integration"] = integration_results
+        test_suites['integration'] = integration_results
 
         # Run functional tests
         print("\n⚙️ Running functional tests...")
         functional_results = self._run_functional_tests()
-        test_suites["functional"] = functional_results
+        test_suites['functional'] = functional_results
 
         # Run performance tests
         print("\n⚡ Running performance tests...")
         performance_results = self._run_performance_tests()
-        test_suites["performance"] = performance_results
+        test_suites['performance'] = performance_results
 
         # Run security tests
         print("\n🔒 Running security tests...")
         security_results = self._run_security_tests()
-        test_suites["security"] = security_results
+        test_suites['security'] = security_results
 
         # Run regression tests
         print("\n🔄 Running regression tests...")
         regression_results = self._run_regression_tests()
-        test_suites["regression"] = regression_results
+        test_suites['regression'] = regression_results
 
         # Generate comprehensive test report
         self._generate_test_report(test_suites)
@@ -112,22 +106,15 @@ class TestingCoordinator:
 
         try:
             # Run pytest for unit tests
-            result = subprocess.run(
-                [
-                    "python",
-                    "-m",
-                    "pytest",
-                    "tests/unit/",
-                    "--cov=src",
-                    "--cov-report=json",
-                    "--cov-report=term-missing",
-                    "--junitxml=test_reports/unit_tests.xml",
-                    "-v",
-                ],
-                capture_output=True,
-                text=True,
-                cwd=self.project_root,
-            )
+            result = subprocess.run([
+                'python', '-m', 'pytest',
+                'tests/unit/',
+                '--cov=src',
+                '--cov-report=json',
+                '--cov-report=term-missing',
+                '--junitxml=test_reports/unit_tests.xml',
+                '-v'
+            ], capture_output=True, text=True, cwd=self.project_root)
 
             duration = time.time() - start_time
 
@@ -144,7 +131,7 @@ class TestingCoordinator:
                 skipped=skipped,
                 errors=errors,
                 duration=duration,
-                coverage=coverage,
+                coverage=coverage
             )
 
         except Exception as e:
@@ -158,7 +145,7 @@ class TestingCoordinator:
                 skipped=0,
                 errors=0,
                 duration=time.time() - start_time,
-                coverage=0.0,
+                coverage=0.0
             )
 
     def _run_integration_tests(self) -> TestSuite:
@@ -167,19 +154,12 @@ class TestingCoordinator:
 
         try:
             # Run pytest for integration tests
-            result = subprocess.run(
-                [
-                    "python",
-                    "-m",
-                    "pytest",
-                    "tests/integration/",
-                    "--junitxml=test_reports/integration_tests.xml",
-                    "-v",
-                ],
-                capture_output=True,
-                text=True,
-                cwd=self.project_root,
-            )
+            result = subprocess.run([
+                'python', '-m', 'pytest',
+                'tests/integration/',
+                '--junitxml=test_reports/integration_tests.xml',
+                '-v'
+            ], capture_output=True, text=True, cwd=self.project_root)
 
             duration = time.time() - start_time
 
@@ -195,7 +175,7 @@ class TestingCoordinator:
                 skipped=skipped,
                 errors=errors,
                 duration=duration,
-                coverage=0.0,  # Integration tests don't typically measure coverage
+                coverage=0.0  # Integration tests don't typically measure coverage
             )
 
         except Exception as e:
@@ -209,7 +189,7 @@ class TestingCoordinator:
                 skipped=0,
                 errors=0,
                 duration=time.time() - start_time,
-                coverage=0.0,
+                coverage=0.0
             )
 
     def _run_functional_tests(self) -> TestSuite:
@@ -218,19 +198,12 @@ class TestingCoordinator:
 
         try:
             # Run pytest for functional tests
-            result = subprocess.run(
-                [
-                    "python",
-                    "-m",
-                    "pytest",
-                    "tests/functional/",
-                    "--junitxml=test_reports/functional_tests.xml",
-                    "-v",
-                ],
-                capture_output=True,
-                text=True,
-                cwd=self.project_root,
-            )
+            result = subprocess.run([
+                'python', '-m', 'pytest',
+                'tests/functional/',
+                '--junitxml=test_reports/functional_tests.xml',
+                '-v'
+            ], capture_output=True, text=True, cwd=self.project_root)
 
             duration = time.time() - start_time
 
@@ -246,7 +219,7 @@ class TestingCoordinator:
                 skipped=skipped,
                 errors=errors,
                 duration=duration,
-                coverage=0.0,
+                coverage=0.0
             )
 
         except Exception as e:
@@ -260,7 +233,7 @@ class TestingCoordinator:
                 skipped=0,
                 errors=0,
                 duration=time.time() - start_time,
-                coverage=0.0,
+                coverage=0.0
             )
 
     def _run_performance_tests(self) -> TestSuite:
@@ -269,19 +242,12 @@ class TestingCoordinator:
 
         try:
             # Run performance tests
-            result = subprocess.run(
-                [
-                    "python",
-                    "-m",
-                    "pytest",
-                    "tests/performance/",
-                    "--junitxml=test_reports/performance_tests.xml",
-                    "-v",
-                ],
-                capture_output=True,
-                text=True,
-                cwd=self.project_root,
-            )
+            result = subprocess.run([
+                'python', '-m', 'pytest',
+                'tests/performance/',
+                '--junitxml=test_reports/performance_tests.xml',
+                '-v'
+            ], capture_output=True, text=True, cwd=self.project_root)
 
             duration = time.time() - start_time
 
@@ -297,7 +263,7 @@ class TestingCoordinator:
                 skipped=skipped,
                 errors=errors,
                 duration=duration,
-                coverage=0.0,
+                coverage=0.0
             )
 
         except Exception as e:
@@ -311,7 +277,7 @@ class TestingCoordinator:
                 skipped=0,
                 errors=0,
                 duration=time.time() - start_time,
-                coverage=0.0,
+                coverage=0.0
             )
 
     def _run_security_tests(self) -> TestSuite:
@@ -320,22 +286,12 @@ class TestingCoordinator:
 
         try:
             # Run security tests using bandit
-            result = subprocess.run(
-                [
-                    "python",
-                    "-m",
-                    "bandit",
-                    "-r",
-                    "src/",
-                    "-f",
-                    "json",
-                    "-o",
-                    "test_reports/security_tests.json",
-                ],
-                capture_output=True,
-                text=True,
-                cwd=self.project_root,
-            )
+            result = subprocess.run([
+                'python', '-m', 'bandit',
+                '-r', 'src/',
+                '-f', 'json',
+                '-o', 'test_reports/security_tests.json'
+            ], capture_output=True, text=True, cwd=self.project_root)
 
             duration = time.time() - start_time
 
@@ -344,7 +300,7 @@ class TestingCoordinator:
             if result.stdout:
                 try:
                     security_data = json.loads(result.stdout)
-                    security_issues = len(security_data.get("results", []))
+                    security_issues = len(security_data.get('results', []))
                 except json.JSONDecodeError:
                     pass
 
@@ -361,7 +317,7 @@ class TestingCoordinator:
                 skipped=0,
                 errors=0,
                 duration=duration,
-                coverage=0.0,
+                coverage=0.0
             )
 
         except Exception as e:
@@ -375,7 +331,7 @@ class TestingCoordinator:
                 skipped=0,
                 errors=0,
                 duration=time.time() - start_time,
-                coverage=0.0,
+                coverage=0.0
             )
 
     def _run_regression_tests(self) -> TestSuite:
@@ -384,19 +340,12 @@ class TestingCoordinator:
 
         try:
             # Run regression tests
-            result = subprocess.run(
-                [
-                    "python",
-                    "-m",
-                    "pytest",
-                    "tests/regression/",
-                    "--junitxml=test_reports/regression_tests.xml",
-                    "-v",
-                ],
-                capture_output=True,
-                text=True,
-                cwd=self.project_root,
-            )
+            result = subprocess.run([
+                'python', '-m', 'pytest',
+                'tests/regression/',
+                '--junitxml=test_reports/regression_tests.xml',
+                '-v'
+            ], capture_output=True, text=True, cwd=self.project_root)
 
             duration = time.time() - start_time
 
@@ -412,7 +361,7 @@ class TestingCoordinator:
                 skipped=skipped,
                 errors=errors,
                 duration=duration,
-                coverage=0.0,
+                coverage=0.0
             )
 
         except Exception as e:
@@ -426,7 +375,7 @@ class TestingCoordinator:
                 skipped=0,
                 errors=0,
                 duration=time.time() - start_time,
-                coverage=0.0,
+                coverage=0.0
             )
 
     def _parse_pytest_output(self, output: str) -> tuple[int, int, int, int]:
@@ -436,30 +385,30 @@ class TestingCoordinator:
         skipped = 0
         errors = 0
 
-        lines = output.split("\n")
+        lines = output.split('\n')
         for line in lines:
-            if "passed" in line and "failed" in line:
+            if 'passed' in line and 'failed' in line:
                 # Extract numbers from summary line
                 parts = line.split()
                 for i, part in enumerate(parts):
-                    if part == "passed":
+                    if part == 'passed':
                         try:
-                            passed = int(parts[i - 1])
+                            passed = int(parts[i-1])
                         except (ValueError, IndexError):
                             pass
-                    elif part == "failed":
+                    elif part == 'failed':
                         try:
-                            failed = int(parts[i - 1])
+                            failed = int(parts[i-1])
                         except (ValueError, IndexError):
                             pass
-                    elif part == "skipped":
+                    elif part == 'skipped':
                         try:
-                            skipped = int(parts[i - 1])
+                            skipped = int(parts[i-1])
                         except (ValueError, IndexError):
                             pass
-                    elif part == "error" and "error" in part:
+                    elif part == 'error' and 'error' in part:
                         try:
-                            errors = int(parts[i - 1])
+                            errors = int(parts[i-1])
                         except (ValueError, IndexError):
                             pass
 
@@ -467,15 +416,15 @@ class TestingCoordinator:
 
     def _extract_coverage_from_output(self, output: str) -> float:
         """Extract coverage percentage from pytest output."""
-        lines = output.split("\n")
+        lines = output.split('\n')
         for line in lines:
-            if "TOTAL" in line and "%" in line:
+            if 'TOTAL' in line and '%' in line:
                 try:
                     # Extract percentage from line like "TOTAL 85%"
                     parts = line.split()
                     for part in parts:
-                        if "%" in part:
-                            return float(part.replace("%", ""))
+                        if '%' in part:
+                            return float(part.replace('%', ''))
                 except (ValueError, IndexError):
                     pass
         return 0.0
@@ -498,34 +447,34 @@ class TestingCoordinator:
         success_rate = (total_passed / total_tests * 100) if total_tests > 0 else 0
 
         report_data = {
-            "timestamp": timestamp,
-            "overall_metrics": {
-                "total_tests": total_tests,
-                "passed": total_passed,
-                "failed": total_failed,
-                "skipped": total_skipped,
-                "errors": total_errors,
-                "success_rate": success_rate,
-                "total_duration": total_duration,
+            'timestamp': timestamp,
+            'overall_metrics': {
+                'total_tests': total_tests,
+                'passed': total_passed,
+                'failed': total_failed,
+                'skipped': total_skipped,
+                'errors': total_errors,
+                'success_rate': success_rate,
+                'total_duration': total_duration
             },
-            "test_suites": {
+            'test_suites': {
                 name: {
-                    "name": suite.name,
-                    "test_type": suite.test_type.value,
-                    "test_count": suite.test_count,
-                    "passed": suite.passed,
-                    "failed": suite.failed,
-                    "skipped": suite.skipped,
-                    "errors": suite.errors,
-                    "duration": suite.duration,
-                    "coverage": suite.coverage,
+                    'name': suite.name,
+                    'test_type': suite.test_type.value,
+                    'test_count': suite.test_count,
+                    'passed': suite.passed,
+                    'failed': suite.failed,
+                    'skipped': suite.skipped,
+                    'errors': suite.errors,
+                    'duration': suite.duration,
+                    'coverage': suite.coverage
                 }
                 for name, suite in test_suites.items()
             },
-            "recommendations": self._generate_test_recommendations(test_suites),
+            'recommendations': self._generate_test_recommendations(test_suites)
         }
 
-        with open(report_file, "w") as f:
+        with open(report_file, 'w') as f:
             json.dump(report_data, f, indent=2)
 
         print(f"📊 Test report generated: {report_file}")
@@ -540,12 +489,9 @@ class TestingCoordinator:
             elif suite.failed > 0:
                 recommendations.append(f"Fix {suite.failed} failing tests in {name}")
             elif suite.passed < 5:
-                recommendations.append(
-                    f"Increase test coverage in {name} - only {suite.passed} tests"
-                )
+                recommendations.append(f"Increase test coverage in {name} - only {suite.passed} tests")
 
         return recommendations
-
 
 def main():
     """Main execution function."""
@@ -565,7 +511,7 @@ def main():
     print(f"Total Tests: {total_tests}")
     print(f"Passed: {total_passed}")
     print(f"Failed: {total_failed}")
-    print(f"Success Rate: {(total_passed / total_tests * 100):.1f}%" if total_tests > 0 else "N/A")
+    print(f"Success Rate: {(total_passed/total_tests*100):.1f}%" if total_tests > 0 else "N/A")
 
     for name, suite in test_suites.items():
         print(f"\n{suite.name}:")
@@ -577,10 +523,7 @@ def main():
             print(f"  Coverage: {suite.coverage:.1f}%")
 
     print("\n✅ Testing Coordinator Implementation Complete!")
-    print(
-        "📝 DISCORD DEVLOG REMINDER: Create a Discord devlog for this action in devlogs/ directory"
-    )
-
+    print("📝 DISCORD DEVLOG REMINDER: Create a Discord devlog for this action in devlogs/ directory")
 
 if __name__ == "__main__":
     main()

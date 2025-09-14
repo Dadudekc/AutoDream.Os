@@ -14,11 +14,10 @@ License: MIT
 import logging
 from typing import Any
 
+from ..messaging_cli_coordinate_management.utilities import load_coords_file
+from ..onboarding_handler import OnboardingHandler
 from ..vector_database import get_vector_database_service, search_vector_database
 from ..vector_database.vector_database_models import SearchQuery
-
-# Coordinate functionality now handled by consolidated messaging service
-from .onboarding_handler import OnboardingHandler
 
 logger = logging.getLogger(__name__)
 
@@ -27,30 +26,6 @@ class UtilityHandler:
     """Handles utility commands for messaging system."""
 
     def __init__(self):
-
-EXAMPLE USAGE:
-==============
-
-# Import the service
-from src.services.handlers.utility_handler import Utility_HandlerService
-
-# Initialize service
-service = Utility_HandlerService()
-
-# Basic service operation
-response = service.handle_request(request_data)
-print(f"Service response: {response}")
-
-# Service with dependency injection
-from src.core.dependency_container import Container
-
-container = Container()
-service = container.get(Utility_HandlerService)
-
-# Execute service method
-result = service.execute_operation(input_data, context)
-print(f"Operation result: {result}")
-
         """Initialize utility handler."""
         self.logger = logger
 
@@ -77,13 +52,13 @@ print(f"Operation result: {result}")
                         "onboarded_at": status.get("onboarded_at"),
                         "workspace_path": status.get("workspace_path"),
                         "capabilities": status.get("capabilities", []),
-                        "vector_db_enabled": status.get("vector_db_enabled", False),
+                        "vector_db_enabled": status.get("vector_db_enabled", False)
                     }
                 else:
                     return {
                         "agent_id": agent_id,
                         "status": "not_found",
-                        "error": f"Agent {agent_id} not found in system",
+                        "error": f"Agent {agent_id} not found in system"
                     }
             else:
                 # Check overall system status
@@ -95,16 +70,14 @@ print(f"Operation result: {result}")
 
                 return {
                     "total_agents": len(onboarded_agents),
-                    "active_agents": len(
-                        onboarded_agents
-                    ),  # All onboarded agents are considered active
+                    "active_agents": len(onboarded_agents),  # All onboarded agents are considered active
                     "status": "system_active" if onboarded_agents else "no_agents",
                     "onboarded_agents": onboarded_agents,
                     "vector_database": {
                         "status": "connected" if db_stats else "disconnected",
                         "total_documents": db_stats.total_documents if db_stats else 0,
-                        "total_collections": db_stats.total_collections if db_stats else 0,
-                    },
+                        "total_collections": db_stats.total_collections if db_stats else 0
+                    }
                 }
         except Exception as e:
             self.logger.error(f"Error checking status: {e}")
@@ -124,16 +97,14 @@ print(f"Operation result: {result}")
             for agent_id in onboarded_agents:
                 status = onboarding_handler.get_onboarding_status(agent_id)
                 if status:
-                    agents.append(
-                        {
-                            "agent_id": agent_id,
-                            "status": status.get("status", "unknown"),
-                            "role": status.get("role", "unknown"),
-                            "onboarded_at": status.get("onboarded_at"),
-                            "capabilities": status.get("capabilities", []),
-                            "workspace_path": status.get("workspace_path"),
-                        }
-                    )
+                    agents.append({
+                        "agent_id": agent_id,
+                        "status": status.get("status", "unknown"),
+                        "role": status.get("role", "unknown"),
+                        "onboarded_at": status.get("onboarded_at"),
+                        "capabilities": status.get("capabilities", []),
+                        "workspace_path": status.get("workspace_path")
+                    })
 
             return agents
         except Exception as e:
@@ -163,7 +134,7 @@ print(f"Operation result: {result}")
                     "y": agent_coords.get("y", 0),
                     "description": agent_coords.get("description", f"Coordinates for {agent_id}"),
                     "last_updated": agent_coords.get("last_updated"),
-                    "active": agent_coords.get("active", True),
+                    "active": agent_coords.get("active", True)
                 }
 
             # Return default coordinates if not found
@@ -173,7 +144,7 @@ print(f"Operation result: {result}")
                 "x": 100,
                 "y": 100,
                 "description": f"Default coordinates for {agent_id}",
-                "active": False,
+                "active": False
             }
         except Exception as e:
             self.logger.error(f"Error getting coordinates for {agent_id}: {e}")
@@ -192,32 +163,30 @@ print(f"Operation result: {result}")
             if not agent_id:
                 # Get general system history
                 query = SearchQuery(
-                    query="message OR status", collection_name="agent_messages", limit=20
+                    query="message OR status",
+                    collection_name="agent_messages",
+                    limit=20
                 )
             else:
                 # Get specific agent history
                 query = SearchQuery(
-                    query=f"agent:{agent_id}", collection_name="agent_messages", limit=50
+                    query=f"agent:{agent_id}",
+                    collection_name="agent_messages",
+                    limit=50
                 )
 
             results = search_vector_database(query)
 
             history = []
             for result in results:
-                history.append(
-                    {
-                        "timestamp": result.document.created_at.isoformat(),
-                        "agent_id": result.document.metadata.get("agent_id", "unknown"),
-                        "message": (
-                            result.document.content[:200] + "..."
-                            if len(result.document.content) > 200
-                            else result.document.content
-                        ),
-                        "type": result.document.document_type.value,
-                        "similarity_score": result.similarity_score,
-                        "source": result.document.metadata.get("source_file", "unknown"),
-                    }
-                )
+                history.append({
+                    "timestamp": result.document.created_at.isoformat(),
+                    "agent_id": result.document.metadata.get("agent_id", "unknown"),
+                    "message": result.document.content[:200] + "..." if len(result.document.content) > 200 else result.document.content,
+                    "type": result.document.document_type.value,
+                    "similarity_score": result.similarity_score,
+                    "source": result.document.metadata.get("source_file", "unknown")
+                })
 
             # Sort by timestamp (most recent first)
             history.sort(key=lambda x: x["timestamp"], reverse=True)

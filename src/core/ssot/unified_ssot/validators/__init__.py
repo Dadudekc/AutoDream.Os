@@ -4,7 +4,7 @@
 from . import basic_validator, standard_validator, strict_validator
 
 __all__ = [
-    "basic_validator",
-    "standard_validator",
-    "strict_validator",
+    'basic_validator',
+    'standard_validator',
+    'strict_validator',
 ]

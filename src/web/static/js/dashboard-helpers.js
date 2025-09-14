@@ -1,7 +1,7 @@
 /**
  * Dashboard Helpers Module - V2 Compliant
  * DOM manipulation and utility helper functions
- *
+ * 
  * @author Agent-7 - Web Development Specialist
  * @version 2.0.0
  * @license MIT

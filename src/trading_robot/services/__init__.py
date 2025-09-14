@@ -4,6 +4,6 @@
 from . import trading_bi_analytics, trading_service
 
 __all__ = [
-    "trading_bi_analytics",
-    "trading_service",
+    'trading_bi_analytics',
+    'trading_service',
 ]

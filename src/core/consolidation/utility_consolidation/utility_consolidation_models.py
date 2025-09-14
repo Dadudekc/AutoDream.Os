@@ -24,33 +24,6 @@ class ConsolidationType(Enum):
 
 @dataclass
 class UtilityFunction:
-
-EXAMPLE USAGE:
-==============
-
-# Import the core component
-from src.core.consolidation.utility_consolidation.utility_consolidation_models import Utility_Consolidation_Models
-
-# Initialize with configuration
-config = {
-    "setting1": "value1",
-    "setting2": "value2"
-}
-
-component = Utility_Consolidation_Models(config)
-
-# Execute primary functionality
-result = component.process_data(input_data)
-print(f"Processing result: {result}")
-
-# Advanced usage with error handling
-try:
-    advanced_result = component.advanced_operation(data, options={"optimize": True})
-    print(f"Advanced operation completed: {advanced_result}")
-except ProcessingError as e:
-    print(f"Operation failed: {e}")
-    # Implement recovery logic
-
     """Utility function metadata."""
 
     name: str

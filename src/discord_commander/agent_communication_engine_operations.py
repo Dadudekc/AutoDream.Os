@@ -26,42 +26,8 @@ class AgentCommunicationEngineOperations(AgentCommunicationEngineBase):
     """Extended agent communication operations for Discord commander"""
 
     async def broadcast_to_all_agents(self, message: str, sender: str) -> CommandResult:
-        """Broadcast message to all agents using the messaging system"""
+        """Broadcast message to all agents"""
         try:
-            # Try to use the consolidated messaging system first
-            try:
-                from ...services.consolidated_messaging_service import ConsolidatedMessagingService
-                
-                # Get messaging service instance
-                messaging_service = ConsolidatedMessagingService()
-                
-                # Use the messaging system for broadcast
-                results = messaging_service.broadcast_message(message, sender)
-                
-                successful_count = sum(1 for success in results.values() if success)
-                total_count = len(results)
-                
-                if successful_count > 0:
-                    self.logger.info(f"Broadcast sent to {successful_count}/{total_count} agents via messaging system")
-                    return create_command_result(
-                        success=True,
-                        message=f"Broadcast successfully delivered to {successful_count}/{total_count} agents via messaging system",
-                        data={
-                            "successful_deliveries": successful_count,
-                            "total_agents": total_count,
-                            "method": "messaging_system",
-                            "results": results
-                        },
-                    )
-                else:
-                    self.logger.warning("Messaging system broadcast failed, falling back to individual messages")
-                    
-            except ImportError as e:
-                self.logger.warning(f"Messaging system not available: {e}, using individual messages")
-            except Exception as e:
-                self.logger.warning(f"Messaging system error: {e}, using individual messages")
-            
-            # Fallback: Send individual messages
             agents = [f"Agent-{i}" for i in range(1, 9)]
             successful_deliveries = 0
             failed_deliveries = []
@@ -80,7 +46,6 @@ class AgentCommunicationEngineOperations(AgentCommunicationEngineBase):
                     data={
                         "successful_deliveries": successful_deliveries,
                         "total_agents": len(agents),
-                        "method": "individual_messages"
                     },
                 )
             else:
@@ -93,7 +58,6 @@ class AgentCommunicationEngineOperations(AgentCommunicationEngineBase):
                     data={
                         "successful_deliveries": successful_deliveries,
                         "failed_deliveries": failed_deliveries,
-                        "method": "individual_messages"
                     },
                 )
 

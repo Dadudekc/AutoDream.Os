@@ -17,7 +17,6 @@ License: MIT
 from __future__ import annotations
 
 import logging
-import re
 import sqlite3
 from abc import ABC, abstractmethod
 from contextlib import contextmanager
@@ -30,72 +29,22 @@ from uuid import uuid4
 
 class DatabaseConnectionError(Exception):
     """Database connection error."""
-
-
-class SQLQueryBuilder:
-
-EXAMPLE USAGE:
-==============
-
-# Import the service
-from src.services.unified_database_services import Unified_Database_ServicesService
-
-# Initialize service
-service = Unified_Database_ServicesService()
-
-# Basic service operation
-response = service.handle_request(request_data)
-print(f"Service response: {response}")
-
-# Service with dependency injection
-from src.core.dependency_container import Container
-
-container = Container()
-service = container.get(Unified_Database_ServicesService)
-
-# Execute service method
-result = service.execute_operation(input_data, context)
-print(f"Operation result: {result}")
-
-    """Secure SQL query builder with proper parameterization."""
-
-    # Table name validation regex - only allow alphanumeric, underscore, and hyphen
-    TABLE_NAME_PATTERN = re.compile(r"^[a-zA-Z_][a-zA-Z0-9_-]*$")
-
-    @staticmethod
-    def validate_table_name(table: str) -> str:
-        """Validate table name to prevent SQL injection."""
-        if not table or not isinstance(table, str):
-            raise ValueError("Invalid table name: must be non-empty string")
-
-        if not SQLQueryBuilder.TABLE_NAME_PATTERN.match(table):
-            raise ValueError(f"Invalid table name: '{table}' contains invalid characters")
-
-        # Additional length check
-        if len(table) > 128:
-            raise ValueError(f"Table name too long: '{table}' exceeds 128 characters")
-
-        return table
-
     pass
 
 
 class DatabaseOperationError(Exception):
     """Database operation error."""
-
     pass
 
 
 class DatabaseValidationError(Exception):
     """Database validation error."""
-
     pass
 
 
 @dataclass
 class DatabaseConfig:
     """Database configuration."""
-
     database_path: str = ":memory:"
     connection_timeout: float = 30.0
     max_connections: int = 10
@@ -108,7 +57,6 @@ class DatabaseConfig:
 @dataclass
 class DatabaseStats:
     """Database statistics."""
-
     total_connections: int = 0
     active_connections: int = 0
     total_queries: int = 0
@@ -153,7 +101,8 @@ class DatabaseConnectionManager:
         """Create a new database connection."""
         try:
             connection = sqlite3.connect(
-                self.config.database_path, timeout=self.config.connection_timeout
+                self.config.database_path,
+                timeout=self.config.connection_timeout
             )
 
             # Configure connection
@@ -207,55 +156,41 @@ class DatabaseConnectionManager:
         return self._stats
 
 
-class DatabaseQueryBuilder(SQLQueryBuilder):
-    """Secure SQL query builder with proper parameterization."""
+class DatabaseQueryBuilder:
+    """SQL query builder."""
 
     def __init__(self):
-        super().__init__()
         self.logger = logging.getLogger(__name__)
 
-    def build_select(
-        self,
-        table: str,
-        columns: list[str] = None,
-        where: dict[str, Any] = None,
-        order_by: list[str] = None,
-        limit: int = None,
-        offset: int = None,
-    ) -> tuple[str, list]:
-        """Build secure SELECT query with proper parameterization."""
-        # Validate table name
-        table = self.validate_table_name(table)
-
+    def build_select(self, table: str, columns: list[str] = None,
+                    where: dict[str, Any] = None, order_by: list[str] = None,
+                    limit: int = None, offset: int = None) -> str:
+        """Build SELECT query."""
         columns_str = "*" if not columns else ", ".join(columns)
         query = f"SELECT {columns_str} FROM {table}"
-        values = []
 
         if where:
             where_clauses = []
             for key, value in where.items():
-                where_clauses.append(f"{key} = ?")
-                values.append(value)
+                if isinstance(value, str):
+                    where_clauses.append(f"{key} = '{value}'")
+                else:
+                    where_clauses.append(f"{key} = {value}")
             query += f" WHERE {' AND '.join(where_clauses)}"
 
         if order_by:
             query += f" ORDER BY {', '.join(order_by)}"
 
-        if limit is not None:
-            query += " LIMIT ?"
-            values.append(limit)
+        if limit:
+            query += f" LIMIT {limit}"
 
-        if offset is not None:
-            query += " OFFSET ?"
-            values.append(offset)
+        if offset:
+            query += f" OFFSET {offset}"
 
-        return query, values
+        return query
 
     def build_insert(self, table: str, data: dict[str, Any]) -> tuple[str, list]:
-        """Build secure INSERT query."""
-        # Validate table name
-        table = self.validate_table_name(table)
-
+        """Build INSERT query."""
         columns = list(data.keys())
         placeholders = ["?" for _ in columns]
         values = list(data.values())
@@ -263,13 +198,9 @@ class DatabaseQueryBuilder(SQLQueryBuilder):
         query = f"INSERT INTO {table} ({', '.join(columns)}) VALUES ({', '.join(placeholders)})"
         return query, values
 
-    def build_update(
-        self, table: str, data: dict[str, Any], where: dict[str, Any]
-    ) -> tuple[str, list]:
-        """Build secure UPDATE query."""
-        # Validate table name
-        table = self.validate_table_name(table)
-
+    def build_update(self, table: str, data: dict[str, Any],
+                    where: dict[str, Any]) -> tuple[str, list]:
+        """Build UPDATE query."""
         set_clauses = []
         values = []
 
@@ -289,21 +220,19 @@ class DatabaseQueryBuilder(SQLQueryBuilder):
         return query, values
 
     def build_delete(self, table: str, where: dict[str, Any]) -> tuple[str, list]:
-        """Build secure DELETE query."""
-        # Validate table name
-        table = self.validate_table_name(table)
-
+        """Build DELETE query."""
         query = f"DELETE FROM {table}"
-        values = []
 
         if where:
             where_clauses = []
+            values = []
             for key, value in where.items():
                 where_clauses.append(f"{key} = ?")
                 values.append(value)
             query += f" WHERE {' AND '.join(where_clauses)}"
+            return query, values
 
-        return query, values
+        return query, []
 
 
 class DatabaseModel(ABC):
@@ -329,11 +258,8 @@ class DatabaseModel(ABC):
 
     def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
-        return {
-            key: getattr(self, key)
-            for key in dir(self)
-            if not key.startswith("_") and not callable(getattr(self, key))
-        }
+        return {key: getattr(self, key) for key in dir(self)
+                if not key.startswith('_') and not callable(getattr(self, key))}
 
 
 class DatabaseValidator:
@@ -347,13 +273,10 @@ class DatabaseValidator:
         try:
             # Basic validation - check required fields
             instance = model_class()
-            required_attrs = [
-                attr
-                for attr in dir(instance)
-                if not attr.startswith("_")
-                and not callable(getattr(instance, attr))
-                and getattr(instance, attr) is None
-            ]
+            required_attrs = [attr for attr in dir(instance)
+                            if not attr.startswith('_') and
+                            not callable(getattr(instance, attr)) and
+                            getattr(instance, attr) is None]
 
             for attr in required_attrs:
                 if attr not in data:
@@ -385,13 +308,11 @@ class UnifiedDatabaseService:
 
     def register_model(self, model_class: type):
         """Register a database model."""
-        if not hasattr(model_class, "table_name") or not model_class.table_name:
+        if not hasattr(model_class, 'table_name') or not model_class.table_name:
             raise ValueError("Model must have a table_name attribute")
 
         self._models[model_class.table_name] = model_class
-        self.logger.info(
-            f"Registered model: {model_class.__name__} for table {model_class.table_name}"
-        )
+        self.logger.info(f"Registered model: {model_class.__name__} for table {model_class.table_name}")
 
     def create_tables(self):
         """Create all registered tables."""
@@ -428,16 +349,14 @@ class UnifiedDatabaseService:
                 self.logger.error(f"Insert failed: {e}")
                 raise DatabaseOperationError(f"Insert failed: {e}")
 
-    def select(
-        self,
-        model_class: type,
-        where: dict[str, Any] = None,
-        order_by: list[str] = None,
-        limit: int = None,
-    ) -> list[dict[str, Any]]:
+    def select(self, model_class: type, where: dict[str, Any] = None,
+              order_by: list[str] = None, limit: int = None) -> list[dict[str, Any]]:
         """Select records."""
         query = self.query_builder.build_select(
-            model_class.table_name, where=where, order_by=order_by, limit=limit
+            model_class.table_name,
+            where=where,
+            order_by=order_by,
+            limit=limit
         )
 
         with self.connection_manager.get_connection() as conn:
@@ -573,5 +492,5 @@ __all__ = [
     "DatabaseConnectionError",
     "DatabaseOperationError",
     "DatabaseValidationError",
-    "create_unified_database_service",
+    "create_unified_database_service"
 ]

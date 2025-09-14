@@ -40,7 +40,6 @@ except ProcessingError as e:
 
 """
 
-
 class ConsolidationBase:
     """Reusable helpers for consolidation workflows."""
 

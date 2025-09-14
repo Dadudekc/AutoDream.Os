@@ -4,9 +4,9 @@
 from . import browser_ops, config, content_scraper, profile, response_collector
 
 __all__ = [
-    "browser_ops",
-    "config",
-    "content_scraper",
-    "profile",
-    "response_collector",
+    'browser_ops',
+    'config',
+    'content_scraper',
+    'profile',
+    'response_collector',
 ]

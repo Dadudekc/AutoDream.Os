@@ -10,4 +10,4 @@ License: MIT
 
 from .thea_response_service import ResponseStatus, TheaResponseService
 
-__all__ = ["TheaResponseService", "ResponseStatus"]
+__all__ = ['TheaResponseService', 'ResponseStatus']

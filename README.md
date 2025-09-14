@@ -376,11 +376,25 @@ The project includes comprehensive TDD tests and smoke tests for validation (see
 - **Interface Design**: Abstract base classes with dependency injection
 - **Error Handling**: Comprehensive exception handling with graceful fallbacks
 
-## Documentation
-### Architecture Documents
-- [`docs/V2_COMPLIANT_MESSAGING_ARCHITECTURE.md`](docs/V2_COMPLIANT_MESSAGING_ARCHITECTURE.md) - Complete architecture overview
-- [`docs/COORDINATE_MAPPING_CONSOLIDATION_COMPLETE.md`](docs/COORDINATE_MAPPING_CONSOLIDATION_COMPLETE.md) - Coordinate system details
-- [`docs/LEGACY_FILES_COORDINATE_UPDATE_COMPLETE.md`](docs/LEGACY_FILES_COORDINATE_UPDATE_COMPLETE.md) - Legacy integration status
+## 📚 **Documentation**
+
+### **Core Documentation**
+- **[API Reference](docs/API_REFERENCE.md)** - Comprehensive API documentation for all modules
+- **[Usage Examples](docs/USAGE_EXAMPLES.md)** - Complete usage examples and workflows
+- **[Quick Start Guide](docs/QUICK_START.md)** - Get up and running quickly
+- **[Architecture Overview](docs/ARCHITECTURE.md)** - System architecture and design
+
+### **System Documentation**
+- **[V2 Compliant Messaging Architecture](docs/V2_COMPLIANT_MESSAGING_ARCHITECTURE.md)** - Complete messaging system overview
+- **[Coordinate Mapping Consolidation](docs/COORDINATE_MAPPING_CONSOLIDATION_COMPLETE.md)** - Coordinate system details
+- **[Legacy Files Update](docs/LEGACY_FILES_COORDINATE_UPDATE_COMPLETE.md)** - Legacy integration status
+- **[Backup & Disaster Recovery](docs/BACKUP_DISASTER_RECOVERY.md)** - Backup system documentation
+
+### **Developer Resources**
+- **[Development Workflow](DEVELOPMENT_WORKFLOW.md)** - Development process and guidelines
+- **[Troubleshooting Guide](TROUBLESHOOTING.md)** - Common issues and solutions
+- **[Agent Tools Documentation](AGENT_TOOLS_DOCUMENTATION.md)** - Complete agent tools reference
+- **[Consolidation Guide](CONSOLIDATION_GUIDE.md)** - System consolidation procedures
 
 ### System Status
 - **Coordinate System**: ✅ 100% Complete and Unified

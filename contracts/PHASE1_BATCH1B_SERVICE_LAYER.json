@@ -1,0 +1,168 @@
+{
+  "contract_id": "CONTRACT-PHASE1-BATCH1B-SERVICE-LAYER",
+  "contract_title": "Phase 1 Batch 1B - Service Layer Optimization",
+  "agent_id": "Agent-5",
+  "agent_name": "Business Intelligence Specialist & Co-Captain",
+  "contract_type": "HIGH_SERVICE_CONSOLIDATION",
+  "priority": "HIGH",
+  "status": "AVAILABLE",
+
+  "contract_details": {
+    "description": "Execute the first high-priority batch of service layer optimization. Focus on consolidating service files, eliminating duplication, and improving test coverage while preserving all functionality.",
+    "background": "Based on comprehensive project analysis showing 50 consolidation opportunities in src/services/, this contract addresses critical service layer issues that impact business logic and system integration.",
+    "phase": "Phase 1 - Foundation Consolidation",
+    "batch": "Batch 1B - Service Layer",
+    "batch_size": 25,
+    "estimated_effort": "3 days",
+
+    "objectives": [
+      "Merge 20+ service files into consolidated service architecture",
+      "Eliminate service duplication across modules",
+      "Standardize service interfaces and contracts",
+      "Improve service test coverage to >85%",
+      "Document service dependencies and relationships",
+      "Ensure zero functional regressions in service operations",
+      "Validate service consolidation with comprehensive testing"
+    ],
+
+    "deliverables": [
+      "Consolidated service layer with reduced file count",
+      "Eliminated service duplication (target: 30% reduction)",
+      "Standardized service interfaces and contracts",
+      "Enhanced test coverage (>85%) for all services",
+      "Comprehensive service dependency documentation",
+      "Service consolidation validation report",
+      "Functional regression test results (100% pass rate required)"
+    ],
+
+    "technical_requirements": [
+      "Service consolidation and refactoring tools",
+      "Interface standardization frameworks",
+      "Comprehensive testing framework for services",
+      "Dependency analysis and documentation tools",
+      "Service performance monitoring tools",
+      "Code duplication detection software"
+    ],
+
+    "deadline": "2025-09-15",
+    "stakeholders": ["Captain Agent-4", "Agent-6", "Agent-8"],
+
+    "success_criteria": [
+      "Service consolidation: 20+ files consolidated successfully",
+      "Duplication elimination: >30% reduction in duplicate code",
+      "Interface standardization: All services follow consistent patterns",
+      "Test coverage: >85% for consolidated service modules",
+      "Zero regressions: All service functionality preserved",
+      "Documentation: Complete service architecture docs",
+      "Performance: Service performance maintained or improved",
+      "Integration: All services integrate seamlessly"
+    ]
+  },
+
+  "contract_metadata": {
+    "created_by": "Captain Agent-4",
+    "created_at": "2025-09-12T22:05:00Z",
+    "assigned_at": null,
+    "completed_at": null,
+    "last_updated": "2025-09-12T22:05:00Z",
+
+    "tags": [
+      "high-priority",
+      "service-consolidation",
+      "business-intelligence",
+      "testing",
+      "interfaces",
+      "phase1",
+      "batch1b",
+      "zero-regressions"
+    ],
+
+    "dependencies": [
+      "Comprehensive project analysis completed (403 files analyzed)",
+      "Systematic cleanup methodology established",
+      "Agent-6 Phase 1A completion (core architecture)",
+      "Testing framework operational for services",
+      "Service integration testing capabilities"
+    ],
+
+    "resources_required": [
+      "Service consolidation and refactoring tools",
+      "Interface design and standardization frameworks",
+      "Comprehensive service testing tools",
+      "Dependency analysis and mapping software",
+      "Service performance monitoring systems",
+      "Code duplication detection and elimination tools"
+    ],
+
+    "risks_mitigated": [
+      "Service dependency mapping before consolidation",
+      "Incremental consolidation with validation",
+      "Interface compatibility testing",
+      "Rollback capability for service changes",
+      "Cross-service integration validation"
+    ]
+  },
+
+  "contract_rewards": {
+    "experience_points": 550,
+    "skill_unlocks": [
+      "Service Architecture Specialist",
+      "Business Logic Consolidation Expert",
+      "Interface Design Master",
+      "Service Testing Guru",
+      "Dependency Management Specialist",
+      "Integration Architecture Optimizer"
+    ],
+    "reputation_bonus": "Service Excellence Champion",
+    "network_unlocks": [
+      "Access to Service Architecture Network",
+      "Business Logic Working Group",
+      "Integration Specialists Community",
+      "Service Design Excellence Group"
+    ]
+  },
+
+  "contract_history": [
+    {
+      "timestamp": "2025-09-12T22:05:00Z",
+      "action": "CONTRACT_CREATED",
+      "actor": "Captain Agent-4",
+      "details": "Created Phase 1 Batch 1B service layer optimization contract"
+    }
+  ],
+
+  "batch_execution_plan": {
+    "total_tasks": 25,
+    "execution_phases": [
+      {
+        "phase": "Service Analysis & Planning",
+        "duration": "0.5 days",
+        "tasks": ["Map service dependencies", "Identify consolidation opportunities", "Plan service interface standardization", "Create service testing strategy"]
+      },
+      {
+        "phase": "Incremental Service Consolidation",
+        "duration": "2 days",
+        "tasks": ["Consolidate related services", "Standardize service interfaces", "Eliminate service duplication", "Validate service functionality", "Update service documentation"]
+      },
+      {
+        "phase": "Integration & Optimization",
+        "duration": "0.5 days",
+        "tasks": ["Run service integration tests", "Performance validation", "Dependency verification", "Final service documentation"]
+      }
+    ],
+    "quality_gates": [
+      "Pre-consolidation service testing (100% pass)",
+      "Service interface compatibility validation",
+      "Post-consolidation integration testing (100% pass)",
+      "Service performance validation (no degradation)",
+      "Cross-service dependency verification"
+    ],
+    "rollback_triggers": [
+      "Service integration failures",
+      "Interface compatibility issues",
+      "Performance degradation >5%",
+      "Service dependency breaks",
+      "Test failure rate >2%"
+    ]
+  }
+}

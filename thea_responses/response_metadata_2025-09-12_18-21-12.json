@@ -1,0 +1,10 @@
+{
+  "timestamp": "2025-09-12T18:21:12.501086",
+  "screenshot_path": "thea_responses\\thea_response_2025-09-12_18-21-12.png",
+  "sent_message_path": "thea_responses\\sent_message_2025-09-12_18-20-13.txt",
+  "extracted_response": "",
+  "thea_url": "https://chatgpt.com/g/g-67f437d96d7c81918b2dbc12f0423867-thea-manager?model=gpt-5-thinking",
+  "detection_method": "automated_dom_polling",
+  "character_count": 0,
+  "response_extracted": false
+}

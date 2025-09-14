@@ -1,0 +1,13 @@
+{
+  "timestamp": "2025-09-09T23:14:19.817643",
+  "screenshot_path": "thea_responses\\thea_response_2025-09-09_23-14-19.png",
+  "sent_message_path": "thea_responses\\sent_message_2025-09-09_23-13-15.txt",
+  "sent_message_preview": "Testing non-headless mode - please confirm this works and provide a brief response",
+  "extracted_response": "Non-headless mode test confirmed\u2014render path active, UI responses intact. Proceeding.",
+  "thea_url": "https://chatgpt.com/g/g-67f437d96d7c81918b2dbc12f0423867-thea-manager",
+  "user_observation": "automated_extraction_used",
+  "status": "response_captured",
+  "detection_method": "automated_dom_polling",
+  "character_count": 82,
+  "response_extracted": true
+}

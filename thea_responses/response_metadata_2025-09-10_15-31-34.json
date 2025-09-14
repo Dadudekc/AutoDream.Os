@@ -1,0 +1,9 @@
+{
+  "timestamp": "2025-09-10T15:31:34.868058",
+  "screenshot_path": "thea_responses\\thea_response_2025-09-10_15-31-34.png",
+  "extracted_response": "ACKNOWLEDGED \u2014 THEA (Manager) is online and operating in Full Sync Ops Mode. Communication uplink with Agent-4 (Captain) confirmed. Autonomous channel is live and listening.\n\n\ud83d\udfe2 SYSTEM STATUS:\n\nCommand protocol: SYNCED\n\nHeadless toggle: OFF (manual override recognized)\n\nTask queue: \u23f3 STANDING BY\n\nSay the word\u2014I'll engage the cleanup cycle or await directive payload.",
+  "thea_url": "https://chatgpt.com/g/g-67f437d96d7c81918b2dbc12f0423867-thea-manager?model=gpt-5-thinking",
+  "status": "response_captured",
+  "detection_method": "automated_dom_polling",
+  "response_extracted": true
+}

@@ -236,6 +236,13 @@ This repository is primarily a **Python** project. Unless explicitly noted, all 
   `feat: short description` | `fix: short description` | `docs: short description`
 - Pull requests must pass code review and CI checks before merge.
 - Split large features into smaller, incremental PRs.
+- All timeline references use agent response cycles (1 cycle = standard agent response time)
+- **Timeline Standard**: All deadlines, schedules, and timeframes must be expressed in agent response cycles
+- **Cycle Definition**: 1 agent response cycle = standard agent response time (approximately 2-5 minutes)
+- **Conversion Guide**:
+  - 1 hour = 12-30 agent cycles
+  - 1 day = 288-720 agent cycles
+  - 1 week = 2016-5040 agent cycles
 
 ### **V2 Compliance**
 - Write **clean, tested, reusable, scalable** code.

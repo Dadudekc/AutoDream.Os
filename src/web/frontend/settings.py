@@ -3,6 +3,28 @@
 
 This module centralizes configuration values used across the frontend
 application to provide a single source of truth (SSOT).
+
+EXAMPLE USAGE:
+==============
+
+# Basic usage example
+from src.web.frontend.settings import Settings
+
+# Initialize and use
+instance = Settings()
+result = instance.execute()
+print(f"Execution result: {result}")
+
+# Advanced configuration
+config = {
+    "option1": "value1",
+    "option2": True
+}
+
+instance = Settings(config)
+advanced_result = instance.execute_advanced()
+print(f"Advanced result: {advanced_result}")
+
 """
 
 from __future__ import annotations

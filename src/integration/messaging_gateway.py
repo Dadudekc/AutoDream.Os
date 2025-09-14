@@ -23,6 +23,14 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
+# Shared messaging utilities
+from src.services.messaging.shared import (
+    from src.services.messaging.shared import broadcast_message,
+    from src.services.messaging.shared import list_agents,
+    from src.services.messaging.shared import load_coordinates_from_json,
+    from src.services.messaging.shared import send_message_pyautogui
+)
+
 log = logging.getLogger(__name__)
 
 
@@ -158,7 +166,7 @@ class MessagingGateway:
                 print(f"📥 [BASIC] receive from {source.get('window_title', '?')}")
                 return {"ok": True, "messages": []}
 
-            def broadcast_message(self, message: str, **kwargs) -> dict[str, Any]:
+            def from src.services.messaging.shared import broadcast_message(self, message: str, **kwargs) -> dict[str, Any]:
                 print(f"📢 [BASIC] broadcast: {message[:60]}...")
                 return {"ok": True}
 

@@ -1,13 +1,8 @@
-"""
-Thea Browser Service - V2 Compliant Browser Management
-=======================================================
+# AUTO-GENERATED __init__.py
+# DO NOT EDIT MANUALLY - changes may be overwritten
 
-Handles browser initialization, navigation, and automation for Thea services.
+from . import thea_browser_service
 
-Author: Agent-4 (Captain) - V2_SWARM
-License: MIT
-"""
-
-from .thea_browser_service import BrowserMode, TheaBrowserService
-
-__all__ = ["TheaBrowserService", "BrowserMode"]
+__all__ = [
+    'thea_browser_service',
+]

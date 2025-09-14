@@ -1998,13 +1998,6 @@
       "consolidation_opportunities": 15
     },
     {
-      "chunk_id": 8,
-      "directory": "src/domain",
-      "file_path": "analysis_chunks\\chunk_008_domain.json",
-      "files_analyzed": 16,
-      "consolidation_opportunities": 16
-    },
-    {
       "chunk_id": 9,
       "directory": "src/application",
       "file_path": "analysis_chunks\\chunk_009_application.json",

@@ -24,10 +24,11 @@ import time
 from datetime import datetime
 from typing import Any, Dict, List
 
-from .error_handling_unified import *
+# from .error_handling_unified import *  # DISABLED - Module not found
+# Note: error_handling_unified.py module is missing - import disabled
 
 # Configure logging for examples
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 
@@ -45,8 +46,8 @@ def example_basic_error_handling():
     Scenario: Web API endpoint that processes user requests and handles
     various types of errors gracefully.
     """
-    print("🔧 EXAMPLE 1: Basic Error Handler Usage")
-    print("=" * 50)
+    logger.info("🔧 EXAMPLE 1: Basic Error Handler Usage")
+    logger.info("=" * 50)
 
     # Create error orchestrator
     orchestrator = create_error_orchestrator()
@@ -60,7 +61,7 @@ def example_basic_error_handling():
     orchestrator.register_handler(network_handler)
     orchestrator.register_handler(validation_handler)
 
-    print("✅ Error handlers registered for web API")
+    logger.info("✅ Error handlers registered for web API")
 
     # Simulate different error scenarios
     error_scenarios = [

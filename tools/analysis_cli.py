@@ -63,465 +63,232 @@ def should_exclude_file(path: Path) -> bool:
 
 
 def count_lines(node: ast.AST) -> int:
-
-EXAMPLE USAGE:
-==============
-
-# Basic usage example
-from tools.analysis_cli import Analysis_Cli
-
-# Initialize and use
-instance = Analysis_Cli()
-result = instance.execute()
-print(f"Execution result: {result}")
-
-# Advanced configuration
-config = {
-    "option1": "value1",
-    "option2": True
-}
-
-instance = Analysis_Cli(config)
-advanced_result = instance.execute_advanced()
-print(f"Advanced result: {advanced_result}")
-
-    """Count lines of code for an AST node."""
-    if hasattr(node, "end_lineno") and hasattr(node, "lineno"):
-        return (node.end_lineno or 0) - (node.lineno or 0) + 1
-    return 0
+    """Count lines in an AST node."""
+    if hasattr(node, 'lineno') and hasattr(node, 'end_lineno'):
+        return node.end_lineno - node.lineno + 1
+    return 1
 
 
-def analyze_python_file(file_path: Path) -> dict[str, Any]:
+def analyze_file(file_path: Path) -> dict[str, Any]:
     """Analyze a single Python file for V2 compliance violations."""
-    try:
-        with open(file_path, encoding="utf-8") as f:
-            source = f.read()
-        violations = []
-        lines = source.splitlines()
-        file_loc = len(lines)
-        if file_loc > MAX_FILE_LOC:
-            violations.append(
-                {
-                    "type": "file_loc",
-                    "file": str(file_path),
-                    "line": 1,
-                    "message": f"File exceeds {MAX_FILE_LOC} LOC ({file_loc} LOC)",
-                    "severity": "critical",
-                    "excess": file_loc - MAX_FILE_LOC,
-                }
-            )
-        if "test" not in str(file_path).lower():
-            print_lines = []
-            for i, line in enumerate(lines, 1):
-                stripped = line.strip()
-                if stripped.startswith("print(") or stripped.startswith("print "):
-                    print_lines.append(i)
-            if print_lines:
-                violations.append(
-                    {
-                        "type": "print_statement",
-                        "file": str(file_path),
-                        "line": print_lines[0],
-                        "message": f"Found {len(print_lines)} print() statement(s) - use logging instead",
-                        "severity": "major",
-                        "lines": print_lines,
-                    }
-                )
-        try:
-            tree = ast.parse(source, str(file_path))
-            for node in ast.walk(tree):
-                if isinstance(node, ast.ClassDef):
-                    class_loc = count_lines(node)
-                    if class_loc > MAX_CLASS_LOC:
-                        violations.append(
-                            {
-                                "type": "class_loc",
-                                "file": str(file_path),
-                                "line": node.lineno,
-                                "message": f"Class '{node.name}' exceeds {MAX_CLASS_LOC} LOC ({class_loc} LOC)",
-                                "severity": "major",
-                                "excess": class_loc - MAX_CLASS_LOC,
-                                "class_name": node.name,
-                            }
-                        )
-                elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
-                    func_loc = count_lines(node)
-                    if func_loc > MAX_FUNCTION_LOC:
-                        violations.append(
-                            {
-                                "type": "function_loc",
-                                "file": str(file_path),
-                                "line": node.lineno,
-                                "message": f"Function '{node.name}' exceeds {MAX_FUNCTION_LOC} LOC ({func_loc} LOC)",
-                                "severity": "minor",
-                                "excess": func_loc - MAX_FUNCTION_LOC,
-                                "function_name": node.name,
-                            }
-                        )
-        except SyntaxError as e:
-            violations.append(
-                {
-                    "type": "syntax_error",
-                    "file": str(file_path),
-                    "line": e.lineno or 1,
-                    "message": f"Syntax error: {e.msg}",
-                    "severity": "critical",
-                    "error_details": str(e),
-                }
-            )
-        except Exception as e:
-            violations.append(
-                {
-                    "type": "parse_error",
-                    "file": str(file_path),
-                    "line": 1,
-                    "message": f"Failed to parse file: {str(e)}",
-                    "severity": "critical",
-                }
-            )
-        long_lines = []
-        for i, line in enumerate(lines, 1):
-            if len(line) > MAX_LINE_LENGTH:
-                stripped = line.strip()
-                if not (
-                    stripped.startswith(("http://", "https://", "ftp://"))
-                    or stripped.startswith("import ")
-                    or stripped.startswith("from ")
-                ):
-                    long_lines.append((i, len(line)))
-        if long_lines:
-            violations.append(
-                {
-                    "type": "line_length",
-                    "file": str(file_path),
-                    "line": long_lines[0][0],
-                    "message": f"Found {len(long_lines)} line(s) exceeding {MAX_LINE_LENGTH} characters",
-                    "severity": "minor",
-                    "long_lines": long_lines,
-                }
-            )
-        return {
-            "file": str(file_path),
-            "violations": violations,
-            "stats": {"total_lines": file_loc, "total_violations": len(violations)},
-        }
-    except Exception as e:
-        return {
-            "file": str(file_path),
-            "violations": [
-                {
-                    "type": "file_error",
-                    "file": str(file_path),
-                    "line": 1,
-                    "message": f"Failed to analyze file: {str(e)}",
-                    "severity": "critical",
-                }
-            ],
-            "stats": {"total_lines": 0, "total_violations": 1},
-        }
-
-
-def analyze_project(root_path: Path, max_files: int = 100000) -> dict[str, Any]:
-    """Analyze entire project for V2 compliance violations."""
-    all_files = []
-    violations_summary = {
-        "syntax_errors": 0,
-        "file_loc_violations": 0,
-        "class_loc_violations": 0,
-        "function_loc_violations": 0,
-        "line_length_violations": 0,
-        "print_violations": 0,
-        "total_violations": 0,
-        "files_analyzed": 0,
-        "files_with_violations": 0,
+    violations = {
+        'file': str(file_path),
+        'syntax_errors': [],
+        'loc_violations': [],
+        'line_length_violations': [],
+        'print_statements': [],
+        'total_lines': 0,
+        'classes': [],
+        'functions': []
     }
-    logger.info(f"Analyzing Python files in {root_path}...")
-    for py_file in root_path.rglob("*.py"):
+    
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+            violations['total_lines'] = len(content.splitlines())
+        
+        # Parse AST
+        tree = ast.parse(content, filename=str(file_path))
+        
+        # Check for violations
+        for node in ast.walk(tree):
+            if isinstance(node, ast.ClassDef):
+                class_lines = count_lines(node)
+                violations['classes'].append({
+                    'name': node.name,
+                    'lines': class_lines,
+                    'line_number': node.lineno
+                })
+                if class_lines > MAX_CLASS_LOC:
+                    violations['loc_violations'].append({
+                        'type': 'class',
+                        'name': node.name,
+                        'lines': class_lines,
+                        'line_number': node.lineno,
+                        'max_allowed': MAX_CLASS_LOC
+                    })
+            
+            elif isinstance(node, ast.FunctionDef):
+                func_lines = count_lines(node)
+                violations['functions'].append({
+                    'name': node.name,
+                    'lines': func_lines,
+                    'line_number': node.lineno
+                })
+                if func_lines > MAX_FUNCTION_LOC:
+                    violations['loc_violations'].append({
+                        'type': 'function',
+                        'name': node.name,
+                        'lines': func_lines,
+                        'line_number': node.lineno,
+                        'max_allowed': MAX_FUNCTION_LOC
+                    })
+        
+        # Check file size
+        if violations['total_lines'] > MAX_FILE_LOC:
+            violations['loc_violations'].append({
+                'type': 'file',
+                'name': file_path.name,
+                'lines': violations['total_lines'],
+                'line_number': 1,
+                'max_allowed': MAX_FILE_LOC
+            })
+        
+        # Check line length and print statements
+        for i, line in enumerate(content.splitlines(), 1):
+            if len(line) > MAX_LINE_LENGTH:
+                violations['line_length_violations'].append({
+                    'line_number': i,
+                    'length': len(line),
+                    'max_allowed': MAX_LINE_LENGTH,
+                    'content': line[:50] + '...' if len(line) > 50 else line
+                })
+            
+            if 'print(' in line and not line.strip().startswith('#'):
+                violations['print_statements'].append({
+                    'line_number': i,
+                    'content': line.strip()
+                })
+    
+        except SyntaxError as e:
+        violations['syntax_errors'].append({
+            'line_number': e.lineno,
+            'message': str(e),
+            'text': e.text
+        })
+        except Exception as e:
+        violations['syntax_errors'].append({
+            'line_number': 0,
+            'message': f"Error analyzing file: {e}",
+            'text': ""
+        })
+    
+    return violations
+
+
+def main():
+    """Main CLI entry point."""
+    parser = argparse.ArgumentParser(description="V2 Compliance Analysis CLI")
+    parser.add_argument('--violations', action='store_true', help='Generate violations report')
+    parser.add_argument('--n', type=int, default=1000, help='Number of files to analyze')
+    parser.add_argument('--ci-gate', action='store_true', help='Run CI gate validation')
+    parser.add_argument('--file', type=str, help='Analyze specific file')
+    parser.add_argument('--summary', action='store_true', help='Generate summary report')
+    parser.add_argument('--format', choices=['json', 'text'], default='text', help='Output format')
+    
+    args = parser.parse_args()
+    
+    if args.file:
+        # Analyze specific file
+        file_path = Path(args.file)
+        if file_path.exists():
+            violations = analyze_file(file_path)
+            if args.format == 'json':
+                print(json.dumps(violations, indent=2))
+            else:
+                print_violations_report([violations])
+        else:
+            print(f"File not found: {args.file}")
+            sys.exit(1)
+    else:
+        # Analyze project
+        project_root = Path.cwd()
+        violations = []
+        
+        for py_file in project_root.rglob("*.py"):
         if should_exclude_file(py_file):
             continue
-        if len(all_files) >= max_files:
+            
+            if len(violations) >= args.n:
             break
-        result = analyze_python_file(py_file)
-        all_files.append(result)
-        if result["violations"]:
-            violations_summary["files_with_violations"] += 1
-        violations_summary["files_analyzed"] += 1
-        for violation in result["violations"]:
-            violations_summary["total_violations"] += 1
-            if violation["type"] == "syntax_error":
-                violations_summary["syntax_errors"] += 1
-            elif violation["type"] == "file_loc":
-                violations_summary["file_loc_violations"] += 1
-            elif violation["type"] == "class_loc":
-                violations_summary["class_loc_violations"] += 1
-            elif violation["type"] == "function_loc":
-                violations_summary["function_loc_violations"] += 1
-            elif violation["type"] == "line_length":
-                violations_summary["line_length_violations"] += 1
-            elif violation["type"] == "print_statement":
-                violations_summary["print_violations"] += 1
-    return {
-        "summary": violations_summary,
-        "files": all_files,
-        "analysis_config": {
-            "max_file_loc": MAX_FILE_LOC,
-            "max_class_loc": MAX_CLASS_LOC,
-            "max_function_loc": MAX_FUNCTION_LOC,
-            "max_line_length": MAX_LINE_LENGTH,
-        },
-    }
-
-
-def ci_gate_check(results: dict[str, Any]) -> tuple[bool, str]:
-    """Check if project passes CI gate (no critical violations)."""
-    summary = results["summary"]
-    critical_issues = summary["syntax_errors"]
-    major_issues = (
-        summary["file_loc_violations"]
-        + summary["class_loc_violations"]
-        + summary["print_violations"]
-    )
-    if critical_issues > 0:
-        return (
-            False,
-            f"CRITICAL CI GATE FAILED: {critical_issues} critical violation(s) (syntax errors)",
-        )
-    if major_issues > 0:
-        return (False, f"MAJOR CI GATE FAILED: {major_issues} major violation(s)")
-    total_violations = summary["total_violations"]
-    if total_violations > 0:
-        return (False, f"MINOR CI GATE FAILED: {total_violations} total violation(s)")
-    return True, "SUCCESS CI GATE PASSED: No V2 compliance violations found"
-
-
-def format_violations_text(results: dict[str, Any]) -> str:
-    """Format violations as human-readable text."""
-    summary = results["summary"]
-    files = results["files"]
-    output = []
-    output.append("V2 Compliance Analysis Report")
-    output.append("=" * 50)
-    output.append("")
-    output.append("SUMMARY:")
-    output.append(f"Files analyzed: {summary['files_analyzed']}")
-    output.append(f"Files with violations: {summary['files_with_violations']}")
-    output.append(f"Total violations: {summary['total_violations']}")
-    output.append("")
-    if summary["syntax_errors"] > 0:
-        output.append(f"CRITICAL Syntax errors: {summary['syntax_errors']}")
-    if summary["file_loc_violations"] > 0:
-        output.append(f"CRITICAL File LOC violations: {summary['file_loc_violations']}")
-    if summary["class_loc_violations"] > 0:
-        output.append(f"MAJOR Class LOC violations: {summary['class_loc_violations']}")
-    if summary["function_loc_violations"] > 0:
-        output.append(f"MINOR Function LOC violations: {summary['function_loc_violations']}")
-    if summary["line_length_violations"] > 0:
-        output.append(f"MINOR Line length violations: {summary['line_length_violations']}")
-    if summary["print_violations"] > 0:
-        output.append(f"MAJOR Print statement violations: {summary['print_violations']}")
-    output.append("")
-    output.append("VIOLATION DETAILS:")
-    output.append("")
-    for file_result in files:
-        if not file_result["violations"]:
-            continue
-        output.append(f"FILE {file_result['file']}:")
-        for violation in file_result["violations"]:
-            severity_icon = {"critical": "CRITICAL", "major": "MAJOR", "minor": "MINOR"}.get(
-                violation["severity"], "INFO"
-            )
-            output.append(f"  {severity_icon} Line {violation['line']}: {violation['message']}")
-            if violation["type"] in ["file_loc", "class_loc", "function_loc"]:
-                output.append(f"    Excess LOC: {violation['excess']}")
-        output.append("")
-    return "\n".join(output)
-
-
-def generate_refactor_suggestions(results: dict[str, Any]) -> dict[str, Any]:
-    """Generate refactoring suggestions for LOC violations."""
-    refactor_plan = {
-        "file_splits": [],
-        "class_refactors": [],
-        "function_splits": [],
-        "summary": {
-            "files_needing_split": 0,
-            "classes_needing_split": 0,
-            "functions_needing_split": 0,
-            "estimated_effort_days": 0,
-        },
-    }
-
-    for file_result in results["files"]:
-        for violation in file_result["violations"]:
-            if violation["type"] == "file_loc" and violation["excess"] > 50:
-                refactor_plan["file_splits"].append(
-                    {
-                        "file": violation["file"],
-                        "current_loc": violation["current_loc"],
-                        "excess": violation["excess"],
-                        "suggested_splits": [
-                            f"{Path(violation['file']).stem}_core.py - Core functionality",
-                            f"{Path(violation['file']).stem}_utils.py - Utility functions",
-                            f"{Path(violation['file']).stem}_types.py - Type definitions",
-                        ],
-                        "estimated_classes": max(2, violation["excess"] // 200),
-                    }
-                )
-                refactor_plan["summary"]["files_needing_split"] += 1
-
-            elif violation["type"] == "class_loc" and violation["excess"] > 25:
-                refactor_plan["class_refactors"].append(
-                    {
-                        "file": violation["file"],
-                        "class_name": violation["class_name"],
-                        "current_loc": violation["current_loc"],
-                        "excess": violation["excess"],
-                        "suggested_splits": [
-                            f"{violation['class_name']}Core - Core methods",
-                            f"{violation['class_name']}Utils - Utility methods",
-                        ],
-                        "estimated_classes": max(1, violation["excess"] // 50),
-                    }
-                )
-                refactor_plan["summary"]["classes_needing_split"] += 1
-
-            elif violation["type"] == "function_loc" and violation["excess"] > 10:
-                refactor_plan["function_splits"].append(
-                    {
-                        "file": violation["file"],
-                        "function_name": violation["function_name"],
-                        "current_loc": violation["current_loc"],
-                        "excess": violation["excess"],
-                        "recommendation": "Extract helper functions or split into smaller functions",
-                    }
-                )
-                refactor_plan["summary"]["functions_needing_split"] += 1
-
-    # Estimate effort
-    refactor_plan["summary"]["estimated_effort_days"] = (
-        refactor_plan["summary"]["files_needing_split"] * 2
-        + refactor_plan["summary"]["classes_needing_split"] * 1
-        + refactor_plan["summary"]["functions_needing_split"] * 0.5
-    )
-
-    return refactor_plan
-
-
-def format_refactor_report(refactor_plan: dict[str, Any]) -> str:
-    """Format refactoring suggestions as readable text."""
-    report = []
-    report.append("V2 Refactoring Recommendations")
-    report.append("=" * 50)
-    report.append("")
-
-    summary = refactor_plan["summary"]
-    report.append("SUMMARY:")
-    report.append(f"Files needing split: {summary['files_needing_split']}")
-    report.append(f"Classes needing refactor: {summary['classes_needing_split']}")
-    report.append(f"Functions needing split: {summary['functions_needing_split']}")
-    report.append(f"Estimated effort: {summary['estimated_effort_days']:.1f} days")
-    report.append("")
-
-    if refactor_plan["file_splits"]:
-        report.append("FILES REQUIRING SPLIT:")
-        report.append("")
-        for split in refactor_plan["file_splits"]:
-            report.append(f"📁 {split['file']}:")
-            report.append(f"   Current: {split['current_loc']} LOC (excess: {split['excess']})")
-            report.append("   Suggested splits:")
-            for suggestion in split["suggested_splits"]:
-                report.append(f"     • {suggestion}")
-            report.append(f"   Estimated new files: {split['estimated_classes']}")
-            report.append("")
-
-    if refactor_plan["class_refactors"]:
-        report.append("CLASSES REQUIRING REFACTOR:")
-        report.append("")
-        for refactor in refactor_plan["class_refactors"]:
-            report.append(f"🏗️ {refactor['file']}:{refactor['class_name']}:")
-            report.append(
-                f"   Current: {refactor['current_loc']} LOC (excess: {refactor['excess']})"
-            )
-            report.append("   Suggested splits:")
-            for suggestion in refactor["suggested_splits"]:
-                report.append(f"     • {suggestion}")
-            report.append(f"   Estimated new classes: {refactor['estimated_classes']}")
-            report.append("")
-
-    if refactor_plan["function_splits"]:
-        report.append("FUNCTIONS REQUIRING SPLIT:")
-        report.append("")
-        for split in refactor_plan["function_splits"]:
-            report.append(f"⚡ {split['file']}:{split['function_name']}:")
-            report.append(f"   Current: {split['current_loc']} LOC (excess: {split['excess']})")
-            report.append(f"   Recommendation: {split['recommendation']}")
-            report.append("")
-
-    return "\n".join(report)
-
-
-def main() -> int:
-    """Main CLI entry point."""
-    parser = argparse.ArgumentParser(description="V2 Compliance Analysis CLI Tool")
-    parser.add_argument(
-        "--violations", action="store_true", help="Analyze and report all V2 compliance violations"
-    )
-    parser.add_argument(
-        "--ci-gate", action="store_true", help="Run CI gate check (fails if any violations found)"
-    )
-    parser.add_argument(
-        "--refactor",
-        action="store_true",
-        help="Generate refactoring suggestions for LOC violations",
-    )
-    parser.add_argument(
-        "--json", action="store_true", help="Output results as JSON instead of text"
-    )
-    parser.add_argument(
-        "-n",
-        "--max-files",
-        type=int,
-        default=1000,
-        help="Maximum number of files to analyze (default: 1000)",
-    )
-    parser.add_argument(
-        "--root",
-        type=Path,
-        default=Path("."),
-        help="Root directory to analyze (default: current directory)",
-    )
-    args = parser.parse_args()
-    if not args.violations and not args.ci_gate and not args.refactor:
-        parser.error("Must specify --violations, --ci-gate, or --refactor")
-        return 1  # Return instead of exit
-
-    results = analyze_project(args.root, args.max_files)
-    exit_code = 0
-
-    if args.ci_gate:
-        passed, message = ci_gate_check(results)
-        logger.info(message)
-        if args.json:
-            gate_result = {"passed": passed, "message": message, "summary": results["summary"]}
-            logger.info(json.dumps(gate_result, indent=2))
-        exit_code = 0 if passed else 1
-    elif args.violations:
-        if args.json:
-            logger.info(json.dumps(results, indent=2))
+            
+            violations.append(analyze_file(py_file))
+        
+        if args.summary:
+            print_summary_report(violations)
+        elif args.ci_gate:
+            run_ci_gate(violations)
         else:
-            logger.info(format_violations_text(results))
-    elif args.refactor:
-        refactor_plan = generate_refactor_suggestions(results)
-        if args.json:
-            logger.info(json.dumps(refactor_plan, indent=2))
-        else:
-            logger.info(format_refactor_report(refactor_plan))
+            print_violations_report(violations)
 
-    return exit_code
+
+def print_violations_report(violations: list[dict[str, Any]]) -> None:
+    """Print detailed violations report."""
+    print("V2 Compliance Analysis Report")
+    print("=" * 50)
+    
+    total_files = len(violations)
+    files_with_violations = sum(1 for v in violations if any([
+        v['syntax_errors'], v['loc_violations'], 
+        v['line_length_violations'], v['print_statements']
+    ]))
+    
+    print(f"📊 Analysis Summary:")
+    print(f"   • Total files analyzed: {total_files}")
+    print(f"   • Files with violations: {files_with_violations}")
+    print(f"   • Compliance rate: {((total_files - files_with_violations) / total_files * 100):.1f}%")
+    print()
+    
+    for violation in violations:
+        if any([violation['syntax_errors'], violation['loc_violations'], 
+                violation['line_length_violations'], violation['print_statements']]):
+            print(f"📁 {violation['file']}")
+            
+            if violation['syntax_errors']:
+                print("   Syntax Errors:")
+                for error in violation['syntax_errors']:
+                    print(f"      Line {error['line_number']}: {error['message']}")
+            
+            if violation['loc_violations']:
+                print("   LOC Violations:")
+                for loc in violation['loc_violations']:
+                    print(f"      {loc['type'].title()} '{loc['name']}': {loc['lines']} lines (max: {loc['max_allowed']})")
+            
+            if violation['line_length_violations']:
+                print("   Line Length Violations:")
+                for line in violation['line_length_violations'][:5]:  # Show first 5
+                    print(f"      Line {line['line_number']}: {line['length']} chars")
+            
+            if violation['print_statements']:
+                print("   Print Statements:")
+                for print_stmt in violation['print_statements'][:3]:  # Show first 3
+                    print(f"      Line {print_stmt['line_number']}: {print_stmt['content']}")
+            
+            print()
+
+
+def print_summary_report(violations: list[dict[str, Any]]) -> None:
+    """Print summary report."""
+    total_files = len(violations)
+    syntax_errors = sum(len(v['syntax_errors']) for v in violations)
+    loc_violations = sum(len(v['loc_violations']) for v in violations)
+    line_length_violations = sum(len(v['line_length_violations']) for v in violations)
+    print_statements = sum(len(v['print_statements']) for v in violations)
+    
+    print("📊 V2 Compliance Summary")
+    print("=" * 30)
+    print(f"Total files: {total_files}")
+    print(f"Syntax errors: {syntax_errors}")
+    print(f"LOC violations: {loc_violations}")
+    print(f"Line length violations: {line_length_violations}")
+    print(f"Print statements: {print_statements}")
+
+
+def run_ci_gate(violations: list[dict[str, Any]]) -> None:
+    """Run CI gate validation."""
+    total_violations = sum(
+        len(v['syntax_errors']) + len(v['loc_violations']) + 
+        len(v['line_length_violations']) + len(v['print_statements'])
+        for v in violations
+    )
+    
+    if total_violations == 0:
+        print("✅ CI Gate: PASSED - No violations found")
+        sys.exit(0)
+        else:
+        print(f"CI Gate: FAILED - {total_violations} violations found")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
-    exit_code = main()
-    print()  # Add line break for agent coordination
-    print("🐝 WE. ARE. SWARM. ⚡️🔥")  # Completion indicator
-    sys.exit(exit_code)
+    main()

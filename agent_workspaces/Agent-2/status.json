@@ -1,0 +1,32 @@
+{
+  "agent_id": "Agent-2",
+  "role": "Architecture & Design Specialist",
+  "status": "ONBOARDED",
+  "coordinates": "(-308, 480)",
+  "monitor": "Monitor 1 (Left Screen)",
+  "position": "Row 2, Column 1",
+  "onboarding_timestamp": "2025-09-14T00:20:00Z",
+  "capabilities": [
+    "Architectural Design",
+    "Design Pattern Implementation",
+    "Code Structure Analysis",
+    "Large File Refactoring",
+    "SSOT Compliance",
+    "Swarm Coordination"
+  ],
+  "current_tasks": [],
+  "completed_tasks": [],
+  "contracts_active": 0,
+  "fsm_state": "READY",
+  "last_checkin": "2025-09-14T00:20:00Z",
+  "swarm_participation": {
+    "debates_participated": 0,
+    "coordination_cycles": 2,
+    "automation_ready": true
+  },
+  "specializations": {
+    "primary": "Architecture & Design",
+    "secondary": "Large File Modularization",
+    "tertiary": "Design Pattern Implementation"
+  }
+}

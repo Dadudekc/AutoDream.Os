@@ -1,13 +1,8 @@
-"""
-Thea Core Service - V2 Compliant Main Orchestrator
-================================================
+# AUTO-GENERATED __init__.py
+# DO NOT EDIT MANUALLY - changes may be overwritten
 
-Main orchestration service for Thea communication system.
+from . import thea_communication_manager
 
-Author: Agent-4 (Captain) - V2_SWARM
-License: MIT
-"""
-
-from .thea_communication_manager import TheaCommunicationManager
-
-__all__ = ["TheaCommunicationManager"]
+__all__ = [
+    'thea_communication_manager',
+]

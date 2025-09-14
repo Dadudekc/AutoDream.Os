@@ -20,14 +20,10 @@ class TaskContextManager:
     """Manages task context and search operations."""
 
     def __init__(self, agent_id: str, config_path: str | None = None):
-
-EXAMPLE USAGE:
-==============
-
-# Import the service
-from src.services.task_context_manager import Task_Context_ManagerService
-
-# Initialize service
+        """Initialize the task context manager."""
+        self.agent_id = agent_id
+        self.config_path = config_path
+        self.context = {}
 service = Task_Context_ManagerService()
 
 # Basic service operation

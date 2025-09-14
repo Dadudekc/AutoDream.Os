@@ -1,50 +1,66 @@
-from __future__ import annotations
+#!/usr/bin/env python3
+"""
+Messaging Service - V2 Compliant
+===============================
+
+Core messaging service for unified messaging system.
+V2 COMPLIANT: Simple service wrapper under 100 lines.
+
+Author: Agent-5 (Business Intelligence Specialist)
+License: MIT
+"""
 
 import logging
-
-from .coordinates import get_agent_coordinates
-from .coordinates import list_agents as _list_agents
-from .delivery.fallback import send_with_fallback
-from .models import (
-    UnifiedMessage,
-    UnifiedMessageType,
-    map_priority,
-    map_tag,
-)
+from .messaging_core import ConsolidatedMessagingService
 
 logger = logging.getLogger(__name__)
 
 
 class MessagingService:
-    """Thin orchestration facade; <200 LOC target."""
-
-    def __init__(self, dry_run: bool = False):
-        self.dry_run = bool(dry_run)
-
-    def send(
-        self, agent_id: str, content: str, priority: str = "NORMAL", tag: str = "GENERAL"
-    ) -> bool:
-        if self.dry_run:
-            logger.info(f"[dry-run] send → {agent_id}: {content[:120]}")
-            return True
-        msg = UnifiedMessage(
-            content=content,
-            sender="ConsolidatedMessagingService",
-            recipient=agent_id,
-            message_type=UnifiedMessageType.AGENT_TO_AGENT,
-            priority=map_priority(priority),
-            tags=[map_tag(tag)],
-        )
-        return send_with_fallback(msg)
-
-    def broadcast(
-        self, content: str, sender: str = "ConsolidatedMessagingService"
-    ) -> dict[str, bool]:
-        results: dict[str, bool] = {}
-        for a in _list_agents():
-            results[a] = self.send(a, content)
-        return results
-
-    # Surface helpers for other modules
-    def coords(self, agent_id: str):
-        return get_agent_coordinates(agent_id)
+    """Simple wrapper around ConsolidatedMessagingService."""
+    
+    def __init__(self):
+        """Initialize messaging service."""
+        self.service = ConsolidatedMessagingService()
+    
+    def send(self, recipient: str, content: str, sender: str = "System") -> bool:
+        """Send message to recipient."""
+        try:
+            from .models.messaging_models import UnifiedMessage
+            from .models.messaging_enums import UnifiedMessageType, UnifiedMessagePriority
+            
+            # Determine message type based on sender
+            if sender.startswith("Agent-"):
+                message_type = UnifiedMessageType.AGENT_TO_AGENT
+            elif sender == "Captain" or sender.startswith("Captain"):
+                message_type = UnifiedMessageType.CAPTAIN_TO_AGENT
+            elif sender == "System":
+                message_type = UnifiedMessageType.SYSTEM_TO_AGENT
+            else:
+                message_type = UnifiedMessageType.AGENT_TO_AGENT  # Default to A2A
+            
+            message = UnifiedMessage(
+                content=content,
+                recipient=recipient,
+                sender=sender,
+                message_type=message_type,
+                priority=UnifiedMessagePriority.REGULAR
+            )
+            
+            return self.service.send_message_to_agent(
+                agent_id=recipient,
+                message=content,
+                sender=sender,
+                priority="NORMAL"
+            )
+        except Exception as e:
+            logger.error(f"Error sending message: {e}")
+            return False
+    
+    def broadcast(self, content: str, sender: str = "System") -> dict[str, bool]:
+        """Broadcast message to all agents."""
+        return self.service.broadcast_message(content, sender)
+    
+    def broadcast_urgent(self, content: str, sender: str = "System") -> dict[str, bool]:
+        """Broadcast urgent message to all agents."""
+        return self.service.broadcast_message(content, sender, priority="urgent")

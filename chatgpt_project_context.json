@@ -1,22 +1,85 @@
 {
     "project_root": "D:\\Agent_Cellphone_V2_Repository",
-    "num_files_analyzed": 13,
+    "num_files_analyzed": 33,
     "analysis_details": {
-        "src\\web\\static\\js\\unified-frontend-utilities.js": {
-            "language": ".js",
+        "super_demo.py": {
+            "language": ".py",
+            "functions": [
+                "run_super_demo"
+            ],
+            "classes": {},
+            "routes": [],
+            "complexity": 1
+        },
+        "archive\\cleanup_20250912_032500\\broadcast_swarm_activation.py": {
+            "language": ".py",
+            "functions": [
+                "main"
+            ],
+            "classes": {},
+            "routes": [],
+            "complexity": 1
+        },
+        "super_demo_coordination.py": {
+            "language": ".py",
+            "functions": [
+                "demo_quality_assurance",
+                "demo_coordination_system",
+                "demo_thea_integration",
+                "run_super_demo",
+                "print_usage_examples",
+                "print_architecture_overview",
+                "get_coordination_demo_functions",
+                "run_coordination_demos"
+            ],
+            "classes": {},
+            "routes": [],
+            "complexity": 8
+        },
+        "super_demo_core.py": {
+            "language": ".py",
+            "functions": [
+                "demo_core_system",
+                "demo_shared_utilities",
+                "get_core_demo_functions",
+                "run_core_demos"
+            ],
+            "classes": {},
+            "routes": [],
+            "complexity": 4
+        },
+        "super_demo_simple.py": {
+            "language": ".py",
+            "functions": [
+                "demo_working_imports",
+                "demo_core_system_working",
+                "demo_shared_utilities_working",
+                "analyze_file_structure",
+                "analyze_working_components",
+                "print_working_usage_examples",
+                "run_simple_demo"
+            ],
+            "classes": {},
+            "routes": [],
+            "complexity": 7
+        },
+        "archive\\cleanup_20250912_032500\\send_co_captain_activations.py": {
+            "language": ".py",
+            "functions": [
+                "send_co_captain_activations"
+            ],
+            "classes": {},
+            "routes": [],
+            "complexity": 1
+        },
+        "archive\\captain_handbooks_consolidated\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\__init__.py": {
+            "language": ".py",
             "functions": [],
             "classes": {},
             "routes": [],
             "complexity": 0
         },
-        "src\\web\\static\\js\\trading-robot\\chart-validation\\module.js": {
-            "language": ".js",
-            "functions": [],
-            "classes": {},
-            "routes": [],
-            "complexity": 0
-        },
-        "src\\core\\emergency_intervention\\unified_emergency\\orchestrator.py": {
+        "archive\\captain_handbooks_consolidated\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\orchestrators\\emergency_orchestrator.py": {
             "language": ".py",
             "functions": [
                 "__init__",
@@ -57,499 +120,396 @@
                         "shutdown"
                     ],
                     "docstring": "Main orchestrator for emergency intervention operations.\n\nCoordinates emergency detection, analysis, intervention, and logging across all\nemergency components.",
-                    "base_classes": [],
-                    "maturity": "Core Asset",
-                    "agent_type": "Utility"
+                    "base_classes": []
                 }
             },
             "routes": [],
             "complexity": 32
         },
-        "src\\core\\unified_config.py": {
+        "archive\\captain_handbooks_consolidated\\trading_robot\\config\\__init__.py": {
+            "language": ".py",
+            "functions": [],
+            "classes": {},
+            "routes": [],
+            "complexity": 0
+        },
+        "src\\web\\static\\js\\unified-frontend-utilities.js": {
+            "language": ".js",
+            "functions": [],
+            "classes": {},
+            "routes": [],
+            "complexity": 0
+        },
+        "src\\web\\static\\js\\dashboard-utils.js": {
+            "language": ".js",
+            "functions": [],
+            "classes": {},
+            "routes": [],
+            "complexity": 0
+        },
+        "src\\web\\static\\js\\dashboard.js": {
+            "language": ".js",
+            "functions": [],
+            "classes": {},
+            "routes": [],
+            "complexity": 0
+        },
+        "src\\web\\static\\js\\performance\\performance-optimization-orchestrator.js": {
+            "language": ".js",
+            "functions": [],
+            "classes": {},
+            "routes": [],
+            "complexity": 0
+        },
+        "src\\web\\static\\js\\trading-robot\\chart-validation\\module.js": {
+            "language": ".js",
+            "functions": [],
+            "classes": {},
+            "routes": [],
+            "complexity": 0
+        },
+        "src\\services\\__init__.py": {
+            "language": ".py",
+            "functions": [],
+            "classes": {},
+            "routes": [],
+            "complexity": 0
+        },
+        "src\\services\\consolidated_debate_service_v2.py": {
             "language": ".py",
             "functions": [
-                "get_unified_config",
-                "reload_config",
-                "get_timeout_config",
-                "get_agent_config",
-                "get_threshold_config",
-                "get_browser_config",
-                "get_test_config",
-                "get_file_pattern_config",
-                "get_report_config",
-                "agent_ids",
-                "project_patterns",
-                "alert_rules",
-                "benchmark_targets",
-                "__post_init__",
-                "validate",
-                "get_config_summary"
+                "get_debate_service",
+                "reset_debate_service",
+                "__init__"
             ],
             "classes": {
-                "ConfigEnvironment": {
-                    "methods": [],
-                    "docstring": "Configuration environment types.",
+                "ConsolidatedDebateService": {
+                    "methods": [
+                        "__init__"
+                    ],
+                    "docstring": "Main consolidated debate service coordinating all debate components.\n\nThis class extends DebateCoordinator to maintain backward compatibility.",
                     "base_classes": [
-                        "str",
-                        "Enum"
-                    ],
-                    "maturity": "Core Asset",
-                    "agent_type": "Utility"
-                },
-                "ConfigSource": {
-                    "methods": [],
-                    "docstring": "Configuration source types.",
-                    "base_classes": [
-                        "str",
-                        "Enum"
-                    ],
-                    "maturity": "Core Asset",
-                    "agent_type": "Utility"
-                },
-                "TimeoutConfig": {
-                    "methods": [],
-                    "docstring": "Centralized timeout configurations.",
-                    "base_classes": [],
-                    "maturity": "Core Asset",
-                    "agent_type": "Utility"
-                },
-                "AgentConfig": {
+                        "DebateCoordinator"
+                    ]
+                }
+            },
+            "routes": [],
+            "complexity": 4
+        },
+        "src\\services\\consolidated_messaging_service.py": {
+            "language": ".py",
+            "functions": [
+                "get_coordinate_loader",
+                "get_messaging_core",
+                "get_consolidated_messaging_system",
+                "main",
+                "send_message_to_inbox",
+                "send_message_with_fallback",
+                "broadcast_message_to_agents",
+                "get_agent_workspaces_status",
+                "send_message",
+                "broadcast_message",
+                "list_agents",
+                "get_messaging_core",
+                "show_message_history",
+                "__init__",
+                "load_coordinates_from_json",
+                "send_message_pyautogui",
+                "send_message_unified",
+                "broadcast_message_swarm",
+                "list_available_agents",
+                "show_message_history",
+                "run_cli_interface",
+                "broadcast_message",
+                "list_agents",
+                "show_message_history",
+                "get_agent_workspaces_status",
+                "launch_coordinate_capture",
+                "handle_task_assistance",
+                "_create_task_assistance_message",
+                "handle_thea_communication",
+                "show_current_coordinates",
+                "__init__",
+                "get_all_agents",
+                "is_agent_active",
+                "get_chat_coordinates",
+                "send_message",
+                "broadcast_message"
+            ],
+            "classes": {
+                "ConsolidatedMessagingService": {
                     "methods": [
-                        "agent_ids"
+                        "__init__",
+                        "load_coordinates_from_json",
+                        "send_message_pyautogui",
+                        "send_message_unified",
+                        "broadcast_message_swarm",
+                        "list_available_agents",
+                        "show_message_history",
+                        "run_cli_interface",
+                        "broadcast_message",
+                        "list_agents",
+                        "show_message_history",
+                        "get_agent_workspaces_status",
+                        "launch_coordinate_capture",
+                        "handle_task_assistance",
+                        "_create_task_assistance_message",
+                        "handle_thea_communication",
+                        "show_current_coordinates"
                     ],
-                    "docstring": "Centralized agent configuration.",
-                    "base_classes": [],
-                    "maturity": "Core Asset",
-                    "agent_type": "Utility"
+                    "docstring": "Unified messaging service using PyAutoGUI messaging as SSOT.",
+                    "base_classes": []
                 },
-                "FilePatternConfig": {
-                    "methods": [
-                        "project_patterns"
-                    ],
-                    "docstring": "Centralized file pattern configurations.",
-                    "base_classes": [],
-                    "maturity": "Core Asset",
-                    "agent_type": "Utility"
-                },
-                "ThresholdConfig": {
-                    "methods": [
-                        "alert_rules",
-                        "benchmark_targets"
-                    ],
-                    "docstring": "Centralized threshold and alert configurations.",
-                    "base_classes": [],
-                    "maturity": "Core Asset",
-                    "agent_type": "Utility"
-                },
-                "BrowserConfig": {
-                    "methods": [],
-                    "docstring": "Centralized browser interaction configuration.",
-                    "base_classes": [],
-                    "maturity": "Core Asset",
-                    "agent_type": "Utility"
-                },
-                "TestConfig": {
-                    "methods": [],
-                    "docstring": "Centralized test configuration.",
-                    "base_classes": [],
-                    "maturity": "Core Asset",
-                    "agent_type": "Utility"
-                },
-                "ReportConfig": {
-                    "methods": [],
-                    "docstring": "Centralized reporting configuration.",
-                    "base_classes": [],
-                    "maturity": "Core Asset",
-                    "agent_type": "Utility"
-                },
-                "UnifiedConfig": {
-                    "methods": [
-                        "__post_init__",
-                        "validate",
-                        "get_config_summary"
-                    ],
-                    "docstring": "Unified configuration system consolidating all config.py files.",
-                    "base_classes": [],
-                    "maturity": "Core Asset",
-                    "agent_type": "Utility"
-                },
-                "ReportFormat": {
+                "UnifiedMessageType": {
                     "methods": [],
                     "docstring": null,
                     "base_classes": [
-                        "str",
                         "Enum"
-                    ],
-                    "maturity": "Core Asset",
-                    "agent_type": "Utility"
-                }
-            },
-            "routes": [],
-            "complexity": 23
-        },
-        "src\\gaming\\gaming_integration_core.py": {
-            "language": ".py",
-            "functions": [
-                "create_gaming_integration_core",
-                "create_session",
-                "get_session",
-                "end_session",
-                "get_active_sessions",
-                "register_system",
-                "get_system",
-                "get_all_systems",
-                "handle_event",
-                "__init__",
-                "to_dict",
-                "__init__",
-                "to_dict",
-                "__init__",
-                "create_session",
-                "get_session",
-                "end_session",
-                "get_active_sessions",
-                "__init__",
-                "register_system",
-                "get_system",
-                "get_all_systems",
-                "__init__",
-                "handle_event",
-                "_handle_create_session",
-                "_handle_end_session",
-                "_handle_get_session",
-                "__init__",
-                "_initialize_integration",
-                "_setup_default_handlers",
-                "_connect_to_systems",
-                "create_game_session",
-                "get_game_session",
-                "end_game_session",
-                "get_active_sessions",
-                "register_entertainment_system",
-                "get_entertainment_system",
-                "get_all_entertainment_systems",
-                "register_event_handler",
-                "handle_event",
-                "get_status",
-                "is_connected",
-                "get_core_health"
-            ],
-            "classes": {
-                "IGameSessionManager": {
-                    "methods": [
-                        "create_session",
-                        "get_session",
-                        "end_session",
-                        "get_active_sessions"
-                    ],
-                    "docstring": "Interface for game session management (ISP: Segregated interface).",
-                    "base_classes": [
-                        "Protocol"
-                    ],
-                    "maturity": "Core Asset",
-                    "agent_type": "Utility"
+                    ]
                 },
-                "IEntertainmentSystemManager": {
-                    "methods": [
-                        "register_system",
-                        "get_system",
-                        "get_all_systems"
-                    ],
-                    "docstring": "Interface for entertainment system management (ISP: Segregated interface).",
-                    "base_classes": [
-                        "Protocol"
-                    ],
-                    "maturity": "Core Asset",
-                    "agent_type": "Utility"
-                },
-                "IIntegrationHandler": {
-                    "methods": [
-                        "handle_event"
-                    ],
-                    "docstring": "Interface for integration event handlers (ISP: Segregated interface).",
-                    "base_classes": [
-                        "Protocol"
-                    ],
-                    "maturity": "Core Asset",
-                    "agent_type": "Utility"
-                },
-                "IntegrationStatus": {
+                "UnifiedMessagePriority": {
                     "methods": [],
-                    "docstring": "Integration status states.",
+                    "docstring": null,
                     "base_classes": [
                         "Enum"
-                    ],
-                    "maturity": "Core Asset",
-                    "agent_type": "Utility"
+                    ]
                 },
-                "GameType": {
+                "UnifiedMessageTag": {
                     "methods": [],
-                    "docstring": "Game types.",
+                    "docstring": null,
                     "base_classes": [
                         "Enum"
-                    ],
-                    "maturity": "Core Asset",
-                    "agent_type": "Utility"
+                    ]
                 },
-                "GameSession": {
+                "UnifiedMessage": {
                     "methods": [
-                        "__init__",
-                        "to_dict"
+                        "__init__"
                     ],
-                    "docstring": "Simplified game session - Single Responsibility: Data container.",
-                    "base_classes": [],
-                    "maturity": "Core Asset",
-                    "agent_type": "Utility"
+                    "docstring": null,
+                    "base_classes": []
                 },
-                "EntertainmentSystem": {
+                "MockCoordinateLoader": {
                     "methods": [
-                        "__init__",
-                        "to_dict"
+                        "get_all_agents",
+                        "is_agent_active",
+                        "get_chat_coordinates"
                     ],
-                    "docstring": "Simplified entertainment system - Single Responsibility: Data container.",
-                    "base_classes": [],
-                    "maturity": "Core Asset",
-                    "agent_type": "Utility"
+                    "docstring": null,
+                    "base_classes": []
                 },
-                "GameSessionManager": {
+                "MockMessagingCore": {
                     "methods": [
-                        "__init__",
-                        "create_session",
-                        "get_session",
-                        "end_session",
-                        "get_active_sessions"
+                        "send_message",
+                        "broadcast_message"
                     ],
-                    "docstring": "Game session manager - Single Responsibility: Session management.",
-                    "base_classes": [],
-                    "maturity": "Core Asset",
-                    "agent_type": "Utility"
-                },
-                "EntertainmentSystemManager": {
-                    "methods": [
-                        "__init__",
-                        "register_system",
-                        "get_system",
-                        "get_all_systems"
-                    ],
-                    "docstring": "Entertainment system manager - Single Responsibility: System management.",
-                    "base_classes": [],
-                    "maturity": "Core Asset",
-                    "agent_type": "Utility"
-                },
-                "IntegrationEventHandler": {
-                    "methods": [
-                        "__init__",
-                        "handle_event",
-                        "_handle_create_session",
-                        "_handle_end_session",
-                        "_handle_get_session"
-                    ],
-                    "docstring": "Integration event handler - Single Responsibility: Event processing.",
-                    "base_classes": [],
-                    "maturity": "Core Asset",
-                    "agent_type": "Utility"
-                },
-                "GamingIntegrationCore": {
-                    "methods": [
-                        "__init__",
-                        "_initialize_integration",
-                        "_setup_default_handlers",
-                        "_connect_to_systems",
-                        "create_game_session",
-                        "get_game_session",
-                        "end_game_session",
-                        "get_active_sessions",
-                        "register_entertainment_system",
-                        "get_entertainment_system",
-                        "get_all_entertainment_systems",
-                        "register_event_handler",
-                        "handle_event",
-                        "get_status",
-                        "is_connected",
-                        "get_core_health"
-                    ],
-                    "docstring": "Gaming integration core - SOLID Compliant: Uses composition and interfaces.",
-                    "base_classes": [],
-                    "maturity": "Core Asset",
-                    "agent_type": "Utility"
+                    "docstring": null,
+                    "base_classes": []
                 }
             },
             "routes": [],
-            "complexity": 85
+            "complexity": 59
         },
-        "src\\reporting\\__init__.py": {
-            "language": ".py",
-            "functions": [],
-            "classes": {},
-            "routes": [],
-            "complexity": 0
-        },
-        "src\\utils\\config_consolidator.py": {
+        "src\\services\\messaging\\service.py": {
             "language": ".py",
             "functions": [
-                "run_configuration_consolidation",
                 "__init__",
-                "_create_default_scanners",
-                "scan_configuration_patterns",
-                "_should_skip_file",
-                "_scan_file_for_patterns",
-                "_find_environment_variables",
-                "_find_hardcoded_values",
-                "_find_config_constants",
-                "_find_settings_patterns",
-                "_is_likely_config",
-                "consolidate_patterns",
-                "_migrate_file_to_centralized",
-                "generate_consolidation_report"
+                "send",
+                "broadcast",
+                "broadcast_urgent"
             ],
             "classes": {
-                "ConfigPattern": {
-                    "methods": [],
-                    "docstring": "Configuration pattern found in code.",
-                    "base_classes": [],
-                    "maturity": "Core Asset",
-                    "agent_type": "Utility"
-                },
-                "ConfigurationConsolidator": {
+                "MessagingService": {
                     "methods": [
                         "__init__",
-                        "_create_default_scanners",
-                        "scan_configuration_patterns",
-                        "_should_skip_file",
-                        "_scan_file_for_patterns",
-                        "_find_environment_variables",
-                        "_find_hardcoded_values",
-                        "_find_config_constants",
-                        "_find_settings_patterns",
-                        "_is_likely_config",
-                        "consolidate_patterns",
-                        "_migrate_file_to_centralized",
-                        "generate_consolidation_report"
+                        "send",
+                        "broadcast",
+                        "broadcast_urgent"
                     ],
-                    "docstring": "Consolidates configuration patterns into centralized SSOT system.\n\nUses dependency injection and delegates to specialized components.",
-                    "base_classes": [],
-                    "maturity": "Core Asset",
-                    "agent_type": "Utility"
+                    "docstring": "Simple wrapper around ConsolidatedMessagingService.",
+                    "base_classes": []
                 }
             },
             "routes": [],
-            "complexity": 27
+            "complexity": 8
         },
-        "src\\utils\\config_scanners.py": {
+        "src\\services\\messaging\\__init__.py": {
+            "language": ".py",
+            "functions": [],
+            "classes": {},
+            "routes": [],
+            "complexity": 0
+        },
+        "src\\services\\messaging\\consolidated_messaging_service_v2.py": {
+            "language": ".py",
+            "functions": [],
+            "classes": {},
+            "routes": [],
+            "complexity": 0
+        },
+        "src\\services\\messaging\\models.py": {
+            "language": ".py",
+            "functions": [],
+            "classes": {},
+            "routes": [],
+            "complexity": 0
+        },
+        "src\\services\\messaging\\providers\\fallback_provider\\__init__.py": {
+            "language": ".py",
+            "functions": [],
+            "classes": {},
+            "routes": [],
+            "complexity": 0
+        },
+        "src\\services\\messaging\\cli\\messaging_cli_clean.py": {
+            "language": ".py",
+            "functions": [],
+            "classes": {},
+            "routes": [],
+            "complexity": 0
+        },
+        "src\\services\\messaging\\cli\\perf_cli\\__init__.py": {
+            "language": ".py",
+            "functions": [],
+            "classes": {},
+            "routes": [],
+            "complexity": 0
+        },
+        "src\\services\\messaging\\broadcast_service\\__init__.py": {
+            "language": ".py",
+            "functions": [],
+            "classes": {},
+            "routes": [],
+            "complexity": 0
+        },
+        "src\\services\\messaging\\history_service\\__init__.py": {
+            "language": ".py",
+            "functions": [],
+            "classes": {},
+            "routes": [],
+            "complexity": 0
+        },
+        "src\\services\\agent_management\\consolidated_service.py": {
             "language": ".py",
             "functions": [
-                "scan_file",
-                "pattern_type",
-                "pattern_type",
-                "scan_file",
-                "pattern_type",
-                "scan_file",
-                "_is_likely_config",
-                "pattern_type",
-                "scan_file",
-                "_is_config_constant",
-                "pattern_type",
-                "scan_file"
+                "__init__",
+                "_load_assignments",
+                "_create_vector_integration",
+                "_save_assignments",
+                "get_agent_principle",
+                "assign_principle",
+                "get_all_assignments",
+                "get_agents_by_principle",
+                "get_agent_status",
+                "get_integration_stats",
+                "_get_recent_work_count",
+                "_get_pending_tasks_count",
+                "_get_last_activity",
+                "_get_total_documents",
+                "_get_agent_documents",
+                "index_agent_work",
+                "search_agent_work",
+                "get_agent_context",
+                "get_agent_config",
+                "reload_config",
+                "get_comprehensive_agent_report"
             ],
             "classes": {
-                "ConfigurationScanner": {
-                    "methods": [
-                        "scan_file",
-                        "pattern_type"
-                    ],
-                    "docstring": "Abstract base class for configuration scanners.",
-                    "base_classes": [
-                        "ABC"
-                    ],
-                    "maturity": "Core Asset",
-                    "agent_type": "Utility"
+                "ArchitecturalPrinciple": {
+                    "methods": [],
+                    "docstring": "Temporary architectural principle model.",
+                    "base_classes": []
                 },
-                "EnvironmentVariableScanner": {
+                "ConsolidatedAgentManagementService": {
                     "methods": [
-                        "pattern_type",
-                        "scan_file"
+                        "__init__",
+                        "_load_assignments",
+                        "_create_vector_integration",
+                        "_save_assignments",
+                        "get_agent_principle",
+                        "assign_principle",
+                        "get_all_assignments",
+                        "get_agents_by_principle",
+                        "get_agent_status",
+                        "get_integration_stats",
+                        "_get_recent_work_count",
+                        "_get_pending_tasks_count",
+                        "_get_last_activity",
+                        "_get_total_documents",
+                        "_get_agent_documents",
+                        "index_agent_work",
+                        "search_agent_work",
+                        "get_agent_context",
+                        "get_agent_config",
+                        "reload_config",
+                        "get_comprehensive_agent_report"
                     ],
-                    "docstring": "Scans for environment variable usage patterns.",
-                    "base_classes": [
-                        "ConfigurationScanner"
-                    ],
-                    "maturity": "Core Asset",
-                    "agent_type": "Utility"
-                },
-                "HardcodedValueScanner": {
-                    "methods": [
-                        "pattern_type",
-                        "scan_file",
-                        "_is_likely_config"
-                    ],
-                    "docstring": "Scans for hardcoded configuration values.",
-                    "base_classes": [
-                        "ConfigurationScanner"
-                    ],
-                    "maturity": "Core Asset",
-                    "agent_type": "Utility"
-                },
-                "ConfigConstantScanner": {
-                    "methods": [
-                        "pattern_type",
-                        "scan_file",
-                        "_is_config_constant"
-                    ],
-                    "docstring": "Scans for configuration constant definitions.",
-                    "base_classes": [
-                        "ConfigurationScanner"
-                    ],
-                    "maturity": "Core Asset",
-                    "agent_type": "Utility"
-                },
-                "SettingsPatternScanner": {
-                    "methods": [
-                        "pattern_type",
-                        "scan_file"
-                    ],
-                    "docstring": "Scans for settings-related patterns.",
-                    "base_classes": [
-                        "ConfigurationScanner"
-                    ],
-                    "maturity": "Core Asset",
-                    "agent_type": "Utility"
+                    "docstring": "Unified agent management service combining assignment, status, and vector integration.",
+                    "base_classes": []
                 }
             },
             "routes": [],
-            "complexity": 24
+            "complexity": 42
         },
-        "tests\\infrastructure\\config.py": {
+        "src\\core\\__init__.py": {
             "language": ".py",
             "functions": [],
             "classes": {},
             "routes": [],
             "complexity": 0
         },
-        "tests\\messaging\\fixtures\\config.py": {
+        "src\\core\\error_handling_examples.py": {
             "language": ".py",
             "functions": [
-                "test_config",
-                "temp_inbox_dirs"
+                "example_basic_error_handling",
+                "example_circuit_breaker_pattern",
+                "example_fallback_recovery",
+                "example_error_metrics_monitoring",
+                "example_custom_error_handler",
+                "main",
+                "__init__",
+                "can_handle",
+                "handle_error",
+                "get_capabilities"
             ],
-            "classes": {},
+            "classes": {
+                "DatabaseErrorHandler": {
+                    "methods": [
+                        "__init__",
+                        "can_handle",
+                        "handle_error",
+                        "get_capabilities"
+                    ],
+                    "docstring": "Custom error handler for database-specific errors.",
+                    "base_classes": [
+                        "ErrorHandler"
+                    ]
+                }
+            },
             "routes": [],
-            "complexity": 2
+            "complexity": 14
         },
-        "tests\\runners\\test_runner_config.py": {
+        "src\\discord_commander\\communication_engine\\__init__.py": {
             "language": ".py",
             "functions": [],
             "classes": {},
             "routes": [],
             "complexity": 0
         },
-        "tests\\fsm\\__init__.py": {
+        "src\\discord_commander\\messaging_gateway\\__init__.py": {
             "language": ".py",
             "functions": [],
             "classes": {},
             "routes": [],
             "complexity": 0
         },
-        "tests\\runners\\__init__.py": {
+        "src\\discord_commander\\webhook\\__init__.py": {
+            "language": ".py",
+            "functions": [],
+            "classes": {},
+            "routes": [],
+            "complexity": 0
+        },
+        "src\\onboarding\\__init__.py": {
             "language": ".py",
             "functions": [],
             "classes": {},

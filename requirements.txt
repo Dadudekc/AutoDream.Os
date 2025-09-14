@@ -8,8 +8,12 @@ pydantic-settings>=2.0.0
 click>=8.0.0
 pyperclip>=1.8.0
 
+# Discord bot dependencies
+discord.py>=2.3.0
+
 # Development and testing (minimal runtime deps)
 pytest>=7.0.0
 black>=22.0.0
 isort>=5.10.0
 ruff>=0.1.0
+flake8>=6.0.0

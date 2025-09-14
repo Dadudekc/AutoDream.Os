@@ -8,14 +8,19 @@ Captain Agent-4 - Supreme Command Authority
 """
 
 import os
+import logging
 from pathlib import Path
 from datetime import datetime
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 def main():
     # Read the activation broadcast
     broadcast_file = Path("CAPTAIN_SWARM_ACTIVATION_BROADCAST.md")
     if not broadcast_file.exists():
-        print("❌ Broadcast file not found!")
+        logger.error("❌ Broadcast file not found!")
         return
 
     with open(broadcast_file, 'r', encoding='utf-8') as f:
@@ -27,15 +32,15 @@ def main():
         "Agent-5", "Agent-6", "Agent-7", "Agent-8"
     ]
 
-    print("🚨 CAPTAIN AGENT-4 SWARM ACTIVATION BROADCAST")
-    print("=" * 60)
-    print("🐝 Broadcasting comprehensive testing and documentation mission")
-    print("=" * 60)
+    logger.info("🚨 CAPTAIN AGENT-4 SWARM ACTIVATION BROADCAST")
+    logger.info("=" * 60)
+    logger.info("🐝 Broadcasting comprehensive testing and documentation mission")
+    logger.info("=" * 60)
 
     successful = 0
     for i, agent in enumerate(agents, 1):
         try:
-            print(f"📤 [{i}/{len(agents)}] Broadcasting to {agent}...")
+            logger.info(f"📤 [{i}/{len(agents)}] Broadcasting to {agent}...")
 
             # Create inbox directory
             inbox_dir = Path(f"agent_workspaces/{agent}/inbox")
@@ -48,25 +53,25 @@ def main():
             with open(message_file, "w", encoding="utf-8") as f:
                 f.write(broadcast_content)
 
-            print(f"   ✅ Activation broadcast delivered to {agent}")
+            logger.info(f"   ✅ Activation broadcast delivered to {agent}")
             successful += 1
 
         except Exception as e:
-            print(f"   ❌ Failed to deliver to {agent}: {e}")
+            logger.error(f"   ❌ Failed to deliver to {agent}: {e}")
 
-    print("\n📊 ACTIVATION BROADCAST SUMMARY:")
-    print(f"   ✅ Successful deliveries: {successful}")
-    print(f"   ❌ Failed deliveries: {len(agents) - successful}")
-    print(f"   📈 Success rate: {(successful / len(agents)) * 100:.1f}%")
+    logger.info("\n📊 ACTIVATION BROADCAST SUMMARY:")
+    logger.info(f"   ✅ Successful deliveries: {successful}")
+    logger.info(f"   ❌ Failed deliveries: {len(agents) - successful}")
+    logger.info(f"   📈 Success rate: {(successful / len(agents)) * 100:.1f}%")
     if successful == len(agents):
-        print("\n🎉 SWARM ACTIVATION BROADCAST COMPLETE!")
-        print("   ✅ All agents notified of new command structure")
-        print("   📢 Comprehensive testing mission activated")
-        print("   🏆 Swarm excellence journey begins!")
+        logger.info("\n🎉 SWARM ACTIVATION BROADCAST COMPLETE!")
+        logger.info("   ✅ All agents notified of new command structure")
+        logger.info("   📢 Comprehensive testing mission activated")
+        logger.info("   🏆 Swarm excellence journey begins!")
     else:
-        print("\n⚠️  ACTIVATION BROADCAST PARTIALLY COMPLETE")
-        print(f"   ✅ {successful} agents notified successfully")
-        print(f"   ❌ {len(agents) - successful} delivery failures")
+        logger.warning("\n⚠️  ACTIVATION BROADCAST PARTIALLY COMPLETE")
+        logger.info(f"   ✅ {successful} agents notified successfully")
+        logger.error(f"   ❌ {len(agents) - successful} delivery failures")
 
 if __name__ == "__main__":
     main()

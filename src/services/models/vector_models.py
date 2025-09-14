@@ -8,7 +8,7 @@ Author: Agent-1 (System Recovery Specialist)
 License: MIT
 """
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
 from typing import Any
@@ -26,30 +26,17 @@ class EmbeddingModel(Enum):
 
 
 class DocumentType(Enum):
+    """Types of documents in the vector database."""
+    TEXT = "text"
+    CODE = "code"
+    MARKDOWN = "markdown"
+    JSON = "json"
+    YAML = "yaml"
+    PDF = "pdf"
+    IMAGE = "image"
 
-EXAMPLE USAGE:
-==============
 
-# Import the service
-from src.services.models.vector_models import Vector_ModelsService
-
-# Initialize service
-service = Vector_ModelsService()
-
-# Basic service operation
-response = service.handle_request(request_data)
-print(f"Service response: {response}")
-
-# Service with dependency injection
-from src.core.dependency_container import Container
-
-container = Container()
-service = container.get(Vector_ModelsService)
-
-# Execute service method
-result = service.execute_operation(input_data, context)
-print(f"Operation result: {result}")
-
+class VectorDocumentType(Enum):
     """Document types for vector database."""
 
     MESSAGE = "message"
@@ -140,8 +127,39 @@ class SearchResult:
 @dataclass
 class SimilaritySearchResult:
     """Result of similarity search."""
-
     query_embedding: list[float]
     results: list[dict[str, Any]]
     search_time: float
     total_candidates: int
+
+
+@dataclass
+class CollectionConfig:
+    """Configuration for vector collection."""
+    
+    name: str
+    dimensions: int
+    distance_metric: str = "cosine"
+    index_type: str = "hnsw"
+    max_elements: int = 1000000
+    ef_construction: int = 200
+    m: int = 16
+
+
+def create_vector_document(content: str, doc_type: DocumentType = DocumentType.TEXT) -> VectorDocument:
+    """Create a new vector document."""
+    now = datetime.now()
+    return VectorDocument(
+        id=f"doc_{now.timestamp()}",
+        content=content,
+        embedding=[],
+        metadata={},
+        created_at=now,
+        updated_at=now
+    )
+
+
+if __name__ == "__main__":
+    # Example usage
+    doc = create_vector_document("Test content", DocumentType.TEXT)
+    print(f"Created document: {doc}")

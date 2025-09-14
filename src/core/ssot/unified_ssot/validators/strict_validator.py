@@ -18,9 +18,16 @@ class StrictValidator:
     """Handles strict SSOT component validation."""
 
     def __init__(self):
+        """Initialize the strict validator."""
+        self.logger = logging.getLogger(__name__)
 
-EXAMPLE USAGE:
-==============
+
+def get_example_usage():
+    """
+    Example usage for StrictValidator.
+    
+    # Import the core component
+    from src.core.ssot.unified_ssot.validators.strict_validator import StrictValidator
 
 # Import the core component
 from src.core.ssot.unified_ssot.validators.strict_validator import Strict_Validator

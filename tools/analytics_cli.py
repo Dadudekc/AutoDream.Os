@@ -31,7 +31,7 @@ class AnalyticsCLI:
         self.analytics_service.start()
 
     def show_dashboard(self, dashboard_type: str = "overview") -> None:
-
+        pass
 EXAMPLE USAGE:
 ==============
 

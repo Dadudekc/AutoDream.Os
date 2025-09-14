@@ -60,10 +60,9 @@
 - **File:** `analysis_chunks\chunk_006_gaming.json`
 
 
-### **Chunk 008: domain**
-- **Files Analyzed:** 16
-- **Consolidation Opportunities:** 16
-- **File:** `analysis_chunks\chunk_008_domain.json`
+### **Chunk 008: domain** ❌ **DELETED**
+- **Status:** Analysis failed - all metrics 0 due to AST parsing errors
+- **File:** `analysis_chunks\chunk_008_domain.json` (REMOVED)
 
 
 ### **Chunk 009: application**
@@ -111,7 +110,6 @@
 - **`chunk_004_utils.json`** - src/utils analysis (DELETED - Analysis failed)
 - **`chunk_005_infrastructure.json`** - src/infrastructure analysis
 - **`chunk_006_gaming.json`** - src/gaming analysis
-- **`chunk_008_domain.json`** - src/domain analysis
 - **`chunk_009_application.json`** - src/application analysis
 - **`chunk_010_architecture.json`** - src/architecture analysis
 - **`chunk_011_docs.json`** - docs analysis

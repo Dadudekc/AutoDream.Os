@@ -1,22 +1,12 @@
-"""
-Semantic search package for agent coordination intelligence.
-"""
+# AUTO-GENERATED __init__.py
+# DO NOT EDIT MANUALLY - changes may be overwritten
 
-from .embeddings import EmbeddingProvider, build_provider
-from .router_hooks import route_message, similar_status
-from .semantic_router import SemanticRouter
-from .status_index import StatusIndex
-from .utils import flatten_json, json_to_text
-from .vector_store import VectorStore
+from . import status_cli
+from . import status_index
+from . import utils
 
 __all__ = [
-    "StatusIndex",
-    "json_to_text",
-    "flatten_json",
-    "EmbeddingProvider",
-    "build_provider",
-    "VectorStore",
-    "SemanticRouter",
-    "route_message",
-    "similar_status",
+    'status_cli',
+    'status_index',
+    'utils',
 ]

@@ -66,12 +66,11 @@ class AgentStatus(BaseModel):
 
 
 class Alert(BaseModel):
-
-EXAMPLE USAGE:
-==============
-
-# Basic usage example
-from src.web.swarm_monitoring_dashboard import Swarm_Monitoring_Dashboard
+    """Alert model for swarm monitoring."""
+    id: str
+    message: str
+    severity: str
+    timestamp: datetime
 
 # Initialize and use
 instance = Swarm_Monitoring_Dashboard()

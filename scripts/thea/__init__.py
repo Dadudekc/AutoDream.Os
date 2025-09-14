@@ -1,10 +1,8 @@
-#!/usr/bin/env python3
-"""
-Thea Scripts - Command Line Tools for Thea Communication
-=======================================================
+# AUTO-GENERATED __init__.py
+# DO NOT EDIT MANUALLY - changes may be overwritten
 
-CLI tools for interacting with the Thea communication system.
+from . import commander_thea_consultation
 
-Author: Agent-4 (Captain) - V2_SWARM
-License: MIT
-"""
+__all__ = [
+    'commander_thea_consultation',
+]

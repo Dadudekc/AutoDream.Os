@@ -25,9 +25,18 @@ class SSOTExecutionPhase(Enum):
 
 
 class SSOTValidationLevel(Enum):
+    """Validation levels for SSOT operations."""
+    BASIC = "basic"
+    STANDARD = "standard"
+    STRICT = "strict"
 
-EXAMPLE USAGE:
-==============
+
+def get_example_usage():
+    """
+    Example usage for SSOT enums.
+    
+    # Import the core component
+    from src.core.ssot.unified_ssot.enums import SSOTValidationLevel
 
 # Import the core component
 from src.core.ssot.unified_ssot.enums import Enums

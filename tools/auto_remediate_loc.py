@@ -83,7 +83,7 @@ def should_exclude(path: Path) -> bool:
 
 
 def count_lines(node: ast.AST) -> int:
-
+    pass
 EXAMPLE USAGE:
 ==============
 

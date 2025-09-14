@@ -1,15 +1,12 @@
-"""
-Infrastructure Layer - Adapters
-===============================
+# AUTO-GENERATED __init__.py
+# DO NOT EDIT MANUALLY - changes may be overwritten
 
-Contains concrete implementations (adapters) of the domain ports.
-This layer implements the external dependencies defined by the domain.
+from . import unified_browser_service
+from . import unified_logging_time
+from . import unified_persistence
 
-Adapters included:
-- Persistence: SQLite repositories for tasks and agents
-- Messaging: Message bus implementations
-- Time: System clock implementation
-- Logging: Standard library logger implementation
-"""
-
-__version__ = "1.0.0"
+__all__ = [
+    'unified_browser_service',
+    'unified_logging_time',
+    'unified_persistence',
+]

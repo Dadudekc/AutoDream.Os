@@ -29,7 +29,7 @@ def should_skip_file(path: Path) -> bool:
 
 
 def transform_file(file_path: Path) -> bool:
-
+    pass
 EXAMPLE USAGE:
 ==============
 

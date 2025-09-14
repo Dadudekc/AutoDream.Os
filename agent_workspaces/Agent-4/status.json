@@ -1,0 +1,50 @@
+{
+  "agent_id": "Agent-4",
+  "role": "Quality Assurance Specialist (CAPTAIN)",
+  "status": "OPERATIONAL",
+  "fsm_state": {
+    "current_state": "idle",
+    "previous_state": "onboarded",
+    "transitions": 4,
+    "cycle_number": 1
+  },
+  "onboarding_status": "COMPLETE",
+  "cycle": 1,
+  "onboarded": true,
+  "transitions": 4,
+  "previous_state": "ONBOARDED",
+  "coordinates": {
+    "x": -308,
+    "y": 1000
+  },
+  "monitor": "Monitor 1 - Bottom Right",
+  "capabilities": [
+    "Quality Assurance",
+    "Captain Coordination",
+    "Agent Status Monitoring",
+    "Task Assignment",
+    "Swarm Coordination"
+  ],
+  "current_mission": "AGENT-1 MISSION COORDINATION UPDATE - DUAL CONTRACT MISSION SYNERGY - Agent-6 and Agent-1 dual mission synergy coordination, comprehensive swarm optimization active",
+  "contract_status": "READY_FOR_ASSIGNMENT",
+  "last_updated": "2025-09-14 00:05:28",
+  "onboarding_actions_completed": [
+    "Initialize workspace: agent_workspaces/Agent-4/",
+    "Update status file with Captain role information",
+    "Review agent status monitoring systems",
+    "Complete SSOT compliance training"
+  ],
+  "onboarding_actions_required": [],
+  "communication_channels": [
+    "Discord Commander",
+    "Messaging System",
+    "PyAutoGUI Automation",
+    "Swarm Coordination"
+  ],
+  "mission_history": [],
+  "performance_metrics": {
+    "missions_completed": 0,
+    "success_rate": 0,
+    "coordination_cycles": 0
+  }
+}

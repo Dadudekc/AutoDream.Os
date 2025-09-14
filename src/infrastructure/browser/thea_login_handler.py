@@ -18,28 +18,6 @@ class TheaLoginConfig:
 
 
 class TheaLoginHandler:
-
-EXAMPLE USAGE:
-==============
-
-# Basic usage example
-from src.infrastructure.browser.thea_login_handler import Thea_Login_Handler
-
-# Initialize and use
-instance = Thea_Login_Handler()
-result = instance.execute()
-print(f"Execution result: {result}")
-
-# Advanced configuration
-config = {
-    "option1": "value1",
-    "option2": True
-}
-
-instance = Thea_Login_Handler(config)
-advanced_result = instance.execute_advanced()
-print(f"Advanced result: {advanced_result}")
-
     """Basic login handler stub."""
 
     def __init__(self, config: TheaLoginConfig | None = None):
@@ -52,3 +30,23 @@ print(f"Advanced result: {advanced_result}")
     def _is_authenticated(self, driver: Any, url: str) -> bool:
         """Stub authentication check."""
         return True
+
+
+"""
+EXAMPLE USAGE:
+==============
+
+# Basic usage example
+from src.infrastructure.browser.thea_login_handler import TheaLoginHandler
+
+# Initialize and use
+handler = TheaLoginHandler()
+result = handler.ensure_authenticated(driver, "https://example.com")
+print(f"Authentication result: {result}")
+
+# Advanced configuration
+config = TheaLoginConfig(max_retries=5, login_timeout_s=60.0)
+handler = TheaLoginHandler(config)
+advanced_result = handler.ensure_authenticated(driver, "https://example.com")
+print(f"Advanced authentication result: {advanced_result}")
+"""

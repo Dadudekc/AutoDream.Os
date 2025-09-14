@@ -20,9 +20,17 @@ class MessageQueueUtils:
 
     @staticmethod
     def calculate_priority_score(priority: str, created_at: datetime) -> int:
+        """Calculate priority score based on priority and timestamp."""
+        base_scores = {"high": 100, "medium": 50, "low": 10}
+        return base_scores.get(priority, 0)
 
-EXAMPLE USAGE:
-==============
+
+def get_example_usage():
+    """
+    Example usage for MessageQueueUtils.
+    
+    # Import the core component
+    from src.core.utils.message_queue_utils import MessageQueueUtils
 
 # Import the core component
 from src.core.utils.message_queue_utils import Message_Queue_Utils

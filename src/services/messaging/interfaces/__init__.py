@@ -1,27 +1,8 @@
-#!/usr/bin/env python3
-"""
-Messaging Interfaces Package
-===========================
+# AUTO-GENERATED __init__.py
+# DO NOT EDIT MANUALLY - changes may be overwritten
 
-Abstract interfaces for unified messaging system.
-
-Author: Agent-5 (Business Intelligence Specialist)
-License: MIT
-"""
-
-from .messaging_interfaces import (
-    FileBasedMessageHistoryProvider,
-    InboxDeliveryProvider,
-    MessageDeliveryProvider,
-    MessageHistoryProvider,
-    PyAutoGUIDeliveryProvider,
-)
+from . import messaging_interfaces
 
 __all__ = [
-    "MessageDeliveryProvider",
-    "PyAutoGUIDeliveryProvider",
-    "InboxDeliveryProvider",
-    "MessageHistoryProvider",
-    "FileBasedMessageHistoryProvider",
+    'messaging_interfaces',
 ]
-

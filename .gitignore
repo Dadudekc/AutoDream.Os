@@ -88,6 +88,10 @@ backups/
 runtime/reports/*.old
 devlogs/archive/
 
+# Devlogs (exclude from repository)
+devlogs/
+archive/devlogs_historical/
+
 # Test outputs
 .coverage
 .pytest_cache/

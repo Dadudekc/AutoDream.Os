@@ -1,13 +1,8 @@
-"""
-Thea Response Service - V2 Compliant Response Handling
-====================================================
+# AUTO-GENERATED __init__.py
+# DO NOT EDIT MANUALLY - changes may be overwritten
 
-Handles response detection, capture, and processing for Thea services.
+from . import thea_response_service
 
-Author: Agent-4 (Captain) - V2_SWARM
-License: MIT
-"""
-
-from .thea_response_service import ResponseStatus, TheaResponseService
-
-__all__ = ["TheaResponseService", "ResponseStatus"]
+__all__ = [
+    'thea_response_service',
+]

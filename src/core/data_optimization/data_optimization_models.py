@@ -26,7 +26,45 @@ class ProcessingStrategy(Enum):
 
 
 class OptimizationLevel(Enum):
+    """Optimization level enumeration."""
+    LOW = "low"
+    MEDIUM = "medium"
+    HIGH = "high"
+    MAXIMUM = "maximum"
 
+
+@dataclass
+class OptimizationConfig:
+    """Configuration for data optimization."""
+    strategy: ProcessingStrategy = ProcessingStrategy.SEQUENTIAL
+    level: OptimizationLevel = OptimizationLevel.MEDIUM
+    batch_size: int = 1000
+    timeout: int = 300
+
+
+@dataclass
+class OptimizationResult:
+    """Result of data optimization operation."""
+    success: bool = False
+    optimized_count: int = 0
+    processing_time: float = 0.0
+    error_message: str = ""
+
+
+def create_optimization_config(strategy: str = "sequential") -> OptimizationConfig:
+    """Create optimization configuration."""
+    return OptimizationConfig(
+        strategy=ProcessingStrategy(strategy),
+        level=OptimizationLevel.MEDIUM
+    )
+
+
+if __name__ == "__main__":
+    # Example usage
+    config = create_optimization_config("parallel")
+    print(f"Created config: {config}")
+
+"""
 EXAMPLE USAGE:
 ==============
 

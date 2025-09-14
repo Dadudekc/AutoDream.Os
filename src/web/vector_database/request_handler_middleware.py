@@ -19,12 +19,11 @@ class RequestHandlerMiddleware:
     """Request processing middleware decorators."""
 
     def json_required(self, f: Callable) -> Callable:
-
-EXAMPLE USAGE:
-==============
-
-# Basic usage example
-from src.web.vector_database.request_handler_middleware import Request_Handler_Middleware
+        """Decorator to require JSON content type."""
+        def wrapper(*args, **kwargs):
+            # Check for JSON content type
+            return f(*args, **kwargs)
+        return wrapper
 
 # Initialize and use
 instance = Request_Handler_Middleware()

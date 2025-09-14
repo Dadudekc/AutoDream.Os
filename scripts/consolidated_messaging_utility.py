@@ -167,7 +167,7 @@ class ConsolidatedMessagingService:
         """Send a message to an agent."""
         ...
 
-    def broadcast_message(self, content: str, priority: str = "NORMAL") -> bool:
+    def from src.services.messaging.shared import broadcast_message(self, content: str, priority: str = "NORMAL") -> bool:
         """Broadcast a message to all agents."""
         ...
 
@@ -217,6 +217,14 @@ class MessagingCLI:
         # Check dependencies
         try:
             import pyautogui
+
+# Shared messaging utilities
+from src.services.messaging.shared import (
+    broadcast_message,
+    list_agents,
+    load_coordinates_from_json,
+    send_message_pyautogui
+)
         except ImportError:
             results["issues"].append("PyAutoGUI not installed - swarm automation unavailable")
             results["recommendations"].append("Install pyautogui for swarm coordination")

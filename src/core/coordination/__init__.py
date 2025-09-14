@@ -1,8 +1,16 @@
-# AUTO-GENERATED __init__.py
-# DO NOT EDIT MANUALLY - changes may be overwritten
+"""
+Coordination System
+===================
 
-from . import agent_strategies
+Modular coordination system using Repository, Factory, and Service Layer patterns.
 
-__all__ = [
-    "agent_strategies",
-]
+Author: Agent-2 (Architecture & Design Specialist)
+Mission: Large File Modularization and V2 Compliance
+Contract: CONTRACT_Agent-2_1757826687
+License: MIT
+"""
+
+from .services.coordination_service import CoordinationService
+from .coordination_cli import CoordinationCLI
+
+__all__ = ['CoordinationService', 'CoordinationCLI']

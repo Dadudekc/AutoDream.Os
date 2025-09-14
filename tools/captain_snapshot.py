@@ -33,7 +33,7 @@ def load_agents_index() -> dict[str, Any]:
 
 
 def calculate_staleness(last_updated: str) -> tuple[int, str]:
-
+    pass
 EXAMPLE USAGE:
 ==============
 

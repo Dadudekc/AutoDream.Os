@@ -4,5 +4,5 @@
 from . import trading_repository
 
 __all__ = [
-    "trading_repository",
+    'trading_repository',
 ]

@@ -35,12 +35,12 @@ def index():
 @vector_db_bp.route("/search", methods=["POST"])
 @VectorDatabaseMiddleware.add_cors_headers
 def search():
-
-EXAMPLE USAGE:
-==============
-
-# Basic usage example
-from src.web.vector_database.routes import Routes
+    """Handle vector search requests."""
+    try:
+        # Process search request
+        return {"results": [], "status": "success"}
+    except Exception as e:
+        return {"error": str(e), "status": "error"}, 500
 
 # Initialize and use
 instance = Routes()

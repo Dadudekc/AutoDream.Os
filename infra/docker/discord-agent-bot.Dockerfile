@@ -21,4 +21,4 @@ RUN useradd -m botuser && chown -R botuser:botuser /app
 USER botuser
 
 ENTRYPOINT ["/usr/bin/tini","--"]
-CMD ["python","scripts/execution/run_discord_agent_bot.py"]
+CMD ["python","src/discord_commander/discord_agent_bot.py"]

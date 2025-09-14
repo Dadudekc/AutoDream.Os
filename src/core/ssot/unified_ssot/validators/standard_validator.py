@@ -19,9 +19,16 @@ class StandardValidator:
     """Handles standard SSOT component validation."""
 
     def __init__(self):
+        """Initialize the standard validator."""
+        self.logger = logging.getLogger(__name__)
 
-EXAMPLE USAGE:
-==============
+
+def get_example_usage():
+    """
+    Example usage for StandardValidator.
+    
+    # Import the core component
+    from src.core.ssot.unified_ssot.validators.standard_validator import StandardValidator
 
 # Import the core component
 from src.core.ssot.unified_ssot.validators.standard_validator import Standard_Validator

@@ -57,9 +57,9 @@ class ExecutionManager:
             ),
             ExecutionTarget(
                 name="discord_agent_bot",
-                script_path="scripts/execution/run_discord_agent_bot.py",
+                script_path="src/discord_commander/discord_agent_bot.py",
                 description="Discord agent bot interface",
-                dependencies=["src/web/discord_agent_bot.py", "config/discord.json"]
+                dependencies=["src/discord_commander/discord_agent_bot.py", "config/discord_bot_config.json"]
             ),
             ExecutionTarget(
                 name="ssot_integration",

@@ -36,7 +36,7 @@ from __future__ import annotations
 
 import logging
 
-from ..coordinates import get_agent_coordinates, list_agents
+from ..shared.messaging_utilities import get_messaging_utilities
 from ..models import UnifiedMessage
 from .inbox_delivery import send_message_inbox
 from .pyautogui_delivery import deliver_message_pyautogui
@@ -45,7 +45,8 @@ logger = logging.getLogger(__name__)
 
 
 def send_with_fallback(message: UnifiedMessage) -> bool:
-    coords = get_agent_coordinates(message.recipient)
+    utils = get_messaging_utilities()
+    coords = utils.get_agent_coordinates(message.recipient)
     if coords:
         try:
             if deliver_message_pyautogui(message, coords):
@@ -57,15 +58,16 @@ def send_with_fallback(message: UnifiedMessage) -> bool:
 
 
 def broadcast(content: str, sender: str) -> dict[str, bool]:
+    utils = get_messaging_utilities()
     results: dict[str, bool] = {}
-    for agent in list_agents():
+    for agent in utils.list_agents():
         m = UnifiedMessage(
             content=content,
             sender=sender,
             recipient=agent,
             message_type=...,  # type: ignore
         )
-        # keep type minimal; delivery doesn’t depend on it
+        # keep type minimal; delivery doesn't depend on it
         ok = send_with_fallback(m)
         results[agent] = ok
     return results

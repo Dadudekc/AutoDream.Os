@@ -58,7 +58,7 @@ class TheaManagerProfile:
             self._setup_browser_components()
 
     def initialize(self, driver: Any = None) -> bool:
-
+        pass
 EXAMPLE USAGE:
 ==============
 

@@ -1,8 +1,10 @@
 # AUTO-GENERATED __init__.py
 # DO NOT EDIT MANUALLY - changes may be overwritten
 
+from . import settings
 from . import ssot
 
 __all__ = [
-    "ssot",
+    'settings',
+    'ssot',
 ]

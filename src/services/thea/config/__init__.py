@@ -1,14 +1,8 @@
-"""
-Thea Configuration Module - V2 Compliant
-=========================================
+# AUTO-GENERATED __init__.py
+# DO NOT EDIT MANUALLY - changes may be overwritten
 
-Centralized configuration management for Thea services.
-Single Source of Truth (SSOT) for all Thea-related settings.
+from . import thea_config
 
-Author: Agent-4 (Captain) - V2_SWARM
-License: MIT
-"""
-
-from .thea_config import TheaConfig, get_thea_config
-
-__all__ = ["TheaConfig", "get_thea_config"]
+__all__ = [
+    'thea_config',
+]

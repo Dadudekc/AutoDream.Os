@@ -18,28 +18,6 @@ class RateLimitConfig:
 
 
 class TheaSessionManager:
-
-EXAMPLE USAGE:
-==============
-
-# Basic usage example
-from src.infrastructure.browser.thea_session_manager import Thea_Session_Manager
-
-# Initialize and use
-instance = Thea_Session_Manager()
-result = instance.execute()
-print(f"Execution result: {result}")
-
-# Advanced configuration
-config = {
-    "option1": "value1",
-    "option2": True
-}
-
-instance = Thea_Session_Manager(config)
-advanced_result = instance.execute_advanced()
-print(f"Advanced result: {advanced_result}")
-
     """Basic session manager stub."""
 
     def __init__(self, config: RateLimitConfig | None = None):
@@ -80,3 +58,23 @@ print(f"Advanced result: {advanced_result}")
     def get_rate_limit_status(self, service_name: str) -> dict[str, Any]:
         """Stub rate limit status."""
         return {"requests_remaining": 10, "reset_time": None}
+
+
+"""
+EXAMPLE USAGE:
+==============
+
+# Basic usage example
+from src.infrastructure.browser.thea_session_manager import TheaSessionManager
+
+# Initialize and use
+manager = TheaSessionManager()
+session_id = manager.create_session("test_service")
+print(f"Session created: {session_id}")
+
+# Advanced configuration
+config = RateLimitConfig(requests_per_minute=20, burst_limit=10)
+manager = TheaSessionManager(config)
+can_request, message = manager.can_make_request("test_service", session_id)
+print(f"Can make request: {can_request}, Message: {message}")
+"""

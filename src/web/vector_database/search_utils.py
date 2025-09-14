@@ -15,12 +15,9 @@ class SearchUtils:
     """Utility functions for search operations."""
 
     def simulate_vector_search(self, request: SearchRequest) -> list[SearchResult]:
-
-EXAMPLE USAGE:
-==============
-
-# Basic usage example
-from src.web.vector_database.search_utils import Search_Utils
+        """Simulate vector search operation."""
+        # Simulate search results
+        return []
 
 # Initialize and use
 instance = Search_Utils()

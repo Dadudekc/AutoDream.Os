@@ -1,13 +1,8 @@
-"""
-Thea Messaging Service - V2 Compliant Message Handling
-====================================================
+# AUTO-GENERATED __init__.py
+# DO NOT EDIT MANUALLY - changes may be overwritten
 
-Handles message sending, receiving, and communication flow for Thea services.
+from . import thea_messaging_service
 
-Author: Agent-4 (Captain) - V2_SWARM
-License: MIT
-"""
-
-from .thea_messaging_service import MessageStatus, TheaMessagingService
-
-__all__ = ["TheaMessagingService", "MessageStatus"]
+__all__ = [
+    'thea_messaging_service',
+]

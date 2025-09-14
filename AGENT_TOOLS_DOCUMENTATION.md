@@ -11,6 +11,17 @@
 
 This document provides comprehensive documentation of all tools available to agents in the swarm. All agents should reference this document when needing to perform analysis, consolidation, or other project tasks.
 
+## 📚 **DOCUMENTATION GENERATION**
+
+### **Doxygen Integration**
+- **Location**: `scripts/doxygen_generator.py`
+- **Configuration**: `Doxyfile`
+- **Setup Guide**: `docs/DOXYGEN_SETUP_GUIDE.md`
+- **Purpose**: Automated API documentation generation with visual diagrams
+- **Usage**: `python scripts/doxygen_generator.py`
+- **Output**: `docs/doxygen/html/index.html`
+- **Features**: Class diagrams, call graphs, cross-references, search functionality
+
 ---
 
 ## 🔍 **PROJECT ANALYSIS TOOLS**
@@ -18,7 +29,7 @@ This document provides comprehensive documentation of all tools available to age
 ### **1. Project Scanner (Primary Analysis Tool)**
 
 #### **Location:**
-- **Main Tool:** `tools/projectscanner.py`
+- **Main Tool:** `tools/projectscanner/` (modular package)
 - **Runner Script:** `tools/run_project_scan.py`
 - **Enhanced Version:** `comprehensive_project_analyzer.py`
 
@@ -269,7 +280,7 @@ messaging.deliver_message(agent_id, message)
 ### **Agent-4 (QA Specialist):**
 - **Primary:** Testing Tools, Code Quality Analysis
 - **Secondary:** Project Scanner, Quality Assurance
-- **Chunk Assignment:** Domain-specific consolidation (Chunks 006-007)
+- **Chunk Assignment:** Domain-specific consolidation (Chunk 006)
 
 ### **Agent-6 (Communication Specialist):**
 - **Primary:** PyAutoGUI Messaging, Swarm Coordination

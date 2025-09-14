@@ -46,7 +46,7 @@ This repository is primarily a **Python** project. Unless explicitly noted, all 
 ## 🛠️ **Agent Tools & Resources**
 
 ### **Project Scanner (Critical Tool)**
-- **Location:** `tools/projectscanner.py`
+- **Location:** `tools/projectscanner/` (modular package)
 - **Runner:** `tools/run_project_scan.py`
 - **Enhanced:** `comprehensive_project_analyzer.py`
 - **Purpose:** Comprehensive project analysis and consolidation planning

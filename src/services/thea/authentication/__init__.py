@@ -1,13 +1,8 @@
-"""
-Thea Authentication Service - V2 Compliant Authentication Management
-==================================================================
+# AUTO-GENERATED __init__.py
+# DO NOT EDIT MANUALLY - changes may be overwritten
 
-Handles login, cookie persistence, and authentication state management.
+from . import thea_authentication_service
 
-Author: Agent-4 (Captain) - V2_SWARM
-License: MIT
-"""
-
-from .thea_authentication_service import AuthStatus, TheaAuthenticationService
-
-__all__ = ["TheaAuthenticationService", "AuthStatus"]
+__all__ = [
+    'thea_authentication_service',
+]

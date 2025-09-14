@@ -29,35 +29,37 @@ class SSOTComponentType(Enum):
 
 
 class SSOTExecutionPhase(Enum):
+    """Execution phases for SSOT operations."""
+    INITIALIZATION = "initialization"
+    PROCESSING = "processing"
+    VALIDATION = "validation"
+    COMPLETION = "completion"
 
-EXAMPLE USAGE:
-==============
 
-# Import the core component
-from src.core.ssot.ssot_models import Ssot_Models
+# Example usage documentation
+def get_example_usage():
+    """
+    Example usage for SSOT models.
+    
+    # Import the core component
+    from src.core.ssot.ssot_models import SSOTComponent, SSOTExecutionPhase
+    
+    # Create a component
+    component = SSOTComponent(
+        name="example_component",
+        component_type=SSOTComponentType.MESSAGING,
+        description="Example SSOT component"
+    )
+    
+    # Execute functionality
+    result = component.to_dict()
+    print(f"Component data: {result}")
+    """
+    pass
 
-# Initialize with configuration
-config = {
-    "setting1": "value1",
-    "setting2": "value2"
-}
 
-component = Ssot_Models(config)
-
-# Execute primary functionality
-result = component.process_data(input_data)
-print(f"Processing result: {result}")
-
-# Advanced usage with error handling
-try:
-    advanced_result = component.advanced_operation(data, options={"optimize": True})
-    print(f"Advanced operation completed: {advanced_result}")
-except ProcessingError as e:
-    print(f"Operation failed: {e}")
-    # Implement recovery logic
-
-    """SSOT execution phases - consolidated from multiple files."""
-
+class SSOTExecutionPhase(Enum):
+    """Execution phases for SSOT operations."""
     INITIALIZATION = "initialization"
     VALIDATION = "validation"
     EXECUTION = "execution"

@@ -33,7 +33,7 @@ class MessagingPerformanceCLI:
         self.dashboard_process = None
 
     def start_monitoring(self, background: bool = False) -> None:
-
+        pass
 EXAMPLE USAGE:
 ==============
 
@@ -457,4 +457,6 @@ Examples:
 
 if __name__ == "__main__":
     main()
+
+
 

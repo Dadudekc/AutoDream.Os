@@ -102,19 +102,11 @@ class InfrastructureHealthMetrics:
 
 @dataclass
 class InfrastructureServiceStatus:
-
-EXAMPLE USAGE:
-==============
-
-# Basic usage example
-from src.infrastructure.infrastructure_monitoring_integration import Infrastructure_Monitoring_Integration
-
-# Initialize and use
-instance = Infrastructure_Monitoring_Integration()
-result = instance.execute()
-print(f"Execution result: {result}")
-
-# Advanced configuration
+    """Infrastructure service status data class."""
+    service_name: str = ""
+    status: str = "unknown"
+    last_check: datetime = field(default_factory=datetime.now)
+    health_score: float = 0.0
 config = {
     "option1": "value1",
     "option2": True

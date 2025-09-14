@@ -18,9 +18,16 @@ class ImportUtilities:
     """Utility functions for import system."""
 
     def __init__(self):
+        """Initialize import utilities."""
+        self.logger = logging.getLogger(__name__)
 
-EXAMPLE USAGE:
-==============
+
+def get_example_usage():
+    """
+    Example usage for ImportUtilities.
+    
+    # Import the core component
+    from src.core.import_system.import_utilities import ImportUtilities
 
 # Import the core component
 from src.core.import_system.import_utilities import Import_Utilities

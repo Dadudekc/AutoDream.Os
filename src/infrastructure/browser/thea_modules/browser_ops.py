@@ -20,7 +20,7 @@ class TheaBrowserOperations:
     """Handles basic browser operations for Thea Manager."""
 
     def __init__(self, driver: Any, config_manager: Any):
-
+        pass
 EXAMPLE USAGE:
 ==============
 

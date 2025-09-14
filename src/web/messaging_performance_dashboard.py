@@ -46,12 +46,14 @@ class MessagingPerformanceDashboard:
         self._setup_routes()
 
     def _setup_routes(self) -> None:
-
-EXAMPLE USAGE:
-==============
-
-# Basic usage example
-from src.web.messaging_performance_dashboard import Messaging_Performance_Dashboard
+        """Setup FastAPI routes for messaging performance dashboard."""
+        @self.app.get("/")
+        async def dashboard():
+            return {"message": "Messaging Performance Dashboard", "status": "operational"}
+        
+        @self.app.get("/metrics")
+        async def get_metrics():
+            return {"metrics": "performance data"}
 
 # Initialize and use
 instance = Messaging_Performance_Dashboard()
@@ -622,4 +624,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
 

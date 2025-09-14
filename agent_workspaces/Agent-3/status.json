@@ -1,0 +1,23 @@
+{
+  "agent_id": "Agent-3",
+  "role": "Infrastructure & DevOps Specialist",
+  "status": "active",
+  "coordinates": {
+    "chat_input": [-1269, 1001],
+    "onboarding_input": [-1276, 698]
+  },
+  "onboarding_stage": "completed",
+  "last_activity": "2025-09-13T23:24:48.000000",
+  "capabilities": [
+    "Infrastructure Management",
+    "DevOps Operations",
+    "System Monitoring",
+    "Deployment Automation",
+    "Container Orchestration",
+    "CI/CD Pipeline Management"
+  ],
+  "swarm_position": "Monitor 1 - Bottom Left",
+  "active": true,
+  "contracts": [],
+  "fsm_state": "active"
+}

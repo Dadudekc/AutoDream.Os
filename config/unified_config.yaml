@@ -35,7 +35,7 @@ agents:
 
 # Messaging Configuration
 messaging:
-  source: "config/messaging.yml"
+  source: "config/messaging_unified.yaml"
   default_sender: "Captain Agent-4"
   default_mode: "pyautogui"
   default_priority: "regular"
@@ -43,6 +43,11 @@ messaging:
     directory: "message_queue"
     max_size: 10000
     max_age_days: 7
+  
+  # Consolidated messaging systems (Phase 2 - Agent-3)
+  systems_consolidated: true
+  consolidated_from: ["messaging_systems.yaml", "messaging.yml"]
+  consolidation_date: "2025-09-13"
 
 # Discord Configuration
 discord:
@@ -89,7 +94,7 @@ validation:
 organization:
   config_files:
     - "config/coordinates.json"
-    - "config/messaging.yml"
+    - "config/messaging_unified.yaml"  # Consolidated messaging configuration
     - "config/semantic_config.yaml"
     - "config/discord_bot_config.json"
     - "config/discord_channels.json"
@@ -117,6 +122,11 @@ cleanup:
     - "thea_cookies.json"  # Consolidated into data/thea_cookies.json
     - "runtime/reports/cleanup_*.json"  # Old cleanup reports
     - "runtime/reports/cleanup_*.md"  # Old cleanup reports
+    
+  # Phase 2 consolidation cleanup (Agent-3)
+  consolidated_files:
+    - "config/messaging_systems.yaml"  # Consolidated into messaging_unified.yaml
+    - "config/messaging.yml"  # Consolidated into messaging_unified.yaml
 
   retention_policy:
     reports: "30 days"

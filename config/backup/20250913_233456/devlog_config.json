@@ -1,0 +1,28 @@
+{
+  "discord_webhook_url": "",
+  "discord_channel_id": "",
+  "devlog_format": "markdown",
+  "auto_post": true,
+  "backup_local": true,
+  "categories": [
+    "general",
+    "bugfix",
+    "feature",
+    "update",
+    "documentation",
+    "infrastructure",
+    "testing",
+    "deployment"
+  ],
+  "agents": [
+    "System",
+    "Agent-1",
+    "Agent-2",
+    "Agent-3",
+    "Agent-4",
+    "Agent-5",
+    "Agent-6",
+    "Agent-7",
+    "Agent-8"
+  ]
+}

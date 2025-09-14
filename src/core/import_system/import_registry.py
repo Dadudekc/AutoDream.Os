@@ -19,9 +19,17 @@ class ImportRegistry:
     """Registry for managing import patterns and caching."""
 
     def __init__(self):
+        """Initialize the import registry."""
+        self.registry = {}
+        self.logger = logging.getLogger(__name__)
 
-EXAMPLE USAGE:
-==============
+
+def get_example_usage():
+    """
+    Example usage for ImportRegistry.
+    
+    # Import the core component
+    from src.core.import_system.import_registry import ImportRegistry
 
 # Import the core component
 from src.core.import_system.import_registry import Import_Registry

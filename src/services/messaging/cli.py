@@ -49,14 +49,14 @@ if __name__ == "__main__":
     sys.path.insert(0, parent_dir)
 
     # Use absolute imports when run as script
-    from src.services.messaging.coordinates import list_agents
+    from src.services.messaging.shared.messaging_utilities import get_messaging_utilities
     from src.services.messaging.onboarding_bridge import hard_onboarding
     from src.services.messaging.service import MessagingService
     from src.services.messaging.task_handlers import handle_claim, handle_complete
     from src.services.messaging.thea_handlers import send_to_thea
 else:
     # Use relative imports when imported as module
-    from .coordinates import list_agents
+    from .shared.messaging_utilities import get_messaging_utilities
     from .onboarding_bridge import hard_onboarding
     from .service import MessagingService
     from .task_handlers import handle_claim, handle_complete
@@ -112,7 +112,8 @@ def main(argv: list[str] | None = None):
     svc = MessagingService(dry_run=args.dry_run)
 
     if args.list_agents:
-        for a in list_agents():
+        utils = get_messaging_utilities()
+        for a in utils.list_agents():
             print(f"- {a}")
         return
 

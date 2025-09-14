@@ -4,5 +4,5 @@
 from . import domain_events
 
 __all__ = [
-    "domain_events",
+    'domain_events',
 ]

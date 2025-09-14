@@ -1,0 +1,14 @@
+{
+  "content": "A2A MESSAGE FORMATTING FIX TEST - Inbox delivery verification with proper A2A format",
+  "recipient": "Agent-1",
+  "sender": "Agent-4",
+  "message_type": "agent_to_agent",
+  "priority": "HIGH",
+  "tags": [],
+  "metadata": {},
+  "timestamp": "2025-09-13T21:15:41.977860",
+  "message_id": "msg_1757816141.97786",
+  "delivery_method": "inbox",
+  "status": "pending",
+  "recipient_type": "agent"
+}

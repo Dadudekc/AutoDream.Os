@@ -1,30 +1,29 @@
 #!/usr/bin/env python3
 """
-Metrics Collector - V2 Compliant Module
-=======================================
+Metrics Collector - V2 Compliant
+================================
 
-Focused metrics collection and aggregation system for business intelligence.
-V2 COMPLIANT: Under 300 lines, focused responsibility.
+Advanced metrics collection and aggregation system.
+V2 COMPLIANT: Under 300 lines, single responsibility.
 
-Author: Agent-5 (Business Intelligence Specialist)
+Author: Agent-3 (Infrastructure Specialist)
 License: MIT
 """
 
 import logging
 import statistics
 import threading
-import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 logger = logging.getLogger(__name__)
 
 
 @dataclass
 class MetricDataPoint:
-    """Represents a single metric data point."""
+    """Individual metric data point."""
     timestamp: datetime
     metric_name: str
     value: Any
@@ -33,30 +32,6 @@ class MetricDataPoint:
 
 
 class MetricsCollector:
-
-EXAMPLE USAGE:
-==============
-
-# Import the service
-from src.services.analytics.metrics_collector import Metrics_CollectorService
-
-# Initialize service
-service = Metrics_CollectorService()
-
-# Basic service operation
-response = service.handle_request(request_data)
-print(f"Service response: {response}")
-
-# Service with dependency injection
-from src.core.dependency_container import Container
-
-container = Container()
-service = container.get(Metrics_CollectorService)
-
-# Execute service method
-result = service.execute_operation(input_data, context)
-print(f"Operation result: {result}")
-
     """Advanced metrics collection and aggregation system."""
 
     def __init__(self, retention_hours: int = 24):
@@ -175,4 +150,3 @@ def create_metrics_collector(retention_hours: int = 24) -> MetricsCollector:
 
 # Export for DI
 __all__ = ["MetricsCollector", "MetricDataPoint", "create_metrics_collector"]
-

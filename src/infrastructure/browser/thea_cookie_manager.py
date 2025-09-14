@@ -18,7 +18,11 @@ class TheaCookieConfig:
 
 
 class TheaCookieManager:
+    """Thea cookie manager for browser automation."""
+    pass
 
+
+"""
 EXAMPLE USAGE:
 ==============
 

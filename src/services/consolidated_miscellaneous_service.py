@@ -30,14 +30,11 @@ class ConsolidatedMiscellaneousService:
     """Unified service for miscellaneous operations and utilities."""
 
     def __init__(self, agent_id: str = "default"):
-
-EXAMPLE USAGE:
-==============
-
-# Import the service
-from src.services.consolidated_miscellaneous_service import Consolidated_Miscellaneous_ServiceService
-
-# Initialize service
+        """Initialize the consolidated miscellaneous service."""
+        self.agent_id = agent_id
+        self.config = {}
+        self.constants = {}
+        self.recommendations = {}
 service = Consolidated_Miscellaneous_ServiceService()
 
 # Basic service operation

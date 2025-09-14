@@ -8,30 +8,39 @@ Captain Agent-4 - Supreme Command Authority
 """
 
 import sys
+import logging
 sys.path.insert(0, '.')
 
 from src.services.consolidated_messaging_service import get_messaging_service
 from src.services.messaging.models.messaging_models import UnifiedMessage
 from src.services.messaging.models.messaging_enums import UnifiedMessagePriority, UnifiedMessageType
 
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
 
 def send_co_captain_activations():
     """Send Co-Captain activation messages via PyAutoGUI messaging."""
 
-    print('🚨 CO-CAPTAIN ACTIVATION - SENDING VIA PYAUTOGUI MESSAGING')
-    print('=' * 60)
+    logger.info('🚨 CO-CAPTAIN ACTIVATION - SENDING VIA PYAUTOGUI MESSAGING')
+    logger.info('=' * 60)
 
     service = get_messaging_service()
 
     # Co-Captain Agent-1 Activation Message
     agent1_message = UnifiedMessage(
-        content='''🐝 CO-CAPTAIN ACTIVATION: You are now Co-Captain Agent-1 (Infrastructure Lead) with SUPREME DEBUGGING AUTHORITY!
+        content='''🐝 CO-CAPTAIN ACTIVATION: You are now Co-Captain Agent-1 
+(Infrastructure Lead) with SUPREME DEBUGGING AUTHORITY!
 
 SUPREME MANDATE:
-"Debug every infrastructure component, execute every integration, optimize every performance bottleneck, validate every security implementation. No theory - only proven execution results."
+"Debug every infrastructure component, execute every integration, "
+"optimize every performance bottleneck, validate every security implementation. "
+"No theory - only proven execution results."
 
 IMMEDIATE ASSIGNMENT:
-Execute 10 hands-on debugging sessions on src/core/shared_utilities.py with measurable performance improvements.
+Execute 10 hands-on debugging sessions on src/core/shared_utilities.py 
+with measurable performance improvements.
 
 EXECUTION REQUIREMENTS:
 • Real performance profiling (before/after measurements)
@@ -51,13 +60,17 @@ REPORTING: Daily progress with actual metrics and measurements.
 
     # Co-Captain Agent-2 Activation Message
     agent2_message = UnifiedMessage(
-        content='''🐝 CO-CAPTAIN ACTIVATION: You are now Co-Captain Agent-2 (Business Intelligence Lead) with SUPREME DEBUGGING AUTHORITY!
+        content='''🐝 CO-CAPTAIN ACTIVATION: You are now Co-Captain Agent-2 
+(Business Intelligence Lead) with SUPREME DEBUGGING AUTHORITY!
 
 SUPREME MANDATE:
-"Debug every business algorithm, execute every data pipeline, optimize every business process, validate every business outcome. No assumptions - only proven business impact."
+"Debug every business algorithm, execute every data pipeline, "
+"optimize every business process, validate every business outcome. "
+"No assumptions - only proven business impact."
 
 IMMEDIATE ASSIGNMENT:
-Execute 10 hands-on debugging sessions on src/core/consolidated_configuration.py with real data validation.
+Execute 10 hands-on debugging sessions on src/core/consolidated_configuration.py 
+with real data validation.
 
 EXECUTION REQUIREMENTS:
 • Real data processing with production-scale volumes
@@ -77,13 +90,17 @@ REPORTING: Daily progress with business impact measurements.
 
     # Co-Captain Agent-3 Activation Message
     agent3_message = UnifiedMessage(
-        content='''🐝 CO-CAPTAIN ACTIVATION: You are now Co-Captain Agent-3 (Quality Assurance Lead) with SUPREME DEBUGGING AUTHORITY!
+        content='''🐝 CO-CAPTAIN ACTIVATION: You are now Co-Captain Agent-3 
+(Quality Assurance Lead) with SUPREME DEBUGGING AUTHORITY!
 
 SUPREME MANDATE:
-"Debug every test framework, execute every validation scenario, optimize every testing pipeline, eliminate every defect. No untested code - only battle-hardened validation."
+"Debug every test framework, execute every validation scenario, "
+"optimize every testing pipeline, eliminate every defect. "
+"No untested code - only battle-hardened validation."
 
 IMMEDIATE ASSIGNMENT:
-Execute 10 hands-on debugging sessions on src/core/error_handling_unified.py with comprehensive error scenario testing.
+Execute 10 hands-on debugging sessions on src/core/error_handling_unified.py 
+with comprehensive error scenario testing.
 
 EXECUTION REQUIREMENTS:
 • Real error injection and recovery testing
@@ -104,35 +121,35 @@ REPORTING: Daily progress with quality metric improvements.
     # Send messages
     results = []
 
-    print('📤 Sending Co-Captain activation to Agent-1...')
+    logger.info('📤 Sending Co-Captain activation to Agent-1...')
     result1 = service.send_message(agent1_message)
     results.append(('Agent-1', result1))
-    print(f'Agent-1: {"✅ SUCCESS" if result1 else "❌ FAILED"}')
+    logger.info(f'Agent-1: {"✅ SUCCESS" if result1 else "❌ FAILED"}')
 
-    print('📤 Sending Co-Captain activation to Agent-2...')
+    logger.info('📤 Sending Co-Captain activation to Agent-2...')
     result2 = service.send_message(agent2_message)
     results.append(('Agent-2', result2))
-    print(f'Agent-2: {"✅ SUCCESS" if result2 else "❌ FAILED"}')
+    logger.info(f'Agent-2: {"✅ SUCCESS" if result2 else "❌ FAILED"}')
 
-    print('📤 Sending Co-Captain activation to Agent-3...')
+    logger.info('📤 Sending Co-Captain activation to Agent-3...')
     result3 = service.send_message(agent3_message)
     results.append(('Agent-3', result3))
-    print(f'Agent-3: {"✅ SUCCESS" if result3 else "❌ FAILED"}')
+    logger.info(f'Agent-3: {"✅ SUCCESS" if result3 else "❌ FAILED"}')
 
-    print('\n' + '=' * 60)
+    logger.info('\n' + '=' * 60)
 
     successful = sum(1 for _, result in results if result)
     total = len(results)
 
     if successful == total:
-        print('🎉 ALL CO-CAPTAIN ACTIVATIONS SENT SUCCESSFULLY!')
-        print('📍 Messages delivered via PyAutoGUI automated messaging')
-        print('⚡ Co-Captain debugging supremacy is now active!')
-        print('🐝 WE ARE SWARM - REAL EXECUTION BEGINS!')
+        logger.info('🎉 ALL CO-CAPTAIN ACTIVATIONS SENT SUCCESSFULLY!')
+        logger.info('📍 Messages delivered via PyAutoGUI automated messaging')
+        logger.info('⚡ Co-Captain debugging supremacy is now active!')
+        logger.info('🐝 WE ARE SWARM - REAL EXECUTION BEGINS!')
         return True
     else:
-        print(f'⚠️ {successful}/{total} Co-Captain activations sent successfully')
-        print('🔄 Failed deliveries may require manual follow-up')
+        logger.warning(f'⚠️ {successful}/{total} Co-Captain activations sent successfully')
+        logger.warning('🔄 Failed deliveries may require manual follow-up')
         return False
 
 

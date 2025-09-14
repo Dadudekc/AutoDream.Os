@@ -1,40 +1,10 @@
-#!/usr/bin/env python3
-"""
-Messaging Models Package
-=======================
+# AUTO-GENERATED __init__.py
+# DO NOT EDIT MANUALLY - changes may be overwritten
 
-Data models and enumerations for unified messaging system.
-
-Author: Agent-5 (Business Intelligence Specialist)
-License: MIT
-"""
-
-from .messaging_enums import (
-    DeliveryMethod,
-    MessageStatus,
-    RecipientType,
-    UnifiedMessagePriority,
-    UnifiedMessageTag,
-    UnifiedMessageType,
-)
-from .messaging_models import (
-    AgentCoordinates,
-    MessageHistory,
-    MessagingMetrics,
-    UnifiedMessage,
-)
+from . import messaging_enums
+from . import messaging_models
 
 __all__ = [
-    # Enums
-    "DeliveryMethod",
-    "MessageStatus",
-    "RecipientType",
-    "UnifiedMessagePriority",
-    "UnifiedMessageTag",
-    "UnifiedMessageType",
-    # Models
-    "AgentCoordinates",
-    "MessageHistory",
-    "MessagingMetrics",
-    "UnifiedMessage",
+    'messaging_enums',
+    'messaging_models',
 ]

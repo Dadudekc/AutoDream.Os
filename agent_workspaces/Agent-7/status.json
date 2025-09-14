@@ -1,0 +1,44 @@
+{
+  "agent_id": "Agent-7",
+  "role": "Security & Compliance Specialist",
+  "fsm_state": "UNINITIALIZED",
+  "onboarding_status": "PENDING",
+  "cycle": 1,
+  "onboarded": false,
+  "transitions": 0,
+  "previous_state": null,
+  "coordinates": {
+    "x": 920,
+    "y": 851
+  },
+  "monitor": "Monitor 2 - Bottom Left",
+  "capabilities": [
+    "Security & Compliance",
+    "Security Systems",
+    "Compliance Management",
+    "Security Enhancement",
+    "Compliance Systems"
+  ],
+  "current_mission": null,
+  "contract_status": "READY_FOR_ASSIGNMENT",
+  "last_updated": "2025-09-14 06:27:42",
+  "onboarding_actions_completed": [],
+  "onboarding_actions_required": [
+    "Initialize workspace: agent_workspaces/Agent-7/",
+    "Update status file with role information",
+    "Message Captain: Onboarding: Agent-7 ready for assignment",
+    "Complete SSOT compliance training"
+  ],
+  "communication_channels": [
+    "Discord Commander",
+    "Messaging System",
+    "PyAutoGUI Automation",
+    "Swarm Coordination"
+  ],
+  "mission_history": [],
+  "performance_metrics": {
+    "missions_completed": 0,
+    "success_rate": 0,
+    "coordination_cycles": 0
+  }
+}

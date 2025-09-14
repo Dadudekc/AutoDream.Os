@@ -18,12 +18,11 @@ class ValidationMiddleware:
     """Validation middleware decorators."""
 
     def validate_request(self, validator_func: Callable) -> Callable:
-
-EXAMPLE USAGE:
-==============
-
-# Basic usage example
-from src.web.vector_database.validation_middleware import Validation_Middleware
+        """Decorator to validate request data."""
+        def wrapper(*args, **kwargs):
+            # Validate request
+            return validator_func(*args, **kwargs)
+        return wrapper
 
 # Initialize and use
 instance = Validation_Middleware()

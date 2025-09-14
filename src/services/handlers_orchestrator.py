@@ -85,14 +85,13 @@ class HandlerRequest:
 
 
 class UnifiedHandlersOrchestrator:
-
-EXAMPLE USAGE:
-==============
-
-# Import the service
-from src.services.handlers_orchestrator import Handlers_OrchestratorService
-
-# Initialize service
+    """Main orchestrator for handler services."""
+    
+    def __init__(self):
+        """Initialize the handlers orchestrator."""
+        self.logger = logging.getLogger(__name__)
+        self.handlers = {}
+        self.requests = []
 service = Handlers_OrchestratorService()
 
 # Basic service operation

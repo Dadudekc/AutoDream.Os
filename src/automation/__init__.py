@@ -4,5 +4,5 @@
 from . import ui_onboarding
 
 __all__ = [
-    "ui_onboarding",
+    'ui_onboarding',
 ]

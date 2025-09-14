@@ -1,9 +1,6732 @@
 {
+  ".py": {
+    "file_type": ".py",
+    "files": [
+      {
+        "path": "__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "run_fresh_scan_direct.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "super_demo.py",
+        "functions": 18,
+        "classes": 0,
+        "complexity": 18
+      },
+      {
+        "path": "super_demo_simple.py",
+        "functions": 7,
+        "classes": 0,
+        "complexity": 7
+      },
+      {
+        "path": "trading_robot\\project_completion.py",
+        "functions": 8,
+        "classes": 0,
+        "complexity": 8
+      },
+      {
+        "path": "run_fresh_scan.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "contracts\\contract_notification_system.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 15
+      },
+      {
+        "path": "trading_robot\\backtesting\\backtester.py",
+        "functions": 13,
+        "classes": 3,
+        "complexity": 25
+      },
+      {
+        "path": "trading_robot\\main.py",
+        "functions": 2,
+        "classes": 1,
+        "complexity": 3
+      },
+      {
+        "path": "trading_robot\\core\\alpaca_client.py",
+        "functions": 11,
+        "classes": 1,
+        "complexity": 22
+      },
+      {
+        "path": "contracts\\create_contract.py",
+        "functions": 7,
+        "classes": 1,
+        "complexity": 13
+      },
+      {
+        "path": "trading_robot\\config\\settings.py",
+        "functions": 0,
+        "classes": 2,
+        "complexity": 0
+      },
+      {
+        "path": "trading_robot\\core\\trading_engine.py",
+        "functions": 3,
+        "classes": 1,
+        "complexity": 6
+      },
+      {
+        "path": "trading_robot\\strategies\\base_strategy.py",
+        "functions": 16,
+        "classes": 6,
+        "complexity": 32
+      },
+      {
+        "path": "trading_robot\\execution\\live_executor.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "trading_robot\\core\\risk_manager.py",
+        "functions": 19,
+        "classes": 2,
+        "complexity": 38
+      },
+      {
+        "path": "trading_robot\\strategies\\indicators.py",
+        "functions": 19,
+        "classes": 1,
+        "complexity": 38
+      },
+      {
+        "path": "trading_robot\\tests\\test_trading_robot.py",
+        "functions": 21,
+        "classes": 5,
+        "complexity": 39
+      },
+      {
+        "path": "trading_robot\\web\\dashboard.py",
+        "functions": 3,
+        "classes": 1,
+        "complexity": 5
+      },
+      {
+        "path": "archive\\cleanup_20250912_032500\\broadcast_swarm_activation.py",
+        "functions": 1,
+        "classes": 0,
+        "complexity": 1
+      },
+      {
+        "path": "archive\\cleanup_20250912_032500\\debug_contracts.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "archive\\cleanup_20250912_032500\\send_contract_announcement.py",
+        "functions": 1,
+        "classes": 0,
+        "complexity": 1
+      },
+      {
+        "path": "archive\\cleanup_20250912_032500\\swarm_testing_revolution.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 15
+      },
+      {
+        "path": "consolidation_tasks\\agent2_service_simplification.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\conftest.py",
+        "functions": 19,
+        "classes": 3,
+        "complexity": 27
+      },
+      {
+        "path": "tests\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "tests\\agent2_critical_issue_solutions.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 15
+      },
+      {
+        "path": "consolidation_tasks\\agent1_core_consolidation.py",
+        "functions": 11,
+        "classes": 1,
+        "complexity": 22
+      },
+      {
+        "path": "tests\\test_architecture_design.py",
+        "functions": 22,
+        "classes": 7,
+        "complexity": 44
+      },
+      {
+        "path": "archive\\cleanup_20250912_032500\\send_co_captain_activations.py",
+        "functions": 1,
+        "classes": 0,
+        "complexity": 1
+      },
+      {
+        "path": "tests\\test_consolidated_coordination_service.py",
+        "functions": 29,
+        "classes": 2,
+        "complexity": 57
+      },
+      {
+        "path": "tests\\test_core_systems.py",
+        "functions": 23,
+        "classes": 6,
+        "complexity": 44
+      },
+      {
+        "path": "tests\\test_agent4_coordination.py",
+        "functions": 25,
+        "classes": 8,
+        "complexity": 50
+      },
+      {
+        "path": "tests\\test_infrastructure.py",
+        "functions": 21,
+        "classes": 7,
+        "complexity": 42
+      },
+      {
+        "path": "tests\\test_consolidated_messaging_service.py",
+        "functions": 26,
+        "classes": 3,
+        "complexity": 52
+      },
+      {
+        "path": "tests\\test_reporting.py",
+        "functions": 24,
+        "classes": 5,
+        "complexity": 44
+      },
+      {
+        "path": "tests\\coverage_dashboard.py",
+        "functions": 7,
+        "classes": 1,
+        "complexity": 13
+      },
+      {
+        "path": "tests\\test_consolidated_vector_service.py",
+        "functions": 28,
+        "classes": 2,
+        "complexity": 56
+      },
+      {
+        "path": "tests\\swarm_testing_framework.py",
+        "functions": 21,
+        "classes": 3,
+        "complexity": 41
+      },
+      {
+        "path": "tests\\agent2_support_framework.py",
+        "functions": 15,
+        "classes": 4,
+        "complexity": 29
+      },
+      {
+        "path": "tests\\test_architectural_patterns_comprehensive_agent2.py",
+        "functions": 17,
+        "classes": 5,
+        "complexity": 34
+      },
+      {
+        "path": "tests\\enhanced_architectural_tests.py",
+        "functions": 11,
+        "classes": 1,
+        "complexity": 21
+      },
+      {
+        "path": "tests\\test_commandresult.py",
+        "functions": 18,
+        "classes": 2,
+        "complexity": 30
+      },
+      {
+        "path": "tests\\run_integration_tests.py",
+        "functions": 11,
+        "classes": 1,
+        "complexity": 21
+      },
+      {
+        "path": "tests\\test_chrome_undetected.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration_testing_framework.py",
+        "functions": 19,
+        "classes": 5,
+        "complexity": 37
+      },
+      {
+        "path": "tests\\run_architectural_tests_standalone.py",
+        "functions": 10,
+        "classes": 1,
+        "complexity": 13
+      },
+      {
+        "path": "tests\\test_infrastructure_monitoring_integration.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\test_metrics.py",
+        "functions": 7,
+        "classes": 2,
+        "complexity": 14
+      },
+      {
+        "path": "tests\\test_std_logger.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\test_browser_ops.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\test_profile.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\test_content_scraper.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\test_messaging_health_gate.py",
+        "functions": 23,
+        "classes": 6,
+        "complexity": 45
+      },
+      {
+        "path": "tests\\test_comprehensive_architecture_agent2.py",
+        "functions": 18,
+        "classes": 5,
+        "complexity": 35
+      },
+      {
+        "path": "tests\\test_optimized_sqlite_task_repo.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\test_sqlite_task_repo.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\test_response_collector.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\test_messaging_registry.py",
+        "functions": 21,
+        "classes": 4,
+        "complexity": 42
+      },
+      {
+        "path": "tests\\test_thea_cookie_manager.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\test_sqlite_agent_repo.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\test_thea_login_handler.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\test_system_clock.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\test_unified_persistence.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\test_unified_browser_service.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\test_thea_manager_profile.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\test_unified_logging_time.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_consolidated_services_integration.py",
+        "functions": 20,
+        "classes": 5,
+        "complexity": 40
+      },
+      {
+        "path": "tests\\test_thea_session_manager.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_final_integration_coverage.py",
+        "functions": 15,
+        "classes": 2,
+        "complexity": 30
+      },
+      {
+        "path": "tests\\integration\\test_integration_testing_framework.py",
+        "functions": 32,
+        "classes": 11,
+        "complexity": 64
+      },
+      {
+        "path": "tests\\integration\\test_agent_vector_integration.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_agent_assignment_manager.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_advanced_analytics_service.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_error_handling_integration.py",
+        "functions": 22,
+        "classes": 10,
+        "complexity": 43
+      },
+      {
+        "path": "tests\\integration\\test_agent_utils_registry.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_agent_vector_utils.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_agent_status_manager.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_agent_vector_integration_operations.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_agent_vector_integration_core.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_cross_service_integration.py",
+        "functions": 22,
+        "classes": 1,
+        "complexity": 41
+      },
+      {
+        "path": "tests\\integration\\test_architectural_onboarding.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_automated_reporting.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_cli.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_architectural_principles.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_command_handler.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_architectural_models.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_command_handler_module.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_bulk_coordinator.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_consolidated_agent_management_service.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_broadcast.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_config.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_compliance_validator.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_consolidated_handler_service.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_consolidated_architectural_service.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_consolidated_debate_service.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_consolidated_miscellaneous_service.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_consolidated_analytics_service.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_consolidated_onboarding_service.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_coordinate_handler.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_consolidated_utility_service.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_constants.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_coordinate_handler_module.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_coordinator.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_cursor_db.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_deliveryautogui_delivery.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_embedding_service.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_messaging_cli_refactored.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_handlers_orchestrator.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_fallback.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_coordinates.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_messaging_enums.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_message_identity_clarification.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_history.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_inbox_delivery.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_learning_recommender.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_messaging_performance_monitor.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_messaging_interfaces.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_messaging_cli.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_messaging_models.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_messaging_system_integration.py",
+        "functions": 15,
+        "classes": 1,
+        "complexity": 30
+      },
+      {
+        "path": "tests\\integration\\test_onboarding_handler_module.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_onboarding_bridge.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_performance_analyzer.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_onboarding_message_generator.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_metrics_collector.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_performance_dashboard.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_recommendation_engine.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_onboarding_handler.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_role_command_handler.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_providersautogui_delivery.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_overnight_command_handler.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_simple_onboarding.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_route_analyzer.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_service.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_thea_authentication_service.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_strategy_coordinator.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_status_indexer.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_task_handlers.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_thea_browser_service.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_status_embedding_indexer.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_stats_tracker.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_task_context_manager.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_thea_communication_manager.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_thea_config.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_thea_handlers.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_unified_handlers.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_swarm_intelligence_manager.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_thea_response_service.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_utility_handler_module.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_thea_messaging_service.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_vector_database_engine.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_vector_config_utils.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_usage_analytics.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_unified_vector_integration.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_unified_database_services.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_vector_database_models.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_work_indexer.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\integration\\test_vector_models.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\operational\\__init__.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 8
+      },
+      {
+        "path": "tests\\integration\\test_utility_handler.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\operational\\test_error_handling.py",
+        "functions": 35,
+        "classes": 13,
+        "complexity": 61
+      },
+      {
+        "path": "tests\\operational\\test_monitoring_systems.py",
+        "functions": 25,
+        "classes": 9,
+        "complexity": 50
+      },
+      {
+        "path": "tests\\operational\\conftest.py",
+        "functions": 12,
+        "classes": 1,
+        "complexity": 18
+      },
+      {
+        "path": "tests\\integration\\test_vector_database_orchestrator.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\operational\\test_coverage_progress_report.py",
+        "functions": 11,
+        "classes": 1,
+        "complexity": 20
+      },
+      {
+        "path": "tests\\operational\\test_operational_resilience.py",
+        "functions": 21,
+        "classes": 7,
+        "complexity": 37
+      },
+      {
+        "path": "tests\\operational\\test_operational_load_testing.py",
+        "functions": 20,
+        "classes": 6,
+        "complexity": 36
+      },
+      {
+        "path": "tests\\unit\\test_consolidated_messaging_unit.py",
+        "functions": 27,
+        "classes": 2,
+        "complexity": 54
+      },
+      {
+        "path": "tests\\unit\\test_message_router.py",
+        "functions": 24,
+        "classes": 1,
+        "complexity": 47
+      },
+      {
+        "path": "tests\\operational\\test_system_monitoring_integration.py",
+        "functions": 32,
+        "classes": 9,
+        "complexity": 64
+      },
+      {
+        "path": "tests\\operational\\test_stability_testing.py",
+        "functions": 21,
+        "classes": 10,
+        "complexity": 39
+      },
+      {
+        "path": "tests\\unit\\test_agent_docs_integration.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_consolidated_coordination_unit.py",
+        "functions": 29,
+        "classes": 1,
+        "complexity": 58
+      },
+      {
+        "path": "tests\\unit\\test_consolidated_vector_unit.py",
+        "functions": 26,
+        "classes": 2,
+        "complexity": 52
+      },
+      {
+        "path": "tests\\unit\\test_agent_context_manager.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_messaging_gateway.py",
+        "functions": 23,
+        "classes": 1,
+        "complexity": 46
+      },
+      {
+        "path": "tests\\unit\\test_agent_coordination.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_agent_matching.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_agent_documentation_service.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_analytics_unified.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_agent_strategies.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_aggressive_lazy_loader.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_backup_cli.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_automated_health_check_system.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_backup_database.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_backup_monitoring_orchestrator.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_backup_monitoring.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_base.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_backup_enums.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_backup_scheduler.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_basic_validator.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_backup_models.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_backup_system_core.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_backup_alert_system.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_config_models.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_configuration_models.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_config_monitor.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_consolidated_coordinator.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_coordinate_loader.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_consolidated_communication.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_coordination_utils.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_business_continuity_planner.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_consolidated_configuration.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_core_unified_system.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_coordination_models.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_data_models.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_coordinator_registry.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_decision.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_coordinator_status_parser.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_core_manager_system.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_core_interfaces.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_data_optimization_engine.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_core_validation.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_core_utilities.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_deployment_orchestrator_engine.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_data_optimization_models.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_discord_commander_security.py",
+        "functions": 23,
+        "classes": 7,
+        "complexity": 45
+      },
+      {
+        "path": "tests\\unit\\test_deployment_coordinator.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_documentation_search_service.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_discord_commander_embeds.py",
+        "functions": 33,
+        "classes": 8,
+        "complexity": 66
+      },
+      {
+        "path": "tests\\unit\\test_documentation_indexing_service.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_discord_commander_agent_engine.py",
+        "functions": 25,
+        "classes": 4,
+        "complexity": 50
+      },
+      {
+        "path": "tests\\unit\\test_enums.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_embeddings.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_emergency_unified.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_data_optimization_orchestrator.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_engines_unified.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_env_loader.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_execution_manager.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_fsm_enums.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_fsm_models.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_factory_functions.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_health_dashboard.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_fsm_utilities.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_fsm_constants.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_fsm.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_error_handling_unified.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_integration_unified.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_import_registry.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_health_monitoring_service.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_import_core.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_manager.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_health_alerting.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_health_monitoring_system.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_import_utilities.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_message_queue_utils.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_lazy_loader.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_managers_unified.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_metrics.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_paths.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_performance_models.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_performance_monitor.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_onboarding_service.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_performance_enums.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_performance_metrics_collector.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_performance_orchestrator.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_performance_unified.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_operational_monitoring_baseline.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_quality_gates.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_performance_monitoring_engine.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_performance_monitoring_dashboard.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_resource_manager.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_quality_assurance_system.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_search_history_service.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_router_hooks.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_ssot_models.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_semantic_router.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_shared_utilities.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_ssot_unified.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_refactoring_unified.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_state_models.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_simple_utils.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_standard_validator.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_swarm_coordination.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_status_cli.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_strict_validator.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_transition_models.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_swarm_coordination_orchestrator.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_unified_core_interfaces.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_swarm_communication_coordinator.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_task_executor.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_task_coordination_engine.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_unified_import_system.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_unified_data_processing_system.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_unified_logging_system_engine.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_utility_consolidation_engine.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_utility_consolidation_models.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_utility_consolidation_orchestrator.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_unified_logging_system.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_unified_monitoring_coordinator.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_unified_progress_tracking.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_unified_logging_system_models.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_v2_compliance_executor.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_utils.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_vector_database.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\semantic\\test_status_index.py",
+        "functions": 1,
+        "classes": 0,
+        "complexity": 1
+      },
+      {
+        "path": "tests\\unit\\test_vector_unified.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\unit\\test_validation_unified.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\performance\\test_integration_performance.py",
+        "functions": 12,
+        "classes": 1,
+        "complexity": 21
+      },
+      {
+        "path": "tests\\unit\\test_workspace_agent_registry.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\e2e\\test_complete_user_journey_e2e.py",
+        "functions": 0,
+        "classes": 1,
+        "complexity": 0
+      },
+      {
+        "path": "tests\\unit\\test_vector_integration_analytics.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\semantic\\test_integration_smoke.py",
+        "functions": 2,
+        "classes": 0,
+        "complexity": 2
+      },
+      {
+        "path": "tests\\unit\\test_vector_store.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\fixtures\\shared_operational_fixtures.py",
+        "functions": 42,
+        "classes": 9,
+        "complexity": 73
+      },
+      {
+        "path": "tests\\e2e\\test_collection_utils.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\messaging\\test_fallback_delivery.py",
+        "functions": 2,
+        "classes": 0,
+        "complexity": 2
+      },
+      {
+        "path": "tests\\e2e\\test_analytics_utils.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\automation\\test_ui_onboarding.py",
+        "functions": 6,
+        "classes": 0,
+        "complexity": 6
+      },
+      {
+        "path": "tests\\e2e\\test_analytics_dashboard.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\messaging\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "tests\\e2e\\test_error_handler_middleware.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\e2e\\test_api_integration_workflow_e2e.py",
+        "functions": 2,
+        "classes": 1,
+        "complexity": 3
+      },
+      {
+        "path": "tests\\e2e\\test_agent_lifecycle_e2e.py",
+        "functions": 20,
+        "classes": 1,
+        "complexity": 37
+      },
+      {
+        "path": "tests\\e2e\\test_messaging_performance_dashboard.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\e2e\\test_document_utils.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\e2e\\test_request_handler_middleware.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\e2e\\test_middleware.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\e2e\\test_swarm_monitoring_dashboard.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\e2e\\test_response_handler_middleware.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\e2e\\test_settings.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\e2e\\test_validation_middleware.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\e2e\\test_simple_monitoring_dashboard.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\e2e\\test_routes.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\api\\test_api_documentation_suite.py",
+        "functions": 31,
+        "classes": 9,
+        "complexity": 62
+      },
+      {
+        "path": "tests\\api\\test_agent_api_suite.py",
+        "functions": 16,
+        "classes": 1,
+        "complexity": 29
+      },
+      {
+        "path": "tests\\e2e\\test_search_utils.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_agent_cycle.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\contracts\\test_contract_system.py",
+        "functions": 30,
+        "classes": 8,
+        "complexity": 60
+      },
+      {
+        "path": "tests\\deployment\\test_deployment_verification.py",
+        "functions": 17,
+        "classes": 1,
+        "complexity": 32
+      },
+      {
+        "path": "tests\\functional\\test_activate_vector_database_integration.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_analysis_cli.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_agent_documentation_cli.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_auto_remediate_loc.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_audit_cleanup.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_broadcast_contract_announcement.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_broadcast_advanced_contracts.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_agent_checkin.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_analytics_cli.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_captain_snapshot.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_agent_onboarding.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_check_snapshot_up_to_date.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_consolidated_messaging.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_cleanup_v2_compliance.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_demo_semantic.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_cleanup_overnight_sequence.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_dup_scan.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_competitive_progress_reporter.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_configure_discord_webhooks.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_execute_ssot_integration.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_enforce_python_standards.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_duplication_analyzer.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_fix_and_ingest_vector_database.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_generate_utils_catalog.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_find_large_files.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_double_check_protocols.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_functionality_verification.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_index_v2_refactoring.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_ingest_statuses.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_messaging_performance_cli.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_migrate_managers.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_setup_discord_bot.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_replace_prints_with_logger.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_projectscanner.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_run_admin_commander.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_run_project_scan.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_send_devlog_unified.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_run_discord_bot.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_run_discord_agent_bot.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_setup_enhanced_discord.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_migrate_orchestrators.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "src\\commandresult.py",
+        "functions": 0,
+        "classes": 1,
+        "complexity": 0
+      },
+      {
+        "path": "templates\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "tests\\functional\\test_triple_check_protocols.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_status_embedding_refresh.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "src\\agent_registry.py",
+        "functions": 1,
+        "classes": 0,
+        "complexity": 1
+      },
+      {
+        "path": "src\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\coordinate_agent_registry.py",
+        "functions": 1,
+        "classes": 0,
+        "complexity": 1
+      },
+      {
+        "path": "tests\\functional\\test_validate_workspace_coords.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "tests\\functional\\test_v2_release_summary.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "src\\swarmstatus.py",
+        "functions": 1,
+        "classes": 1,
+        "complexity": 2
+      },
+      {
+        "path": "tests\\functional\\test_terminal_completion_monitor.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "templates\\onboarding_roles.py",
+        "functions": 6,
+        "classes": 0,
+        "complexity": 6
+      },
+      {
+        "path": "src\\web\\frontend\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\frontend\\settings.py",
+        "functions": 1,
+        "classes": 1,
+        "complexity": 1
+      },
+      {
+        "path": "src\\web\\vector_database\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\vector_database\\analytics_utils.py",
+        "functions": 2,
+        "classes": 1,
+        "complexity": 4
+      },
+      {
+        "path": "src\\web\\vector_database\\document_utils.py",
+        "functions": 3,
+        "classes": 1,
+        "complexity": 6
+      },
+      {
+        "path": "src\\web\\vector_database\\error_handler_middleware.py",
+        "functions": 2,
+        "classes": 1,
+        "complexity": 3
+      },
+      {
+        "path": "src\\web\\vector_database\\utils.py",
+        "functions": 10,
+        "classes": 1,
+        "complexity": 20
+      },
+      {
+        "path": "src\\web\\vector_database\\collection_utils.py",
+        "functions": 2,
+        "classes": 1,
+        "complexity": 4
+      },
+      {
+        "path": "src\\web\\vector_database\\middleware.py",
+        "functions": 9,
+        "classes": 1,
+        "complexity": 18
+      },
+      {
+        "path": "src\\services\\consolidated_onboarding_service.py",
+        "functions": 4,
+        "classes": 0,
+        "complexity": 4
+      },
+      {
+        "path": "src\\web\\vector_database\\models.py",
+        "functions": 10,
+        "classes": 10,
+        "complexity": 20
+      },
+      {
+        "path": "src\\services\\consolidated_agent_management_service.py",
+        "functions": 21,
+        "classes": 1,
+        "complexity": 42
+      },
+      {
+        "path": "src\\services\\__init__.py",
+        "functions": 6,
+        "classes": 0,
+        "complexity": 6
+      },
+      {
+        "path": "src\\services\\advanced_analytics_service.py",
+        "functions": 1,
+        "classes": 0,
+        "complexity": 1
+      },
+      {
+        "path": "src\\services\\consolidated_handler_service.py",
+        "functions": 7,
+        "classes": 6,
+        "complexity": 14
+      },
+      {
+        "path": "src\\services\\consolidated_vector_service.py",
+        "functions": 20,
+        "classes": 1,
+        "complexity": 40
+      },
+      {
+        "path": "src\\services\\consolidated_messaging_service.py",
+        "functions": 9,
+        "classes": 0,
+        "complexity": 9
+      },
+      {
+        "path": "src\\services\\constants.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\services\\coordination\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\services\\coordination\\strategy_coordinator.py",
+        "functions": 11,
+        "classes": 1,
+        "complexity": 22
+      },
+      {
+        "path": "src\\services\\coordination\\stats_tracker.py",
+        "functions": 9,
+        "classes": 1,
+        "complexity": 18
+      },
+      {
+        "path": "src\\services\\coordination\\bulk_coordinator.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "src\\services\\handlers\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\services\\models\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\services\\protocol\\routers\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\services\\utils\\agent_utils_registry.py",
+        "functions": 1,
+        "classes": 0,
+        "complexity": 1
+      },
+      {
+        "path": "src\\services\\protocol\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\services\\utils\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\services\\vector_database\\status_indexer.py",
+        "functions": 2,
+        "classes": 0,
+        "complexity": 2
+      },
+      {
+        "path": "src\\services\\utils\\vector_config_utils.py",
+        "functions": 1,
+        "classes": 0,
+        "complexity": 1
+      },
+      {
+        "path": "src\\services\\vector_database\\__init__.py",
+        "functions": 3,
+        "classes": 0,
+        "complexity": 3
+      },
+      {
+        "path": "src\\services\\protocol\\routers\\route_analyzer.py",
+        "functions": 10,
+        "classes": 1,
+        "complexity": 20
+      },
+      {
+        "path": "src\\services\\thea\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\services\\thea\\core\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\services\\thea\\authentication\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\services\\thea\\core\\thea_communication_manager.py",
+        "functions": 10,
+        "classes": 1,
+        "complexity": 20
+      },
+      {
+        "path": "src\\services\\thea\\authentication\\thea_authentication_service.py",
+        "functions": 14,
+        "classes": 4,
+        "complexity": 28
+      },
+      {
+        "path": "src\\services\\thea\\browser\\thea_browser_service.py",
+        "functions": 18,
+        "classes": 2,
+        "complexity": 36
+      },
+      {
+        "path": "src\\services\\thea\\messaging\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\services\\thea\\browser\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\services\\thea\\commander\\thea_response_processor.py",
+        "functions": 11,
+        "classes": 2,
+        "complexity": 22
+      },
+      {
+        "path": "src\\services\\thea\\responses\\thea_response_service.py",
+        "functions": 9,
+        "classes": 2,
+        "complexity": 18
+      },
+      {
+        "path": "src\\services\\thea\\responses\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\services\\thea\\config\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\services\\thea\\commander\\thea_commander_manager.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "src\\services\\thea\\commander\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\services\\thea\\messaging\\thea_messaging_service.py",
+        "functions": 9,
+        "classes": 2,
+        "complexity": 18
+      },
+      {
+        "path": "src\\services\\messaging\\onboarding_bridge.py",
+        "functions": 1,
+        "classes": 0,
+        "complexity": 1
+      },
+      {
+        "path": "src\\services\\thea\\config\\thea_config.py",
+        "functions": 6,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "src\\services\\messaging\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\services\\messaging\\broadcast.py",
+        "functions": 1,
+        "classes": 0,
+        "complexity": 1
+      },
+      {
+        "path": "src\\services\\messaging\\models.py",
+        "functions": 3,
+        "classes": 7,
+        "complexity": 4
+      },
+      {
+        "path": "src\\services\\thea\\commander\\thea_commander_persona.py",
+        "functions": 18,
+        "classes": 3,
+        "complexity": 36
+      },
+      {
+        "path": "src\\services\\messaging\\service.py",
+        "functions": 4,
+        "classes": 1,
+        "complexity": 8
+      },
+      {
+        "path": "src\\services\\messaging\\history.py",
+        "functions": 1,
+        "classes": 0,
+        "complexity": 1
+      },
+      {
+        "path": "src\\services\\messaging\\consolidated_messaging_service.py",
+        "functions": 31,
+        "classes": 1,
+        "complexity": 60
+      },
+      {
+        "path": "src\\services\\messaging\\delivery\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\services\\messaging\\coordinates.py",
+        "functions": 7,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "src\\services\\messaging\\task_handlers.py",
+        "functions": 3,
+        "classes": 0,
+        "complexity": 3
+      },
+      {
+        "path": "src\\services\\messaging\\cli.py",
+        "functions": 2,
+        "classes": 0,
+        "complexity": 2
+      },
+      {
+        "path": "src\\services\\messaging\\delivery\\fallback.py",
+        "functions": 2,
+        "classes": 0,
+        "complexity": 2
+      },
+      {
+        "path": "src\\services\\messaging\\thea_handlers.py",
+        "functions": 1,
+        "classes": 0,
+        "complexity": 1
+      },
+      {
+        "path": "src\\services\\messaging\\delivery\\inbox_delivery.py",
+        "functions": 1,
+        "classes": 0,
+        "complexity": 1
+      },
+      {
+        "path": "src\\services\\messaging\\models\\messaging_enums.py",
+        "functions": 0,
+        "classes": 6,
+        "complexity": 0
+      },
+      {
+        "path": "src\\services\\messaging\\interfaces\\messaging_interfaces.py",
+        "functions": 12,
+        "classes": 5,
+        "complexity": 24
+      },
+      {
+        "path": "src\\services\\messaging\\delivery\\pyautogui_delivery.py",
+        "functions": 4,
+        "classes": 0,
+        "complexity": 4
+      },
+      {
+        "path": "src\\services\\messaging\\providers\\inbox_delivery.py",
+        "functions": 14,
+        "classes": 1,
+        "complexity": 28
+      },
+      {
+        "path": "src\\services\\messaging\\models\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\services\\messaging\\interfaces\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\services\\messaging\\models\\messaging_models.py",
+        "functions": 7,
+        "classes": 4,
+        "complexity": 14
+      },
+      {
+        "path": "src\\services\\messaging\\providers\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\services\\messaging\\providers\\fallback_provider\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\services\\messaging\\cli\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\services\\messaging\\providers\\pyautogui_delivery.py",
+        "functions": 10,
+        "classes": 1,
+        "complexity": 20
+      },
+      {
+        "path": "src\\services\\messaging\\broadcast_service\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\services\\messaging\\cli\\messaging_cli_clean.py",
+        "functions": 6,
+        "classes": 1,
+        "complexity": 12
+      },
+      {
+        "path": "src\\services\\messaging\\cli\\perf_cli\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\services\\analytics\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\services\\messaging\\history_service\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\services\\messaging\\cli\\messaging_cli.py",
+        "functions": 9,
+        "classes": 1,
+        "complexity": 18
+      },
+      {
+        "path": "src\\core\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\core\\shared_utilities.py",
+        "functions": 55,
+        "classes": 9,
+        "complexity": 102
+      },
+      {
+        "path": "src\\core\\error_handling_examples.py",
+        "functions": 10,
+        "classes": 1,
+        "complexity": 14
+      },
+      {
+        "path": "src\\core\\unified_core_system.py",
+        "functions": 36,
+        "classes": 8,
+        "complexity": 69
+      },
+      {
+        "path": "src\\core\\consolidation\\utility_consolidation\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\core\\consolidation\\base.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "src\\core\\constants\\fsm.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\core\\constants\\fsm_models.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\core\\constants\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\core\\constants\\fsm\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\core\\coordination\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\core\\coordination\\swarm\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\core\\coordination\\swarm\\engines\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\core\\coordination\\swarm\\orchestrators\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\core\\data_optimization\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\core\\import_system\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\core\\coordination\\swarm\\orchestrators\\swarm_coordination_orchestrator.py",
+        "functions": 11,
+        "classes": 5,
+        "complexity": 22
+      },
+      {
+        "path": "src\\core\\ssot\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\core\\ssot\\unified_ssot\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\core\\ssot\\unified_ssot\\execution\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\core\\utils\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\core\\ssot\\unified_ssot\\validators\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\core\\quality\\testing_coordinator.py",
+        "functions": 13,
+        "classes": 4,
+        "complexity": 25
+      },
+      {
+        "path": "src\\core\\semantic\\utils.py",
+        "functions": 3,
+        "classes": 0,
+        "complexity": 3
+      },
+      {
+        "path": "src\\core\\semantic\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\core\\semantic\\status_cli.py",
+        "functions": 2,
+        "classes": 0,
+        "complexity": 2
+      },
+      {
+        "path": "src\\core\\semantic\\status_index.py",
+        "functions": 4,
+        "classes": 1,
+        "complexity": 8
+      },
+      {
+        "path": "src\\core\\performance\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\core\\performance\\models\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\core\\deployment\\models\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\core\\deployment\\models\\factory_functions.py",
+        "functions": 7,
+        "classes": 0,
+        "complexity": 7
+      },
+      {
+        "path": "src\\core\\messaging\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\core\\messaging\\registry_loader.py",
+        "functions": 7,
+        "classes": 1,
+        "complexity": 8
+      },
+      {
+        "path": "src\\core\\backup\\alerts\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\core\\messaging\\health_check.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 5
+      },
+      {
+        "path": "src\\core\\backup\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\core\\backup\\database\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\application\\use_cases\\assign_task_uc.py",
+        "functions": 2,
+        "classes": 3,
+        "complexity": 4
+      },
+      {
+        "path": "src\\application\\use_cases\\complete_task_uc.py",
+        "functions": 2,
+        "classes": 3,
+        "complexity": 4
+      },
+      {
+        "path": "src\\core\\backup\\models\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\application\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\application\\use_cases\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\architecture\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\architecture\\design_patterns.py",
+        "functions": 8,
+        "classes": 3,
+        "complexity": 15
+      },
+      {
+        "path": "src\\architecture\\system_integration.py",
+        "functions": 6,
+        "classes": 4,
+        "complexity": 11
+      },
+      {
+        "path": "src\\architecture\\unified_architecture_core.py",
+        "functions": 8,
+        "classes": 4,
+        "complexity": 15
+      },
+      {
+        "path": "src\\automation\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\automation\\ui_onboarding.py",
+        "functions": 15,
+        "classes": 3,
+        "complexity": 24
+      },
+      {
+        "path": "src\\config\\ssot.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\config\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\config\\settings.py",
+        "functions": 2,
+        "classes": 2,
+        "complexity": 4
+      },
+      {
+        "path": "src\\discord_commander\\guards.py",
+        "functions": 1,
+        "classes": 0,
+        "complexity": 1
+      },
+      {
+        "path": "src\\discord_commander\\agent_communication_engine_refactored.py",
+        "functions": 2,
+        "classes": 1,
+        "complexity": 3
+      },
+      {
+        "path": "src\\discord_commander\\rate_limits.py",
+        "functions": 2,
+        "classes": 1,
+        "complexity": 4
+      },
+      {
+        "path": "src\\discord_commander\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\discord_commander\\agent_communication_engine_base.py",
+        "functions": 6,
+        "classes": 1,
+        "complexity": 12
+      },
+      {
+        "path": "src\\discord_commander\\discord_commander.py",
+        "functions": 6,
+        "classes": 1,
+        "complexity": 11
+      },
+      {
+        "path": "src\\discord_commander\\discord_commander_models.py",
+        "functions": 5,
+        "classes": 4,
+        "complexity": 9
+      },
+      {
+        "path": "src\\discord_commander\\structured_logging.py",
+        "functions": 2,
+        "classes": 1,
+        "complexity": 3
+      },
+      {
+        "path": "src\\discord_commander\\embeds.py",
+        "functions": 26,
+        "classes": 2,
+        "complexity": 50
+      },
+      {
+        "path": "src\\discord_commander\\handlers_agents.py",
+        "functions": 4,
+        "classes": 1,
+        "complexity": 7
+      },
+      {
+        "path": "src\\discord_commander\\security_policies.py",
+        "functions": 4,
+        "classes": 0,
+        "complexity": 4
+      },
+      {
+        "path": "src\\discord_commander\\agent_communication_engine_core.py",
+        "functions": 3,
+        "classes": 1,
+        "complexity": 6
+      },
+      {
+        "path": "src\\discord_commander\\discord_webhook_integration.py",
+        "functions": 23,
+        "classes": 1,
+        "complexity": 46
+      },
+      {
+        "path": "src\\discord_commander\\agent_communication_engine_operations.py",
+        "functions": 1,
+        "classes": 1,
+        "complexity": 2
+      },
+      {
+        "path": "src\\core\\backup_disaster_recovery\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\discord_commander\\discord_agent_bot.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\discord_commander\\command_router.py",
+        "functions": 10,
+        "classes": 1,
+        "complexity": 19
+      },
+      {
+        "path": "src\\discord_commander\\handlers_swarm.py",
+        "functions": 6,
+        "classes": 1,
+        "complexity": 11
+      },
+      {
+        "path": "src\\discord_commander\\enhanced_discord_integration.py",
+        "functions": 23,
+        "classes": 9,
+        "complexity": 45
+      },
+      {
+        "path": "src\\discord_commander\\discord_agent_bot_clean.py",
+        "functions": 9,
+        "classes": 2,
+        "complexity": 17
+      },
+      {
+        "path": "src\\discord_commander\\discord_agent_bot_backup.py",
+        "functions": 11,
+        "classes": 2,
+        "complexity": 19
+      },
+      {
+        "path": "src\\discord_commander\\handlers_agent_summary.py",
+        "functions": 1,
+        "classes": 1,
+        "complexity": 2
+      },
+      {
+        "path": "src\\discord_commander\\discord_command_handlers.py",
+        "functions": 1,
+        "classes": 1,
+        "complexity": 2
+      },
+      {
+        "path": "src\\discord_commander\\discord_dynamic_agent_commands.py",
+        "functions": 3,
+        "classes": 0,
+        "complexity": 3
+      },
+      {
+        "path": "src\\discord_commander\\discord_security_policies.py",
+        "functions": 15,
+        "classes": 1,
+        "complexity": 30
+      },
+      {
+        "path": "src\\discord_commander\\messaging_gateway\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\discord_commander\\discord_agent_bot_core.py",
+        "functions": 6,
+        "classes": 1,
+        "complexity": 12
+      },
+      {
+        "path": "src\\discord_commander\\discord_rate_limiting.py",
+        "functions": 6,
+        "classes": 1,
+        "complexity": 12
+      },
+      {
+        "path": "src\\discord_commander\\webhook\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\discord_commander\\communication_engine\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\domain\\domain_events.py",
+        "functions": 7,
+        "classes": 6,
+        "complexity": 14
+      },
+      {
+        "path": "src\\domain\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\discord_commander\\commands\\agent_shortcuts.py",
+        "functions": 10,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "src\\domain\\entities\\task.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "src\\domain\\entities\\agent.py",
+        "functions": 12,
+        "classes": 1,
+        "complexity": 24
+      },
+      {
+        "path": "src\\domain\\ports\\message_bus.py",
+        "functions": 4,
+        "classes": 1,
+        "complexity": 8
+      },
+      {
+        "path": "src\\domain\\entities\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\domain\\ports\\logger.py",
+        "functions": 6,
+        "classes": 2,
+        "complexity": 12
+      },
+      {
+        "path": "src\\domain\\ports\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\domain\\ports\\browser.py",
+        "functions": 5,
+        "classes": 2,
+        "complexity": 10
+      },
+      {
+        "path": "src\\domain\\ports\\clock.py",
+        "functions": 4,
+        "classes": 1,
+        "complexity": 8
+      },
+      {
+        "path": "src\\domain\\ports\\task_repository.py",
+        "functions": 7,
+        "classes": 1,
+        "complexity": 14
+      },
+      {
+        "path": "src\\domain\\services\\assignment_service.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "src\\domain\\services\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\domain\\value_objects\\ids.py",
+        "functions": 8,
+        "classes": 4,
+        "complexity": 16
+      },
+      {
+        "path": "src\\gaming\\performance_validation.py",
+        "functions": 2,
+        "classes": 2,
+        "complexity": 4
+      },
+      {
+        "path": "src\\domain\\ports\\agent_repository.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "src\\domain\\value_objects\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\gaming\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\gaming\\gaming_integration_core.py",
+        "functions": 43,
+        "classes": 11,
+        "complexity": 85
+      },
+      {
+        "path": "src\\gaming\\models\\gaming_alert_models.py",
+        "functions": 0,
+        "classes": 3,
+        "complexity": 0
+      },
+      {
+        "path": "src\\gaming\\handlers\\gaming_alert_handlers.py",
+        "functions": 4,
+        "classes": 0,
+        "complexity": 4
+      },
+      {
+        "path": "src\\gaming\\models\\gaming_models.py",
+        "functions": 0,
+        "classes": 4,
+        "complexity": 0
+      },
+      {
+        "path": "src\\gaming\\handlers\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\gaming\\integration\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\gaming\\integration\\core.py",
+        "functions": 11,
+        "classes": 1,
+        "complexity": 22
+      },
+      {
+        "path": "src\\gaming\\models\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\gaming\\utils\\gaming_monitors.py",
+        "functions": 4,
+        "classes": 1,
+        "complexity": 8
+      },
+      {
+        "path": "src\\gaming\\integration\\models.py",
+        "functions": 0,
+        "classes": 4,
+        "complexity": 0
+      },
+      {
+        "path": "src\\gaming\\utils\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\gaming\\utils\\gaming_alert_utils.py",
+        "functions": 4,
+        "classes": 0,
+        "complexity": 4
+      },
+      {
+        "path": "src\\infrastructure\\unified_logging_time.py",
+        "functions": 73,
+        "classes": 12,
+        "complexity": 145
+      },
+      {
+        "path": "src\\infrastructure\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\gaming\\utils\\gaming_handlers.py",
+        "functions": 4,
+        "classes": 1,
+        "complexity": 8
+      },
+      {
+        "path": "src\\infrastructure\\browser\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\infrastructure\\browser\\thea_manager_profile.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\infrastructure\\unified_browser_service.py",
+        "functions": 60,
+        "classes": 11,
+        "complexity": 119
+      },
+      {
+        "path": "src\\infrastructure\\unified_persistence.py",
+        "functions": 53,
+        "classes": 9,
+        "complexity": 105
+      },
+      {
+        "path": "src\\infrastructure\\browser\\thea_modules\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\infrastructure\\logging\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\infrastructure\\persistence\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\quality\\proof_ledger.py",
+        "functions": 2,
+        "classes": 0,
+        "complexity": 2
+      },
+      {
+        "path": "src\\quality\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\infrastructure\\time\\system_clock.py",
+        "functions": 4,
+        "classes": 1,
+        "complexity": 8
+      },
+      {
+        "path": "src\\trading_robot\\core\\dependency_injection.py",
+        "functions": 13,
+        "classes": 2,
+        "complexity": 22
+      },
+      {
+        "path": "src\\trading_robot\\repositories\\trading_repository.py",
+        "functions": 2,
+        "classes": 1,
+        "complexity": 3
+      },
+      {
+        "path": "src\\trading_robot\\core\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\infrastructure\\time\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\trading_robot\\repositories\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\trading_robot\\repositories\\implementations\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\trading_robot\\repositories\\interfaces\\portfolio_repository_interface.py",
+        "functions": 0,
+        "classes": 1,
+        "complexity": 0
+      },
+      {
+        "path": "src\\trading_robot\\repositories\\implementations\\in_memory_trading_repository.py",
+        "functions": 1,
+        "classes": 1,
+        "complexity": 2
+      },
+      {
+        "path": "src\\trading_robot\\repositories\\implementations\\trading_repository_impl.py",
+        "functions": 1,
+        "classes": 1,
+        "complexity": 2
+      },
+      {
+        "path": "src\\trading_robot\\repositories\\interfaces\\position_repository_interface.py",
+        "functions": 0,
+        "classes": 1,
+        "complexity": 0
+      },
+      {
+        "path": "src\\trading_robot\\repositories\\models\\trade.py",
+        "functions": 11,
+        "classes": 1,
+        "complexity": 22
+      },
+      {
+        "path": "src\\trading_robot\\services\\trading_service.py",
+        "functions": 3,
+        "classes": 1,
+        "complexity": 5
+      },
+      {
+        "path": "src\\trading_robot\\repositories\\models\\position.py",
+        "functions": 15,
+        "classes": 1,
+        "complexity": 30
+      },
+      {
+        "path": "src\\trading_robot\\repositories\\interfaces\\trading_repository_interface.py",
+        "functions": 0,
+        "classes": 1,
+        "complexity": 0
+      },
+      {
+        "path": "src\\trading_robot\\services\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\trading_robot\\repositories\\interfaces\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\trading_robot\\repositories\\models\\portfolio.py",
+        "functions": 23,
+        "classes": 1,
+        "complexity": 46
+      },
+      {
+        "path": "src\\trading_robot\\services\\trading_bi_analytics.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\trading_robot\\repositories\\models\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\trading_robot\\services\\analytics\\risk_analysis_engine.py",
+        "functions": 11,
+        "classes": 1,
+        "complexity": 21
+      },
+      {
+        "path": "src\\trading_robot\\services\\analytics\\market_trend_engine.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 15
+      },
+      {
+        "path": "src\\trading_robot\\repositories\\models\\trading_models.py",
+        "functions": 8,
+        "classes": 2,
+        "complexity": 16
+      },
+      {
+        "path": "src\\trading_robot\\services\\analytics\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\utils\\logger.py",
+        "functions": 13,
+        "classes": 2,
+        "complexity": 22
+      },
+      {
+        "path": "src\\trading_robot\\services\\analytics\\trading_bi_orchestrator.py",
+        "functions": 3,
+        "classes": 1,
+        "complexity": 5
+      },
+      {
+        "path": "src\\trading_robot\\services\\analytics\\performance_metrics_engine.py",
+        "functions": 14,
+        "classes": 1,
+        "complexity": 27
+      },
+      {
+        "path": "src\\utils\\unified_utilities.py",
+        "functions": 10,
+        "classes": 1,
+        "complexity": 15
+      },
+      {
+        "path": "src\\trading_robot\\services\\analytics\\trading_bi_models.py",
+        "functions": 1,
+        "classes": 8,
+        "complexity": 2
+      },
+      {
+        "path": "src\\utils\\confirm.py",
+        "functions": 1,
+        "classes": 0,
+        "complexity": 1
+      },
+      {
+        "path": "src\\utils\\consolidated_file_operations.py",
+        "functions": 23,
+        "classes": 10,
+        "complexity": 42
+      },
+      {
+        "path": "src\\onboarding\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\discord\\commands\\semantic_commands.py",
+        "functions": 3,
+        "classes": 9,
+        "complexity": 6
+      },
+      {
+        "path": "src\\onboarding\\onboarding_bridge\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\integration\\messaging_gateway.py",
+        "functions": 14,
+        "classes": 3,
+        "complexity": 26
+      },
+      {
+        "path": "tools\\agent_checkin.py",
+        "functions": 8,
+        "classes": 0,
+        "complexity": 8
+      },
+      {
+        "path": "src\\utils\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "tools\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\utils\\consolidated_config_management.py",
+        "functions": 23,
+        "classes": 9,
+        "complexity": 44
+      },
+      {
+        "path": "tools\\generate_utils_catalog.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "tools\\run_project_scan.py",
+        "functions": 1,
+        "classes": 0,
+        "complexity": 1
+      },
+      {
+        "path": "tools\\check_snapshot_up_to_date.py",
+        "functions": 2,
+        "classes": 0,
+        "complexity": 2
+      },
+      {
+        "path": "tools\\test_coverage_improvement.py",
+        "functions": 20,
+        "classes": 1,
+        "complexity": 39
+      },
+      {
+        "path": "tools\\audit_cleanup.py",
+        "functions": 13,
+        "classes": 0,
+        "complexity": 13
+      },
+      {
+        "path": "tools\\codemods\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\agent_scripts\\agent5_consolidation_execution.py",
+        "functions": 7,
+        "classes": 1,
+        "complexity": 13
+      },
+      {
+        "path": "tools\\codemods\\migrate_orchestrators.py",
+        "functions": 4,
+        "classes": 0,
+        "complexity": 4
+      },
+      {
+        "path": "docs\\archive\\agent_scripts\\agent5_core_modules_coordinator.py",
+        "functions": 10,
+        "classes": 1,
+        "complexity": 19
+      },
+      {
+        "path": "docs\\archive\\agent_scripts\\agent6_documentation_consolidator.py",
+        "functions": 9,
+        "classes": 1,
+        "complexity": 17
+      },
+      {
+        "path": "docs\\archive\\agent_scripts\\agent6_web_interface_coordinator.py",
+        "functions": 9,
+        "classes": 1,
+        "complexity": 17
+      },
+      {
+        "path": "docs\\archive\\agent_scripts\\agent5_core_consolidation_validator.py",
+        "functions": 11,
+        "classes": 1,
+        "complexity": 21
+      },
+      {
+        "path": "docs\\archive\\agent_scripts\\agent5_core_modules_validator.py",
+        "functions": 11,
+        "classes": 1,
+        "complexity": 21
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\coordinator_interfaces.py",
+        "functions": 15,
+        "classes": 4,
+        "complexity": 30
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\coordinator_models.py",
+        "functions": 10,
+        "classes": 7,
+        "complexity": 20
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\config_core.py",
+        "functions": 19,
+        "classes": 4,
+        "complexity": 27
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\message_queue.py",
+        "functions": 22,
+        "classes": 3,
+        "complexity": 37
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\coordination_unified.py",
+        "functions": 48,
+        "classes": 21,
+        "complexity": 92
+      },
+      {
+        "path": "docs\\archive\\agent_scripts\\agent5_consolidation_coordination_manager.py",
+        "functions": 10,
+        "classes": 1,
+        "complexity": 19
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\enhanced_communication_protocols.py",
+        "functions": 28,
+        "classes": 5,
+        "complexity": 51
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\core_coordination.py",
+        "functions": 72,
+        "classes": 13,
+        "complexity": 137
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\message_queue_persistence.py",
+        "functions": 7,
+        "classes": 2,
+        "complexity": 14
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\core_configuration.py",
+        "functions": 22,
+        "classes": 9,
+        "complexity": 37
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\message_queue_pyautogui_integration.py",
+        "functions": 13,
+        "classes": 1,
+        "complexity": 20
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\message_queue_interfaces.py",
+        "functions": 23,
+        "classes": 6,
+        "complexity": 46
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\enhanced_config_system.py",
+        "functions": 36,
+        "classes": 9,
+        "complexity": 70
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\enhanced_unified_config.py",
+        "functions": 30,
+        "classes": 7,
+        "complexity": 47
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\message_queue_statistics.py",
+        "functions": 12,
+        "classes": 2,
+        "complexity": 24
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\message_archive.py",
+        "functions": 16,
+        "classes": 4,
+        "complexity": 29
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\deployment\\deployment_models.py",
+        "functions": 13,
+        "classes": 7,
+        "complexity": 26
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\unified_messaging.py",
+        "functions": 4,
+        "classes": 1,
+        "complexity": 8
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\deployment\\deployment_coordinator.py",
+        "functions": 4,
+        "classes": 1,
+        "complexity": 8
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\deployment\\models\\config_models.py",
+        "functions": 2,
+        "classes": 2,
+        "complexity": 4
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\deployment\\models\\factory_functions.py",
+        "functions": 12,
+        "classes": 0,
+        "complexity": 12
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\unified_config.py",
+        "functions": 16,
+        "classes": 9,
+        "complexity": 23
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\deployment\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\deployment\\deployment_orchestrator_engine.py",
+        "functions": 11,
+        "classes": 1,
+        "complexity": 22
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\deployment\\coordinators\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\deployment\\models\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\deployment\\models\\enums.py",
+        "functions": 0,
+        "classes": 3,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\deployment\\models\\data_models.py",
+        "functions": 8,
+        "classes": 3,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\deployment\\coordinators\\deployment_executor.py",
+        "functions": 9,
+        "classes": 1,
+        "complexity": 17
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\deployment\\engines\\deployment_metrics_engine.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\deployment\\engines\\deployment_execution_engine.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\deployment\\engines\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\deployment\\coordinators\\metrics_tracker.py",
+        "functions": 11,
+        "classes": 1,
+        "complexity": 22
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\deployment\\coordinators\\target_discovery.py",
+        "functions": 9,
+        "classes": 1,
+        "complexity": 17
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\agent_communication\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\agent_communication\\agent_communication_engine_core.py",
+        "functions": 3,
+        "classes": 1,
+        "complexity": 6
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\agent_communication\\agent_communication_engine_base.py",
+        "functions": 6,
+        "classes": 1,
+        "complexity": 12
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\deployment\\engines\\deployment_discovery_engine.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\unified_analytics.py",
+        "functions": 3,
+        "classes": 1,
+        "complexity": 6
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\agent_communication\\agent_communication_engine_operations.py",
+        "functions": 1,
+        "classes": 1,
+        "complexity": 2
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\coordinators\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\analytics_orchestrator.py",
+        "functions": 10,
+        "classes": 1,
+        "complexity": 19
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\engines\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\engines\\caching_engine.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 15
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\engines\\batch_analytics_engine.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 15
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\engines\\metrics_engine.py",
+        "functions": 12,
+        "classes": 1,
+        "complexity": 23
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\engines\\coordination_analytics_engine.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 15
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\intelligence\\anomaly_detection_engine.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\coordinators\\analytics_coordinator.py",
+        "functions": 4,
+        "classes": 1,
+        "complexity": 8
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\coordinators\\processing_coordinator.py",
+        "functions": 4,
+        "classes": 1,
+        "complexity": 8
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\intelligence\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\engines\\realtime_analytics_engine.py",
+        "functions": 7,
+        "classes": 1,
+        "complexity": 13
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\intelligence\\business_intelligence_engine.py",
+        "functions": 1,
+        "classes": 1,
+        "complexity": 2
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\intelligence\\business_intelligence_engine_operations.py",
+        "functions": 12,
+        "classes": 1,
+        "complexity": 24
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\intelligence\\business_intelligence_engine_core.py",
+        "functions": 11,
+        "classes": 1,
+        "complexity": 22
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\intelligence\\pattern_analysis\\anomaly_detector.py",
+        "functions": 6,
+        "classes": 1,
+        "complexity": 12
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\interfaces\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\intelligence\\pattern_analysis\\pattern_extractor.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\intelligence\\pattern_analysis_engine.py",
+        "functions": 10,
+        "classes": 1,
+        "complexity": 19
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\intelligence\\pattern_analysis\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\interfaces\\analytics_interfaces.py",
+        "functions": 14,
+        "classes": 3,
+        "complexity": 28
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\intelligence\\predictive_modeling_engine.py",
+        "functions": 11,
+        "classes": 1,
+        "complexity": 21
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\models\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\models\\coordination_analytics_models.py",
+        "functions": 4,
+        "classes": 5,
+        "complexity": 8
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\orchestrators\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\models\\analytics_models.py",
+        "functions": 0,
+        "classes": 4,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\models\\analytics_enums.py",
+        "functions": 0,
+        "classes": 4,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\orchestrators\\coordination_analytics_orchestrator.py",
+        "functions": 9,
+        "classes": 1,
+        "complexity": 17
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\processors\\prediction\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\prediction\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\processors\\prediction_processor.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 15
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\processors\\prediction\\prediction_calculator.py",
+        "functions": 4,
+        "classes": 1,
+        "complexity": 8
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\processors\\prediction\\prediction_validator.py",
+        "functions": 3,
+        "classes": 1,
+        "complexity": 6
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\prediction\\base_analyzer.py",
+        "functions": 3,
+        "classes": 1,
+        "complexity": 6
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\processors\\insight_processor.py",
+        "functions": 7,
+        "classes": 1,
+        "complexity": 14
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\processors\\prediction\\prediction_analyzer.py",
+        "functions": 4,
+        "classes": 1,
+        "complexity": 8
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\analytics\\processors\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\dry_eliminator\\dry_eliminator_enums.py",
+        "functions": 0,
+        "classes": 4,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\dry_eliminator\\dry_elimination_engine.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\dry_eliminator\\engines\\elimination_strategy_engine.py",
+        "functions": 9,
+        "classes": 1,
+        "complexity": 17
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\dry_eliminator\\dry_eliminator_orchestrator.py",
+        "functions": 13,
+        "classes": 2,
+        "complexity": 23
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\dry_eliminator\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\dry_eliminator\\engines\\dry_elimination_engine_orchestrator.py",
+        "functions": 10,
+        "classes": 1,
+        "complexity": 19
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\dry_eliminator\\engines\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\dry_eliminator\\engines\\metrics_reporting_engine.py",
+        "functions": 14,
+        "classes": 1,
+        "complexity": 27
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\dry_eliminator\\engines\\file_discovery_engine.py",
+        "functions": 15,
+        "classes": 1,
+        "complexity": 29
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\dry_eliminator\\dry_eliminator_models.py",
+        "functions": 4,
+        "classes": 7,
+        "complexity": 4
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\engine.py",
+        "functions": 13,
+        "classes": 1,
+        "complexity": 26
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\dry_eliminator\\engines\\code_analysis_engine.py",
+        "functions": 9,
+        "classes": 1,
+        "complexity": 17
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\orchestrator.py",
+        "functions": 16,
+        "classes": 1,
+        "complexity": 32
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\dry_eliminator\\orchestrators\\elimination_coordinator.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\dry_eliminator\\orchestrators\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\models_enums.py",
+        "functions": 0,
+        "classes": 6,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\protocols.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\dry_eliminator\\orchestrators\\results_manager.py",
+        "functions": 9,
+        "classes": 1,
+        "complexity": 18
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\engines\\action_executor.py",
+        "functions": 15,
+        "classes": 1,
+        "complexity": 30
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\engines\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\handlers\\protocol_initializer.py",
+        "functions": 10,
+        "classes": 1,
+        "complexity": 20
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\models_metrics.py",
+        "functions": 0,
+        "classes": 5,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\orchestrators\\emergency_orchestrator.py",
+        "functions": 16,
+        "classes": 1,
+        "complexity": 32
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\handlers\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\orchestrators\\emergency_analyzer.py",
+        "functions": 12,
+        "classes": 1,
+        "complexity": 24
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\orchestrators\\emergency_logger.py",
+        "functions": 11,
+        "classes": 1,
+        "complexity": 22
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\engines\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\handlers\\protocol_executor.py",
+        "functions": 15,
+        "classes": 1,
+        "complexity": 30
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\handlers\\protocol_registry.py",
+        "functions": 10,
+        "classes": 1,
+        "complexity": 20
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\orchestrators\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\engines\\analysis_core_engine.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\engines\\engine_state.py",
+        "functions": 10,
+        "classes": 2,
+        "complexity": 20
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\engines\\data_core_engine.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\engines\\contracts.py",
+        "functions": 19,
+        "classes": 8,
+        "complexity": 38
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\engines\\coordination_core_engine.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\engines\\communication_core_engine.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\engines\\ml_core_engine.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\engines\\monitoring_core_engine.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\engines\\integration_core_engine.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\engines\\engine_monitoring.py",
+        "functions": 8,
+        "classes": 2,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\engines\\engine_lifecycle.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\engines\\configuration_core_engine.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\engines\\utility_core_engine.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\engines\\orchestration_core_engine.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\engines\\security_core_engine.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\engines\\registry.py",
+        "functions": 7,
+        "classes": 1,
+        "complexity": 14
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\engines\\performance_core_engine.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\engines\\storage_core_engine.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\engines\\validation_core_engine.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\engines\\processing_core_engine.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\enhanced_integration\\engines\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\enhanced_integration\\coordinators\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\enhanced_integration\\coordinators\\enhanced_integration_coordinator.py",
+        "functions": 7,
+        "classes": 2,
+        "complexity": 13
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\enhanced_integration\\engines\\integration_coordination_engine.py",
+        "functions": 4,
+        "classes": 1,
+        "complexity": 8
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\enhanced_integration\\engines\\integration_optimization_engine.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\enhanced_integration\\orchestrators\\coordination_engine.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\enhanced_integration\\orchestrators\\coordination_engine_core.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\enhanced_integration\\engines\\integration_task_engine.py",
+        "functions": 4,
+        "classes": 1,
+        "complexity": 8
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\enhanced_integration\\engines\\integration_performance_engine.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\error_handling\\advanced_error_handler.py",
+        "functions": 19,
+        "classes": 5,
+        "complexity": 34
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\enhanced_integration\\orchestrators\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\enhanced_integration\\orchestrators\\coordination_engine_operations.py",
+        "functions": 10,
+        "classes": 1,
+        "complexity": 20
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\enhanced_integration\\orchestrators\\coordination_engine_refactored.py",
+        "functions": 1,
+        "classes": 1,
+        "complexity": 2
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\error_handling\\circuit_breaker.py",
+        "functions": 14,
+        "classes": 1,
+        "complexity": 25
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\error_handling\\coordination_error_handler.py",
+        "functions": 54,
+        "classes": 12,
+        "complexity": 100
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\error_handling\\automated_recovery.py",
+        "functions": 25,
+        "classes": 7,
+        "complexity": 45
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\enhanced_integration\\orchestrators\\task_processor.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\error_handling\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\error_handling\\error_handling_orchestrator.py",
+        "functions": 19,
+        "classes": 1,
+        "complexity": 37
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\error_handling\\error_analysis_engine.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\error_handling\\error_models_enums.py",
+        "functions": 6,
+        "classes": 4,
+        "complexity": 12
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\error_handling\\error_models_core.py",
+        "functions": 3,
+        "classes": 3,
+        "complexity": 6
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\error_handling\\error_reporting_utilities.py",
+        "functions": 6,
+        "classes": 0,
+        "complexity": 6
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\error_handling\\error_reporting_core.py",
+        "functions": 7,
+        "classes": 1,
+        "complexity": 14
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\error_handling\\error_handling_models.py",
+        "functions": 14,
+        "classes": 15,
+        "complexity": 28
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\error_handling\\retry_safety_engine.py",
+        "functions": 10,
+        "classes": 1,
+        "complexity": 17
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\error_handling\\error_recovery.py",
+        "functions": 30,
+        "classes": 7,
+        "complexity": 53
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\error_handling\\retry_mechanisms.py",
+        "functions": 16,
+        "classes": 4,
+        "complexity": 21
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\error_handling\\specialized_handlers.py",
+        "functions": 10,
+        "classes": 1,
+        "complexity": 19
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\error_handling\\circuit_breaker\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\error_handling\\error_reporting_reporter.py",
+        "functions": 9,
+        "classes": 1,
+        "complexity": 18
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\error_handling\\circuit_breaker\\core.py",
+        "functions": 6,
+        "classes": 3,
+        "complexity": 12
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\error_handling\\metrics\\error_reports.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\error_handling\\metrics\\error_alerts.py",
+        "functions": 6,
+        "classes": 1,
+        "complexity": 12
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\file_locking\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\file_locking\\file_locking_engine_platform.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\error_handling\\metrics\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\error_handling\\metrics\\error_metrics.py",
+        "functions": 4,
+        "classes": 1,
+        "complexity": 8
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\file_locking\\file_locking_models.py",
+        "functions": 5,
+        "classes": 5,
+        "complexity": 10
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\file_locking\\file_locking_orchestrator.py",
+        "functions": 26,
+        "classes": 2,
+        "complexity": 51
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\file_locking\\file_locking_manager.py",
+        "functions": 12,
+        "classes": 1,
+        "complexity": 24
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\file_locking\\operations\\lock_queries.py",
+        "functions": 10,
+        "classes": 1,
+        "complexity": 20
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\file_locking\\operations\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\file_locking\\file_locking_engine_operations.py",
+        "functions": 4,
+        "classes": 1,
+        "complexity": 8
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\file_locking\\operations\\lock_operations.py",
+        "functions": 13,
+        "classes": 1,
+        "complexity": 26
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\integration\\analytics\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\integration\\analytics\\analytics_engine.py",
+        "functions": 13,
+        "classes": 1,
+        "complexity": 26
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\integration\\analytics\\forecast_generator.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\integration\\analytics\\recommendation_engine_system.py",
+        "functions": 7,
+        "classes": 1,
+        "complexity": 14
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\integration\\models\\data_models.py",
+        "functions": 10,
+        "classes": 5,
+        "complexity": 20
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\integration_coordinators\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\integration\\models\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\integration\\analytics\\recommendation_engine_analysis.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\monitor_models.py",
+        "functions": 2,
+        "classes": 3,
+        "complexity": 4
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\models_config.py",
+        "functions": 4,
+        "classes": 4,
+        "complexity": 8
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\integration_coordinators\\vector_database_coordinator.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\coordinators\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\monitor.py",
+        "functions": 12,
+        "classes": 1,
+        "complexity": 23
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\coordinators\\health_monitor.py",
+        "functions": 11,
+        "classes": 1,
+        "complexity": 22
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\models\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\coordinators\\config_manager.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\monitor_engine.py",
+        "functions": 15,
+        "classes": 1,
+        "complexity": 30
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\monitors\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\monitors\\monitoring_thread.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\monitors\\metrics_collector.py",
+        "functions": 7,
+        "classes": 1,
+        "complexity": 14
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\intelligent_context\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\intelligent_context\\intelligent_context_models.py",
+        "functions": 5,
+        "classes": 13,
+        "complexity": 10
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\intelligent_context\\intelligent_context_engine.py",
+        "functions": 14,
+        "classes": 1,
+        "complexity": 28
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\models\\factory.py",
+        "functions": 4,
+        "classes": 1,
+        "complexity": 8
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\intelligent_context\\intelligent_context_optimization_models.py",
+        "functions": 0,
+        "classes": 5,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\intelligent_context\\intelligent_context_emergency.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\intelligent_context\\core\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\intelligent_context\\unified_intelligent_context\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\intelligent_context\\engines\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\intelligent_context\\core\\context_core.py",
+        "functions": 12,
+        "classes": 1,
+        "complexity": 24
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\intelligent_context\\intelligent_context_search.py",
+        "functions": 6,
+        "classes": 1,
+        "complexity": 12
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\intelligent_context\\intelligent_context_orchestrator.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\intelligent_context\\unified_intelligent_context\\engine_search.py",
+        "functions": 1,
+        "classes": 1,
+        "complexity": 2
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\intelligent_context\\unified_intelligent_context\\search_base.py",
+        "functions": 7,
+        "classes": 1,
+        "complexity": 14
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\intelligent_context\\engines\\risk_assessment_engine.py",
+        "functions": 7,
+        "classes": 1,
+        "complexity": 14
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\managers\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\intelligent_context\\unified_intelligent_context\\search_operations.py",
+        "functions": 7,
+        "classes": 1,
+        "complexity": 14
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\managers\\base_manager.py",
+        "functions": 13,
+        "classes": 3,
+        "complexity": 26
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\intelligent_context\\engines\\agent_assignment_engine.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\managers\\core_resource_manager.py",
+        "functions": 19,
+        "classes": 1,
+        "complexity": 38
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\managers\\core_execution_manager.py",
+        "functions": 11,
+        "classes": 1,
+        "complexity": 22
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\managers\\core_monitoring_manager.py",
+        "functions": 20,
+        "classes": 4,
+        "complexity": 39
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\managers\\configuration_source_manager.py",
+        "functions": 3,
+        "classes": 1,
+        "complexity": 6
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\managers\\configuration_store.py",
+        "functions": 6,
+        "classes": 1,
+        "complexity": 12
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\managers\\core_onboarding_manager.py",
+        "functions": 9,
+        "classes": 2,
+        "complexity": 18
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\managers\\core_recovery_manager.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\managers\\contracts.py",
+        "functions": 20,
+        "classes": 8,
+        "complexity": 40
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\managers\\core_configuration_manager.py",
+        "functions": 14,
+        "classes": 1,
+        "complexity": 28
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\managers\\core_results_manager.py",
+        "functions": 7,
+        "classes": 1,
+        "complexity": 14
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\managers\\monitoring\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\managers\\unified_configuration_manager.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\managers\\monitoring\\base_monitoring_manager.py",
+        "functions": 20,
+        "classes": 4,
+        "complexity": 39
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\managers\\core_service_coordinator.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\managers\\core_service_manager.py",
+        "functions": 0,
+        "classes": 1,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\managers\\registry.py",
+        "functions": 11,
+        "classes": 1,
+        "complexity": 20
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\managers\\execution\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\managers\\execution\\base_execution_manager.py",
+        "functions": 20,
+        "classes": 3,
+        "complexity": 39
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\managers\\execution\\execution_coordinator.py",
+        "functions": 9,
+        "classes": 1,
+        "complexity": 18
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\managers\\results\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\managers\\adapters\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\managers\\results\\general_results_processor.py",
+        "functions": 4,
+        "classes": 1,
+        "complexity": 8
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\orchestration\\core_orchestrator.py",
+        "functions": 4,
+        "classes": 1,
+        "complexity": 8
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\orchestration\\contracts.py",
+        "functions": 5,
+        "classes": 4,
+        "complexity": 10
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\managers\\results\\validation_results_processor.py",
+        "functions": 2,
+        "classes": 1,
+        "complexity": 4
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\managers\\monitoring\\metrics_manager.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\managers\\results\\integration_results_processor.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\managers\\results\\performance_results_processor.py",
+        "functions": 4,
+        "classes": 1,
+        "complexity": 8
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\managers\\results\\base_results_manager.py",
+        "functions": 13,
+        "classes": 2,
+        "complexity": 26
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\managers\\results\\analysis_results_processor.py",
+        "functions": 2,
+        "classes": 1,
+        "complexity": 4
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\orchestration\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\orchestration\\service_orchestrator.py",
+        "functions": 4,
+        "classes": 1,
+        "complexity": 8
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\orchestration\\registry.py",
+        "functions": 3,
+        "classes": 1,
+        "complexity": 6
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\orchestration\\integration_orchestrator.py",
+        "functions": 4,
+        "classes": 1,
+        "complexity": 8
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\orchestration\\adapters\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\orchestration\\intent_subsystems\\debate_engine.py",
+        "functions": 23,
+        "classes": 8,
+        "complexity": 45
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\orchestration\\intent_subsystems\\lifecycle_coordinator.py",
+        "functions": 32,
+        "classes": 10,
+        "complexity": 63
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\pattern_analysis\\pattern_analysis_orchestrator.py",
+        "functions": 14,
+        "classes": 1,
+        "complexity": 24
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\performance\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\pattern_analysis\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\pattern_analysis\\unified_pattern_analysis\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\performance\\coordination_performance_monitor.py",
+        "functions": 10,
+        "classes": 1,
+        "complexity": 18
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\orchestration\\intent_subsystems\\message_router.py",
+        "functions": 31,
+        "classes": 16,
+        "complexity": 61
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\orchestration\\intent_subsystems\\intervention_manager.py",
+        "functions": 32,
+        "classes": 12,
+        "complexity": 63
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\pattern_analysis\\pattern_analysis_models.py",
+        "functions": 1,
+        "classes": 10,
+        "complexity": 2
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\performance\\performance_cli.py",
+        "functions": 4,
+        "classes": 0,
+        "complexity": 4
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\performance\\metrics\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\pattern_analysis\\unified_pattern_analysis\\analyzer.py",
+        "functions": 11,
+        "classes": 2,
+        "complexity": 18
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\performance\\performance_collector.py",
+        "functions": 6,
+        "classes": 1,
+        "complexity": 12
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\performance\\performance_dashboard.py",
+        "functions": 1,
+        "classes": 0,
+        "complexity": 1
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\performance\\performance_monitoring_system.py",
+        "functions": 12,
+        "classes": 3,
+        "complexity": 22
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\performance\\unified_dashboard\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\performance\\metrics\\types.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\performance\\unified_dashboard\\engine.py",
+        "functions": 28,
+        "classes": 1,
+        "complexity": 56
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\performance\\performance_decorators.py",
+        "functions": 3,
+        "classes": 0,
+        "complexity": 3
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\performance\\unified_dashboard\\widget_manager.py",
+        "functions": 15,
+        "classes": 1,
+        "complexity": 30
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\performance\\unified_dashboard\\reporter.py",
+        "functions": 11,
+        "classes": 1,
+        "complexity": 22
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\refactoring\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\performance\\unified_dashboard\\metric_manager.py",
+        "functions": 10,
+        "classes": 1,
+        "complexity": 20
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\refactoring\\analysis_tools.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\refactoring\\analysis_tools_models.py",
+        "functions": 0,
+        "classes": 5,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\refactoring\\analysis_tools_core.py",
+        "functions": 9,
+        "classes": 1,
+        "complexity": 18
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\refactoring\\pattern_detection.py",
+        "functions": 6,
+        "classes": 1,
+        "complexity": 6
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\refactoring\\file_analysis.py",
+        "functions": 2,
+        "classes": 1,
+        "complexity": 2
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\refactoring\\duplicate_analysis.py",
+        "functions": 2,
+        "classes": 1,
+        "complexity": 2
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\refactoring\\toolkit.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\refactoring\\tools\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\refactoring\\refactor_tools.py",
+        "functions": 33,
+        "classes": 4,
+        "complexity": 45
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\validation\\coordination_validator.py",
+        "functions": 9,
+        "classes": 4,
+        "complexity": 18
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\refactoring\\tools\\optimization_tools.py",
+        "functions": 16,
+        "classes": 2,
+        "complexity": 32
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\refactoring\\metrics\\definitions.py",
+        "functions": 5,
+        "classes": 2,
+        "complexity": 9
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\validation\\unified_validation_orchestrator.py",
+        "functions": 9,
+        "classes": 1,
+        "complexity": 17
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\validation\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\refactoring\\tools\\extraction_tools.py",
+        "functions": 8,
+        "classes": 2,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\validation\\validation_coordinator.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 9
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\refactoring\\tools\\consolidation_tools.py",
+        "functions": 5,
+        "classes": 2,
+        "complexity": 10
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\refactoring\\metrics\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\validation\\unified_validation_system.py",
+        "functions": 1,
+        "classes": 0,
+        "complexity": 1
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\validation\\performance_benchmark\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\vector_strategic_oversight\\simple_oversight.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\analyzer_core.py",
+        "functions": 7,
+        "classes": 1,
+        "complexity": 14
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\validation\\performance_benchmark\\benchmark_runner_operations.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 15
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\engine_core_recommendations.py",
+        "functions": 4,
+        "classes": 1,
+        "complexity": 8
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\vector_strategic_oversight\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\engine_core_metrics.py",
+        "functions": 7,
+        "classes": 1,
+        "complexity": 14
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\analyzer_orchestrator.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\validation\\performance_benchmark\\benchmark_runner_core.py",
+        "functions": 9,
+        "classes": 1,
+        "complexity": 18
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\engine_core_insights.py",
+        "functions": 4,
+        "classes": 1,
+        "complexity": 8
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\engine_core_missions.py",
+        "functions": 4,
+        "classes": 1,
+        "complexity": 8
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\engine_core_reports.py",
+        "functions": 4,
+        "classes": 1,
+        "complexity": 8
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\analyzers\\swarm_analyzer.py",
+        "functions": 1,
+        "classes": 1,
+        "complexity": 2
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\factory_core.py",
+        "functions": 6,
+        "classes": 1,
+        "complexity": 12
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\factories\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\extended_models.py",
+        "functions": 8,
+        "classes": 8,
+        "complexity": 16
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\analyzers\\prediction_analyzer.py",
+        "functions": 9,
+        "classes": 2,
+        "complexity": 18
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\factory_extended.py",
+        "functions": 6,
+        "classes": 1,
+        "complexity": 12
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\factory_methods.py",
+        "functions": 20,
+        "classes": 1,
+        "complexity": 31
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\analyzers\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\factories\\metrics_factory.py",
+        "functions": 4,
+        "classes": 1,
+        "complexity": 8
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\factories\\mission_factory.py",
+        "functions": 3,
+        "classes": 1,
+        "complexity": 6
+      },
+      {
+        "path": "docs\\archive\\demos\\demo_health_monitoring_system.py",
+        "functions": 2,
+        "classes": 0,
+        "complexity": 2
+      },
+      {
+        "path": "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\factories\\report_factory.py",
+        "functions": 3,
+        "classes": 1,
+        "complexity": 6
+      },
+      {
+        "path": "docs\\archive\\demos\\demo_onboarding_sequence.py",
+        "functions": 1,
+        "classes": 0,
+        "complexity": 1
+      },
+      {
+        "path": "examples\\quickstart_demo\\dashboard_demo.py",
+        "functions": 2,
+        "classes": 1,
+        "complexity": 2
+      },
+      {
+        "path": "docs\\archive\\demos\\demo_swarm.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "examples\\quickstart_demo\\workflow_demo.py",
+        "functions": 2,
+        "classes": 1,
+        "complexity": 3
+      },
+      {
+        "path": "scripts\\consolidated_execution_manager.py",
+        "functions": 10,
+        "classes": 2,
+        "complexity": 19
+      },
+      {
+        "path": "examples\\quickstart_demo\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "scripts\\agent_cycle.py",
+        "functions": 6,
+        "classes": 3,
+        "complexity": 11
+      },
+      {
+        "path": "scripts\\consolidated_discord_utility.py",
+        "functions": 8,
+        "classes": 2,
+        "complexity": 15
+      },
+      {
+        "path": "scripts\\doxygen_generator.py",
+        "functions": 10,
+        "classes": 1,
+        "complexity": 19
+      },
+      {
+        "path": "scripts\\execution\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "scripts\\messaging\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "scripts\\utilities\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "scripts\\enforce_python_standards.py",
+        "functions": 3,
+        "classes": 2,
+        "complexity": 5
+      },
+      {
+        "path": "scripts\\consolidated_utility_manager.py",
+        "functions": 8,
+        "classes": 2,
+        "complexity": 15
+      },
+      {
+        "path": "scripts\\thea\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "scripts\\consolidated_messaging_utility.py",
+        "functions": 7,
+        "classes": 2,
+        "complexity": 13
+      },
+      {
+        "path": "scripts\\thea\\commander_thea_consultation.py",
+        "functions": 1,
+        "classes": 0,
+        "complexity": 1
+      }
+    ],
+    "total_functions": 6627,
+    "total_classes": 1438,
+    "total_complexity": 12631,
+    "file_count": 974
+  },
   ".js": {
     "file_type": ".js",
     "files": [
       {
+        "path": "src\\web\\static\\js\\dashboard-data-manager.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard-data-operations.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\agent-coordination-manager.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard-error-handler.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard-communication.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard-config-manager.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard-loading-manager.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard-initializer.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard-state-manager.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard-time.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard-module-coordinator.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard-socket-manager.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard-view-renderer.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\system-integration-core.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard-unified.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard-ui-helpers.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard-navigation.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard-core.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
         "path": "src\\web\\static\\js\\unified-frontend-utilities.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services-unified.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard-utils.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard-main.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard-utils-new.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard-new.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services-performance.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services-validation.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard-core-consolidated.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services-data.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services-socket.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services-utilities.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\vector-database-consolidated.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\performance-consolidated.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\vector-database-ui.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\architecture-consolidated.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\vector-database-core.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\architecture-unified.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard-charts.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard-alerts.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\utilities-consolidated.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard-view-overview.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services-orchestrator.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\performance-unified.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard-view-performance.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard-helpers.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\components.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard-views.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\forms.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\config.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\layout.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\modal.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\index.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\ui-components.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\architecture\\di-container-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\api.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\enhanced-communication-manager.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\navigation.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\architecture\\di-decorators-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard\\css-class-management-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\architecture\\di-framework-orchestrator.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\architecture\\dependency-injection-framework.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\architecture\\architecture-pattern-coordinator.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\architecture\\pattern-coordination-methods.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\architecture\\web-service-registry-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\app.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\core\\dependency-container.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard\\date-utils.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\core\\unified-configuration-system.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\core\\dependency-analyzer.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\core\\unified-logging-system.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard\\dom-utils-orchestrator.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\core\\agent-8-ssot-integration.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard\\element-creation-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard\\formatters.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard\\dom-utils.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard\\style-utils.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard\\element-selection-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard\\dashboard-format-utils.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard\\element-visibility-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard\\dashboard-css-utils.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard\\dashboard-dom-utils.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard\\dashboard-utils-orchestrator.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\performance\\bundle-analyzer.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard\\dashboard-unified-utils.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\performance\\frontend-performance-monitor.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\dashboard\\dashboard-date-utils.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\performance\\dom-performance-analyzer.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\performance\\performance-optimization-report.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\performance\\recommendation-engine.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\performance\\performance-optimization-orchestrator.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\agent-coordination-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\repositories\\deployment-repository.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\business-insights-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\repositories\\dashboard-repository.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\business-validation-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\component-validation-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\dashboard-init-service.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\coordination-core-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\coordination-reporting-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\deployment-analysis-methods.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\metrics-aggregation-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\dashboard-data-service.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\deployment-coordination-service.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\performance-analysis-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\deployment-metrics-service.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\phase-action-methods.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\deployment-validation-service.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\deployment-phase-service.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\performance-configuration-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\performance-recommendation-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\report-history-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\report-generation-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\utility-string-service.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\scenario-validation-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\rule-evaluation-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\trend-analysis-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\services-dashboard-core.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\services-performance-core.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\utility-validation-service.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\services-coordination-core.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\socket-event-handlers.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\utilities\\string-utils.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\utility-function-service.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\utilities\\logging-utils.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\utilities\\math-utils.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\utilities\\function-utils.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\chart-controls-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\chart-calculation-modules.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\chart-data-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\services\\utilities\\data-utils.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\app-management-modules.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\chart-navigation-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\chart-drawing-modules.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\chart-state-callbacks-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\chart-state-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\chart-events.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\chart-renderer.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\chart-state-core-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\trading-dashboard.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\order-processing-modules.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\trading-chart-manager.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\trading-portfolio-manager.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\order-form-modules.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\trading-websocket-manager.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\portfolio-management-modules.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\trading-order-manager.js",
         "functions": 0,
         "classes": 0,
         "complexity": 0
@@ -13,80 +6736,245 @@
         "functions": 0,
         "classes": 0,
         "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\unified-logging-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\websocket-connection-callbacks.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\websocket-callback-manager-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\websocket-market-data-callbacks.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\websocket-connection-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\websocket-error-callbacks.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\websocket-subscription-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\websocket-message-handler-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\websocket-order-portfolio-callbacks.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\trading-websocket-core.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\websocket-subscription-optimized.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\trading-chart-core.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\chart-validation\\__init__.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\chart-validation\\logger.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\trading-robot-main.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\chart-validation\\module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\trading-order-portfolio-core.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\utilities\\__init__.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\utilities\\logging-utils.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\chart-validation\\rules.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\utilities\\dom-utils.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\utilities\\string-utils.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\utilities\\array-utils.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\utilities\\unified-utilities.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\validation\\form-validation-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\validation\\data-validation-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\utilities\\time-utils.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\validation\\unified-validation-system.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\vector-database\\core.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\vector-database\\ui-common.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\validation\\field-validation-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\vector-database\\manager.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\vector-database\\__init__.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\vector-database\\ui.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\components\\dashboard.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\vector-database\\search.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\vector-database\\ui-optimized.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\vector-database\\analytics.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\components\\navigation.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
       }
     ],
     "total_functions": 0,
     "total_classes": 0,
     "total_complexity": 0,
-    "file_count": 2
-  },
-  ".py": {
-    "file_type": ".py",
-    "files": [
-      {
-        "path": "src\\services\\quality\\__init__.py",
-        "functions": 0,
-        "classes": 0,
-        "complexity": 0
-      },
-      {
-        "path": "src\\services\\cursor_db.py",
-        "functions": 4,
-        "classes": 2,
-        "complexity": 8
-      },
-      {
-        "path": "src\\core\\emergency_intervention\\unified_emergency\\orchestrator.py",
-        "functions": 16,
-        "classes": 1,
-        "complexity": 32
-      },
-      {
-        "path": "src\\reporting\\__init__.py",
-        "functions": 0,
-        "classes": 0,
-        "complexity": 0
-      },
-      {
-        "path": "tests\\test_architectural_compliance.py",
-        "functions": 21,
-        "classes": 3,
-        "complexity": 42
-      },
-      {
-        "path": "tests\\messaging\\fixtures\\config.py",
-        "functions": 2,
-        "classes": 0,
-        "complexity": 2
-      },
-      {
-        "path": "tests\\performance\\__init__.py",
-        "functions": 0,
-        "classes": 0,
-        "complexity": 0
-      },
-      {
-        "path": "tests\\runners\\config.py",
-        "functions": 0,
-        "classes": 0,
-        "complexity": 0
-      },
-      {
-        "path": "tests\\infrastructure\\test_infrastructure_config.py",
-        "functions": 0,
-        "classes": 0,
-        "complexity": 0
-      },
-      {
-        "path": "tests\\messaging\\fixtures\\__init__.py",
-        "functions": 0,
-        "classes": 0,
-        "complexity": 0
-      }
-    ],
-    "total_functions": 43,
-    "total_classes": 6,
-    "total_complexity": 84,
-    "file_count": 10
+    "file_count": 186
   }
 }

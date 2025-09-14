@@ -14,7 +14,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 try:
-    from tools.projectscanner import ProjectScanner
+    from tools.projectscanner.core import ProjectScanner
 except Exception:
     logger.info(
         "ERROR: Unable to import ProjectScanner. Update import path in tools/run_project_scan.py."

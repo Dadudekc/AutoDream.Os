@@ -23,15 +23,22 @@ class SwarmMonitoringHandler(http.server.BaseHTTPRequestHandler):
         super().__init__(*args, **kwargs)
 
     def do_GET(self):
-
-EXAMPLE USAGE:
-==============
-
-# Basic usage example
-from src.web.simple_monitoring_dashboard import Simple_Monitoring_Dashboard
-
-# Initialize and use
-instance = Simple_Monitoring_Dashboard()
+        """Handle GET requests for simple monitoring dashboard."""
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
+        
+        # Simple HTML response
+        html = """
+        <html>
+        <head><title>Simple Monitoring Dashboard</title></head>
+        <body>
+            <h1>Simple Monitoring Dashboard</h1>
+            <p>Dashboard is operational</p>
+        </body>
+        </html>
+        """
+        self.wfile.write(html.encode())
 result = instance.execute()
 print(f"Execution result: {result}")
 

@@ -19,36 +19,10 @@ class DataProcessingOptimizer:
     """Main orchestrator for data processing optimization operations."""
 
     def __init__(self, config: OptimizationConfig = None):
-
-EXAMPLE USAGE:
-==============
-
-# Import the core component
-from src.core.data_optimization.data_optimization_orchestrator import Data_Optimization_Orchestrator
-
-# Initialize with configuration
-config = {
-    "setting1": "value1",
-    "setting2": "value2"
-}
-
-component = Data_Optimization_Orchestrator(config)
-
-# Execute primary functionality
-result = component.process_data(input_data)
-print(f"Processing result: {result}")
-
-# Advanced usage with error handling
-try:
-    advanced_result = component.advanced_operation(data, options={"optimize": True})
-    print(f"Advanced operation completed: {advanced_result}")
-except ProcessingError as e:
-    print(f"Operation failed: {e}")
-    # Implement recovery logic
-
-        """Initialize data processing optimizer."""
+        """Initialize the data processing optimizer."""
         self.config = config or OptimizationConfig()
         self.engine = DataOptimizationEngine(self.config)
+        self.logger = logging.getLogger(__name__)
 
     async def optimize_processing(self, data: Any, operation: str, **kwargs) -> OptimizationResult:
         """Optimize data processing operation.
@@ -156,3 +130,21 @@ def reset_optimization_metrics() -> None:
     """Convenience function to reset optimization metrics."""
     optimizer = get_data_processing_optimizer()
     optimizer.reset_metrics()
+
+
+def get_example_usage():
+    """
+    Example usage for DataProcessingOptimizer.
+    
+    # Import the core component
+    from src.core.data_optimization.data_optimization_orchestrator import DataProcessingOptimizer
+    
+    # Initialize with configuration
+    config = OptimizationConfig()
+    optimizer = DataProcessingOptimizer(config)
+    
+    # Execute optimization
+    result = await optimizer.optimize_processing(data, "csv_processing")
+    print(f"Optimization result: {result}")
+    """
+    pass

@@ -24,9 +24,21 @@ def read_file(filepath):
 
 
 def write_file(filepath, content):
+    """Write content to a file."""
+    try:
+        with open(filepath, "w", encoding="utf-8") as f:
+            f.write(content)
+        return True
+    except Exception:
+        return False
 
-EXAMPLE USAGE:
-==============
+
+def get_example_usage():
+    """
+    Example usage for SimpleUtils.
+    
+    # Import the core component
+    from src.core.utils.simple_utils import read_file, write_file
 
 # Import the core component
 from src.core.utils.simple_utils import Simple_Utils

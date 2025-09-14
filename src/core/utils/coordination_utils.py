@@ -16,9 +16,19 @@ class AgentMatchingUtils:
 
     @staticmethod
     def calculate_agent_match_score(agent1, agent2):
+        """Calculate match score between two agents."""
+        # Simple matching logic
+        if agent1 == agent2:
+            return 1.0
+        return 0.5
 
-EXAMPLE USAGE:
-==============
+
+def get_example_usage():
+    """
+    Example usage for CoordinationUtils.
+    
+    # Import the core component
+    from src.core.utils.coordination_utils import AgentMatchingUtils
 
 # Import the core component
 from src.core.utils.coordination_utils import Coordination_Utils

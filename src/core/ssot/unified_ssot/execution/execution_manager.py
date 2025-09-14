@@ -20,9 +20,16 @@ class ExecutionManager:
     """SSOT execution management functionality."""
 
     def __init__(self):
+        """Initialize the execution manager."""
+        self.logger = logging.getLogger(__name__)
 
-EXAMPLE USAGE:
-==============
+
+def get_example_usage():
+    """
+    Example usage for ExecutionManager.
+    
+    # Import the core component
+    from src.core.ssot.unified_ssot.execution.execution_manager import ExecutionManager
 
 # Import the core component
 from src.core.ssot.unified_ssot.execution.execution_manager import Execution_Manager

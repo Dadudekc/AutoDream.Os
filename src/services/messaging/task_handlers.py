@@ -36,10 +36,14 @@ from __future__ import annotations
 
 from typing import Any
 
-from .coordinates import get_agent_coordinates
+from .shared.messaging_utilities import get_messaging_utilities
 from .delivery.pyautogui_delivery import deliver_message_pyautogui
 from .models import UnifiedMessage, UnifiedMessagePriority, UnifiedMessageTag, UnifiedMessageType
 from .service import MessagingService
+
+
+# Use consolidated messaging service for broadcast functionality
+from .consolidated_messaging_service import get_consolidated_messaging_service
 
 
 def claim_task(agent: str) -> dict[str, Any] | None:
@@ -61,7 +65,8 @@ def handle_claim(agent: str) -> str:
     if t:
         return f"✅ Task {t['task_id']} assigned to {agent}\nTitle: {t['title']}"
     # notify Captain-4
-    coords = get_agent_coordinates("Agent-4")
+    utils = get_messaging_utilities()
+    coords = utils.get_agent_coordinates("Agent-4")
     if coords:
         msg = UnifiedMessage(
             content=f"🚨 TASK QUEUE EMPTY — {agent} requested work",
@@ -76,7 +81,8 @@ def handle_claim(agent: str) -> str:
 
 
 def handle_complete(agent: str, task_id: str, notes: str) -> str:
-    coords = get_agent_coordinates(agent)
+    utils = get_messaging_utilities()
+    coords = utils.get_agent_coordinates(agent)
     svc = MessagingService()
     body = f"✅ TASK COMPLETED\nID: {task_id}\nBy: {agent}\nNotes: {notes}"
     if coords:

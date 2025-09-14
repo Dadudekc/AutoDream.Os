@@ -32,28 +32,6 @@ class TheaResponseCollector:
         self._last_cursor_position = None
 
     def collect_full_response(self, timeout: float = 120.0) -> str | None:
-
-EXAMPLE USAGE:
-==============
-
-# Basic usage example
-from src.infrastructure.browser.thea_modules.response_collector import Response_Collector
-
-# Initialize and use
-instance = Response_Collector()
-result = instance.execute()
-print(f"Execution result: {result}")
-
-# Advanced configuration
-config = {
-    "option1": "value1",
-    "option2": True
-}
-
-instance = Response_Collector(config)
-advanced_result = instance.execute_advanced()
-print(f"Advanced result: {advanced_result}")
-
         """
         Collect full response using enhanced DOM polling and cursor detection.
 

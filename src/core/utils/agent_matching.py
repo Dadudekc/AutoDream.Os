@@ -22,9 +22,18 @@ def get_unified_validator():
 
 @dataclass
 class AgentCapability:
+    """Represents agent capabilities for matching."""
+    name: str
+    description: str
+    requirements: list = None
 
-EXAMPLE USAGE:
-==============
+
+def get_example_usage():
+    """
+    Example usage for AgentCapability.
+    
+    # Import the core component
+    from src.core.utils.agent_matching import AgentCapability
 
 # Import the core component
 from src.core.utils.agent_matching import Agent_Matching

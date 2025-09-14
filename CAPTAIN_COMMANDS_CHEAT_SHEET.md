@@ -45,6 +45,64 @@
 - **Emergency Response**: < 1 agent cycle for critical issues
 - **Standard Deadlines**: Use agent response cycles instead of hours/days/weeks
 
+---
+
+## 📊 **PERFORMANCE MONITORING COMMANDS**
+
+### **Performance CLI System**
+**Location**: `src/core/performance/performance_cli.py`
+
+#### **1. Start Performance Monitoring**
+```bash
+python src/core/performance/performance_cli.py monitor start --interval 30 --duration 120 --format json
+```
+
+#### **2. Stop Performance Monitoring**
+```bash
+python src/core/performance/performance_cli.py monitor stop --save-data true
+```
+
+#### **3. Get Monitoring Status**
+```bash
+python src/core/performance/performance_cli.py monitor status --detailed --format json
+```
+
+#### **4. Performance Optimization**
+```bash
+python src/core/performance/performance_cli.py optimize --target cpu --threshold 80 --format json
+```
+
+#### **5. Generate Performance Dashboard**
+```bash
+python src/core/performance/performance_cli.py dashboard --timeframe 24-agent-cycles --format json
+```
+
+---
+
+## 🔧 **UTILITIES & MAINTENANCE COMMANDS**
+
+### **File Operations Utilities**
+
+#### **1. Find Large Files**
+```bash
+python scripts/utilities/find_large_files.py --type py --size 50KB --export results.csv
+```
+
+#### **2. Auto Remediation**
+```bash
+python tools/auto_remediate_loc.py --target src/ --backup true --dry-run false
+```
+
+#### **3. Workspace Validation**
+```bash
+python scripts/utilities/validate_workspaces.py --all-agents --fix-issues true
+```
+
+#### **4. System Cleanup**
+```bash
+python scripts/utilities/system_cleanup.py --cleanup-logs --cleanup-temp --backup true
+```
+
 ### **Hard Onboarding (Complete System Reset):**
 ```bash
 # Hard onboard ALL agents with enhanced messaging
@@ -246,7 +304,7 @@ Timestamp: [timestamp]
 ### **📊 Complete Analysis Suite:**
 ```bash
 # Comprehensive project analysis
-python tools/projectscanner.py
+python tools/projectscanner_new.py
 
 # Full project scan with enhanced reporting
 python tools/run_project_scan.py

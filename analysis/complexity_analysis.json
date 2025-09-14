@@ -2,21 +2,1739 @@
   "complexity_distribution": {},
   "high_complexity_files": [
     {
-      "path": "src\\core\\emergency_intervention\\unified_emergency\\orchestrator.py",
+      "path": "trading_robot\\backtesting\\backtester.py",
+      "complexity": 25,
+      "functions": 13,
+      "classes": 3
+    },
+    {
+      "path": "trading_robot\\core\\alpaca_client.py",
+      "complexity": 22,
+      "functions": 11,
+      "classes": 1
+    },
+    {
+      "path": "trading_robot\\strategies\\base_strategy.py",
+      "complexity": 32,
+      "functions": 16,
+      "classes": 6
+    },
+    {
+      "path": "trading_robot\\core\\risk_manager.py",
+      "complexity": 38,
+      "functions": 19,
+      "classes": 2
+    },
+    {
+      "path": "trading_robot\\strategies\\indicators.py",
+      "complexity": 38,
+      "functions": 19,
+      "classes": 1
+    },
+    {
+      "path": "trading_robot\\tests\\test_trading_robot.py",
+      "complexity": 39,
+      "functions": 21,
+      "classes": 5
+    },
+    {
+      "path": "tests\\conftest.py",
+      "complexity": 27,
+      "functions": 19,
+      "classes": 3
+    },
+    {
+      "path": "consolidation_tasks\\agent1_core_consolidation.py",
+      "complexity": 22,
+      "functions": 11,
+      "classes": 1
+    },
+    {
+      "path": "tests\\test_architecture_design.py",
+      "complexity": 44,
+      "functions": 22,
+      "classes": 7
+    },
+    {
+      "path": "tests\\test_consolidated_coordination_service.py",
+      "complexity": 57,
+      "functions": 29,
+      "classes": 2
+    },
+    {
+      "path": "tests\\test_core_systems.py",
+      "complexity": 44,
+      "functions": 23,
+      "classes": 6
+    },
+    {
+      "path": "tests\\test_agent4_coordination.py",
+      "complexity": 50,
+      "functions": 25,
+      "classes": 8
+    },
+    {
+      "path": "tests\\test_infrastructure.py",
+      "complexity": 42,
+      "functions": 21,
+      "classes": 7
+    },
+    {
+      "path": "tests\\test_consolidated_messaging_service.py",
+      "complexity": 52,
+      "functions": 26,
+      "classes": 3
+    },
+    {
+      "path": "tests\\test_reporting.py",
+      "complexity": 44,
+      "functions": 24,
+      "classes": 5
+    },
+    {
+      "path": "tests\\test_consolidated_vector_service.py",
+      "complexity": 56,
+      "functions": 28,
+      "classes": 2
+    },
+    {
+      "path": "tests\\swarm_testing_framework.py",
+      "complexity": 41,
+      "functions": 21,
+      "classes": 3
+    },
+    {
+      "path": "tests\\agent2_support_framework.py",
+      "complexity": 29,
+      "functions": 15,
+      "classes": 4
+    },
+    {
+      "path": "tests\\test_architectural_patterns_comprehensive_agent2.py",
+      "complexity": 34,
+      "functions": 17,
+      "classes": 5
+    },
+    {
+      "path": "tests\\enhanced_architectural_tests.py",
+      "complexity": 21,
+      "functions": 11,
+      "classes": 1
+    },
+    {
+      "path": "tests\\test_commandresult.py",
+      "complexity": 30,
+      "functions": 18,
+      "classes": 2
+    },
+    {
+      "path": "tests\\run_integration_tests.py",
+      "complexity": 21,
+      "functions": 11,
+      "classes": 1
+    },
+    {
+      "path": "tests\\integration_testing_framework.py",
+      "complexity": 37,
+      "functions": 19,
+      "classes": 5
+    },
+    {
+      "path": "tests\\test_messaging_health_gate.py",
+      "complexity": 45,
+      "functions": 23,
+      "classes": 6
+    },
+    {
+      "path": "tests\\test_comprehensive_architecture_agent2.py",
+      "complexity": 35,
+      "functions": 18,
+      "classes": 5
+    },
+    {
+      "path": "tests\\test_messaging_registry.py",
+      "complexity": 42,
+      "functions": 21,
+      "classes": 4
+    },
+    {
+      "path": "tests\\integration\\test_consolidated_services_integration.py",
+      "complexity": 40,
+      "functions": 20,
+      "classes": 5
+    },
+    {
+      "path": "tests\\integration\\test_final_integration_coverage.py",
+      "complexity": 30,
+      "functions": 15,
+      "classes": 2
+    },
+    {
+      "path": "tests\\integration\\test_integration_testing_framework.py",
+      "complexity": 64,
+      "functions": 32,
+      "classes": 11
+    },
+    {
+      "path": "tests\\integration\\test_error_handling_integration.py",
+      "complexity": 43,
+      "functions": 22,
+      "classes": 10
+    },
+    {
+      "path": "tests\\integration\\test_cross_service_integration.py",
+      "complexity": 41,
+      "functions": 22,
+      "classes": 1
+    },
+    {
+      "path": "tests\\integration\\test_messaging_system_integration.py",
+      "complexity": 30,
+      "functions": 15,
+      "classes": 1
+    },
+    {
+      "path": "tests\\operational\\test_error_handling.py",
+      "complexity": 61,
+      "functions": 35,
+      "classes": 13
+    },
+    {
+      "path": "tests\\operational\\test_monitoring_systems.py",
+      "complexity": 50,
+      "functions": 25,
+      "classes": 9
+    },
+    {
+      "path": "tests\\operational\\test_coverage_progress_report.py",
+      "complexity": 20,
+      "functions": 11,
+      "classes": 1
+    },
+    {
+      "path": "tests\\operational\\test_operational_resilience.py",
+      "complexity": 37,
+      "functions": 21,
+      "classes": 7
+    },
+    {
+      "path": "tests\\operational\\test_operational_load_testing.py",
+      "complexity": 36,
+      "functions": 20,
+      "classes": 6
+    },
+    {
+      "path": "tests\\unit\\test_consolidated_messaging_unit.py",
+      "complexity": 54,
+      "functions": 27,
+      "classes": 2
+    },
+    {
+      "path": "tests\\unit\\test_message_router.py",
+      "complexity": 47,
+      "functions": 24,
+      "classes": 1
+    },
+    {
+      "path": "tests\\operational\\test_system_monitoring_integration.py",
+      "complexity": 64,
+      "functions": 32,
+      "classes": 9
+    },
+    {
+      "path": "tests\\operational\\test_stability_testing.py",
+      "complexity": 39,
+      "functions": 21,
+      "classes": 10
+    },
+    {
+      "path": "tests\\unit\\test_consolidated_coordination_unit.py",
+      "complexity": 58,
+      "functions": 29,
+      "classes": 1
+    },
+    {
+      "path": "tests\\unit\\test_consolidated_vector_unit.py",
+      "complexity": 52,
+      "functions": 26,
+      "classes": 2
+    },
+    {
+      "path": "tests\\unit\\test_messaging_gateway.py",
+      "complexity": 46,
+      "functions": 23,
+      "classes": 1
+    },
+    {
+      "path": "tests\\unit\\test_discord_commander_security.py",
+      "complexity": 45,
+      "functions": 23,
+      "classes": 7
+    },
+    {
+      "path": "tests\\unit\\test_discord_commander_embeds.py",
+      "complexity": 66,
+      "functions": 33,
+      "classes": 8
+    },
+    {
+      "path": "tests\\unit\\test_discord_commander_agent_engine.py",
+      "complexity": 50,
+      "functions": 25,
+      "classes": 4
+    },
+    {
+      "path": "tests\\performance\\test_integration_performance.py",
+      "complexity": 21,
+      "functions": 12,
+      "classes": 1
+    },
+    {
+      "path": "tests\\fixtures\\shared_operational_fixtures.py",
+      "complexity": 73,
+      "functions": 42,
+      "classes": 9
+    },
+    {
+      "path": "tests\\e2e\\test_agent_lifecycle_e2e.py",
+      "complexity": 37,
+      "functions": 20,
+      "classes": 1
+    },
+    {
+      "path": "tests\\api\\test_api_documentation_suite.py",
+      "complexity": 62,
+      "functions": 31,
+      "classes": 9
+    },
+    {
+      "path": "tests\\api\\test_agent_api_suite.py",
+      "complexity": 29,
+      "functions": 16,
+      "classes": 1
+    },
+    {
+      "path": "tests\\contracts\\test_contract_system.py",
+      "complexity": 60,
+      "functions": 30,
+      "classes": 8
+    },
+    {
+      "path": "tests\\deployment\\test_deployment_verification.py",
+      "complexity": 32,
+      "functions": 17,
+      "classes": 1
+    },
+    {
+      "path": "src\\web\\vector_database\\utils.py",
+      "complexity": 20,
+      "functions": 10,
+      "classes": 1
+    },
+    {
+      "path": "src\\web\\vector_database\\models.py",
+      "complexity": 20,
+      "functions": 10,
+      "classes": 10
+    },
+    {
+      "path": "src\\services\\consolidated_agent_management_service.py",
+      "complexity": 42,
+      "functions": 21,
+      "classes": 1
+    },
+    {
+      "path": "src\\services\\consolidated_vector_service.py",
+      "complexity": 40,
+      "functions": 20,
+      "classes": 1
+    },
+    {
+      "path": "src\\services\\coordination\\strategy_coordinator.py",
+      "complexity": 22,
+      "functions": 11,
+      "classes": 1
+    },
+    {
+      "path": "src\\services\\protocol\\routers\\route_analyzer.py",
+      "complexity": 20,
+      "functions": 10,
+      "classes": 1
+    },
+    {
+      "path": "src\\services\\thea\\core\\thea_communication_manager.py",
+      "complexity": 20,
+      "functions": 10,
+      "classes": 1
+    },
+    {
+      "path": "src\\services\\thea\\authentication\\thea_authentication_service.py",
+      "complexity": 28,
+      "functions": 14,
+      "classes": 4
+    },
+    {
+      "path": "src\\services\\thea\\browser\\thea_browser_service.py",
+      "complexity": 36,
+      "functions": 18,
+      "classes": 2
+    },
+    {
+      "path": "src\\services\\thea\\commander\\thea_response_processor.py",
+      "complexity": 22,
+      "functions": 11,
+      "classes": 2
+    },
+    {
+      "path": "src\\services\\thea\\commander\\thea_commander_persona.py",
+      "complexity": 36,
+      "functions": 18,
+      "classes": 3
+    },
+    {
+      "path": "src\\services\\messaging\\consolidated_messaging_service.py",
+      "complexity": 60,
+      "functions": 31,
+      "classes": 1
+    },
+    {
+      "path": "src\\services\\messaging\\interfaces\\messaging_interfaces.py",
+      "complexity": 24,
+      "functions": 12,
+      "classes": 5
+    },
+    {
+      "path": "src\\services\\messaging\\providers\\inbox_delivery.py",
+      "complexity": 28,
+      "functions": 14,
+      "classes": 1
+    },
+    {
+      "path": "src\\services\\messaging\\providers\\pyautogui_delivery.py",
+      "complexity": 20,
+      "functions": 10,
+      "classes": 1
+    },
+    {
+      "path": "src\\core\\shared_utilities.py",
+      "complexity": 102,
+      "functions": 55,
+      "classes": 9
+    },
+    {
+      "path": "src\\core\\unified_core_system.py",
+      "complexity": 69,
+      "functions": 36,
+      "classes": 8
+    },
+    {
+      "path": "src\\core\\coordination\\swarm\\orchestrators\\swarm_coordination_orchestrator.py",
+      "complexity": 22,
+      "functions": 11,
+      "classes": 5
+    },
+    {
+      "path": "src\\core\\quality\\testing_coordinator.py",
+      "complexity": 25,
+      "functions": 13,
+      "classes": 4
+    },
+    {
+      "path": "src\\automation\\ui_onboarding.py",
+      "complexity": 24,
+      "functions": 15,
+      "classes": 3
+    },
+    {
+      "path": "src\\discord_commander\\embeds.py",
+      "complexity": 50,
+      "functions": 26,
+      "classes": 2
+    },
+    {
+      "path": "src\\discord_commander\\discord_webhook_integration.py",
+      "complexity": 46,
+      "functions": 23,
+      "classes": 1
+    },
+    {
+      "path": "src\\discord_commander\\enhanced_discord_integration.py",
+      "complexity": 45,
+      "functions": 23,
+      "classes": 9
+    },
+    {
+      "path": "src\\discord_commander\\discord_security_policies.py",
+      "complexity": 30,
+      "functions": 15,
+      "classes": 1
+    },
+    {
+      "path": "src\\domain\\entities\\agent.py",
+      "complexity": 24,
+      "functions": 12,
+      "classes": 1
+    },
+    {
+      "path": "src\\gaming\\gaming_integration_core.py",
+      "complexity": 85,
+      "functions": 43,
+      "classes": 11
+    },
+    {
+      "path": "src\\gaming\\integration\\core.py",
+      "complexity": 22,
+      "functions": 11,
+      "classes": 1
+    },
+    {
+      "path": "src\\infrastructure\\unified_logging_time.py",
+      "complexity": 145,
+      "functions": 73,
+      "classes": 12
+    },
+    {
+      "path": "src\\infrastructure\\unified_browser_service.py",
+      "complexity": 119,
+      "functions": 60,
+      "classes": 11
+    },
+    {
+      "path": "src\\infrastructure\\unified_persistence.py",
+      "complexity": 105,
+      "functions": 53,
+      "classes": 9
+    },
+    {
+      "path": "src\\trading_robot\\core\\dependency_injection.py",
+      "complexity": 22,
+      "functions": 13,
+      "classes": 2
+    },
+    {
+      "path": "src\\trading_robot\\repositories\\models\\trade.py",
+      "complexity": 22,
+      "functions": 11,
+      "classes": 1
+    },
+    {
+      "path": "src\\trading_robot\\repositories\\models\\position.py",
+      "complexity": 30,
+      "functions": 15,
+      "classes": 1
+    },
+    {
+      "path": "src\\trading_robot\\repositories\\models\\portfolio.py",
+      "complexity": 46,
+      "functions": 23,
+      "classes": 1
+    },
+    {
+      "path": "src\\trading_robot\\services\\analytics\\risk_analysis_engine.py",
+      "complexity": 21,
+      "functions": 11,
+      "classes": 1
+    },
+    {
+      "path": "src\\utils\\logger.py",
+      "complexity": 22,
+      "functions": 13,
+      "classes": 2
+    },
+    {
+      "path": "src\\trading_robot\\services\\analytics\\performance_metrics_engine.py",
+      "complexity": 27,
+      "functions": 14,
+      "classes": 1
+    },
+    {
+      "path": "src\\utils\\consolidated_file_operations.py",
+      "complexity": 42,
+      "functions": 23,
+      "classes": 10
+    },
+    {
+      "path": "src\\integration\\messaging_gateway.py",
+      "complexity": 26,
+      "functions": 14,
+      "classes": 3
+    },
+    {
+      "path": "src\\utils\\consolidated_config_management.py",
+      "complexity": 44,
+      "functions": 23,
+      "classes": 9
+    },
+    {
+      "path": "tools\\test_coverage_improvement.py",
+      "complexity": 39,
+      "functions": 20,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\agent_scripts\\agent5_core_consolidation_validator.py",
+      "complexity": 21,
+      "functions": 11,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\agent_scripts\\agent5_core_modules_validator.py",
+      "complexity": 21,
+      "functions": 11,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\coordinator_interfaces.py",
+      "complexity": 30,
+      "functions": 15,
+      "classes": 4
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\coordinator_models.py",
+      "complexity": 20,
+      "functions": 10,
+      "classes": 7
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\config_core.py",
+      "complexity": 27,
+      "functions": 19,
+      "classes": 4
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\message_queue.py",
+      "complexity": 37,
+      "functions": 22,
+      "classes": 3
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\coordination_unified.py",
+      "complexity": 92,
+      "functions": 48,
+      "classes": 21
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\enhanced_communication_protocols.py",
+      "complexity": 51,
+      "functions": 28,
+      "classes": 5
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\core_coordination.py",
+      "complexity": 137,
+      "functions": 72,
+      "classes": 13
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\core_configuration.py",
+      "complexity": 37,
+      "functions": 22,
+      "classes": 9
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\message_queue_pyautogui_integration.py",
+      "complexity": 20,
+      "functions": 13,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\message_queue_interfaces.py",
+      "complexity": 46,
+      "functions": 23,
+      "classes": 6
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\enhanced_config_system.py",
+      "complexity": 70,
+      "functions": 36,
+      "classes": 9
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\enhanced_unified_config.py",
+      "complexity": 47,
+      "functions": 30,
+      "classes": 7
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\message_queue_statistics.py",
+      "complexity": 24,
+      "functions": 12,
+      "classes": 2
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\message_archive.py",
+      "complexity": 29,
+      "functions": 16,
+      "classes": 4
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\deployment\\deployment_models.py",
+      "complexity": 26,
+      "functions": 13,
+      "classes": 7
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\unified_config.py",
+      "complexity": 23,
+      "functions": 16,
+      "classes": 9
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\deployment\\deployment_orchestrator_engine.py",
+      "complexity": 22,
+      "functions": 11,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\deployment\\coordinators\\metrics_tracker.py",
+      "complexity": 22,
+      "functions": 11,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\analytics\\engines\\metrics_engine.py",
+      "complexity": 23,
+      "functions": 12,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\analytics\\intelligence\\business_intelligence_engine_operations.py",
+      "complexity": 24,
+      "functions": 12,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\analytics\\intelligence\\business_intelligence_engine_core.py",
+      "complexity": 22,
+      "functions": 11,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\analytics\\interfaces\\analytics_interfaces.py",
+      "complexity": 28,
+      "functions": 14,
+      "classes": 3
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\analytics\\intelligence\\predictive_modeling_engine.py",
+      "complexity": 21,
+      "functions": 11,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\dry_eliminator\\dry_eliminator_orchestrator.py",
+      "complexity": 23,
+      "functions": 13,
+      "classes": 2
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\dry_eliminator\\engines\\metrics_reporting_engine.py",
+      "complexity": 27,
+      "functions": 14,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\dry_eliminator\\engines\\file_discovery_engine.py",
+      "complexity": 29,
+      "functions": 15,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\engine.py",
+      "complexity": 26,
+      "functions": 13,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\orchestrator.py",
       "complexity": 32,
       "functions": 16,
       "classes": 1
     },
     {
-      "path": "tests\\test_architectural_compliance.py",
-      "complexity": 42,
-      "functions": 21,
+      "path": "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\engines\\action_executor.py",
+      "complexity": 30,
+      "functions": 15,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\handlers\\protocol_initializer.py",
+      "complexity": 20,
+      "functions": 10,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\orchestrators\\emergency_orchestrator.py",
+      "complexity": 32,
+      "functions": 16,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\orchestrators\\emergency_analyzer.py",
+      "complexity": 24,
+      "functions": 12,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\orchestrators\\emergency_logger.py",
+      "complexity": 22,
+      "functions": 11,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\handlers\\protocol_executor.py",
+      "complexity": 30,
+      "functions": 15,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\handlers\\protocol_registry.py",
+      "complexity": 20,
+      "functions": 10,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\engines\\engine_state.py",
+      "complexity": 20,
+      "functions": 10,
+      "classes": 2
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\engines\\contracts.py",
+      "complexity": 38,
+      "functions": 19,
+      "classes": 8
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\error_handling\\advanced_error_handler.py",
+      "complexity": 34,
+      "functions": 19,
+      "classes": 5
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\enhanced_integration\\orchestrators\\coordination_engine_operations.py",
+      "complexity": 20,
+      "functions": 10,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\error_handling\\circuit_breaker.py",
+      "complexity": 25,
+      "functions": 14,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\error_handling\\coordination_error_handler.py",
+      "complexity": 100,
+      "functions": 54,
+      "classes": 12
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\error_handling\\automated_recovery.py",
+      "complexity": 45,
+      "functions": 25,
+      "classes": 7
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\error_handling\\error_handling_orchestrator.py",
+      "complexity": 37,
+      "functions": 19,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\error_handling\\error_handling_models.py",
+      "complexity": 28,
+      "functions": 14,
+      "classes": 15
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\error_handling\\error_recovery.py",
+      "complexity": 53,
+      "functions": 30,
+      "classes": 7
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\error_handling\\retry_mechanisms.py",
+      "complexity": 21,
+      "functions": 16,
+      "classes": 4
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\file_locking\\file_locking_orchestrator.py",
+      "complexity": 51,
+      "functions": 26,
+      "classes": 2
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\file_locking\\file_locking_manager.py",
+      "complexity": 24,
+      "functions": 12,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\file_locking\\operations\\lock_queries.py",
+      "complexity": 20,
+      "functions": 10,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\file_locking\\operations\\lock_operations.py",
+      "complexity": 26,
+      "functions": 13,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\integration\\analytics\\analytics_engine.py",
+      "complexity": 26,
+      "functions": 13,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\integration\\models\\data_models.py",
+      "complexity": 20,
+      "functions": 10,
+      "classes": 5
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\monitor.py",
+      "complexity": 23,
+      "functions": 12,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\coordinators\\health_monitor.py",
+      "complexity": 22,
+      "functions": 11,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\monitor_engine.py",
+      "complexity": 30,
+      "functions": 15,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\intelligent_context\\intelligent_context_engine.py",
+      "complexity": 28,
+      "functions": 14,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\intelligent_context\\core\\context_core.py",
+      "complexity": 24,
+      "functions": 12,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\managers\\base_manager.py",
+      "complexity": 26,
+      "functions": 13,
       "classes": 3
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\managers\\core_resource_manager.py",
+      "complexity": 38,
+      "functions": 19,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\managers\\core_execution_manager.py",
+      "complexity": 22,
+      "functions": 11,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\managers\\core_monitoring_manager.py",
+      "complexity": 39,
+      "functions": 20,
+      "classes": 4
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\managers\\contracts.py",
+      "complexity": 40,
+      "functions": 20,
+      "classes": 8
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\managers\\core_configuration_manager.py",
+      "complexity": 28,
+      "functions": 14,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\managers\\monitoring\\base_monitoring_manager.py",
+      "complexity": 39,
+      "functions": 20,
+      "classes": 4
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\managers\\registry.py",
+      "complexity": 20,
+      "functions": 11,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\managers\\execution\\base_execution_manager.py",
+      "complexity": 39,
+      "functions": 20,
+      "classes": 3
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\managers\\results\\base_results_manager.py",
+      "complexity": 26,
+      "functions": 13,
+      "classes": 2
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\orchestration\\intent_subsystems\\debate_engine.py",
+      "complexity": 45,
+      "functions": 23,
+      "classes": 8
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\orchestration\\intent_subsystems\\lifecycle_coordinator.py",
+      "complexity": 63,
+      "functions": 32,
+      "classes": 10
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\pattern_analysis\\pattern_analysis_orchestrator.py",
+      "complexity": 24,
+      "functions": 14,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\orchestration\\intent_subsystems\\message_router.py",
+      "complexity": 61,
+      "functions": 31,
+      "classes": 16
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\orchestration\\intent_subsystems\\intervention_manager.py",
+      "complexity": 63,
+      "functions": 32,
+      "classes": 12
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\performance\\performance_monitoring_system.py",
+      "complexity": 22,
+      "functions": 12,
+      "classes": 3
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\performance\\unified_dashboard\\engine.py",
+      "complexity": 56,
+      "functions": 28,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\performance\\unified_dashboard\\widget_manager.py",
+      "complexity": 30,
+      "functions": 15,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\performance\\unified_dashboard\\reporter.py",
+      "complexity": 22,
+      "functions": 11,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\performance\\unified_dashboard\\metric_manager.py",
+      "complexity": 20,
+      "functions": 10,
+      "classes": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\refactoring\\refactor_tools.py",
+      "complexity": 45,
+      "functions": 33,
+      "classes": 4
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\refactoring\\tools\\optimization_tools.py",
+      "complexity": 32,
+      "functions": 16,
+      "classes": 2
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\factory_methods.py",
+      "complexity": 31,
+      "functions": 20,
+      "classes": 1
     }
   ],
   "low_complexity_files": [
     {
+      "path": "__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "run_fresh_scan_direct.py",
+      "complexity": 0
+    },
+    {
+      "path": "run_fresh_scan.py",
+      "complexity": 0
+    },
+    {
+      "path": "trading_robot\\main.py",
+      "complexity": 3
+    },
+    {
+      "path": "trading_robot\\config\\settings.py",
+      "complexity": 0
+    },
+    {
+      "path": "archive\\cleanup_20250912_032500\\broadcast_swarm_activation.py",
+      "complexity": 1
+    },
+    {
+      "path": "archive\\cleanup_20250912_032500\\debug_contracts.py",
+      "complexity": 0
+    },
+    {
+      "path": "archive\\cleanup_20250912_032500\\send_contract_announcement.py",
+      "complexity": 1
+    },
+    {
+      "path": "tests\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "archive\\cleanup_20250912_032500\\send_co_captain_activations.py",
+      "complexity": 1
+    },
+    {
+      "path": "tests\\semantic\\test_status_index.py",
+      "complexity": 1
+    },
+    {
+      "path": "tests\\e2e\\test_complete_user_journey_e2e.py",
+      "complexity": 0
+    },
+    {
+      "path": "tests\\semantic\\test_integration_smoke.py",
+      "complexity": 2
+    },
+    {
+      "path": "tests\\messaging\\test_fallback_delivery.py",
+      "complexity": 2
+    },
+    {
+      "path": "tests\\messaging\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "tests\\e2e\\test_api_integration_workflow_e2e.py",
+      "complexity": 3
+    },
+    {
+      "path": "src\\commandresult.py",
+      "complexity": 0
+    },
+    {
+      "path": "templates\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\agent_registry.py",
+      "complexity": 1
+    },
+    {
+      "path": "src\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\coordinate_agent_registry.py",
+      "complexity": 1
+    },
+    {
+      "path": "src\\swarmstatus.py",
+      "complexity": 2
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard-data-manager.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard-data-operations.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\agent-coordination-manager.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard-error-handler.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard-communication.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard-config-manager.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard-loading-manager.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard-initializer.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard-state-manager.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard-time.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard-module-coordinator.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard-socket-manager.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard-view-renderer.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\system-integration-core.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard-unified.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard-ui-helpers.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard-navigation.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard-core.js",
+      "complexity": 0
+    },
+    {
       "path": "src\\web\\static\\js\\unified-frontend-utilities.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services-unified.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard-utils.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard-main.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard-utils-new.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard-new.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services-performance.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services-validation.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard-core-consolidated.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services-data.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services-socket.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services-utilities.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\vector-database-consolidated.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\performance-consolidated.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\vector-database-ui.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\architecture-consolidated.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\vector-database-core.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\architecture-unified.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard-charts.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard-alerts.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\utilities-consolidated.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard-view-overview.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services-orchestrator.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\performance-unified.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard-view-performance.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard-helpers.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\components.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard-views.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\forms.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\config.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\layout.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\modal.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\index.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\ui-components.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\architecture\\di-container-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\api.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\enhanced-communication-manager.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\navigation.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\architecture\\di-decorators-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard\\css-class-management-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\architecture\\di-framework-orchestrator.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\architecture\\dependency-injection-framework.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\architecture\\architecture-pattern-coordinator.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\architecture\\pattern-coordination-methods.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\architecture\\web-service-registry-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\app.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\core\\dependency-container.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard\\date-utils.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\core\\unified-configuration-system.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\core\\dependency-analyzer.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\core\\unified-logging-system.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard\\dom-utils-orchestrator.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\core\\agent-8-ssot-integration.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard\\element-creation-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard\\formatters.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard\\dom-utils.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard\\style-utils.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard\\element-selection-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard\\dashboard-format-utils.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard\\element-visibility-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard\\dashboard-css-utils.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard\\dashboard-dom-utils.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard\\dashboard-utils-orchestrator.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\performance\\bundle-analyzer.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard\\dashboard-unified-utils.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\performance\\frontend-performance-monitor.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\dashboard\\dashboard-date-utils.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\performance\\dom-performance-analyzer.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\performance\\performance-optimization-report.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\performance\\recommendation-engine.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\performance\\performance-optimization-orchestrator.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\agent-coordination-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\repositories\\deployment-repository.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\business-insights-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\repositories\\dashboard-repository.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\business-validation-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\component-validation-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\dashboard-init-service.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\coordination-core-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\coordination-reporting-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\deployment-analysis-methods.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\metrics-aggregation-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\dashboard-data-service.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\deployment-coordination-service.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\performance-analysis-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\deployment-metrics-service.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\phase-action-methods.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\deployment-validation-service.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\deployment-phase-service.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\performance-configuration-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\performance-recommendation-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\report-history-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\report-generation-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\utility-string-service.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\scenario-validation-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\rule-evaluation-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\trend-analysis-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\services-dashboard-core.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\services-performance-core.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\utility-validation-service.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\services-coordination-core.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\socket-event-handlers.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\utilities\\string-utils.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\utility-function-service.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\utilities\\logging-utils.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\utilities\\math-utils.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\utilities\\function-utils.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\chart-controls-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\chart-calculation-modules.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\chart-data-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\services\\utilities\\data-utils.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\app-management-modules.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\chart-navigation-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\chart-drawing-modules.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\chart-state-callbacks-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\chart-state-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\chart-events.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\chart-renderer.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\chart-state-core-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\trading-dashboard.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\order-processing-modules.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\trading-chart-manager.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\trading-portfolio-manager.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\order-form-modules.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\trading-websocket-manager.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\portfolio-management-modules.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\trading-order-manager.js",
       "complexity": 0
     },
     {
@@ -24,55 +1742,2292 @@
       "complexity": 0
     },
     {
-      "path": "src\\services\\quality\\__init__.py",
+      "path": "src\\web\\static\\js\\trading-robot\\unified-logging-module.js",
       "complexity": 0
     },
     {
-      "path": "src\\reporting\\__init__.py",
+      "path": "src\\web\\static\\js\\trading-robot\\websocket-connection-callbacks.js",
       "complexity": 0
     },
     {
-      "path": "tests\\messaging\\fixtures\\config.py",
+      "path": "src\\web\\static\\js\\trading-robot\\websocket-callback-manager-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\websocket-market-data-callbacks.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\websocket-connection-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\websocket-error-callbacks.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\websocket-subscription-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\websocket-message-handler-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\websocket-order-portfolio-callbacks.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\trading-websocket-core.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\websocket-subscription-optimized.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\trading-chart-core.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\chart-validation\\__init__.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\chart-validation\\logger.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\trading-robot-main.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\chart-validation\\module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\trading-order-portfolio-core.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\utilities\\__init__.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\utilities\\logging-utils.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\chart-validation\\rules.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\utilities\\dom-utils.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\utilities\\string-utils.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\utilities\\array-utils.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\utilities\\unified-utilities.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\validation\\form-validation-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\validation\\data-validation-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\utilities\\time-utils.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\validation\\unified-validation-system.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\vector-database\\core.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\vector-database\\ui-common.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\validation\\field-validation-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\vector-database\\manager.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\vector-database\\__init__.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\vector-database\\ui.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\components\\dashboard.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\vector-database\\search.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\vector-database\\ui-optimized.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\vector-database\\analytics.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\components\\navigation.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\frontend\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\frontend\\settings.py",
+      "complexity": 1
+    },
+    {
+      "path": "src\\web\\vector_database\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\vector_database\\error_handler_middleware.py",
+      "complexity": 3
+    },
+    {
+      "path": "src\\services\\advanced_analytics_service.py",
+      "complexity": 1
+    },
+    {
+      "path": "src\\services\\constants.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\services\\coordination\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\services\\handlers\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\services\\models\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\services\\protocol\\routers\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\services\\utils\\agent_utils_registry.py",
+      "complexity": 1
+    },
+    {
+      "path": "src\\services\\protocol\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\services\\utils\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\services\\vector_database\\status_indexer.py",
       "complexity": 2
     },
     {
-      "path": "tests\\performance\\__init__.py",
+      "path": "src\\services\\utils\\vector_config_utils.py",
+      "complexity": 1
+    },
+    {
+      "path": "src\\services\\vector_database\\__init__.py",
+      "complexity": 3
+    },
+    {
+      "path": "src\\services\\thea\\__init__.py",
       "complexity": 0
     },
     {
-      "path": "tests\\runners\\config.py",
+      "path": "src\\services\\thea\\core\\__init__.py",
       "complexity": 0
     },
     {
-      "path": "tests\\infrastructure\\test_infrastructure_config.py",
+      "path": "src\\services\\thea\\authentication\\__init__.py",
       "complexity": 0
     },
     {
-      "path": "tests\\messaging\\fixtures\\__init__.py",
+      "path": "src\\services\\thea\\messaging\\__init__.py",
       "complexity": 0
+    },
+    {
+      "path": "src\\services\\thea\\browser\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\services\\thea\\responses\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\services\\thea\\config\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\services\\thea\\commander\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\services\\messaging\\onboarding_bridge.py",
+      "complexity": 1
+    },
+    {
+      "path": "src\\services\\messaging\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\services\\messaging\\broadcast.py",
+      "complexity": 1
+    },
+    {
+      "path": "src\\services\\messaging\\history.py",
+      "complexity": 1
+    },
+    {
+      "path": "src\\services\\messaging\\delivery\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\services\\messaging\\task_handlers.py",
+      "complexity": 3
+    },
+    {
+      "path": "src\\services\\messaging\\cli.py",
+      "complexity": 2
+    },
+    {
+      "path": "src\\services\\messaging\\delivery\\fallback.py",
+      "complexity": 2
+    },
+    {
+      "path": "src\\services\\messaging\\thea_handlers.py",
+      "complexity": 1
+    },
+    {
+      "path": "src\\services\\messaging\\delivery\\inbox_delivery.py",
+      "complexity": 1
+    },
+    {
+      "path": "src\\services\\messaging\\models\\messaging_enums.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\services\\messaging\\models\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\services\\messaging\\interfaces\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\services\\messaging\\providers\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\services\\messaging\\providers\\fallback_provider\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\services\\messaging\\cli\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\services\\messaging\\broadcast_service\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\services\\messaging\\cli\\perf_cli\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\services\\analytics\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\services\\messaging\\history_service\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\core\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\core\\consolidation\\utility_consolidation\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\core\\constants\\fsm.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\core\\constants\\fsm_models.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\core\\constants\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\core\\constants\\fsm\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\core\\coordination\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\core\\coordination\\swarm\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\core\\coordination\\swarm\\engines\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\core\\coordination\\swarm\\orchestrators\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\core\\data_optimization\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\core\\import_system\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\core\\ssot\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\core\\ssot\\unified_ssot\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\core\\ssot\\unified_ssot\\execution\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\core\\utils\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\core\\ssot\\unified_ssot\\validators\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\core\\semantic\\utils.py",
+      "complexity": 3
+    },
+    {
+      "path": "src\\core\\semantic\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\core\\semantic\\status_cli.py",
+      "complexity": 2
+    },
+    {
+      "path": "src\\core\\performance\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\core\\performance\\models\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\core\\deployment\\models\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\core\\messaging\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\core\\backup\\alerts\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\core\\backup\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\core\\backup\\database\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\core\\backup\\models\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\application\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\application\\use_cases\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\architecture\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\automation\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\config\\ssot.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\config\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\discord_commander\\guards.py",
+      "complexity": 1
+    },
+    {
+      "path": "src\\discord_commander\\agent_communication_engine_refactored.py",
+      "complexity": 3
+    },
+    {
+      "path": "src\\discord_commander\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\discord_commander\\structured_logging.py",
+      "complexity": 3
+    },
+    {
+      "path": "src\\discord_commander\\agent_communication_engine_operations.py",
+      "complexity": 2
+    },
+    {
+      "path": "src\\core\\backup_disaster_recovery\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\discord_commander\\discord_agent_bot.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\discord_commander\\handlers_agent_summary.py",
+      "complexity": 2
+    },
+    {
+      "path": "src\\discord_commander\\discord_command_handlers.py",
+      "complexity": 2
+    },
+    {
+      "path": "src\\discord_commander\\discord_dynamic_agent_commands.py",
+      "complexity": 3
+    },
+    {
+      "path": "src\\discord_commander\\messaging_gateway\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\discord_commander\\webhook\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\discord_commander\\communication_engine\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\domain\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\domain\\entities\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\domain\\ports\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\domain\\services\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\domain\\value_objects\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\gaming\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\gaming\\models\\gaming_alert_models.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\gaming\\models\\gaming_models.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\gaming\\handlers\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\gaming\\integration\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\gaming\\models\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\gaming\\integration\\models.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\gaming\\utils\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\infrastructure\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\infrastructure\\browser\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\infrastructure\\browser\\thea_manager_profile.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\infrastructure\\browser\\thea_modules\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\infrastructure\\logging\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\infrastructure\\persistence\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\quality\\proof_ledger.py",
+      "complexity": 2
+    },
+    {
+      "path": "src\\quality\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\trading_robot\\repositories\\trading_repository.py",
+      "complexity": 3
+    },
+    {
+      "path": "src\\trading_robot\\core\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\infrastructure\\time\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\trading_robot\\repositories\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\trading_robot\\repositories\\implementations\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\trading_robot\\repositories\\interfaces\\portfolio_repository_interface.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\trading_robot\\repositories\\implementations\\in_memory_trading_repository.py",
+      "complexity": 2
+    },
+    {
+      "path": "src\\trading_robot\\repositories\\implementations\\trading_repository_impl.py",
+      "complexity": 2
+    },
+    {
+      "path": "src\\trading_robot\\repositories\\interfaces\\position_repository_interface.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\trading_robot\\repositories\\interfaces\\trading_repository_interface.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\trading_robot\\services\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\trading_robot\\repositories\\interfaces\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\trading_robot\\services\\trading_bi_analytics.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\trading_robot\\repositories\\models\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\trading_robot\\services\\analytics\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\trading_robot\\services\\analytics\\trading_bi_models.py",
+      "complexity": 2
+    },
+    {
+      "path": "src\\utils\\confirm.py",
+      "complexity": 1
+    },
+    {
+      "path": "src\\onboarding\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\onboarding\\onboarding_bridge\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\utils\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "tools\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "tools\\generate_utils_catalog.py",
+      "complexity": 0
+    },
+    {
+      "path": "tools\\run_project_scan.py",
+      "complexity": 1
+    },
+    {
+      "path": "tools\\check_snapshot_up_to_date.py",
+      "complexity": 2
+    },
+    {
+      "path": "tools\\codemods\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\deployment\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\deployment\\coordinators\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\deployment\\models\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\deployment\\models\\enums.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\deployment\\engines\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\agent_communication\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\analytics\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\agent_communication\\agent_communication_engine_operations.py",
+      "complexity": 2
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\analytics\\coordinators\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\analytics\\engines\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\analytics\\intelligence\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\analytics\\intelligence\\business_intelligence_engine.py",
+      "complexity": 2
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\analytics\\interfaces\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\analytics\\intelligence\\pattern_analysis\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\analytics\\models\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\analytics\\orchestrators\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\analytics\\models\\analytics_models.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\analytics\\models\\analytics_enums.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\analytics\\processors\\prediction\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\analytics\\prediction\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\analytics\\processors\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\dry_eliminator\\dry_eliminator_enums.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\dry_eliminator\\dry_elimination_engine.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\dry_eliminator\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\dry_eliminator\\engines\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\dry_eliminator\\orchestrators\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\models_enums.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\protocols.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\engines\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\models_metrics.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\handlers\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\engines\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\orchestrators\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\enhanced_integration\\engines\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\enhanced_integration\\coordinators\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\enhanced_integration\\orchestrators\\coordination_engine.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\enhanced_integration\\orchestrators\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\enhanced_integration\\orchestrators\\coordination_engine_refactored.py",
+      "complexity": 2
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\error_handling\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\error_handling\\circuit_breaker\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\file_locking\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\error_handling\\metrics\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\file_locking\\operations\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\integration\\analytics\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\integration_coordinators\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\integration\\models\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\coordinators\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\models\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\monitors\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\intelligent_context\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\intelligent_context\\intelligent_context_optimization_models.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\intelligent_context\\core\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\intelligent_context\\unified_intelligent_context\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\intelligent_context\\engines\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\intelligent_context\\intelligent_context_orchestrator.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\intelligent_context\\unified_intelligent_context\\engine_search.py",
+      "complexity": 2
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\managers\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\managers\\monitoring\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\managers\\core_service_manager.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\managers\\execution\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\managers\\results\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\managers\\adapters\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\orchestration\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\orchestration\\adapters\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\performance\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\pattern_analysis\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\pattern_analysis\\unified_pattern_analysis\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\pattern_analysis\\pattern_analysis_models.py",
+      "complexity": 2
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\performance\\metrics\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\performance\\performance_dashboard.py",
+      "complexity": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\performance\\unified_dashboard\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\performance\\metrics\\types.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\performance\\performance_decorators.py",
+      "complexity": 3
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\refactoring\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\refactoring\\analysis_tools.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\refactoring\\analysis_tools_models.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\refactoring\\file_analysis.py",
+      "complexity": 2
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\refactoring\\duplicate_analysis.py",
+      "complexity": 2
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\refactoring\\toolkit.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\refactoring\\tools\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\validation\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\refactoring\\metrics\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\validation\\unified_validation_system.py",
+      "complexity": 1
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\validation\\performance_benchmark\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\vector_strategic_oversight\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\analyzer_orchestrator.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\analyzers\\swarm_analyzer.py",
+      "complexity": 2
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\factories\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\analyzers\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "docs\\archive\\demos\\demo_health_monitoring_system.py",
+      "complexity": 2
+    },
+    {
+      "path": "docs\\archive\\demos\\demo_onboarding_sequence.py",
+      "complexity": 1
+    },
+    {
+      "path": "examples\\quickstart_demo\\dashboard_demo.py",
+      "complexity": 2
+    },
+    {
+      "path": "docs\\archive\\demos\\demo_swarm.py",
+      "complexity": 0
+    },
+    {
+      "path": "examples\\quickstart_demo\\workflow_demo.py",
+      "complexity": 3
+    },
+    {
+      "path": "examples\\quickstart_demo\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "scripts\\execution\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "scripts\\messaging\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "scripts\\utilities\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "scripts\\thea\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "scripts\\thea\\commander_thea_consultation.py",
+      "complexity": 1
     }
   ],
-  "average_complexity": 7.0,
-  "total_files": 12,
+  "average_complexity": 10.888793103448275,
+  "total_files": 1160,
   "complexity_ranges": {
     "simple": [
+      "__init__.py",
+      "run_fresh_scan_direct.py",
+      "run_fresh_scan.py",
+      "trading_robot\\main.py",
+      "trading_robot\\config\\settings.py",
+      "trading_robot\\web\\dashboard.py",
+      "archive\\cleanup_20250912_032500\\broadcast_swarm_activation.py",
+      "archive\\cleanup_20250912_032500\\debug_contracts.py",
+      "archive\\cleanup_20250912_032500\\send_contract_announcement.py",
+      "tests\\__init__.py",
+      "archive\\cleanup_20250912_032500\\send_co_captain_activations.py",
+      "tests\\semantic\\test_status_index.py",
+      "tests\\e2e\\test_complete_user_journey_e2e.py",
+      "tests\\semantic\\test_integration_smoke.py",
+      "tests\\messaging\\test_fallback_delivery.py",
+      "tests\\messaging\\__init__.py",
+      "tests\\e2e\\test_api_integration_workflow_e2e.py",
+      "src\\commandresult.py",
+      "templates\\__init__.py",
+      "src\\agent_registry.py",
+      "src\\__init__.py",
+      "src\\coordinate_agent_registry.py",
+      "src\\swarmstatus.py",
+      "src\\web\\static\\js\\dashboard-data-manager.js",
+      "src\\web\\static\\js\\dashboard-data-operations.js",
+      "src\\web\\static\\js\\agent-coordination-manager.js",
+      "src\\web\\static\\js\\dashboard-error-handler.js",
+      "src\\web\\static\\js\\dashboard-communication.js",
+      "src\\web\\static\\js\\dashboard-config-manager.js",
+      "src\\web\\static\\js\\dashboard-loading-manager.js",
+      "src\\web\\static\\js\\dashboard-initializer.js",
+      "src\\web\\static\\js\\dashboard-state-manager.js",
+      "src\\web\\static\\js\\dashboard-time.js",
+      "src\\web\\static\\js\\dashboard-module-coordinator.js",
+      "src\\web\\static\\js\\dashboard-socket-manager.js",
+      "src\\web\\static\\js\\dashboard-view-renderer.js",
+      "src\\web\\static\\js\\system-integration-core.js",
+      "src\\web\\static\\js\\dashboard-unified.js",
+      "src\\web\\static\\js\\dashboard-ui-helpers.js",
+      "src\\web\\static\\js\\dashboard-navigation.js",
+      "src\\web\\static\\js\\dashboard-core.js",
       "src\\web\\static\\js\\unified-frontend-utilities.js",
+      "src\\web\\static\\js\\services-unified.js",
+      "src\\web\\static\\js\\dashboard-utils.js",
+      "src\\web\\static\\js\\dashboard-main.js",
+      "src\\web\\static\\js\\dashboard-utils-new.js",
+      "src\\web\\static\\js\\dashboard-new.js",
+      "src\\web\\static\\js\\services-performance.js",
+      "src\\web\\static\\js\\services-validation.js",
+      "src\\web\\static\\js\\dashboard-core-consolidated.js",
+      "src\\web\\static\\js\\services-data.js",
+      "src\\web\\static\\js\\services-socket.js",
+      "src\\web\\static\\js\\services-utilities.js",
+      "src\\web\\static\\js\\dashboard.js",
+      "src\\web\\static\\js\\vector-database-consolidated.js",
+      "src\\web\\static\\js\\performance-consolidated.js",
+      "src\\web\\static\\js\\vector-database-ui.js",
+      "src\\web\\static\\js\\architecture-consolidated.js",
+      "src\\web\\static\\js\\vector-database-core.js",
+      "src\\web\\static\\js\\architecture-unified.js",
+      "src\\web\\static\\js\\dashboard-charts.js",
+      "src\\web\\static\\js\\dashboard-alerts.js",
+      "src\\web\\static\\js\\utilities-consolidated.js",
+      "src\\web\\static\\js\\dashboard-view-overview.js",
+      "src\\web\\static\\js\\services-orchestrator.js",
+      "src\\web\\static\\js\\performance-unified.js",
+      "src\\web\\static\\js\\dashboard-view-performance.js",
+      "src\\web\\static\\js\\dashboard-helpers.js",
+      "src\\web\\static\\js\\components.js",
+      "src\\web\\static\\js\\dashboard-views.js",
+      "src\\web\\static\\js\\forms.js",
+      "src\\web\\static\\js\\config.js",
+      "src\\web\\static\\js\\layout.js",
+      "src\\web\\static\\js\\modal.js",
+      "src\\web\\static\\js\\index.js",
+      "src\\web\\static\\js\\ui-components.js",
+      "src\\web\\static\\js\\architecture\\di-container-module.js",
+      "src\\web\\static\\js\\api.js",
+      "src\\web\\static\\js\\enhanced-communication-manager.js",
+      "src\\web\\static\\js\\navigation.js",
+      "src\\web\\static\\js\\architecture\\di-decorators-module.js",
+      "src\\web\\static\\js\\dashboard\\css-class-management-module.js",
+      "src\\web\\static\\js\\architecture\\di-framework-orchestrator.js",
+      "src\\web\\static\\js\\architecture\\dependency-injection-framework.js",
+      "src\\web\\static\\js\\architecture\\architecture-pattern-coordinator.js",
+      "src\\web\\static\\js\\architecture\\pattern-coordination-methods.js",
+      "src\\web\\static\\js\\architecture\\web-service-registry-module.js",
+      "src\\web\\static\\js\\app.js",
+      "src\\web\\static\\js\\core\\dependency-container.js",
+      "src\\web\\static\\js\\dashboard\\date-utils.js",
+      "src\\web\\static\\js\\core\\unified-configuration-system.js",
+      "src\\web\\static\\js\\core\\dependency-analyzer.js",
+      "src\\web\\static\\js\\core\\unified-logging-system.js",
+      "src\\web\\static\\js\\dashboard\\dom-utils-orchestrator.js",
+      "src\\web\\static\\js\\core\\agent-8-ssot-integration.js",
+      "src\\web\\static\\js\\dashboard\\element-creation-module.js",
+      "src\\web\\static\\js\\dashboard\\formatters.js",
+      "src\\web\\static\\js\\dashboard\\dom-utils.js",
+      "src\\web\\static\\js\\dashboard\\style-utils.js",
+      "src\\web\\static\\js\\dashboard\\element-selection-module.js",
+      "src\\web\\static\\js\\dashboard\\dashboard-format-utils.js",
+      "src\\web\\static\\js\\dashboard\\element-visibility-module.js",
+      "src\\web\\static\\js\\dashboard\\dashboard-css-utils.js",
+      "src\\web\\static\\js\\dashboard\\dashboard-dom-utils.js",
+      "src\\web\\static\\js\\dashboard\\dashboard-utils-orchestrator.js",
+      "src\\web\\static\\js\\performance\\bundle-analyzer.js",
+      "src\\web\\static\\js\\dashboard\\dashboard-unified-utils.js",
+      "src\\web\\static\\js\\performance\\frontend-performance-monitor.js",
+      "src\\web\\static\\js\\dashboard\\dashboard-date-utils.js",
+      "src\\web\\static\\js\\performance\\dom-performance-analyzer.js",
+      "src\\web\\static\\js\\performance\\performance-optimization-report.js",
+      "src\\web\\static\\js\\performance\\recommendation-engine.js",
+      "src\\web\\static\\js\\performance\\performance-optimization-orchestrator.js",
+      "src\\web\\static\\js\\services\\agent-coordination-module.js",
+      "src\\web\\static\\js\\repositories\\deployment-repository.js",
+      "src\\web\\static\\js\\services\\business-insights-module.js",
+      "src\\web\\static\\js\\repositories\\dashboard-repository.js",
+      "src\\web\\static\\js\\services\\business-validation-module.js",
+      "src\\web\\static\\js\\services\\component-validation-module.js",
+      "src\\web\\static\\js\\services\\dashboard-init-service.js",
+      "src\\web\\static\\js\\services\\coordination-core-module.js",
+      "src\\web\\static\\js\\services\\coordination-reporting-module.js",
+      "src\\web\\static\\js\\services\\deployment-analysis-methods.js",
+      "src\\web\\static\\js\\services\\metrics-aggregation-module.js",
+      "src\\web\\static\\js\\services\\dashboard-data-service.js",
+      "src\\web\\static\\js\\services\\deployment-coordination-service.js",
+      "src\\web\\static\\js\\services\\performance-analysis-module.js",
+      "src\\web\\static\\js\\services\\deployment-metrics-service.js",
+      "src\\web\\static\\js\\services\\phase-action-methods.js",
+      "src\\web\\static\\js\\services\\deployment-validation-service.js",
+      "src\\web\\static\\js\\services\\deployment-phase-service.js",
+      "src\\web\\static\\js\\services\\performance-configuration-module.js",
+      "src\\web\\static\\js\\services\\performance-recommendation-module.js",
+      "src\\web\\static\\js\\services\\report-history-module.js",
+      "src\\web\\static\\js\\services\\report-generation-module.js",
+      "src\\web\\static\\js\\services\\utility-string-service.js",
+      "src\\web\\static\\js\\services\\scenario-validation-module.js",
+      "src\\web\\static\\js\\services\\rule-evaluation-module.js",
+      "src\\web\\static\\js\\services\\trend-analysis-module.js",
+      "src\\web\\static\\js\\services\\services-dashboard-core.js",
+      "src\\web\\static\\js\\services\\services-performance-core.js",
+      "src\\web\\static\\js\\services\\utility-validation-service.js",
+      "src\\web\\static\\js\\services\\services-coordination-core.js",
+      "src\\web\\static\\js\\services\\socket-event-handlers.js",
+      "src\\web\\static\\js\\services\\utilities\\string-utils.js",
+      "src\\web\\static\\js\\services\\utility-function-service.js",
+      "src\\web\\static\\js\\services\\utilities\\logging-utils.js",
+      "src\\web\\static\\js\\services\\utilities\\math-utils.js",
+      "src\\web\\static\\js\\services\\utilities\\function-utils.js",
+      "src\\web\\static\\js\\trading-robot\\chart-controls-module.js",
+      "src\\web\\static\\js\\trading-robot\\chart-calculation-modules.js",
+      "src\\web\\static\\js\\trading-robot\\chart-data-module.js",
+      "src\\web\\static\\js\\services\\utilities\\data-utils.js",
+      "src\\web\\static\\js\\trading-robot\\app-management-modules.js",
+      "src\\web\\static\\js\\trading-robot\\chart-navigation-module.js",
+      "src\\web\\static\\js\\trading-robot\\chart-drawing-modules.js",
+      "src\\web\\static\\js\\trading-robot\\chart-state-callbacks-module.js",
+      "src\\web\\static\\js\\trading-robot\\chart-state-module.js",
+      "src\\web\\static\\js\\trading-robot\\chart-events.js",
+      "src\\web\\static\\js\\trading-robot\\chart-renderer.js",
+      "src\\web\\static\\js\\trading-robot\\chart-state-core-module.js",
+      "src\\web\\static\\js\\trading-robot\\trading-dashboard.js",
+      "src\\web\\static\\js\\trading-robot\\order-processing-modules.js",
+      "src\\web\\static\\js\\trading-robot\\trading-chart-manager.js",
+      "src\\web\\static\\js\\trading-robot\\trading-portfolio-manager.js",
+      "src\\web\\static\\js\\trading-robot\\order-form-modules.js",
+      "src\\web\\static\\js\\trading-robot\\trading-websocket-manager.js",
+      "src\\web\\static\\js\\trading-robot\\portfolio-management-modules.js",
+      "src\\web\\static\\js\\trading-robot\\trading-order-manager.js",
       "src\\web\\static\\js\\trading-robot\\chart-state-validation-module.js",
-      "src\\services\\quality\\__init__.py",
-      "src\\reporting\\__init__.py",
-      "tests\\messaging\\fixtures\\config.py",
-      "tests\\performance\\__init__.py",
-      "tests\\runners\\config.py",
-      "tests\\infrastructure\\test_infrastructure_config.py",
-      "tests\\messaging\\fixtures\\__init__.py"
+      "src\\web\\static\\js\\trading-robot\\unified-logging-module.js",
+      "src\\web\\static\\js\\trading-robot\\websocket-connection-callbacks.js",
+      "src\\web\\static\\js\\trading-robot\\websocket-callback-manager-module.js",
+      "src\\web\\static\\js\\trading-robot\\websocket-market-data-callbacks.js",
+      "src\\web\\static\\js\\trading-robot\\websocket-connection-module.js",
+      "src\\web\\static\\js\\trading-robot\\websocket-error-callbacks.js",
+      "src\\web\\static\\js\\trading-robot\\websocket-subscription-module.js",
+      "src\\web\\static\\js\\trading-robot\\websocket-message-handler-module.js",
+      "src\\web\\static\\js\\trading-robot\\websocket-order-portfolio-callbacks.js",
+      "src\\web\\static\\js\\trading-robot\\trading-websocket-core.js",
+      "src\\web\\static\\js\\trading-robot\\websocket-subscription-optimized.js",
+      "src\\web\\static\\js\\trading-robot\\trading-chart-core.js",
+      "src\\web\\static\\js\\trading-robot\\chart-validation\\__init__.js",
+      "src\\web\\static\\js\\trading-robot\\chart-validation\\logger.js",
+      "src\\web\\static\\js\\trading-robot\\trading-robot-main.js",
+      "src\\web\\static\\js\\trading-robot\\chart-validation\\module.js",
+      "src\\web\\static\\js\\trading-robot\\trading-order-portfolio-core.js",
+      "src\\web\\static\\js\\utilities\\__init__.js",
+      "src\\web\\static\\js\\utilities\\logging-utils.js",
+      "src\\web\\static\\js\\trading-robot\\chart-validation\\rules.js",
+      "src\\web\\static\\js\\utilities\\dom-utils.js",
+      "src\\web\\static\\js\\utilities\\string-utils.js",
+      "src\\web\\static\\js\\utilities\\array-utils.js",
+      "src\\web\\static\\js\\utilities\\unified-utilities.js",
+      "src\\web\\static\\js\\validation\\form-validation-module.js",
+      "src\\web\\static\\js\\validation\\data-validation-module.js",
+      "src\\web\\static\\js\\utilities\\time-utils.js",
+      "src\\web\\static\\js\\validation\\unified-validation-system.js",
+      "src\\web\\static\\js\\vector-database\\core.js",
+      "src\\web\\static\\js\\vector-database\\ui-common.js",
+      "src\\web\\static\\js\\validation\\field-validation-module.js",
+      "src\\web\\static\\js\\vector-database\\manager.js",
+      "src\\web\\static\\js\\vector-database\\__init__.js",
+      "src\\web\\static\\js\\vector-database\\ui.js",
+      "src\\web\\static\\js\\components\\dashboard.js",
+      "src\\web\\static\\js\\vector-database\\search.js",
+      "src\\web\\static\\js\\vector-database\\ui-optimized.js",
+      "src\\web\\static\\js\\vector-database\\analytics.js",
+      "src\\web\\static\\js\\components\\navigation.js",
+      "src\\web\\frontend\\__init__.py",
+      "src\\web\\frontend\\settings.py",
+      "src\\web\\vector_database\\__init__.py",
+      "src\\web\\vector_database\\analytics_utils.py",
+      "src\\web\\vector_database\\error_handler_middleware.py",
+      "src\\web\\vector_database\\collection_utils.py",
+      "src\\services\\consolidated_onboarding_service.py",
+      "src\\services\\advanced_analytics_service.py",
+      "src\\services\\constants.py",
+      "src\\services\\coordination\\__init__.py",
+      "src\\services\\handlers\\__init__.py",
+      "src\\services\\models\\__init__.py",
+      "src\\services\\protocol\\routers\\__init__.py",
+      "src\\services\\utils\\agent_utils_registry.py",
+      "src\\services\\protocol\\__init__.py",
+      "src\\services\\utils\\__init__.py",
+      "src\\services\\vector_database\\status_indexer.py",
+      "src\\services\\utils\\vector_config_utils.py",
+      "src\\services\\vector_database\\__init__.py",
+      "src\\services\\thea\\__init__.py",
+      "src\\services\\thea\\core\\__init__.py",
+      "src\\services\\thea\\authentication\\__init__.py",
+      "src\\services\\thea\\messaging\\__init__.py",
+      "src\\services\\thea\\browser\\__init__.py",
+      "src\\services\\thea\\responses\\__init__.py",
+      "src\\services\\thea\\config\\__init__.py",
+      "src\\services\\thea\\commander\\__init__.py",
+      "src\\services\\messaging\\onboarding_bridge.py",
+      "src\\services\\messaging\\__init__.py",
+      "src\\services\\messaging\\broadcast.py",
+      "src\\services\\messaging\\models.py",
+      "src\\services\\messaging\\history.py",
+      "src\\services\\messaging\\delivery\\__init__.py",
+      "src\\services\\messaging\\task_handlers.py",
+      "src\\services\\messaging\\cli.py",
+      "src\\services\\messaging\\delivery\\fallback.py",
+      "src\\services\\messaging\\thea_handlers.py",
+      "src\\services\\messaging\\delivery\\inbox_delivery.py",
+      "src\\services\\messaging\\models\\messaging_enums.py",
+      "src\\services\\messaging\\delivery\\pyautogui_delivery.py",
+      "src\\services\\messaging\\models\\__init__.py",
+      "src\\services\\messaging\\interfaces\\__init__.py",
+      "src\\services\\messaging\\providers\\__init__.py",
+      "src\\services\\messaging\\providers\\fallback_provider\\__init__.py",
+      "src\\services\\messaging\\cli\\__init__.py",
+      "src\\services\\messaging\\broadcast_service\\__init__.py",
+      "src\\services\\messaging\\cli\\perf_cli\\__init__.py",
+      "src\\services\\analytics\\__init__.py",
+      "src\\services\\messaging\\history_service\\__init__.py",
+      "src\\core\\__init__.py",
+      "src\\core\\consolidation\\utility_consolidation\\__init__.py",
+      "src\\core\\constants\\fsm.py",
+      "src\\core\\constants\\fsm_models.py",
+      "src\\core\\constants\\__init__.py",
+      "src\\core\\constants\\fsm\\__init__.py",
+      "src\\core\\coordination\\__init__.py",
+      "src\\core\\coordination\\swarm\\__init__.py",
+      "src\\core\\coordination\\swarm\\engines\\__init__.py",
+      "src\\core\\coordination\\swarm\\orchestrators\\__init__.py",
+      "src\\core\\data_optimization\\__init__.py",
+      "src\\core\\import_system\\__init__.py",
+      "src\\core\\ssot\\__init__.py",
+      "src\\core\\ssot\\unified_ssot\\__init__.py",
+      "src\\core\\ssot\\unified_ssot\\execution\\__init__.py",
+      "src\\core\\utils\\__init__.py",
+      "src\\core\\ssot\\unified_ssot\\validators\\__init__.py",
+      "src\\core\\semantic\\utils.py",
+      "src\\core\\semantic\\__init__.py",
+      "src\\core\\semantic\\status_cli.py",
+      "src\\core\\performance\\__init__.py",
+      "src\\core\\performance\\models\\__init__.py",
+      "src\\core\\deployment\\models\\__init__.py",
+      "src\\core\\messaging\\__init__.py",
+      "src\\core\\backup\\alerts\\__init__.py",
+      "src\\core\\messaging\\health_check.py",
+      "src\\core\\backup\\__init__.py",
+      "src\\core\\backup\\database\\__init__.py",
+      "src\\application\\use_cases\\assign_task_uc.py",
+      "src\\application\\use_cases\\complete_task_uc.py",
+      "src\\core\\backup\\models\\__init__.py",
+      "src\\application\\__init__.py",
+      "src\\application\\use_cases\\__init__.py",
+      "src\\architecture\\__init__.py",
+      "src\\automation\\__init__.py",
+      "src\\config\\ssot.py",
+      "src\\config\\__init__.py",
+      "src\\config\\settings.py",
+      "src\\discord_commander\\guards.py",
+      "src\\discord_commander\\agent_communication_engine_refactored.py",
+      "src\\discord_commander\\rate_limits.py",
+      "src\\discord_commander\\__init__.py",
+      "src\\discord_commander\\structured_logging.py",
+      "src\\discord_commander\\security_policies.py",
+      "src\\discord_commander\\agent_communication_engine_operations.py",
+      "src\\core\\backup_disaster_recovery\\__init__.py",
+      "src\\discord_commander\\discord_agent_bot.py",
+      "src\\discord_commander\\handlers_agent_summary.py",
+      "src\\discord_commander\\discord_command_handlers.py",
+      "src\\discord_commander\\discord_dynamic_agent_commands.py",
+      "src\\discord_commander\\messaging_gateway\\__init__.py",
+      "src\\discord_commander\\webhook\\__init__.py",
+      "src\\discord_commander\\communication_engine\\__init__.py",
+      "src\\domain\\__init__.py",
+      "src\\domain\\entities\\__init__.py",
+      "src\\domain\\ports\\__init__.py",
+      "src\\domain\\services\\__init__.py",
+      "src\\gaming\\performance_validation.py",
+      "src\\domain\\value_objects\\__init__.py",
+      "src\\gaming\\__init__.py",
+      "src\\gaming\\models\\gaming_alert_models.py",
+      "src\\gaming\\handlers\\gaming_alert_handlers.py",
+      "src\\gaming\\models\\gaming_models.py",
+      "src\\gaming\\handlers\\__init__.py",
+      "src\\gaming\\integration\\__init__.py",
+      "src\\gaming\\models\\__init__.py",
+      "src\\gaming\\integration\\models.py",
+      "src\\gaming\\utils\\__init__.py",
+      "src\\gaming\\utils\\gaming_alert_utils.py",
+      "src\\infrastructure\\__init__.py",
+      "src\\infrastructure\\browser\\__init__.py",
+      "src\\infrastructure\\browser\\thea_manager_profile.py",
+      "src\\infrastructure\\browser\\thea_modules\\__init__.py",
+      "src\\infrastructure\\logging\\__init__.py",
+      "src\\infrastructure\\persistence\\__init__.py",
+      "src\\quality\\proof_ledger.py",
+      "src\\quality\\__init__.py",
+      "src\\trading_robot\\repositories\\trading_repository.py",
+      "src\\trading_robot\\core\\__init__.py",
+      "src\\infrastructure\\time\\__init__.py",
+      "src\\trading_robot\\repositories\\__init__.py",
+      "src\\trading_robot\\repositories\\implementations\\__init__.py",
+      "src\\trading_robot\\repositories\\interfaces\\portfolio_repository_interface.py",
+      "src\\trading_robot\\repositories\\implementations\\in_memory_trading_repository.py",
+      "src\\trading_robot\\repositories\\implementations\\trading_repository_impl.py",
+      "src\\trading_robot\\repositories\\interfaces\\position_repository_interface.py",
+      "src\\trading_robot\\services\\trading_service.py",
+      "src\\trading_robot\\repositories\\interfaces\\trading_repository_interface.py",
+      "src\\trading_robot\\services\\__init__.py",
+      "src\\trading_robot\\repositories\\interfaces\\__init__.py",
+      "src\\trading_robot\\services\\trading_bi_analytics.py",
+      "src\\trading_robot\\repositories\\models\\__init__.py",
+      "src\\trading_robot\\services\\analytics\\__init__.py",
+      "src\\trading_robot\\services\\analytics\\trading_bi_orchestrator.py",
+      "src\\trading_robot\\services\\analytics\\trading_bi_models.py",
+      "src\\utils\\confirm.py",
+      "src\\onboarding\\__init__.py",
+      "src\\onboarding\\onboarding_bridge\\__init__.py",
+      "src\\utils\\__init__.py",
+      "tools\\__init__.py",
+      "tools\\generate_utils_catalog.py",
+      "tools\\run_project_scan.py",
+      "tools\\check_snapshot_up_to_date.py",
+      "tools\\codemods\\__init__.py",
+      "tools\\codemods\\migrate_orchestrators.py",
+      "docs\\archive\\consolidated_files\\deployment\\models\\config_models.py",
+      "docs\\archive\\consolidated_files\\deployment\\__init__.py",
+      "docs\\archive\\consolidated_files\\deployment\\coordinators\\__init__.py",
+      "docs\\archive\\consolidated_files\\deployment\\models\\__init__.py",
+      "docs\\archive\\consolidated_files\\deployment\\models\\enums.py",
+      "docs\\archive\\consolidated_files\\deployment\\engines\\__init__.py",
+      "docs\\archive\\consolidated_files\\agent_communication\\__init__.py",
+      "docs\\archive\\consolidated_files\\analytics\\__init__.py",
+      "docs\\archive\\consolidated_files\\agent_communication\\agent_communication_engine_operations.py",
+      "docs\\archive\\consolidated_files\\analytics\\coordinators\\__init__.py",
+      "docs\\archive\\consolidated_files\\analytics\\engines\\__init__.py",
+      "docs\\archive\\consolidated_files\\analytics\\intelligence\\__init__.py",
+      "docs\\archive\\consolidated_files\\analytics\\intelligence\\business_intelligence_engine.py",
+      "docs\\archive\\consolidated_files\\analytics\\interfaces\\__init__.py",
+      "docs\\archive\\consolidated_files\\analytics\\intelligence\\pattern_analysis\\__init__.py",
+      "docs\\archive\\consolidated_files\\analytics\\models\\__init__.py",
+      "docs\\archive\\consolidated_files\\analytics\\orchestrators\\__init__.py",
+      "docs\\archive\\consolidated_files\\analytics\\models\\analytics_models.py",
+      "docs\\archive\\consolidated_files\\analytics\\models\\analytics_enums.py",
+      "docs\\archive\\consolidated_files\\analytics\\processors\\prediction\\__init__.py",
+      "docs\\archive\\consolidated_files\\analytics\\prediction\\__init__.py",
+      "docs\\archive\\consolidated_files\\analytics\\processors\\__init__.py",
+      "docs\\archive\\consolidated_files\\dry_eliminator\\dry_eliminator_enums.py",
+      "docs\\archive\\consolidated_files\\dry_eliminator\\dry_elimination_engine.py",
+      "docs\\archive\\consolidated_files\\dry_eliminator\\__init__.py",
+      "docs\\archive\\consolidated_files\\dry_eliminator\\engines\\__init__.py",
+      "docs\\archive\\consolidated_files\\dry_eliminator\\dry_eliminator_models.py",
+      "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\__init__.py",
+      "docs\\archive\\consolidated_files\\dry_eliminator\\orchestrators\\__init__.py",
+      "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\models_enums.py",
+      "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\protocols.py",
+      "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\engines\\__init__.py",
+      "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\models_metrics.py",
+      "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\handlers\\__init__.py",
+      "docs\\archive\\consolidated_files\\engines\\__init__.py",
+      "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\orchestrators\\__init__.py",
+      "docs\\archive\\consolidated_files\\enhanced_integration\\engines\\__init__.py",
+      "docs\\archive\\consolidated_files\\enhanced_integration\\coordinators\\__init__.py",
+      "docs\\archive\\consolidated_files\\enhanced_integration\\orchestrators\\coordination_engine.py",
+      "docs\\archive\\consolidated_files\\enhanced_integration\\orchestrators\\__init__.py",
+      "docs\\archive\\consolidated_files\\enhanced_integration\\orchestrators\\coordination_engine_refactored.py",
+      "docs\\archive\\consolidated_files\\error_handling\\__init__.py",
+      "docs\\archive\\consolidated_files\\error_handling\\circuit_breaker\\__init__.py",
+      "docs\\archive\\consolidated_files\\file_locking\\__init__.py",
+      "docs\\archive\\consolidated_files\\error_handling\\metrics\\__init__.py",
+      "docs\\archive\\consolidated_files\\file_locking\\operations\\__init__.py",
+      "docs\\archive\\consolidated_files\\integration\\analytics\\__init__.py",
+      "docs\\archive\\consolidated_files\\integration_coordinators\\__init__.py",
+      "docs\\archive\\consolidated_files\\integration\\models\\__init__.py",
+      "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\monitor_models.py",
+      "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\__init__.py",
+      "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\coordinators\\__init__.py",
+      "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\models\\__init__.py",
+      "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\monitors\\__init__.py",
+      "docs\\archive\\consolidated_files\\intelligent_context\\__init__.py",
+      "docs\\archive\\consolidated_files\\intelligent_context\\intelligent_context_optimization_models.py",
+      "docs\\archive\\consolidated_files\\intelligent_context\\core\\__init__.py",
+      "docs\\archive\\consolidated_files\\intelligent_context\\unified_intelligent_context\\__init__.py",
+      "docs\\archive\\consolidated_files\\intelligent_context\\engines\\__init__.py",
+      "docs\\archive\\consolidated_files\\intelligent_context\\intelligent_context_orchestrator.py",
+      "docs\\archive\\consolidated_files\\intelligent_context\\unified_intelligent_context\\engine_search.py",
+      "docs\\archive\\consolidated_files\\managers\\__init__.py",
+      "docs\\archive\\consolidated_files\\managers\\monitoring\\__init__.py",
+      "docs\\archive\\consolidated_files\\managers\\core_service_manager.py",
+      "docs\\archive\\consolidated_files\\managers\\execution\\__init__.py",
+      "docs\\archive\\consolidated_files\\managers\\results\\__init__.py",
+      "docs\\archive\\consolidated_files\\managers\\adapters\\__init__.py",
+      "docs\\archive\\consolidated_files\\managers\\results\\validation_results_processor.py",
+      "docs\\archive\\consolidated_files\\managers\\results\\analysis_results_processor.py",
+      "docs\\archive\\consolidated_files\\orchestration\\__init__.py",
+      "docs\\archive\\consolidated_files\\orchestration\\adapters\\__init__.py",
+      "docs\\archive\\consolidated_files\\performance\\__init__.py",
+      "docs\\archive\\consolidated_files\\pattern_analysis\\__init__.py",
+      "docs\\archive\\consolidated_files\\pattern_analysis\\unified_pattern_analysis\\__init__.py",
+      "docs\\archive\\consolidated_files\\pattern_analysis\\pattern_analysis_models.py",
+      "docs\\archive\\consolidated_files\\performance\\performance_cli.py",
+      "docs\\archive\\consolidated_files\\performance\\metrics\\__init__.py",
+      "docs\\archive\\consolidated_files\\performance\\performance_dashboard.py",
+      "docs\\archive\\consolidated_files\\performance\\unified_dashboard\\__init__.py",
+      "docs\\archive\\consolidated_files\\performance\\metrics\\types.py",
+      "docs\\archive\\consolidated_files\\performance\\performance_decorators.py",
+      "docs\\archive\\consolidated_files\\refactoring\\__init__.py",
+      "docs\\archive\\consolidated_files\\refactoring\\analysis_tools.py",
+      "docs\\archive\\consolidated_files\\refactoring\\analysis_tools_models.py",
+      "docs\\archive\\consolidated_files\\refactoring\\file_analysis.py",
+      "docs\\archive\\consolidated_files\\refactoring\\duplicate_analysis.py",
+      "docs\\archive\\consolidated_files\\refactoring\\toolkit.py",
+      "docs\\archive\\consolidated_files\\refactoring\\tools\\__init__.py",
+      "docs\\archive\\consolidated_files\\validation\\__init__.py",
+      "docs\\archive\\consolidated_files\\refactoring\\metrics\\__init__.py",
+      "docs\\archive\\consolidated_files\\validation\\unified_validation_system.py",
+      "docs\\archive\\consolidated_files\\validation\\performance_benchmark\\__init__.py",
+      "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\__init__.py",
+      "docs\\archive\\consolidated_files\\vector_strategic_oversight\\__init__.py",
+      "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\analyzer_orchestrator.py",
+      "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\analyzers\\swarm_analyzer.py",
+      "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\factories\\__init__.py",
+      "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\analyzers\\__init__.py",
+      "docs\\archive\\demos\\demo_health_monitoring_system.py",
+      "docs\\archive\\demos\\demo_onboarding_sequence.py",
+      "examples\\quickstart_demo\\dashboard_demo.py",
+      "docs\\archive\\demos\\demo_swarm.py",
+      "examples\\quickstart_demo\\workflow_demo.py",
+      "examples\\quickstart_demo\\__init__.py",
+      "scripts\\execution\\__init__.py",
+      "scripts\\messaging\\__init__.py",
+      "scripts\\utilities\\__init__.py",
+      "scripts\\enforce_python_standards.py",
+      "scripts\\thea\\__init__.py",
+      "scripts\\thea\\commander_thea_consultation.py"
     ],
     "moderate": [
-      "src\\services\\cursor_db.py"
+      "super_demo_simple.py",
+      "trading_robot\\project_completion.py",
+      "contracts\\contract_notification_system.py",
+      "contracts\\create_contract.py",
+      "trading_robot\\core\\trading_engine.py",
+      "trading_robot\\execution\\live_executor.py",
+      "archive\\cleanup_20250912_032500\\swarm_testing_revolution.py",
+      "consolidation_tasks\\agent2_service_simplification.py",
+      "tests\\agent2_critical_issue_solutions.py",
+      "tests\\coverage_dashboard.py",
+      "tests\\test_chrome_undetected.py",
+      "tests\\run_architectural_tests_standalone.py",
+      "tests\\test_infrastructure_monitoring_integration.py",
+      "tests\\test_metrics.py",
+      "tests\\test_std_logger.py",
+      "tests\\test_browser_ops.py",
+      "tests\\test_profile.py",
+      "tests\\test_content_scraper.py",
+      "tests\\test_optimized_sqlite_task_repo.py",
+      "tests\\test_sqlite_task_repo.py",
+      "tests\\test_response_collector.py",
+      "tests\\test_thea_cookie_manager.py",
+      "tests\\test_sqlite_agent_repo.py",
+      "tests\\test_thea_login_handler.py",
+      "tests\\test_system_clock.py",
+      "tests\\test_unified_persistence.py",
+      "tests\\test_unified_browser_service.py",
+      "tests\\test_thea_manager_profile.py",
+      "tests\\test_unified_logging_time.py",
+      "tests\\test_thea_session_manager.py",
+      "tests\\integration\\test_agent_vector_integration.py",
+      "tests\\integration\\test_agent_assignment_manager.py",
+      "tests\\integration\\test_advanced_analytics_service.py",
+      "tests\\integration\\test_agent_utils_registry.py",
+      "tests\\integration\\test_agent_vector_utils.py",
+      "tests\\integration\\test_agent_status_manager.py",
+      "tests\\integration\\test_agent_vector_integration_operations.py",
+      "tests\\integration\\test_agent_vector_integration_core.py",
+      "tests\\integration\\test_architectural_onboarding.py",
+      "tests\\integration\\test_automated_reporting.py",
+      "tests\\integration\\test_cli.py",
+      "tests\\integration\\test_architectural_principles.py",
+      "tests\\integration\\test_command_handler.py",
+      "tests\\integration\\test_architectural_models.py",
+      "tests\\integration\\test_command_handler_module.py",
+      "tests\\integration\\test_bulk_coordinator.py",
+      "tests\\integration\\test_consolidated_agent_management_service.py",
+      "tests\\integration\\test_broadcast.py",
+      "tests\\integration\\test_config.py",
+      "tests\\integration\\test_compliance_validator.py",
+      "tests\\integration\\test_consolidated_handler_service.py",
+      "tests\\integration\\test_consolidated_architectural_service.py",
+      "tests\\integration\\test_consolidated_debate_service.py",
+      "tests\\integration\\test_consolidated_miscellaneous_service.py",
+      "tests\\integration\\test_consolidated_analytics_service.py",
+      "tests\\integration\\test_consolidated_onboarding_service.py",
+      "tests\\integration\\test_coordinate_handler.py",
+      "tests\\integration\\test_consolidated_utility_service.py",
+      "tests\\integration\\test_constants.py",
+      "tests\\integration\\test_coordinate_handler_module.py",
+      "tests\\integration\\test_coordinator.py",
+      "tests\\integration\\test_cursor_db.py",
+      "tests\\integration\\test_deliveryautogui_delivery.py",
+      "tests\\integration\\test_embedding_service.py",
+      "tests\\integration\\test_messaging_cli_refactored.py",
+      "tests\\integration\\test_handlers_orchestrator.py",
+      "tests\\integration\\test_fallback.py",
+      "tests\\integration\\test_coordinates.py",
+      "tests\\integration\\test_messaging_enums.py",
+      "tests\\integration\\test_message_identity_clarification.py",
+      "tests\\integration\\test_history.py",
+      "tests\\integration\\test_inbox_delivery.py",
+      "tests\\integration\\test_learning_recommender.py",
+      "tests\\integration\\test_messaging_performance_monitor.py",
+      "tests\\integration\\test_messaging_interfaces.py",
+      "tests\\integration\\test_messaging_cli.py",
+      "tests\\integration\\test_messaging_models.py",
+      "tests\\integration\\test_onboarding_handler_module.py",
+      "tests\\integration\\test_onboarding_bridge.py",
+      "tests\\integration\\test_performance_analyzer.py",
+      "tests\\integration\\test_onboarding_message_generator.py",
+      "tests\\integration\\test_metrics_collector.py",
+      "tests\\integration\\test_performance_dashboard.py",
+      "tests\\integration\\test_recommendation_engine.py",
+      "tests\\integration\\test_onboarding_handler.py",
+      "tests\\integration\\test_role_command_handler.py",
+      "tests\\integration\\test_providersautogui_delivery.py",
+      "tests\\integration\\test_overnight_command_handler.py",
+      "tests\\integration\\test_simple_onboarding.py",
+      "tests\\integration\\test_route_analyzer.py",
+      "tests\\integration\\test_service.py",
+      "tests\\integration\\test_thea_authentication_service.py",
+      "tests\\integration\\test_strategy_coordinator.py",
+      "tests\\integration\\test_status_indexer.py",
+      "tests\\integration\\test_task_handlers.py",
+      "tests\\integration\\test_thea_browser_service.py",
+      "tests\\integration\\test_status_embedding_indexer.py",
+      "tests\\integration\\test_stats_tracker.py",
+      "tests\\integration\\test_task_context_manager.py",
+      "tests\\integration\\test_thea_communication_manager.py",
+      "tests\\integration\\test_thea_config.py",
+      "tests\\integration\\test_thea_handlers.py",
+      "tests\\integration\\test_unified_handlers.py",
+      "tests\\integration\\test_swarm_intelligence_manager.py",
+      "tests\\integration\\test_thea_response_service.py",
+      "tests\\integration\\test_utility_handler_module.py",
+      "tests\\integration\\test_thea_messaging_service.py",
+      "tests\\integration\\test_vector_database_engine.py",
+      "tests\\integration\\test_vector_config_utils.py",
+      "tests\\integration\\test_usage_analytics.py",
+      "tests\\integration\\test_unified_vector_integration.py",
+      "tests\\integration\\test_unified_database_services.py",
+      "tests\\integration\\test_vector_database_models.py",
+      "tests\\integration\\test_work_indexer.py",
+      "tests\\integration\\test_vector_models.py",
+      "tests\\operational\\__init__.py",
+      "tests\\integration\\test_utility_handler.py",
+      "tests\\integration\\test_vector_database_orchestrator.py",
+      "tests\\unit\\test_agent_docs_integration.py",
+      "tests\\unit\\test_agent_context_manager.py",
+      "tests\\unit\\test_agent_coordination.py",
+      "tests\\unit\\test_agent_matching.py",
+      "tests\\unit\\test_agent_documentation_service.py",
+      "tests\\unit\\test_analytics_unified.py",
+      "tests\\unit\\test_agent_strategies.py",
+      "tests\\unit\\test_aggressive_lazy_loader.py",
+      "tests\\unit\\test_backup_cli.py",
+      "tests\\unit\\test_automated_health_check_system.py",
+      "tests\\unit\\test_backup_database.py",
+      "tests\\unit\\test_backup_monitoring_orchestrator.py",
+      "tests\\unit\\test_backup_monitoring.py",
+      "tests\\unit\\test_base.py",
+      "tests\\unit\\test_backup_enums.py",
+      "tests\\unit\\test_backup_scheduler.py",
+      "tests\\unit\\test_basic_validator.py",
+      "tests\\unit\\test_backup_models.py",
+      "tests\\unit\\test_backup_system_core.py",
+      "tests\\unit\\test_backup_alert_system.py",
+      "tests\\unit\\test_config_models.py",
+      "tests\\unit\\test_configuration_models.py",
+      "tests\\unit\\test_config_monitor.py",
+      "tests\\unit\\test_consolidated_coordinator.py",
+      "tests\\unit\\test_coordinate_loader.py",
+      "tests\\unit\\test_consolidated_communication.py",
+      "tests\\unit\\test_coordination_utils.py",
+      "tests\\unit\\test_business_continuity_planner.py",
+      "tests\\unit\\test_consolidated_configuration.py",
+      "tests\\unit\\test_core_unified_system.py",
+      "tests\\unit\\test_coordination_models.py",
+      "tests\\unit\\test_data_models.py",
+      "tests\\unit\\test_coordinator_registry.py",
+      "tests\\unit\\test_decision.py",
+      "tests\\unit\\test_coordinator_status_parser.py",
+      "tests\\unit\\test_core_manager_system.py",
+      "tests\\unit\\test_core_interfaces.py",
+      "tests\\unit\\test_data_optimization_engine.py",
+      "tests\\unit\\test_core_validation.py",
+      "tests\\unit\\test_core_utilities.py",
+      "tests\\unit\\test_deployment_orchestrator_engine.py",
+      "tests\\unit\\test_data_optimization_models.py",
+      "tests\\unit\\test_deployment_coordinator.py",
+      "tests\\unit\\test_documentation_search_service.py",
+      "tests\\unit\\test_documentation_indexing_service.py",
+      "tests\\unit\\test_enums.py",
+      "tests\\unit\\test_embeddings.py",
+      "tests\\unit\\test_emergency_unified.py",
+      "tests\\unit\\test_data_optimization_orchestrator.py",
+      "tests\\unit\\test_engines_unified.py",
+      "tests\\unit\\test_env_loader.py",
+      "tests\\unit\\test_execution_manager.py",
+      "tests\\unit\\test_fsm_enums.py",
+      "tests\\unit\\test_fsm_models.py",
+      "tests\\unit\\test_factory_functions.py",
+      "tests\\unit\\test_health_dashboard.py",
+      "tests\\unit\\test_fsm_utilities.py",
+      "tests\\unit\\test_fsm_constants.py",
+      "tests\\unit\\test_fsm.py",
+      "tests\\unit\\test_error_handling_unified.py",
+      "tests\\unit\\test_integration_unified.py",
+      "tests\\unit\\test_import_registry.py",
+      "tests\\unit\\test_health_monitoring_service.py",
+      "tests\\unit\\test_import_core.py",
+      "tests\\unit\\test_manager.py",
+      "tests\\unit\\test_health_alerting.py",
+      "tests\\unit\\test_health_monitoring_system.py",
+      "tests\\unit\\test_import_utilities.py",
+      "tests\\unit\\test_message_queue_utils.py",
+      "tests\\unit\\test_lazy_loader.py",
+      "tests\\unit\\test_managers_unified.py",
+      "tests\\unit\\test_metrics.py",
+      "tests\\unit\\test_paths.py",
+      "tests\\unit\\test_performance_models.py",
+      "tests\\unit\\test_performance_monitor.py",
+      "tests\\unit\\test_onboarding_service.py",
+      "tests\\unit\\test_performance_enums.py",
+      "tests\\unit\\test_performance_metrics_collector.py",
+      "tests\\unit\\test_performance_orchestrator.py",
+      "tests\\unit\\test_performance_unified.py",
+      "tests\\unit\\test_operational_monitoring_baseline.py",
+      "tests\\unit\\test_quality_gates.py",
+      "tests\\unit\\test_performance_monitoring_engine.py",
+      "tests\\unit\\test_performance_monitoring_dashboard.py",
+      "tests\\unit\\test_resource_manager.py",
+      "tests\\unit\\test_quality_assurance_system.py",
+      "tests\\unit\\test_search_history_service.py",
+      "tests\\unit\\test_router_hooks.py",
+      "tests\\unit\\test_ssot_models.py",
+      "tests\\unit\\test_semantic_router.py",
+      "tests\\unit\\test_shared_utilities.py",
+      "tests\\unit\\test_ssot_unified.py",
+      "tests\\unit\\test_refactoring_unified.py",
+      "tests\\unit\\test_state_models.py",
+      "tests\\unit\\test_simple_utils.py",
+      "tests\\unit\\test_standard_validator.py",
+      "tests\\unit\\test_swarm_coordination.py",
+      "tests\\unit\\test_status_cli.py",
+      "tests\\unit\\test_strict_validator.py",
+      "tests\\unit\\test_transition_models.py",
+      "tests\\unit\\test_swarm_coordination_orchestrator.py",
+      "tests\\unit\\test_unified_core_interfaces.py",
+      "tests\\unit\\test_swarm_communication_coordinator.py",
+      "tests\\unit\\test_task_executor.py",
+      "tests\\unit\\test_task_coordination_engine.py",
+      "tests\\unit\\test_unified_import_system.py",
+      "tests\\unit\\test_unified_data_processing_system.py",
+      "tests\\unit\\test_unified_logging_system_engine.py",
+      "tests\\unit\\test_utility_consolidation_engine.py",
+      "tests\\unit\\test_utility_consolidation_models.py",
+      "tests\\unit\\test_utility_consolidation_orchestrator.py",
+      "tests\\unit\\test_unified_logging_system.py",
+      "tests\\unit\\test_unified_monitoring_coordinator.py",
+      "tests\\unit\\test_unified_progress_tracking.py",
+      "tests\\unit\\test_unified_logging_system_models.py",
+      "tests\\unit\\test_v2_compliance_executor.py",
+      "tests\\unit\\test_utils.py",
+      "tests\\unit\\test_vector_database.py",
+      "tests\\unit\\test_vector_unified.py",
+      "tests\\unit\\test_validation_unified.py",
+      "tests\\unit\\test_workspace_agent_registry.py",
+      "tests\\unit\\test_vector_integration_analytics.py",
+      "tests\\unit\\test_vector_store.py",
+      "tests\\e2e\\test_collection_utils.py",
+      "tests\\e2e\\test_analytics_utils.py",
+      "tests\\automation\\test_ui_onboarding.py",
+      "tests\\e2e\\test_analytics_dashboard.py",
+      "tests\\e2e\\test_error_handler_middleware.py",
+      "tests\\e2e\\test_messaging_performance_dashboard.py",
+      "tests\\e2e\\test_document_utils.py",
+      "tests\\e2e\\test_request_handler_middleware.py",
+      "tests\\e2e\\test_middleware.py",
+      "tests\\e2e\\test_swarm_monitoring_dashboard.py",
+      "tests\\e2e\\test_response_handler_middleware.py",
+      "tests\\e2e\\test_settings.py",
+      "tests\\e2e\\test_validation_middleware.py",
+      "tests\\e2e\\test_simple_monitoring_dashboard.py",
+      "tests\\e2e\\test_routes.py",
+      "tests\\e2e\\test_search_utils.py",
+      "tests\\functional\\test_agent_cycle.py",
+      "tests\\functional\\test_activate_vector_database_integration.py",
+      "tests\\functional\\test_analysis_cli.py",
+      "tests\\functional\\test_agent_documentation_cli.py",
+      "tests\\functional\\test_auto_remediate_loc.py",
+      "tests\\functional\\test_audit_cleanup.py",
+      "tests\\functional\\test_broadcast_contract_announcement.py",
+      "tests\\functional\\test_broadcast_advanced_contracts.py",
+      "tests\\functional\\test_agent_checkin.py",
+      "tests\\functional\\test_analytics_cli.py",
+      "tests\\functional\\test_captain_snapshot.py",
+      "tests\\functional\\test_agent_onboarding.py",
+      "tests\\functional\\test_check_snapshot_up_to_date.py",
+      "tests\\functional\\test_consolidated_messaging.py",
+      "tests\\functional\\test_cleanup_v2_compliance.py",
+      "tests\\functional\\test_demo_semantic.py",
+      "tests\\functional\\test_cleanup_overnight_sequence.py",
+      "tests\\functional\\test_dup_scan.py",
+      "tests\\functional\\test_competitive_progress_reporter.py",
+      "tests\\functional\\test_configure_discord_webhooks.py",
+      "tests\\functional\\test_execute_ssot_integration.py",
+      "tests\\functional\\test_enforce_python_standards.py",
+      "tests\\functional\\test_duplication_analyzer.py",
+      "tests\\functional\\test_fix_and_ingest_vector_database.py",
+      "tests\\functional\\test_generate_utils_catalog.py",
+      "tests\\functional\\test_find_large_files.py",
+      "tests\\functional\\test_double_check_protocols.py",
+      "tests\\functional\\test_functionality_verification.py",
+      "tests\\functional\\test_index_v2_refactoring.py",
+      "tests\\functional\\test_ingest_statuses.py",
+      "tests\\functional\\test_messaging_performance_cli.py",
+      "tests\\functional\\test_migrate_managers.py",
+      "tests\\functional\\test_setup_discord_bot.py",
+      "tests\\functional\\test_replace_prints_with_logger.py",
+      "tests\\functional\\test_projectscanner.py",
+      "tests\\functional\\test_run_admin_commander.py",
+      "tests\\functional\\test_run_project_scan.py",
+      "tests\\functional\\test_send_devlog_unified.py",
+      "tests\\functional\\test_run_discord_bot.py",
+      "tests\\functional\\test_run_discord_agent_bot.py",
+      "tests\\functional\\test_setup_enhanced_discord.py",
+      "tests\\functional\\test_migrate_orchestrators.py",
+      "tests\\functional\\test_triple_check_protocols.py",
+      "tests\\functional\\test_status_embedding_refresh.py",
+      "tests\\functional\\test_validate_workspace_coords.py",
+      "tests\\functional\\test_v2_release_summary.py",
+      "tests\\functional\\test_terminal_completion_monitor.py",
+      "templates\\onboarding_roles.py",
+      "src\\web\\vector_database\\document_utils.py",
+      "src\\services\\__init__.py",
+      "src\\services\\consolidated_handler_service.py",
+      "src\\services\\consolidated_messaging_service.py",
+      "src\\services\\thea\\config\\thea_config.py",
+      "src\\services\\messaging\\service.py",
+      "src\\services\\messaging\\coordinates.py",
+      "src\\services\\messaging\\models\\messaging_models.py",
+      "src\\services\\messaging\\cli\\messaging_cli_clean.py",
+      "src\\core\\error_handling_examples.py",
+      "src\\core\\consolidation\\base.py",
+      "src\\core\\semantic\\status_index.py",
+      "src\\core\\deployment\\models\\factory_functions.py",
+      "src\\core\\messaging\\registry_loader.py",
+      "src\\architecture\\design_patterns.py",
+      "src\\architecture\\system_integration.py",
+      "src\\architecture\\unified_architecture_core.py",
+      "src\\discord_commander\\agent_communication_engine_base.py",
+      "src\\discord_commander\\discord_commander.py",
+      "src\\discord_commander\\discord_commander_models.py",
+      "src\\discord_commander\\handlers_agents.py",
+      "src\\discord_commander\\agent_communication_engine_core.py",
+      "src\\discord_commander\\handlers_swarm.py",
+      "src\\discord_commander\\discord_agent_bot_core.py",
+      "src\\discord_commander\\discord_rate_limiting.py",
+      "src\\domain\\domain_events.py",
+      "src\\domain\\ports\\message_bus.py",
+      "src\\domain\\ports\\logger.py",
+      "src\\domain\\ports\\browser.py",
+      "src\\domain\\ports\\clock.py",
+      "src\\domain\\ports\\task_repository.py",
+      "src\\domain\\services\\assignment_service.py",
+      "src\\gaming\\utils\\gaming_monitors.py",
+      "src\\gaming\\utils\\gaming_handlers.py",
+      "src\\infrastructure\\time\\system_clock.py",
+      "src\\trading_robot\\services\\analytics\\market_trend_engine.py",
+      "src\\utils\\unified_utilities.py",
+      "src\\discord\\commands\\semantic_commands.py",
+      "tools\\agent_checkin.py",
+      "tools\\audit_cleanup.py",
+      "docs\\archive\\agent_scripts\\agent5_consolidation_execution.py",
+      "docs\\archive\\consolidated_files\\message_queue_persistence.py",
+      "docs\\archive\\consolidated_files\\unified_messaging.py",
+      "docs\\archive\\consolidated_files\\deployment\\deployment_coordinator.py",
+      "docs\\archive\\consolidated_files\\deployment\\models\\factory_functions.py",
+      "docs\\archive\\consolidated_files\\agent_communication\\agent_communication_engine_core.py",
+      "docs\\archive\\consolidated_files\\agent_communication\\agent_communication_engine_base.py",
+      "docs\\archive\\consolidated_files\\analytics\\unified_analytics.py",
+      "docs\\archive\\consolidated_files\\analytics\\engines\\caching_engine.py",
+      "docs\\archive\\consolidated_files\\analytics\\engines\\batch_analytics_engine.py",
+      "docs\\archive\\consolidated_files\\analytics\\engines\\coordination_analytics_engine.py",
+      "docs\\archive\\consolidated_files\\analytics\\intelligence\\anomaly_detection_engine.py",
+      "docs\\archive\\consolidated_files\\analytics\\coordinators\\analytics_coordinator.py",
+      "docs\\archive\\consolidated_files\\analytics\\coordinators\\processing_coordinator.py",
+      "docs\\archive\\consolidated_files\\analytics\\engines\\realtime_analytics_engine.py",
+      "docs\\archive\\consolidated_files\\analytics\\intelligence\\pattern_analysis\\anomaly_detector.py",
+      "docs\\archive\\consolidated_files\\analytics\\intelligence\\pattern_analysis\\pattern_extractor.py",
+      "docs\\archive\\consolidated_files\\analytics\\models\\coordination_analytics_models.py",
+      "docs\\archive\\consolidated_files\\analytics\\processors\\prediction_processor.py",
+      "docs\\archive\\consolidated_files\\analytics\\processors\\prediction\\prediction_calculator.py",
+      "docs\\archive\\consolidated_files\\analytics\\processors\\prediction\\prediction_validator.py",
+      "docs\\archive\\consolidated_files\\analytics\\prediction\\base_analyzer.py",
+      "docs\\archive\\consolidated_files\\analytics\\processors\\insight_processor.py",
+      "docs\\archive\\consolidated_files\\analytics\\processors\\prediction\\prediction_analyzer.py",
+      "docs\\archive\\consolidated_files\\engines\\engine_lifecycle.py",
+      "docs\\archive\\consolidated_files\\engines\\registry.py",
+      "docs\\archive\\consolidated_files\\enhanced_integration\\coordinators\\enhanced_integration_coordinator.py",
+      "docs\\archive\\consolidated_files\\enhanced_integration\\engines\\integration_coordination_engine.py",
+      "docs\\archive\\consolidated_files\\enhanced_integration\\engines\\integration_optimization_engine.py",
+      "docs\\archive\\consolidated_files\\enhanced_integration\\engines\\integration_task_engine.py",
+      "docs\\archive\\consolidated_files\\error_handling\\error_models_enums.py",
+      "docs\\archive\\consolidated_files\\error_handling\\error_models_core.py",
+      "docs\\archive\\consolidated_files\\error_handling\\error_reporting_utilities.py",
+      "docs\\archive\\consolidated_files\\error_handling\\error_reporting_core.py",
+      "docs\\archive\\consolidated_files\\error_handling\\circuit_breaker\\core.py",
+      "docs\\archive\\consolidated_files\\error_handling\\metrics\\error_reports.py",
+      "docs\\archive\\consolidated_files\\error_handling\\metrics\\error_alerts.py",
+      "docs\\archive\\consolidated_files\\file_locking\\file_locking_engine_platform.py",
+      "docs\\archive\\consolidated_files\\error_handling\\metrics\\error_metrics.py",
+      "docs\\archive\\consolidated_files\\file_locking\\file_locking_models.py",
+      "docs\\archive\\consolidated_files\\file_locking\\file_locking_engine_operations.py",
+      "docs\\archive\\consolidated_files\\integration\\analytics\\recommendation_engine_system.py",
+      "docs\\archive\\consolidated_files\\integration\\analytics\\recommendation_engine_analysis.py",
+      "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\models_config.py",
+      "docs\\archive\\consolidated_files\\integration_coordinators\\vector_database_coordinator.py",
+      "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\monitors\\metrics_collector.py",
+      "docs\\archive\\consolidated_files\\intelligent_context\\intelligent_context_models.py",
+      "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\models\\factory.py",
+      "docs\\archive\\consolidated_files\\intelligent_context\\intelligent_context_search.py",
+      "docs\\archive\\consolidated_files\\intelligent_context\\unified_intelligent_context\\search_base.py",
+      "docs\\archive\\consolidated_files\\intelligent_context\\engines\\risk_assessment_engine.py",
+      "docs\\archive\\consolidated_files\\intelligent_context\\unified_intelligent_context\\search_operations.py",
+      "docs\\archive\\consolidated_files\\managers\\configuration_source_manager.py",
+      "docs\\archive\\consolidated_files\\managers\\configuration_store.py",
+      "docs\\archive\\consolidated_files\\managers\\core_results_manager.py",
+      "docs\\archive\\consolidated_files\\managers\\core_service_coordinator.py",
+      "docs\\archive\\consolidated_files\\managers\\results\\general_results_processor.py",
+      "docs\\archive\\consolidated_files\\orchestration\\core_orchestrator.py",
+      "docs\\archive\\consolidated_files\\orchestration\\contracts.py",
+      "docs\\archive\\consolidated_files\\managers\\monitoring\\metrics_manager.py",
+      "docs\\archive\\consolidated_files\\managers\\results\\integration_results_processor.py",
+      "docs\\archive\\consolidated_files\\managers\\results\\performance_results_processor.py",
+      "docs\\archive\\consolidated_files\\orchestration\\service_orchestrator.py",
+      "docs\\archive\\consolidated_files\\orchestration\\registry.py",
+      "docs\\archive\\consolidated_files\\orchestration\\integration_orchestrator.py",
+      "docs\\archive\\consolidated_files\\performance\\performance_collector.py",
+      "docs\\archive\\consolidated_files\\refactoring\\pattern_detection.py",
+      "docs\\archive\\consolidated_files\\refactoring\\metrics\\definitions.py",
+      "docs\\archive\\consolidated_files\\validation\\validation_coordinator.py",
+      "docs\\archive\\consolidated_files\\refactoring\\tools\\consolidation_tools.py",
+      "docs\\archive\\consolidated_files\\vector_strategic_oversight\\simple_oversight.py",
+      "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\analyzer_core.py",
+      "docs\\archive\\consolidated_files\\validation\\performance_benchmark\\benchmark_runner_operations.py",
+      "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\engine_core_recommendations.py",
+      "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\engine_core_metrics.py",
+      "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\engine_core_insights.py",
+      "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\engine_core_missions.py",
+      "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\engine_core_reports.py",
+      "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\factory_core.py",
+      "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\factory_extended.py",
+      "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\factories\\metrics_factory.py",
+      "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\factories\\mission_factory.py",
+      "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\factories\\report_factory.py",
+      "scripts\\agent_cycle.py",
+      "scripts\\consolidated_discord_utility.py",
+      "scripts\\consolidated_utility_manager.py",
+      "scripts\\consolidated_messaging_utility.py"
     ],
-    "complex": [],
+    "complex": [
+      "super_demo.py",
+      "trading_robot\\backtesting\\backtester.py",
+      "trading_robot\\core\\alpaca_client.py",
+      "tests\\conftest.py",
+      "consolidation_tasks\\agent1_core_consolidation.py",
+      "tests\\agent2_support_framework.py",
+      "tests\\enhanced_architectural_tests.py",
+      "tests\\test_commandresult.py",
+      "tests\\run_integration_tests.py",
+      "tests\\integration\\test_final_integration_coverage.py",
+      "tests\\integration\\test_messaging_system_integration.py",
+      "tests\\operational\\conftest.py",
+      "tests\\operational\\test_coverage_progress_report.py",
+      "tests\\performance\\test_integration_performance.py",
+      "tests\\api\\test_agent_api_suite.py",
+      "src\\web\\vector_database\\utils.py",
+      "src\\web\\vector_database\\middleware.py",
+      "src\\web\\vector_database\\models.py",
+      "src\\services\\coordination\\strategy_coordinator.py",
+      "src\\services\\coordination\\stats_tracker.py",
+      "src\\services\\coordination\\bulk_coordinator.py",
+      "src\\services\\protocol\\routers\\route_analyzer.py",
+      "src\\services\\thea\\core\\thea_communication_manager.py",
+      "src\\services\\thea\\authentication\\thea_authentication_service.py",
+      "src\\services\\thea\\commander\\thea_response_processor.py",
+      "src\\services\\thea\\responses\\thea_response_service.py",
+      "src\\services\\thea\\commander\\thea_commander_manager.py",
+      "src\\services\\thea\\messaging\\thea_messaging_service.py",
+      "src\\services\\messaging\\interfaces\\messaging_interfaces.py",
+      "src\\services\\messaging\\providers\\inbox_delivery.py",
+      "src\\services\\messaging\\providers\\pyautogui_delivery.py",
+      "src\\services\\messaging\\cli\\messaging_cli.py",
+      "src\\core\\coordination\\swarm\\orchestrators\\swarm_coordination_orchestrator.py",
+      "src\\core\\quality\\testing_coordinator.py",
+      "src\\automation\\ui_onboarding.py",
+      "src\\discord_commander\\command_router.py",
+      "src\\discord_commander\\discord_agent_bot_clean.py",
+      "src\\discord_commander\\discord_agent_bot_backup.py",
+      "src\\discord_commander\\discord_security_policies.py",
+      "src\\discord_commander\\commands\\agent_shortcuts.py",
+      "src\\domain\\entities\\task.py",
+      "src\\domain\\entities\\agent.py",
+      "src\\domain\\value_objects\\ids.py",
+      "src\\domain\\ports\\agent_repository.py",
+      "src\\gaming\\integration\\core.py",
+      "src\\trading_robot\\core\\dependency_injection.py",
+      "src\\trading_robot\\repositories\\models\\trade.py",
+      "src\\trading_robot\\repositories\\models\\position.py",
+      "src\\trading_robot\\services\\analytics\\risk_analysis_engine.py",
+      "src\\trading_robot\\repositories\\models\\trading_models.py",
+      "src\\utils\\logger.py",
+      "src\\trading_robot\\services\\analytics\\performance_metrics_engine.py",
+      "src\\integration\\messaging_gateway.py",
+      "docs\\archive\\agent_scripts\\agent5_core_modules_coordinator.py",
+      "docs\\archive\\agent_scripts\\agent6_documentation_consolidator.py",
+      "docs\\archive\\agent_scripts\\agent6_web_interface_coordinator.py",
+      "docs\\archive\\agent_scripts\\agent5_core_consolidation_validator.py",
+      "docs\\archive\\agent_scripts\\agent5_core_modules_validator.py",
+      "docs\\archive\\consolidated_files\\coordinator_interfaces.py",
+      "docs\\archive\\consolidated_files\\coordinator_models.py",
+      "docs\\archive\\consolidated_files\\config_core.py",
+      "docs\\archive\\agent_scripts\\agent5_consolidation_coordination_manager.py",
+      "docs\\archive\\consolidated_files\\message_queue_pyautogui_integration.py",
+      "docs\\archive\\consolidated_files\\message_queue_statistics.py",
+      "docs\\archive\\consolidated_files\\message_archive.py",
+      "docs\\archive\\consolidated_files\\deployment\\deployment_models.py",
+      "docs\\archive\\consolidated_files\\unified_config.py",
+      "docs\\archive\\consolidated_files\\deployment\\deployment_orchestrator_engine.py",
+      "docs\\archive\\consolidated_files\\deployment\\models\\data_models.py",
+      "docs\\archive\\consolidated_files\\deployment\\coordinators\\deployment_executor.py",
+      "docs\\archive\\consolidated_files\\deployment\\engines\\deployment_metrics_engine.py",
+      "docs\\archive\\consolidated_files\\deployment\\engines\\deployment_execution_engine.py",
+      "docs\\archive\\consolidated_files\\deployment\\coordinators\\metrics_tracker.py",
+      "docs\\archive\\consolidated_files\\deployment\\coordinators\\target_discovery.py",
+      "docs\\archive\\consolidated_files\\deployment\\engines\\deployment_discovery_engine.py",
+      "docs\\archive\\consolidated_files\\analytics\\analytics_orchestrator.py",
+      "docs\\archive\\consolidated_files\\analytics\\engines\\metrics_engine.py",
+      "docs\\archive\\consolidated_files\\analytics\\intelligence\\business_intelligence_engine_operations.py",
+      "docs\\archive\\consolidated_files\\analytics\\intelligence\\business_intelligence_engine_core.py",
+      "docs\\archive\\consolidated_files\\analytics\\intelligence\\pattern_analysis_engine.py",
+      "docs\\archive\\consolidated_files\\analytics\\interfaces\\analytics_interfaces.py",
+      "docs\\archive\\consolidated_files\\analytics\\intelligence\\predictive_modeling_engine.py",
+      "docs\\archive\\consolidated_files\\analytics\\orchestrators\\coordination_analytics_orchestrator.py",
+      "docs\\archive\\consolidated_files\\dry_eliminator\\engines\\elimination_strategy_engine.py",
+      "docs\\archive\\consolidated_files\\dry_eliminator\\dry_eliminator_orchestrator.py",
+      "docs\\archive\\consolidated_files\\dry_eliminator\\engines\\dry_elimination_engine_orchestrator.py",
+      "docs\\archive\\consolidated_files\\dry_eliminator\\engines\\metrics_reporting_engine.py",
+      "docs\\archive\\consolidated_files\\dry_eliminator\\engines\\file_discovery_engine.py",
+      "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\engine.py",
+      "docs\\archive\\consolidated_files\\dry_eliminator\\engines\\code_analysis_engine.py",
+      "docs\\archive\\consolidated_files\\dry_eliminator\\orchestrators\\elimination_coordinator.py",
+      "docs\\archive\\consolidated_files\\dry_eliminator\\orchestrators\\results_manager.py",
+      "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\engines\\action_executor.py",
+      "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\handlers\\protocol_initializer.py",
+      "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\orchestrators\\emergency_analyzer.py",
+      "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\orchestrators\\emergency_logger.py",
+      "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\handlers\\protocol_executor.py",
+      "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\handlers\\protocol_registry.py",
+      "docs\\archive\\consolidated_files\\engines\\analysis_core_engine.py",
+      "docs\\archive\\consolidated_files\\engines\\engine_state.py",
+      "docs\\archive\\consolidated_files\\engines\\data_core_engine.py",
+      "docs\\archive\\consolidated_files\\engines\\coordination_core_engine.py",
+      "docs\\archive\\consolidated_files\\engines\\communication_core_engine.py",
+      "docs\\archive\\consolidated_files\\engines\\ml_core_engine.py",
+      "docs\\archive\\consolidated_files\\engines\\monitoring_core_engine.py",
+      "docs\\archive\\consolidated_files\\engines\\integration_core_engine.py",
+      "docs\\archive\\consolidated_files\\engines\\engine_monitoring.py",
+      "docs\\archive\\consolidated_files\\engines\\configuration_core_engine.py",
+      "docs\\archive\\consolidated_files\\engines\\utility_core_engine.py",
+      "docs\\archive\\consolidated_files\\engines\\orchestration_core_engine.py",
+      "docs\\archive\\consolidated_files\\engines\\security_core_engine.py",
+      "docs\\archive\\consolidated_files\\engines\\performance_core_engine.py",
+      "docs\\archive\\consolidated_files\\engines\\storage_core_engine.py",
+      "docs\\archive\\consolidated_files\\engines\\validation_core_engine.py",
+      "docs\\archive\\consolidated_files\\engines\\processing_core_engine.py",
+      "docs\\archive\\consolidated_files\\enhanced_integration\\orchestrators\\coordination_engine_core.py",
+      "docs\\archive\\consolidated_files\\enhanced_integration\\engines\\integration_performance_engine.py",
+      "docs\\archive\\consolidated_files\\enhanced_integration\\orchestrators\\coordination_engine_operations.py",
+      "docs\\archive\\consolidated_files\\error_handling\\circuit_breaker.py",
+      "docs\\archive\\consolidated_files\\enhanced_integration\\orchestrators\\task_processor.py",
+      "docs\\archive\\consolidated_files\\error_handling\\error_analysis_engine.py",
+      "docs\\archive\\consolidated_files\\error_handling\\error_handling_models.py",
+      "docs\\archive\\consolidated_files\\error_handling\\retry_safety_engine.py",
+      "docs\\archive\\consolidated_files\\error_handling\\retry_mechanisms.py",
+      "docs\\archive\\consolidated_files\\error_handling\\specialized_handlers.py",
+      "docs\\archive\\consolidated_files\\error_handling\\error_reporting_reporter.py",
+      "docs\\archive\\consolidated_files\\file_locking\\file_locking_manager.py",
+      "docs\\archive\\consolidated_files\\file_locking\\operations\\lock_queries.py",
+      "docs\\archive\\consolidated_files\\file_locking\\operations\\lock_operations.py",
+      "docs\\archive\\consolidated_files\\integration\\analytics\\analytics_engine.py",
+      "docs\\archive\\consolidated_files\\integration\\analytics\\forecast_generator.py",
+      "docs\\archive\\consolidated_files\\integration\\models\\data_models.py",
+      "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\monitor.py",
+      "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\coordinators\\health_monitor.py",
+      "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\coordinators\\config_manager.py",
+      "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\monitor_engine.py",
+      "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\monitors\\monitoring_thread.py",
+      "docs\\archive\\consolidated_files\\intelligent_context\\intelligent_context_engine.py",
+      "docs\\archive\\consolidated_files\\intelligent_context\\intelligent_context_emergency.py",
+      "docs\\archive\\consolidated_files\\intelligent_context\\core\\context_core.py",
+      "docs\\archive\\consolidated_files\\managers\\base_manager.py",
+      "docs\\archive\\consolidated_files\\intelligent_context\\engines\\agent_assignment_engine.py",
+      "docs\\archive\\consolidated_files\\managers\\core_execution_manager.py",
+      "docs\\archive\\consolidated_files\\managers\\core_onboarding_manager.py",
+      "docs\\archive\\consolidated_files\\managers\\core_recovery_manager.py",
+      "docs\\archive\\consolidated_files\\managers\\core_configuration_manager.py",
+      "docs\\archive\\consolidated_files\\managers\\unified_configuration_manager.py",
+      "docs\\archive\\consolidated_files\\managers\\registry.py",
+      "docs\\archive\\consolidated_files\\managers\\execution\\execution_coordinator.py",
+      "docs\\archive\\consolidated_files\\managers\\results\\base_results_manager.py",
+      "docs\\archive\\consolidated_files\\pattern_analysis\\pattern_analysis_orchestrator.py",
+      "docs\\archive\\consolidated_files\\performance\\coordination_performance_monitor.py",
+      "docs\\archive\\consolidated_files\\pattern_analysis\\unified_pattern_analysis\\analyzer.py",
+      "docs\\archive\\consolidated_files\\performance\\performance_monitoring_system.py",
+      "docs\\archive\\consolidated_files\\performance\\unified_dashboard\\widget_manager.py",
+      "docs\\archive\\consolidated_files\\performance\\unified_dashboard\\reporter.py",
+      "docs\\archive\\consolidated_files\\performance\\unified_dashboard\\metric_manager.py",
+      "docs\\archive\\consolidated_files\\refactoring\\analysis_tools_core.py",
+      "docs\\archive\\consolidated_files\\validation\\coordination_validator.py",
+      "docs\\archive\\consolidated_files\\validation\\unified_validation_orchestrator.py",
+      "docs\\archive\\consolidated_files\\refactoring\\tools\\extraction_tools.py",
+      "docs\\archive\\consolidated_files\\validation\\performance_benchmark\\benchmark_runner_core.py",
+      "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\extended_models.py",
+      "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\analyzers\\prediction_analyzer.py",
+      "scripts\\consolidated_execution_manager.py",
+      "scripts\\doxygen_generator.py"
+    ],
     "very_complex": [
-      "src\\core\\emergency_intervention\\unified_emergency\\orchestrator.py",
-      "tests\\test_architectural_compliance.py"
+      "trading_robot\\strategies\\base_strategy.py",
+      "trading_robot\\core\\risk_manager.py",
+      "trading_robot\\strategies\\indicators.py",
+      "trading_robot\\tests\\test_trading_robot.py",
+      "tests\\test_architecture_design.py",
+      "tests\\test_consolidated_coordination_service.py",
+      "tests\\test_core_systems.py",
+      "tests\\test_agent4_coordination.py",
+      "tests\\test_infrastructure.py",
+      "tests\\test_consolidated_messaging_service.py",
+      "tests\\test_reporting.py",
+      "tests\\test_consolidated_vector_service.py",
+      "tests\\swarm_testing_framework.py",
+      "tests\\test_architectural_patterns_comprehensive_agent2.py",
+      "tests\\integration_testing_framework.py",
+      "tests\\test_messaging_health_gate.py",
+      "tests\\test_comprehensive_architecture_agent2.py",
+      "tests\\test_messaging_registry.py",
+      "tests\\integration\\test_consolidated_services_integration.py",
+      "tests\\integration\\test_integration_testing_framework.py",
+      "tests\\integration\\test_error_handling_integration.py",
+      "tests\\integration\\test_cross_service_integration.py",
+      "tests\\operational\\test_error_handling.py",
+      "tests\\operational\\test_monitoring_systems.py",
+      "tests\\operational\\test_operational_resilience.py",
+      "tests\\operational\\test_operational_load_testing.py",
+      "tests\\unit\\test_consolidated_messaging_unit.py",
+      "tests\\unit\\test_message_router.py",
+      "tests\\operational\\test_system_monitoring_integration.py",
+      "tests\\operational\\test_stability_testing.py",
+      "tests\\unit\\test_consolidated_coordination_unit.py",
+      "tests\\unit\\test_consolidated_vector_unit.py",
+      "tests\\unit\\test_messaging_gateway.py",
+      "tests\\unit\\test_discord_commander_security.py",
+      "tests\\unit\\test_discord_commander_embeds.py",
+      "tests\\unit\\test_discord_commander_agent_engine.py",
+      "tests\\fixtures\\shared_operational_fixtures.py",
+      "tests\\e2e\\test_agent_lifecycle_e2e.py",
+      "tests\\api\\test_api_documentation_suite.py",
+      "tests\\contracts\\test_contract_system.py",
+      "tests\\deployment\\test_deployment_verification.py",
+      "src\\services\\consolidated_agent_management_service.py",
+      "src\\services\\consolidated_vector_service.py",
+      "src\\services\\thea\\browser\\thea_browser_service.py",
+      "src\\services\\thea\\commander\\thea_commander_persona.py",
+      "src\\services\\messaging\\consolidated_messaging_service.py",
+      "src\\core\\shared_utilities.py",
+      "src\\core\\unified_core_system.py",
+      "src\\discord_commander\\embeds.py",
+      "src\\discord_commander\\discord_webhook_integration.py",
+      "src\\discord_commander\\enhanced_discord_integration.py",
+      "src\\gaming\\gaming_integration_core.py",
+      "src\\infrastructure\\unified_logging_time.py",
+      "src\\infrastructure\\unified_browser_service.py",
+      "src\\infrastructure\\unified_persistence.py",
+      "src\\trading_robot\\repositories\\models\\portfolio.py",
+      "src\\utils\\consolidated_file_operations.py",
+      "src\\utils\\consolidated_config_management.py",
+      "tools\\test_coverage_improvement.py",
+      "docs\\archive\\consolidated_files\\message_queue.py",
+      "docs\\archive\\consolidated_files\\coordination_unified.py",
+      "docs\\archive\\consolidated_files\\enhanced_communication_protocols.py",
+      "docs\\archive\\consolidated_files\\core_coordination.py",
+      "docs\\archive\\consolidated_files\\core_configuration.py",
+      "docs\\archive\\consolidated_files\\message_queue_interfaces.py",
+      "docs\\archive\\consolidated_files\\enhanced_config_system.py",
+      "docs\\archive\\consolidated_files\\enhanced_unified_config.py",
+      "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\orchestrator.py",
+      "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\orchestrators\\emergency_orchestrator.py",
+      "docs\\archive\\consolidated_files\\engines\\contracts.py",
+      "docs\\archive\\consolidated_files\\error_handling\\advanced_error_handler.py",
+      "docs\\archive\\consolidated_files\\error_handling\\coordination_error_handler.py",
+      "docs\\archive\\consolidated_files\\error_handling\\automated_recovery.py",
+      "docs\\archive\\consolidated_files\\error_handling\\error_handling_orchestrator.py",
+      "docs\\archive\\consolidated_files\\error_handling\\error_recovery.py",
+      "docs\\archive\\consolidated_files\\file_locking\\file_locking_orchestrator.py",
+      "docs\\archive\\consolidated_files\\managers\\core_resource_manager.py",
+      "docs\\archive\\consolidated_files\\managers\\core_monitoring_manager.py",
+      "docs\\archive\\consolidated_files\\managers\\contracts.py",
+      "docs\\archive\\consolidated_files\\managers\\monitoring\\base_monitoring_manager.py",
+      "docs\\archive\\consolidated_files\\managers\\execution\\base_execution_manager.py",
+      "docs\\archive\\consolidated_files\\orchestration\\intent_subsystems\\debate_engine.py",
+      "docs\\archive\\consolidated_files\\orchestration\\intent_subsystems\\lifecycle_coordinator.py",
+      "docs\\archive\\consolidated_files\\orchestration\\intent_subsystems\\message_router.py",
+      "docs\\archive\\consolidated_files\\orchestration\\intent_subsystems\\intervention_manager.py",
+      "docs\\archive\\consolidated_files\\performance\\unified_dashboard\\engine.py",
+      "docs\\archive\\consolidated_files\\refactoring\\refactor_tools.py",
+      "docs\\archive\\consolidated_files\\refactoring\\tools\\optimization_tools.py",
+      "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\factory_methods.py"
     ]
   }
 }

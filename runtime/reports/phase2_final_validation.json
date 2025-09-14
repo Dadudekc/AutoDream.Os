@@ -1,0 +1,119 @@
+{
+  "timestamp": "2025-09-13T23:36:48.659136",
+  "total_files": 8,
+  "valid_files": 8,
+  "invalid_files": 0,
+  "total_errors": 0,
+  "total_warnings": 1,
+  "results": [
+    {
+      "file": "config\\devlog_config.json",
+      "valid": true,
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "file": "config\\discord_bot_config.json",
+      "valid": true,
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "file": "config\\agent_aliases.json",
+      "valid": true,
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "file": "config\\semantic_config.yaml",
+      "valid": true,
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "file": "config\\coordinates.json",
+      "valid": true,
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "file": "config\\discord_channels.json",
+      "valid": true,
+      "errors": 0,
+      "warnings": 1
+    },
+    {
+      "file": "config\\unified_config.yaml",
+      "valid": true,
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "file": "config\\messaging_unified.yaml",
+      "valid": true,
+      "errors": 0,
+      "warnings": 0
+    }
+  ],
+  "duration": 0.062059,
+  "detailed_results": [
+    {
+      "file": "config\\devlog_config.json",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "validation_time": 0.0
+    },
+    {
+      "file": "config\\discord_bot_config.json",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "validation_time": 0.0
+    },
+    {
+      "file": "config\\agent_aliases.json",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "validation_time": 0.001002
+    },
+    {
+      "file": "config\\semantic_config.yaml",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "validation_time": 0.000999
+    },
+    {
+      "file": "config\\coordinates.json",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "validation_time": 0.001002
+    },
+    {
+      "file": "config\\discord_channels.json",
+      "valid": true,
+      "errors": [],
+      "warnings": [
+        "No standard Discord configuration keys found"
+      ],
+      "validation_time": 0.0
+    },
+    {
+      "file": "config\\unified_config.yaml",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "validation_time": 0.02102
+    },
+    {
+      "file": "config\\messaging_unified.yaml",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "validation_time": 0.037034
+    }
+  ]
+}

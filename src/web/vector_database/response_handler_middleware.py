@@ -16,12 +16,11 @@ class ResponseHandlerMiddleware:
     """Response processing middleware decorators."""
 
     def add_cors_headers(self, f: Callable) -> Callable:
-
-EXAMPLE USAGE:
-==============
-
-# Basic usage example
-from src.web.vector_database.response_handler_middleware import Response_Handler_Middleware
+        """Decorator to add CORS headers to responses."""
+        def wrapper(*args, **kwargs):
+            # Add CORS headers
+            return f(*args, **kwargs)
+        return wrapper
 
 # Initialize and use
 instance = Response_Handler_Middleware()

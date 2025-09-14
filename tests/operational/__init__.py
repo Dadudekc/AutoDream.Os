@@ -1,69 +1,22 @@
-"""
-Operational Tests for V2_SWARM
-==============================
+# AUTO-GENERATED __init__.py
+# DO NOT EDIT MANUALLY - changes may be overwritten
 
-Agent-8 (Operations & Support) Test Suite
-- Monitoring system tests
-- Error handling validation
-- Stability testing
-- Operational resilience verification
+from . import conftest
+from . import test_coverage_progress_report
+from . import test_error_handling
+from . import test_monitoring_systems
+from . import test_operational_load_testing
+from . import test_operational_resilience
+from . import test_stability_testing
+from . import test_system_monitoring_integration
 
-Coverage Areas:
-- System health monitoring
-- Error recovery mechanisms
-- Performance stability
-- Resource utilization
-- Operational resilience
-"""
-
-import os
-import time
-from typing import Any, Dict
-
-import psutil
-import pytest
-
-
-@pytest.fixture
-def operational_test_config():
-    """Configuration for operational tests."""
-    return {
-        "timeout": 30,
-        "retries": 3,
-        "stability_duration": 60,  # seconds
-        "performance_threshold": 85,  # %
-        "memory_threshold": 90,  # %
-        "cpu_threshold": 95,  # %
-    }
-
-
-@pytest.fixture
-def system_monitor():
-    """System monitoring fixture for operational tests."""
-
-    class SystemMonitor:
-        def __init__(self):
-            self.baseline_cpu = psutil.cpu_percent(interval=1)
-            self.baseline_memory = psutil.virtual_memory().percent
-            self.start_time = time.time()
-
-        def get_system_health(self) -> dict[str, Any]:
-            """Get current system health metrics."""
-            return {
-                "cpu_percent": psutil.cpu_percent(interval=0.1),
-                "memory_percent": psutil.virtual_memory().percent,
-                "disk_usage": psutil.disk_usage("/").percent,
-                "uptime": time.time() - self.start_time,
-                "process_count": len(psutil.pids()),
-            }
-
-        def check_stability(self) -> bool:
-            """Check if system is stable."""
-            current = self.get_system_health()
-            return (
-                current["cpu_percent"] < 95
-                and current["memory_percent"] < 90
-                and current["disk_usage"] < 95
-            )
-
-    return SystemMonitor()
+__all__ = [
+    'conftest',
+    'test_coverage_progress_report',
+    'test_error_handling',
+    'test_monitoring_systems',
+    'test_operational_load_testing',
+    'test_operational_resilience',
+    'test_stability_testing',
+    'test_system_monitoring_integration',
+]

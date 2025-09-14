@@ -24,7 +24,54 @@ def get_unified_validator():
 
 
 class AgentType(Enum):
+    """Agent type enumeration."""
+    COORDINATOR = "coordinator"
+    SPECIALIST = "specialist"
+    ANALYST = "analyst"
+    EXECUTOR = "executor"
 
+
+class AgentStrategy(ABC):
+    """Abstract base class for agent strategies."""
+    
+    @abstractmethod
+    def execute_strategy(self, context: Any) -> Any:
+        """Execute the agent strategy."""
+        pass
+
+
+class CoordinatorStrategy(AgentStrategy):
+    """Strategy for coordinator agents."""
+    
+    def execute_strategy(self, context: Any) -> Any:
+        """Execute coordination strategy."""
+        return {"status": "coordinated", "context": context}
+
+
+class SpecialistStrategy(AgentStrategy):
+    """Strategy for specialist agents."""
+    
+    def execute_strategy(self, context: Any) -> Any:
+        """Execute specialist strategy."""
+        return {"status": "specialized", "context": context}
+
+
+def get_agent_strategy(agent_type: AgentType) -> AgentStrategy:
+    """Get appropriate strategy for agent type."""
+    strategies = {
+        AgentType.COORDINATOR: CoordinatorStrategy(),
+        AgentType.SPECIALIST: SpecialistStrategy(),
+    }
+    return strategies.get(agent_type, SpecialistStrategy())
+
+
+if __name__ == "__main__":
+    # Example usage
+    strategy = get_agent_strategy(AgentType.COORDINATOR)
+    result = strategy.execute_strategy({"task": "coordinate"})
+    print(f"Strategy result: {result}")
+
+"""
 EXAMPLE USAGE:
 ==============
 

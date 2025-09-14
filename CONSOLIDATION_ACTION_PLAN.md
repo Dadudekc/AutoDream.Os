@@ -279,7 +279,7 @@ Target: Unified CSS
 
 ---
 
-### **Chunks 006-007: Domain-Specific Consolidation - MEDIUM PRIORITY**
+### **Chunk 006: Domain-Specific Consolidation - MEDIUM PRIORITY**
 
 #### **Agent Assignment:** Agent-4 (QA Specialist)
 #### **Target:** 40 files → 20 files (50% reduction)
@@ -375,7 +375,7 @@ Target: Unified Tools
 | 2 | 004-Utils | Agent-3 | Pending | 12 | 5 | 0% |
 | 2 | 005-Infrastructure | Agent-3 | Pending | 19 | 8 | 0% |
 | 3 | 003-Web | Agent-7 | Pending | 50 | 30 | 0% |
-| 3 | 006-007-Domain | Agent-4 | Pending | 40 | 20 | 0% |
+| 3 | 006-Domain | Agent-4 | Pending | 40 | 20 | 0% |
 | 4 | 008-013-Docs | Agent-6 | Pending | 95 | 35 | 0% |
 
 ### **Success Metrics:**
@@ -418,7 +418,7 @@ Target: Unified Tools
 - **Agent-1 (Integration):** Chunk 002 (Services)
 - **Agent-2 (Architecture):** Chunk 001 (Core)
 - **Agent-3 (DevOps):** Chunks 004-005 (Utils/Infrastructure)
-- **Agent-4 (QA):** Chunks 006-007 (Domain-Specific)
+- **Agent-4 (QA):** Chunk 006 (Domain-Specific)
 - **Agent-6 (Communication):** Chunks 008-013 (Docs/Tools)
 - **Agent-7 (Web Development):** Chunk 003 (Web Interface) - **COMPLETED**
 

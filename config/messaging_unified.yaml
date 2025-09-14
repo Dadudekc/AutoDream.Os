@@ -1,0 +1,243 @@
+# Unified Messaging System Configuration
+# ======================================
+# Consolidated from messaging_systems.yaml and messaging.yml
+# Single Source of Truth for all messaging configuration
+
+version: 2.0.0
+last_updated: "2025-09-13"
+consolidated_by: "Agent-3 (Infrastructure & DevOps Specialist)"
+
+# System Configuration
+system:
+  name: "Agent Cellphone V2 Messaging System"
+  version: "2.0.0"
+  environment: "development"
+  debug: true
+
+# Messaging Systems Configuration
+systems:
+  - id: consolidated_messaging_service
+    name: Consolidated Messaging Service
+    category: core
+    module: src.services.messaging.consolidated_messaging_service
+    entrypoint: ConsolidatedMessagingService
+    critical: true
+  - id: messaging_interfaces
+    name: Messaging Interfaces
+    category: core
+    module: src.services.messaging.interfaces.messaging_interfaces
+    entrypoint: MessagingProvider
+    critical: true
+  - id: pyautogui_delivery
+    name: PyAutoGUI Delivery Provider
+    category: core
+    module: src.services.messaging.providers.pyautogui_delivery
+    entrypoint: PyAutoGUIMessageDelivery
+    critical: true
+  - id: inbox_delivery
+    name: Inbox Delivery Provider
+    category: core
+    module: src.services.messaging.providers.inbox_delivery
+    entrypoint: InboxMessageDelivery
+    critical: false
+  - id: messaging_cli
+    name: Messaging CLI
+    category: cli
+    module: src.services.messaging.cli.messaging_cli
+    entrypoint: MessagingCLI
+    critical: false
+  - id: messaging_perf_cli
+    name: Messaging Performance CLI
+    category: cli
+    module: src.services.messaging.cli.perf_cli
+    entrypoint: PerfCLI
+    critical: false
+  - id: swarm_onboarding_script
+    name: Swarm Onboarding Script
+    category: cli
+    module: swarm_onboarding
+    entrypoint: main
+    critical: false
+  - id: fallback_delivery
+    name: Fallback Delivery
+    category: cli
+    module: src.services.messaging.providers.fallback_provider
+    entrypoint: FallbackDeliveryProvider
+    critical: false
+
+# Default Configuration
+defaults:
+  # Message sender identity
+  sender: "Captain Agent-4"
+  
+  # Delivery method (pyautogui or inbox)
+  mode: "pyautogui"
+  
+  # PyAutoGUI tab creation method
+  new_tab_method: "ctrl_t"
+  
+  # Default message priority (workflow-friendly - allows task completion)
+  priority: "regular"  # Use "urgent" only for true emergencies
+  
+  # Use clipboard paste (vs keystroke typing)
+  paste: true
+  
+  # Onboarding message style
+  onboarding_style: "friendly"
+
+# Queue Configuration
+queue:
+  directory: "message_queue"
+  max_size: 10000
+  max_age_days: 7
+  retry_base_delay: 1.0
+  retry_max_delay: 300.0
+  processing_batch_size: 10
+
+# Lock Configuration
+locks:
+  timeout_seconds: 30.0
+  retry_interval: 0.1
+  max_retries: 300
+  cleanup_interval: 60.0
+  stale_lock_age: 300.0
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/messaging.log"
+
+# Agent Workspace Configuration
+agent_workspaces:
+  base_path: "agent_workspaces"
+  inbox_path: "inbox"
+  status_file: "status.json"
+  message_prefix: "MESSAGE_"
+  message_suffix: ".md"
+
+# Completion Signal Configuration
+completion_signal: "<unique-marker>"
+
+# PyAutoGUI Configuration
+pyautogui:
+  enabled: true
+  fallback_to_inbox: true
+  coordinate_system:
+    source: "config/coordinates.json"
+    fallback_offset: [-50, 0]
+    retry_attempts: 3
+    error_handling: "graceful_degradation"
+  
+  # Tab creation methods
+  new_tab_methods:
+    ctrl_t: "Ctrl+T"
+    ctrl_shift_t: "Ctrl+Shift+T"
+    middle_click: "middle_click"
+  
+  # Message delivery settings
+  delivery:
+    use_clipboard: true
+    typing_delay: 0.1
+    paste_delay: 0.5
+    tab_switch_delay: 1.0
+
+# Inbox Delivery Configuration
+inbox:
+  enabled: true
+  base_path: "agent_workspaces"
+  message_format: "markdown"
+  timestamp_format: "%Y-%m-%d %H:%M:%S"
+  auto_cleanup: true
+  cleanup_age_days: 30
+
+# Performance Configuration
+performance:
+  batch_size: 10
+  max_concurrent_deliveries: 5
+  timeout_seconds: 30
+  retry_attempts: 3
+  metrics_collection: true
+  performance_logging: true
+
+# Security Configuration
+security:
+  validate_agent_ids: true
+  sanitize_messages: true
+  max_message_length: 10000
+  allowed_file_extensions: [".md", ".txt", ".json"]
+  restricted_commands: ["rm", "del", "format"]
+
+# Validation Rules
+validation:
+  required_fields: ["sender", "message", "recipient"]
+  message_length:
+    min: 1
+    max: 10000
+  agent_id_format: "^Agent-[1-8]$"
+  priority_values: ["LOW", "NORMAL", "HIGH", "URGENT"]
+  tag_values: ["GENERAL", "COORDINATION", "TASK", "STATUS"]
+
+# Integration Configuration
+integrations:
+  discord:
+    enabled: true
+    webhook_url: "${DISCORD_WEBHOOK_URL}"
+    channel_mapping: "config/discord_channels.json"
+  
+  thea:
+    enabled: true
+    base_url: "https://chatgpt.com"
+    authentication: "config/thea_auth.json"
+  
+  vector_db:
+    enabled: true
+    connection_string: "data/vector_database.db"
+    embedding_model: "text-embedding-ada-002"
+
+# Monitoring Configuration
+monitoring:
+  health_checks:
+    enabled: true
+    interval_seconds: 60
+    timeout_seconds: 10
+  
+  metrics:
+    enabled: true
+    collection_interval: 300
+    retention_days: 30
+  
+  alerting:
+    enabled: true
+    failure_threshold: 3
+    recovery_threshold: 1
+
+# File Organization Rules
+organization:
+  config_files:
+    - "config/messaging_unified.yaml"
+    - "config/coordinates.json"
+    - "config/unified_config.yaml"
+  
+  data_files:
+    - "data/message_queue/"
+    - "data/vector_database.db"
+    - "data/thea_cookies.json"
+  
+  runtime_files:
+    - "runtime/messaging_logs/"
+    - "runtime/messaging_reports/"
+    - "runtime/messaging_metrics/"
+
+# Cleanup Rules
+cleanup:
+  obsolete_files:
+    - "config/messaging_systems.yaml"  # Consolidated into messaging_unified.yaml
+    - "config/messaging.yml"  # Consolidated into messaging_unified.yaml
+    - "config/backup_config.yaml"  # Should be archived
+  
+  retention_policy:
+    logs: "90 days"
+    reports: "30 days"
+    metrics: "30 days"
+    backups: "1 year"

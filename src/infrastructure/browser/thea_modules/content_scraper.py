@@ -29,7 +29,7 @@ class ScrapedContent:
     processing_time: float = 0.0
 
     def __post_init__(self):
-
+        pass
 EXAMPLE USAGE:
 ==============
 

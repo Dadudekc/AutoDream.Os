@@ -150,13 +150,13 @@ def analyze_file(file_path: Path) -> dict[str, Any]:
                     'content': line.strip()
                 })
     
-        except SyntaxError as e:
+    except SyntaxError as e:
         violations['syntax_errors'].append({
             'line_number': e.lineno,
             'message': str(e),
             'text': e.text
         })
-        except Exception as e:
+    except Exception as e:
         violations['syntax_errors'].append({
             'line_number': 0,
             'message': f"Error analyzing file: {e}",
@@ -196,11 +196,11 @@ def main():
         violations = []
         
         for py_file in project_root.rglob("*.py"):
-        if should_exclude_file(py_file):
-            continue
-            
+            if should_exclude_file(py_file):
+                continue
+                
             if len(violations) >= args.n:
-            break
+                break
             
             violations.append(analyze_file(py_file))
         
@@ -285,7 +285,7 @@ def run_ci_gate(violations: list[dict[str, Any]]) -> None:
     if total_violations == 0:
         print("✅ CI Gate: PASSED - No violations found")
         sys.exit(0)
-        else:
+    else:
         print(f"CI Gate: FAILED - {total_violations} violations found")
         sys.exit(1)
 

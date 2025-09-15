@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+bin/env python3
 """
 Deployment Coordinator Module - V2 Compliance Module
 ===================================================

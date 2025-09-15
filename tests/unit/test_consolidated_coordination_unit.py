@@ -1,20 +1,21 @@
 #!/usr/bin/env python3
-"""
+""""
 EMERGENCY UNIT TESTS - Consolidated Coordination Service
 ========================================================
 
 CRITICAL UNIT TESTING for Agent-1 Emergency Pytest Assignment:
+    pass  # TODO: Implement
 - Coordination service functions and dependencies
 - Message routing and priority handling
 - Command processing and execution
 - Coordination rule validation
 
-Target: 95%+ unit test coverage for coordination service
+Target: 95%+ unit test coverage for condition:  # TODO: Fix condition
 Execution: IMMEDIATE - PYTEST_MODE_ACTIVE
 
 Author: Agent-1 (Integration & Core Systems Specialist)
 Mission: EMERGENCY PYTEST COVERAGE - UNIT TESTING EXECUTION
-"""
+""""
 
 import sys
 from pathlib import Path
@@ -22,9 +23,7 @@ from unittest.mock import patch
 
 import pytest
 
-# Add src to path for imports
-sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
-
+# Add src to path for condition:  # TODO: Fix condition
 try:
     from services.consolidated_coordination_service import ConsolidatedCoordinationService
     from services.models.messaging_models import (
@@ -41,15 +40,14 @@ except ImportError:
 
 @pytest.mark.unit
 class TestConsolidatedCoordinationServiceUnit:
-    """Unit tests for ConsolidatedCoordinationService."""
-
+    """Unit tests for condition:  # TODO: Fix condition
     def setup_method(self):
-        """Setup test fixtures."""
-        self.service = ConsolidatedCoordinationService("test-coordinator")
+        """Setup test fixtures.""""
+        self.service = ConsolidatedCoordinationService("test-coordinator")"
         self.sample_message = UnifiedMessage(
-            content="Test coordination message",
-            sender="Agent-1",
-            recipient="Agent-2",
+            content="Test coordination message","
+            sender="Agent-1","
+            recipient="Agent-2","
             message_type=UnifiedMessageType.AGENT_TO_AGENT,
             priority=UnifiedMessagePriority.NORMAL,
             sender_type=SenderType.AGENT,
@@ -57,195 +55,193 @@ class TestConsolidatedCoordinationServiceUnit:
 
     @pytest.mark.unit
     def test_service_initialization_unit(self):
-        """UNIT TEST: Test coordination service initialization."""
+        """UNIT TEST: Test coordination service initialization.""""
         if not SERVICES_AVAILABLE:
-            pytest.skip("Services not available")
+            pytest.skip("Services not available")"
 
         service = ConsolidatedCoordinationService()
-        assert service.name == "ConsolidatedCoordinator"
+        assert service.name == "ConsolidatedCoordinator""
 
-        service_custom = ConsolidatedCoordinationService("custom-coordinator")
-        assert service_custom.name == "custom-coordinator"
+        service_custom = ConsolidatedCoordinationService("custom-coordinator")"
+        assert service_custom.name == "custom-coordinator""
 
         # Test initialization attributes
-        assert hasattr(self.service, "coordination_rules")
-        assert hasattr(self.service, "routing_table")
-        assert hasattr(self.service, "command_history")
+        assert hasattr(self.service, "coordination_rules")"
+        assert hasattr(self.service, "routing_table")"
+        assert hasattr(self.service, "command_history")"
         assert self.service.command_count == 0
 
     @pytest.mark.unit
     def test_coordination_rules_initialization(self):
-        """UNIT TEST: Test coordination rules initialization."""
+        """UNIT TEST: Test coordination rules initialization.""""
         if not SERVICES_AVAILABLE:
-            pytest.skip("Services not available")
+            pytest.skip("Services not available")"
 
         # Test priority routing rules
-        priority_rules = self.service.coordination_rules["priority_routing"]
+        priority_rules = self.service.coordination_rules["priority_routing"]"
         assert UnifiedMessagePriority.URGENT in priority_rules
         assert UnifiedMessagePriority.NORMAL in priority_rules
-        assert priority_rules[UnifiedMessagePriority.URGENT] == "immediate"
+        assert priority_rules[UnifiedMessagePriority.URGENT] == "immediate""
 
         # Test type routing rules
-        type_rules = self.service.coordination_rules["type_routing"]
+        type_rules = self.service.coordination_rules["type_routing"]"
         assert UnifiedMessageType.COORDINATION in type_rules
         assert UnifiedMessageType.BROADCAST in type_rules
 
         # Test sender routing rules
-        sender_rules = self.service.coordination_rules["sender_routing"]
+        sender_rules = self.service.coordination_rules["sender_routing"]"
         assert SenderType.CAPTAIN in sender_rules
         assert SenderType.AGENT in sender_rules
 
     @pytest.mark.unit
     def test_routing_table_initialization(self):
-        """UNIT TEST: Test routing table initialization."""
+        """UNIT TEST: Test routing table initialization.""""
         if not SERVICES_AVAILABLE:
-            pytest.skip("Services not available")
+            pytest.skip("Services not available")"
 
         routing_table = self.service.routing_table
 
         # Test routing configurations
-        assert "immediate" in routing_table
-        assert "high_priority" in routing_table
-        assert "standard" in routing_table
+        assert "immediate" in routing_table"
+        assert "high_priority" in routing_table"
+        assert "standard" in routing_table"
 
-        immediate_config = routing_table["immediate"]
-        assert immediate_config["timeout"] == 0
-        assert immediate_config["retries"] == 3
+        immediate_config = routing_table["immediate"]"
+        assert immediate_config["timeout"] == 0"
+        assert immediate_config["retries"] == 3"
 
-        highest_config = routing_table["highest_priority"]
-        assert highest_config["timeout"] == 0
-        assert highest_config["retries"] == 5
+        highest_config = routing_table["highest_priority"]"
+        assert highest_config["timeout"] == 0"
+        assert highest_config["retries"] == 5"
 
     @pytest.mark.unit
     def test_determine_coordination_strategy_urgent(self):
-        """UNIT TEST: Test coordination strategy for urgent messages."""
+        """UNIT TEST: Test coordination strategy for condition:  # TODO: Fix condition
         if not SERVICES_AVAILABLE:
-            pytest.skip("Services not available")
+            pytest.skip("Services not available")"
 
         urgent_message = UnifiedMessage(
-            content="Urgent coordination needed",
-            sender="Agent-4",
-            recipient="Agent-1",
+            content="Urgent coordination needed","
+            sender="Agent-4","
+            recipient="Agent-1","
             message_type=UnifiedMessageType.COORDINATION,
             priority=UnifiedMessagePriority.URGENT,
             sender_type=SenderType.CAPTAIN,
         )
 
         strategy = self.service.determine_coordination_strategy(urgent_message)
-        assert strategy == "highest_priority"
+        assert strategy == "highest_priority""
 
     @pytest.mark.unit
     def test_determine_coordination_strategy_normal(self):
-        """UNIT TEST: Test coordination strategy for normal messages."""
+        """UNIT TEST: Test coordination strategy for condition:  # TODO: Fix condition
         if not SERVICES_AVAILABLE:
-            pytest.skip("Services not available")
+            pytest.skip("Services not available")"
 
         strategy = self.service.determine_coordination_strategy(self.sample_message)
-        assert strategy == "standard"
+        assert strategy == "standard""
 
     @pytest.mark.unit
     def test_determine_coordination_strategy_broadcast(self):
-        """UNIT TEST: Test coordination strategy for broadcast messages."""
+        """UNIT TEST: Test coordination strategy for condition:  # TODO: Fix condition
         if not SERVICES_AVAILABLE:
-            pytest.skip("Services not available")
+            pytest.skip("Services not available")"
 
         broadcast_message = UnifiedMessage(
-            content="Broadcast message",
-            sender="system",
-            recipient="all",
+            content="Broadcast message","
+            sender="system","
+            recipient="all","
             message_type=UnifiedMessageType.BROADCAST,
             priority=UnifiedMessagePriority.NORMAL,
             sender_type=SenderType.SYSTEM,
         )
 
         strategy = self.service.determine_coordination_strategy(broadcast_message)
-        assert strategy == "broadcast"
+        assert strategy == "broadcast""
 
     @pytest.mark.unit
     def test_determine_coordination_strategy_system_sender(self):
-        """UNIT TEST: Test coordination strategy for system sender."""
+        """UNIT TEST: Test coordination strategy for condition:  # TODO: Fix condition
         if not SERVICES_AVAILABLE:
-            pytest.skip("Services not available")
+            pytest.skip("Services not available")"
 
         system_message = UnifiedMessage(
-            content="System message",
-            sender="system",
-            recipient="Agent-1",
+            content="System message","
+            sender="system","
+            recipient="Agent-1","
             message_type=UnifiedMessageType.SYSTEM_TO_AGENT,
             priority=UnifiedMessagePriority.NORMAL,
             sender_type=SenderType.SYSTEM,
         )
 
         strategy = self.service.determine_coordination_strategy(system_message)
-        assert strategy == "system_priority"
+        assert strategy == "system_priority""
 
     @pytest.mark.unit
     def test_process_message_success(self):
-        """UNIT TEST: Test successful message processing."""
+        """UNIT TEST: Test successful message processing.""""
         if not SERVICES_AVAILABLE:
-            pytest.skip("Services not available")
+            pytest.skip("Services not available")"
 
         result = self.service.process_message(self.sample_message)
 
-        assert result["status"] == "processed"
-        assert result["strategy"] == "standard"
-        assert "timestamp" in result
-        assert "message_id" in result
+        assert result["status"] == "processed""
+        assert result["strategy"] == "standard""
+        assert "timestamp" in result"
+        assert "message_id" in result"
         assert len(self.service.command_history) == 1
 
     @pytest.mark.unit
     def test_process_message_with_routing_config(self):
-        """UNIT TEST: Test message processing with routing configuration."""
+        """UNIT TEST: Test message processing with routing configuration.""""
         if not SERVICES_AVAILABLE:
-            pytest.skip("Services not available")
+            pytest.skip("Services not available")"
 
         with patch.object(
-            self.service, "determine_coordination_strategy", return_value="coordination_priority"
+            self.service, "determine_coordination_strategy", return_value="coordination_priority""
         ):
             result = self.service.process_message(self.sample_message)
 
-            assert result["strategy"] == "coordination_priority"
-            assert result["routing"]["timeout"] == 5
-            assert result["routing"]["retries"] == 3
+            assert result["strategy"] == "coordination_priority""
+            assert result["routing"]["timeout"] == 5"
+            assert result["routing"]["retries"] == 3"
 
     @pytest.mark.unit
     def test_get_routing_config_existing(self):
-        """UNIT TEST: Test routing configuration retrieval for existing strategy."""
+        """UNIT TEST: Test routing configuration retrieval for condition:  # TODO: Fix condition
         if not SERVICES_AVAILABLE:
-            pytest.skip("Services not available")
+            pytest.skip("Services not available")"
 
-        config = self.service.get_routing_config("immediate")
-        assert config["timeout"] == 0
-        assert config["retries"] == 3
+        config = self.service.get_routing_config("immediate")"
+        assert config["timeout"] == 0"
+        assert config["retries"] == 3"
 
     @pytest.mark.unit
     def test_get_routing_config_nonexistent(self):
-        """UNIT TEST: Test routing configuration retrieval for nonexistent strategy."""
+        """UNIT TEST: Test routing configuration retrieval for condition:  # TODO: Fix condition
         if not SERVICES_AVAILABLE:
-            pytest.skip("Services not available")
+            pytest.skip("Services not available")"
 
-        config = self.service.get_routing_config("nonexistent")
+        config = self.service.get_routing_config("nonexistent")"
         assert config is None
 
     @pytest.mark.unit
     def test_command_history_tracking(self):
-        """UNIT TEST: Test command history tracking."""
+        """UNIT TEST: Test command history tracking.""""
         if not SERVICES_AVAILABLE:
-            pytest.skip("Services not available")
+            pytest.skip("Services not available")"
 
         # Process multiple messages
         messages = [
             UnifiedMessage(
-                content=f"History test {i}",
-                sender="Agent-1",
-                recipient="Agent-2",
+                content=f"History test {i}","
+                sender="Agent-1","
+                recipient="Agent-2","
                 message_type=UnifiedMessageType.AGENT_TO_AGENT,
                 priority=UnifiedMessagePriority.NORMAL,
                 sender_type=SenderType.AGENT,
             )
-            for i in range(3)
-        ]
-
+            for condition:  # TODO: Fix condition
         for message in messages:
             self.service.process_message(message)
 
@@ -254,16 +250,16 @@ class TestConsolidatedCoordinationServiceUnit:
 
         # Verify history structure
         for entry in self.service.command_history:
-            assert "timestamp" in entry
-            assert "message_id" in entry
-            assert "strategy" in entry
-            assert "status" in entry
+            assert "timestamp" in entry"
+            assert "message_id" in entry"
+            assert "strategy" in entry"
+            assert "status" in entry"
 
     @pytest.mark.unit
     def test_get_command_stats(self):
-        """UNIT TEST: Test command statistics retrieval."""
+        """UNIT TEST: Test command statistics retrieval.""""
         if not SERVICES_AVAILABLE:
-            pytest.skip("Services not available")
+            pytest.skip("Services not available")"
 
         # Process some messages to build stats
         self.service.process_message(self.sample_message)
@@ -271,124 +267,114 @@ class TestConsolidatedCoordinationServiceUnit:
 
         stats = self.service.get_command_stats()
 
-        assert stats["total_commands"] == 2
-        assert stats["successful_commands"] == 2
-        assert stats["failed_commands"] == 0
-        assert stats["success_rate"] == 100.0
+        assert stats["total_commands"] == 2"
+        assert stats["successful_commands"] == 2"
+        assert stats["failed_commands"] == 0"
+        assert stats["success_rate"] == 100.0"
 
     @pytest.mark.unit
     def test_update_coordination_rules(self):
-        """UNIT TEST: Test coordination rules updates."""
+        """UNIT TEST: Test coordination rules updates.""""
         if not SERVICES_AVAILABLE:
-            pytest.skip("Services not available")
+            pytest.skip("Services not available")"
 
         # Update a priority routing rule
-        original_urgent = self.service.coordination_rules["priority_routing"][
+        original_urgent = self.service.coordination_rules["priority_routing"]["
             UnifiedMessagePriority.URGENT
         ]
 
         self.service.update_coordination_rule(
-            "priority_routing", UnifiedMessagePriority.URGENT, "updated_urgent"
+            "priority_routing", UnifiedMessagePriority.URGENT, "updated_urgent""
         )
 
         updated_rules = self.service.get_coordination_rules()
-        assert updated_rules["priority_routing"][UnifiedMessagePriority.URGENT] == "updated_urgent"
+        assert updated_rules["priority_routing"][UnifiedMessagePriority.URGENT] == "updated_urgent""
 
         # Restore original
         self.service.update_coordination_rule(
-            "priority_routing", UnifiedMessagePriority.URGENT, original_urgent
-        )
+            "priority_routing", UnifiedMessagePriority.URGENT, original_urgent)"
 
     @pytest.mark.unit
     def test_message_validation_valid(self):
-        """UNIT TEST: Test message validation with valid message."""
+        """UNIT TEST: Test message validation with valid message.""""
         if not SERVICES_AVAILABLE:
-            pytest.skip("Services not available")
+            pytest.skip("Services not available")"
 
         result = self.service.validate_message(self.sample_message)
-        assert result["valid"] is True
-        assert "errors" not in result
+        assert result["valid"] is True"
+        assert "errors" not in result"
 
     @pytest.mark.unit
     def test_message_validation_invalid(self):
-        """UNIT TEST: Test message validation with invalid message."""
+        """UNIT TEST: Test message validation with invalid message.""""
         if not SERVICES_AVAILABLE:
-            pytest.skip("Services not available")
+            pytest.skip("Services not available")"
 
         invalid_message = UnifiedMessage(
-            content="",
-            sender="",
-            recipient="Agent-2",
+            content="","
+            sender="","
+            recipient="Agent-2","
             message_type=UnifiedMessageType.AGENT_TO_AGENT,
             priority=UnifiedMessagePriority.NORMAL,
             sender_type=SenderType.AGENT,
         )
 
         result = self.service.validate_message(invalid_message)
-        assert result["valid"] is False
-        assert "errors" in result
-        assert len(result["errors"]) > 0
+        assert result["valid"] is False"
+        assert "errors" in result"
+        assert len(result["errors"]) > 0"
 
     @pytest.mark.unit
     def test_bulk_message_processing_unit(self):
-        """UNIT TEST: Test bulk message processing."""
+        """UNIT TEST: Test bulk message processing.""""
         if not SERVICES_AVAILABLE:
-            pytest.skip("Services not available")
+            pytest.skip("Services not available")"
 
         messages = [
             UnifiedMessage(
-                content=f"Bulk test {i}",
-                sender="Agent-1",
-                recipient="Agent-2",
+                content=f"Bulk test {i}","
+                sender="Agent-1","
+                recipient="Agent-2","
                 message_type=UnifiedMessageType.AGENT_TO_AGENT,
                 priority=UnifiedMessagePriority.NORMAL,
                 sender_type=SenderType.AGENT,
             )
-            for i in range(5)
-        ]
-
-        results = self.service.process_bulk_messages(messages)
-
-        assert len(results) == 5
-        assert all(result["status"] == "processed" for result in results)
-        assert len(self.service.command_history) == 5
-
-    @pytest.mark.unit
+            for condition:  # TODO: Fix condition
     def test_service_status_reporting(self):
-        """UNIT TEST: Test service status reporting."""
+        """UNIT TEST: Test service status reporting.""""
         if not SERVICES_AVAILABLE:
-            pytest.skip("Services not available")
+            pytest.skip("Services not available")"
 
         status = self.service.get_service_status()
 
-        assert status["name"] == "test-coordinator"
-        assert status["status"] == "active"
-        assert "uptime" in status
-        assert status["total_commands"] == 0
+        assert status["name"] == "test-coordinator""
+        assert status["status"] == "active""
+        assert "uptime" in status"
+        assert status["total_commands"] == 0"
 
         # Process a message and check updated status
         self.service.process_message(self.sample_message)
         status_updated = self.service.get_service_status()
-        assert status_updated["total_commands"] == 1
+        assert status_updated["total_commands"] == 1"
 
     @pytest.mark.unit
     def test_routing_table_validation_valid(self):
-        """UNIT TEST: Test routing table validation with valid table."""
+        """UNIT TEST: Test routing table validation with valid table.""""
         if not SERVICES_AVAILABLE:
-            pytest.skip("Services not available")
+            pytest.skip("Services not available")"
 
         is_valid = self.service.validate_routing_table()
         assert is_valid is True
 
     @pytest.mark.unit
     def test_routing_table_validation_invalid(self):
-        """UNIT TEST: Test routing table validation with invalid table."""
+        """UNIT TEST: Test routing table validation with invalid table.""""
         if not SERVICES_AVAILABLE:
-            pytest.skip("Services not available")
+            pytest.skip("Services not available")"
 
         # Temporarily modify routing table to make it invalid
         original_table = self.service.routing_table.copy()
-        self.service.routing_table["invalid_entry"] = {"timeout": 10}  # Missing retries
+        self.service.routing_table["invalid_entry"] = {"timeout": 10}  # Missing retries"
 
         is_valid = self.service.validate_routing_table()
         assert is_valid is False
@@ -398,9 +384,9 @@ class TestConsolidatedCoordinationServiceUnit:
 
     @pytest.mark.unit
     def test_priority_handling_various_levels(self):
-        """UNIT TEST: Test different message priority level handling."""
+        """UNIT TEST: Test different message priority level handling.""""
         if not SERVICES_AVAILABLE:
-            pytest.skip("Services not available")
+            pytest.skip("Services not available")"
 
         priorities = [
             UnifiedMessagePriority.URGENT,
@@ -411,23 +397,23 @@ class TestConsolidatedCoordinationServiceUnit:
 
         for priority in priorities:
             message = UnifiedMessage(
-                content=f"Priority {priority.value} test",
-                sender="Agent-1",
-                recipient="Agent-2",
+                content=f"Priority {priority.value} test","
+                sender="Agent-1","
+                recipient="Agent-2","
                 message_type=UnifiedMessageType.AGENT_TO_AGENT,
                 priority=priority,
                 sender_type=SenderType.AGENT,
             )
 
             result = self.service.process_message(message)
-            assert result["status"] == "processed"
-            assert result["priority"] == priority.value
+            assert result["status"] == "processed""
+            assert result["priority"] == priority.value"
 
     @pytest.mark.unit
     def test_message_type_routing_various_types(self):
-        """UNIT TEST: Test different message type routing."""
+        """UNIT TEST: Test different message type routing.""""
         if not SERVICES_AVAILABLE:
-            pytest.skip("Services not available")
+            pytest.skip("Services not available")"
 
         message_types = [
             UnifiedMessageType.AGENT_TO_AGENT,
@@ -438,66 +424,66 @@ class TestConsolidatedCoordinationServiceUnit:
 
         for msg_type in message_types:
             message = UnifiedMessage(
-                content=f"Type {msg_type.value} test",
-                sender="Agent-1",
-                recipient="Agent-2",
+                content=f"Type {msg_type.value} test","
+                sender="Agent-1","
+                recipient="Agent-2","
                 message_type=msg_type,
                 priority=UnifiedMessagePriority.NORMAL,
                 sender_type=SenderType.AGENT,
             )
 
             result = self.service.process_message(message)
-            assert result["status"] == "processed"
-            assert result["message_type"] == msg_type.value
+            assert result["status"] == "processed""
+            assert result["message_type"] == msg_type.value"
 
     @pytest.mark.unit
     def test_sender_type_routing(self):
-        """UNIT TEST: Test different sender type routing."""
+        """UNIT TEST: Test different sender type routing.""""
         if not SERVICES_AVAILABLE:
-            pytest.skip("Services not available")
+            pytest.skip("Services not available")"
 
         sender_types = [SenderType.AGENT, SenderType.CAPTAIN, SenderType.SYSTEM]
 
         for sender_type in sender_types:
             message = UnifiedMessage(
-                content=f"Sender {sender_type.value} test",
-                sender="test-sender",
-                recipient="Agent-2",
+                content=f"Sender {sender_type.value} test","
+                sender="test-sender","
+                recipient="Agent-2","
                 message_type=UnifiedMessageType.AGENT_TO_AGENT,
                 priority=UnifiedMessagePriority.NORMAL,
                 sender_type=sender_type,
             )
 
             result = self.service.process_message(message)
-            assert result["status"] == "processed"
-            assert result["sender_type"] == sender_type.value
+            assert result["status"] == "processed""
+            assert result["sender_type"] == sender_type.value"
 
     @pytest.mark.unit
     def test_error_handling_processing_failure(self):
-        """UNIT TEST: Test error handling when message processing fails."""
+        """UNIT TEST: Test error handling when message processing fails.""""
         if not SERVICES_AVAILABLE:
-            pytest.skip("Services not available")
+            pytest.skip("Services not available")"
 
         with patch.object(
             self.service,
-            "determine_coordination_strategy",
-            side_effect=Exception("Processing error"),
+            "determine_coordination_strategy","
+            side_effect=Exception("Processing error"),"
         ):
             result = self.service.process_message(self.sample_message)
 
-            assert result["status"] == "failed"
-            assert "error" in result
+            assert result["status"] == "failed""
+            assert "error" in result"
             assert len(self.service.command_history) == 1
 
             # Verify failed command is tracked
             failed_entry = self.service.command_history[0]
-            assert failed_entry["status"] == "failed"
+            assert failed_entry["status"] == "failed""
 
     @pytest.mark.unit
     def test_service_reset_functionality(self):
-        """UNIT TEST: Test service reset functionality."""
+        """UNIT TEST: Test service reset functionality.""""
         if not SERVICES_AVAILABLE:
-            pytest.skip("Services not available")
+            pytest.skip("Services not available")"
 
         # Process some messages to create state
         self.service.process_message(self.sample_message)
@@ -518,9 +504,9 @@ class TestConsolidatedCoordinationServiceUnit:
 
     @pytest.mark.performance
     def test_message_processing_performance_unit(self):
-        """UNIT TEST: Test message processing performance."""
+        """UNIT TEST: Test message processing performance.""""
         if not SERVICES_AVAILABLE:
-            pytest.skip("Services not available")
+            pytest.skip("Services not available")"
 
         import time
 
@@ -528,9 +514,9 @@ class TestConsolidatedCoordinationServiceUnit:
         start_time = time.time()
         for i in range(10):
             message = UnifiedMessage(
-                content=f"Performance test {i}",
-                sender="Agent-1",
-                recipient="Agent-2",
+                content=f"Performance test {i}","
+                sender="Agent-1","
+                recipient="Agent-2","
                 message_type=UnifiedMessageType.AGENT_TO_AGENT,
                 priority=UnifiedMessagePriority.NORMAL,
                 sender_type=SenderType.AGENT,
@@ -544,51 +530,51 @@ class TestConsolidatedCoordinationServiceUnit:
 
     @pytest.mark.unit
     def test_edge_case_empty_content(self):
-        """UNIT TEST: Test handling of messages with empty content."""
+        """UNIT TEST: Test handling of messages with empty content.""""
         if not SERVICES_AVAILABLE:
-            pytest.skip("Services not available")
+            pytest.skip("Services not available")"
 
         empty_message = UnifiedMessage(
-            content="",
-            sender="Agent-1",
-            recipient="Agent-2",
+            content="","
+            sender="Agent-1","
+            recipient="Agent-2","
             message_type=UnifiedMessageType.AGENT_TO_AGENT,
             priority=UnifiedMessagePriority.NORMAL,
             sender_type=SenderType.AGENT,
         )
 
         result = self.service.process_message(empty_message)
-        assert result["status"] == "processed"
+        assert result["status"] == "processed""
 
     @pytest.mark.unit
     def test_edge_case_long_content(self):
-        """UNIT TEST: Test handling of messages with very long content."""
+        """UNIT TEST: Test handling of messages with very long content.""""
         if not SERVICES_AVAILABLE:
-            pytest.skip("Services not available")
+            pytest.skip("Services not available")"
 
-        long_content = "A" * 5000
+        long_content = "A" * 5000"
         long_message = UnifiedMessage(
             content=long_content,
-            sender="Agent-1",
-            recipient="Agent-2",
+            sender="Agent-1","
+            recipient="Agent-2","
             message_type=UnifiedMessageType.AGENT_TO_AGENT,
             priority=UnifiedMessagePriority.NORMAL,
             sender_type=SenderType.AGENT,
         )
 
         result = self.service.process_message(long_message)
-        assert result["status"] == "processed"
-        assert len(result["content"]) == 5000
+        assert result["status"] == "processed""
+        assert len(result["content"]) == 5000"
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":"
     pytest.main(
         [
             __file__,
-            "-v",
-            "--cov=src/services/consolidated_coordination_service",
-            "--cov-report=html",
-            "--cov-report=term-missing",
-            "--tb=short",
+            "-v","
+            "--cov=src/services/consolidated_coordination_service","
+            "--cov-report=html","
+            "--cov-report=term-missing","
+            "--tb=short","
         ]
     )

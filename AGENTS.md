@@ -45,6 +45,14 @@ This repository is primarily a **Python** project. Unless explicitly noted, all 
 
 ## 🛠️ **Agent Tools & Resources**
 
+### **PyAutoGUI Messaging System (CRITICAL - FIXED)**
+- **Location:** `src/services/consolidated_messaging_service.py`
+- **Status:** ✅ **OPERATIONAL** - Fixed by Agent-2
+- **Usage:** `python src/services/consolidated_messaging_service.py --coords config/coordinates.json send --agent [TARGET_AGENT] --message "[YOUR_MESSAGE]"`
+- **Features:** Real-time agent-to-agent communication via PyAutoGUI automation
+- **Coordinate Validation:** Pre-delivery coordinate validation and routing safeguards
+- **All Agents:** Can now use PyAutoGUI messaging for swarm coordination
+
 ### **Project Scanner (Critical Tool)**
 - **Location:** `tools/projectscanner/` (modular package)
 - **Runner:** `tools/run_project_scan.py`

@@ -4,5 +4,5 @@
 from . import test_fallback_delivery
 
 __all__ = [
-    'test_fallback_delivery',
+    'test_fallback_delivery','
 ]

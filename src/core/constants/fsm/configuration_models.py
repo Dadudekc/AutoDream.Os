@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 FSM Configuration Models - V2 Compliance Module
 ==============================================
@@ -12,7 +13,6 @@ License: MIT
 
 from dataclasses import dataclass
 from typing import Any
-
 
 @dataclass
 class FSMConfiguration:
@@ -29,33 +29,6 @@ class FSMConfiguration:
     metadata: dict[str, Any]
 
     def __post_init__(self):
-
-EXAMPLE USAGE:
-==============
-
-# Import the core component
-from src.core.constants.fsm.configuration_models import Configuration_Models
-
-# Initialize with configuration
-config = {
-    "setting1": "value1",
-    "setting2": "value2"
-}
-
-component = Configuration_Models(config)
-
-# Execute primary functionality
-result = component.process_data(input_data)
-print(f"Processing result: {result}")
-
-# Advanced usage with error handling
-try:
-    advanced_result = component.advanced_operation(data, options={"optimize": True})
-    print(f"Advanced operation completed: {advanced_result}")
-except ProcessingError as e:
-    print(f"Operation failed: {e}")
-    # Implement recovery logic
-
         """Post-initialization validation."""
         if self.state_retry_count < 0:
             raise ValueError("State retry count must be non-negative")
@@ -68,12 +41,11 @@ except ProcessingError as e:
 
     def is_valid(self) -> bool:
         """Check if configuration is valid."""
-        return (
-            self.state_retry_count >= 0
-            and self.state_retry_delay >= 0
-            and self.max_states >= 1
-            and self.max_transitions >= 1
-        )
+        try:
+            self.__post_init__()
+            return True
+        except ValueError:
+            return False
 
     def get_summary(self) -> dict[str, Any]:
         """Get configuration summary."""

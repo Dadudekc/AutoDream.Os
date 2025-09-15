@@ -1,520 +1,142 @@
 {
-    "project_root": "D:\\Agent_Cellphone_V2_Repository",
-    "num_files_analyzed": 33,
-    "analysis_details": {
-        "super_demo.py": {
-            "language": ".py",
-            "functions": [
-                "run_super_demo"
-            ],
-            "classes": {},
-            "routes": [],
-            "complexity": 1
-        },
-        "archive\\cleanup_20250912_032500\\broadcast_swarm_activation.py": {
-            "language": ".py",
-            "functions": [
-                "main"
-            ],
-            "classes": {},
-            "routes": [],
-            "complexity": 1
-        },
-        "super_demo_coordination.py": {
-            "language": ".py",
-            "functions": [
-                "demo_quality_assurance",
-                "demo_coordination_system",
-                "demo_thea_integration",
-                "run_super_demo",
-                "print_usage_examples",
-                "print_architecture_overview",
-                "get_coordination_demo_functions",
-                "run_coordination_demos"
-            ],
-            "classes": {},
-            "routes": [],
-            "complexity": 8
-        },
-        "super_demo_core.py": {
-            "language": ".py",
-            "functions": [
-                "demo_core_system",
-                "demo_shared_utilities",
-                "get_core_demo_functions",
-                "run_core_demos"
-            ],
-            "classes": {},
-            "routes": [],
-            "complexity": 4
-        },
-        "super_demo_simple.py": {
-            "language": ".py",
-            "functions": [
-                "demo_working_imports",
-                "demo_core_system_working",
-                "demo_shared_utilities_working",
-                "analyze_file_structure",
-                "analyze_working_components",
-                "print_working_usage_examples",
-                "run_simple_demo"
-            ],
-            "classes": {},
-            "routes": [],
-            "complexity": 7
-        },
-        "archive\\cleanup_20250912_032500\\send_co_captain_activations.py": {
-            "language": ".py",
-            "functions": [
-                "send_co_captain_activations"
-            ],
-            "classes": {},
-            "routes": [],
-            "complexity": 1
-        },
-        "archive\\captain_handbooks_consolidated\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\__init__.py": {
-            "language": ".py",
-            "functions": [],
-            "classes": {},
-            "routes": [],
-            "complexity": 0
-        },
-        "archive\\captain_handbooks_consolidated\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\orchestrators\\emergency_orchestrator.py": {
-            "language": ".py",
-            "functions": [
-                "__init__",
-                "_register_default_protocols",
-                "detect_emergency",
-                "analyze_emergency",
-                "execute_intervention",
-                "handle_emergency",
-                "register_intervention_handler",
-                "get_emergency_status",
-                "get_active_emergencies",
-                "get_emergency_history",
-                "get_system_metrics",
-                "get_protocol_summary",
-                "get_system_health",
-                "create_custom_protocol",
-                "get_orchestrator_status",
-                "shutdown"
-            ],
-            "classes": {
-                "EmergencyInterventionOrchestrator": {
-                    "methods": [
-                        "__init__",
-                        "_register_default_protocols",
-                        "detect_emergency",
-                        "analyze_emergency",
-                        "execute_intervention",
-                        "handle_emergency",
-                        "register_intervention_handler",
-                        "get_emergency_status",
-                        "get_active_emergencies",
-                        "get_emergency_history",
-                        "get_system_metrics",
-                        "get_protocol_summary",
-                        "get_system_health",
-                        "create_custom_protocol",
-                        "get_orchestrator_status",
-                        "shutdown"
-                    ],
-                    "docstring": "Main orchestrator for emergency intervention operations.\n\nCoordinates emergency detection, analysis, intervention, and logging across all\nemergency components.",
-                    "base_classes": []
-                }
-            },
-            "routes": [],
-            "complexity": 32
-        },
-        "archive\\captain_handbooks_consolidated\\trading_robot\\config\\__init__.py": {
-            "language": ".py",
-            "functions": [],
-            "classes": {},
-            "routes": [],
-            "complexity": 0
-        },
-        "src\\web\\static\\js\\unified-frontend-utilities.js": {
-            "language": ".js",
-            "functions": [],
-            "classes": {},
-            "routes": [],
-            "complexity": 0
-        },
-        "src\\web\\static\\js\\dashboard-utils.js": {
-            "language": ".js",
-            "functions": [],
-            "classes": {},
-            "routes": [],
-            "complexity": 0
-        },
-        "src\\web\\static\\js\\dashboard.js": {
-            "language": ".js",
-            "functions": [],
-            "classes": {},
-            "routes": [],
-            "complexity": 0
-        },
-        "src\\web\\static\\js\\performance\\performance-optimization-orchestrator.js": {
-            "language": ".js",
-            "functions": [],
-            "classes": {},
-            "routes": [],
-            "complexity": 0
-        },
-        "src\\web\\static\\js\\trading-robot\\chart-validation\\module.js": {
-            "language": ".js",
-            "functions": [],
-            "classes": {},
-            "routes": [],
-            "complexity": 0
-        },
-        "src\\services\\__init__.py": {
-            "language": ".py",
-            "functions": [],
-            "classes": {},
-            "routes": [],
-            "complexity": 0
-        },
-        "src\\services\\consolidated_debate_service_v2.py": {
-            "language": ".py",
-            "functions": [
-                "get_debate_service",
-                "reset_debate_service",
-                "__init__"
-            ],
-            "classes": {
-                "ConsolidatedDebateService": {
-                    "methods": [
-                        "__init__"
-                    ],
-                    "docstring": "Main consolidated debate service coordinating all debate components.\n\nThis class extends DebateCoordinator to maintain backward compatibility.",
-                    "base_classes": [
-                        "DebateCoordinator"
-                    ]
-                }
-            },
-            "routes": [],
-            "complexity": 4
-        },
-        "src\\services\\consolidated_messaging_service.py": {
-            "language": ".py",
-            "functions": [
-                "get_coordinate_loader",
-                "get_messaging_core",
-                "get_consolidated_messaging_system",
-                "main",
-                "send_message_to_inbox",
-                "send_message_with_fallback",
-                "broadcast_message_to_agents",
-                "get_agent_workspaces_status",
-                "send_message",
-                "broadcast_message",
-                "list_agents",
-                "get_messaging_core",
-                "show_message_history",
-                "__init__",
-                "load_coordinates_from_json",
-                "send_message_pyautogui",
-                "send_message_unified",
-                "broadcast_message_swarm",
-                "list_available_agents",
-                "show_message_history",
-                "run_cli_interface",
-                "broadcast_message",
-                "list_agents",
-                "show_message_history",
-                "get_agent_workspaces_status",
-                "launch_coordinate_capture",
-                "handle_task_assistance",
-                "_create_task_assistance_message",
-                "handle_thea_communication",
-                "show_current_coordinates",
-                "__init__",
-                "get_all_agents",
-                "is_agent_active",
-                "get_chat_coordinates",
-                "send_message",
-                "broadcast_message"
-            ],
-            "classes": {
-                "ConsolidatedMessagingService": {
-                    "methods": [
-                        "__init__",
-                        "load_coordinates_from_json",
-                        "send_message_pyautogui",
-                        "send_message_unified",
-                        "broadcast_message_swarm",
-                        "list_available_agents",
-                        "show_message_history",
-                        "run_cli_interface",
-                        "broadcast_message",
-                        "list_agents",
-                        "show_message_history",
-                        "get_agent_workspaces_status",
-                        "launch_coordinate_capture",
-                        "handle_task_assistance",
-                        "_create_task_assistance_message",
-                        "handle_thea_communication",
-                        "show_current_coordinates"
-                    ],
-                    "docstring": "Unified messaging service using PyAutoGUI messaging as SSOT.",
-                    "base_classes": []
-                },
-                "UnifiedMessageType": {
-                    "methods": [],
-                    "docstring": null,
-                    "base_classes": [
-                        "Enum"
-                    ]
-                },
-                "UnifiedMessagePriority": {
-                    "methods": [],
-                    "docstring": null,
-                    "base_classes": [
-                        "Enum"
-                    ]
-                },
-                "UnifiedMessageTag": {
-                    "methods": [],
-                    "docstring": null,
-                    "base_classes": [
-                        "Enum"
-                    ]
-                },
-                "UnifiedMessage": {
-                    "methods": [
-                        "__init__"
-                    ],
-                    "docstring": null,
-                    "base_classes": []
-                },
-                "MockCoordinateLoader": {
-                    "methods": [
-                        "get_all_agents",
-                        "is_agent_active",
-                        "get_chat_coordinates"
-                    ],
-                    "docstring": null,
-                    "base_classes": []
-                },
-                "MockMessagingCore": {
-                    "methods": [
-                        "send_message",
-                        "broadcast_message"
-                    ],
-                    "docstring": null,
-                    "base_classes": []
-                }
-            },
-            "routes": [],
-            "complexity": 59
-        },
-        "src\\services\\messaging\\service.py": {
-            "language": ".py",
-            "functions": [
-                "__init__",
-                "send",
-                "broadcast",
-                "broadcast_urgent"
-            ],
-            "classes": {
-                "MessagingService": {
-                    "methods": [
-                        "__init__",
-                        "send",
-                        "broadcast",
-                        "broadcast_urgent"
-                    ],
-                    "docstring": "Simple wrapper around ConsolidatedMessagingService.",
-                    "base_classes": []
-                }
-            },
-            "routes": [],
-            "complexity": 8
-        },
-        "src\\services\\messaging\\__init__.py": {
-            "language": ".py",
-            "functions": [],
-            "classes": {},
-            "routes": [],
-            "complexity": 0
-        },
-        "src\\services\\messaging\\consolidated_messaging_service_v2.py": {
-            "language": ".py",
-            "functions": [],
-            "classes": {},
-            "routes": [],
-            "complexity": 0
-        },
-        "src\\services\\messaging\\models.py": {
-            "language": ".py",
-            "functions": [],
-            "classes": {},
-            "routes": [],
-            "complexity": 0
-        },
-        "src\\services\\messaging\\providers\\fallback_provider\\__init__.py": {
-            "language": ".py",
-            "functions": [],
-            "classes": {},
-            "routes": [],
-            "complexity": 0
-        },
-        "src\\services\\messaging\\cli\\messaging_cli_clean.py": {
-            "language": ".py",
-            "functions": [],
-            "classes": {},
-            "routes": [],
-            "complexity": 0
-        },
-        "src\\services\\messaging\\cli\\perf_cli\\__init__.py": {
-            "language": ".py",
-            "functions": [],
-            "classes": {},
-            "routes": [],
-            "complexity": 0
-        },
-        "src\\services\\messaging\\broadcast_service\\__init__.py": {
-            "language": ".py",
-            "functions": [],
-            "classes": {},
-            "routes": [],
-            "complexity": 0
-        },
-        "src\\services\\messaging\\history_service\\__init__.py": {
-            "language": ".py",
-            "functions": [],
-            "classes": {},
-            "routes": [],
-            "complexity": 0
-        },
-        "src\\services\\agent_management\\consolidated_service.py": {
-            "language": ".py",
-            "functions": [
-                "__init__",
-                "_load_assignments",
-                "_create_vector_integration",
-                "_save_assignments",
-                "get_agent_principle",
-                "assign_principle",
-                "get_all_assignments",
-                "get_agents_by_principle",
-                "get_agent_status",
-                "get_integration_stats",
-                "_get_recent_work_count",
-                "_get_pending_tasks_count",
-                "_get_last_activity",
-                "_get_total_documents",
-                "_get_agent_documents",
-                "index_agent_work",
-                "search_agent_work",
-                "get_agent_context",
-                "get_agent_config",
-                "reload_config",
-                "get_comprehensive_agent_report"
-            ],
-            "classes": {
-                "ArchitecturalPrinciple": {
-                    "methods": [],
-                    "docstring": "Temporary architectural principle model.",
-                    "base_classes": []
-                },
-                "ConsolidatedAgentManagementService": {
-                    "methods": [
-                        "__init__",
-                        "_load_assignments",
-                        "_create_vector_integration",
-                        "_save_assignments",
-                        "get_agent_principle",
-                        "assign_principle",
-                        "get_all_assignments",
-                        "get_agents_by_principle",
-                        "get_agent_status",
-                        "get_integration_stats",
-                        "_get_recent_work_count",
-                        "_get_pending_tasks_count",
-                        "_get_last_activity",
-                        "_get_total_documents",
-                        "_get_agent_documents",
-                        "index_agent_work",
-                        "search_agent_work",
-                        "get_agent_context",
-                        "get_agent_config",
-                        "reload_config",
-                        "get_comprehensive_agent_report"
-                    ],
-                    "docstring": "Unified agent management service combining assignment, status, and vector integration.",
-                    "base_classes": []
-                }
-            },
-            "routes": [],
-            "complexity": 42
-        },
-        "src\\core\\__init__.py": {
-            "language": ".py",
-            "functions": [],
-            "classes": {},
-            "routes": [],
-            "complexity": 0
-        },
-        "src\\core\\error_handling_examples.py": {
-            "language": ".py",
-            "functions": [
-                "example_basic_error_handling",
-                "example_circuit_breaker_pattern",
-                "example_fallback_recovery",
-                "example_error_metrics_monitoring",
-                "example_custom_error_handler",
-                "main",
-                "__init__",
-                "can_handle",
-                "handle_error",
-                "get_capabilities"
-            ],
-            "classes": {
-                "DatabaseErrorHandler": {
-                    "methods": [
-                        "__init__",
-                        "can_handle",
-                        "handle_error",
-                        "get_capabilities"
-                    ],
-                    "docstring": "Custom error handler for database-specific errors.",
-                    "base_classes": [
-                        "ErrorHandler"
-                    ]
-                }
-            },
-            "routes": [],
-            "complexity": 14
-        },
-        "src\\discord_commander\\communication_engine\\__init__.py": {
-            "language": ".py",
-            "functions": [],
-            "classes": {},
-            "routes": [],
-            "complexity": 0
-        },
-        "src\\discord_commander\\messaging_gateway\\__init__.py": {
-            "language": ".py",
-            "functions": [],
-            "classes": {},
-            "routes": [],
-            "complexity": 0
-        },
-        "src\\discord_commander\\webhook\\__init__.py": {
-            "language": ".py",
-            "functions": [],
-            "classes": {},
-            "routes": [],
-            "complexity": 0
-        },
-        "src\\onboarding\\__init__.py": {
-            "language": ".py",
-            "functions": [],
-            "classes": {},
-            "routes": [],
-            "complexity": 0
-        }
+  "project_overview": {
+    "total_files": 21,
+    "languages": [
+      ".js",
+      ".py"
+    ],
+    "total_functions": 127,
+    "total_classes": 24,
+    "total_complexity": 245
+  },
+  "file_summary": {
+    "archive\\captain_handbooks_consolidated\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\orchestrators\\emergency_orchestrator.py": {
+      "language": ".py",
+      "function_count": 16,
+      "class_count": 1,
+      "complexity": 32
+    },
+    "src\\web\\static\\js\\dashboard.js": {
+      "language": ".js",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
+    },
+    "src\\web\\static\\js\\dashboard-utils.js": {
+      "language": ".js",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
+    },
+    "src\\web\\static\\js\\performance\\performance-optimization-orchestrator.js": {
+      "language": ".js",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
+    },
+    "src\\web\\static\\js\\trading-robot\\chart-validation\\module.js": {
+      "language": ".js",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
+    },
+    "src\\web\\static\\js\\utilities\\unified-utilities.js": {
+      "language": ".js",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
+    },
+    "src\\services\\handlers_orchestrator.py": {
+      "language": ".py",
+      "function_count": 32,
+      "class_count": 5,
+      "complexity": 63
+    },
+    "src\\services\\unified_vector_service.py": {
+      "language": ".py",
+      "function_count": 22,
+      "class_count": 10,
+      "complexity": 44
+    },
+    "src\\services\\consolidated_messaging_service.py": {
+      "language": ".py",
+      "function_count": 8,
+      "class_count": 1,
+      "complexity": 14
+    },
+    "src\\services\\messaging\\cli\\messaging_cli_clean.py": {
+      "language": ".py",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
+    },
+    "src\\services\\messaging\\broadcast_service\\__init__.py": {
+      "language": ".py",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
+    },
+    "src\\services\\messaging\\providers\\fallback_provider\\__init__.py": {
+      "language": ".py",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
+    },
+    "src\\services\\messaging\\history_service\\__init__.py": {
+      "language": ".py",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
+    },
+    "src\\services\\agent_management\\consolidated_service.py": {
+      "language": ".py",
+      "function_count": 21,
+      "class_count": 2,
+      "complexity": 42
+    },
+    "src\\core\\coordinate_loader_new.py": {
+      "language": ".py",
+      "function_count": 17,
+      "class_count": 4,
+      "complexity": 31
+    },
+    "src\\core\\coordinate_loader_backup.py": {
+      "language": ".py",
+      "function_count": 11,
+      "class_count": 1,
+      "complexity": 19
+    },
+    "src\\discord_commander\\communication_engine\\__init__.py": {
+      "language": ".py",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
+    },
+    "src\\discord_commander\\messaging_gateway\\__init__.py": {
+      "language": ".py",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
+    },
+    "src\\discord_commander\\webhook\\__init__.py": {
+      "language": ".py",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
+    },
+    "src\\onboarding\\onboarding_bridge\\__init__.py": {
+      "language": ".py",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
+    },
+    "src\\onboarding\\__init__.py": {
+      "language": ".py",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
     }
+  },
+  "key_components": [],
+  "architecture_notes": []
 }

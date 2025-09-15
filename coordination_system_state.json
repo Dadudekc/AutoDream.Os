@@ -1,37 +1,14 @@
 {
-  "contract_history": [
-    {
-      "contract_id": "CONTRACT_Agent-2_1757830719",
-      "agent_id": "Agent-2",
-      "contract_type": "v2_compliance",
-      "task_description": "Large File Modularization and V2 Compliance",
-      "priority": "HIGH",
-      "deadline": "2025-09-15 00:11:27",
-      "created_at": "2025-09-14T01:18:39.684459",
-      "status": "PENDING",
-      "progress": 0,
-      "completed_at": null
-    }
-  ],
-  "last_updated": "2025-09-14T01:18:39.715489",
   "onboarding_status": {
     "Agent-1": true,
     "Agent-2": true,
-    "Agent-3": false,
+    "Agent-3": true,
     "Agent-4": true,
     "Agent-5": true,
     "Agent-6": true,
-    "Agent-7": false,
+    "Agent-7": true,
     "Agent-8": true
   },
+  "contract_history": [],
   "agent_fsm_states": {
-    "Agent-1": "idle",
-    "Agent-2": "uninitialized",
-    "Agent-3": "uninitialized",
-    "Agent-4": "uninitialized",
-    "Agent-5": "idle",
-    "Agent-6": "idle",
-    "Agent-7": "uninitialized",
-    "Agent-8": "idle"
-  }
-}
+    "Agent-1": 

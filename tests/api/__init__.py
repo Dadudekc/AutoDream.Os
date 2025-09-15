@@ -5,6 +5,6 @@ from . import test_agent_api_suite
 from . import test_api_documentation_suite
 
 __all__ = [
-    'test_agent_api_suite',
-    'test_api_documentation_suite',
+    'test_agent_api_suite','
+    'test_api_documentation_suite','
 ]

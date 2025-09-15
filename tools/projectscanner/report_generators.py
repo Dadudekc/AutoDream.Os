@@ -303,6 +303,10 @@ class ReportGenerator:
         self.project_root = project_root
         self.analysis = analysis
 
+    def save_report(self):
+        """Save the analysis report (alias for generate_legacy_reports)."""
+        self.generate_legacy_reports()
+    
     def generate_legacy_reports(self):
         """Generate the original single large JSON report."""
         logger.info("🔄 Generating legacy analysis reports...")

@@ -5,6 +5,6 @@ from . import test_integration_smoke
 from . import test_status_index
 
 __all__ = [
-    'test_integration_smoke',
-    'test_status_index',
+    'test_integration_smoke','
+    'test_status_index','
 ]

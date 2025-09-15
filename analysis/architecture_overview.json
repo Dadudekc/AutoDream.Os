@@ -3,10 +3,10 @@
   "key_components": [],
   "architecture_patterns": [],
   "code_metrics": {
-    "total_files": 1160,
-    "total_functions": 6627,
-    "total_classes": 1438,
-    "total_complexity": 12631,
+    "total_files": 21,
+    "total_functions": 127,
+    "total_classes": 24,
+    "total_complexity": 245,
     "languages_used": [
       ".js",
       ".py"

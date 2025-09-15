@@ -1,15 +1,5 @@
 #!/usr/bin/env python3
-"""
-Analytics Performance Optimizer - V2 Compliant
-==============================================
-
-Analytics performance optimization service with caching, parallel processing, and resource management.
-V2 COMPLIANT: Under 400 lines, single responsibility.
-
-Author: Agent-5 (Business Intelligence Specialist)
-License: MIT
-"""
-
+# Analytics Performance Optimizer - V2 Compliant
 import logging
 import time
 import threading

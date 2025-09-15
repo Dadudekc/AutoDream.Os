@@ -1,11 +1,8 @@
 #!/usr/bin/env python3
 """
 Advanced Data Analysis Engine - V2 Compliant
-============================================
-
-Advanced data analysis engine with statistical analysis, pattern recognition, and insights generation.
+Advanced data analysis engine with statistical analysis and pattern recognition
 V2 COMPLIANT: Under 400 lines, single responsibility.
-
 Author: Agent-5 (Business Intelligence Specialist)
 License: MIT
 """
@@ -21,8 +18,6 @@ logger = logging.getLogger(__name__)
 
 
 class StatisticalAnalyzer:
-    """Statistical analysis engine for business intelligence."""
-    
     def __init__(self):
         self.analysis_cache = {}
         self.analysis_stats = {
@@ -32,28 +27,22 @@ class StatisticalAnalyzer:
         }
     
     def analyze_distribution(self, data: List[float]) -> Dict[str, Any]:
-        """Analyze data distribution with comprehensive statistics."""
         if not data:
             return {"error": "No data provided"}
         
         try:
-            # Basic statistics
             mean_val = statistics.mean(data)
             median_val = statistics.median(data)
             mode_val = statistics.mode(data) if len(set(data)) < len(data) else None
             std_dev = statistics.stdev(data) if len(data) > 1 else 0.0
             variance = statistics.variance(data) if len(data) > 1 else 0.0
             
-            # Percentiles
             percentiles = {}
             for p in [25, 50, 75, 90, 95, 99]:
                 percentiles[f'p{p}'] = self._calculate_percentile(data, p)
             
-            # Distribution analysis
             skewness = self._calculate_skewness(data, mean_val, std_dev)
             kurtosis = self._calculate_kurtosis(data, mean_val, std_dev)
-            
-            # Outlier detection
             outliers = self._detect_outliers(data, mean_val, std_dev)
             
             self.analysis_stats['total_analyses'] += 1
@@ -81,10 +70,8 @@ class StatisticalAnalyzer:
             return {"error": str(e)}
     
     def _calculate_percentile(self, data: List[float], percentile: int) -> float:
-        """Calculate percentile value."""
         sorted_data = sorted(data)
         index = (percentile / 100) * (len(sorted_data) - 1)
-        
         if index.is_integer():
             return sorted_data[int(index)]
         else:
@@ -93,7 +80,6 @@ class StatisticalAnalyzer:
             return lower + (upper - lower) * (index - int(index))
     
     def _calculate_skewness(self, data: List[float], mean_val: float, std_dev: float) -> float:
-        """Calculate skewness of the distribution."""
         if std_dev == 0 or len(data) < 3:
             return 0.0
         
@@ -102,33 +88,24 @@ class StatisticalAnalyzer:
         return (n / ((n - 1) * (n - 2))) * skew_sum
     
     def _calculate_kurtosis(self, data: List[float], mean_val: float, std_dev: float) -> float:
-        """Calculate kurtosis of the distribution."""
         if std_dev == 0 or len(data) < 4:
             return 0.0
-        
         n = len(data)
         kurt_sum = sum(((x - mean_val) / std_dev) ** 4 for x in data)
         return ((n * (n + 1)) / ((n - 1) * (n - 2) * (n - 3))) * kurt_sum - (3 * (n - 1) ** 2) / ((n - 2) * (n - 3))
     
     def _detect_outliers(self, data: List[float], mean_val: float, std_dev: float) -> List[float]:
-        """Detect outliers using IQR method."""
         if len(data) < 4:
             return []
-        
-        sorted_data = sorted(data)
         q1 = self._calculate_percentile(data, 25)
         q3 = self._calculate_percentile(data, 75)
         iqr = q3 - q1
-        
         lower_bound = q1 - 1.5 * iqr
         upper_bound = q3 + 1.5 * iqr
-        
         return [x for x in data if x < lower_bound or x > upper_bound]
 
 
 class PatternRecognizer:
-    """Pattern recognition engine for business intelligence."""
-    
     def __init__(self):
         self.pattern_cache = {}
         self.recognition_stats = {
@@ -138,19 +115,14 @@ class PatternRecognizer:
         }
     
     def identify_trends(self, time_series: List[Tuple[datetime, float]]) -> Dict[str, Any]:
-        """Identify trends in time series data."""
         if len(time_series) < 2:
             return {"error": "Insufficient data for trend analysis"}
         
         try:
-            # Extract values and timestamps
             timestamps = [ts[0] for ts in time_series]
             values = [ts[1] for ts in time_series]
-            
-            # Calculate trend using linear regression
             trend_slope, trend_intercept, r_squared = self._linear_regression(timestamps, values)
             
-            # Determine trend direction
             if abs(trend_slope) < 0.001:
                 trend_direction = "stable"
             elif trend_slope > 0:
@@ -158,10 +130,7 @@ class PatternRecognizer:
             else:
                 trend_direction = "decreasing"
             
-            # Calculate trend strength
             trend_strength = abs(r_squared)
-            
-            # Detect seasonality
             seasonality = self._detect_seasonality(time_series)
             
             self.recognition_stats['trend_analyses'] += 1
@@ -184,8 +153,6 @@ class PatternRecognizer:
             return {"error": str(e)}
     
     def _linear_regression(self, x_data: List[datetime], y_data: List[float]) -> Tuple[float, float, float]:
-        """Perform linear regression on time series data."""
-        # Convert timestamps to numeric values (seconds since first timestamp)
         first_timestamp = x_data[0]
         x_numeric = [(ts - first_timestamp).total_seconds() for ts in x_data]
         
@@ -196,11 +163,8 @@ class PatternRecognizer:
         sum_x2 = sum(x * x for x in x_numeric)
         sum_y2 = sum(y * y for y in y_data)
         
-        # Calculate slope and intercept
         slope = (n * sum_xy - sum_x * sum_y) / (n * sum_x2 - sum_x * sum_x)
         intercept = (sum_y - slope * sum_x) / n
-        
-        # Calculate R-squared
         y_mean = sum_y / n
         ss_tot = sum((y - y_mean) ** 2 for y in y_data)
         ss_res = sum((y - (slope * x + intercept)) ** 2 for x, y in zip(x_numeric, y_data))
@@ -209,31 +173,25 @@ class PatternRecognizer:
         return slope, intercept, r_squared
     
     def _detect_seasonality(self, time_series: List[Tuple[datetime, float]]) -> Dict[str, Any]:
-        """Detect seasonality patterns in time series data."""
-        if len(time_series) < 24:  # Need at least 24 data points
+        if len(time_series) < 24:
             return {"detected": False, "reason": "Insufficient data"}
         
         try:
-            # Group by hour of day
             hourly_data = defaultdict(list)
             for timestamp, value in time_series:
                 hour = timestamp.hour
                 hourly_data[hour].append(value)
             
-            # Calculate hourly averages
             hourly_averages = {}
             for hour, values in hourly_data.items():
                 if values:
                     hourly_averages[hour] = statistics.mean(values)
             
-            # Calculate seasonality strength
             if len(hourly_averages) > 1:
                 overall_mean = statistics.mean(hourly_averages.values())
                 variance = statistics.variance(hourly_averages.values())
                 seasonality_strength = variance / (overall_mean ** 2) if overall_mean != 0 else 0
-                
-                # Detect if seasonality is significant
-                detected = seasonality_strength > 0.1  # Threshold for seasonality
+                detected = seasonality_strength > 0.1
                 
                 return {
                     "detected": detected,
@@ -250,8 +208,6 @@ class PatternRecognizer:
 
 
 class InsightsGenerator:
-    """Insights generation engine for business intelligence."""
-    
     def __init__(self):
         self.insights_cache = {}
         self.generation_stats = {
@@ -261,7 +217,6 @@ class InsightsGenerator:
         }
     
     def generate_insights(self, analysis_data: Dict[str, Any]) -> Dict[str, Any]:
-        """Generate actionable insights from analysis data."""
         try:
             insights = {
                 "summary": [],
@@ -270,20 +225,16 @@ class InsightsGenerator:
                 "predictions": []
             }
             
-            # Generate insights from statistical analysis
             if "basic_stats" in analysis_data:
                 insights["summary"].extend(self._generate_statistical_insights(analysis_data["basic_stats"]))
             
-            # Generate insights from distribution analysis
             if "distribution" in analysis_data:
                 insights["alerts"].extend(self._generate_distribution_alerts(analysis_data["distribution"]))
             
-            # Generate insights from trend analysis
             if "trend" in analysis_data:
                 insights["recommendations"].extend(self._generate_trend_recommendations(analysis_data["trend"]))
                 insights["predictions"].extend(self._generate_trend_predictions(analysis_data["trend"]))
             
-            # Generate insights from seasonality
             if "seasonality" in analysis_data:
                 insights["recommendations"].extend(self._generate_seasonality_recommendations(analysis_data["seasonality"]))
             
@@ -300,36 +251,25 @@ class InsightsGenerator:
             return {"error": str(e)}
     
     def _generate_statistical_insights(self, stats: Dict[str, Any]) -> List[str]:
-        """Generate insights from basic statistics."""
         insights = []
-        
         if stats.get("std_dev", 0) > stats.get("mean", 0) * 0.5:
             insights.append("High variability detected - data shows significant spread")
-        
         if stats.get("count", 0) < 30:
             insights.append("Small sample size - consider collecting more data for reliable analysis")
-        
         return insights
     
     def _generate_distribution_alerts(self, distribution: Dict[str, Any]) -> List[str]:
-        """Generate alerts from distribution analysis."""
         alerts = []
-        
         if distribution.get("outliers_count", 0) > 0:
             alerts.append(f"Outliers detected: {distribution['outliers_count']} values outside normal range")
-        
         if abs(distribution.get("skewness", 0)) > 1:
             alerts.append("Highly skewed distribution - data may not be normally distributed")
-        
         return alerts
     
     def _generate_trend_recommendations(self, trend: Dict[str, Any]) -> List[str]:
-        """Generate recommendations from trend analysis."""
         recommendations = []
-        
         direction = trend.get("direction", "stable")
         strength = trend.get("strength", 0)
-        
         if direction == "increasing" and strength > 0.7:
             recommendations.append("Strong upward trend detected - consider scaling resources")
         elif direction == "decreasing" and strength > 0.7:

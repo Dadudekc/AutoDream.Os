@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 FSM State Models - V2 Compliance Module
 ======================================
@@ -12,7 +13,6 @@ License: MIT
 
 from dataclasses import dataclass
 from typing import Any
-
 
 @dataclass
 class StateDefinition:
@@ -30,33 +30,6 @@ class StateDefinition:
     metadata: dict[str, Any]
 
     def __post_init__(self):
-
-EXAMPLE USAGE:
-==============
-
-# Import the core component
-from src.core.constants.fsm.state_models import State_Models
-
-# Initialize with configuration
-config = {
-    "setting1": "value1",
-    "setting2": "value2"
-}
-
-component = State_Models(config)
-
-# Execute primary functionality
-result = component.process_data(input_data)
-print(f"Processing result: {result}")
-
-# Advanced usage with error handling
-try:
-    advanced_result = component.advanced_operation(data, options={"optimize": True})
-    print(f"Advanced operation completed: {advanced_result}")
-except ProcessingError as e:
-    print(f"Operation failed: {e}")
-    # Implement recovery logic
-
         """Post-initialization validation."""
         if not self.name:
             raise ValueError("State name is required")
@@ -65,7 +38,11 @@ except ProcessingError as e:
 
     def is_valid(self) -> bool:
         """Check if state definition is valid."""
-        return bool(self.name and self.description)
+        try:
+            self.__post_init__()
+            return True
+        except ValueError:
+            return False
 
     def get_summary(self) -> dict[str, Any]:
         """Get state summary."""

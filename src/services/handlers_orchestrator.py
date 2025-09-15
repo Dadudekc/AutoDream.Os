@@ -1,30 +1,11 @@
 #!/usr/bin/env python3
-"""
-Unified Handlers Orchestrator - V2 Compliant
-Main orchestrator for handler services (≤400 lines)
-
-MODULAR ARCHITECTURE:
-- command_handler_module.py (Command handling)
-- contract_handler_module.py (Contract operations)
-- coordinate_handler_module.py (Coordination logic)
-- onboarding_handler_module.py (Onboarding processes)
-- utility_handler_module.py (Utility operations)
-
-TOTAL: 5 modules + 1 orchestrator (V2 compliant)
-
-@author Agent-1 - Integration & Core Systems Specialist
-@version 2.0.0 - V2 COMPLIANCE REFACTORING
-@license MIT
-"""
-
+# Unified Handlers Orchestrator - V2 Compliant
 import logging
 from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
 from typing import Any
-
-# Import modular handlers
 try:
     from .command_handler_module import CommandHandler
     from .coordinate_handler_module import CoordinateHandler
@@ -32,11 +13,6 @@ try:
     from .utility_handler_module import UtilityHandler
 except ImportError as e:
     logging.warning(f"Failed to import handler modules: {e}")
-
-# ================================
-# TYPE DEFINITIONS & ENUMS
-# ================================
-
 
 class HandlerType(Enum):
     COMMAND = "command"
@@ -67,8 +43,6 @@ class HandlerStatus(Enum):
 
 @dataclass
 class HandlerRequest:
-    """Standardized handler request structure"""
-
     id: str
     type: HandlerType
     priority: HandlerPriority
@@ -77,53 +51,14 @@ class HandlerRequest:
     status: HandlerStatus = HandlerStatus.PENDING
     result: Any | None = None
     error: str | None = None
-
-
-# ================================
-# UNIFIED HANDLERS ORCHESTRATOR
-# ================================
-
-
 class UnifiedHandlersOrchestrator:
-    """Main orchestrator for handler services."""
-    
-    def __init__(self):
-        """Initialize the handlers orchestrator."""
-        self.logger = logging.getLogger(__name__)
-        self.handlers = {}
-        self.requests = []
-service = Handlers_OrchestratorService()
-
-# Basic service operation
-response = service.handle_request(request_data)
-print(f"Service response: {response}")
-
-# Service with dependency injection
-from src.core.dependency_container import Container
-
-container = Container()
-service = container.get(Handlers_OrchestratorService)
-
-# Execute service method
-result = service.execute_operation(input_data, context)
-print(f"Operation result: {result}")
-
-    """
-    Main orchestrator for all handler operations
-    Coordinates all handler modules for V2 compliance
-    """
-
     def __init__(self):
         self.logger = logging.getLogger(__name__)
         self._handlers: dict[HandlerType, Callable] = {}
         self._active_requests: dict[str, HandlerRequest] = {}
         self._command_history: list[dict[str, Any]] = []
-
-        # Initialize modular handlers
         self._initialize_handlers()
-
     def _initialize_handlers(self):
-        """Initialize all handler modules"""
         try:
             self.command_handler = CommandHandler()
             self.coordinate_handler = CoordinateHandler()

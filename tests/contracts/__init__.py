@@ -4,5 +4,5 @@
 from . import test_contract_system
 
 __all__ = [
-    'test_contract_system',
+    'test_contract_system','
 ]

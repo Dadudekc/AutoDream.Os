@@ -1,11 +1,8 @@
 #!/usr/bin/env python3
 """
 BI Reliability Monitor - V2 Compliant
-=====================================
-
-Business Intelligence reliability monitoring service with health checks, error tracking, and recovery.
+Business Intelligence reliability monitoring service with health checks and error tracking
 V2 COMPLIANT: Under 400 lines, single responsibility.
-
 Author: Agent-5 (Business Intelligence Specialist)
 License: MIT
 """
@@ -21,21 +18,17 @@ logger = logging.getLogger(__name__)
 
 
 class HealthChecker:
-    """Health checking system for BI components."""
-    
     def __init__(self):
         self.health_checks = {}
         self.health_history = defaultdict(lambda: deque(maxlen=100))
         self.lock = threading.RLock()
     
     def register_health_check(self, component_name: str, check_function: callable) -> None:
-        """Register a health check for a component."""
         with self.lock:
             self.health_checks[component_name] = check_function
             logger.debug(f"Registered health check for {component_name}")
     
     def perform_health_check(self, component_name: str) -> Dict[str, Any]:
-        """Perform health check for a specific component."""
         with self.lock:
             if component_name not in self.health_checks:
                 return {"status": "error", "message": "Component not registered"}
@@ -53,11 +46,8 @@ class HealthChecker:
                     "details": result
                 }
                 
-                # Store in history
                 self.health_history[component_name].append(health_status)
-                
                 return health_status
-                
             except Exception as e:
                 logger.error(f"Health check failed for {component_name}: {e}")
                 error_status = {
@@ -71,12 +61,11 @@ class HealthChecker:
                 return error_status
     
     def get_health_summary(self) -> Dict[str, Any]:
-        """Get health summary for all components."""
         with self.lock:
             summary = {}
             for component_name in self.health_checks.keys():
                 if component_name in self.health_history:
-                    recent_checks = list(self.health_history[component_name])[-10:]  # Last 10 checks
+                    recent_checks = list(self.health_history[component_name])[-10:]
                     if recent_checks:
                         healthy_count = sum(1 for check in recent_checks if check["status"] == "healthy")
                         total_count = len(recent_checks)
@@ -89,7 +78,6 @@ class HealthChecker:
 
 
 class ErrorTracker:
-    """Error tracking and analysis system."""
     
     def __init__(self):
         self.errors = deque(maxlen=1000)

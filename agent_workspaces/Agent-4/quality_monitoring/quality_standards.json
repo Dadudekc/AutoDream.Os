@@ -1,0 +1,107 @@
+{
+  "quality_assurance_framework": {
+    "version": "2.0",
+    "captain_id": "Agent-4",
+    "framework_type": "Enhanced Swarm Quality Assurance",
+    "last_updated": "2025-09-14 19:23:18"
+  },
+  "code_quality_standards": {
+    "file_size_compliance": {
+      "compliant": "≤400 lines",
+      "major_violation": "401–600 lines",
+      "critical_violation": ">600 lines",
+      "action_required": "immediate refactor"
+    },
+    "python_standards": {
+      "pep8_compliance": true,
+      "type_hints_required": true,
+      "line_length_limit": 100,
+      "naming_conventions": "snake_case",
+      "class_based_design": "complex logic only"
+    },
+    "testing_requirements": {
+      "unit_test_coverage": "≥85%",
+      "test_framework": "pytest",
+      "mock_external_apis": true,
+      "mock_database_calls": true
+    }
+  },
+  "architecture_quality_gates": {
+    "repository_pattern": "required for data access",
+    "business_logic_separation": "service layers only",
+    "dependency_injection": "shared utilities",
+    "circular_dependencies": "avoid across modules",
+    "single_source_of_truth": "configuration, constants, documentation"
+  },
+  "swarm_coordination_quality": {
+    "response_time_standards": {
+      "agent_response_cycle": "2-5 minutes",
+      "coordination_cycle": "10 minutes",
+      "swarm_consensus": "within 1 cycle"
+    },
+    "communication_quality": {
+      "message_clarity": "clear and actionable",
+      "coordination_effectiveness": "real-time",
+      "documentation_currency": "real-time updates"
+    },
+    "physical_automation_quality": {
+      "coordinate_accuracy": "pixel-perfect",
+      "multi_monitor_coordination": "seamless",
+      "pyautogui_reliability": "high availability"
+    }
+  },
+  "consolidation_quality_metrics": {
+    "file_reduction_targets": {
+      "overall_reduction": "65-70%",
+      "phase1_reduction": "65%",
+      "phase2_reduction": "58%",
+      "phase3_reduction": "44%",
+      "phase4_reduction": "63%"
+    },
+    "consolidation_principles": [
+      "SOLID Compliance",
+      "DRY Principle", 
+      "KISS Principle",
+      "YAGNI Principle",
+      "Separation of Concerns"
+    ],
+    "quality_gates": [
+      "All Tests Passing",
+      "Documentation Updated",
+      "Code Review Completed",
+      "Performance Validated",
+      "Integration Testing Passed"
+    ]
+  },
+  "agent_performance_metrics": {
+    "onboarding_completion": {
+      "target_time": "within 1 agent cycle",
+      "success_rate": "≥95%",
+      "coordination_establishment": "immediate"
+    },
+    "mission_execution": {
+      "completion_rate": "≥90%",
+      "quality_score": "≥85%",
+      "coordination_effectiveness": "≥90%"
+    },
+    "swarm_contribution": {
+      "specialist_expertise": "domain-specific",
+      "cross_agent_support": "collaborative",
+      "knowledge_sharing": "continuous"
+    }
+  },
+  "quality_assurance_tools": {
+    "project_scanner": "comprehensive analysis",
+    "code_quality_analysis": "duplication detection",
+    "testing_tools": "pytest coverage",
+    "consolidation_tools": "chunked analysis",
+    "messaging_analysis": "communication quality"
+  },
+  "quality_improvement_process": {
+    "continuous_monitoring": true,
+    "real_time_feedback": true,
+    "swarm_coordination": true,
+    "documentation_updates": true,
+    "performance_optimization": true
+  }
+}

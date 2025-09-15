@@ -4,5 +4,5 @@
 from . import shared_operational_fixtures
 
 __all__ = [
-    'shared_operational_fixtures',
+    'shared_operational_fixtures','
 ]

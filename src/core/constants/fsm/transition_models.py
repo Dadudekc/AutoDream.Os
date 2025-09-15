@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 FSM Transition Models - V2 Compliance Module
 ===========================================
@@ -15,7 +16,6 @@ from typing import Any
 
 from ..fsm_enums import TransitionType
 
-
 @dataclass
 class TransitionDefinition:
     """FSM transition definition with V2 compliance."""
@@ -30,33 +30,6 @@ class TransitionDefinition:
     metadata: dict[str, Any]
 
     def __post_init__(self):
-
-EXAMPLE USAGE:
-==============
-
-# Import the core component
-from src.core.constants.fsm.transition_models import Transition_Models
-
-# Initialize with configuration
-config = {
-    "setting1": "value1",
-    "setting2": "value2"
-}
-
-component = Transition_Models(config)
-
-# Execute primary functionality
-result = component.process_data(input_data)
-print(f"Processing result: {result}")
-
-# Advanced usage with error handling
-try:
-    advanced_result = component.advanced_operation(data, options={"optimize": True})
-    print(f"Advanced operation completed: {advanced_result}")
-except ProcessingError as e:
-    print(f"Operation failed: {e}")
-    # Implement recovery logic
-
         """Post-initialization validation."""
         if not self.from_state:
             raise ValueError("From state is required")
@@ -67,7 +40,11 @@ except ProcessingError as e:
 
     def is_valid(self) -> bool:
         """Check if transition definition is valid."""
-        return bool(self.from_state and self.to_state and self.from_state != self.to_state)
+        try:
+            self.__post_init__()
+            return True
+        except ValueError:
+            return False
 
     def get_summary(self) -> dict[str, Any]:
         """Get transition summary."""

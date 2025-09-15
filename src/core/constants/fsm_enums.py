@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 FSM Enums - V2 Compliance Finite State Machine Enumerations
 ===========================================================
@@ -5,7 +6,7 @@ FSM Enums - V2 Compliance Finite State Machine Enumerations
 This module provides FSM-related enums with V2 compliance standards.
 
 V2 COMPLIANCE: Type-safe FSM enumerations with validation
-DESIGN PATTERN: Enum pattern for FSM type definitions
+DESIGN PATTERN: Enum pattern for FSM configuration
 DEPENDENCY INJECTION: Configuration-driven FSM parameters
 
 Author: Agent-2 (Architecture & Design Specialist)
@@ -26,33 +27,6 @@ class TransitionType(Enum):
 
 
 class StateStatus(Enum):
-
-EXAMPLE USAGE:
-==============
-
-# Import the core component
-from src.core.constants.fsm_enums import Fsm_Enums
-
-# Initialize with configuration
-config = {
-    "setting1": "value1",
-    "setting2": "value2"
-}
-
-component = Fsm_Enums(config)
-
-# Execute primary functionality
-result = component.process_data(input_data)
-print(f"Processing result: {result}")
-
-# Advanced usage with error handling
-try:
-    advanced_result = component.advanced_operation(data, options={"optimize": True})
-    print(f"Advanced operation completed: {advanced_result}")
-except ProcessingError as e:
-    print(f"Operation failed: {e}")
-    # Implement recovery logic
-
     """FSM state status values."""
 
     ACTIVE = "active"

@@ -6,7 +6,8 @@ from . import agent2_support_framework
 from . import conftest
 from . import coverage_dashboard
 from . import enhanced_architectural_tests
-from . import integration_testing_framework
+from . import integration_testing_framework_core
+from . import integration_testing_framework_api
 from . import run_architectural_tests_standalone
 from . import run_integration_tests
 from . import swarm_testing_framework
@@ -49,7 +50,8 @@ __all__ = [
     'conftest',
     'coverage_dashboard',
     'enhanced_architectural_tests',
-    'integration_testing_framework',
+    'integration_testing_framework_core',
+    'integration_testing_framework_api',
     'run_architectural_tests_standalone',
     'run_integration_tests',
     'swarm_testing_framework',

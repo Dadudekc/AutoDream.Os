@@ -1,7 +1,7 @@
 {
   "agent_id": "Agent-2",
   "role": "Architecture & Design Specialist",
-  "status": "ONBOARDED",
+  "status": "OPERATIONAL",
   "coordinates": "(-308, 480)",
   "monitor": "Monitor 1 (Left Screen)",
   "position": "Row 2, Column 1",
@@ -176,7 +176,7 @@
     "mission": "Large file modularization and V2 compliance enhancement",
     "target": "Complete large file modularization and V2 compliance enhancement"
   },
-  "fsm_state": "ONBOARDED",
+  "fsm_state": "MISSION_READY",
   "last_checkin": "2025-09-14T00:06:00Z",
   "swarm_participation": {
     "debates_participated": 0,

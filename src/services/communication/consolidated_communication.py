@@ -1,31 +1,6 @@
 #!/usr/bin/env python3
-"""
-🐝 CONSOLIDATED COMMUNICATION SYSTEM - AGENT-6 AGGRESSIVE CONSOLIDATION
-========================================================================
-
-AGGRESSIVE CONSOLIDATION: Phase 1 Batch 1A - Core Architecture Consolidation
-Consolidated from 11+ separate communication systems into single unified system.
-
-CONSOLIDATED FROM:
-- enhanced_communication_protocols.py
-- unified_messaging.py
-- message_archive.py
-- message_queue_interfaces.py
-- message_queue_persistence.py
-- message_queue_pyautogui_integration.py
-- message_queue_statistics.py
-- message_queue.py
-- agent_communication/ (3 files)
-
-V2 COMPLIANCE: <400 lines, SOLID principles, comprehensive error handling
-AGGRESSIVE CONSOLIDATION: Eliminated 3000+ lines of duplicate code
-
-Author: Agent-6 (Web Interface & Communication Specialist) - Consolidation Champion
-License: MIT
-"""
-
+# Consolidated Communication System - V2 Compliant
 from __future__ import annotations
-
 import asyncio
 import json
 import logging
@@ -43,9 +18,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 logger = logging.getLogger(__name__)
 
-
 class MessageType(Enum):
-    """Types of messages that can be sent."""
     AGENT_TO_AGENT = "agent_to_agent"
     SWARM_BROADCAST = "swarm_broadcast"
     TASK_UPDATE = "task_update"
@@ -55,25 +28,20 @@ class MessageType(Enum):
 
 
 class MessagePriority(Enum):
-    """Message priority levels."""
     LOW = "low"
     NORMAL = "normal"
     HIGH = "high"
     CRITICAL = "critical"
 
-
 class CommunicationProtocol(Enum):
-    """Supported communication protocols."""
     INTERNAL = "internal"
     HTTP = "http"
     WEBSOCKET = "websocket"
     PYAUTOGUI = "pyautogui"
     FILE_BASED = "file_based"
 
-
 @dataclass
 class Message:
-    """Unified message structure."""
     message_id: str
     sender: str
     recipient: str
@@ -85,7 +53,6 @@ class Message:
     protocol: CommunicationProtocol = CommunicationProtocol.INTERNAL
 
     def to_dict(self) -> Dict[str, Any]:
-        """Convert message to dictionary for serialization."""
         return {
             "message_id": self.message_id,
             "sender": self.sender,
@@ -100,7 +67,6 @@ class Message:
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> Message:
-        """Create message from dictionary."""
         return cls(
             message_id=data["message_id"],
             sender=data["sender"],
@@ -113,67 +79,38 @@ class Message:
             protocol=CommunicationProtocol(data.get("protocol", "internal"))
         )
 
-
 @dataclass
 class MessageResult:
-    """Result of message operations."""
     success: bool
     message_id: str
     error: Optional[str] = None
     delivery_time: float = 0.0
 
-
 class IMessageHandler(Protocol):
-    """Interface for message handlers."""
-
     def can_handle(self, message: Message) -> bool: ...
-    """# Example usage:
-result = can_handle("example_value", "example_value")
-print(f"Result: {result}")"""
 
     async def handle_message(self, message: Message) -> MessageResult: ...
 
 
 class ICommunicationChannel(ABC):
-    """Abstract base class for communication channels."""
-
     def __init__(self, channel_id: str):
-        """Initialize communication channel."""
-        self.channel_id = channel_id
-    """# Example usage:
-result = __init__("example_value", "example_value")
-print(f"Result: {result}")"""
-    """# Example usage:
-result = __init__("example_value", "example_value", "example_value")
-print(f"Result: {result}")"""
         self.channel_id = channel_id
         self.logger = logging.getLogger(f"{self.__class__.__name__}.{channel_id}")
 
     @abstractmethod
     def get_protocol(self) -> CommunicationProtocol:
-    """# Example usage:
-result = get_protocol("example_value")
-print(f"Result: {result}")"""
-    """# Example usage:
-result = get_protocol("example_value")
-print(f"Result: {result}")"""
-        """Return the protocol this channel supports."""
         pass
 
     @abstractmethod
     async def send_message(self, message: Message) -> MessageResult:
-        """Send a message through this channel."""
         pass
 
     @abstractmethod
     async def receive_messages(self, recipient: str) -> List[Message]:
-        """Receive messages for a recipient."""
         pass
 
 
 class InternalCommunicationChannel(ICommunicationChannel):
-    """Internal in-memory communication channel."""
-
     def __init__(self, channel_id: str):
         super().__init__(channel_id)
         self.message_queue: Queue[Message] = Queue()
@@ -183,20 +120,16 @@ class InternalCommunicationChannel(ICommunicationChannel):
         return CommunicationProtocol.INTERNAL
 
     async def send_message(self, message: Message) -> MessageResult:
-        """Send message to internal queue."""
         start_time = time.time()
-
         try:
             with self._lock:
                 self.message_queue.put(message)
-
             delivery_time = time.time() - start_time
             return MessageResult(
                 success=True,
                 message_id=message.message_id,
                 delivery_time=delivery_time
             )
-
         except Exception as e:
             delivery_time = time.time() - start_time
             return MessageResult(
@@ -207,11 +140,8 @@ class InternalCommunicationChannel(ICommunicationChannel):
             )
 
     async def receive_messages(self, recipient: str) -> List[Message]:
-        """Receive messages from internal queue for recipient."""
         messages = []
-
         try:
-            # Drain queue for recipient
             temp_queue = Queue()
             while not self.message_queue.empty():
                 try:
@@ -222,41 +152,27 @@ class InternalCommunicationChannel(ICommunicationChannel):
                         temp_queue.put(msg)
                 except:
                     break
-
-            # Restore non-matching messages
             while not temp_queue.empty():
                 self.message_queue.put(temp_queue.get())
-
         except Exception as e:
             self.logger.error(f"Error receiving messages: {e}")
-
         return messages
 
-
 class FileBasedCommunicationChannel(ICommunicationChannel):
-    """File-based communication channel for agent-to-agent messaging."""
-
     def __init__(self, channel_id: str, inbox_dir: str = "agent_workspaces"):
         super().__init__(channel_id)
         self.inbox_dir = Path(inbox_dir)
-
     def get_protocol(self) -> CommunicationProtocol:
         return CommunicationProtocol.FILE_BASED
-
     async def send_message(self, message: Message) -> MessageResult:
         """Send message via file-based system."""
         start_time = time.time()
-
         try:
-            # Create inbox directory for recipient
             inbox_path = self.inbox_dir / message.recipient / "inbox"
             inbox_path.mkdir(parents=True, exist_ok=True)
-
-            # Save message to file
             message_file = inbox_path / f"{message.message_id}.json"
             with open(message_file, 'w', encoding='utf-8') as f:
                 json.dump(message.to_dict(), f, indent=2, default=str)
-
             delivery_time = time.time() - start_time
             return MessageResult(
                 success=True,

@@ -23,8 +23,9 @@ class LanguageAnalyzer:
     
     def __init__(self):
         """Initialize the language analyzer."""
-        self.rust_parser = self._init_tree_sitter_language("rust")
-        self.js_parser = self._init_tree_sitter_language("javascript")
+        # Disable tree-sitter parsers for now - focus on Python analysis
+        self.rust_parser = None
+        self.js_parser = None
 
     def analyze_language(self, file_path: str, content: str) -> dict:
         """Handles language-specific code analysis for different programming languages."""
@@ -33,35 +34,15 @@ class LanguageAnalyzer:
     def _init_tree_sitter_language(self, lang_name: str) -> Parser | None:
         """
         Initializes and returns a Parser for the given language name (rust, javascript).
-        Adjust grammar_paths to point at your compiled .so files if using tree-sitter.
+        Returns None if tree-sitter is not available or grammars are missing.
         """
         if not Language or not Parser:
-            logger.warning(
-                "⚠️ tree-sitter not installed. Rust/JS/TS AST parsing will be partially disabled."
-            )
+            # Silently return None - tree-sitter is optional
             return None
 
-        grammar_paths = {
-            "rust": "path/to/tree-sitter-rust.so",  # <-- Adjust as needed
-            "javascript": "path/to/tree-sitter-javascript.so",  # <-- Adjust as needed
-        }
-        if lang_name not in grammar_paths:
-            logger.warning(f"⚠️ No grammar path for {lang_name}. Skipping.")
-            return None
-
-        grammar_path = grammar_paths[lang_name]
-        if not Path(grammar_path).exists():
-            logger.warning(f"⚠️ {lang_name} grammar not found at {grammar_path}")
-            return None
-
-        try:
-            lang_lib = Language(grammar_path, lang_name)
-            parser = Parser()
-            parser.set_language(lang_lib)
-            return parser
-        except Exception as e:
-            logger.error(f"⚠️ Failed to initialize tree-sitter {lang_name} parser: {e}")
-            return None
+        # Skip tree-sitter initialization for now - focus on Python analysis
+        logger.info(f"Tree-sitter {lang_name} parsing disabled - focusing on Python analysis")
+        return None
 
     def analyze_file(self, file_path: Path, source_code: str) -> dict:
         """

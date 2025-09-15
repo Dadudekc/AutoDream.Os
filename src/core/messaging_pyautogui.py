@@ -102,7 +102,7 @@ def get_agent_coordinates(agent_id: str) -> Optional[Tuple[int, int]]:
 # -------------------- Formatting -------------------- #
 
 def format_message_for_delivery(message: UnifiedMessage) -> str:
-    """Format message for delivery with agent identification."""
+    """Format message for delivery with enhanced agent identification."""
     try:
         tag_map = {
             "agent_to_agent": "[A2A]",
@@ -113,18 +113,30 @@ def format_message_for_delivery(message: UnifiedMessage) -> str:
             "onboarding": "[ONBOARDING]",
         }
         agent_tag = tag_map.get(message.message_type.value, "[TEXT]")
+        
+        # Enhanced sender identification with visual emphasis
+        sender_line = f"📤 FROM: {message.sender}"
+        recipient_line = f"📥 TO: {message.recipient}"
+        
         lines = [
-            f"{agent_tag} {message.sender} → {message.recipient}",
+            "=" * 60,
+            f"{agent_tag} MESSAGE",
+            "=" * 60,
+            sender_line,
+            recipient_line,
             f"Priority: {message.priority.value.upper()}",
         ]
         if message.tags:
             lines.append(f"Tags: {', '.join(tag.value for tag in message.tags)}")
         lines += [
+            "-" * 60,
             "",
             message.content,
             "",
+            "-" * 60,
             f"You are {message.recipient}",
             f"Timestamp: {message.timestamp}",
+            "=" * 60,
         ]
         return "\n".join(lines)
     except Exception as e:
@@ -159,7 +171,7 @@ def _paste_or_type(text: str) -> None:
 
 
 def deliver_message_pyautogui(message: UnifiedMessage, coords: Tuple[int, int]) -> bool:
-    """Deliver message via PyAutoGUI to specific coordinates."""
+    """Deliver message via PyAutoGUI to specific coordinates with validation."""
     if not PYAUTOGUI_AVAILABLE:
         logger.error("PyAutoGUI not available/enabled")
         return False
@@ -168,6 +180,11 @@ def deliver_message_pyautogui(message: UnifiedMessage, coords: Tuple[int, int]) 
         return False
 
     x, y = coords
+    
+    # Validate coordinates before attempting delivery
+    if not _validate_coordinates_for_delivery(x, y, message.recipient):
+        return False
+
     formatted_message = format_message_for_delivery(message)
 
     for attempt in range(1, SEND_RETRIES + 2):
@@ -186,25 +203,81 @@ def deliver_message_pyautogui(message: UnifiedMessage, coords: Tuple[int, int]) 
     return False
 
 
+def _validate_coordinates_for_delivery(x: int, y: int, agent_id: str) -> bool:
+    """Validate coordinates before attempting message delivery."""
+    # Check for valid coordinate types
+    if not isinstance(x, (int, float)) or not isinstance(y, (int, float)):
+        logger.error("❌ Invalid coordinate types for %s: (%s, %s)", agent_id, type(x), type(y))
+        return False
+    
+    # Check for reasonable coordinate ranges
+    if x < -10000 or x > 10000 or y < -10000 or y > 10000:
+        logger.error("❌ Coordinates out of reasonable range for %s: (%d, %d)", agent_id, x, y)
+        return False
+    
+    # Check for default/invalid coordinates
+    if x == 0 and y == 0:
+        logger.error("❌ Default coordinates (0,0) for %s - likely not configured", agent_id)
+        return False
+    
+    # Check for negative coordinates (might be valid for multi-monitor setups)
+    if x < -5000 or y < -5000:
+        logger.warning("⚠️ Very negative coordinates for %s: (%d, %d) - ensure this is correct", agent_id, x, y)
+    
+    logger.debug("✅ Coordinates validated for %s: (%d, %d)", agent_id, x, y)
+    return True
+
+
 def deliver_bulk_messages_pyautogui(
     messages: List[UnifiedMessage], agent_order: Optional[List[str]] = None
 ) -> Dict[str, bool]:
-    """Deliver multiple messages via PyAutoGUI."""
+    """Deliver multiple messages via PyAutoGUI with validation."""
     results: Dict[str, bool] = {}
     if not PYAUTOGUI_AVAILABLE:
         logger.error("PyAutoGUI not available/enabled")
         return results
 
+    # Validate all agents before starting delivery
+    valid_agents = _validate_all_agents_for_delivery(messages)
+    if not valid_agents:
+        logger.error("❌ No valid agents found for bulk delivery")
+        return {msg.recipient: False for msg in messages}
+
     order = agent_order or [f"Agent-{i}" for i in range(1, 9)]
     for msg in messages:
         if msg.recipient not in order:
             results[msg.recipient] = False
+            logger.warning("⚠️ Agent %s not in expected order, skipping", msg.recipient)
             continue
+        
+        if msg.recipient not in valid_agents:
+            results[msg.recipient] = False
+            logger.error("❌ Agent %s failed validation, skipping delivery", msg.recipient)
+            continue
+            
         coords = get_agent_coordinates(msg.recipient)
         ok = deliver_message_pyautogui(msg, coords) if coords else False
         results[msg.recipient] = ok
         time.sleep(1.0)  # small pacing across recipients
     return results
+
+
+def _validate_all_agents_for_delivery(messages: List[UnifiedMessage]) -> List[str]:
+    """Validate all agents before bulk delivery."""
+    valid_agents = []
+    loader = _get_coordinate_loader()
+    
+    for msg in messages:
+        agent_id = msg.recipient
+        is_valid, error_msg = loader.validate_coordinates(agent_id)
+        if is_valid:
+            valid_agents.append(agent_id)
+            logger.debug("✅ Agent %s validated for delivery", agent_id)
+        else:
+            logger.error("❌ Agent %s validation failed: %s", agent_id, error_msg)
+    
+    logger.info("📊 Bulk delivery validation: %d/%d agents valid", len(valid_agents), len(messages))
+    return valid_agents
 
 
 def cleanup_pyautogui_resources() -> bool:

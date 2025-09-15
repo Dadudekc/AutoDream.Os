@@ -1,10 +1,10 @@
+#!/usr/bin/env python3
 """
 FSM Models - V2 Compliance Refactored
 ====================================
 
 FSM-related data models with V2 compliance standards.
-Refactored into modular architecture for V2 compliance.
-
+Refactored into modular architecture for better maintainability.
 V2 Compliance: < 300 lines, single responsibility, modular design.
 
 Author: Agent-1 (Integration & Core Systems Specialist)
@@ -21,15 +21,10 @@ from .fsm_enums import FSMErrorType, StateStatus, TransitionStatus, TransitionTy
 # Re-export for backward compatibility
 __all__ = [
     "StateDefinition",
-    "TransitionDefinition",
+    "TransitionDefinition", 
     "FSMConfiguration",
-    "TransitionType",
+    "FSMErrorType",
     "StateStatus",
     "TransitionStatus",
-    "FSMErrorType",
+    "TransitionType"
 ]
-
-# Backward compatibility - create aliases
-StateDefinition = StateDefinition
-TransitionDefinition = TransitionDefinition
-FSMConfiguration = FSMConfiguration

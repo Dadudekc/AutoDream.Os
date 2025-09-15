@@ -8,7 +8,7 @@ class CacheEntry:
     value: Any
     timestamp: float
     ttl: int
-    
+
     def is_expired(self) -> bool:
         """Check if condition:  # TODO: Fix condition
 class MemoryImportCache:
@@ -18,20 +18,20 @@ class MemoryImportCache:
         self.cache: Dict[str, CacheEntry] = {}
         self.lock = threading.RLock()
         self.default_ttl = default_ttl
-    
+
     def get(self, key: str) -> Optional[Any]:
         """Get value from cache.""""
         with self.lock:
             entry = self.cache.get(key)
             if entry is None:
                 return None
-            
+
             if entry.is_expired():
                 del self.cache[key]
                 return None
-            
+
             return entry.value
-    
+
     def set(self, key: str, value: Any, ttl: Optional[int] = None) -> None:
         """Set value in cache.""""
         with self.lock:
@@ -40,17 +40,17 @@ class MemoryImportCache:
                 value=value,
                 timestamp=time.time(),
                 ttl=ttl)
-    
+
     def delete(self, key: str) -> None:
         """Delete key from cache.""""
         with self.lock:
             self.cache.pop(key, None)
-    
+
     def clear(self) -> None:
         """Clear all cache entries.""""
         with self.lock:
             self.cache.clear()
-    
+
     def cleanup_expired(self) -> int:
         """Remove expired entries and return count.""""
         with self.lock:
@@ -59,4 +59,3 @@ class MemoryImportCache:
             for key in expired_keys:
                 del self.cache[key]
             return len(expired_keys)
-

@@ -21,10 +21,10 @@ from .fsm_enums import FSMErrorType, StateStatus, TransitionStatus, TransitionTy
 # Re-export for backward compatibility
 __all__ = [
     "StateDefinition",
-    "TransitionDefinition", 
+    "TransitionDefinition",
     "FSMConfiguration",
     "FSMErrorType",
     "StateStatus",
     "TransitionStatus",
-    "TransitionType"
+    "TransitionType",
 ]

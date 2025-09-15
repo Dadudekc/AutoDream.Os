@@ -26,7 +26,9 @@ EXAMPLE USAGE:
 ==============
 
 # Import the core component
-from src.core.coordination.swarm.engines.performance_monitoring_engine import Performance_Monitoring_Engine
+from src.core.coordination.swarm.engines.performance_monitoring_engine import (
+    Performance_Monitoring_Engine,
+)
 
 # Initialize with configuration
 config = {

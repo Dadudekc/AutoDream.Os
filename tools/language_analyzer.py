@@ -3,7 +3,6 @@
 import ast
 import logging
 from pathlib import Path
-from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -20,7 +19,7 @@ except ImportError:
 
 class LanguageAnalyzer:
     """Language analyzer for project scanning."""
-    
+
     def __init__(self):
         """Initialize the language analyzer."""
         # Disable tree-sitter parsers for now - focus on Python analysis

@@ -31,21 +31,21 @@ class LOCRemediator:
             "file_violations": [],
             "class_violations": [],
             "function_violations": [],
-            "recommendations": []
+            "recommendations": [],
         }
 
         for violation_group in violations:
             for violation in violation_group.get("violations", []):
                 violation_type = violation.get("type")
-                
+
                 if violation_type == "file_loc":
                     plan["file_violations"].append(violation)
                     plan["recommendations"].append(self._get_file_remediation(violation))
-                
+
                 elif violation_type == "class_loc":
                     plan["class_violations"].append(violation)
                     plan["recommendations"].append(self._get_class_remediation(violation))
-                
+
                 elif violation_type == "function_loc":
                     plan["function_violations"].append(violation)
                     plan["recommendations"].append(self._get_function_remediation(violation))
@@ -61,11 +61,11 @@ class LOCRemediator:
             "description": f"Split large file ({violation['current']} lines) into smaller modules",
             "suggestions": [
                 "Create core.py for main functionality",
-                "Create utils.py for utility functions", 
+                "Create utils.py for utility functions",
                 "Create models.py for data models",
-                "Extract classes into separate modules"
+                "Extract classes into separate modules",
             ],
-            "estimated_effort": "medium"
+            "estimated_effort": "medium",
         }
 
     def _get_class_remediation(self, violation: dict[str, Any]) -> dict[str, Any]:
@@ -80,9 +80,9 @@ class LOCRemediator:
                 "Extract methods into utility classes",
                 "Split into multiple smaller classes",
                 "Use composition instead of inheritance",
-                "Extract common functionality to base classes"
+                "Extract common functionality to base classes",
             ],
-            "estimated_effort": "high"
+            "estimated_effort": "high",
         }
 
     def _get_function_remediation(self, violation: dict[str, Any]) -> dict[str, Any]:
@@ -97,43 +97,43 @@ class LOCRemediator:
                 "Extract helper functions",
                 "Split into multiple smaller functions",
                 "Use early returns to reduce nesting",
-                "Extract complex logic into separate methods"
+                "Extract complex logic into separate methods",
             ],
-            "estimated_effort": "low"
+            "estimated_effort": "low",
         }
 
     def save_remediation_plan(self, plan: dict[str, Any]) -> Path:
         """Save remediation plan to file."""
         plan_path = self.runtime_dir / "v2_refactor_plan.json"
-        
-        with open(plan_path, 'w', encoding='utf-8') as f:
+
+        with open(plan_path, "w", encoding="utf-8") as f:
             json.dump(plan, f, indent=2)
-        
+
         return plan_path
 
     def generate_human_readable_report(self, plan: dict[str, Any]) -> Path:
         """Generate human-readable remediation report."""
         report_path = self.runtime_dir / "refactor_suggestions.txt"
-        
-        with open(report_path, 'w', encoding='utf-8') as f:
+
+        with open(report_path, "w", encoding="utf-8") as f:
             f.write("V2 LOC VIOLATION REMEDIATION PLAN\n")
             f.write("=" * 50 + "\n\n")
-            
+
             f.write(f"Total Violations: {plan['total_violations']}\n")
             f.write(f"File Violations: {len(plan['file_violations'])}\n")
             f.write(f"Class Violations: {len(plan['class_violations'])}\n")
             f.write(f"Function Violations: {len(plan['function_violations'])}\n\n")
-            
+
             f.write("RECOMMENDATIONS:\n")
             f.write("-" * 20 + "\n")
-            
-            for i, rec in enumerate(plan['recommendations'], 1):
+
+            for i, rec in enumerate(plan["recommendations"], 1):
                 f.write(f"{i}. [{rec['priority'].upper()}] {rec['description']}\n")
                 f.write(f"   File: {rec['file']}\n")
                 f.write(f"   Effort: {rec['estimated_effort']}\n")
                 f.write("   Suggestions:\n")
-                for suggestion in rec['suggestions']:
+                for suggestion in rec["suggestions"]:
                     f.write(f"     - {suggestion}\n")
                 f.write("\n")
-        
+
         return report_path

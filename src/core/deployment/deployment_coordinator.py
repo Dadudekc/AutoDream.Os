@@ -23,11 +23,11 @@ from typing import Any
 # Import from deployment models to avoid circular imports
 from .models.data_models import (
     DeploymentConfig,
+)
+from .models.data_models import DeploymentCoordinator as BaseDeploymentCoordinator
+from .models.data_models import (
     DeploymentMetrics,
     MassDeploymentTarget,
-)
-from .models.data_models import (
-    DeploymentCoordinator as BaseDeploymentCoordinator,
 )
 from .models.factory_functions import create_default_config
 

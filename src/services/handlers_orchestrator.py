@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
 from typing import Any
+
 try:
     from .command_handler_module import CommandHandler
     from .coordinate_handler_module import CoordinateHandler
@@ -13,6 +14,7 @@ try:
     from .utility_handler_module import UtilityHandler
 except ImportError as e:
     logging.warning(f"Failed to import handler modules: {e}")
+
 
 class HandlerType(Enum):
     COMMAND = "command"
@@ -51,6 +53,8 @@ class HandlerRequest:
     status: HandlerStatus = HandlerStatus.PENDING
     result: Any | None = None
     error: str | None = None
+
+
 class UnifiedHandlersOrchestrator:
     def __init__(self):
         self.logger = logging.getLogger(__name__)
@@ -58,6 +62,7 @@ class UnifiedHandlersOrchestrator:
         self._active_requests: dict[str, HandlerRequest] = {}
         self._command_history: list[dict[str, Any]] = []
         self._initialize_handlers()
+
     def _initialize_handlers(self):
         try:
             self.command_handler = CommandHandler()

@@ -59,7 +59,9 @@ EXAMPLE USAGE:
 ==============
 
 # Import the core component
-from src.core.coordination.swarm.orchestrators.swarm_coordination_orchestrator import Swarm_Coordination_Orchestrator
+from src.core.coordination.swarm.orchestrators.swarm_coordination_orchestrator import (
+    Swarm_Coordination_Orchestrator,
+)
 
 # Initialize with configuration
 config = {

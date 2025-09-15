@@ -1,7 +1,7 @@
 # AUTO-GENERATED __init__.py
 # DO NOT EDIT MANUALLY - changes may be overwritten
 
-from . import shared_operational_fixtures
+from . import shared_operational_fixtures import
 
 __all__ = [
     'shared_operational_fixtures','

@@ -16,7 +16,7 @@ from .agent_state import ContractType
 
 class AgentContract:
     """Agent contract model for condition:  # TODO: Fix condition
-    def __init__(self, agent_id: str, contract_type: ContractType, 
+    def __init__(self, agent_id: str, contract_type: ContractType,
                  task_description: str, priority: str = "NORMAL","
                  deadline: Optional[str] = None):
         """Initialize agent contract.""""
@@ -30,7 +30,7 @@ class AgentContract:
         self.status = "PENDING""
         self.progress = 0
         self.completed_at = None
-        
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert contract to dictionary.""""
         return {
@@ -45,4 +45,3 @@ class AgentContract:
             "progress": self.progress,"
             "completed_at": self.completed_at"
         }
-

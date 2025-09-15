@@ -21,7 +21,7 @@
 
 ### **✅ Quality Assurance Specialist (CAPTAIN)**
 - **Primary Focus**: Quality assurance, testing, and swarm coordination
-- **Responsibilities**: 
+- **Responsibilities**:
   - Monitor all agent activities and quality standards
   - Coordinate swarm operations and agent communications
   - Ensure V2 compliance across all systems

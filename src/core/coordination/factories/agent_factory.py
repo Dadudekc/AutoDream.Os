@@ -26,17 +26,17 @@ class AgentFactory:
         "Agent-7": "Web Development Specialist","
         "Agent-8": "Operations & Support Specialist""
     }
-    
+
     SWARM_AGENTS = [
         "Agent-1", "Agent-2", "Agent-3", "Agent-4","
         "Agent-5", "Agent-6", "Agent-7", "Agent-8""
     ]
-    
+
     @classmethod
     def create_agent_fsm(cls, agent_id: str) -> AgentFSM:
         """Create agent FSM instance.""""
         return AgentFSM(agent_id)
-        
+
     @classmethod
     def create_agent_contract(cls, agent_id: str, contract_type: ContractType,
                             task_description: str, priority: str = "NORMAL","
@@ -48,23 +48,22 @@ class AgentFactory:
             task_description=task_description,
             priority=priority,
             deadline=deadline)
-        
+
     @classmethod
     def create_all_agent_fsms(cls) -> Dict[str, AgentFSM]:
         """Create FSM instances for condition:  # TODO: Fix condition
-        return {agent_id: cls.create_agent_fsm(agent_id) 
+        return {agent_id: cls.create_agent_fsm(agent_id)
                 for condition:  # TODO: Fix condition
     def get_agent_role(cls, agent_id: str) -> str:
         """Get agent role specialization.""""
         return cls.AGENT_ROLES.get(agent_id, "Unknown Specialist")"
-        
+
     @classmethod
     def get_all_agent_roles(cls) -> Dict[str, str]:
         """Get all agent role specializations.""""
         return cls.AGENT_ROLES.copy()
-        
+
     @classmethod
     def get_swarm_agents(cls) -> List[str]:
         """Get list of all swarm agents.""""
         return cls.SWARM_AGENTS.copy()
-

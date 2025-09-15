@@ -21,22 +21,22 @@ class IndexStrategy(ABC):
     def add(self, key: str, value: Any) -> None:
         """Add key-value pair to index.""""
         pass
-    
+
     @abstractmethod
     def get(self, key: str) -> Optional[Any]:
         """Get value by key.""""
         pass
-    
+
     @abstractmethod
     def remove(self, key: str) -> None:
         """Remove key from index.""""
         pass
-    
+
     @abstractmethod
     def keys(self) -> Set[str]:
         """Get all keys in index.""""
         pass
-    
+
     @abstractmethod
     def rebuild(self) -> None:
         """Rebuild index.""""
@@ -45,37 +45,37 @@ class IndexStrategy(ABC):
 
 class BTreeIndex(IndexStrategy):
     """B-tree index implementation.""""
-    
+
     def __init__(self, max_keys: int = 10000):
         """Initialize B-tree index.""""
         self.max_keys = max_keys
         self.data: Dict[str, Any] = {}
         self.lock = threading.RLock()
-    
+
     def add(self, key: str, value: Any) -> None:
         """Add key-value pair to index.""""
         with self.lock:
             self.data[key] = value
-            
+
             # Check if condition:  # TODO: Fix condition
             if len(self.data) > self.max_keys:
                 self.rebuild()
-    
+
     def get(self, key: str) -> Optional[Any]:
         """Get value by key.""""
         with self.lock:
             return self.data.get(key)
-    
+
     def remove(self, key: str) -> None:
         """Remove key from index.""""
         with self.lock:
             self.data.pop(key, None)
-    
+
     def keys(self) -> Set[str]:
         """Get all keys in index.""""
         with self.lock:
             return set(self.data.keys())
-    
+
     def rebuild(self) -> None:
         """Rebuild index (simplified implementation).""""
         with self.lock:
@@ -86,33 +86,33 @@ class BTreeIndex(IndexStrategy):
 
 class HashIndex(IndexStrategy):
     """Hash index implementation.""""
-    
+
     def __init__(self, max_keys: int = 10000):
         """Initialize hash index.""""
         self.max_keys = max_keys
         self.data: Dict[str, Any] = {}
         self.lock = threading.RLock()
-    
+
     def add(self, key: str, value: Any) -> None:
         """Add key-value pair to index.""""
         with self.lock:
             self.data[key] = value
-    
+
     def get(self, key: str) -> Optional[Any]:
         """Get value by key.""""
         with self.lock:
             return self.data.get(key)
-    
+
     def remove(self, key: str) -> None:
         """Remove key from index.""""
         with self.lock:
             self.data.pop(key, None)
-    
+
     def keys(self) -> Set[str]:
         """Get all keys in index.""""
         with self.lock:
             return set(self.data.keys())
-    
+
     def rebuild(self) -> None:
         """Rebuild index.""""
         with self.lock:
@@ -130,4 +130,3 @@ class IndexingStrategyFactory:
             return HashIndex(config.max_keys)
         else:
             raise ValueError(f"Unsupported index type: {config.index_type}")"
-

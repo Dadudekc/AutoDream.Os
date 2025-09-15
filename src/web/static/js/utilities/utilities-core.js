@@ -220,15 +220,15 @@ class DOMUtils {
      */
     createElement(tag, attributes = {}, textContent = '') {
         const element = document.createElement(tag);
-        
+
         Object.entries(attributes).forEach(([key, value]) => {
             element.setAttribute(key, value);
         });
-        
+
         if (textContent) {
             element.textContent = textContent;
         }
-        
+
         return element;
     }
 
@@ -283,7 +283,7 @@ class LoggingUtils {
         };
 
         this.logs.push(logEntry);
-        
+
         // Keep only recent logs
         if (this.logs.length > this.maxLogs) {
             this.logs = this.logs.slice(-this.maxLogs);
@@ -333,11 +333,11 @@ class LoggingUtils {
      */
     getLogs(level = null, limit = 100) {
         let filteredLogs = this.logs;
-        
+
         if (level) {
             filteredLogs = this.logs.filter(log => log.level === level);
         }
-        
+
         return filteredLogs.slice(-limit);
     }
 }

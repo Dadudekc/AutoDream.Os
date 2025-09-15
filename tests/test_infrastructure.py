@@ -1,290 +1,290 @@
 """"
 Infrastructure Tests - Agent-3 Assignment
-========================================
-
-Tests for condition:  # TODO: Fix condition
-Author: Agent-4 (Quality Assurance Captain) - Coordinating Agent-3 Tests
-License: MIT
+========================================"
+""
+Tests for condition:  # TODO: Fix condition"""
+Author: Agent-4 (Quality Assurance Captain) - Coordinating Agent-3 Tests""""
+License: MIT"""""
 """"
 
 import sys
-from pathlib import Path
-
-import pytest
-
-# Add src to path
-sys.path.insert(0, str(Path(__file__).parent.parent / "src"))"
-
-
-class TestConfigurationManagement:
-    """Test configuration management system.""""
-
-    @pytest.mark.unit
-    @pytest.mark.agent3
-    def test_enhanced_config_initialization(self):
+from pathlib import Path import"
+""
+import pytest"""
+""""
+# Add src to path"""""
+sys.path.insert(0, str(Path(__file__).parent.parent / "src"))"""
+"""
+""""
+class TestConfigurationManagement:":"":""
+    """Test configuration management system."""""
+""
+    @pytest.mark.unit"""
+    @pytest.mark.agent3""""
+    def test_enhanced_config_initialization(self):":"":""
         """Test enhanced configuration system initialization.""""
-        try:
-            from src.core.enhanced_unified_config import EnhancedUnifiedConfig
-
-            config = EnhancedUnifiedConfig()
-            assert config is not None
-            assert hasattr(config, "get_config")"
-            assert hasattr(config, "get_agent_config")"
-        except ImportError:
-            pytest.skip("Configuration system not available")"
-
-    @pytest.mark.unit
-    @pytest.mark.agent3
-    def test_config_value_retrieval(self):
-        """Test configuration value retrieval.""""
-        try:
-            from src.core.enhanced_unified_config import get_enhanced_config
-
-            config = get_enhanced_config()
-            value = config.get_config("TEST_KEY", "default_value")"
-            assert value is not None
-        except ImportError:
-            pytest.skip("Configuration system not available")"
-
-    @pytest.mark.unit
-    @pytest.mark.agent3
-    def test_agent_config_loading(self):
-        """Test agent configuration loading.""""
-        try:
-            from src.core.enhanced_unified_config import get_enhanced_config
-
-            config = get_enhanced_config()
-            agent_config = config.get_agent_config("test_agent")"
-            # Should return None for condition:  # TODO: Fix condition
-        except ImportError:
-            pytest.skip("Configuration system not available")"
-
-    @pytest.mark.unit
-    @pytest.mark.agent3
-    def test_environment_variable_loading(self):
+        try:"
+            from src.core.enhanced_unified_config import EnhancedUnifiedConfig import""
+"""
+            config = EnhancedUnifiedConfig()""""
+            assert config is not None"""""
+            assert hasattr(config, "get_config")""""""
+            assert hasattr(config, "get_agent_config")"""""
+        except ImportError:"""""
+            pytest.skip("Configuration system not available")""
+""
+    @pytest.mark.unit"""
+    @pytest.mark.agent3""""
+    def test_config_value_retrieval(self):":"":""
+        """Test configuration value retrieval."""""
+        try:""
+            from src.core.enhanced_unified_config import get_enhanced_config import" import""
+""""
+            config = get_enhanced_config()"""""
+            value = config.get_config("TEST_KEY", "default_value")""""
+            assert value is not None""""
+        except ImportError:"""""
+            pytest.skip("Configuration system not available")""
+""
+    @pytest.mark.unit"""
+    @pytest.mark.agent3""""
+    def test_agent_config_loading(self):":"":""
+        """Test agent configuration loading."""""
+        try:""
+            from src.core.enhanced_unified_config import get_enhanced_config import" import""
+""""
+            config = get_enhanced_config()"""""
+            agent_config = config.get_agent_config("test_agent")""""
+            # Should return None for condition:  # TODO: Fix condition""""
+        except ImportError:"""""
+            pytest.skip("Configuration system not available")""
+""
+    @pytest.mark.unit"""
+    @pytest.mark.agent3""""
+    def test_environment_variable_loading(self):":"":""
         """Test environment variable loading.""""
-        try:
-            from src.core.enhanced_unified_config import EnhancedUnifiedConfig
-
-            config = EnhancedUnifiedConfig()
-            # Should handle environment variables
-            assert hasattr(config, "env_loader")"
-        except ImportError:
-            pytest.skip("Configuration system not available")"
-
-
-class TestServiceIntegrations:
-    """Test service integration scenarios.""""
-
-    @pytest.mark.integration
-    @pytest.mark.agent3
-    def test_browser_service_integration(self, mock_unified_browser_service):
-        """Test browser service integration.""""
-        service = mock_unified_browser_service
-
-        # Should integrate all browser components
-        assert hasattr(service, "browser_adapter")"
-        assert hasattr(service, "session_manager")"
-
-    @pytest.mark.integration
-    @pytest.mark.agent3
-    def test_configuration_service_integration(self):
+        try:"
+            from src.core.enhanced_unified_config import EnhancedUnifiedConfig import""
+"""
+            config = EnhancedUnifiedConfig()""""
+            # Should handle environment variables"""""
+            assert hasattr(config, "env_loader")"""""
+        except ImportError:"""""
+            pytest.skip("Configuration system not available")"""
+"""
+""""
+class TestServiceIntegrations:":"":""
+    """Test service integration scenarios."""""
+""
+    @pytest.mark.integration"""
+    @pytest.mark.agent3""""
+    def test_browser_service_integration(self, mock_unified_browser_service):":"":""
+        """Test browser service integration.""""""
+        service = mock_unified_browser_service"""
+""""
+        # Should integrate all browser components"""""
+        assert hasattr(service, "browser_adapter")""""""
+        assert hasattr(service, "session_manager")""
+""
+    @pytest.mark.integration"""
+    @pytest.mark.agent3""""
+    def test_configuration_service_integration(self):":"":""
         """Test configuration service integration.""""
         try:
-            from src.core.enhanced_unified_config import get_enhanced_config
-
-            config = get_enhanced_config()
-
-            # Should integrate with environment and file systems
-            assert hasattr(config, "env_loader")"
-            assert hasattr(config, "_load_agent_configurations")"
-        except ImportError:
-            pytest.skip("Configuration system not available")"
-
-    @pytest.mark.integration
-    @pytest.mark.agent3
-    def test_messaging_service_integration(self, mock_messaging_service):
-        """Test messaging service integration.""""
-        service = mock_messaging_service
-
-        # Should integrate with queue and communication systems
-        assert hasattr(service, "send_message")"
-        assert hasattr(service, "receive_message")"
-        assert hasattr(service, "get_queue_status")"
-
-
-class TestDeploymentTests:
-    """Test deployment and infrastructure scenarios.""""
-
-    @pytest.mark.unit
-    @pytest.mark.agent3
-    def test_service_startup_procedures(self):
+            from src.core.enhanced_unified_config import get_enhanced_config import"
+""
+            config = get_enhanced_config()"""
+""""
+            # Should integrate with environment and file systems"""""
+            assert hasattr(config, "env_loader")""""""
+            assert hasattr(config, "_load_agent_configurations")"""""
+        except ImportError:"""""
+            pytest.skip("Configuration system not available")""
+""
+    @pytest.mark.integration"""
+    @pytest.mark.agent3""""
+    def test_messaging_service_integration(self, mock_messaging_service):":"":""
+        """Test messaging service integration.""""""
+        service = mock_messaging_service"""
+""""
+        # Should integrate with queue and communication systems"""""
+        assert hasattr(service, "send_message")""""""
+        assert hasattr(service, "receive_message")""""""
+        assert hasattr(service, "get_queue_status")"""
+"""
+""""
+class TestDeploymentTests:":"":""
+    """Test deployment and infrastructure scenarios."""""
+""
+    @pytest.mark.unit"""
+    @pytest.mark.agent3""""
+    def test_service_startup_procedures(self):":"":""
         """Test service startup procedures.""""
         # Test that services can be started properly
-        from src.infrastructure.unified_browser_service import create_browser_service
+        from src.infrastructure.unified_browser_service import create_browser_service import
 
         service = create_browser_service(headless=True)
-        assert service is not None
-
-    @pytest.mark.unit
-    @pytest.mark.agent3
-    def test_configuration_validation(self):
+        assert service is not None"
+""
+    @pytest.mark.unit"""
+    @pytest.mark.agent3""""
+    def test_configuration_validation(self):":"":""
         """Test configuration validation.""""
         try:
-            from src.core.enhanced_unified_config import get_enhanced_config
+            from src.core.enhanced_unified_config import get_enhanced_config import
 
             config = get_enhanced_config()
-            validation_errors = config.validate_configuration()
-
-            # Should return a dictionary of validation errors
-            assert isinstance(validation_errors, dict)
-        except ImportError:
-            pytest.skip("Configuration system not available")"
-
-    @pytest.mark.unit
-    @pytest.mark.agent3
-    def test_resource_cleanup(self):
+            validation_errors = config.validate_configuration()"
+""
+            # Should return a dictionary of validation errors"""
+            assert isinstance(validation_errors, dict)""""
+        except ImportError:"""""
+            pytest.skip("Configuration system not available")""
+""
+    @pytest.mark.unit"""
+    @pytest.mark.agent3""""
+    def test_resource_cleanup(self):":"":""
         """Test resource cleanup procedures.""""
-        from src.infrastructure.unified_browser_service import ChromeBrowserAdapter
-
-        adapter = ChromeBrowserAdapter()
-
-        # Should have cleanup methods
+        from src.infrastructure.unified_browser_service import ChromeBrowserAdapter import"
+""
+        adapter = ChromeBrowserAdapter()"""
+""""
+        # Should have cleanup methods"""""
         assert hasattr(adapter, "stop")"
         # Should handle cleanup gracefully even when not started
-        adapter.stop()  # Should not crash
-
-    @pytest.mark.integration
-    @pytest.mark.agent3
-    def test_service_health_checks(self):
+        adapter.stop()  # Should not crash"
+""
+    @pytest.mark.integration"""
+    @pytest.mark.agent3""""
+    def test_service_health_checks(self):":"":""
         """Test service health check procedures.""""
-        from src.infrastructure.unified_browser_service import UnifiedBrowserService
-
-        service = UnifiedBrowserService.__new__(UnifiedBrowserService)
-
-        # Should provide health check capabilities
-        assert hasattr(service, "is_browser_running")"
-        assert hasattr(service, "get_browser_info")"
-
-
-class TestInfrastructureMonitoring:
-    """Test infrastructure monitoring capabilities.""""
-
-    @pytest.mark.unit
-    @pytest.mark.agent3
-    def test_system_resource_monitoring(self, mock_monitoring_service):
-        """Test system resource monitoring.""""
-        service = mock_monitoring_service
-
-        health = service.get_system_health()
-        assert health == {"status": "healthy", "cpu": 45.2}"
-
-    @pytest.mark.unit
-    @pytest.mark.agent3
-    def test_performance_metrics_collection(self, mock_monitoring_service):
-        """Test performance metrics collection.""""
-        service = mock_monitoring_service
-
-        metrics = service.get_metrics()
-        assert metrics == {"uptime": 3600, "errors": 0}"
-
-    @pytest.mark.unit
-    @pytest.mark.agent3
-    def test_error_logging_integration(self, mock_monitoring_service):
-        """Test error logging integration.""""
-        service = mock_monitoring_service
-
-        result = service.log_event("test_error")"
-        assert result is True
-
-
-class TestEnvironmentHandling:
-    """Test environment-specific handling.""""
-
-    @pytest.mark.unit
-    @pytest.mark.agent3
-    def test_development_environment_setup(self):
+        from src.infrastructure.unified_browser_service import UnifiedBrowserService import"
+""
+        service = UnifiedBrowserService.__new__(UnifiedBrowserService)"""
+""""
+        # Should provide health check capabilities"""""
+        assert hasattr(service, "is_browser_running")""""""
+        assert hasattr(service, "get_browser_info")"""
+"""
+""""
+class TestInfrastructureMonitoring:":"":""
+    """Test infrastructure monitoring capabilities."""""
+""
+    @pytest.mark.unit"""
+    @pytest.mark.agent3""""
+    def test_system_resource_monitoring(self, mock_monitoring_service):":"":""
+        """Test system resource monitoring.""""""
+        service = mock_monitoring_service"""
+""""
+        health = service.get_system_health()"""""
+        assert health == {"status": "healthy", "cpu": 45.2}""
+""
+    @pytest.mark.unit"""
+    @pytest.mark.agent3""""
+    def test_performance_metrics_collection(self, mock_monitoring_service):":"":""
+        """Test performance metrics collection.""""""
+        service = mock_monitoring_service"""
+""""
+        metrics = service.get_metrics()"""""
+        assert metrics == {"uptime": 3600, "errors": 0}""
+""
+    @pytest.mark.unit"""
+    @pytest.mark.agent3""""
+    def test_error_logging_integration(self, mock_monitoring_service):":"":""
+        """Test error logging integration."""""""
+        service = mock_monitoring_service""""
+"""""
+        result = service.log_event("test_error")""
+        assert result is True""
+"""
+""""
+class TestEnvironmentHandling:":"":""
+    """Test environment-specific handling."""""
+""
+    @pytest.mark.unit"""
+    @pytest.mark.agent3""""
+    def test_development_environment_setup(self):":"":""
         """Test development environment setup.""""
         try:
-            from src.core.enhanced_unified_config import EnhancedUnifiedConfig
-
-            config = EnhancedUnifiedConfig()
-            system_config = config.get_system_config()
-
-            # Should have environment configuration
-            assert hasattr(system_config, "environment")"
-        except ImportError:
-            pytest.skip("Configuration system not available")"
-
-    @pytest.mark.unit
-    @pytest.mark.agent3
-    def test_file_path_handling(self, temp_dir):
-        """Test file path handling across environments.""""
-        test_file = temp_dir / "test_config.json""
-
-        # Should handle file operations safely
-        test_file.write_text('{"test": "data"}')'
-        assert test_file.exists()
-        assert test_file.read_text() == '{"test": "data"}''
-
-    @pytest.mark.unit
-    @pytest.mark.agent3
-    def test_network_connectivity_handling(self):
+            from src.core.enhanced_unified_config import EnhancedUnifiedConfig import
+"
+            config = EnhancedUnifiedConfig()""
+            system_config = config.get_system_config()"""
+""""
+            # Should have environment configuration"""""
+            assert hasattr(system_config, "environment")"""""
+        except ImportError:"""""
+            pytest.skip("Configuration system not available")""
+""
+    @pytest.mark.unit"""
+    @pytest.mark.agent3""""
+    def test_file_path_handling(self, temp_dir):":"":""
+        """Test file path handling across environments."""""""""
+        test_file = temp_dir / "test_config.json"""""
+""""
+        # Should handle file operations safely"""""
+        test_file.write_text('{"test": "data"}')'""""
+        assert test_file.exists()"""""
+        assert test_file.read_text() == '{"test": "data"}''"
+""
+    @pytest.mark.unit"""
+    @pytest.mark.agent3""""
+    def test_network_connectivity_handling(self):":"":""
         """Test network connectivity error handling.""""
         # Test that network failures are handled gracefully
-        from src.infrastructure.unified_browser_service import ChromeBrowserAdapter
-
-        adapter = ChromeBrowserAdapter()
-
-        # Should handle network failures gracefully
-        result = adapter.navigate("http://nonexistent.url")"
-        # Should return False for condition:  # TODO: Fix condition
-class TestInfrastructureSecurity:
-    """Test infrastructure security measures.""""
-
-    @pytest.mark.unit
-    @pytest.mark.agent3
-    def test_secure_configuration_storage(self):
+        from src.infrastructure.unified_browser_service import ChromeBrowserAdapter import"
+""
+        adapter = ChromeBrowserAdapter()"""
+""""
+        # Should handle network failures gracefully"""""
+        result = adapter.navigate("http://nonexistent.url")""""
+        # Should return False for condition:  # TODO: Fix condition""""
+class TestInfrastructureSecurity:":"":""
+    """Test infrastructure security measures."""""
+""
+    @pytest.mark.unit"""
+    @pytest.mark.agent3""""
+    def test_secure_configuration_storage(self):":"":""
         """Test secure configuration storage.""""
         try:
-            from src.core.enhanced_unified_config import EnhancedUnifiedConfig
-
-            config = EnhancedUnifiedConfig()
-
-            # Should handle sensitive data appropriately
-            # (This is more of a design test than runtime)
-            assert hasattr(config, "env_loader")"
-        except ImportError:
-            pytest.skip("Configuration system not available")"
-
-    @pytest.mark.unit
-    @pytest.mark.agent3
-    def test_resource_access_control(self):
+            from src.core.enhanced_unified_config import EnhancedUnifiedConfig import
+"
+            config = EnhancedUnifiedConfig()""
+"""
+            # Should handle sensitive data appropriately""""
+            # (This is more of a design test than runtime)"""""
+            assert hasattr(config, "env_loader")"""""
+        except ImportError:"""""
+            pytest.skip("Configuration system not available")""
+""
+    @pytest.mark.unit"""
+    @pytest.mark.agent3""""
+    def test_resource_access_control(self):":"":""
         """Test resource access control.""""
         # Test that resources are accessed with appropriate permissions
-        from pathlib import Path
-
-        # Should handle permission errors gracefully
-        try:
-            # Try to access a file that might not exist
+        from pathlib import Path import"
+""
+        # Should handle permission errors gracefully"""
+        try:""""
+            # Try to access a file that might not exist"""""
             test_file = Path("nonexistent_test_file.txt")"
             if not test_file.exists():
                 # Should not crash when file doesn't exist'
                 assert not test_file.exists()
         except Exception:
-            # Should handle exceptions gracefully
-            pass
-
-
-class TestScalabilityTesting:
-    """Test infrastructure scalability.""""
-
-    @pytest.mark.slow
-    @pytest.mark.agent3
-    def test_concurrent_service_handling(self):
+            # Should handle exceptions gracefully"
+            pass""
+"""
+""""
+class TestScalabilityTesting:":"":""
+    """Test infrastructure scalability."""""
+""
+    @pytest.mark.slow"""
+    @pytest.mark.agent3""""
+    def test_concurrent_service_handling(self):":"":""
         """Test concurrent service request handling.""""
         # Test that infrastructure can handle multiple concurrent requests
-        from src.infrastructure.unified_browser_service import create_browser_service
+        from src.infrastructure.unified_browser_service import create_browser_service import
 
         services = []
         for i in range(3):
@@ -293,11 +293,11 @@ class TestScalabilityTesting:
 
         assert len(services) == 3
         for service in services:
-            assert service is not None
-
-    @pytest.mark.slow
-    @pytest.mark.agent3
-    def test_memory_usage_monitoring(self):
+            assert service is not None"
+""
+    @pytest.mark.slow"""
+    @pytest.mark.agent3""""
+    def test_memory_usage_monitoring(self):":"":""
         """Test memory usage under load.""""
         # Test memory usage patterns
         import os
@@ -310,13 +310,14 @@ class TestScalabilityTesting:
         # Perform some operations
         services = []
         for i in range(10):
-            from src.infrastructure.unified_browser_service import create_browser_service
+            from src.infrastructure.unified_browser_service import create_browser_service import
 
             service = create_browser_service()
             services.append(service)
 
         final_memory = process.memory_info().rss
-        memory_increase = final_memory - initial_memory
-
-        # Memory increase should be reasonable
-        assert memory_increase < 50 * 1024 * 1024  # Less than 50MB increase
+        memory_increase = final_memory - initial_memory"
+""
+        # Memory increase should be reasonable"""
+        assert memory_increase < 50 * 1024 * 1024  # Less than 50MB increase""""
+"""""

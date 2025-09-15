@@ -69,14 +69,14 @@ class CoverageAnalyzer:
     def analyze_coverage_gaps(self, coverage_data: dict[str, Any]) -> list[dict[str, Any]]:
         """Analyze coverage gaps from coverage data."""
         gaps = []
-        
+
         if not coverage_data.get("success"):
             return [{"error": "Coverage analysis failed", "details": coverage_data}]
 
         # Parse coverage output for gaps
         stdout = coverage_data.get("stdout", "")
         lines = stdout.split("\n")
-        
+
         for line in lines:
             if "TOTAL" in line and "%" in line:
                 # Extract total coverage percentage
@@ -86,12 +86,14 @@ class CoverageAnalyzer:
                         try:
                             coverage_pct = float(part.replace("%", ""))
                             if coverage_pct < 80:  # Threshold for gaps
-                                gaps.append({
-                                    "type": "overall_coverage",
-                                    "current": coverage_pct,
-                                    "target": 80.0,
-                                    "gap": 80.0 - coverage_pct
-                                })
+                                gaps.append(
+                                    {
+                                        "type": "overall_coverage",
+                                        "current": coverage_pct,
+                                        "target": 80.0,
+                                        "gap": 80.0 - coverage_pct,
+                                    }
+                                )
                         except ValueError:
                             pass
                         break
@@ -104,13 +106,9 @@ class CoverageAnalyzer:
             return {"error": "Coverage analysis failed"}
 
         stdout = coverage_data.get("stdout", "")
-        
+
         # Extract summary information
-        summary = {
-            "success": True,
-            "raw_output": stdout,
-            "has_coverage_data": "TOTAL" in stdout
-        }
+        summary = {"success": True, "raw_output": stdout, "has_coverage_data": "TOTAL" in stdout}
 
         # Parse total coverage if available
         for line in stdout.split("\n"):

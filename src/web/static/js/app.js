@@ -142,7 +142,7 @@ class V2SwarmApp {
 
     initializePerformanceMonitoring() {
         console.log('📊 Initializing performance monitoring with optimization tracking...');
-        
+
         // Performance observer for aggressive optimization
         if ('PerformanceObserver' in window) {
             // Largest Contentful Paint
@@ -499,12 +499,12 @@ class V2SwarmApp {
 
     trackOptimizationProgress() {
         console.log('🎯 Tracking optimization progress...');
-        
+
         // Calculate optimization progress
         const bundleProgress = this.calculateBundleOptimizationProgress();
         const domProgress = this.calculateDOMOptimizationProgress();
         const eventProgress = this.calculateEventOptimizationProgress();
-        
+
         console.log('📈 Optimization Progress:', {
             bundle: bundleProgress,
             dom: domProgress,
@@ -685,8 +685,3 @@ document.addEventListener('DOMContentLoaded', () => {
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = V2SwarmApp;
 }
-
-
-
-
-

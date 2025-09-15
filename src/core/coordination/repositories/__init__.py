@@ -13,4 +13,3 @@ from .agent_status_repository import AgentStatusRepository
 from .coordination_state_repository import CoordinationStateRepository
 
 __all__ = ['AgentStatusRepository', 'CoordinationStateRepository']'
-

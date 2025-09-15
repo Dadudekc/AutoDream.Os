@@ -1,12 +1,10 @@
 # AUTO-GENERATED __init__.py
 # DO NOT EDIT MANUALLY - changes may be overwritten
 
-from . import loc_scanner
-from . import loc_remediator
-from . import loc_analyzer
+from . import loc_analyzer, loc_remediator, loc_scanner
 
 __all__ = [
-    'loc_scanner',
-    'loc_remediator',
-    'loc_analyzer',
+    "loc_scanner",
+    "loc_remediator",
+    "loc_analyzer",
 ]

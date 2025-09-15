@@ -27,7 +27,7 @@ export class DOMUtils {
         if (this.cache.has(cacheKey)) {
             return this.cache.get(cacheKey);
         }
-        
+
         const element = document.querySelector(selector);
         this.cache.set(cacheKey, element);
         return element;
@@ -41,7 +41,7 @@ export class DOMUtils {
         if (this.cache.has(cacheKey)) {
             return this.cache.get(cacheKey);
         }
-        
+
         const elements = document.querySelectorAll(selector);
         this.cache.set(cacheKey, elements);
         return elements;
@@ -52,7 +52,7 @@ export class DOMUtils {
      */
     createElement(tag, attributes = {}, textContent = '') {
         const element = document.createElement(tag);
-        
+
         Object.entries(attributes).forEach(([key, value]) => {
             if (key === 'className') {
                 element.className = value;
@@ -62,11 +62,11 @@ export class DOMUtils {
                 element.setAttribute(key, value);
             }
         });
-        
+
         if (textContent) {
             element.textContent = textContent;
         }
-        
+
         return element;
     }
 
@@ -76,10 +76,10 @@ export class DOMUtils {
     addEventListener(element, event, handler, options = {}) {
         const key = `${element}_${event}`;
         const cleanup = () => element.removeEventListener(event, handler, options);
-        
+
         element.addEventListener(event, handler, options);
         this.eventListeners.set(key, cleanup);
-        
+
         return cleanup;
     }
 
@@ -89,7 +89,7 @@ export class DOMUtils {
     removeEventListener(element, event) {
         const key = `${element}_${event}`;
         const cleanup = this.eventListeners.get(key);
-        
+
         if (cleanup) {
             cleanup();
             this.eventListeners.delete(key);

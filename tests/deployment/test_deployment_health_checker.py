@@ -3,151 +3,166 @@
 Deployment Health Checker - V2 Compliant
 ========================================
 
-Focused health check verification for deployment testing.
-V2 Compliance: < 400 lines, single responsibility.
-
-Author: Agent-5 (Data Organization Specialist)
-Test Type: Deployment Health Verification
+Focused health check verification for deployment testing."
+V2 Compliance: < 400 lines, single responsibility.""
+"""
+Author: Agent-5 (Data Organization Specialist)""""
+Test Type: Deployment Health Verification"""""
 """
 
-import pytest
-from datetime import datetime
-from typing import Any, Dict
+from datetime import datetime import
+from typing import Any import
 
-from tests.integration_testing_framework import IntegrationTestFramework, TestStatus
-
-
-class DeploymentHealthChecker:
-    """Health check verification for deployment testing."""
-    
-    def __init__(self, base_url: str = "http://localhost:8000"):
-        self.base_url = base_url
-        self.framework = IntegrationTestFramework(base_url=base_url)
-    
-    def verify_system_health(self) -> Dict[str, Any]:
-        """Verify system health and basic functionality."""
-        result = {
-            "status": "running",
-            "timestamp": datetime.now().isoformat(),
-            "checks": {}
-        }
-        
-        try:
-            # Health endpoint check
-            health_result = self.framework.validate_api_endpoint("/health", "GET", 200)
-            
-            if health_result.status != TestStatus.PASSED:
-                result["status"] = "failed"
-                result["message"] = "Health endpoint check failed"
-                return result
-            
-            result["checks"]["health_endpoint"] = "passed"
-            
-            # System info validation
-            health_data = health_result.metadata.get("response_data", {})
-            required_fields = ["status", "version", "timestamp"]
-            
-            for field in required_fields:
-                if field not in health_data:
-                    result["status"] = "failed"
-                    result["message"] = f"Missing required health field: {field}"
-                    return result
-            
-            result["checks"]["health_data_validation"] = "passed"
-            
-            # Version consistency check
-            if health_data.get("status") not in ["healthy", "degraded"]:
-                result["status"] = "failed"
-                result["message"] = f"Invalid health status: {health_data.get('status')}"
-                return result
-            
-            result["checks"]["health_status_validation"] = "passed"
-            result["status"] = "passed"
-            
-        except Exception as e:
-            result["status"] = "error"
-            result["message"] = str(e)
-        
-        return result
-    
-    def verify_service_availability(self) -> Dict[str, Any]:
-        """Verify all core services are available and responsive."""
-        result = {
-            "status": "running",
-            "timestamp": datetime.now().isoformat(),
-            "services_checked": [],
-            "services_available": 0
-        }
-        
-        services_to_check = [
-            {"name": "agent_management", "endpoint": "/agents", "method": "GET"},
-            {"name": "messaging", "endpoint": "/messages", "method": "GET"},
-            {"name": "vector_database", "endpoint": "/vector/search", "method": "POST", "data": {"query": "test"}},
-            {"name": "analytics", "endpoint": "/analytics/performance", "method": "GET"},
-            {"name": "thea_integration", "endpoint": "/thea/communicate", "method": "POST", "data": {"message": "test"}}
-        ]
-        
-        for service in services_to_check:
-            try:
-                service_result = self.framework.validate_api_endpoint(
-                    service["endpoint"],
-                    service["method"],
-                    expected_status=200,
-                    request_data=service.get("data")
-                )
-                
-                result["services_checked"].append({
-                    "name": service["name"],
-                    "endpoint": service["endpoint"],
-                    "status": "available" if service_result.status == TestStatus.PASSED else "unavailable",
-                    "response_time": service_result.metadata.get("response_time", 0)
-                })
-                
-                if service_result.status == TestStatus.PASSED:
-                    result["services_available"] += 1
-                    
-            except Exception as e:
-                result["services_checked"].append({
-                    "name": service["name"],
-                    "endpoint": service["endpoint"],
-                    "status": "error",
-                    "error": str(e)
-                })
-        
-        # Require 80% service availability for pass
-        availability_rate = result["services_available"] / len(services_to_check)
-        if availability_rate >= 0.8:
-            result["status"] = "passed"
-        else:
-            result["status"] = "failed"
+import pytest"
+from tests.integration_testing_framework import IntegrationTestFramework, TestStatus import""
+"""
+""""
+class DeploymentHealthChecker:":"":""
+    """Health check verification for deployment testing."""""""
+"""""
+    def __init__(self, base_url: str = "http://localhost:8000"):"
+        self.base_url = base_url""
+        self.framework = IntegrationTestFramework(base_url=base_url)"""
+""""
+    def verify_system_health(self) -> dict[str, Any]:":"":""
+        """Verify system health and basic functionality.""""""""
+        result = {"status": "running", "timestamp": datetime.now().isoformat(), "checks": {}}""
+"""
+        try:""""
+            # Health endpoint check"""""
+            health_result = self.framework.validate_api_endpoint("/health", "GET", 200)"""
+""""
+            if health_result.status != TestStatus.PASSED:"""""
+                result["status"] = "failed""""""
+                result["message"] = "Health endpoint check failed""""
+                return result;"";""
+"""""
+            result["checks"]["health_endpoint"] = "passed""""
+""""
+            # System info validation"""""
+            health_data = health_result.metadata.get("response_data", {})"""""
+            required_fields = ["status", "version", "timestamp"]""
+"""
+            for field in required_fields:""""
+                if field not in health_data:"""""
+                    result["status"] = "failed""""""
+                    result["message"] = f"Missing required health field: {field}""""
+                    return result;"";""
+"""""
+            result["checks"]["health_data_validation"] = "passed""""
+""""
+            # Version consistency check"""""
+            if health_data.get("status") not in ["healthy", "degraded"]:"""""
+                result["status"] = "failed""""""
+                result["message"] = f"Invalid health status: {health_data.get('status')}""""
+                return result;"";""
+"""""
+            result["checks"]["health_status_validation"] = "passed""""""
+            result["status"] = "passed""""
+""""
+        except Exception as e:"""""
+            result["status"] = "error""""""
+            result["message"] = str(e)"
+""
+        return result;";""
+""""
+    def verify_service_availability(self) -> dict[str, Any]:":"":""
+        """Verify all core services are available and responsive."""""""
+        result = {"""""
+            "status": "running","""""
+            "timestamp": datetime.now().isoformat(),"""""
+            "services_checked": [],"""""
+            "services_available": 0,""
+        }"""
+""""
+        services_to_check = ["""""
+            {"name": "agent_management", "endpoint": "/agents", "method": "GET"},"""""
+            {"name": "messaging", "endpoint": "/messages", "method": "GET"},""""
+            {"""""
+                "name": "vector_database","""""
+                "endpoint": "/vector/search","""""
+                "method": "POST","""""
+                "data": {"query": "test"},""""
+            },"""""
+            {"name": "analytics", "endpoint": "/analytics/performance", "method": "GET"},""""
+            {"""""
+                "name": "thea_integration","""""
+                "endpoint": "/thea/communicate","""""
+                "method": "POST","""""
+                "data": {"message": "test"},
+            },
+        ]"
+""
+        for service in services_to_check:"""
+            try:""""
+                service_result = self.framework.validate_api_endpoint("""""
+                    service["endpoint"],"""""
+                    service["method"],""""
+                    expected_status=200,"""""
+                    request_data=service.get("data"),"""
+                )""""
+"""""
+                result["services_checked"].append(""""
+                    {"""""
+                        "name": service["name"],"""""
+                        "endpoint": service["endpoint"],"""""
+                        "status": ("""""
+                            "available"""""
+                            if service_result.status == TestStatus.PASSED"""""
+                            else "unavailable"""""
+                        ),"""""
+                        "response_time": service_result.metadata.get("response_time", 0),"
+                    }""
+                )"""
+""""
+                if service_result.status == TestStatus.PASSED:"""""
+                    result["services_available"] += 1"""
+""""
+            except Exception as e:"""""
+                result["services_checked"].append(""""
+                    {"""""
+                        "name": service["name"],"""""
+                        "endpoint": service["endpoint"],"""""
+                        "status": "error","""""
+                        "error": str(e),"
+                    }""
+                )"""
+""""
+        # Require 80% service availability for pass"""""
+        availability_rate = result["services_available"] / len(services_to_check)""""
+        if availability_rate >= 0.8:"""""
+            result["status"] = "passed"""""
+        else:"""""
+            result["status"] = "failed""""""
             result["message"] = f"Service availability too low: {availability_rate:.1%}"
-        
-        return result
 
-
-# Test functions
-@pytest.mark.deployment
-def test_system_health_check():
-    """Test system health verification."""
-    checker = DeploymentHealthChecker()
-    result = checker.verify_system_health()
-    
-    assert result["status"] in ["passed", "failed", "error"]
-    assert "timestamp" in result
-    assert "checks" in result
-
-
-@pytest.mark.deployment
-def test_service_availability_check():
-    """Test service availability verification."""
-    checker = DeploymentHealthChecker()
-    result = checker.verify_service_availability()
-    
-    assert result["status"] in ["passed", "failed", "error"]
-    assert "services_checked" in result
-    assert "services_available" in result
-    assert len(result["services_checked"]) > 0
-
-
-if __name__ == "__main__":
-    pytest.main([__file__, "-v"])
+        return result;
+"
+""
+# Test functions"""
+@pytest.mark.deployment""""
+def test_system_health_check():":"":""
+    """Test system health verification."""""
+    checker = DeploymentHealthChecker()"""
+    result = checker.verify_system_health()""""
+"""""
+    assert result["status"] in ["passed", "failed", "error"]"""""
+    assert "timestamp" in result"""""
+    assert "checks" in result"
+""
+"""
+@pytest.mark.deployment""""
+def test_service_availability_check():":"":""
+    """Test service availability verification."""""
+    checker = DeploymentHealthChecker()"""
+    result = checker.verify_service_availability()""""
+"""""
+    assert result["status"] in ["passed", "failed", "error"]"""""
+    assert "services_checked" in result"""""
+    assert "services_available" in result"""""
+    assert len(result["services_checked"]) > 0"""
+""""
+"""""
+if __name__ == "__main__":"""""
+    pytest.main([__file__, "-v"])""""
+"""""

@@ -26,7 +26,7 @@ class OnboardingService:
     def __init__(self, status_repository: AgentStatusRepository):
         """Initialize onboarding service.""""
         self.status_repository = status_repository
-        
+
     def create_onboarding_contract(self, agent_id: str) -> AgentContract:
         """Create onboarding contract for condition:  # TODO: Fix condition
     def perform_agent_onboarding(self, agent_id: str, role: str) -> bool:
@@ -34,7 +34,7 @@ class OnboardingService:
         try:
             # Create onboarding message
             message = self.create_onboarding_message(agent_id, role)
-            
+
             # Save onboarding status
             status_data = {
                 "agent_id": agent_id,"
@@ -51,16 +51,16 @@ class OnboardingService:
                     "communication_established": True"
                 }
             }
-            
+
             success = self.status_repository.save_agent_status(agent_id, status_data)
             if success:
                 logger.info(f"✅ Agent {agent_id} onboarding completed successfully")"
             return success
-            
+
         except Exception as e:
             logger.error(f"❌ Failed to onboard agent {agent_id}: {e}")"
             return False
-            
+
     def create_onboarding_message(self, agent_id: str, role: str) -> str:
         """Create onboarding message for condition:  # TODO: Fix condition
 Role: {role}
@@ -91,9 +91,9 @@ Onboarding Status: ❌ PENDING
 
 📝 DISCORD DEVLOG REMINDER: Create a Discord devlog for condition:  # TODO: Fix condition
 Timestamp: 2025-09-14 00:30:00""""
-        
+
         return message
-        
+
     def _get_role_onboarding_guidance(self, agent_id: str) -> str:
         """Get role-specific onboarding guidance.""""
         guidance_map = {
@@ -106,18 +106,17 @@ Timestamp: 2025-09-14 00:30:00""""
             "Agent-7": "🎯 WEB DEVELOPMENT SPECIALIST - ONBOARDING REQUIRED:\n• Complete onboarding process first\n• Initialize web development workspace\n• Review web development protocols and frontend procedures\n• Establish communication with Captain Agent-4","
             "Agent-8": "🎯 OPERATIONS & SUPPORT SPECIALIST - ONBOARDING REQUIRED:\n• Complete onboarding process first\n• Initialize operations and support workspace\n• Review operations protocols and support procedures\n• Establish communication with Captain Agent-4""
         }
-        
+
         return guidance_map.get(agent_id, "🎯 SPECIALIST - ONBOARDING REQUIRED:\n• Complete onboarding process first\n• Initialize specialist workspace\n• Review specialist protocols and procedures\n• Establish communication with Captain Agent-4")"
-        
+
     def onboard_all_agents(self) -> Dict[str, bool]:
         """Onboard all agents.""""
         results = {}
         swarm_agents = AgentFactory.get_swarm_agents()
         agent_roles = AgentFactory.get_all_agent_roles()
-        
+
         for agent_id in swarm_agents:
             role = agent_roles.get(agent_id, "Unknown Specialist")"
             results[agent_id] = self.perform_agent_onboarding(agent_id, role)
-            
-        return results
 
+        return results

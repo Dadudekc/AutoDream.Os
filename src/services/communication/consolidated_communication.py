@@ -1,22 +1,22 @@
 #!/usr/bin/env python3
 # Consolidated Communication System - V2 Compliant
 from __future__ import annotations
-import asyncio
+
 import json
 import logging
-import os
 import threading
 import time
 from abc import ABC, abstractmethod
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
 from queue import Queue
-from typing import Any, Dict, List, Optional, Protocol
-from concurrent.futures import ThreadPoolExecutor
+from typing import Any, Protocol
 
 logger = logging.getLogger(__name__)
+
 
 class MessageType(Enum):
     AGENT_TO_AGENT = "agent_to_agent"
@@ -33,12 +33,14 @@ class MessagePriority(Enum):
     HIGH = "high"
     CRITICAL = "critical"
 
+
 class CommunicationProtocol(Enum):
     INTERNAL = "internal"
     HTTP = "http"
     WEBSOCKET = "websocket"
     PYAUTOGUI = "pyautogui"
     FILE_BASED = "file_based"
+
 
 @dataclass
 class Message:
@@ -48,11 +50,11 @@ class Message:
     message_type: MessageType
     priority: MessagePriority = MessagePriority.NORMAL
     content: Any = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
     timestamp: datetime = field(default_factory=datetime.now)
     protocol: CommunicationProtocol = CommunicationProtocol.INTERNAL
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "message_id": self.message_id,
             "sender": self.sender,
@@ -62,11 +64,11 @@ class Message:
             "content": self.content,
             "metadata": self.metadata,
             "timestamp": self.timestamp.isoformat(),
-            "protocol": self.protocol.value
+            "protocol": self.protocol.value,
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> Message:
+    def from_dict(cls, data: dict[str, Any]) -> Message:
         return cls(
             message_id=data["message_id"],
             sender=data["sender"],
@@ -76,15 +78,17 @@ class Message:
             content=data.get("content"),
             metadata=data.get("metadata", {}),
             timestamp=datetime.fromisoformat(data["timestamp"]),
-            protocol=CommunicationProtocol(data.get("protocol", "internal"))
+            protocol=CommunicationProtocol(data.get("protocol", "internal")),
         )
+
 
 @dataclass
 class MessageResult:
     success: bool
     message_id: str
-    error: Optional[str] = None
+    error: str | None = None
     delivery_time: float = 0.0
+
 
 class IMessageHandler(Protocol):
     def can_handle(self, message: Message) -> bool: ...
@@ -106,7 +110,7 @@ class ICommunicationChannel(ABC):
         pass
 
     @abstractmethod
-    async def receive_messages(self, recipient: str) -> List[Message]:
+    async def receive_messages(self, recipient: str) -> list[Message]:
         pass
 
 
@@ -126,9 +130,7 @@ class InternalCommunicationChannel(ICommunicationChannel):
                 self.message_queue.put(message)
             delivery_time = time.time() - start_time
             return MessageResult(
-                success=True,
-                message_id=message.message_id,
-                delivery_time=delivery_time
+                success=True, message_id=message.message_id, delivery_time=delivery_time
             )
         except Exception as e:
             delivery_time = time.time() - start_time
@@ -136,10 +138,10 @@ class InternalCommunicationChannel(ICommunicationChannel):
                 success=False,
                 message_id=message.message_id,
                 error=str(e),
-                delivery_time=delivery_time
+                delivery_time=delivery_time,
             )
 
-    async def receive_messages(self, recipient: str) -> List[Message]:
+    async def receive_messages(self, recipient: str) -> list[Message]:
         messages = []
         try:
             temp_queue = Queue()
@@ -158,12 +160,15 @@ class InternalCommunicationChannel(ICommunicationChannel):
             self.logger.error(f"Error receiving messages: {e}")
         return messages
 
+
 class FileBasedCommunicationChannel(ICommunicationChannel):
     def __init__(self, channel_id: str, inbox_dir: str = "agent_workspaces"):
         super().__init__(channel_id)
         self.inbox_dir = Path(inbox_dir)
+
     def get_protocol(self) -> CommunicationProtocol:
         return CommunicationProtocol.FILE_BASED
+
     async def send_message(self, message: Message) -> MessageResult:
         """Send message via file-based system."""
         start_time = time.time()
@@ -171,13 +176,11 @@ class FileBasedCommunicationChannel(ICommunicationChannel):
             inbox_path = self.inbox_dir / message.recipient / "inbox"
             inbox_path.mkdir(parents=True, exist_ok=True)
             message_file = inbox_path / f"{message.message_id}.json"
-            with open(message_file, 'w', encoding='utf-8') as f:
+            with open(message_file, "w", encoding="utf-8") as f:
                 json.dump(message.to_dict(), f, indent=2, default=str)
             delivery_time = time.time() - start_time
             return MessageResult(
-                success=True,
-                message_id=message.message_id,
-                delivery_time=delivery_time
+                success=True, message_id=message.message_id, delivery_time=delivery_time
             )
 
         except Exception as e:
@@ -186,10 +189,10 @@ class FileBasedCommunicationChannel(ICommunicationChannel):
                 success=False,
                 message_id=message.message_id,
                 error=str(e),
-                delivery_time=delivery_time
+                delivery_time=delivery_time,
             )
 
-    async def receive_messages(self, recipient: str) -> List[Message]:
+    async def receive_messages(self, recipient: str) -> list[Message]:
         """Receive messages from file-based inbox."""
         messages = []
 
@@ -198,7 +201,7 @@ class FileBasedCommunicationChannel(ICommunicationChannel):
             if inbox_path.exists():
                 for message_file in inbox_path.glob("*.json"):
                     try:
-                        with open(message_file, 'r', encoding='utf-8') as f:
+                        with open(message_file, encoding="utf-8") as f:
                             data = json.load(f)
                             message = Message.from_dict(data)
                             messages.append(message)
@@ -216,12 +219,13 @@ class FileBasedCommunicationChannel(ICommunicationChannel):
 @dataclass
 class MessageStatistics:
     """Statistics for message operations."""
+
     total_sent: int = 0
     total_received: int = 0
     total_errors: int = 0
     average_delivery_time: float = 0.0
-    messages_by_type: Dict[str, int] = field(default_factory=dict)
-    messages_by_priority: Dict[str, int] = field(default_factory=dict)
+    messages_by_type: dict[str, int] = field(default_factory=dict)
+    messages_by_priority: dict[str, int] = field(default_factory=dict)
 
 
 class ConsolidatedCommunicationSystem:
@@ -229,8 +233,8 @@ class ConsolidatedCommunicationSystem:
 
     def __init__(self):
         self.logger = logging.getLogger(__name__)
-        self.channels: Dict[str, ICommunicationChannel] = {}
-        self.handlers: Dict[str, IMessageHandler] = {}
+        self.channels: dict[str, ICommunicationChannel] = {}
+        self.handlers: dict[str, IMessageHandler] = {}
         self.statistics = MessageStatistics()
         self.executor = ThreadPoolExecutor(max_workers=4)
         self._running = True
@@ -271,7 +275,7 @@ class ConsolidatedCommunicationSystem:
             return MessageResult(
                 success=False,
                 message_id=message.message_id,
-                error=f"Channel {channel_id} not found"
+                error=f"Channel {channel_id} not found",
             )
 
         # Update statistics
@@ -285,7 +289,9 @@ class ConsolidatedCommunicationSystem:
 
         return result
 
-    async def broadcast_message(self, message: Message, channel_ids: List[str] = None) -> List[MessageResult]:
+    async def broadcast_message(
+        self, message: Message, channel_ids: list[str] = None
+    ) -> list[MessageResult]:
         """Broadcast message to multiple channels."""
         if channel_ids is None:
             channel_ids = list(self.channels.keys())
@@ -299,7 +305,7 @@ class ConsolidatedCommunicationSystem:
             priority=message.priority,
             content=message.content,
             metadata={**message.metadata, "broadcast": True},
-            protocol=message.protocol
+            protocol=message.protocol,
         )
 
         results = []
@@ -309,7 +315,9 @@ class ConsolidatedCommunicationSystem:
 
         return results
 
-    async def receive_messages(self, recipient: str, channel_ids: List[str] = None) -> List[Message]:
+    async def receive_messages(
+        self, recipient: str, channel_ids: list[str] = None
+    ) -> list[Message]:
         """Receive messages for recipient from specified channels."""
         if channel_ids is None:
             channel_ids = list(self.channels.keys())
@@ -343,15 +351,17 @@ class ConsolidatedCommunicationSystem:
         """Update message statistics."""
         # Update by type
         type_key = message.message_type.value
-        self.statistics.messages_by_type[type_key] = \
+        self.statistics.messages_by_type[type_key] = (
             self.statistics.messages_by_type.get(type_key, 0) + 1
+        )
 
         # Update by priority
         priority_key = message.priority.value
-        self.statistics.messages_by_priority[priority_key] = \
+        self.statistics.messages_by_priority[priority_key] = (
             self.statistics.messages_by_priority.get(priority_key, 0) + 1
+        )
 
-    def get_communication_status(self) -> Dict[str, Any]:
+    def get_communication_status(self) -> dict[str, Any]:
         """Get overall communication system status."""
         return {
             "active_channels": list(self.channels.keys()),
@@ -361,8 +371,8 @@ class ConsolidatedCommunicationSystem:
                 "total_received": self.statistics.total_received,
                 "total_errors": self.statistics.total_errors,
                 "messages_by_type": self.statistics.messages_by_type,
-                "messages_by_priority": self.statistics.messages_by_priority
-            }
+                "messages_by_priority": self.statistics.messages_by_priority,
+            },
         }
 
     def shutdown(self) -> None:
@@ -373,7 +383,7 @@ class ConsolidatedCommunicationSystem:
 
 
 # Global communication system instance
-_communication_system: Optional[ConsolidatedCommunicationSystem] = None
+_communication_system: ConsolidatedCommunicationSystem | None = None
 _communication_lock = threading.Lock()
 
 
@@ -390,8 +400,12 @@ def get_consolidated_communication_system() -> ConsolidatedCommunicationSystem:
 
 
 # Convenience functions for backward compatibility
-async def send_agent_message(recipient: str, content: Any, message_type: MessageType = MessageType.AGENT_TO_AGENT,
-                           priority: MessagePriority = MessagePriority.NORMAL) -> MessageResult:
+async def send_agent_message(
+    recipient: str,
+    content: Any,
+    message_type: MessageType = MessageType.AGENT_TO_AGENT,
+    priority: MessagePriority = MessagePriority.NORMAL,
+) -> MessageResult:
     """Send a message to another agent."""
     import uuid
 
@@ -401,14 +415,16 @@ async def send_agent_message(recipient: str, content: Any, message_type: Message
         recipient=recipient,
         message_type=message_type,
         priority=priority,
-        content=content
+        content=content,
     )
 
     system = get_consolidated_communication_system()
     return await system.send_message(message, "file_based")
 
 
-async def broadcast_swarm_message(content: Any, priority: MessagePriority = MessagePriority.NORMAL) -> List[MessageResult]:
+async def broadcast_swarm_message(
+    content: Any, priority: MessagePriority = MessagePriority.NORMAL
+) -> list[MessageResult]:
     """Broadcast message to entire swarm."""
     import uuid
 
@@ -418,7 +434,7 @@ async def broadcast_swarm_message(content: Any, priority: MessagePriority = Mess
         recipient="all",
         message_type=MessageType.SWARM_BROADCAST,
         priority=priority,
-        content=content
+        content=content,
     )
 
     system = get_consolidated_communication_system()
@@ -436,39 +452,39 @@ if __name__ == "__main__":
     print("🐝 Module Examples - Practical Demonstrations")
     print("=" * 50)
     # Function demonstrations
-    print(f"\n📋 Testing get_consolidated_communication_system():")
+    print("\n📋 Testing get_consolidated_communication_system():")
     try:
         # Add your function call here
-        print(f"✅ get_consolidated_communication_system executed successfully")
+        print("✅ get_consolidated_communication_system executed successfully")
     except Exception as e:
         print(f"❌ get_consolidated_communication_system failed: {e}")
 
-    print(f"\n📋 Testing to_dict():")
+    print("\n📋 Testing to_dict():")
     try:
         # Add your function call here
-        print(f"✅ to_dict executed successfully")
+        print("✅ to_dict executed successfully")
     except Exception as e:
         print(f"❌ to_dict failed: {e}")
 
-    print(f"\n📋 Testing from_dict():")
+    print("\n📋 Testing from_dict():")
     try:
         # Add your function call here
-        print(f"✅ from_dict executed successfully")
+        print("✅ from_dict executed successfully")
     except Exception as e:
         print(f"❌ from_dict failed: {e}")
 
     # Class demonstrations
-    print(f"\n🏗️  Testing MessageType class:")
+    print("\n🏗️  Testing MessageType class:")
     try:
         instance = MessageType()
-        print(f"✅ MessageType instantiated successfully")
+        print("✅ MessageType instantiated successfully")
     except Exception as e:
         print(f"❌ MessageType failed: {e}")
 
-    print(f"\n🏗️  Testing MessagePriority class:")
+    print("\n🏗️  Testing MessagePriority class:")
     try:
         instance = MessagePriority()
-        print(f"✅ MessagePriority instantiated successfully")
+        print("✅ MessagePriority instantiated successfully")
     except Exception as e:
         print(f"❌ MessagePriority failed: {e}")
 

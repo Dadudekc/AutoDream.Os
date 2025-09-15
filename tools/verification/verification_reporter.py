@@ -33,9 +33,9 @@ class VerificationReporter:
             "change_analysis": self._analyze_changes(verification_result),
             "preservation_analysis": self._analyze_preservation(verification_result),
             "recommendations": verification_result.get("recommendations", []),
-            "raw_result": verification_result
+            "raw_result": verification_result,
         }
-        
+
         return report
 
     def _generate_verification_summary(self, result: dict[str, Any]) -> dict[str, Any]:
@@ -45,35 +45,53 @@ class VerificationReporter:
             "preservation_score": result.get("preservation_score", 0.0),
             "baseline_exists": result.get("baseline_exists", False),
             "has_errors": bool(result.get("error")),
-            "error_message": result.get("error", "")
+            "error_message": result.get("error", ""),
         }
 
     def _analyze_changes(self, result: dict[str, Any]) -> dict[str, Any]:
         """Analyze changes detected."""
         differences = result.get("differences", {})
-        
+
         return {
             "file_changes": {
                 "total": len(differences.get("file_changes", [])),
-                "added": len([c for c in differences.get("file_changes", []) if c.get("change_type") == "added"]),
-                "modified": len([c for c in differences.get("file_changes", []) if c.get("change_type") == "modified"]),
-                "deleted": len([c for c in differences.get("file_changes", []) if c.get("change_type") == "deleted"])
+                "added": len(
+                    [
+                        c
+                        for c in differences.get("file_changes", [])
+                        if c.get("change_type") == "added"
+                    ]
+                ),
+                "modified": len(
+                    [
+                        c
+                        for c in differences.get("file_changes", [])
+                        if c.get("change_type") == "modified"
+                    ]
+                ),
+                "deleted": len(
+                    [
+                        c
+                        for c in differences.get("file_changes", [])
+                        if c.get("change_type") == "deleted"
+                    ]
+                ),
             },
             "import_changes": len(differences.get("import_changes", [])),
             "function_changes": len(differences.get("function_changes", [])),
             "class_changes": len(differences.get("class_changes", [])),
-            "test_changes": len(differences.get("test_changes", []))
+            "test_changes": len(differences.get("test_changes", [])),
         }
 
     def _analyze_preservation(self, result: dict[str, Any]) -> dict[str, Any]:
         """Analyze functionality preservation."""
         preservation_score = result.get("preservation_score", 0.0)
-        
+
         return {
             "score": preservation_score,
             "grade": self._get_preservation_grade(preservation_score),
             "status": self._get_preservation_status(preservation_score),
-            "risk_level": self._get_risk_level(preservation_score)
+            "risk_level": self._get_risk_level(preservation_score),
         }
 
     def _get_preservation_grade(self, score: float) -> str:
@@ -116,50 +134,52 @@ class VerificationReporter:
         if filename is None:
             timestamp = report.get("timestamp", "").replace(":", "-").replace(".", "-")
             filename = f"verification_report_{timestamp}.json"
-        
+
         report_path = self.reports_dir / filename
-        
-        with open(report_path, 'w', encoding='utf-8') as f:
+
+        with open(report_path, "w", encoding="utf-8") as f:
             json.dump(report, f, indent=2)
-        
+
         return report_path
 
     def print_verification_summary(self, report: dict[str, Any]) -> None:
         """Print verification summary to console."""
-        print("\n" + "="*70)
+        print("\n" + "=" * 70)
         print("📋 FUNCTIONALITY VERIFICATION REPORT")
-        print("="*70)
-        
+        print("=" * 70)
+
         summary = report.get("verification_summary", {})
         print(f"Status: {summary.get('status', 'UNKNOWN')}")
         print(f"Preservation Score: {summary.get('preservation_score', 0.0):.1f}%")
         print(f"Baseline Exists: {summary.get('baseline_exists', False)}")
-        
+
         if summary.get("has_errors"):
             print(f"⚠️  Errors: {summary.get('error_message', 'Unknown error')}")
-        
+
         # Change analysis
         changes = report.get("change_analysis", {})
-        print(f"\n📊 CHANGE ANALYSIS:")
+        print("\n📊 CHANGE ANALYSIS:")
         file_changes = changes.get("file_changes", {})
-        print(f"  File Changes: {file_changes.get('total', 0)} (Added: {file_changes.get('added', 0)}, Modified: {file_changes.get('modified', 0)}, Deleted: {file_changes.get('deleted', 0)})")
+        print(
+            f"  File Changes: {file_changes.get('total', 0)} (Added: {file_changes.get('added', 0)}, Modified: {file_changes.get('modified', 0)}, Deleted: {file_changes.get('deleted', 0)})"
+        )
         print(f"  Import Changes: {changes.get('import_changes', 0)}")
         print(f"  Function Changes: {changes.get('function_changes', 0)}")
         print(f"  Class Changes: {changes.get('class_changes', 0)}")
         print(f"  Test Changes: {changes.get('test_changes', 0)}")
-        
+
         # Preservation analysis
         preservation = report.get("preservation_analysis", {})
-        print(f"\n🎯 PRESERVATION ANALYSIS:")
+        print("\n🎯 PRESERVATION ANALYSIS:")
         print(f"  Grade: {preservation.get('grade', 'N/A')}")
         print(f"  Status: {preservation.get('status', 'UNKNOWN')}")
         print(f"  Risk Level: {preservation.get('risk_level', 'UNKNOWN')}")
-        
+
         # Recommendations
         recommendations = report.get("recommendations", [])
         if recommendations:
-            print(f"\n💡 RECOMMENDATIONS:")
+            print("\n💡 RECOMMENDATIONS:")
             for i, rec in enumerate(recommendations, 1):
                 print(f"  {i}. {rec}")
-        
-        print("="*70)
+
+        print("=" * 70)

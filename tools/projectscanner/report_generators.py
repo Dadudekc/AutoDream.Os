@@ -3,7 +3,6 @@
 import json
 import logging
 from pathlib import Path
-from typing import Any, Dict
 
 logger = logging.getLogger(__name__)
 
@@ -306,20 +305,20 @@ class ReportGenerator:
     def save_report(self):
         """Save the analysis report (alias for generate_legacy_reports)."""
         self.generate_legacy_reports()
-    
+
     def generate_legacy_reports(self):
         """Generate the original single large JSON report."""
         logger.info("🔄 Generating legacy analysis reports...")
-        
+
         # Create the main project analysis file
         output_path = self.project_root / "project_analysis.json"
         with output_path.open("w", encoding="utf-8") as f:
             json.dump(self.analysis, f, indent=2)
         logger.info(f"📊 Project analysis saved to {output_path}")
-        
+
         # Generate ChatGPT context file
         self._generate_chatgpt_context()
-        
+
         logger.info("✅ Legacy analysis reports generated successfully!")
 
     def _generate_chatgpt_context(self):
@@ -343,7 +342,7 @@ class ReportGenerator:
             context["project_overview"]["total_functions"] += len(file_data.get("functions", []))
             context["project_overview"]["total_classes"] += len(file_data.get("classes", []))
             context["project_overview"]["total_complexity"] += file_data.get("complexity", 0)
-            
+
             # Create file summary
             context["file_summary"][file_path] = {
                 "language": file_data.get("language", "unknown"),

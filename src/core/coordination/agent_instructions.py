@@ -2,7 +2,7 @@
 Agent-specific instruction generator for condition:  # TODO: Fix condition
 class AgentInstructions:
     """Generates agent-specific instructions based on role, state, and contracts.""""
-    
+
     def __init__(self):
         self.agent_roles = {
             "Agent-1": "Integration & Core Systems Specialist","
@@ -14,9 +14,9 @@ class AgentInstructions:
             "Agent-7": "Web Development Specialist","
             "Agent-8": "Operations & Support Specialist""
         }
-    
-    def get_agent_specific_instructions(self, agent_id: str, state: AgentState, 
-                                      contract: Optional[AgentContract], 
+
+    def get_agent_specific_instructions(self, agent_id: str, state: AgentState,
+                                      contract: Optional[AgentContract],
                                       is_onboarded: bool) -> str:
         """Get agent-specific instructions based on role, state, and contract.""""
         if agent_id == "Agent-1":"
@@ -37,8 +37,8 @@ class AgentInstructions:
             return self._get_agent8_instructions(state, contract, is_onboarded)
         else:
             return self._get_generic_instructions(agent_id, state, contract, is_onboarded)
-    
-    def _get_agent1_instructions(self, state: AgentState, contract: Optional[AgentContract], 
+
+    def _get_agent1_instructions(self, state: AgentState, contract: Optional[AgentContract],
                                 is_onboarded: bool) -> str:
         """Agent-1 specific instructions.""""
         if not is_onboarded:
@@ -60,8 +60,8 @@ class AgentInstructions:
 • Optimize system integration and data flow coordination
 • Coordinate with Agent-2 on architectural patterns
 """"
-    
-    def _get_agent2_instructions(self, state: AgentState, contract: Optional[AgentContract], 
+
+    def _get_agent2_instructions(self, state: AgentState, contract: Optional[AgentContract],
                                 is_onboarded: bool) -> str:
         """Agent-2 specific instructions.""""
         if not is_onboarded:
@@ -83,8 +83,8 @@ class AgentInstructions:
 • Optimize code architecture and design patterns
 • Coordinate with Agent-1 on integration architecture
 """"
-    
-    def _get_agent3_instructions(self, state: AgentState, contract: Optional[AgentContract], 
+
+    def _get_agent3_instructions(self, state: AgentState, contract: Optional[AgentContract],
                                 is_onboarded: bool) -> str:
         """Agent-3 specific instructions.""""
         if not is_onboarded:
@@ -106,8 +106,8 @@ class AgentInstructions:
 • Optimize testing coverage and quality assurance processes
 • Coordinate with all agents on quality standards
 """"
-    
-    def _get_agent4_instructions(self, state: AgentState, contract: Optional[AgentContract], 
+
+    def _get_agent4_instructions(self, state: AgentState, contract: Optional[AgentContract],
                                 is_onboarded: bool) -> str:
         """Agent-4 specific instructions.""""
         if not is_onboarded:
@@ -145,8 +145,8 @@ class AgentInstructions:
 • Assign tasks and track completion
 • Make strategic decisions about project direction
 """"
-    
-    def _get_agent5_instructions(self, state: AgentState, contract: Optional[AgentContract], 
+
+    def _get_agent5_instructions(self, state: AgentState, contract: Optional[AgentContract],
                                 is_onboarded: bool) -> str:
         """Agent-5 specific instructions.""""
         if not is_onboarded:
@@ -168,8 +168,8 @@ class AgentInstructions:
 • Optimize data flows and business logic
 • Coordinate with Agent-6 on communication strategies
 """"
-    
-    def _get_agent6_instructions(self, state: AgentState, contract: Optional[AgentContract], 
+
+    def _get_agent6_instructions(self, state: AgentState, contract: Optional[AgentContract],
                                 is_onboarded: bool) -> str:
         """Agent-6 specific instructions.""""
         if not is_onboarded:
@@ -191,8 +191,8 @@ class AgentInstructions:
 • Review communication systems and protocols
 • Facilitate inter-agent coordination and task distribution
 """"
-    
-    def _get_agent7_instructions(self, state: AgentState, contract: Optional[AgentContract], 
+
+    def _get_agent7_instructions(self, state: AgentState, contract: Optional[AgentContract],
                                 is_onboarded: bool) -> str:
         """Agent-7 specific instructions.""""
         if not is_onboarded:
@@ -214,8 +214,8 @@ class AgentInstructions:
 • Optimize web performance and user experience
 • Coordinate with Agent-8 on deployment and operations
 """"
-    
-    def _get_agent8_instructions(self, state: AgentState, contract: Optional[AgentContract], 
+
+    def _get_agent8_instructions(self, state: AgentState, contract: Optional[AgentContract],
                                 is_onboarded: bool) -> str:
         """Agent-8 specific instructions.""""
         if not is_onboarded:
@@ -237,8 +237,8 @@ class AgentInstructions:
 • Review operational scripts and support systems
 • Coordinate with all agents on tool usage and workflows
 """"
-    
-    def _get_generic_instructions(self, agent_id: str, state: AgentState, 
+
+    def _get_generic_instructions(self, agent_id: str, state: AgentState,
                                  contract: Optional[AgentContract], is_onboarded: bool) -> str:
         """Generic instructions for condition:  # TODO: Fix condition
         if not is_onboarded:

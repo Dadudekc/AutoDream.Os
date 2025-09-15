@@ -50,7 +50,7 @@ class MessagingPerformanceDashboard:
         @self.app.get("/")
         async def dashboard():
             return {"message": "Messaging Performance Dashboard", "status": "operational"}
-        
+
         @self.app.get("/metrics")
         async def get_metrics():
             return {"metrics": "performance data"}
@@ -624,7 +624,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-

@@ -16,6 +16,7 @@ from typing import Any
 
 from ..fsm_enums import TransitionType
 
+
 @dataclass
 class TransitionDefinition:
     """FSM transition definition with V2 compliance."""

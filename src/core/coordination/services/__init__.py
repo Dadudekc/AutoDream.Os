@@ -14,4 +14,3 @@ from .onboarding_service import OnboardingService
 from .contract_service import ContractService
 
 __all__ = ['CoordinationService', 'OnboardingService', 'ContractService']'
-

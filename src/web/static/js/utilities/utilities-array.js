@@ -26,7 +26,7 @@ export class ArrayUtils {
         if (this.cache.has(cacheKey)) {
             return this.cache.get(cacheKey);
         }
-        
+
         const result = [...new Set(array)];
         this.cache.set(cacheKey, result);
         return result;
@@ -40,12 +40,12 @@ export class ArrayUtils {
         if (this.cache.has(cacheKey)) {
             return this.cache.get(cacheKey);
         }
-        
+
         const chunks = [];
         for (let i = 0; i < array.length; i += size) {
             chunks.push(array.slice(i, i + size));
         }
-        
+
         this.cache.set(cacheKey, chunks);
         return chunks;
     }
@@ -58,11 +58,11 @@ export class ArrayUtils {
         if (this.cache.has(cacheKey)) {
             return this.cache.get(cacheKey);
         }
-        
+
         const result = array.reduce((flat, item) => {
             return flat.concat(Array.isArray(item) ? this.flatten(item) : item);
         }, []);
-        
+
         this.cache.set(cacheKey, result);
         return result;
     }
@@ -75,14 +75,14 @@ export class ArrayUtils {
         if (this.cache.has(cacheKey)) {
             return this.cache.get(cacheKey);
         }
-        
+
         const result = array.reduce((groups, item) => {
             const group = item[key];
             groups[group] = groups[group] || [];
             groups[group].push(item);
             return groups;
         }, {});
-        
+
         this.cache.set(cacheKey, result);
         return result;
     }
@@ -95,7 +95,7 @@ export class ArrayUtils {
         if (this.cache.has(cacheKey)) {
             return this.cache.get(cacheKey);
         }
-        
+
         const result = array.sort((a, b) => {
             const aVal = a[key];
             const bVal = b[key];
@@ -104,7 +104,7 @@ export class ArrayUtils {
             }
             return aVal > bVal ? 1 : -1;
         });
-        
+
         this.cache.set(cacheKey, result);
         return result;
     }
@@ -116,7 +116,7 @@ export class ArrayUtils {
         if (typeof condition === 'function') {
             return array.filter(condition);
         }
-        
+
         if (typeof condition === 'object') {
             return array.filter(item => {
                 return Object.entries(condition).every(([key, value]) => {
@@ -124,7 +124,7 @@ export class ArrayUtils {
                 });
             });
         }
-        
+
         return array;
     }
 
@@ -135,7 +135,7 @@ export class ArrayUtils {
         if (typeof condition === 'function') {
             return array.find(condition);
         }
-        
+
         if (typeof condition === 'object') {
             return array.find(item => {
                 return Object.entries(condition).every(([key, value]) => {
@@ -143,7 +143,7 @@ export class ArrayUtils {
                 });
             });
         }
-        
+
         return undefined;
     }
 
@@ -154,11 +154,11 @@ export class ArrayUtils {
         if (typeof transform === 'string') {
             return array.map(item => item[transform]);
         }
-        
+
         if (typeof transform === 'function') {
             return array.map(transform);
         }
-        
+
         return array;
     }
 
@@ -186,14 +186,14 @@ export class ArrayUtils {
 
         const sorted = [...array].sort((a, b) => a - b);
         const sum = array.reduce((acc, val) => acc + val, 0);
-        
+
         return {
             length: array.length,
             min: Math.min(...array),
             max: Math.max(...array),
             sum: sum,
             average: sum / array.length,
-            median: sorted.length % 2 === 0 
+            median: sorted.length % 2 === 0
                 ? (sorted[sorted.length / 2 - 1] + sorted[sorted.length / 2]) / 2
                 : sorted[Math.floor(sorted.length / 2)]
         };
@@ -277,7 +277,7 @@ export class ArrayUtils {
     partition(array, predicate) {
         const truthy = [];
         const falsy = [];
-        
+
         array.forEach(item => {
             if (predicate(item)) {
                 truthy.push(item);
@@ -285,7 +285,7 @@ export class ArrayUtils {
                 falsy.push(item);
             }
         });
-        
+
         return [truthy, falsy];
     }
 
@@ -295,11 +295,11 @@ export class ArrayUtils {
     zip(...arrays) {
         const maxLength = Math.max(...arrays.map(arr => arr.length));
         const result = [];
-        
+
         for (let i = 0; i < maxLength; i++) {
             result.push(arrays.map(arr => arr[i]));
         }
-        
+
         return result;
     }
 
@@ -308,14 +308,14 @@ export class ArrayUtils {
      */
     unzip(zippedArray) {
         if (zippedArray.length === 0) return [];
-        
+
         const result = [];
         const maxLength = Math.max(...zippedArray.map(arr => arr.length));
-        
+
         for (let i = 0; i < maxLength; i++) {
             result.push(zippedArray.map(arr => arr[i]));
         }
-        
+
         return result;
     }
 

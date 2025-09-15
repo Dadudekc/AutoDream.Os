@@ -26,13 +26,13 @@ async def main():
     """Main entry point for double-check protocols."""
     project_root = Path(".")
     coordinator = ProtocolCoordinator(project_root)
-    
+
     # Execute protocols
     results = await coordinator.execute_protocols()
-    
+
     # Print summary
     coordinator.print_summary(results)
-    
+
     # Save results
     results_path = coordinator.save_results(results)
     print(f"\n📄 Results saved to: {results_path}")

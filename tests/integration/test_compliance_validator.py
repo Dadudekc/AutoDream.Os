@@ -1,28 +1,28 @@
 """"
 Basic unit tests for condition:  # TODO: Fix condition
 try:
-    from src.services.compliance_validator import Compliance_Validator
+    from src.services.compliance_validator import Compliance_Validator import
 except ImportError:
-    # If direct import fails, try from parent module
-    from src.services import Compliance_Validator
-
-
-class TestCompliance_Validator:
-    """Basic test suite for condition:  # TODO: Fix condition
-    def setup_method(self):
-        """Set up test fixtures.""""
-        self.instance = Compliance_Validator()
-
-    def test_initialization(self):
-        """Test that the component can be initialized.""""
-        assert self.instance is not None
-        assert isinstance(self.instance, Compliance_Validator)
-
-    def test_basic_functionality(self):
-        """Test basic component functionality.""""
-        # This is a placeholder test - replace with actual functionality
-        result = self.instance.__class__.__name__ if condition:  # TODO: Fix condition
-    def test_no_exceptions_on_basic_usage(self, mock_print):
+    # If direct import fails, try from parent module"
+    from src.services import Compliance_Validator import""
+"""
+""""
+class TestCompliance_Validator:":"":""
+    """Basic test suite for condition:  # TODO: Fix condition"""""""
+    def setup_method(self):":"":""
+        """Set up test fixtures.""""""
+        self.instance = Compliance_Validator()"""
+""""
+    def test_initialization(self):":"":""
+        """Test that the component can be initialized."""""
+        assert self.instance is not None""
+        assert isinstance(self.instance, Compliance_Validator)"""
+""""
+    def test_basic_functionality(self):":"":""
+        """Test basic component functionality.""""""
+        # This is a placeholder test - replace with actual functionality"""
+        result = self.instance.__class__.__name__ if condition:  # TODO: Fix condition""""
+    def test_no_exceptions_on_basic_usage(self, mock_print):":"":""
         """Test that basic usage doesn't raise exceptions.""""
         try:
             # Attempt basic usage - adjust based on actual component
@@ -35,24 +35,25 @@ class TestCompliance_Validator:
             else:
                 # Just test that the object exists
                 str(self.instance)
-
-            # If we get here, no exceptions were raised
-            assert True
-
-        except Exception as e:
-            pytest.fail(f"Basic usage raised exception: {e}")"
-
-    def test_component_has_required_attributes(self):
+"
+            # If we get here, no exceptions were raised""
+            assert True"""
+""""
+        except Exception as e:"""""
+            pytest.fail(f"Basic usage raised exception: {e}")""""
+""""
+    def test_component_has_required_attributes(self):":"":""
         """Test that component has expected attributes.""""
         # Add assertions for condition:  # TODO: Fix condition
         # Example assertions (update based on your component):
         # assert hasattr(self.instance, 'config')'
         # assert hasattr(self.instance, 'logger')'
-
-        # For now, just ensure it's not None'
-        assert self.instance is not None
-
-
-if __name__ == "__main__":"
-    # Run tests directly
-    pytest.main([__file__, "-v"])"
+"
+        # For now, just ensure it's not None'""
+        assert self.instance is not None"""
+""""
+"""""
+if __name__ == "__main__":"""""
+    # Run tests directly"""""
+    pytest.main([__file__, "-v"])"""""
+"""""

@@ -3,189 +3,201 @@
 Integration Testing Framework API - V2 Compliant
 ===============================================
 
-API testing capabilities for integration testing framework.
-V2 Compliance: < 400 lines, single responsibility.
-
-Author: Agent-5 (Data Organization Specialist)
-Test Type: Integration Testing Framework API
+API testing capabilities for integration testing framework."
+V2 Compliance: < 400 lines, single responsibility.""
+"""
+Author: Agent-5 (Data Organization Specialist)""""
+Test Type: Integration Testing Framework API"""""
 """
 
-from datetime import datetime
-from typing import Any, Dict
+from datetime import datetime import
+from typing import Any import
 
-from .integration_testing_framework_core import IntegrationTestFramework, TestResult, TestStatus, TestType
-
-
-class APITestingFramework(IntegrationTestFramework):
-    """API testing capabilities for integration testing framework."""
-    
-    def validate_api_endpoint(
-        self,
-        path: str,
-        method: str = "GET",
-        expected_status: int = 200,
-        request_data: Dict[str, Any] | None = None
-    ) -> TestResult:
-        """Validate API endpoint against OpenAPI specification."""
-        
-        test_id = f"api_validate_{method.lower()}_{path.replace('/', '_')}"
-        
-        result = TestResult(
-            test_id=test_id,
+from .integration_testing_framework_core import ( import
+    IntegrationTestFramework,
+    TestResult,
+    TestStatus,
+    TestType,"
+)""
+"""
+""""
+class APITestingFramework(IntegrationTestFramework):":"":""
+    """API testing capabilities for integration testing framework.""""
+""
+    def validate_api_endpoint(:":""
+        self,""""
+        path: str,"""""
+        method: str = "GET",""
+        expected_status: int = 200,"""
+        request_data: dict[str, Any] | None = None,""""
+    ) -> TestResult:"""""
+        """Validate API endpoint against OpenAPI specification."""""""
+"""""
+        test_id = f"api_validate_{method.lower()}_{path.replace('/', '_')}"""
+"""
+        result = TestResult(""""
+            test_id=test_id,"""""
             test_name=f"API Validation: {method} {path}",
             test_type=TestType.API,
             status=TestStatus.RUNNING,
-            start_time=datetime.now(),
-            duration=0.0
-        )
-        
-        try:
-            url = f"{self.api_base_url}{path}"
-            
-            # Make request
-            if method.upper() == "GET":
-                response = self.session.get(url)
-            elif method.upper() == "POST":
-                response = self.session.post(url, json=request_data)
-            elif method.upper() == "PUT":
-                response = self.session.put(url, json=request_data)
-            elif method.upper() == "DELETE":
-                response = self.session.delete(url)
-            else:
-                raise ValueError(f"Unsupported HTTP method: {method}")
-            
-            # Validate response
-            if response.status_code != expected_status:
-                raise AssertionError(
-                    f"Expected status {expected_status}, got {response.status_code}"
-                )
-            
-            # Validate response structure if OpenAPI spec available
-            if self.openapi_spec and path in self.openapi_spec.get("paths", {}):
-                self._validate_response_against_spec(response.json(), path, method)
-            
-            result.status = TestStatus.PASSED
-            result.metadata = {
-                "url": url,
-                "method": method,
-                "status_code": response.status_code,
-                "response_time": response.elapsed.total_seconds(),
-                "response_data": response.json() if response.content else None
+            start_time=datetime.now(),"
+            duration=0.0,""
+        )"""
+""""
+        try:"""""
+            url = f"{self.api_base_url}{path}""""
+""""
+            # Make request"""""
+            if method.upper() == "GET":""""
+                response = self.session.get(url)"""""
+            elif method.upper() == "POST":""""
+                response = self.session.post(url, json=request_data)"""""
+            elif method.upper() == "PUT":""""
+                response = self.session.put(url, json=request_data)"""""
+            elif method.upper() == "DELETE":"""
+                response = self.session.delete(url)""""
+            else:"""""
+                raise ValueError(f"Unsupported HTTP method: {method}")"
+""
+            # Validate response"""
+            if response.status_code != expected_status:""""
+                raise AssertionError("""""
+                    f"Expected status {expected_status}, got {response.status_code}"""
+                )"""
+""""
+            # Validate response structure if OpenAPI spec available"""""
+            if self.openapi_spec and path in self.openapi_spec.get("paths", {}):"
+                self._validate_response_against_spec(response.json(), path, method)""
+"""
+            result.status = TestStatus.PASSED""""
+            result.metadata = {"""""
+                "url": url,"""""
+                "method": method,"""""
+                "status_code": response.status_code,"""""
+                "response_time": response.elapsed.total_seconds(),"""""
+                "response_data": response.json() if response.content else None,
             }
-            
+
         except Exception as e:
             result.status = TestStatus.FAILED
             result.error_message = str(e)
-            
+
         finally:
             result.end_time = datetime.now()
             result.duration = (result.end_time - result.start_time).total_seconds()
-        
-        return result
-    
-    def _validate_response_against_spec(self, response_data: Dict[str, Any], path: str, method: str) -> None:
-        """Validate response against OpenAPI specification."""
-        # Implementation would validate response structure against OpenAPI spec
-        # This is a simplified version
-        if not isinstance(response_data, dict):
-            raise AssertionError("Response must be a JSON object")
-        
-        required_fields = ["success", "message"]
-        for field in required_fields:
-            if field not in response_data:
-                raise AssertionError(f"Required field '{field}' missing from response")
-    
-    def test_health_endpoint(self, result: TestResult) -> None:
-        """Test health endpoint functionality."""
-        health_result = self.validate_api_endpoint("/health", "GET", 200)
-        
-        if health_result.status != TestStatus.PASSED:
-            raise AssertionError("Health endpoint test failed")
-        
-        result.assertions.append({
-            "endpoint": "/health",
-            "status": "passed",
-            "response_time": health_result.metadata.get("response_time", 0)
-        })
-    
-    def test_agents_endpoint(self, result: TestResult) -> None:
-        """Test agents endpoint functionality."""
-        # Test GET /agents
-        get_result = self.validate_api_endpoint("/agents", "GET", 200)
-        
-        if get_result.status != TestStatus.PASSED:
-            raise AssertionError("GET /agents test failed")
-        
-        # Test POST /agents
-        post_data = {
-            "agent_id": f"test-agent-{int(datetime.now().timestamp())}",
-            "agent_name": "Test Agent",
-            "specialization": "Testing"
-        }
-        post_result = self.validate_api_endpoint("/agents", "POST", 201, post_data)
-        
-        if post_result.status != TestStatus.PASSED:
-            raise AssertionError("POST /agents test failed")
-        
-        result.assertions.extend([
-            {"endpoint": "GET /agents", "status": "passed"},
-            {"endpoint": "POST /agents", "status": "passed"}
-        ])
-    
-    def test_messages_endpoint(self, result: TestResult) -> None:
-        """Test messages endpoint functionality."""
-        # Test GET /messages
-        get_result = self.validate_api_endpoint("/messages", "GET", 200)
-        
-        if get_result.status != TestStatus.PASSED:
-            raise AssertionError("GET /messages test failed")
-        
-        # Test POST /messages
-        post_data = {
-            "to_agent": "Agent-7",
-            "content": "Test message",
-            "priority": "NORMAL"
-        }
-        post_result = self.validate_api_endpoint("/messages", "POST", 202, post_data)
-        
-        if post_result.status != TestStatus.PASSED:
-            raise AssertionError("POST /messages test failed")
-        
-        result.assertions.extend([
-            {"endpoint": "GET /messages", "status": "passed"},
-            {"endpoint": "POST /messages", "status": "passed"}
-        ])
-    
-    def test_vector_endpoints(self, result: TestResult) -> None:
-        """Test vector database endpoints functionality."""
-        # Test POST /vector/search
-        search_data = {"query": "test search", "limit": 5}
-        search_result = self.validate_api_endpoint("/vector/search", "POST", 200, search_data)
-        
-        if search_result.status != TestStatus.PASSED:
-            raise AssertionError("POST /vector/search test failed")
-        
-        # Test POST /vector/documents
-        doc_data = {
-            "content": "Test document content",
-            "metadata": {"type": "test", "category": "integration"}
-        }
-        doc_result = self.validate_api_endpoint("/vector/documents", "POST", 201, doc_data)
-        
-        if doc_result.status != TestStatus.PASSED:
-            raise AssertionError("POST /vector/documents test failed")
-        
-        result.assertions.extend([
-            {"endpoint": "POST /vector/search", "status": "passed"},
-            {"endpoint": "POST /vector/documents", "status": "passed"}
-        ])
 
-
-if __name__ == "__main__":
-    # Example usage
-    framework = APITestingFramework()
-    print("API Testing Framework initialized")
-    
-    # Test health endpoint
-    health_result = framework.validate_api_endpoint("/health", "GET", 200)
-    print(f"Health endpoint test: {health_result.status.value}")
+        return result;"
+""
+    def _validate_response_against_spec(:":""
+        self, response_data: dict[str, Any], path: str, method: str""""
+    ) -> None:"""""
+        """Validate response against OpenAPI specification."""""
+        # Implementation would validate response structure against OpenAPI spec"""
+        # This is a simplified version""""
+        if not isinstance(response_data, dict):"""""
+            raise AssertionError("Response must be a JSON object")""""
+"""""
+        required_fields = ["success", "message"]"""
+        for field in required_fields:""""
+            if field not in response_data:"""""
+                raise AssertionError(f"Required field '{field}' missing from response")"""
+""""
+    def test_health_endpoint(self, result: TestResult) -> None:":"":""
+        """Test health endpoint functionality.""""""""
+        health_result = self.validate_api_endpoint("/health", "GET", 200)"""
+""""
+        if health_result.status != TestStatus.PASSED:"""""
+            raise AssertionError("Health endpoint test failed")""
+"""
+        result.assertions.append(""""
+            {"""""
+                "endpoint": "/health","""""
+                "status": "passed","""""
+                "response_time": health_result.metadata.get("response_time", 0),"
+            }""
+        )"""
+""""
+    def test_agents_endpoint(self, result: TestResult) -> None:":"":""
+        """Test agents endpoint functionality."""""""
+        # Test GET /agents"""""
+        get_result = self.validate_api_endpoint("/agents", "GET", 200)"""
+""""
+        if get_result.status != TestStatus.PASSED:"""""
+            raise AssertionError("GET /agents test failed")""
+"""
+        # Test POST /agents""""
+        post_data = {"""""
+            "agent_id": f"test-agent-{int(datetime.now().timestamp())}","""""
+            "agent_name": "Test Agent","""""
+            "specialization": "Testing",""""
+        }"""""
+        post_result = self.validate_api_endpoint("/agents", "POST", 201, post_data)"""
+""""
+        if post_result.status != TestStatus.PASSED:"""""
+            raise AssertionError("POST /agents test failed")""
+"""
+        result.assertions.extend(""""
+            ["""""
+                {"endpoint": "GET /agents", "status": "passed"},"""""
+                {"endpoint": "POST /agents", "status": "passed"},"
+            ]""
+        )"""
+""""
+    def test_messages_endpoint(self, result: TestResult) -> None:":"":""
+        """Test messages endpoint functionality."""""""
+        # Test GET /messages"""""
+        get_result = self.validate_api_endpoint("/messages", "GET", 200)"""
+""""
+        if get_result.status != TestStatus.PASSED:"""""
+            raise AssertionError("GET /messages test failed")"""
+""""
+        # Test POST /messages"""""
+        post_data = {"to_agent": "Agent-7", "content": "Test message", "priority": "NORMAL"}"""""
+        post_result = self.validate_api_endpoint("/messages", "POST", 202, post_data)"""
+""""
+        if post_result.status != TestStatus.PASSED:"""""
+            raise AssertionError("POST /messages test failed")""
+"""
+        result.assertions.extend(""""
+            ["""""
+                {"endpoint": "GET /messages", "status": "passed"},"""""
+                {"endpoint": "POST /messages", "status": "passed"},"
+            ]""
+        )"""
+""""
+    def test_vector_endpoints(self, result: TestResult) -> None:":"":""
+        """Test vector database endpoints functionality."""""""
+        # Test POST /vector/search"""""
+        search_data = {"query": "test search", "limit": 5}"""""
+        search_result = self.validate_api_endpoint("/vector/search", "POST", 200, search_data)"""
+""""
+        if search_result.status != TestStatus.PASSED:"""""
+            raise AssertionError("POST /vector/search test failed")""
+"""
+        # Test POST /vector/documents""""
+        doc_data = {"""""
+            "content": "Test document content","""""
+            "metadata": {"type": "test", "category": "integration"},""""
+        }"""""
+        doc_result = self.validate_api_endpoint("/vector/documents", "POST", 201, doc_data)"""
+""""
+        if doc_result.status != TestStatus.PASSED:"""""
+            raise AssertionError("POST /vector/documents test failed")""
+"""
+        result.assertions.extend(""""
+            ["""""
+                {"endpoint": "POST /vector/search", "status": "passed"},"""""
+                {"endpoint": "POST /vector/documents", "status": "passed"},"
+            ]""
+        )"""
+""""
+"""""
+if __name__ == "__main__":"""
+    # Example usage""""
+    framework = APITestingFramework()"""""
+    print("API Testing Framework initialized")"""
+""""
+    # Test health endpoint"""""
+    health_result = framework.validate_api_endpoint("/health", "GET", 200)"""""
+    print(f"Health endpoint test: {health_result.status.value}")""""
+"""""

@@ -24,7 +24,7 @@ class AgentFSM:
         self.transition_count = 0
         self.state_history = []
         self.cycle_number = 0
-        
+
     def transition_to(self, new_state: AgentState):
         """Transition to new state.""""
         if self.current_state != new_state:
@@ -37,7 +37,7 @@ class AgentFSM:
                 "to_state": new_state.value,"
                 "cycle": self.cycle_number"
             })
-            
+
     def get_state_info(self) -> Dict[str, Any]:
         """Get current state information.""""
         return {
@@ -47,4 +47,3 @@ class AgentFSM:
             "transition_count": self.transition_count,"
             "state_history_count": len(self.state_history)"
         }
-

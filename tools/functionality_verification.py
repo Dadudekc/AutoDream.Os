@@ -29,40 +29,42 @@ def main():
     parser = argparse.ArgumentParser(description="Functionality Verification Tool")
     parser.add_argument("--baseline", action="store_true", help="Create baseline signature")
     parser.add_argument("--verify", action="store_true", help="Verify against baseline")
-    parser.add_argument("--comprehensive", action="store_true", help="Run comprehensive verification")
-    
+    parser.add_argument(
+        "--comprehensive", action="store_true", help="Run comprehensive verification"
+    )
+
     args = parser.parse_args()
-    
+
     project_root = Path(".")
     scanner = FunctionalityScanner(project_root)
     verifier = FunctionalityVerifier(project_root)
     reporter = VerificationReporter(project_root)
-    
+
     if args.baseline:
         print("🔍 Creating baseline functionality signature...")
         signature = scanner.generate_functionality_signature()
         baseline_path = verifier.save_baseline(signature)
         print(f"✅ Baseline saved to: {baseline_path}")
-        
+
     elif args.verify or args.comprehensive:
         print("🔍 Verifying functionality preservation...")
-        
+
         # Generate current signature
         current_signature = scanner.generate_functionality_signature()
-        
+
         # Verify against baseline
         verification_result = verifier.verify_functionality_preservation(current_signature)
-        
+
         # Generate report
         report = reporter.generate_verification_report(verification_result)
-        
+
         # Save report
         report_path = reporter.save_report(report)
         print(f"📄 Verification report saved to: {report_path}")
-        
+
         # Print summary
         reporter.print_verification_summary(report)
-        
+
         # Exit with appropriate code
         preservation_score = verification_result.get("preservation_score", 0.0)
         if preservation_score < 80.0:

@@ -12,9 +12,9 @@ License: MIT
 """
 
 from __future__ import annotations
+
 import argparse
 import logging
-from typing import List, Dict, Any
 
 # Lazy import to prevent hard dep at import time
 try:
@@ -27,6 +27,7 @@ except Exception:
 # Fix imports when running as a script
 import sys
 from pathlib import Path
+
 if __name__ == "__main__":
     # Add the project root to Python path so we can import src modules
     script_dir = Path(__file__).parent.parent.parent  # Go up to project root
@@ -36,6 +37,7 @@ if __name__ == "__main__":
 from src.core.coordinate_loader import CoordinateLoader, ValidationReport
 
 logger = logging.getLogger(__name__)
+
 
 class ConsolidatedMessagingService:
     """
@@ -91,8 +93,8 @@ Tags: GENERAL
         coords = self.loader.get_coords(agent_id).tuple
         return self._paste_to_coords(coords, formatted_message)
 
-    def broadcast(self, message: str) -> Dict[str, bool]:
-        result: Dict[str, bool] = {}
+    def broadcast(self, message: str) -> dict[str, bool]:
+        result: dict[str, bool] = {}
         report = self._validate_all_agents_for_delivery()
         bad_agents = {i.agent_id for i in report.issues if i.level == "ERROR"}
         for aid in self.loader.get_agent_ids():
@@ -116,7 +118,7 @@ Tags: GENERAL
             pyautogui.click(coords[0], coords[1])
             # Copy message to clipboard and paste for maximum speed
             pyperclip.copy(message)
-            pyautogui.hotkey('ctrl', 'v')
+            pyautogui.hotkey("ctrl", "v")
             pyautogui.press("enter")
             logger.info("[REAL] Fast-pasted to %s", coords)
             return True
@@ -140,7 +142,9 @@ def build_parser() -> argparse.ArgumentParser:
     s = sub.add_parser("send", help="Send a message to one agent (validated)")
     s.add_argument("--agent", required=True)
     s.add_argument("--message", required=True)
-    s.add_argument("--from", dest="from_agent", default="Agent-2", help="Source agent ID (default: Agent-2)")
+    s.add_argument(
+        "--from", dest="from_agent", default="Agent-2", help="Source agent ID (default: Agent-2)"
+    )
 
     # Broadcast
     b = sub.add_parser("broadcast", help="Broadcast to all validated agents")
@@ -149,7 +153,7 @@ def build_parser() -> argparse.ArgumentParser:
     return p
 
 
-def main(argv: List[str] | None = None) -> int:
+def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
 

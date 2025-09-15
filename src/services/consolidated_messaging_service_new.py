@@ -12,9 +12,9 @@ License: MIT
 """
 
 from __future__ import annotations
+
 import argparse
 import logging
-from typing import List, Dict, Any
 
 # Lazy import to prevent hard dep at import time
 try:
@@ -25,6 +25,7 @@ except Exception:
 from src.core.coordinate_loader import CoordinateLoader, ValidationReport
 
 logger = logging.getLogger(__name__)
+
 
 class ConsolidatedMessagingService:
     """
@@ -63,8 +64,8 @@ class ConsolidatedMessagingService:
         coords = self.loader.get_coords(agent_id).tuple
         return self._paste_to_coords(coords, message)
 
-    def broadcast(self, message: str) -> Dict[str, bool]:
-        result: Dict[str, bool] = {}
+    def broadcast(self, message: str) -> dict[str, bool]:
+        result: dict[str, bool] = {}
         report = self._validate_all_agents_for_delivery()
         bad_agents = {i.agent_id for i in report.issues if i.level == "ERROR"}
         for aid in self.loader.get_agent_ids():
@@ -118,7 +119,7 @@ def build_parser() -> argparse.ArgumentParser:
     return p
 
 
-def main(argv: List[str] | None = None) -> int:
+def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
 

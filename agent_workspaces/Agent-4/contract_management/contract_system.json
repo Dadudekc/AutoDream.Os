@@ -8,7 +8,7 @@
   "contract_framework": {
     "contract_types": [
       "onboarding_assignment",
-      "mission_commitment", 
+      "mission_commitment",
       "consolidation_task",
       "quality_assurance",
       "coordination_duty",
@@ -24,7 +24,7 @@
     ],
     "contract_priorities": [
       "LOW",
-      "NORMAL", 
+      "NORMAL",
       "HIGH",
       "URGENT",
       "CRITICAL"
@@ -131,3 +131,4 @@
     ]
   }
 }
+

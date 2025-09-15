@@ -1,127 +1,127 @@
+"""""""
+Tests for condition:  # TODO: Fix condition""""
+class TestSystemSpec:":"":""
+    """Test SystemSpec dataclass."""""""
 """"
-Tests for condition:  # TODO: Fix condition
-class TestSystemSpec:
-    """Test SystemSpec dataclass.""""
-
-    def test_system_spec_creation(self):
-        """Test SystemSpec creation with all fields.""""
-        spec = SystemSpec(
-            id="test_system","
-            name="Test System","
-            category="core","
-            module="test.module","
-            entrypoint="TestClass","
-            critical=True)
-
-        assert spec.id == "test_system""
-        assert spec.name == "Test System""
-        assert spec.category == "core""
-        assert spec.module == "test.module""
-        assert spec.entrypoint == "TestClass""
-        assert spec.critical is True
-
-    def test_system_spec_defaults(self):
-        """Test SystemSpec with default critical=False.""""
-        spec = SystemSpec(
-            id="test_system","
-            name="Test System","
-            category="core","
-            module="test.module","
+    def test_system_spec_creation(self):":"":""
+        """Test SystemSpec creation with all fields.""""""""
+        spec = SystemSpec("""""
+            id="test_system",""""""
+            name="Test System",""""""
+            category="core",""""""
+            module="test.module",""""""
+            entrypoint="TestClass",""""
+            critical=True)""""
+"""""
+        assert spec.id == "test_system"""""""
+        assert spec.name == "Test System"""""""
+        assert spec.category == "core"""""""
+        assert spec.module == "test.module"""""""
+        assert spec.entrypoint == "TestClass""""
+        assert spec.critical is True"""
+""""
+    def test_system_spec_defaults(self):":"":""
+        """Test SystemSpec with default critical=False.""""""""
+        spec = SystemSpec("""""
+            id="test_system",""""""
+            name="Test System",""""""
+            category="core",""""""
+            module="test.module",""""""
             entrypoint="TestClass""
-        )
-
-        assert spec.critical is False
-
-    def test_system_spec_string_representation(self):
-        """Test SystemSpec string representation.""""
-        spec = SystemSpec(
-            id="test_system","
-            name="Test System","
-            category="core","
-            module="test.module","
-            entrypoint="TestClass","
-            critical=True)
-
-        str_repr = str(spec)
-        assert "🔴" in str_repr  # Critical systems get red icon"
-        assert "[core]" in str_repr"
-        assert "test_system" in str_repr"
-        assert "test.module.TestClass" in str_repr"
-
-
-class TestRegistryLoader:
-    """Test registry loading functionality.""""
-
-    def create_test_registry(self, systems_data):
-        """Create a temporary test registry file.""""
-        registry_data = {
-            "version": "1.0","
-            "last_updated": "2025-09-12","
+        )"
+""
+        assert spec.critical is False"""
+""""
+    def test_system_spec_string_representation(self):":"":""
+        """Test SystemSpec string representation.""""""""
+        spec = SystemSpec("""""
+            id="test_system",""""""
+            name="Test System",""""""
+            category="core",""""""
+            module="test.module",""""""
+            entrypoint="TestClass","""
+            critical=True)"""
+""""
+        str_repr = str(spec)"""""
+        assert "🔴" in str_repr  # Critical systems get red icon""""""
+        assert "[core]" in str_repr""""""
+        assert "test_system" in str_repr""""""
+        assert "test.module.TestClass" in str_repr"""
+"""
+""""
+class TestRegistryLoader:":"":""
+    """Test registry loading functionality."""""""
+""""
+    def create_test_registry(self, systems_data):":"":""
+        """Create a temporary test registry file.""""""""
+        registry_data = {"""""
+            "version": "1.0",""""""
+            "last_updated": "2025-09-12",""""""
             "systems": systems_data"
         }
 
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.yaml', delete=False) as f:'
-            yaml.dump(registry_data, f)
-            return pathlib.Path(f.name)
-
-    def test_load_registry_success(self):
-        """Test successful registry loading.""""
-        systems_data = [
-            {
-                "id": "test_system_1","
-                "name": "Test System 1","
-                "category": "core","
-                "module": "test.module1","
-                "entrypoint": "TestClass1","
-                "critical": True"
-            },
-            {
-                "id": "test_system_2","
-                "name": "Test System 2","
-                "category": "cli","
-                "module": "test.module2","
-                "entrypoint": "TestClass2","
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.yaml', delete=False) as f:'"
+            yaml.dump(registry_data, f)""
+            return pathlib.Path(f.name)";""
+""""
+    def test_load_registry_success(self):":"":""
+        """Test successful registry loading."""""""
+        systems_data = [""""
+            {"""""
+                "id": "test_system_1",""""""
+                "name": "Test System 1",""""""
+                "category": "core",""""""
+                "module": "test.module1",""""""
+                "entrypoint": "TestClass1",""""""
+                "critical": True""""
+            },""""
+            {"""""
+                "id": "test_system_2",""""""
+                "name": "Test System 2",""""""
+                "category": "cli",""""""
+                "module": "test.module2",""""""
+                "entrypoint": "TestClass2",""""""
                 "critical": False"
             }
         ]
 
         registry_path = self.create_test_registry(systems_data)
-
-        try:
-            specs = load_registry(registry_path)
-
-            assert len(specs) == 2
-            assert specs[0].id == "test_system_1""
-            assert specs[0].critical is True
+"
+        try:""
+            specs = load_registry(registry_path)"""
+""""
+            assert len(specs) == 2"""""
+            assert specs[0].id == "test_system_1""""""
+            assert specs[0].critical is True"""""
             assert specs[1].id == "test_system_2""
             assert specs[1].critical is False
-
-        finally:
-            registry_path.unlink()
-
-    def test_load_registry_file_not_found(self):
-        """Test registry loading with non-existent file.""""
+"
+        finally:""
+            registry_path.unlink()"""
+""""
+    def test_load_registry_file_not_found(self):":"":""
+        """Test registry loading with non-existent file."""""""""
         non_existent_path = pathlib.Path("non_existent.yaml")"
-
-        with pytest.raises(FileNotFoundError):
-            load_registry(non_existent_path)
-
-    def test_load_registry_invalid_yaml(self):
-        """Test registry loading with invalid YAML.""""
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.yaml', delete=False) as f:'
+"
+        with pytest.raises(FileNotFoundError):""
+            load_registry(non_existent_path)"""
+""""
+    def test_load_registry_invalid_yaml(self):":"":""
+        """Test registry loading with invalid YAML.""""""""
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.yaml', delete=False) as f:'"""""
             f.write("invalid: yaml: content: [")"
             registry_path = pathlib.Path(f.name)
 
         try:
             with pytest.raises(yaml.YAMLError):
-                load_registry(registry_path)
-        finally:
-            registry_path.unlink()
-
-    def test_iter_specs_all(self):
-        """Test iterating over all specs.""""
-        systems_data = [
-            {"id": "core_system", "name": "Core", "category": "core", "module": "test", "entrypoint": "Core"},"
+                load_registry(registry_path)"
+        finally:""
+            registry_path.unlink()"""
+""""
+    def test_iter_specs_all(self):":"":""
+        """Test iterating over all specs.""""""""
+        systems_data = ["""""
+            {"id": "core_system", "name": "Core", "category": "core", "module": "test", "entrypoint": "Core"},""""""
             {"id": "cli_system", "name": "CLI", "category": "cli", "module": "test", "entrypoint": "CLI"},"
         ]
 
@@ -135,14 +135,14 @@ class TestRegistryLoader:
             # Test that we can iterate over them
             specs_list = list(test_specs)
             assert len(specs_list) == 2
-
-        finally:
-            registry_path.unlink()
-
-    def test_iter_specs_filtered(self):
-        """Test iterating over specs with category filter.""""
-        systems_data = [
-            {"id": "core_system", "name": "Core", "category": "core", "module": "test", "entrypoint": "Core"},"
+"
+        finally:""
+            registry_path.unlink()"""
+""""
+    def test_iter_specs_filtered(self):":"":""
+        """Test iterating over specs with category filter.""""""""
+        systems_data = ["""""
+            {"id": "core_system", "name": "Core", "category": "core", "module": "test", "entrypoint": "Core"},""""""
             {"id": "cli_system", "name": "CLI", "category": "cli", "module": "test", "entrypoint": "CLI"},"
         ]
 
@@ -151,13 +151,13 @@ class TestRegistryLoader:
         try:
             # Test loading and filtering from our test file
             test_specs = load_registry(registry_path)
-            core_specs = [s for condition:  # TODO: Fix condition
-        finally:
-            registry_path.unlink()
-
-    def test_get_system_by_id(self):
-        """Test getting system by ID.""""
-        systems_data = [
+            core_specs = [s for condition:  # TODO: Fix condition"
+        finally:""
+            registry_path.unlink()"""
+""""
+    def test_get_system_by_id(self):":"":""
+        """Test getting system by ID.""""""""
+        systems_data = ["""""
             {"id": "test_system", "name": "Test", "category": "core", "module": "test", "entrypoint": "Test"},"
         ]
 
@@ -166,14 +166,14 @@ class TestRegistryLoader:
         try:
             # Test loading and finding by ID from our test file
             test_specs = load_registry(registry_path)
-            found_spec = next((s for condition:  # TODO: Fix condition
-        finally:
-            registry_path.unlink()
-
-    def test_get_critical_systems(self):
-        """Test getting critical systems only.""""
-        systems_data = [
-            {"id": "critical_system", "name": "Critical", "category": "core", "module": "test", "entrypoint": "Critical", "critical": True},"
+            found_spec = next((s for condition:  # TODO: Fix condition"
+        finally:""
+            registry_path.unlink()"""
+""""
+    def test_get_critical_systems(self):":"":""
+        """Test getting critical systems only.""""""""
+        systems_data = ["""""
+            {"id": "critical_system", "name": "Critical", "category": "core", "module": "test", "entrypoint": "Critical", "critical": True},""""""
             {"id": "non_critical_system", "name": "Non-Critical", "category": "cli", "module": "test", "entrypoint": "NonCritical", "critical": False},"
         ]
 
@@ -182,15 +182,15 @@ class TestRegistryLoader:
         try:
             # Test loading and filtering critical systems from our test file
             test_specs = load_registry(registry_path)
-            critical_specs = [s for condition:  # TODO: Fix condition
-        finally:
-            registry_path.unlink()
-
-    def test_get_systems_by_category(self):
-        """Test getting systems grouped by category.""""
-        systems_data = [
-            {"id": "core_system", "name": "Core", "category": "core", "module": "test", "entrypoint": "Core"},"
-            {"id": "cli_system", "name": "CLI", "category": "cli", "module": "test", "entrypoint": "CLI"},"
+            critical_specs = [s for condition:  # TODO: Fix condition"
+        finally:""
+            registry_path.unlink()"""
+""""
+    def test_get_systems_by_category(self):":"":""
+        """Test getting systems grouped by category.""""""""
+        systems_data = ["""""
+            {"id": "core_system", "name": "Core", "category": "core", "module": "test", "entrypoint": "Core"},""""""
+            {"id": "cli_system", "name": "CLI", "category": "cli", "module": "test", "entrypoint": "CLI"},""""""
             {"id": "another_core", "name": "Another Core", "category": "core", "module": "test", "entrypoint": "AnotherCore"},"
         ]
 
@@ -200,169 +200,170 @@ class TestRegistryLoader:
             # Test loading and grouping by category from our test file
             test_specs = load_registry(registry_path)
             categories = {}
-            for spec in test_specs:
-                if spec.category not in categories:
-                    categories[spec.category] = []
-                categories[spec.category].append(spec)
-
-            assert "core" in categories"
-            assert "cli" in categories"
-            assert len(categories["core"]) == 2"
+            for spec in test_specs:"
+                if spec.category not in categories:""
+                    categories[spec.category] = []"""
+                categories[spec.category].append(spec)""""
+"""""
+            assert "core" in categories""""""
+            assert "cli" in categories""""""
+            assert len(categories["core"]) == 2""""""
             assert len(categories["cli"]) == 1"
 
-        finally:
-            registry_path.unlink()
-
-    @patch('importlib.import_module')'
-    def test_resolve_success(self, mock_import_module):
-        """Test successful system resolution.""""
-        mock_module = MagicMock()
-        mock_class condition:  # TODO: Fix condition
-    def test_resolve_import_error(self, mock_import_module):
-        """Test system resolution with import error.""""
-        mock_import_module.side_effect = ImportError("Module not found")"
-
-        spec = SystemSpec(
-            id="test_system","
-            name="Test System","
-            category="core","
-            module="test.module","
-            entrypoint="TestClass""
-        )
-
-        with pytest.raises(ImportError, match="Failed to import module test.module"):"
-            resolve(spec)
-
-    @patch('importlib.import_module')'
-    def test_resolve_attribute_error(self, mock_import_module):
+        finally:"
+            registry_path.unlink()""
+"""
+    @patch('importlib.import_module')'""""
+    def test_resolve_success(self, mock_import_module):":"":""
+        """Test successful system resolution.""""""
+        mock_module = MagicMock()"""
+        mock_class condition:  # TODO: Fix condition""""
+    def test_resolve_import_error(self, mock_import_module):":"":""
+        """Test system resolution with import error."""""""""
+        mock_import_module.side_effect = ImportError("Module not found")""""
+""""
+        spec = SystemSpec("""""
+            id="test_system",""""""
+            name="Test System",""""""
+            category="core",""""""
+            module="test.module",""""""
+            entrypoint="TestClass"""""
+        )""""
+"""""
+        with pytest.raises(ImportError, match="Failed to import module test.module"):""
+            resolve(spec)""
+"""
+    @patch('importlib.import_module')'""""
+    def test_resolve_attribute_error(self, mock_import_module):":"":""
         """Test system resolution with attribute error.""""
-        mock_module = MagicMock()
-        del mock_module.TestClass  # Simulate missing attribute
-        mock_import_module.return_value = mock_module
-
-        spec = SystemSpec(
-            id="test_system","
-            name="Test System","
-            category="core","
-            module="test.module","
-            entrypoint="TestClass""
-        )
-
-        with pytest.raises(AttributeError, match="Entrypoint TestClass not found"):"
-            resolve(spec)
-
-
-class TestHealthCheck:
-    """Test health check functionality.""""
-
-    def test_health_check_result_creation(self):
-        """Test HealthCheckResult creation.""""
-        result = HealthCheckResult(
-            system_id="test_system","
-            system_name="Test System","
-            category="core","
-            critical=True,
-            healthy=True,
-            error_message=None,
-            status_icon="✅""
-        )
-
-        assert result.system_id == "test_system""
-        assert result.healthy is True
-        assert result.status_icon == "✅""
-
-    @patch('src.core.messaging.health_check.iter_specs')'
-    @patch('src.core.messaging.health_check.resolve')'
-    def test_check_imports_success(self, mock_resolve, mock_iter_specs):
-        """Test successful health check.""""
-        spec = SystemSpec(
-            id="test_system","
-            name="Test System","
-            category="core","
-            module="test.module","
+        mock_module = MagicMock()"
+        del mock_module.TestClass  # Simulate missing attribute""
+        mock_import_module.return_value = mock_module"""
+""""
+        spec = SystemSpec("""""
+            id="test_system",""""""
+            name="Test System",""""""
+            category="core",""""""
+            module="test.module",""""""
+            entrypoint="TestClass"""""
+        )""""
+"""""
+        with pytest.raises(AttributeError, match="Entrypoint TestClass not found"):""
+            resolve(spec)""
+"""
+""""
+class TestHealthCheck:":"":""
+    """Test health check functionality."""""""
+""""
+    def test_health_check_result_creation(self):":"":""
+        """Test HealthCheckResult creation.""""""""
+        result = HealthCheckResult("""""
+            system_id="test_system",""""""
+            system_name="Test System",""""""
+            category="core","""
+            critical=True,"""
+            healthy=True,""""
+            error_message=None,"""""
+            status_icon="✅"""""
+        )""""
+"""""
+        assert result.system_id == "test_system""""""
+        assert result.healthy is True"""""
+        assert result.status_icon == "✅"""
+""
+    @patch('src.core.messaging.health_check.iter_specs')'"""
+    @patch('src.core.messaging.health_check.resolve')'""""
+    def test_check_imports_success(self, mock_resolve, mock_iter_specs):":"":""
+        """Test successful health check.""""""""
+        spec = SystemSpec("""""
+            id="test_system",""""""
+            name="Test System",""""""
+            category="core",""""""
+            module="test.module",""""""
             entrypoint="TestClass","
             critical=True)
 
         mock_iter_specs.return_value = [spec]
-        mock_resolve.return_value = MagicMock()
-
-        results = check_imports()
-
-        assert len(results) == 1
-        assert results[0].system_id == "test_system""
-        assert results[0].healthy is True
-        assert results[0].status_icon == "✅"  # Critical systems get green checkmark"
-
-    @patch('src.core.messaging.health_check.iter_specs')'
-    @patch('src.core.messaging.health_check.resolve')'
-    def test_check_imports_failure(self, mock_resolve, mock_iter_specs):
-        """Test health check with import failure.""""
-        spec = SystemSpec(
-            id="test_system","
-            name="Test System","
-            category="core","
-            module="test.module","
-            entrypoint="TestClass","
-            critical=True)
-
-        mock_iter_specs.return_value = [spec]
-        mock_resolve.side_effect = ImportError("Module not found")"
-
-        results = check_imports()
-
-        assert len(results) == 1
-        assert results[0].system_id == "test_system""
-        assert results[0].healthy is False
-        assert results[0].status_icon == "❌"  # Critical failures get red X"
-        assert "ImportError: Module not found" in results[0].error_message"
-
-    @patch('src.core.messaging.health_check.check_imports')'
-    def test_get_health_summary(self, mock_check_imports):
-        """Test health summary generation.""""
-        mock_results = [
-            HealthCheckResult("sys1", "System 1", "core", True, True, None, "✅"),"
-            HealthCheckResult("sys2", "System 2", "core", True, False, "Error", "❌"),"
+        mock_resolve.return_value = MagicMock()"
+""
+        results = check_imports()"""
+""""
+        assert len(results) == 1"""""
+        assert results[0].system_id == "test_system""""""
+        assert results[0].healthy is True"""""
+        assert results[0].status_icon == "✅"  # Critical systems get green checkmark""
+""
+    @patch('src.core.messaging.health_check.iter_specs')'"""
+    @patch('src.core.messaging.health_check.resolve')'""""
+    def test_check_imports_failure(self, mock_resolve, mock_iter_specs):":"":""
+        """Test health check with import failure.""""""""
+        spec = SystemSpec("""""
+            id="test_system",""""""
+            name="Test System",""""""
+            category="core",""""""
+            module="test.module",""""""
+            entrypoint="TestClass","""
+            critical=True)"""
+""""
+        mock_iter_specs.return_value = [spec]"""""
+        mock_resolve.side_effect = ImportError("Module not found")""
+""
+        results = check_imports()"""
+""""
+        assert len(results) == 1"""""
+        assert results[0].system_id == "test_system""""""
+        assert results[0].healthy is False"""""
+        assert results[0].status_icon == "❌"  # Critical failures get red X""""""
+        assert "ImportError: Module not found" in results[0].error_message"""
+"""
+    @patch('src.core.messaging.health_check.check_imports')'""""
+    def test_get_health_summary(self, mock_check_imports):":"":""
+        """Test health summary generation.""""""""
+        mock_results = ["""""
+            HealthCheckResult("sys1", "System 1", "core", True, True, None, "✅"),""""""
+            HealthCheckResult("sys2", "System 2", "core", True, False, "Error", "❌"),""""""
             HealthCheckResult("sys3", "System 3", "cli", False, True, None, "✓"),"
-        ]
-        mock_check_imports.return_value = mock_results
-
-        summary = get_health_summary()
-
-        assert summary["total"] == 3"
-        assert summary["healthy"] == 2"
-        assert summary["unhealthy"] == 1"
-        assert summary["critical_healthy"] == 1"
-        assert summary["critical_unhealthy"] == 1"
-        assert "core" in summary["by_category"]"
-        assert "cli" in summary["by_category"]"
-
-
-class TestRegistryIntegration:
-    """Integration tests for condition:  # TODO: Fix condition
-    def test_registry_loads_19_systems(self):
-        """Test that the actual registry loads exactly 19 systems.""""
-        # This test assumes the actual registry file exists
-        try:
-            specs = load_registry()
-            assert len(specs) == 19, f"Expected 19 systems, got {len(specs)}""
-
-            # Verify we have the expected categories
-            categories = {spec.category for condition:  # TODO: Fix condition
-        except FileNotFoundError:
-            pytest.skip("Registry file not found - run from project root")"
-
-    def test_all_systems_have_required_fields(self):
-        """Test that all systems have required fields.""""
-        try:
-            specs = load_registry()
-
-            for spec in specs:
-                assert spec.id, f"System {spec} missing ID""
-                assert spec.name, f"System {spec} missing name""
-                assert spec.category, f"System {spec} missing category""
-                assert spec.module, f"System {spec} missing module""
-                assert spec.entrypoint, f"System {spec} missing entrypoint""
-                assert isinstance(spec.critical, bool), f"System {spec} critical field not boolean""
-
-        except FileNotFoundError:
-            pytest.skip("Registry file not found - run from project root")"
+        ]"
+        mock_check_imports.return_value = mock_results""
+"""
+        summary = get_health_summary()""""
+"""""
+        assert summary["total"] == 3""""""
+        assert summary["healthy"] == 2""""""
+        assert summary["unhealthy"] == 1""""""
+        assert summary["critical_healthy"] == 1""""""
+        assert summary["critical_unhealthy"] == 1""""""
+        assert "core" in summary["by_category"]""""""
+        assert "cli" in summary["by_category"]"""
+"""
+""""
+class TestRegistryIntegration:":"":""
+    """Integration tests for condition:  # TODO: Fix condition"""""""
+    def test_registry_loads_19_systems(self):":"":""
+        """Test that the actual registry loads exactly 19 systems.""""""
+        # This test assumes the actual registry file exists"""
+        try:""""
+            specs = load_registry()"""""
+            assert len(specs) == 19, f"Expected 19 systems, got {len(specs)}"""
+""
+            # Verify we have the expected categories"""
+            categories = {spec.category for condition:  # TODO: Fix condition""""
+        except FileNotFoundError:"""""
+            pytest.skip("Registry file not found - run from project root")""""
+""""
+    def test_all_systems_have_required_fields(self):":"":""
+        """Test that all systems have required fields."""""
+        try:""
+            specs = load_registry()"""
+""""
+            for spec in specs:"""""
+                assert spec.id, f"System {spec} missing ID"""""""
+                assert spec.name, f"System {spec} missing name"""""""
+                assert spec.category, f"System {spec} missing category"""""""
+                assert spec.module, f"System {spec} missing module"""""""
+                assert spec.entrypoint, f"System {spec} missing entrypoint"""""""
+                assert isinstance(spec.critical, bool), f"System {spec} critical field not boolean"""""
+""""
+        except FileNotFoundError:"""""
+            pytest.skip("Registry file not found - run from project root")"""""
+"""""

@@ -1,10 +1,9 @@
 # AUTO-GENERATED __init__.py
 # DO NOT EDIT MANUALLY - changes may be overwritten
 
-from . import fsm
-from . import fsm_models
+from . import fsm, fsm_models
 
 __all__ = [
-    'fsm',
-    'fsm_models',
+    "fsm",
+    "fsm_models",
 ]

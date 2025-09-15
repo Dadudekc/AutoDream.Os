@@ -52,19 +52,20 @@ class CoverageImprover:
         """Generate comprehensive coverage report."""
         analysis_data = self.analyze_current_coverage(target)
         report = self.reporter.generate_report(analysis_data)
-        
+
         # Save report
         report_path = self.reporter.save_report(report)
         print(f"📄 Coverage report saved to: {report_path}")
-        
+
         # Print summary
         self.reporter.print_report_summary(report)
-        
+
         return report
 
     def _get_timestamp(self) -> str:
         """Get current timestamp."""
         from datetime import datetime
+
         return datetime.now().isoformat()
 
 
@@ -72,17 +73,21 @@ def main():
     """Main entry point for coverage improvement tool."""
     parser = argparse.ArgumentParser(description="Test Coverage Improvement Tool")
     parser.add_argument("--analyze", action="store_true", help="Run coverage analysis")
-    parser.add_argument("--target", default="all", help="Target for analysis (all, messaging, consolidated, routing, gateway)")
+    parser.add_argument(
+        "--target",
+        default="all",
+        help="Target for analysis (all, messaging, consolidated, routing, gateway)",
+    )
     parser.add_argument("--report", action="store_true", help="Generate comprehensive report")
-    
+
     args = parser.parse_args()
-    
+
     project_root = Path(".")
     improver = CoverageImprover(project_root)
-    
+
     if args.analyze or args.report:
         report = improver.generate_comprehensive_report(args.target)
-        
+
         # Exit with appropriate code
         summary = report.get("summary", {})
         if summary.get("high_priority_recommendations", 0) > 0:

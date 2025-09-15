@@ -14,6 +14,7 @@ License: MIT
 from dataclasses import dataclass
 from typing import Any
 
+
 @dataclass
 class StateDefinition:
     """FSM state definition with V2 compliance."""

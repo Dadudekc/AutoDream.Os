@@ -14,6 +14,7 @@ License: MIT
 from dataclasses import dataclass
 from typing import Any
 
+
 @dataclass
 class FSMConfiguration:
     """FSM configuration with V2 compliance."""

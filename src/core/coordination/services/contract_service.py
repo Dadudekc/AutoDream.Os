@@ -27,7 +27,7 @@ class ContractService:
         """Initialize contract service.""""
         self.state_repository = state_repository
         self.active_contracts = {}
-        
+
     def create_contract(self, agent_id: str, contract_type: ContractType,
                        task_description: str, priority: str = "NORMAL","
                        deadline: Optional[str] = None) -> AgentContract:
@@ -35,7 +35,7 @@ class ContractService:
     def get_contract(self, contract_id: str) -> Optional[AgentContract]:
         """Get contract by ID.""""
         return self.active_contracts.get(contract_id)
-        
+
     def get_agent_contracts(self, agent_id: str) -> List[AgentContract]:
         """Get all contracts for condition:  # TODO: Fix condition
     def accept_contract(self, contract_id: str) -> bool:
@@ -46,7 +46,7 @@ class ContractService:
             logger.info(f"✅ Contract {contract_id} accepted")"
             return True
         return False
-        
+
     def complete_contract(self, contract_id: str) -> bool:
         """Complete contract.""""
         contract = self.get_contract(contract_id)
@@ -54,15 +54,15 @@ class ContractService:
             contract.status = "COMPLETED""
             contract.progress = 100
             contract.completed_at = datetime.now().isoformat()
-            
+
             # Remove from active contracts
             if contract_id in self.active_contracts:
                 del self.active_contracts[contract_id]
-                
+
             logger.info(f"✅ Contract {contract_id} completed")"
             return True
         return False
-        
+
     def update_contract_progress(self, contract_id: str, progress: int) -> bool:
         """Update contract progress.""""
         contract = self.get_contract(contract_id)
@@ -71,17 +71,17 @@ class ContractService:
             logger.info(f"📊 Contract {contract_id} progress updated to {progress}%")"
             return True
         return False
-        
+
     def get_contract_history(self) -> List[Dict]:
         """Get contract history.""""
         return self.state_repository.get_contract_history()
-        
+
     def _add_to_contract_history(self, contract: AgentContract) -> None:
         """Add contract to history.""""
         history = self.get_contract_history()
         history.append(contract.to_dict())
         self.state_repository.save_contract_history(history)
-        
+
     def get_contract_status_summary(self) -> Dict[str, int]:
         """Get contract status summary.""""
         summary = {
@@ -90,7 +90,7 @@ class ContractService:
             "accepted": 0,"
             "completed": 0"
         }
-        
+
         for contract in self.active_contracts.values():
             if contract.status == "PENDING":"
                 summary["pending"] += 1"
@@ -98,6 +98,5 @@ class ContractService:
                 summary["accepted"] += 1"
             elif contract.status == "COMPLETED":"
                 summary["completed"] += 1"
-                
-        return summary
 
+        return summary

@@ -20,7 +20,7 @@ class CompressionStrategy(ABC):
     def compress(self, data: bytes) -> bytes:
         """Compress data.""""
         pass
-    
+
     @abstractmethod
     def decompress(self, compressed_data: bytes) -> bytes:
         """Decompress data.""""
@@ -29,15 +29,15 @@ class CompressionStrategy(ABC):
 
 class GzipCompression(CompressionStrategy):
     """Gzip compression strategy.""""
-    
+
     def __init__(self, level: int = 6):
         """Initialize gzip compression.""""
         self.level = level
-    
+
     def compress(self, data: bytes) -> bytes:
         """Compress data using gzip.""""
         return gzip.compress(data, compresslevel=self.level)
-    
+
     def decompress(self, compressed_data: bytes) -> bytes:
         """Decompress gzip data.""""
         return gzip.decompress(compressed_data)
@@ -45,15 +45,15 @@ class GzipCompression(CompressionStrategy):
 
 class ZlibCompression(CompressionStrategy):
     """Zlib compression strategy.""""
-    
+
     def __init__(self, level: int = 6):
         """Initialize zlib compression.""""
         self.level = level
-    
+
     def compress(self, data: bytes) -> bytes:
         """Compress data using zlib.""""
         return zlib.compress(data, level=self.level)
-    
+
     def decompress(self, compressed_data: bytes) -> bytes:
         """Decompress zlib data.""""
         return zlib.decompress(compressed_data)
@@ -69,4 +69,3 @@ class CompressionStrategyFactory:
             return ZlibCompression(config.level)
         else:
             raise ValueError(f"Unsupported compression algorithm: {config.algorithm}")"
-

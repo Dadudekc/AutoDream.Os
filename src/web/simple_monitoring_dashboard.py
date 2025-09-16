@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 #!/usr/bin/env python3
 """
 🐝 SIMPLE SWARM MONITORING DASHBOARD - Agent-7
@@ -40,7 +42,7 @@ class SwarmMonitoringHandler(http.server.BaseHTTPRequestHandler):
         """
         self.wfile.write(html.encode())
 result = instance.execute()
-print(f"Execution result: {result}")
+logger.info(f"Execution result: {result}")
 
 # Advanced configuration
 config = {
@@ -50,7 +52,7 @@ config = {
 
 instance = Simple_Monitoring_Dashboard(config)
 advanced_result = instance.execute_advanced()
-print(f"Advanced result: {advanced_result}")
+logger.info(f"Advanced result: {advanced_result}")
 
         """Handle GET requests"""
         try:
@@ -542,26 +544,26 @@ class SimpleSwarmDashboard:
                 self.httpd = httpd
                 self.is_running = True
 
-                print("🐝 SWARM SIMPLE MONITORING DASHBOARD - Agent-7")
+                logger.info("🐝 SWARM SIMPLE MONITORING DASHBOARD - Agent-7")
                 print("=" * 60)
-                print("🚀 Dashboard started successfully!")
-                print(f"🌐 Access at: http://{self.host}:{self.port}")
-                print("📊 Features:")
-                print("  - Real-time agent status monitoring")
-                print("  - Consolidation progress tracking")
-                print("  - System status overview")
-                print("  - Auto-refresh every 30 seconds")
+                logger.info("🚀 Dashboard started successfully!")
+                logger.info(f"🌐 Access at: http://{self.host}:{self.port}")
+                logger.info("📊 Features:")
+                logger.info("  - Real-time agent status monitoring")
+                logger.info("  - Consolidation progress tracking")
+                logger.info("  - System status overview")
+                logger.info("  - Auto-refresh every 30 seconds")
                 print("=" * 60)
-                print("⏹️  Press Ctrl+C to stop the server")
-                print()
+                logger.info("⏹️  Press Ctrl+C to stop the server")
+                logger.info("")
 
                 httpd.serve_forever()
 
         except KeyboardInterrupt:
-            print("\n🐝 Shutting down SWARM Monitoring Dashboard...")
+            logger.info("\n🐝 Shutting down SWARM Monitoring Dashboard...")
             self.stop()
         except Exception as e:
-            print(f"❌ Error starting dashboard: {e}")
+            logger.info(f"❌ Error starting dashboard: {e}")
             self.stop()
 
     def stop(self):
@@ -569,7 +571,7 @@ class SimpleSwarmDashboard:
         self.is_running = False
         if self.httpd:
             self.httpd.shutdown()
-        print("✅ Dashboard stopped successfully")
+        logger.info("✅ Dashboard stopped successfully")
 
 
 if __name__ == "__main__":

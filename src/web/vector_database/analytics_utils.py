@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Analytics Utils
 ===============
@@ -29,12 +31,12 @@ class AnalyticsUtils:
 
         # Get analytics data
         result = analytics.simulate_get_analytics("last_24h")
-        print(f"Analytics data: {result}")
+        logger.info(f"Analytics data: {result}")
 
         # Advanced usage with data processing
         analytics_data = analytics.simulate_get_analytics("last_week")
         processed_data = analytics.process_analytics(analytics_data)
-        print(f"Processed analytics: {processed_data}")
+        logger.info(f"Processed analytics: {processed_data}")
 
         Args:
             time_range: Time period for analytics ("last_hour", "last_24h", "last_week")
@@ -77,7 +79,7 @@ class AnalyticsUtils:
         data = analytics.simulate_get_analytics("last_24h")
         processed = analytics.process_analytics(data)
 
-        print(f"Processed analytics: {processed}")
+        logger.info(f"Processed analytics: {processed}")
 
         Args:
             analytics_data: Raw analytics data to process

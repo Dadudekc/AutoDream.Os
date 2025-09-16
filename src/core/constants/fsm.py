@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""""
+"""
 FSM Constants - Finite State Machine Definitions
 
 This module provides FSM-related constants.
@@ -7,7 +7,7 @@ This module provides FSM-related constants.
 Agent: Agent-6 (Performance Optimization Manager)
 Mission: Autonomous Cleanup - V2 Compliance
 Status: SSOT Consolidation in Progress
-""""
+"""
 
 from .fsm_models import StateDefinition, TransitionDefinition, TransitionType
 

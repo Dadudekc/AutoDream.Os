@@ -103,3 +103,8 @@ class IHealthCheck(Protocol):
     def get_health_status(self) -> str:
         """Get health status as string."""
         ...
+
+
+
+
+

@@ -60,7 +60,7 @@ service = Onboarding_HandlerService()
 
 # Basic service operation
 response = service.handle_request(request_data)
-print(f"Service response: {response}")
+logger.info(f"Service response: {response}")
 
 # Service with dependency injection
 from src.core.dependency_container import Container
@@ -70,7 +70,7 @@ service = container.get(Onboarding_HandlerService)
 
 # Execute service method
 result = service.execute_operation(input_data, context)
-print(f"Operation result: {result}")
+logger.info(f"Operation result: {result}")
 
         """Handle the command."""
         return self.handle_onboarding_commands(args)

@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Vector Database Routes
 =====================
@@ -21,7 +23,7 @@ from .handlers import (
 from .middleware import VectorDatabaseMiddleware
 
 # Create blueprint
-vector_db_bp = Blueprint("vector_db", __name__, url_prefix="/vector-db")
+vector_db_bp = Bluelogger.info("vector_db", __name__, url_prefix="/vector-db")
 
 
 @vector_db_bp.route("/")
@@ -45,7 +47,7 @@ def search():
 # Initialize and use
 instance = Routes()
 result = instance.execute()
-print(f"Execution result: {result}")
+logger.info(f"Execution result: {result}")
 
 # Advanced configuration
 config = {
@@ -55,7 +57,7 @@ config = {
 
 instance = Routes(config)
 advanced_result = instance.execute_advanced()
-print(f"Advanced result: {advanced_result}")
+logger.info(f"Advanced result: {advanced_result}")
 
     """Perform semantic search on vector database."""
     return SearchHandler.handle_search()

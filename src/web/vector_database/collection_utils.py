@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Collection Utils
 ================
@@ -31,11 +33,11 @@ class CollectionUtils:
 
         # Get all collections
         result = collections.simulate_get_collections()
-        print(f"Found {len(result)} collections")
+        logger.info(f"Found {len(result)} collections")
 
         # Display collection information
         for collection in result:
-            print(f"Collection: {collection.name}, Documents: {collection.document_count}")
+            logger.info(f"Collection: {collection.name}, Documents: {collection.document_count}")
 
         Returns:
             list[Collection]: List of available collections
@@ -90,7 +92,7 @@ class CollectionUtils:
         )
 
         result = collections.simulate_export_data(export_request)
-        print(f"Export completed: {result.collection_name}")
+        logger.info(f"Export completed: {result.collection_name}")
 
         Args:
             request: Export request parameters

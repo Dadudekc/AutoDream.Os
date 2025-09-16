@@ -1,5 +1,7 @@
+import logging
+logger = logging.getLogger(__name__)
 #!/usr/bin/env python3
-""""
+"""
 Decision Constants - V2 Compliance Decision Module Definitions
 ================================================================
 
@@ -12,7 +14,7 @@ DEPENDENCY INJECTION: Uses unified configuration system
 Author: Agent-2 (Architecture & Design Specialist)
 Mission: V2 Compliance Architecture & Design Optimization
 Status: V2 COMPLIANT - Decision Constants Optimized
-""""
+"""
 
 from typing import Final
 
@@ -57,14 +59,14 @@ component = Decision(config)
 
 # Execute primary functionality
 result = component.process_data(input_data)
-print(f"Processing result: {result}")"
+logger.info(f"Processing result: {result}")"
 
 # Advanced usage with error handling
 try:
     advanced_result = component.advanced_operation(data, options={"optimize": True})"
-    print(f"Advanced operation completed: {advanced_result}")"
+    logger.info(f"Advanced operation completed: {advanced_result}")"
 except ProcessingError as e:
-    print(f"Operation failed: {e}")"
+    logger.info(f"Operation failed: {e}")"
     # Implement recovery logic
 
 """Interval in minutes between automatic cleanup operations.""""

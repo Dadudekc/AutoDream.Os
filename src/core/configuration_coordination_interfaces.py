@@ -145,3 +145,8 @@ class ICoreSystemRegistry(Protocol):
     def list_systems(self) -> List[str]:
         """List all system IDs."""
         ...
+
+
+
+
+

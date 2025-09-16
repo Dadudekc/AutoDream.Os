@@ -17,7 +17,10 @@ License: MIT
 """
 
 import asyncio
+import logging
 from typing import Any, Dict, List
+
+logger = logging.getLogger(__name__)
 
 try:
     from ..services.consolidated_messaging_service import ConsolidatedMessagingService
@@ -167,14 +170,15 @@ class SwarmCommandHandlers:
         try:
             # Try to use the consolidated messaging system
             try:
-                from ..services.consolidated_messaging_service import broadcast_message
+                from ...services.consolidated_messaging_service import ConsolidatedMessagingService
             except ImportError:
-                from src.services.consolidated_messaging_service import broadcast_message
+                from src.services.consolidated_messaging_service import ConsolidatedMessagingService
 
-            print(f"📢 Executing swarm broadcast: {message}")
+            logger.info(f"📢 Executing swarm broadcast: {message}")
 
-            # Use the consolidated messaging system for broadcast
-            results = broadcast_message(message, sender)
+            # Create messaging service instance and use for broadcast
+            messaging_service = ConsolidatedMessagingService()
+            results = messaging_service.broadcast_message(message, sender)
             
             successful_count = sum(1 for success in results.values() if success)
             total_count = len(results)
@@ -191,7 +195,7 @@ class SwarmCommandHandlers:
             )
             
         except Exception as e:
-            print(f"❌ Swarm broadcast error: {e}")
+            logger.error(f"❌ Swarm broadcast error: {e}")
             return CommandResult(
                 success=False,
                 message=f"Swarm broadcast failed: {str(e)}",
@@ -203,17 +207,18 @@ class SwarmCommandHandlers:
         try:
             # Try to use the consolidated messaging system
             try:
-                from ..services.consolidated_messaging_service import broadcast_message
+                from ...services.consolidated_messaging_service import ConsolidatedMessagingService
             except ImportError:
-                from src.services.consolidated_messaging_service import broadcast_message
+                from src.services.consolidated_messaging_service import ConsolidatedMessagingService
 
-            print(f"🚨 Executing URGENT broadcast: {message}")
+            logger.info(f"🚨 Executing URGENT broadcast: {message}")
 
             # Create urgent message with high priority
             urgent_message = f"🚨 URGENT: {message}"
 
-            # Use the consolidated messaging system for urgent broadcast
-            results = broadcast_message(urgent_message, sender, priority="urgent")
+            # Create messaging service instance and use for urgent broadcast
+            messaging_service = ConsolidatedMessagingService()
+            results = messaging_service.broadcast_message(urgent_message, sender, priority="URGENT")
             
             successful_count = sum(1 for success in results.values() if success)
             total_count = len(results)
@@ -230,7 +235,7 @@ class SwarmCommandHandlers:
             )
             
         except Exception as e:
-            print(f"❌ Urgent broadcast error: {e}")
+            logger.error(f"❌ Urgent broadcast error: {e}")
             return CommandResult(
                 success=False,
                 message=f"Urgent broadcast failed: {str(e)}",

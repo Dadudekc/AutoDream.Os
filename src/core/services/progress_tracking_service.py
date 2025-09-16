@@ -477,3 +477,4 @@ def get_progress_tracking_service() -> ProgressTrackingService:
     if _progress_tracking_service is None:
         _progress_tracking_service = ProgressTrackingService()
     return _progress_tracking_service
+

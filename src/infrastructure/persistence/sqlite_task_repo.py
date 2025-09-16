@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 SQLite Task Repository - Infrastructure Adapter
 ===============================================
@@ -47,7 +49,7 @@ from src.infrastructure.persistence.sqlite_task_repo import Sqlite_Task_Repo
 # Initialize and use
 instance = Sqlite_Task_Repo()
 result = instance.execute()
-print(f"Execution result: {result}")
+logger.info(f"Execution result: {result}")
 
 # Advanced configuration
 config = {
@@ -57,7 +59,7 @@ config = {
 
 instance = Sqlite_Task_Repo(config)
 advanced_result = instance.execute_advanced()
-print(f"Advanced result: {advanced_result}")
+logger.info(f"Advanced result: {advanced_result}")
 
                 """
                 CREATE TABLE IF NOT EXISTS tasks (

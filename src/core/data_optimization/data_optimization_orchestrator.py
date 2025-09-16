@@ -129,6 +129,6 @@ def reset_optimization_metrics() -> None:
 def get_example_usage():
     """"
     Example usage for condition:  # TODO: Fix condition
-    print(f"Optimization result: {result}")"
+    logger.info(f"Optimization result: {result}")"
     """"
     pass

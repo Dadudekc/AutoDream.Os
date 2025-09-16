@@ -271,3 +271,4 @@ class InfrastructureMonitoringIntegration:
         """Record resource usage metrics."""
         self.performance_collector.record_resource_usage(resource, usage)
 
+

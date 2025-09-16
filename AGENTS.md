@@ -34,6 +34,90 @@ Monitor 1 (Left Screen):     Monitor 2 (Right Screen):
 
 ---
 
+## 🔄 **AUTONOMOUS AGENT WORKFLOW (CRITICAL)**
+
+### **UNIVERSAL AGENT LOOP - STANDARD OPERATING PROCEDURE**
+
+All agents MUST follow this autonomous workflow cycle for continuous operation:
+
+#### **1. MAILBOX CHECK (Priority: HIGH)**
+```
+Check: agent_workspaces/{AGENT_ID}/inbox/
+Action: 
+  - Scan for new messages
+  - Process each message immediately
+  - Remove processed messages from inbox
+  - Move to processed/ subfolder
+```
+
+#### **2. TASK STATUS EVALUATION (Priority: HIGH)**
+```
+Check: agent_workspaces/{AGENT_ID}/working_tasks.json
+Current Task Status:
+  - If has "current_task" with status "in_progress": CONTINUE/COMPLETE
+  - If has "current_task" with status "completed": MOVE TO NEXT PHASE
+  - If no current task: PROCEED TO TASK CLAIMING
+```
+
+#### **3. TASK CLAIMING (Priority: MEDIUM)**
+```
+Check: agent_workspaces/{AGENT_ID}/future_tasks.json
+Actions:
+  - Scan available tasks
+  - Validate dependencies
+  - Claim appropriate task based on priority/skills
+  - Update working_tasks.json with claimed task
+  - Begin task execution
+```
+
+#### **4. BLOCKER RESOLUTION (Priority: MEDIUM)**
+```
+Check for:
+  - Unresolved blockers
+  - Schema errors
+  - Integration issues
+Actions:
+  - Propose solutions
+  - Create solution tasks if needed
+  - Escalate to Captain if necessary
+```
+
+#### **5. AUTONOMOUS OPERATION (Priority: LOW)**
+```
+If no urgent tasks pending:
+  - Work on Masterpiece project (Captain agents)
+  - Review and optimize codebase
+  - Create improvement tasks
+  - Return to mailbox check between operations
+```
+
+### **📝 STANDARD MESSAGE FORMAT**
+```
+============================================================
+[A2A] MESSAGE
+============================================================
+📤 FROM: {AGENT_ID}
+📥 TO: {TARGET_AGENT}
+Priority: {NORMAL|HIGH|URGENT}
+Tags: {GENERAL|COORDINATION|TASK|STATUS}
+------------------------------------------------------------
+{CONTENT}
+📝 DISCORD DEVLOG REMINDER: Create a Discord devlog for this action in devlogs/ directory
+------------------------------------------------------------
+```
+
+### **🎯 TASK COMPLETION VALIDATION**
+1. **Code Implementation**: All required modules created and functional
+2. **V2 Compliance**: All files ≤400 lines, proper structure
+3. **Testing**: Comprehensive test suite with 100% pass rate
+4. **Documentation**: Clear documentation and usage examples
+5. **Integration**: Proper integration with existing systems
+6. **Self-Validation**: Self-validation protocol executed successfully
+
+**Reference**: See `docs/AUTONOMOUS_AGENT_WORKFLOW.md` for complete documentation and examples.
+
+---
+
 ## 📋 **Agent Development Guidelines**
 
 This repository is primarily a **Python** project. Unless explicitly noted, all new code should be written in Python and follow the guidelines below.

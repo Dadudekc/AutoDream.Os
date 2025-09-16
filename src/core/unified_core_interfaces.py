@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 #!/usr/bin/env python3
 """
 🐝 UNIFIED CORE INTERFACES - AGENT-6 AGGRESSIVE CONSOLIDATION
@@ -524,7 +526,7 @@ instance = CombinedInterface()
 
 # Basic usage
 result = instance.some_method()
-print(f"Result: {result}")
+logger.info(f"Result: {result}")
 
 # Advanced usage with configuration
 config = {"option": "value"}
@@ -632,44 +634,44 @@ __all__ = [
 if __name__ == "__main__":
     """Demonstrate module functionality with practical examples."""
 
-    print("🐝 Module Examples - Practical Demonstrations")
+    logger.info("🐝 Module Examples - Practical Demonstrations")
     print("=" * 50)
     # Function demonstrations
-    print(f"\n📋 Testing create_interface_contract():")
+    logger.info(f"\n📋 Testing create_interface_contract():")
     try:
         # Add your function call here
-        print(f"✅ create_interface_contract executed successfully")
+        logger.info(f"✅ create_interface_contract executed successfully")
     except Exception as e:
-        print(f"❌ create_interface_contract failed: {e}")
+        logger.info(f"❌ create_interface_contract failed: {e}")
 
-    print(f"\n📋 Testing validate_interface_implementation():")
+    logger.info(f"\n📋 Testing validate_interface_implementation():")
     try:
         # Add your function call here
-        print(f"✅ validate_interface_implementation executed successfully")
+        logger.info(f"✅ validate_interface_implementation executed successfully")
     except Exception as e:
-        print(f"❌ validate_interface_implementation failed: {e}")
+        logger.info(f"❌ validate_interface_implementation failed: {e}")
 
-    print(f"\n📋 Testing system_name():")
+    logger.info(f"\n📋 Testing system_name():")
     try:
         # Add your function call here
-        print(f"✅ system_name executed successfully")
+        logger.info(f"✅ system_name executed successfully")
     except Exception as e:
-        print(f"❌ system_name failed: {e}")
+        logger.info(f"❌ system_name failed: {e}")
 
     # Class demonstrations
-    print(f"\n🏗️  Testing ICoreSystem class:")
+    logger.info(f"\n🏗️  Testing ICoreSystem class:")
     try:
         instance = ICoreSystem()
-        print(f"✅ ICoreSystem instantiated successfully")
+        logger.info(f"✅ ICoreSystem instantiated successfully")
     except Exception as e:
-        print(f"❌ ICoreSystem failed: {e}")
+        logger.info(f"❌ ICoreSystem failed: {e}")
 
-    print(f"\n🏗️  Testing IConfigurable class:")
+    logger.info(f"\n🏗️  Testing IConfigurable class:")
     try:
         instance = IConfigurable()
-        print(f"✅ IConfigurable instantiated successfully")
+        logger.info(f"✅ IConfigurable instantiated successfully")
     except Exception as e:
-        print(f"❌ IConfigurable failed: {e}")
+        logger.info(f"❌ IConfigurable failed: {e}")
 
-    print("\n🎉 All examples completed!")
-    print("🐝 WE ARE SWARM - PRACTICAL CODE IN ACTION!")
+    logger.info("\n🎉 All examples completed!")
+    logger.info("🐝 WE ARE SWARM - PRACTICAL CODE IN ACTION!")

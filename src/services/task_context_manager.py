@@ -28,7 +28,7 @@ service = Task_Context_ManagerService()
 
 # Basic service operation
 response = service.handle_request(request_data)
-print(f"Service response: {response}")
+logger.info(f"Service response: {response}")
 
 # Service with dependency injection
 from src.core.dependency_container import Container
@@ -38,7 +38,7 @@ service = container.get(Task_Context_ManagerService)
 
 # Execute service method
 result = service.execute_operation(input_data, context)
-print(f"Operation result: {result}")
+logger.info(f"Operation result: {result}")
 
         """Initialize task context manager."""
         self.agent_id = agent_id

@@ -147,3 +147,8 @@ class CoreInterfaceService:
         
         logger.debug(f"Interface statistics: {stats}")
         return stats
+
+
+
+
+

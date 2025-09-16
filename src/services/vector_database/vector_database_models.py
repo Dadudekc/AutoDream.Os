@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 #!/usr/bin/env python3
 """
 Vector Database Models
@@ -42,7 +44,7 @@ service = Vector_Database_ModelsService()
 
 # Basic service operation
 response = service.handle_request(request_data)
-print(f"Service response: {response}")
+logger.info(f"Service response: {response}")
 
 # Service with dependency injection
 from src.core.dependency_container import Container
@@ -52,7 +54,7 @@ service = container.get(Vector_Database_ModelsService)
 
 # Execute service method
 result = service.execute_operation(input_data, context)
-print(f"Operation result: {result}")
+logger.info(f"Operation result: {result}")
 
     """Represents a document stored in the vector database."""
 

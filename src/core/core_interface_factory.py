@@ -84,3 +84,8 @@ def register_interface(name: str) -> callable:
         CoreInterfaceFactory.register_interface(name, cls)
         return cls
     return decorator
+
+
+
+
+

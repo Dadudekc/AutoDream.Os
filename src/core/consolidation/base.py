@@ -6,6 +6,8 @@ from collections.abc import Iterable
 from pathlib import Path
 
 from ...utils.config_core import get_config
+import logging
+logger = logging.getLogger(__name__)
 
 """Base utilities for consolidation tasks.
 
@@ -28,14 +30,14 @@ component = Base(config)
 
 # Execute primary functionality
 result = component.process_data(input_data)
-print(f"Processing result: {result}")
+logger.info(f"Processing result: {result}")
 
 # Advanced usage with error handling
 try:
     advanced_result = component.advanced_operation(data, options={"optimize": True})
-    print(f"Advanced operation completed: {advanced_result}")
+    logger.info(f"Advanced operation completed: {advanced_result}")
 except ProcessingError as e:
-    print(f"Operation failed: {e}")
+    logger.info(f"Operation failed: {e}")
     # Implement recovery logic
 
 """

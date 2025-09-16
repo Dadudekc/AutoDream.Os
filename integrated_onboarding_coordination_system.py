@@ -269,28 +269,18 @@ class IntegratedOnboardingCoordinationSystem:
     
     def get_onboarding_coordinates(self, agent_id: str) -> Optional[Tuple[int, int]]:
         """Get onboarding input coordinates for a specific agent."""
-        if agent_id not in self.agent_coordinates:
-            logger.error(f"❌ No coordinates found for {agent_id}")
-            return None
-            
-        coords = self.agent_coordinates[agent_id].get("onboarding_input_coords")
-        if not coords or len(coords) != 2:
-            logger.error(f"❌ Invalid coordinates for {agent_id}: {coords}")
-            return None
-            
-        return tuple(coords)
+        # Consolidated function - using shared implementation
+        from src.services.onboarding.onboarding_service import OnboardingService
+        service = OnboardingService()
+        return service.get_onboarding_coordinates(agent_id)
     
     def create_onboarding_contract(self, agent_id: str) -> AgentContract:
         """Create an onboarding contract for an agent."""
-        role = self.agent_roles.get(agent_id, "Swarm Agent")
-        contract = AgentContract(
-            agent_id=agent_id,
-            contract_type=ContractType.ONBOARDING,
-            description=f"Complete onboarding process for {role}",
-            estimated_cycles=1
-        )
+        # Consolidated function - using shared implementation
+        from src.services.onboarding.onboarding_service import OnboardingService
+        service = OnboardingService()
+        contract = service.create_onboarding_contract(agent_id)
         self.active_contracts[agent_id] = contract
-        logger.info(f"📋 Onboarding contract created for {agent_id}: {role}")
         return contract
     
     def create_contract(self, agent_id: str, contract_type: ContractType, 

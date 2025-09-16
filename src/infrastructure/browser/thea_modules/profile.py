@@ -68,7 +68,7 @@ from src.infrastructure.browser.thea_modules.profile import Profile
 # Initialize and use
 instance = Profile()
 result = instance.execute()
-print(f"Execution result: {result}")
+logger.info(f"Execution result: {result}")
 
 # Advanced configuration
 config = {
@@ -78,7 +78,7 @@ config = {
 
 instance = Profile(config)
 advanced_result = instance.execute_advanced()
-print(f"Advanced result: {advanced_result}")
+logger.info(f"Advanced result: {advanced_result}")
 
         """
         Initialize the Thea Manager profile.

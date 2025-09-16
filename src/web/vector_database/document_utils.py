@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Document Utils
 ==============
@@ -35,8 +37,8 @@ class DocumentUtils:
         pagination = PaginationRequest(page=1, page_size=10)
         result = docs.simulate_get_documents(pagination)
 
-        print(f"Total documents: {result['total']}")
-        print(f"Returned documents: {len(result['documents'])}")
+        logger.info(f"Total documents: {result['total']}")
+        logger.info(f"Returned documents: {len(result['documents'])}")
 
         # Advanced pagination with filters
         filtered_request = PaginationRequest(
@@ -120,7 +122,7 @@ class DocumentUtils:
         )
 
         new_doc = docs.simulate_add_document(doc_request)
-        print(f"Added document: {new_doc.id}")
+        logger.info(f"Added document: {new_doc.id}")
 
         Args:
             request: Document creation parameters
@@ -179,9 +181,9 @@ class DocumentUtils:
         success = docs.simulate_delete_document("doc_123")
 
         if success:
-            print("Document deleted successfully")
+            logger.info("Document deleted successfully")
         else:
-            print("Document deletion failed")
+            logger.info("Document deletion failed")
 
         Args:
             document_id: ID of the document to delete

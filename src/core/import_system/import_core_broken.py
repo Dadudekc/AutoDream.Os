@@ -71,8 +71,8 @@ if __name__ == "__main__":"
     # Example usage
     import_core = ImportSystemCore()
     module = import_core.import_module("json")"
-    print(f"Imported module: {module}")"
-    print(f"Status: {import_core.get_import_status()}")"
+    logger.info(f"Imported module: {module}")"
+    logger.info(f"Status: {import_core.get_import_status()}")"
 
 
 def get_example_usage():
@@ -86,14 +86,14 @@ component = Import_Core(config)
 
 # Execute primary functionality
 result = component.process_data(input_data)
-print(f"Processing result: {result}")"
+logger.info(f"Processing result: {result}")"
 
 # Advanced usage with error handling
 try:
     advanced_result = component.advanced_operation(data, options={"optimize": True})"
-    print(f"Advanced operation completed: {advanced_result}")"
+    logger.info(f"Advanced operation completed: {advanced_result}")"
 except ProcessingError as e:
-    print(f"Operation failed: {e}")"
+    logger.info(f"Operation failed: {e}")"
     # Implement recovery logic
 
         """Initialize the core import system.""""

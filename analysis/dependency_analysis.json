@@ -52,292 +52,8 @@
       },
       "estimated_dependencies": []
     },
-    "src\\services\\handlers_orchestrator": {
-      "file_path": "src\\services\\handlers_orchestrator.py",
-      "functions": [
-        "create_unified_handlers_orchestrator",
-        "__init__",
-        "_initialize_handlers",
-        "process_request",
-        "submit_request",
-        "get_request_status",
-        "_handle_role_command",
-        "_handle_coordinator_command",
-        "_handle_specialist_command",
-        "_handle_analyst_command",
-        "_handle_overnight",
-        "schedule_overnight_task",
-        "process_overnight_batch",
-        "perform_overnight_maintenance",
-        "_handle_agent_assignment",
-        "assign_task_to_agent",
-        "_handle_agent_status",
-        "get_agent_status",
-        "update_agent_status",
-        "check_agent_health",
-        "create_task",
-        "update_task",
-        "complete_task",
-        "get_system_status",
-        "coordinate_agents",
-        "assign_tasks",
-        "analyze_domain",
-        "provide_expertise",
-        "generate_report",
-        "analyze_data",
-        "_log_request",
-        "get_status"
-      ],
-      "classes": {
-        "HandlerType": {
-          "methods": [],
-          "docstring": null,
-          "base_classes": [
-            "Enum"
-          ],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "HandlerPriority": {
-          "methods": [],
-          "docstring": null,
-          "base_classes": [
-            "Enum"
-          ],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "HandlerStatus": {
-          "methods": [],
-          "docstring": null,
-          "base_classes": [
-            "Enum"
-          ],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "HandlerRequest": {
-          "methods": [],
-          "docstring": null,
-          "base_classes": [],
-          "maturity": "Prototype",
-          "agent_type": "Utility"
-        },
-        "UnifiedHandlersOrchestrator": {
-          "methods": [
-            "__init__",
-            "_initialize_handlers",
-            "process_request",
-            "submit_request",
-            "get_request_status",
-            "_handle_role_command",
-            "_handle_coordinator_command",
-            "_handle_specialist_command",
-            "_handle_analyst_command",
-            "_handle_overnight",
-            "schedule_overnight_task",
-            "process_overnight_batch",
-            "perform_overnight_maintenance",
-            "_handle_agent_assignment",
-            "assign_task_to_agent",
-            "_handle_agent_status",
-            "get_agent_status",
-            "update_agent_status",
-            "check_agent_health",
-            "create_task",
-            "update_task",
-            "complete_task",
-            "get_system_status",
-            "coordinate_agents",
-            "assign_tasks",
-            "analyze_domain",
-            "provide_expertise",
-            "generate_report",
-            "analyze_data",
-            "_log_request",
-            "get_status"
-          ],
-          "docstring": null,
-          "base_classes": [],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        }
-      },
-      "estimated_dependencies": []
-    },
-    "src\\services\\unified_vector_service": {
-      "file_path": "src\\services\\unified_vector_service.py",
-      "functions": [
-        "__post_init__",
-        "store_document",
-        "search_documents",
-        "get_document",
-        "delete_document",
-        "get_stats",
-        "__init__",
-        "generate_embedding",
-        "_generate_sentence_transformer_embedding",
-        "_generate_openai_embedding",
-        "_generate_simple_embedding",
-        "__init__",
-        "store_document",
-        "search_documents",
-        "get_document",
-        "delete_document",
-        "get_stats",
-        "_calculate_similarity",
-        "__init__",
-        "store_message",
-        "search_messages",
-        "get_service_statistics"
-      ],
-      "classes": {
-        "EmbeddingModel": {
-          "methods": [],
-          "docstring": null,
-          "base_classes": [
-            "Enum"
-          ],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "DocumentType": {
-          "methods": [],
-          "docstring": null,
-          "base_classes": [
-            "Enum"
-          ],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "VectorDocument": {
-          "methods": [
-            "__post_init__"
-          ],
-          "docstring": null,
-          "base_classes": [],
-          "maturity": "Prototype",
-          "agent_type": "Utility"
-        },
-        "SearchQuery": {
-          "methods": [],
-          "docstring": null,
-          "base_classes": [],
-          "maturity": "Prototype",
-          "agent_type": "Utility"
-        },
-        "SearchResult": {
-          "methods": [],
-          "docstring": null,
-          "base_classes": [],
-          "maturity": "Prototype",
-          "agent_type": "Utility"
-        },
-        "VectorDatabaseStats": {
-          "methods": [],
-          "docstring": null,
-          "base_classes": [],
-          "maturity": "Prototype",
-          "agent_type": "Utility"
-        },
-        "VectorRepository": {
-          "methods": [
-            "store_document",
-            "search_documents",
-            "get_document",
-            "delete_document",
-            "get_stats"
-          ],
-          "docstring": null,
-          "base_classes": [
-            "ABC"
-          ],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "EmbeddingService": {
-          "methods": [
-            "__init__",
-            "generate_embedding",
-            "_generate_sentence_transformer_embedding",
-            "_generate_openai_embedding",
-            "_generate_simple_embedding"
-          ],
-          "docstring": null,
-          "base_classes": [],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "InMemoryVectorRepository": {
-          "methods": [
-            "__init__",
-            "store_document",
-            "search_documents",
-            "get_document",
-            "delete_document",
-            "get_stats",
-            "_calculate_similarity"
-          ],
-          "docstring": "In-memory vector repository implementation.",
-          "base_classes": [
-            "VectorRepository"
-          ],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "UnifiedVectorService": {
-          "methods": [
-            "__init__",
-            "store_message",
-            "search_messages",
-            "get_service_statistics"
-          ],
-          "docstring": "Unified vector service using Repository pattern.",
-          "base_classes": [],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        }
-      },
-      "estimated_dependencies": []
-    },
-    "src\\services\\consolidated_messaging_service": {
-      "file_path": "src\\services\\consolidated_messaging_service.py",
-      "functions": [
-        "build_parser",
-        "main",
-        "__init__",
-        "_validate_coordinates_for_delivery",
-        "_validate_all_agents_for_delivery",
-        "send_message",
-        "broadcast",
-        "_paste_to_coords"
-      ],
-      "classes": {
-        "ConsolidatedMessagingService": {
-          "methods": [
-            "__init__",
-            "_validate_coordinates_for_delivery",
-            "_validate_all_agents_for_delivery",
-            "send_message",
-            "broadcast",
-            "_paste_to_coords"
-          ],
-          "docstring": "MAIN messaging service with pre-delivery coordinate validation & routing safeguards.",
-          "base_classes": [],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        }
-      },
-      "estimated_dependencies": []
-    },
-    "src\\services\\messaging\\cli\\messaging_cli_clean": {
-      "file_path": "src\\services\\messaging\\cli\\messaging_cli_clean.py",
-      "functions": [],
-      "classes": {},
-      "estimated_dependencies": []
-    },
-    "src\\services\\messaging\\broadcast_service\\__init__": {
-      "file_path": "src\\services\\messaging\\broadcast_service\\__init__.py",
+    "src\\services\\messaging\\models": {
+      "file_path": "src\\services\\messaging\\models.py",
       "functions": [],
       "classes": {},
       "estimated_dependencies": []
@@ -348,8 +64,14 @@
       "classes": {},
       "estimated_dependencies": []
     },
-    "src\\services\\messaging\\history_service\\__init__": {
-      "file_path": "src\\services\\messaging\\history_service\\__init__.py",
+    "src\\services\\messaging\\broadcast_service\\__init__": {
+      "file_path": "src\\services\\messaging\\broadcast_service\\__init__.py",
+      "functions": [],
+      "classes": {},
+      "estimated_dependencies": []
+    },
+    "src\\services\\messaging\\cli\\perf_cli\\__init__": {
+      "file_path": "src\\services\\messaging\\cli\\perf_cli\\__init__.py",
       "functions": [],
       "classes": {},
       "estimated_dependencies": []
@@ -419,113 +141,8 @@
       },
       "estimated_dependencies": []
     },
-    "src\\core\\coordinate_loader_new": {
-      "file_path": "src\\core\\coordinate_loader_new.py",
-      "functions": [
-        "load_coordinates_from_json",
-        "get_agent_coordinates",
-        "get_coordinate_loader",
-        "tuple",
-        "is_all_ok",
-        "to_lines",
-        "__init__",
-        "load",
-        "get_agent_ids",
-        "get_coords",
-        "validate_agent",
-        "validate_all",
-        "get_chat_coordinates",
-        "get_all_agents",
-        "is_agent_active",
-        "get_valid_agents",
-        "get_validation_report"
-      ],
-      "classes": {
-        "AgentCoords": {
-          "methods": [
-            "tuple"
-          ],
-          "docstring": null,
-          "base_classes": [],
-          "maturity": "Prototype",
-          "agent_type": "Utility"
-        },
-        "ValidationIssue": {
-          "methods": [],
-          "docstring": null,
-          "base_classes": [],
-          "maturity": "Prototype",
-          "agent_type": "Utility"
-        },
-        "ValidationReport": {
-          "methods": [
-            "is_all_ok",
-            "to_lines"
-          ],
-          "docstring": null,
-          "base_classes": [],
-          "maturity": "Prototype",
-          "agent_type": "Utility"
-        },
-        "CoordinateLoader": {
-          "methods": [
-            "__init__",
-            "load",
-            "get_agent_ids",
-            "get_coords",
-            "validate_agent",
-            "validate_all",
-            "get_chat_coordinates",
-            "get_all_agents",
-            "is_agent_active",
-            "get_valid_agents",
-            "get_validation_report"
-          ],
-          "docstring": "Loads and validates agent coordinates from a JSON SSOT.\n\nExpected JSON shape (excerpt):\n{\n  \"agents\": {\n    \"Agent-1\": {\"chat_input_coordinates\": [-1269, 481], \"active\": true, ...},\n    \"Agent-2\": {\"chat_input_coordinates\": [-308, 480], \"active\": true, ...}\n  }\n}",
-          "base_classes": [],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        }
-      },
-      "estimated_dependencies": []
-    },
-    "src\\core\\coordinate_loader_backup": {
-      "file_path": "src\\core\\coordinate_loader_backup.py",
-      "functions": [
-        "load_coordinates_from_json",
-        "get_agent_coordinates",
-        "get_coordinate_loader",
-        "__init__",
-        "validate_coordinates",
-        "get_chat_coordinates",
-        "get_all_coordinates",
-        "get_all_agents",
-        "get_valid_agents",
-        "is_agent_active",
-        "get_validation_report"
-      ],
-      "classes": {
-        "CoordinateLoader": {
-          "methods": [
-            "__init__",
-            "validate_coordinates",
-            "get_chat_coordinates",
-            "get_all_coordinates",
-            "get_all_agents",
-            "get_valid_agents",
-            "is_agent_active",
-            "get_validation_report"
-          ],
-          "docstring": "Coordinate loader class with validation and routing safeguards.",
-          "base_classes": [],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        }
-      },
-      "estimated_dependencies": []
-    },
-    "src\\discord_commander\\communication_engine\\__init__": {
-      "file_path": "src\\discord_commander\\communication_engine\\__init__.py",
+    "src\\discord_commander\\webhook\\__init__": {
+      "file_path": "src\\discord_commander\\webhook\\__init__.py",
       "functions": [],
       "classes": {},
       "estimated_dependencies": []
@@ -536,8 +153,8 @@
       "classes": {},
       "estimated_dependencies": []
     },
-    "src\\discord_commander\\webhook\\__init__": {
-      "file_path": "src\\discord_commander\\webhook\\__init__.py",
+    "src\\discord_commander\\communication_engine\\__init__": {
+      "file_path": "src\\discord_commander\\communication_engine\\__init__.py",
       "functions": [],
       "classes": {},
       "estimated_dependencies": []
@@ -551,6 +168,19 @@
     "src\\onboarding\\__init__": {
       "file_path": "src\\onboarding\\__init__.py",
       "functions": [],
+      "classes": {},
+      "estimated_dependencies": []
+    },
+    "tools\\captain_snapshot": {
+      "file_path": "tools\\captain_snapshot.py",
+      "functions": [
+        "load_agents_index",
+        "calculate_staleness",
+        "calculate_staleness_fixed",
+        "get_status_priority",
+        "format_agent_row",
+        "main"
+      ],
       "classes": {},
       "estimated_dependencies": []
     }

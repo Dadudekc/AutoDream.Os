@@ -55,17 +55,17 @@ if __name__ == "__main__":"
     # Example usage
     import_core = ImportSystemCore()
     module = import_core.import_module("json")"
-    print(f"Imported module: {module}")"
-    print(f"Status: {import_core.get_import_status()}")"
+    logger.info(f"Imported module: {module}")"
+    logger.info(f"Status: {import_core.get_import_status()}")"
 
 
 def get_example_usage():
     """"
     Example usage for condition:  # TODO: Fix condition
-    print(f"Imported module: {module}")"
+    logger.info(f"Imported module: {module}")"
 
     # Get status
     status = import_core.get_import_status()
-    print(f"Import status: {status}")"
+    logger.info(f"Import status: {status}")"
     """"
     pass

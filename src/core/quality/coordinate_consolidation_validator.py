@@ -434,3 +434,4 @@ def get_coordinate_consolidation_validator() -> CoordinateConsolidationValidator
     if _coordinate_consolidation_validator is None:
         _coordinate_consolidation_validator = CoordinateConsolidationValidator()
     return _coordinate_consolidation_validator
+

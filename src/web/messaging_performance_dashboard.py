@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 #!/usr/bin/env python3
 """
 Messaging Performance Dashboard
@@ -58,7 +60,7 @@ class MessagingPerformanceDashboard:
 # Initialize and use
 instance = Messaging_Performance_Dashboard()
 result = instance.execute()
-print(f"Execution result: {result}")
+logger.info(f"Execution result: {result}")
 
 # Advanced configuration
 config = {
@@ -68,7 +70,7 @@ config = {
 
 instance = Messaging_Performance_Dashboard(config)
 advanced_result = instance.execute_advanced()
-print(f"Advanced result: {advanced_result}")
+logger.info(f"Advanced result: {advanced_result}")
 
         """Setup FastAPI routes."""
 
@@ -592,13 +594,13 @@ print(f"Advanced result: {advanced_result}")
 
     def start(self, host: str = "localhost", port: int = 8002) -> None:
         """Start the messaging performance dashboard web server."""
-        print(f"🚀 Starting Messaging Performance Dashboard on http://{host}:{port}")
-        print("📊 Dashboard Features:"        print("   - Real-time messaging performance metrics")
-        print("   - CPU, memory, and queue depth monitoring")
-        print("   - Bottleneck detection and alerts")
-        print("   - Throughput and error rate trending")
-        print("   - Optimization recommendations")
-        print("   - Interactive performance charts")
+        logger.info(f"🚀 Starting Messaging Performance Dashboard on http://{host}:{port}")
+        logger.info("📊 Dashboard Features:"        print("   - Real-time messaging performance metrics")
+        logger.info("   - CPU, memory, and queue depth monitoring")
+        logger.info("   - Bottleneck detection and alerts")
+        logger.info("   - Throughput and error rate trending")
+        logger.info("   - Optimization recommendations")
+        logger.info("   - Interactive performance charts")
 
         uvicorn.run(self.app, host=host, port=port)
 
@@ -617,10 +619,12 @@ def main():
         # Start dashboard
         dashboard.start()
     except KeyboardInterrupt:
-        print("\n🛑 Shutting down messaging performance dashboard...")
+        logger.info("\n🛑 Shutting down messaging performance dashboard...")
     finally:
         dashboard.stop()
 
 
 if __name__ == "__main__":
     main()
+
+

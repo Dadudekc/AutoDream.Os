@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 SQLite Agent Repository - Infrastructure Adapter
 ===============================================
@@ -46,7 +48,7 @@ from src.infrastructure.persistence.sqlite_agent_repo import Sqlite_Agent_Repo
 # Initialize and use
 instance = Sqlite_Agent_Repo()
 result = instance.execute()
-print(f"Execution result: {result}")
+logger.info(f"Execution result: {result}")
 
 # Advanced configuration
 config = {
@@ -56,7 +58,7 @@ config = {
 
 instance = Sqlite_Agent_Repo(config)
 advanced_result = instance.execute_advanced()
-print(f"Advanced result: {advanced_result}")
+logger.info(f"Advanced result: {advanced_result}")
 
                 """
                 CREATE TABLE IF NOT EXISTS agents (

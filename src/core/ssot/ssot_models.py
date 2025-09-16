@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 #!/usr/bin/env python3
 """
 SSOT Models - V2 Compliant
@@ -53,7 +55,7 @@ def get_example_usage():
     
     # Execute functionality
     result = component.to_dict()
-    print(f"Component data: {result}")
+    logger.info(f"Component data: {result}")
     """
     pass
 

@@ -9,31 +9,7 @@
         "complexity": 32
       },
       {
-        "path": "src\\services\\handlers_orchestrator.py",
-        "functions": 32,
-        "classes": 5,
-        "complexity": 63
-      },
-      {
-        "path": "src\\services\\unified_vector_service.py",
-        "functions": 22,
-        "classes": 10,
-        "complexity": 44
-      },
-      {
-        "path": "src\\services\\consolidated_messaging_service.py",
-        "functions": 8,
-        "classes": 1,
-        "complexity": 14
-      },
-      {
-        "path": "src\\services\\messaging\\cli\\messaging_cli_clean.py",
-        "functions": 0,
-        "classes": 0,
-        "complexity": 0
-      },
-      {
-        "path": "src\\services\\messaging\\broadcast_service\\__init__.py",
+        "path": "src\\services\\messaging\\models.py",
         "functions": 0,
         "classes": 0,
         "complexity": 0
@@ -45,7 +21,13 @@
         "complexity": 0
       },
       {
-        "path": "src\\services\\messaging\\history_service\\__init__.py",
+        "path": "src\\services\\messaging\\broadcast_service\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\services\\messaging\\cli\\perf_cli\\__init__.py",
         "functions": 0,
         "classes": 0,
         "complexity": 0
@@ -57,19 +39,7 @@
         "complexity": 42
       },
       {
-        "path": "src\\core\\coordinate_loader_new.py",
-        "functions": 17,
-        "classes": 4,
-        "complexity": 31
-      },
-      {
-        "path": "src\\core\\coordinate_loader_backup.py",
-        "functions": 11,
-        "classes": 1,
-        "complexity": 19
-      },
-      {
-        "path": "src\\discord_commander\\communication_engine\\__init__.py",
+        "path": "src\\discord_commander\\webhook\\__init__.py",
         "functions": 0,
         "classes": 0,
         "complexity": 0
@@ -81,7 +51,7 @@
         "complexity": 0
       },
       {
-        "path": "src\\discord_commander\\webhook\\__init__.py",
+        "path": "src\\discord_commander\\communication_engine\\__init__.py",
         "functions": 0,
         "classes": 0,
         "complexity": 0
@@ -97,18 +67,24 @@
         "functions": 0,
         "classes": 0,
         "complexity": 0
+      },
+      {
+        "path": "tools\\captain_snapshot.py",
+        "functions": 6,
+        "classes": 0,
+        "complexity": 6
       }
     ],
-    "total_functions": 127,
-    "total_classes": 24,
-    "total_complexity": 245,
-    "file_count": 16
+    "total_functions": 43,
+    "total_classes": 3,
+    "total_complexity": 80,
+    "file_count": 12
   },
   ".js": {
     "file_type": ".js",
     "files": [
       {
-        "path": "src\\web\\static\\js\\dashboard.js",
+        "path": "src\\web\\static\\js\\dashboard-new.js",
         "functions": 0,
         "classes": 0,
         "complexity": 0
@@ -126,7 +102,7 @@
         "complexity": 0
       },
       {
-        "path": "src\\web\\static\\js\\trading-robot\\chart-validation\\module.js",
+        "path": "src\\web\\static\\js\\trading-robot\\chart-state-validation-module.js",
         "functions": 0,
         "classes": 0,
         "complexity": 0

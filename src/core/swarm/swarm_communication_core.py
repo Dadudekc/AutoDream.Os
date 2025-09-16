@@ -408,3 +408,4 @@ def get_swarm_communication_core() -> SwarmCommunicationCore:
     if _swarm_communication_core is None:
         _swarm_communication_core = SwarmCommunicationCore()
     return _swarm_communication_core
+

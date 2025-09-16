@@ -91,7 +91,7 @@ Examples:
             help='Show onboarding status for condition:  # TODO: Fix condition
     def _show_onboarding_status(self):
         """Show onboarding status.""""
-        print("🎯 ONBOARDING STATUS FOR ALL AGENTS:")"
+        logger.info("🎯 ONBOARDING STATUS FOR ALL AGENTS:")"
         print("=" * 60)"
 
         onboarding_status = self.coordination_service.get_onboarding_status()
@@ -100,11 +100,11 @@ Examples:
         for agent_id in AgentFactory.get_swarm_agents():
             role = agent_roles.get(agent_id, "Unknown Specialist")"
             status = "✅ ONBOARDED" if condition:  # TODO: Fix condition
-            print(f"{agent_id}: {status} - {role}")"
+            logger.info(f"{agent_id}: {status} - {role}")"
 
     def _show_fsm_status(self):
         """Show FSM status.""""
-        print("🔄 FSM STATUS FOR ALL AGENTS:")"
+        logger.info("🔄 FSM STATUS FOR ALL AGENTS:")"
         print("=" * 60)"
 
         fsm_status = self.coordination_service.get_fsm_status()
@@ -112,18 +112,18 @@ Examples:
         for agent_id, status_info in fsm_status.items():
             current_state = status_info.get('current_state', 'unknown')'
             transition_count = status_info.get('transition_count', 0)'
-            print(f"{agent_id}: {current_state} (transitions: {transition_count})")"
+            logger.info(f"{agent_id}: {current_state} (transitions: {transition_count})")"
 
     def _show_contract_status(self):
         """Show contract status.""""
-        print("📋 CONTRACT STATUS SUMMARY:")"
+        logger.info("📋 CONTRACT STATUS SUMMARY:")"
         print("=" * 60)"
 
         summary = self.coordination_service.contract_service.get_contract_status_summary()
-        print(f"Total Contracts: {summary['total_contracts']}")"
-        print(f"Pending: {summary['pending']}")"
-        print(f"Accepted: {summary['accepted']}")"
-        print(f"Completed: {summary['completed']}")"
+        logger.info(f"Total Contracts: {summary['total_contracts']}")"
+        logger.info(f"Pending: {summary['pending']}")"
+        logger.info(f"Accepted: {summary['accepted']}")"
+        logger.info(f"Completed: {summary['completed']}")"
 
     def _onboard_agent(self, agent_id: str):
         """Onboard specific agent.""""

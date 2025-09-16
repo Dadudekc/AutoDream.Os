@@ -39,7 +39,7 @@ service = Utility_HandlerService()
 
 # Basic service operation
 response = service.handle_request(request_data)
-print(f"Service response: {response}")
+logger.info(f"Service response: {response}")
 
 # Service with dependency injection
 from src.core.dependency_container import Container
@@ -49,7 +49,7 @@ service = container.get(Utility_HandlerService)
 
 # Execute service method
 result = service.execute_operation(input_data, context)
-print(f"Operation result: {result}")
+logger.info(f"Operation result: {result}")
 
         """Initialize utility handler."""
         self.logger = logger

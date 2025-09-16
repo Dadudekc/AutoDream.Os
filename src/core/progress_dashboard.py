@@ -142,3 +142,8 @@ class UnifiedProgressDashboard:
         except Exception as e:
             logger.error(f"Failed to remove observer: {e}")
             return False
+
+
+
+
+

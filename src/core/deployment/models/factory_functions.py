@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Deployment Factory Functions - V2 Compliant Module
 ==================================================
@@ -39,7 +41,7 @@ def create_default_config() -> DeploymentConfig:
 
     Example:
         >>> config = create_default_config()
-        >>> print(f"Max concurrent deployments: {config.max_concurrent_deployments}")
+        >>> logger.info(f"Max concurrent deployments: {config.max_concurrent_deployments}")
     """
     return DeploymentConfig(
         max_concurrent_deployments=8,  # All 8 agents
@@ -68,7 +70,7 @@ def create_deployment_status(
 
     Example:
         >>> status = create_deployment_status("Agent-5", "TDD Architect")
-        >>> print(f"Agent: {status.agent_id}, Status: {status.status}")
+        >>> logger.info(f"Agent: {status.agent_id}, Status: {status.status}")
     """
     return MaximumEfficiencyDeploymentStatus(
         agent_id=agent_id,
@@ -93,7 +95,7 @@ def create_deployment_metrics() -> DeploymentMetrics:
 
     Example:
         >>> metrics = create_deployment_metrics()
-        >>> print(f"Start time: {metrics.start_time}")
+        >>> logger.info(f"Start time: {metrics.start_time}")
     """
     return DeploymentMetrics(
         start_time=datetime.now(),
@@ -115,7 +117,7 @@ def create_coordinator_config() -> DeploymentCoordinatorConfig:
 
     Example:
         >>> config = create_coordinator_config()
-        >>> print(f"Enable tracking: {config.enable_deployment_tracking}")
+        >>> logger.info(f"Enable tracking: {config.enable_deployment_tracking}")
     """
     return DeploymentCoordinatorConfig(
         enable_deployment_tracking=True,
@@ -135,7 +137,7 @@ def create_agent_domain_mapping() -> dict[str, str]:
 
     Example:
         >>> domains = create_agent_domain_mapping()
-        >>> print(f"Agent-1 domain: {domains['Agent-1']}")
+        >>> logger.info(f"Agent-1 domain: {domains['Agent-1']}")
     """
     return DEFAULT_AGENT_DOMAINS.copy()
 
@@ -153,7 +155,7 @@ def validate_deployment_config(config: DeploymentConfig) -> bool:
     Example:
         >>> config = create_default_config()
         >>> is_valid = validate_deployment_config(config)
-        >>> print(f"Config valid: {is_valid}")
+        >>> logger.info(f"Config valid: {is_valid}")
     """
     try:
         # Trigger validation by accessing properties
@@ -179,7 +181,7 @@ def create_deployment_summary(status: MaximumEfficiencyDeploymentStatus) -> dict
     Example:
         >>> status = create_deployment_status()
         >>> summary = create_deployment_summary(status)
-        >>> print(f"Summary: {summary['status']}")
+        >>> logger.info(f"Summary: {summary['status']}")
     """
     return {
         "agent_id": status.agent_id,
@@ -206,5 +208,7 @@ __all__ = [
     "validate_deployment_config",
     "create_deployment_summary",
 ]
+
+
 
 

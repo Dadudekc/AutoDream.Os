@@ -1,13 +1,13 @@
 {
   "project_overview": {
-    "total_files": 21,
+    "total_files": 17,
     "languages": [
-      ".js",
-      ".py"
+      ".py",
+      ".js"
     ],
-    "total_functions": 127,
-    "total_classes": 24,
-    "total_complexity": 245
+    "total_functions": 43,
+    "total_classes": 3,
+    "total_complexity": 80
   },
   "file_summary": {
     "archive\\captain_handbooks_consolidated\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\orchestrators\\emergency_orchestrator.py": {
@@ -16,7 +16,7 @@
       "class_count": 1,
       "complexity": 32
     },
-    "src\\web\\static\\js\\dashboard.js": {
+    "src\\web\\static\\js\\dashboard-new.js": {
       "language": ".js",
       "function_count": 0,
       "class_count": 0,
@@ -34,7 +34,7 @@
       "class_count": 0,
       "complexity": 0
     },
-    "src\\web\\static\\js\\trading-robot\\chart-validation\\module.js": {
+    "src\\web\\static\\js\\trading-robot\\chart-state-validation-module.js": {
       "language": ".js",
       "function_count": 0,
       "class_count": 0,
@@ -46,31 +46,7 @@
       "class_count": 0,
       "complexity": 0
     },
-    "src\\services\\handlers_orchestrator.py": {
-      "language": ".py",
-      "function_count": 32,
-      "class_count": 5,
-      "complexity": 63
-    },
-    "src\\services\\unified_vector_service.py": {
-      "language": ".py",
-      "function_count": 22,
-      "class_count": 10,
-      "complexity": 44
-    },
-    "src\\services\\consolidated_messaging_service.py": {
-      "language": ".py",
-      "function_count": 8,
-      "class_count": 1,
-      "complexity": 14
-    },
-    "src\\services\\messaging\\cli\\messaging_cli_clean.py": {
-      "language": ".py",
-      "function_count": 0,
-      "class_count": 0,
-      "complexity": 0
-    },
-    "src\\services\\messaging\\broadcast_service\\__init__.py": {
+    "src\\services\\messaging\\models.py": {
       "language": ".py",
       "function_count": 0,
       "class_count": 0,
@@ -82,7 +58,13 @@
       "class_count": 0,
       "complexity": 0
     },
-    "src\\services\\messaging\\history_service\\__init__.py": {
+    "src\\services\\messaging\\broadcast_service\\__init__.py": {
+      "language": ".py",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
+    },
+    "src\\services\\messaging\\cli\\perf_cli\\__init__.py": {
       "language": ".py",
       "function_count": 0,
       "class_count": 0,
@@ -94,19 +76,7 @@
       "class_count": 2,
       "complexity": 42
     },
-    "src\\core\\coordinate_loader_new.py": {
-      "language": ".py",
-      "function_count": 17,
-      "class_count": 4,
-      "complexity": 31
-    },
-    "src\\core\\coordinate_loader_backup.py": {
-      "language": ".py",
-      "function_count": 11,
-      "class_count": 1,
-      "complexity": 19
-    },
-    "src\\discord_commander\\communication_engine\\__init__.py": {
+    "src\\discord_commander\\webhook\\__init__.py": {
       "language": ".py",
       "function_count": 0,
       "class_count": 0,
@@ -118,7 +88,7 @@
       "class_count": 0,
       "complexity": 0
     },
-    "src\\discord_commander\\webhook\\__init__.py": {
+    "src\\discord_commander\\communication_engine\\__init__.py": {
       "language": ".py",
       "function_count": 0,
       "class_count": 0,
@@ -135,6 +105,12 @@
       "function_count": 0,
       "class_count": 0,
       "complexity": 0
+    },
+    "tools\\captain_snapshot.py": {
+      "language": ".py",
+      "function_count": 6,
+      "class_count": 0,
+      "complexity": 6
     }
   },
   "key_components": [],

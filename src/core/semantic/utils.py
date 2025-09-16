@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Semantic Utilities - Consolidated Module
 ========================================
@@ -85,7 +87,7 @@ class VectorDatabaseUtils:
     # Initialize and use
     instance = VectorDatabaseUtils()
     result = instance.simulate_vector_search(request)
-    print(f"Execution result: {result}")
+    logger.info(f"Execution result: {result}")
 
     # Advanced configuration
     config = {
@@ -95,7 +97,7 @@ class VectorDatabaseUtils:
 
     instance = VectorDatabaseUtils()
     advanced_result = instance.simulate_get_analytics("7d")
-    print(f"Advanced result: {advanced_result}")
+    logger.info(f"Advanced result: {advanced_result}")
     """
 
     def __init__(self):

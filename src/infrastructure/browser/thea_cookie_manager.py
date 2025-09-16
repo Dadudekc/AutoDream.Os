@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Thea Cookie Manager
 ==================
@@ -32,7 +34,7 @@ from src.infrastructure.browser.thea_cookie_manager import Thea_Cookie_Manager
 # Initialize and use
 instance = Thea_Cookie_Manager()
 result = instance.execute()
-print(f"Execution result: {result}")
+logger.info(f"Execution result: {result}")
 
 # Advanced configuration
 config = {
@@ -42,7 +44,7 @@ config = {
 
 instance = Thea_Cookie_Manager(config)
 advanced_result = instance.execute_advanced()
-print(f"Advanced result: {advanced_result}")
+logger.info(f"Advanced result: {advanced_result}")
 
     """Basic cookie manager stub."""
 

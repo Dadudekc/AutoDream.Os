@@ -83,3 +83,8 @@ class ICommunicationSystem(Protocol):
     def get_available_channels(self) -> List[str]:
         """Get list of available channels."""
         ...
+
+
+
+
+

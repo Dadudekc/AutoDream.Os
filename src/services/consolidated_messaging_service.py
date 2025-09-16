@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 """
-Consolidated Messaging Service - V2 Compliant Module with Coordinate Validation
-==============================================================================
+Consolidated Messaging Service - PyAutoGUI Agent Communication
+=============================================================
 
-Unified messaging service with pre-delivery coordinate validation & routing safeguards.
-Integrates with improved coordinate loader for robust agent communication.
+Real-time agent-to-agent communication via PyAutoGUI automation.
+Fixed and optimized by Agent-2 for swarm coordination.
 
-Author: Agent-1 (Integration & Core Systems Specialist)
-Mission: Phase 2 Consolidation - Chunk 002 (Services)
+Author: Agent-2 (Architecture & Design Specialist)
 License: MIT
 """
 
@@ -15,6 +14,15 @@ from __future__ import annotations
 
 import argparse
 import logging
+import sys
+from pathlib import Path
+from typing import Dict, List
+
+# Add project root to path for imports
+project_root = Path(__file__).parent.parent.parent
+sys.path.insert(0, str(project_root))
+
+from src.core.coordinate_loader import CoordinateLoader, ValidationReport
 
 # Lazy import to prevent hard dep at import time
 try:
@@ -24,168 +32,166 @@ except Exception:
     pyautogui = None  # type: ignore
     pyperclip = None  # type: ignore
 
-# Fix imports when running as a script
-import sys
-from pathlib import Path
-
-if __name__ == "__main__":
-    # Add the project root to Python path so we can import src modules
-    script_dir = Path(__file__).parent.parent.parent  # Go up to project root
-    if str(script_dir) not in sys.path:
-        sys.path.insert(0, str(script_dir))
-
-from src.core.coordinate_loader import CoordinateLoader, ValidationReport
-
 logger = logging.getLogger(__name__)
 
 
 class ConsolidatedMessagingService:
-    """
-    MAIN messaging service with pre-delivery coordinate validation & routing safeguards.
-    """
-
-    def __init__(self, coord_path: str):
+    """Consolidated messaging service with PyAutoGUI automation."""
+    
+    def __init__(self, coord_path: str = "config/coordinates.json") -> None:
+        """Initialize messaging service with coordinate validation."""
         self.loader = CoordinateLoader(coord_path)
         self.loader.load()
-
-    # ---------- Validation helpers ----------
-    def _validate_coordinates_for_delivery(self, agent_id: str) -> ValidationReport:
-        report = self.loader.validate_agent(agent_id)
-        for issue in report.issues:
-            level = logging.WARNING if issue.level == "WARN" else logging.ERROR
-            logger.log(level, "%s: %s", agent_id, issue.message)
-        return report
-
-    def _validate_all_agents_for_delivery(self) -> ValidationReport:
-        report = self.loader.validate_all()
-        for issue in report.issues:
-            level = logging.WARNING if issue.level == "WARN" else logging.ERROR
-            logger.log(level, "%s: %s", issue.agent_id, issue.message)
-        return report
-
-    # ---------- Message Formatting ----------
-    def _format_a2a_message(self, from_agent: str, to_agent: str, message: str) -> str:
-        """Format message as proper A2A message with headers."""
+        self.validation_report = self.loader.validate_all()
+        
+        if not self.validation_report.is_all_ok():
+            logger.error("Coordinate validation failed: %s", self.validation_report.issues)
+            raise ValueError(f"Invalid coordinates: {self.validation_report.issues}")
+        
+        logger.info("Messaging service initialized with %d agents", len(self.loader.get_agent_ids()))
+    
+    def send_message(self, agent_id: str, message: str, from_agent: str = "Agent-2", priority: str = "NORMAL") -> bool:
+        """Send message to specific agent via PyAutoGUI with priority support."""
+        try:
+            # Validate agent exists
+            if agent_id not in self.loader.get_agent_ids():
+                logger.error("Unknown agent: %s", agent_id)
+                return False
+            
+            # Format message with A2A headers and priority
+            formatted_message = self._format_a2a_message(from_agent, agent_id, message, priority)
+            
+            # Get coordinates and send
+            coords = self.loader.get_coords(agent_id).tuple
+            return self._paste_to_coords(coords, formatted_message)
+            
+        except Exception as e:
+            logger.exception("Send message failed: %s", e)
+            return False
+    
+    def broadcast_message(self, message: str, from_agent: str = "Agent-2", priority: str = "NORMAL") -> Dict[str, bool]:
+        """Broadcast message to all agents with priority support."""
+        results = {}
+        
+        for agent_id in self.loader.get_agent_ids():
+            try:
+                success = self.send_message(agent_id, message, from_agent, priority)
+                results[agent_id] = success
+            except Exception as e:
+                logger.error("Broadcast to %s failed: %s", agent_id, e)
+                results[agent_id] = False
+        
+        return results
+    
+    def _format_a2a_message(self, from_agent: str, to_agent: str, message: str, priority: str = "NORMAL") -> str:
+        """Format message as proper A2A message with headers and priority support."""
         return f"""============================================================
 [A2A] MESSAGE
 ============================================================
 📤 FROM: {from_agent}
 📥 TO: {to_agent}
-Priority: NORMAL
+Priority: {priority}
 Tags: GENERAL
 ------------------------------------------------------------
 {message}
 ------------------------------------------------------------
 """
-
-    # ---------- Delivery ----------
-    def send_message(self, agent_id: str, message: str, from_agent: str = "Agent-2") -> bool:
-        report = self._validate_coordinates_for_delivery(agent_id)
-        if not report.is_all_ok():
-            # Skip if any ERROR for that agent
-            has_error = any(i.level == "ERROR" for i in report.issues)
-            if has_error:
-                logger.error("Delivery skipped for %s due to validation errors.", agent_id)
-                return False
-
-        # Format message as proper A2A message
-        formatted_message = self._format_a2a_message(from_agent, agent_id, message)
-        coords = self.loader.get_coords(agent_id).tuple
-        return self._paste_to_coords(coords, formatted_message)
-
-    def broadcast(self, message: str) -> dict[str, bool]:
-        result: dict[str, bool] = {}
-        report = self._validate_all_agents_for_delivery()
-        bad_agents = {i.agent_id for i in report.issues if i.level == "ERROR"}
-        for aid in self.loader.get_agent_ids():
-            if aid in bad_agents:
-                logger.error("Broadcast skip -> %s (validation ERROR)", aid)
-                result[aid] = False
-                continue
-            coords = self.loader.get_coords(aid).tuple
-            ok = self._paste_to_coords(coords, message)
-            result[aid] = ok
-        return result
-
-    # ---------- Low-level paste ----------
+    
     def _paste_to_coords(self, coords, message: str) -> bool:
-        # NOTE: This is intentionally conservative: validation runs first.
+        """Paste message to coordinates using PyAutoGUI + pyperclip."""
         try:
             if pyautogui is None or pyperclip is None:
                 logger.info("[DRY-RUN] Would paste to %s: %s", coords, message)
                 return True
+            
             # Real UI actions (guarded):
             pyautogui.click(coords[0], coords[1])
             # Copy message to clipboard and paste for maximum speed
             pyperclip.copy(message)
-            pyautogui.hotkey("ctrl", "v")
+            pyautogui.hotkey('ctrl', 'v')
             pyautogui.press("enter")
             logger.info("[REAL] Fast-pasted to %s", coords)
             return True
+            
         except Exception as e:
             logger.exception("Paste failed at %s: %s", coords, e)
             return False
+    
+    def get_status(self) -> Dict[str, any]:
+        """Get service status."""
+        return {
+            "validation_report": {
+                "ok": self.validation_report.ok,
+                "issues": [{"agent_id": i.agent_id, "level": i.level, "message": i.message} for i in self.validation_report.issues]
+            },
+            "agent_count": len(self.loader.get_agent_ids()),
+            "agents": self.loader.get_agent_ids(),
+            "pyautogui_available": pyautogui is not None,
+            "pyperclip_available": pyperclip is not None
+        }
 
 
-# ---------- CLI ----------
 def build_parser() -> argparse.ArgumentParser:
-    p = argparse.ArgumentParser("Consolidated Messaging Service (with validation)")
-    p.add_argument("--coords", required=True, help="Path to agent coordinate JSON")
-    sub = p.add_subparsers(dest="cmd", required=True)
-
-    # Validation suite
-    v = sub.add_parser("validate", help="Validate coordinates")
-    v.add_argument("--report", action="store_true", help="Print detailed validation report")
-    v.add_argument("--show", action="store_true", help="Show current coordinates with status")
-
-    # Single send
+    """Build command line parser."""
+    p = argparse.ArgumentParser(description="Consolidated Messaging Service")
+    p.add_argument("--coords", default="config/coordinates.json", help="Coordinate file path")
+    
+    sub = p.add_subparsers(dest="cmd", help="Commands")
+    
+    # Send command
     s = sub.add_parser("send", help="Send a message to one agent (validated)")
     s.add_argument("--agent", required=True)
     s.add_argument("--message", required=True)
-    s.add_argument(
-        "--from", dest="from_agent", default="Agent-2", help="Source agent ID (default: Agent-2)"
-    )
-
-    # Broadcast
-    b = sub.add_parser("broadcast", help="Broadcast to all validated agents")
+    s.add_argument("--from", dest="from_agent", default="Agent-2", help="Source agent ID (default: Agent-2)")
+    
+    # Broadcast command
+    b = sub.add_parser("broadcast", help="Broadcast message to all agents")
     b.add_argument("--message", required=True)
-
+    b.add_argument("--from", dest="from_agent", default="Agent-2", help="Source agent ID (default: Agent-2)")
+    
+    # Status command
+    sub.add_parser("status", help="Show service status")
+    
     return p
 
 
-def main(argv: list[str] | None = None) -> int:
+def main(argv: List[str] | None = None) -> int:
+    """Main entry point."""
     parser = build_parser()
     args = parser.parse_args(argv)
-
-    svc = ConsolidatedMessagingService(args.coords)
-
-    if args.cmd == "validate":
-        report = svc._validate_all_agents_for_delivery()
-        if args.show:
-            for aid in svc.loader.get_agent_ids():
-                ac = svc.loader.get_coords(aid)
-                ar = svc._validate_coordinates_for_delivery(aid)
-                status = "OK" if ar.is_all_ok() else "ISSUES"
-                print(f"{aid:>8}  @ {ac.tuple}  [{status}]")
-        if args.report:
-            for line in report.to_lines():
-                print(line)
-        return 0 if report.is_all_ok() else 2
-
-    if args.cmd == "send":
-        ok = svc.send_message(args.agent, args.message, args.from_agent)
-        print("DELIVERY_OK" if ok else "DELIVERY_FAILED")
-        return 0 if ok else 3
-
-    if args.cmd == "broadcast":
-        results = svc.broadcast(args.message)
-        ok_count = sum(1 for v in results.values() if v)
-        total = len(results)
-        print(f"BROADCAST: {ok_count}/{total} delivered")
-        return 0 if ok_count == total else 4
-
-    return 0
+    
+    if not args.cmd:
+        parser.print_help()
+        return 1
+    
+    try:
+        svc = ConsolidatedMessagingService(args.coords)
+        
+        if args.cmd == "send":
+            ok = svc.send_message(args.agent, args.message, args.from_agent)
+            logger.info("DELIVERY_OK" if ok else "DELIVERY_FAILED")
+            return 0 if ok else 3
+            
+        elif args.cmd == "broadcast":
+            results = svc.broadcast_message(args.message, args.from_agent)
+            success_count = sum(1 for success in results.values() if success)
+            logger.info(f"BROADCAST_COMPLETE: {success_count}/{len(results)} successful")
+            return 0 if success_count == len(results) else 3
+            
+        elif args.cmd == "status":
+            status = svc.get_status()
+            logger.info(f"Service Status: {status}")
+            return 0
+            
+        else:
+            parser.print_help()
+            return 1
+            
+    except Exception as e:
+        logger.error("Service error: %s", e)
+        return 2
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    logging.basicConfig(level=logging.INFO)
+    sys.exit(main())

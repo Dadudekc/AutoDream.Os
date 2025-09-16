@@ -50,14 +50,14 @@ component = Backup_Alert_System(config)
 
 # Execute primary functionality
 result = component.process_data(input_data)
-print(f"Processing result: {result}")
+logger.info(f"Processing result: {result}")
 
 # Advanced usage with error handling
 try:
     advanced_result = component.advanced_operation(data, options={"optimize": True})
-    print(f"Advanced operation completed: {advanced_result}")
+    logger.info(f"Advanced operation completed: {advanced_result}")
 except ProcessingError as e:
-    print(f"Operation failed: {e}")
+    logger.info(f"Operation failed: {e}")
     # Implement recovery logic
 
         """Load active alerts from database."""
@@ -247,11 +247,11 @@ except ProcessingError as e:
             AlertSeverity.INFO: "💡"
         }.get(alert.severity, "❓")
 
-        print(f"{severity_emoji} {prefix}{alert.title}")
-        print(f"   {alert.message}")
-        print(f"   Severity: {alert.severity.value.upper()}")
-        print(f"   Time: {alert.created_at.strftime('%Y-%m-%d %H:%M:%S')}")
-        print()
+        logger.info(f"{severity_emoji} {prefix}{alert.title}")
+        logger.info(f"   {alert.message}")
+        logger.info(f"   Severity: {alert.severity.value.upper()}")
+        logger.info(f"   Time: {alert.created_at.strftime('%Y-%m-%d %H:%M:%S')}")
+        logger.info("")
 
     def _send_file_notification(self, alert: Alert, escalated: bool = False) -> None:
         """Send notification to log file."""

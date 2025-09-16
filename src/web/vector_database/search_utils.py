@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Search Utils
 ============
@@ -22,7 +24,7 @@ class SearchUtils:
 # Initialize and use
 instance = Search_Utils()
 result = instance.execute()
-print(f"Execution result: {result}")
+logger.info(f"Execution result: {result}")
 
 # Advanced configuration
 config = {
@@ -32,7 +34,7 @@ config = {
 
 instance = Search_Utils(config)
 advanced_result = instance.execute_advanced()
-print(f"Advanced result: {advanced_result}")
+logger.info(f"Advanced result: {advanced_result}")
 
         """Simulate vector database search."""
         mock_results = [

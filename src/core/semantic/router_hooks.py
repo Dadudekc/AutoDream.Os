@@ -6,6 +6,8 @@ import yaml
 
 from .semantic_router import SemanticRouter
 from .status_index import StatusIndex
+import logging
+logger = logging.getLogger(__name__)
 
 
 def _load_cfg() -> dict[str, Any]:
@@ -57,14 +59,14 @@ component = Router_Hooks(config)
 
 # Execute primary functionality
 result = component.process_data(input_data)
-print(f"Processing result: {result}")
+logger.info(f"Processing result: {result}")
 
 # Advanced usage with error handling
 try:
     advanced_result = component.advanced_operation(data, options={"optimize": True})
-    print(f"Advanced operation completed: {advanced_result}")
+    logger.info(f"Advanced operation completed: {advanced_result}")
 except ProcessingError as e:
-    print(f"Operation failed: {e}")
+    logger.info(f"Operation failed: {e}")
     # Implement recovery logic
 
     """Returns {"results":[{id,score,meta}]} for status insights."""

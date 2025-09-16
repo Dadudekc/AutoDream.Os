@@ -88,7 +88,7 @@ service = Unified_HandlersService()
 
 # Basic service operation
 response = service.handle_request(request_data)
-print(f"Service response: {response}")
+logger.info(f"Service response: {response}")
 
 # Service with dependency injection
 from src.core.dependency_container import Container
@@ -98,7 +98,7 @@ service = container.get(Unified_HandlersService)
 
 # Execute service method
 result = service.execute_operation(input_data, context)
-print(f"Operation result: {result}")
+logger.info(f"Operation result: {result}")
 
         """Delegate to orchestrator"""
         if self._orchestrator:
@@ -209,10 +209,10 @@ __all__ = [
 # V2 COMPLIANCE ACHIEVEMENT
 # ================================
 
-print("🐝 UNIFIED HANDLERS SERVICE V2 COMPLIANCE ACHIEVED:")
-print("   • ORIGINAL VIOLATION: 917 lines (129% over V2 limit)")
-print("   • REFACTORED SOLUTION: 6 modular files (all ≤400 lines)")
-print("   • CONSOLIDATION MAINTAINED: 10→6 files (40% reduction)")
-print("   • BACKWARD COMPATIBILITY: 100% preserved")
-print("   • V2 COMPLIANCE: ✅ ACHIEVED")
-print("   • Agent-1 Refactoring: SUCCESSFUL ✅")
+logger.info("🐝 UNIFIED HANDLERS SERVICE V2 COMPLIANCE ACHIEVED:")
+logger.info("   • ORIGINAL VIOLATION: 917 lines (129% over V2 limit)")
+logger.info("   • REFACTORED SOLUTION: 6 modular files (all ≤400 lines)")
+logger.info("   • CONSOLIDATION MAINTAINED: 10→6 files (40% reduction)")
+logger.info("   • BACKWARD COMPATIBILITY: 100% preserved")
+logger.info("   • V2 COMPLIANCE: ✅ ACHIEVED")
+logger.info("   • Agent-1 Refactoring: SUCCESSFUL ✅")

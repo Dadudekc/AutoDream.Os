@@ -81,23 +81,12 @@ class AgentCommunicationEngine(ABC):
             # Try to use the consolidated messaging system first
             try:
                 from ...services.consolidated_messaging_service import ConsolidatedMessagingService
-                from ...services.messaging.models.messaging_models import UnifiedMessage
-                from ...services.messaging.models.messaging_enums import UnifiedMessageType, UnifiedMessagePriority
                 
                 # Get messaging service instance
                 messaging_service = ConsolidatedMessagingService()
                 
-                # Create unified message
-                unified_message = UnifiedMessage(
-                    content=message,
-                    recipient=agent,
-                    sender=sender,
-                    message_type=UnifiedMessageType.TEXT,
-                    priority=UnifiedMessagePriority.REGULAR
-                )
-                
-                # Send via messaging system (call the method on the service instance)
-                success = messaging_service.send_message(unified_message)
+                # Send via messaging system with simplified interface
+                success = messaging_service.send_message(agent, message, sender)
                 
                 if success:
                     self.logger.info(f"Message sent to {agent} via messaging system")

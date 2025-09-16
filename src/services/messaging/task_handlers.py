@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Task_Handlers Module
 
@@ -19,7 +21,7 @@ service = Task_HandlersService()
 
 # Basic service operation
 response = service.handle_request(request_data)
-print(f"Service response: {response}")
+logger.info(f"Service response: {response}")
 
 # Service with dependency injection
 from src.core.dependency_container import Container
@@ -29,7 +31,7 @@ service = container.get(Task_HandlersService)
 
 # Execute service method
 result = service.execute_operation(input_data, context)
-print(f"Operation result: {result}")
+logger.info(f"Operation result: {result}")
 
 """
 from __future__ import annotations

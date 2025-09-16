@@ -8,33 +8,15 @@
       "classes": 1
     },
     {
-      "path": "src\\services\\handlers_orchestrator.py",
-      "complexity": 63,
-      "functions": 32,
-      "classes": 5
-    },
-    {
-      "path": "src\\services\\unified_vector_service.py",
-      "complexity": 44,
-      "functions": 22,
-      "classes": 10
-    },
-    {
       "path": "src\\services\\agent_management\\consolidated_service.py",
       "complexity": 42,
       "functions": 21,
       "classes": 2
-    },
-    {
-      "path": "src\\core\\coordinate_loader_new.py",
-      "complexity": 31,
-      "functions": 17,
-      "classes": 4
     }
   ],
   "low_complexity_files": [
     {
-      "path": "src\\web\\static\\js\\dashboard.js",
+      "path": "src\\web\\static\\js\\dashboard-new.js",
       "complexity": 0
     },
     {
@@ -46,7 +28,7 @@
       "complexity": 0
     },
     {
-      "path": "src\\web\\static\\js\\trading-robot\\chart-validation\\module.js",
+      "path": "src\\web\\static\\js\\trading-robot\\chart-state-validation-module.js",
       "complexity": 0
     },
     {
@@ -54,11 +36,7 @@
       "complexity": 0
     },
     {
-      "path": "src\\services\\messaging\\cli\\messaging_cli_clean.py",
-      "complexity": 0
-    },
-    {
-      "path": "src\\services\\messaging\\broadcast_service\\__init__.py",
+      "path": "src\\services\\messaging\\models.py",
       "complexity": 0
     },
     {
@@ -66,11 +44,15 @@
       "complexity": 0
     },
     {
-      "path": "src\\services\\messaging\\history_service\\__init__.py",
+      "path": "src\\services\\messaging\\broadcast_service\\__init__.py",
       "complexity": 0
     },
     {
-      "path": "src\\discord_commander\\communication_engine\\__init__.py",
+      "path": "src\\services\\messaging\\cli\\perf_cli\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\discord_commander\\webhook\\__init__.py",
       "complexity": 0
     },
     {
@@ -78,7 +60,7 @@
       "complexity": 0
     },
     {
-      "path": "src\\discord_commander\\webhook\\__init__.py",
+      "path": "src\\discord_commander\\communication_engine\\__init__.py",
       "complexity": 0
     },
     {
@@ -90,37 +72,32 @@
       "complexity": 0
     }
   ],
-  "average_complexity": 11.666666666666666,
-  "total_files": 21,
+  "average_complexity": 4.705882352941177,
+  "total_files": 17,
   "complexity_ranges": {
     "simple": [
-      "src\\web\\static\\js\\dashboard.js",
+      "src\\web\\static\\js\\dashboard-new.js",
       "src\\web\\static\\js\\dashboard-utils.js",
       "src\\web\\static\\js\\performance\\performance-optimization-orchestrator.js",
-      "src\\web\\static\\js\\trading-robot\\chart-validation\\module.js",
+      "src\\web\\static\\js\\trading-robot\\chart-state-validation-module.js",
       "src\\web\\static\\js\\utilities\\unified-utilities.js",
-      "src\\services\\messaging\\cli\\messaging_cli_clean.py",
-      "src\\services\\messaging\\broadcast_service\\__init__.py",
+      "src\\services\\messaging\\models.py",
       "src\\services\\messaging\\providers\\fallback_provider\\__init__.py",
-      "src\\services\\messaging\\history_service\\__init__.py",
-      "src\\discord_commander\\communication_engine\\__init__.py",
-      "src\\discord_commander\\messaging_gateway\\__init__.py",
+      "src\\services\\messaging\\broadcast_service\\__init__.py",
+      "src\\services\\messaging\\cli\\perf_cli\\__init__.py",
       "src\\discord_commander\\webhook\\__init__.py",
+      "src\\discord_commander\\messaging_gateway\\__init__.py",
+      "src\\discord_commander\\communication_engine\\__init__.py",
       "src\\onboarding\\onboarding_bridge\\__init__.py",
       "src\\onboarding\\__init__.py"
     ],
     "moderate": [
-      "src\\services\\consolidated_messaging_service.py"
+      "tools\\captain_snapshot.py"
     ],
-    "complex": [
-      "src\\core\\coordinate_loader_backup.py"
-    ],
+    "complex": [],
     "very_complex": [
       "archive\\captain_handbooks_consolidated\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\orchestrators\\emergency_orchestrator.py",
-      "src\\services\\handlers_orchestrator.py",
-      "src\\services\\unified_vector_service.py",
-      "src\\services\\agent_management\\consolidated_service.py",
-      "src\\core\\coordinate_loader_new.py"
+      "src\\services\\agent_management\\consolidated_service.py"
     ]
   }
 }

@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 #!/usr/bin/env python3
 """"
 Data Optimization Models - V2 Compliance Module
@@ -60,7 +62,7 @@ def create_optimization_config(strategy: str = "sequential") -> OptimizationConf
 if __name__ == "__main__":"
     # Example usage
     config = create_optimization_config("parallel")"
-    print(f"Created config: {config}")"
+    logger.info(f"Created config: {config}")"
 
 """"
 EXAMPLE USAGE:
@@ -80,14 +82,14 @@ component = Data_Optimization_Models(config)
 
 # Execute primary functionality
 result = component.process_data(input_data)
-print(f"Processing result: {result}")"
+logger.info(f"Processing result: {result}")"
 
 # Advanced usage with error handling
 try:
     advanced_result = component.advanced_operation(data, options={"optimize": True})"
-    print(f"Advanced operation completed: {advanced_result}")"
+    logger.info(f"Advanced operation completed: {advanced_result}")"
 except ProcessingError as e:
-    print(f"Operation failed: {e}")"
+    logger.info(f"Operation failed: {e}")"
     # Implement recovery logic
 
     """Optimization levels.""""

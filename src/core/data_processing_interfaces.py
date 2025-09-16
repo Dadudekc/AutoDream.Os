@@ -97,3 +97,8 @@ class IAsyncTaskManager(Protocol):
     def cleanup_completed_tasks(self) -> int:
         """Clean up completed tasks and return count."""
         ...
+
+
+
+
+

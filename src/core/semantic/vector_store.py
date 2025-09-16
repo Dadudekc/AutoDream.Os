@@ -1,4 +1,6 @@
 from __future__ import annotations
+import logging
+logger = logging.getLogger(__name__)
 
 """
 Simple vector store for semantic search.
@@ -51,14 +53,14 @@ component = Vector_Store(config)
 
 # Execute primary functionality
 result = component.process_data(input_data)
-print(f"Processing result: {result}")
+logger.info(f"Processing result: {result}")
 
 # Advanced usage with error handling
 try:
     advanced_result = component.advanced_operation(data, options={"optimize": True})
-    print(f"Advanced operation completed: {advanced_result}")
+    logger.info(f"Advanced operation completed: {advanced_result}")
 except ProcessingError as e:
-    print(f"Operation failed: {e}")
+    logger.info(f"Operation failed: {e}")
     # Implement recovery logic
 
         """Load vectors and metadata from disk."""
@@ -76,7 +78,7 @@ except ProcessingError as e:
                     self.metadata = json.load(f)
 
             except Exception as e:
-                print(f"Warning: Could not load vector store: {e}")
+                logger.info(f"Warning: Could not load vector store: {e}")
 
     def _save(self):
         """Save vectors and metadata to disk."""
@@ -92,7 +94,7 @@ except ProcessingError as e:
                 json.dump(self.metadata, f, indent=2, ensure_ascii=False)
 
         except Exception as e:
-            print(f"Warning: Could not save vector store: {e}")
+            logger.info(f"Warning: Could not save vector store: {e}")
 
     def add(self, ids: list[str], vectors: np.ndarray, metadata: list[dict] | None = None):
         """Add vectors to the store."""

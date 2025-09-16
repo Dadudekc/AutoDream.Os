@@ -15,8 +15,8 @@ import logging
 from datetime import datetime
 from typing import Dict, List, Optional
 
-from src.core.contracts import ContractType, AgentContract
-from src.core.fsm import AgentState
+from src.core.coordination.contract_system import ContractType, AgentContract
+from src.core.coordination.fsm_system import AgentState
 
 logger = logging.getLogger(__name__)
 

@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Response Handler Middleware
 ==========================
@@ -25,7 +27,7 @@ class ResponseHandlerMiddleware:
 # Initialize and use
 instance = Response_Handler_Middleware()
 result = instance.execute()
-print(f"Execution result: {result}")
+logger.info(f"Execution result: {result}")
 
 # Advanced configuration
 config = {
@@ -35,7 +37,7 @@ config = {
 
 instance = Response_Handler_Middleware(config)
 advanced_result = instance.execute_advanced()
-print(f"Advanced result: {advanced_result}")
+logger.info(f"Advanced result: {advanced_result}")
 
         """Add CORS headers decorator."""
 

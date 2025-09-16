@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """Utility helpers for vector configuration (SSOT)."""
 
 from typing import Any
@@ -24,7 +26,7 @@ service = Vector_Config_UtilsService()
 
 # Basic service operation
 response = service.handle_request(request_data)
-print(f"Service response: {response}")
+logger.info(f"Service response: {response}")
 
 # Service with dependency injection
 from src.core.dependency_container import Container
@@ -34,7 +36,7 @@ service = container.get(Vector_Config_UtilsService)
 
 # Execute service method
 result = service.execute_operation(input_data, context)
-print(f"Operation result: {result}")
+logger.info(f"Operation result: {result}")
 
     """
     return {

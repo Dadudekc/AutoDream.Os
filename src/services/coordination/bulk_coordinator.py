@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Bulk Coordinator - V2 Compliant Module
 =====================================
@@ -34,7 +36,7 @@ service = Bulk_CoordinatorService()
 
 # Basic service operation
 response = service.handle_request(request_data)
-print(f"Service response: {response}")
+logger.info(f"Service response: {response}")
 
 # Service with dependency injection
 from src.core.dependency_container import Container
@@ -44,7 +46,7 @@ service = container.get(Bulk_CoordinatorService)
 
 # Execute service method
 result = service.execute_operation(input_data, context)
-print(f"Operation result: {result}")
+logger.info(f"Operation result: {result}")
 
     """
 

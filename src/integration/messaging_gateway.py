@@ -159,15 +159,15 @@ class MessagingGateway:
             def send_message(
                 self, message: str, target: dict[str, Any], **kwargs
             ) -> dict[str, Any]:
-                print(f"📤 [BASIC] {target.get('window_title', '?')}: {message[:60]}...")
+                logger.info(f"📤 [BASIC] {target.get('window_title', '?')}: {message[:60]}...")
                 return {"ok": True, "channel": kwargs.get("channel", "pyautogui")}
 
             def receive_message(self, source: dict[str, Any]):
-                print(f"📥 [BASIC] receive from {source.get('window_title', '?')}")
+                logger.info(f"📥 [BASIC] receive from {source.get('window_title', '?')}")
                 return {"ok": True, "messages": []}
 
             def from src.services.messaging.shared import broadcast_message(self, message: str, **kwargs) -> dict[str, Any]:
-                print(f"📢 [BASIC] broadcast: {message[:60]}...")
+                logger.info(f"📢 [BASIC] broadcast: {message[:60]}...")
                 return {"ok": True}
 
         return BasicMessagingCore()

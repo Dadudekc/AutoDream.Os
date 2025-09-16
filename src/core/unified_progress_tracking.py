@@ -123,7 +123,7 @@ class UnifiedProgressTrackingSystem:
     def __init__(self):
     """# Example usage:
 result = __init__("example_value")
-print(f"Result: {result}")"""
+logger.info(f"Result: {result}")"""
         self.logger = logging.getLogger(__name__)
         self.dashboard = UnifiedProgressDashboard()
         self._lock = threading.Lock()
@@ -546,44 +546,44 @@ logger.info("📊 Real-time progress monitoring and superiority benchmark tracki
 if __name__ == "__main__":
     """Demonstrate module functionality with practical examples."""
 
-    print("🐝 Module Examples - Practical Demonstrations")
+    logger.info("🐝 Module Examples - Practical Demonstrations")
     print("=" * 50)
     # Function demonstrations
-    print(f"\n📋 Testing get_unified_progress_tracking_system():")
+    logger.info(f"\n📋 Testing get_unified_progress_tracking_system():")
     try:
         # Add your function call here
-        print(f"✅ get_unified_progress_tracking_system executed successfully")
+        logger.info(f"✅ get_unified_progress_tracking_system executed successfully")
     except Exception as e:
-        print(f"❌ get_unified_progress_tracking_system failed: {e}")
+        logger.info(f"❌ get_unified_progress_tracking_system failed: {e}")
 
-    print(f"\n📋 Testing __init__():")
+    logger.info(f"\n📋 Testing __init__():")
     try:
         # Add your function call here
-        print(f"✅ __init__ executed successfully")
+        logger.info(f"✅ __init__ executed successfully")
     except Exception as e:
-        print(f"❌ __init__ failed: {e}")
+        logger.info(f"❌ __init__ failed: {e}")
 
-    print(f"\n📋 Testing _initialize_agents():")
+    logger.info(f"\n📋 Testing _initialize_agents():")
     try:
         # Add your function call here
-        print(f"✅ _initialize_agents executed successfully")
+        logger.info(f"✅ _initialize_agents executed successfully")
     except Exception as e:
-        print(f"❌ _initialize_agents failed: {e}")
+        logger.info(f"❌ _initialize_agents failed: {e}")
 
     # Class demonstrations
-    print(f"\n🏗️  Testing ProgressPhase class:")
+    logger.info(f"\n🏗️  Testing ProgressPhase class:")
     try:
         instance = ProgressPhase()
-        print(f"✅ ProgressPhase instantiated successfully")
+        logger.info(f"✅ ProgressPhase instantiated successfully")
     except Exception as e:
-        print(f"❌ ProgressPhase failed: {e}")
+        logger.info(f"❌ ProgressPhase failed: {e}")
 
-    print(f"\n🏗️  Testing SuperiorityBenchmark class:")
+    logger.info(f"\n🏗️  Testing SuperiorityBenchmark class:")
     try:
         instance = SuperiorityBenchmark()
-        print(f"✅ SuperiorityBenchmark instantiated successfully")
+        logger.info(f"✅ SuperiorityBenchmark instantiated successfully")
     except Exception as e:
-        print(f"❌ SuperiorityBenchmark failed: {e}")
+        logger.info(f"❌ SuperiorityBenchmark failed: {e}")
 
-    print("\n🎉 All examples completed!")
-    print("🐝 WE ARE SWARM - PRACTICAL CODE IN ACTION!")
+    logger.info("\n🎉 All examples completed!")
+    logger.info("🐝 WE ARE SWARM - PRACTICAL CODE IN ACTION!")

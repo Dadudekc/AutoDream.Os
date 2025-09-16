@@ -30,7 +30,7 @@ from src.infrastructure.browser.thea_modules.browser_ops import Browser_Ops
 # Initialize and use
 instance = Browser_Ops()
 result = instance.execute()
-print(f"Execution result: {result}")
+logger.info(f"Execution result: {result}")
 
 # Advanced configuration
 config = {
@@ -40,7 +40,7 @@ config = {
 
 instance = Browser_Ops(config)
 advanced_result = instance.execute_advanced()
-print(f"Advanced result: {advanced_result}")
+logger.info(f"Advanced result: {advanced_result}")
 
         """Initialize browser operations with driver and configuration."""
         self.driver = driver

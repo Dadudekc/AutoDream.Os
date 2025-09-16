@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Vector Database Middleware
 =========================
@@ -36,7 +38,7 @@ from src.web.vector_database.middleware import Middleware
 # Initialize and use
 instance = Middleware()
 result = instance.execute()
-print(f"Execution result: {result}")
+logger.info(f"Execution result: {result}")
 
 # Advanced configuration
 config = {
@@ -46,7 +48,7 @@ config = {
 
 instance = Middleware(config)
 advanced_result = instance.execute_advanced()
-print(f"Advanced result: {advanced_result}")
+logger.info(f"Advanced result: {advanced_result}")
 
     """
 

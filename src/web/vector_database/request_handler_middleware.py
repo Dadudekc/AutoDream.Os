@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Request Handler Middleware
 =========================
@@ -28,7 +30,7 @@ class RequestHandlerMiddleware:
 # Initialize and use
 instance = Request_Handler_Middleware()
 result = instance.execute()
-print(f"Execution result: {result}")
+logger.info(f"Execution result: {result}")
 
 # Advanced configuration
 config = {
@@ -38,7 +40,7 @@ config = {
 
 instance = Request_Handler_Middleware(config)
 advanced_result = instance.execute_advanced()
-print(f"Advanced result: {advanced_result}")
+logger.info(f"Advanced result: {advanced_result}")
 
         """Require JSON data decorator."""
         from flask import jsonify

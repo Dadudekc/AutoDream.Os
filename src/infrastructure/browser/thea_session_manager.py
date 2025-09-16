@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Thea Session Manager
 ===================
@@ -70,11 +72,11 @@ from src.infrastructure.browser.thea_session_manager import TheaSessionManager
 # Initialize and use
 manager = TheaSessionManager()
 session_id = manager.create_session("test_service")
-print(f"Session created: {session_id}")
+logger.info(f"Session created: {session_id}")
 
 # Advanced configuration
 config = RateLimitConfig(requests_per_minute=20, burst_limit=10)
 manager = TheaSessionManager(config)
 can_request, message = manager.can_make_request("test_service", session_id)
-print(f"Can make request: {can_request}, Message: {message}")
+logger.info(f"Can make request: {can_request}, Message: {message}")
 """

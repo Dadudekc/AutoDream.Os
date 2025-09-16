@@ -13,15 +13,16 @@ Author: Agent-2 (Architecture & Design Specialist)
 License: MIT
 """
 
-from enum import Enum
-from datetime import datetime
-from typing import Dict, List, Optional
 import logging
+from datetime import datetime
+from enum import Enum
 
 logger = logging.getLogger(__name__)
 
+
 class AgentState(Enum):
     """Finite State Machine states for agents."""
+
     UNINITIALIZED = "uninitialized"
     ONBOARDING = "onboarding"
     IDLE = "idle"
@@ -32,8 +33,10 @@ class AgentState(Enum):
     CYCLE_COMPLETION = "cycle_completion"
     ERROR_RECOVERY = "error_recovery"
 
+
 class ContractType(Enum):
     """Types of contracts agents can enter."""
+
     DEDUPLICATION = "deduplication"
     V2_COMPLIANCE = "v2_compliance"
     ARCHITECTURE = "architecture"
@@ -42,11 +45,18 @@ class ContractType(Enum):
     COORDINATION = "coordination"
     ONBOARDING = "onboarding"
 
+
 class AgentContract:
     """Contract system for agent task commitments."""
-    
-    def __init__(self, agent_id: str, contract_type: ContractType, 
-                 description: str, estimated_cycles: int, dependencies: List[str] = None):
+
+    def __init__(
+        self,
+        agent_id: str,
+        contract_type: ContractType,
+        description: str,
+        estimated_cycles: int,
+        dependencies: list[str] = None,
+    ):
         self.agent_id = agent_id
         self.contract_type = contract_type
         self.description = description
@@ -57,7 +67,7 @@ class AgentContract:
         self.cycle_end = None
         self.progress_percentage = 0
         self.created_at = datetime.now()
-        
+
     def to_dict(self):
         return {
             "agent_id": self.agent_id,
@@ -67,12 +77,13 @@ class AgentContract:
             "dependencies": self.dependencies,
             "status": self.status,
             "progress_percentage": self.progress_percentage,
-            "created_at": self.created_at.isoformat()
+            "created_at": self.created_at.isoformat(),
         }
+
 
 class OnboardingCoordinator:
     """Coordinates agent onboarding process."""
-    
+
     def __init__(self, coordination_service):
         self.coordination_service = coordination_service
         self.agent_roles = {
@@ -83,29 +94,29 @@ class OnboardingCoordinator:
             "Agent-5": "Business Intelligence Specialist",
             "Agent-6": "Coordination & Communication Specialist",
             "Agent-7": "Web Development Specialist",
-            "Agent-8": "SSOT & System Integration Specialist"
+            "Agent-8": "SSOT & System Integration Specialist",
         }
-    
+
     def perform_agent_onboarding(self, agent_id: str, role: str) -> bool:
         """Perform onboarding for a specific agent."""
         try:
             logger.info(f"🚀 Starting onboarding for {agent_id} - {role}")
-            
+
             # Get agent coordinates
             coords = self.coordination_service.get_onboarding_coordinates(agent_id)
             if not coords:
                 logger.error(f"❌ No coordinates found for {agent_id}")
                 return False
-            
+
             # Create onboarding contract
             contract = self.create_onboarding_contract(agent_id)
             self.coordination_service.contracts[agent_id] = contract
-            
+
             # Create onboarding message
             message = self.create_onboarding_message(agent_id, role)
-            
+
             # Send onboarding message (if PyAutoGUI available)
-            if hasattr(self.coordination_service, 'send_message'):
+            if hasattr(self.coordination_service, "send_message"):
                 success = self.coordination_service.send_message(agent_id, message)
                 if success:
                     logger.info(f"✅ Onboarding message sent to {agent_id}")
@@ -118,24 +129,24 @@ class OnboardingCoordinator:
                 logger.info(f"📝 Onboarding message for {agent_id}: {message}")
                 contract.status = "active"
                 return True
-                
+
         except Exception as e:
             logger.error(f"❌ Onboarding failed for {agent_id}: {e}")
             return False
-    
+
     def create_onboarding_contract(self, agent_id: str) -> AgentContract:
         """Create onboarding contract for agent."""
         return AgentContract(
             agent_id=agent_id,
             contract_type=ContractType.ONBOARDING,
             description=f"Onboarding contract for {agent_id}",
-            estimated_cycles=2
+            estimated_cycles=2,
         )
-    
+
     def create_onboarding_message(self, agent_id: str, role: str) -> str:
         """Create onboarding message for agent."""
         role_guidance = self._get_role_onboarding_guidance(agent_id)
-        
+
         message = f"""
 ============================================================
 🚀 AGENT ONBOARDING - {agent_id}
@@ -167,11 +178,11 @@ Ready to begin your specialist journey!
 ------------------------------------------------------------
 """
         return message
-    
+
     def _get_role_onboarding_guidance(self, agent_id: str) -> str:
         """Get role-specific onboarding guidance."""
         role = self.agent_roles.get(agent_id, "Specialist")
-        
+
         guidance_templates = {
             "Agent-1": """
 CORE RESPONSIBILITIES:
@@ -276,10 +287,12 @@ ONBOARDING TASKS:
 2. Analyze system integration points and processes
 3. Identify integration enhancement opportunities
 4. Prepare for system integration development
-"""
+""",
         }
-        
-        return guidance_templates.get(agent_id, f"""
+
+        return guidance_templates.get(
+            agent_id,
+            f"""
 CORE RESPONSIBILITIES:
 - {role} specialized tasks and responsibilities
 - System optimization and enhancement
@@ -291,38 +304,41 @@ ONBOARDING TASKS:
 2. Analyze specialized tools and frameworks
 3. Identify enhancement opportunities
 4. Prepare for specialized development work
-""")
-    
-    def onboard_all_agents(self) -> Dict[str, bool]:
+""",
+        )
+
+    def onboard_all_agents(self) -> dict[str, bool]:
         """Onboard all agents in the swarm."""
         logger.info("🚀 Starting onboarding for all agents...")
         results = {}
-        
+
         for agent_id, role in self.agent_roles.items():
             logger.info(f"📋 Onboarding {agent_id} - {role}")
             results[agent_id] = self.perform_agent_onboarding(agent_id, role)
-        
+
         successful_onboards = sum(1 for success in results.values() if success)
-        logger.info(f"✅ Onboarding complete: {successful_onboards}/{len(results)} agents onboarded successfully")
-        
+        logger.info(
+            f"✅ Onboarding complete: {successful_onboards}/{len(results)} agents onboarded successfully"
+        )
+
         return results
-    
+
     def get_agent_specific_prompt(self, agent_id: str) -> str:
         """Get agent-specific prompt based on state and contract."""
         try:
             # Get agent FSM state
             fsm = self.coordination_service.agent_fsms.get(agent_id)
             current_state = fsm.current_state if fsm else AgentState.UNINITIALIZED
-            
+
             # Get agent contract
             contract = self.coordination_service.contracts.get(agent_id)
-            
+
             # Check if agent is onboarded
             is_onboarded = current_state != AgentState.UNINITIALIZED
-            
+
             # Get role
             role = self.agent_roles.get(agent_id, "Specialist")
-            
+
             # Generate agent-specific instructions
             if agent_id == "Agent-1":
                 return self._get_agent1_instructions(current_state, contract, is_onboarded)
@@ -342,12 +358,14 @@ ONBOARDING TASKS:
                 return self._get_agent8_instructions(current_state, contract, is_onboarded)
             else:
                 return f"General instructions for {agent_id} - {role}"
-                
+
         except Exception as e:
             logger.error(f"❌ Failed to get agent-specific prompt for {agent_id}: {e}")
             return f"Error generating prompt for {agent_id}"
-    
-    def _get_agent1_instructions(self, state: AgentState, contract: Optional[AgentContract], is_onboarded: bool) -> str:
+
+    def _get_agent1_instructions(
+        self, state: AgentState, contract: AgentContract | None, is_onboarded: bool
+    ) -> str:
         """Get Agent-1 specific instructions."""
         if not is_onboarded:
             return """
@@ -371,8 +389,10 @@ Ready to begin your integration specialist journey!
 """
         # Additional state-based instructions...
         return "Agent-1 specific instructions based on state and contract"
-    
-    def _get_agent2_instructions(self, state: AgentState, contract: Optional[AgentContract], is_onboarded: bool) -> str:
+
+    def _get_agent2_instructions(
+        self, state: AgentState, contract: AgentContract | None, is_onboarded: bool
+    ) -> str:
         """Get Agent-2 specific instructions."""
         if not is_onboarded:
             return """
@@ -396,8 +416,10 @@ Ready to begin your architecture specialist journey!
 """
         # Additional state-based instructions...
         return "Agent-2 specific instructions based on state and contract"
-    
-    def _get_agent3_instructions(self, state: AgentState, contract: Optional[AgentContract], is_onboarded: bool) -> str:
+
+    def _get_agent3_instructions(
+        self, state: AgentState, contract: AgentContract | None, is_onboarded: bool
+    ) -> str:
         """Get Agent-3 specific instructions."""
         if not is_onboarded:
             return """
@@ -421,8 +443,10 @@ Ready to begin your infrastructure specialist journey!
 """
         # Additional state-based instructions...
         return "Agent-3 specific instructions based on state and contract"
-    
-    def _get_agent4_instructions(self, state: AgentState, contract: Optional[AgentContract], is_onboarded: bool) -> str:
+
+    def _get_agent4_instructions(
+        self, state: AgentState, contract: AgentContract | None, is_onboarded: bool
+    ) -> str:
         """Get Agent-4 specific instructions."""
         if not is_onboarded:
             return """
@@ -446,8 +470,10 @@ Ready to begin your captain journey!
 """
         # Additional state-based instructions...
         return "Agent-4 specific instructions based on state and contract"
-    
-    def _get_agent5_instructions(self, state: AgentState, contract: Optional[AgentContract], is_onboarded: bool) -> str:
+
+    def _get_agent5_instructions(
+        self, state: AgentState, contract: AgentContract | None, is_onboarded: bool
+    ) -> str:
         """Get Agent-5 specific instructions."""
         if not is_onboarded:
             return """
@@ -471,8 +497,10 @@ Ready to begin your BI specialist journey!
 """
         # Additional state-based instructions...
         return "Agent-5 specific instructions based on state and contract"
-    
-    def _get_agent6_instructions(self, state: AgentState, contract: Optional[AgentContract], is_onboarded: bool) -> str:
+
+    def _get_agent6_instructions(
+        self, state: AgentState, contract: AgentContract | None, is_onboarded: bool
+    ) -> str:
         """Get Agent-6 specific instructions."""
         if not is_onboarded:
             return """
@@ -496,8 +524,10 @@ Ready to begin your coordination specialist journey!
 """
         # Additional state-based instructions...
         return "Agent-6 specific instructions based on state and contract"
-    
-    def _get_agent7_instructions(self, state: AgentState, contract: Optional[AgentContract], is_onboarded: bool) -> str:
+
+    def _get_agent7_instructions(
+        self, state: AgentState, contract: AgentContract | None, is_onboarded: bool
+    ) -> str:
         """Get Agent-7 specific instructions."""
         if not is_onboarded:
             return """
@@ -521,8 +551,10 @@ Ready to begin your web development specialist journey!
 """
         # Additional state-based instructions...
         return "Agent-7 specific instructions based on state and contract"
-    
-    def _get_agent8_instructions(self, state: AgentState, contract: Optional[AgentContract], is_onboarded: bool) -> str:
+
+    def _get_agent8_instructions(
+        self, state: AgentState, contract: AgentContract | None, is_onboarded: bool
+    ) -> str:
         """Get Agent-8 specific instructions."""
         if not is_onboarded:
             return """

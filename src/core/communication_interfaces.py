@@ -13,7 +13,7 @@ License: MIT
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional, Protocol
+from typing import Any, Protocol
 
 
 class IMessageHandler(Protocol):
@@ -27,7 +27,7 @@ class IMessageHandler(Protocol):
         """Check if handler can handle message type."""
         ...
 
-    def get_supported_types(self) -> List[str]:
+    def get_supported_types(self) -> list[str]:
         """Get list of supported message types."""
         ...
 
@@ -41,7 +41,7 @@ class ICommunicationChannel(ABC):
         pass
 
     @abstractmethod
-    def receive(self) -> Optional[Any]:
+    def receive(self) -> Any | None:
         """Receive a message from the channel."""
         pass
 
@@ -80,11 +80,7 @@ class ICommunicationSystem(Protocol):
         """Broadcast message to all channels."""
         ...
 
-    def get_available_channels(self) -> List[str]:
+    def get_available_channels(self) -> list[str]:
         """Get list of available channels."""
         ...
-
-
-
-
 

@@ -10,15 +10,15 @@ Reads from runtime/agents_index.json and presents a concise table.
 
 Author: Agent-4 - Strategic Oversight & Emergency Intervention Manager
 """
+import json
+import logging
+import os
+import sys
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-import sys
-import os
-import json
-import logging
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 ROOT = Path(__file__).resolve().parents[1]
 INDEX_FILE = ROOT / "runtime" / "agents_index.json"
@@ -41,14 +41,14 @@ def calculate_staleness(last_updated: str) -> tuple[int, str]:
     try:
         if not last_updated:
             return 999, "❌ NO DATA"
-        
+
         # Parse the timestamp
-        last_time = datetime.fromisoformat(last_updated.replace('Z', '+00:00'))
+        last_time = datetime.fromisoformat(last_updated.replace("Z", "+00:00"))
         now = datetime.now(UTC)
-        
+
         # Calculate difference in minutes
         diff_minutes = int((now - last_time).total_seconds() / 60)
-        
+
         # Determine status
         if diff_minutes < 5:
             status = "🟢 FRESH"
@@ -58,10 +58,11 @@ def calculate_staleness(last_updated: str) -> tuple[int, str]:
             status = "🟠 STALE"
         else:
             status = "🔴 DEAD"
-            
+
         return diff_minutes, status
     except Exception:
         return 999, "❌ ERROR"
+
 
 # EXAMPLE USAGE:
 # ==============
@@ -75,10 +76,7 @@ def calculate_staleness(last_updated: str) -> tuple[int, str]:
 # logger.info(f"Execution result: {result}")
 
 # Advanced configuration
-config = {
-    "option1": "value1",
-    "option2": True
-}
+config = {"option1": "value1", "option2": True}
 
 # instance = Captain_Snapshot(config)
 # advanced_result = instance.execute_advanced()

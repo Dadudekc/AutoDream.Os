@@ -14,8 +14,6 @@ License: MIT
 import time
 from typing import Any
 
-import pytest
-
 from src.commandresult import CommandResult
 
 
@@ -24,7 +22,7 @@ class TestCommandResultIntegration:
 
     def test_message_sending_workflow(self):
         """Test CommandResult in a message sending workflow."""
-        
+
         def send_message(recipient: str, content: str) -> CommandResult:
             """Simulate sending a message."""
             if not recipient or not content:
@@ -64,7 +62,7 @@ class TestCommandResultIntegration:
 
     def test_database_operation_workflow(self):
         """Test CommandResult in a database operation workflow."""
-        
+
         def save_user_data(user_data: dict[str, Any]) -> CommandResult:
             """Simulate saving user data to database."""
             start_time = time.time()
@@ -117,7 +115,7 @@ class TestCommandResultIntegration:
 
     def test_swarm_coordination_workflow(self):
         """Test CommandResult in swarm coordination scenarios."""
-        
+
         def coordinate_task(task_name: str, agents: list) -> CommandResult:
             """Simulate coordinating a task across agents."""
             start_time = time.time()
@@ -134,11 +132,13 @@ class TestCommandResultIntegration:
             # Simulate coordination
             assignments = []
             for agent in agents:
-                assignments.append({
-                    "agent": agent,
-                    "status": "assigned",
-                    "task_portion": f"portion_{len(assignments) + 1}",
-                })
+                assignments.append(
+                    {
+                        "agent": agent,
+                        "status": "assigned",
+                        "task_portion": f"portion_{len(assignments) + 1}",
+                    }
+                )
 
             execution_time = time.time() - start_time
             return CommandResult(
@@ -167,7 +167,7 @@ class TestCommandResultIntegration:
 
     def test_performance_monitoring(self):
         """Test CommandResult performance tracking capabilities."""
-        
+
         def execute_with_performance_tracking(operation_func, *args, **kwargs) -> CommandResult:
             """Execute an operation with performance monitoring."""
             start_time = time.time()
@@ -220,7 +220,7 @@ class TestCommandResultIntegration:
 
     def test_error_handling_patterns(self):
         """Test various error handling patterns with CommandResult."""
-        
+
         def risky_operation(
             should_fail: bool = False, error_type: str = "general"
         ) -> CommandResult:
@@ -295,29 +295,29 @@ class TestCommandResultIntegration:
 
     def test_batch_processing_workflow(self):
         """Test CommandResult in batch processing scenarios."""
-        
+
         def process_batch(items: list, batch_size: int = 5) -> CommandResult:
             """Simulate batch processing with progress tracking."""
             start_time = time.time()
-            
+
             if not items:
                 return CommandResult(
                     success=False,
                     message="No items to process",
                     data={"error": "empty_batch"},
                     execution_time=0.01,
-                    agent="Agent-5"
+                    agent="Agent-5",
                 )
-            
+
             try:
                 processed_items = []
-                batches = [items[i:i + batch_size] for i in range(0, len(items), batch_size)]
-                
+                batches = [items[i : i + batch_size] for i in range(0, len(items), batch_size)]
+
                 for i, batch in enumerate(batches):
                     # Simulate processing each batch
                     time.sleep(0.01)  # Simulate work
                     processed_items.extend([f"processed_{item}" for item in batch])
-                
+
                 execution_time = time.time() - start_time
                 return CommandResult(
                     success=True,
@@ -330,13 +330,13 @@ class TestCommandResultIntegration:
                         "processing_summary": {
                             "total_batches": len(batches),
                             "items_per_batch": batch_size,
-                            "execution_time": round(execution_time, 3)
-                        }
+                            "execution_time": round(execution_time, 3),
+                        },
                     },
                     execution_time=round(execution_time, 3),
-                    agent="Agent-5"
+                    agent="Agent-5",
                 )
-                
+
             except Exception as e:
                 execution_time = time.time() - start_time
                 return CommandResult(
@@ -344,9 +344,9 @@ class TestCommandResultIntegration:
                     message=f"Batch processing failed: {str(e)}",
                     data={"error": str(e), "items_count": len(items)},
                     execution_time=round(execution_time, 3),
-                    agent="Agent-5"
+                    agent="Agent-5",
                 )
-        
+
         # Test successful batch processing
         test_items = list(range(1, 16))  # 15 items
         result = process_batch(test_items, batch_size=5)
@@ -355,7 +355,7 @@ class TestCommandResultIntegration:
         assert result.data["total_items"] == 15
         assert result.data["batches_processed"] == 3
         assert result.data["batch_size"] == 5
-        
+
         # Test empty batch
         result = process_batch([])
         assert result.success is False
@@ -363,19 +363,19 @@ class TestCommandResultIntegration:
 
     def test_retry_mechanism_workflow(self):
         """Test CommandResult in retry mechanism scenarios."""
-        
+
         def operation_with_retry(max_retries: int = 3) -> CommandResult:
             """Simulate an operation with retry mechanism."""
             start_time = time.time()
             attempts = 0
-            
+
             while attempts < max_retries:
                 attempts += 1
                 try:
                     # Simulate operation that might fail
                     if attempts < max_retries:
                         raise ConnectionError("Temporary connection issue")
-                    
+
                     # Success on final attempt
                     execution_time = time.time() - start_time
                     return CommandResult(
@@ -384,12 +384,12 @@ class TestCommandResultIntegration:
                         data={
                             "attempts": attempts,
                             "max_retries": max_retries,
-                            "final_attempt": True
+                            "final_attempt": True,
                         },
                         execution_time=round(execution_time, 3),
-                        agent="Agent-7"
+                        agent="Agent-7",
                     )
-                    
+
                 except ConnectionError as e:
                     if attempts >= max_retries:
                         execution_time = time.time() - start_time
@@ -400,14 +400,14 @@ class TestCommandResultIntegration:
                                 "error": str(e),
                                 "attempts": attempts,
                                 "max_retries": max_retries,
-                                "retryable": False
+                                "retryable": False,
                             },
                             execution_time=round(execution_time, 3),
-                            agent="Agent-7"
+                            agent="Agent-7",
                         )
                     # Continue to next attempt
                     time.sleep(0.01)  # Simulate retry delay
-            
+
             # Should not reach here
             execution_time = time.time() - start_time
             return CommandResult(
@@ -415,9 +415,9 @@ class TestCommandResultIntegration:
                 message="Unexpected retry loop exit",
                 data={"error": "unexpected_exit"},
                 execution_time=round(execution_time, 3),
-                agent="Agent-7"
+                agent="Agent-7",
             )
-        
+
         # Test successful retry
         result = operation_with_retry(max_retries=3)
         assert result.success is True

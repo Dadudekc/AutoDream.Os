@@ -16,7 +16,6 @@ Author: Agent-3 (Infrastructure & DevOps Specialist)
 License: MIT
 """
 
-import json
 import logging
 import re
 from abc import ABC, abstractmethod
@@ -77,15 +76,17 @@ class EnvironmentVariableScanner(ConfigurationScanner):
                 matches = re.finditer(pattern, line)
                 for match in matches:
                     key = match.group(1)
-                    patterns.append(ConfigPattern(
-                        file_path=file_path,
-                        line_number=i,
-                        pattern_type=pattern_type,
-                        key=key,
-                        value=None,
-                        context=line.strip(),
-                        source="environment_variable"
-                    ))
+                    patterns.append(
+                        ConfigPattern(
+                            file_path=file_path,
+                            line_number=i,
+                            pattern_type=pattern_type,
+                            key=key,
+                            value=None,
+                            context=line.strip(),
+                            source="environment_variable",
+                        )
+                    )
 
         return patterns
 
@@ -99,11 +100,11 @@ class JSONConfigScanner(ConfigurationScanner):
     def scan_file(self, file_path: Path, lines: list[str]) -> list[ConfigPattern]:
         """Scan for JSON configuration patterns."""
         patterns = []
-        
+
         # Look for JSON file loading patterns
         json_patterns = [
             (r'json\.load\(open\(["\']([^"\']+)["\']', "json_load_file"),
-            (r'json\.loads\(([^)]+)\)', "json_loads_string"),
+            (r"json\.loads\(([^)]+)\)", "json_loads_string"),
             (r'\.json["\']', "json_file_extension"),
         ]
 
@@ -112,15 +113,17 @@ class JSONConfigScanner(ConfigurationScanner):
                 matches = re.finditer(pattern, line)
                 for match in matches:
                     key = match.group(1) if match.groups() else "json_data"
-                    patterns.append(ConfigPattern(
-                        file_path=file_path,
-                        line_number=i,
-                        pattern_type=pattern_type,
-                        key=key,
-                        value=None,
-                        context=line.strip(),
-                        source="json_configuration"
-                    ))
+                    patterns.append(
+                        ConfigPattern(
+                            file_path=file_path,
+                            line_number=i,
+                            pattern_type=pattern_type,
+                            key=key,
+                            value=None,
+                            context=line.strip(),
+                            source="json_configuration",
+                        )
+                    )
 
         return patterns
 
@@ -134,11 +137,11 @@ class YAMLConfigScanner(ConfigurationScanner):
     def scan_file(self, file_path: Path, lines: list[str]) -> list[ConfigPattern]:
         """Scan for YAML configuration patterns."""
         patterns = []
-        
+
         # Look for YAML file loading patterns
         yaml_patterns = [
             (r'yaml\.load\(open\(["\']([^"\']+)["\']', "yaml_load_file"),
-            (r'yaml\.safe_load\(([^)]+)\)', "yaml_safe_load"),
+            (r"yaml\.safe_load\(([^)]+)\)", "yaml_safe_load"),
             (r'\.yaml["\']', "yaml_file_extension"),
             (r'\.yml["\']', "yml_file_extension"),
         ]
@@ -148,15 +151,17 @@ class YAMLConfigScanner(ConfigurationScanner):
                 matches = re.finditer(pattern, line)
                 for match in matches:
                     key = match.group(1) if match.groups() else "yaml_data"
-                    patterns.append(ConfigPattern(
-                        file_path=file_path,
-                        line_number=i,
-                        pattern_type=pattern_type,
-                        key=key,
-                        value=None,
-                        context=line.strip(),
-                        source="yaml_configuration"
-                    ))
+                    patterns.append(
+                        ConfigPattern(
+                            file_path=file_path,
+                            line_number=i,
+                            pattern_type=pattern_type,
+                            key=key,
+                            value=None,
+                            context=line.strip(),
+                            source="yaml_configuration",
+                        )
+                    )
 
         return patterns
 
@@ -170,10 +175,10 @@ class ConfigFileScanner(ConfigurationScanner):
     def scan_file(self, file_path: Path, lines: list[str]) -> list[ConfigPattern]:
         """Scan for configuration file patterns."""
         patterns = []
-        
+
         # Look for configuration file patterns
         config_patterns = [
-            (r'configparser\.ConfigParser\(\)', "config_parser"),
+            (r"configparser\.ConfigParser\(\)", "config_parser"),
             (r'\.ini["\']', "ini_file_extension"),
             (r'\.conf["\']', "conf_file_extension"),
             (r'\.cfg["\']', "cfg_file_extension"),
@@ -185,15 +190,17 @@ class ConfigFileScanner(ConfigurationScanner):
                 matches = re.finditer(pattern, line)
                 for match in matches:
                     key = match.group(1) if match.groups() else "config_data"
-                    patterns.append(ConfigPattern(
-                        file_path=file_path,
-                        line_number=i,
-                        pattern_type=pattern_type,
-                        key=key,
-                        value=None,
-                        context=line.strip(),
-                        source="configuration_file"
-                    ))
+                    patterns.append(
+                        ConfigPattern(
+                            file_path=file_path,
+                            line_number=i,
+                            pattern_type=pattern_type,
+                            key=key,
+                            value=None,
+                            context=line.strip(),
+                            source="configuration_file",
+                        )
+                    )
 
         return patterns
 
@@ -220,14 +227,14 @@ class ConfigurationScannerRegistry:
     def scan_file(self, file_path: Path, lines: list[str]) -> list[ConfigPattern]:
         """Scan a file with all available scanners."""
         all_patterns = []
-        
+
         for scanner in self.scanners.values():
             try:
                 patterns = scanner.scan_file(file_path, lines)
                 all_patterns.extend(patterns)
             except Exception as e:
                 logger.error(f"Scanner {scanner.__class__.__name__} failed for {file_path}: {e}")
-        
+
         return all_patterns
 
     def get_pattern_summary(self, patterns: list[ConfigPattern]) -> dict[str, int]:
@@ -242,19 +249,20 @@ class ConfigurationScannerRegistry:
 if __name__ == "__main__":
     # Example usage
     registry = ConfigurationScannerRegistry()
-    
+
     # Test with sample lines
     sample_lines = [
-        'import os',
+        "import os",
         'api_key = os.getenv("API_KEY")',
         'config = json.load(open("config.json"))',
-        'settings = yaml.safe_load(file)',
-        'parser = configparser.ConfigParser()'
+        "settings = yaml.safe_load(file)",
+        "parser = configparser.ConfigParser()",
     ]
-    
+
     patterns = registry.scan_file(Path("test.py"), sample_lines)
     summary = registry.get_pattern_summary(patterns)
-    
+
     print(f"Found {len(patterns)} configuration patterns:")
     for pattern_type, count in summary.items():
         print(f"  {pattern_type}: {count}")
+

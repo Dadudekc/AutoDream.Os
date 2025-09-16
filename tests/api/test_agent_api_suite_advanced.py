@@ -27,16 +27,12 @@ src_path = Path(__file__).parent.parent.parent / "src"
 sys.path.insert(0, str(src_path))
 
 # Import core components
-from .test_agent_api_suite_core import (
-    IntegrationTestFramework,
-    TestResult,
-    TestStatus
-)
+from .test_agent_api_suite_core import IntegrationTestFramework, TestResult, TestStatus
 
 
 class TestAgentAPISuiteAdvanced:
     """Advanced API testing suite for agent management endpoints"""
-    
+
     def __init__(self):
         self.framework = IntegrationTestFramework()
         self.base_url = "http://localhost:8000/v2"
@@ -72,7 +68,8 @@ class TestAgentAPISuiteAdvanced:
         try:
             # Test agent status filtering
             status_result = self.framework.validate_api_endpoint(
-                "/agents?status=ACTIVE_AGENT_MODE", "GET", expected_status=200)
+                "/agents?status=ACTIVE_AGENT_MODE", "GET", expected_status=200
+            )
 
             assert status_result.status == TestStatus.PASSED, "Status filtering failed"
 
@@ -88,11 +85,13 @@ class TestAgentAPISuiteAdvanced:
             monitoring_result = self._test_status_monitoring()
             assert monitoring_result["monitoring_active"] == True
 
-            result.assertions.extend([
-                {"test": "status_filtering", "status": "passed"},
-                {"test": "status_validation", "status": "passed"},
-                {"test": "monitoring_system", "status": "passed"},
-            ])
+            result.assertions.extend(
+                [
+                    {"test": "status_filtering", "status": "passed"},
+                    {"test": "status_validation", "status": "passed"},
+                    {"test": "monitoring_system", "status": "passed"},
+                ]
+            )
 
             result.status = TestStatus.PASSED
             print("✅ Agent status API test passed")
@@ -127,10 +126,12 @@ class TestAgentAPISuiteAdvanced:
             coordination_result = self._test_coordination_api()
             assert coordination_result["coordination_api"] == "functional"
 
-            result.assertions.extend([
-                {"test": "coordination_endpoint", "status": "passed"},
-                {"test": "inter_agent_communication", "status": "passed"},
-            ])
+            result.assertions.extend(
+                [
+                    {"test": "coordination_endpoint", "status": "passed"},
+                    {"test": "inter_agent_communication", "status": "passed"},
+                ]
+            )
 
             result.status = TestStatus.PASSED
             print("✅ Agent coordination API test passed")
@@ -163,25 +164,30 @@ class TestAgentAPISuiteAdvanced:
         try:
             # Test invalid agent ID
             invalid_result = self.framework.validate_api_endpoint(
-                "/agents/invalid-agent-id", "GET", expected_status=404)
+                "/agents/invalid-agent-id", "GET", expected_status=404
+            )
 
             assert invalid_result.status == TestStatus.PASSED, "Invalid agent ID should return 404"
 
             # Test malformed request data
             malformed_result = self.framework.validate_api_endpoint(
-                "/agents", "POST", request_data={"invalid": "data"}, expected_status=400)
+                "/agents", "POST", request_data={"invalid": "data"}, expected_status=400
+            )
 
             assert malformed_result.status == TestStatus.PASSED, "Malformed data should return 400"
 
             # Test unauthorized access (if authentication is implemented)
             unauthorized_result = self.framework.validate_api_endpoint(
-                "/agents", "GET", expected_status=401)
+                "/agents", "GET", expected_status=401
+            )
 
-            result.assertions.extend([
-                {"test": "invalid_resource_handling", "status": "passed"},
-                {"test": "malformed_data_handling", "status": "passed"},
-                {"test": "error_response_format", "status": "passed"},
-            ])
+            result.assertions.extend(
+                [
+                    {"test": "invalid_resource_handling", "status": "passed"},
+                    {"test": "malformed_data_handling", "status": "passed"},
+                    {"test": "error_response_format", "status": "passed"},
+                ]
+            )
 
             result.status = TestStatus.PASSED
             print("✅ Agent API error handling test passed")
@@ -215,9 +221,10 @@ class TestAgentAPISuiteAdvanced:
             # Test response time for agent list endpoint
             start_time = time.time()
             response_result = self.framework.validate_api_endpoint(
-                "/agents", "GET", expected_status=200)
+                "/agents", "GET", expected_status=200
+            )
             end_time = time.time()
-            
+
             response_time = end_time - start_time
             assert response_time < 2.0, f"Response too slow: {response_time}s"
 
@@ -229,11 +236,13 @@ class TestAgentAPISuiteAdvanced:
             pagination_result = self._test_pagination_performance()
             assert pagination_result["pagination_working"] == True
 
-            result.assertions.extend([
-                {"test": "response_time", "status": "passed", "value": f"{response_time:.2f}s"},
-                {"test": "concurrent_handling", "status": "passed"},
-                {"test": "pagination_performance", "status": "passed"},
-            ])
+            result.assertions.extend(
+                [
+                    {"test": "response_time", "status": "passed", "value": f"{response_time:.2f}s"},
+                    {"test": "concurrent_handling", "status": "passed"},
+                    {"test": "pagination_performance", "status": "passed"},
+                ]
+            )
 
             result.status = TestStatus.PASSED
             print("✅ Agent API performance test passed")
@@ -276,11 +285,13 @@ class TestAgentAPISuiteAdvanced:
             rate_limit_result = self._test_rate_limiting()
             assert rate_limit_result["rate_limiting_working"] == True
 
-            result.assertions.extend([
-                {"test": "sql_injection_protection", "status": "passed"},
-                {"test": "xss_protection", "status": "passed"},
-                {"test": "rate_limiting", "status": "passed"},
-            ])
+            result.assertions.extend(
+                [
+                    {"test": "sql_injection_protection", "status": "passed"},
+                    {"test": "xss_protection", "status": "passed"},
+                    {"test": "rate_limiting", "status": "passed"},
+                ]
+            )
 
             result.status = TestStatus.PASSED
             print("✅ Agent API security test passed")
@@ -346,11 +357,12 @@ class TestAgentAPISuiteAdvanced:
             "specialization": "Advanced API Testing",
             "coordinates": {"x": 500, "y": 600},
         }
-        
+
         self.framework.validate_api_endpoint(
-            "/agents", "POST", request_data=agent_data, expected_status=201)
+            "/agents", "POST", request_data=agent_data, expected_status=201
+        )
         self.test_agents.append(agent_id)
-        
+
         return agent_id
 
     def _validate_api_response_structure(self, response_data: dict, expected_fields: list) -> bool:
@@ -415,10 +427,7 @@ def run_agent_api_advanced_test_suite():
 
 
 # Export test classes and functions
-__all__ = [
-    'TestAgentAPISuiteAdvanced',
-    'run_agent_api_advanced_test_suite'
-]
+__all__ = ["TestAgentAPISuiteAdvanced", "run_agent_api_advanced_test_suite"]
 
 
 if __name__ == "__main__":
@@ -431,15 +440,15 @@ if __name__ == "__main__":
     print("✅ Performance tests loaded successfully")
     print("✅ Security tests loaded successfully")
     print("🐝 WE ARE SWARM - Advanced API tests ready!")
-    
+
     # Example usage
     print("\n🚀 Running Advanced API Test Suite...")
     results = run_agent_api_advanced_test_suite()
-    
+
     passed = len([r for r in results if r.status == TestStatus.PASSED])
     failed = len([r for r in results if r.status == TestStatus.FAILED])
     print(f"\nAdvanced API Test Results: {passed} passed, {failed} failed")
-    
+
     for result in results:
         status_icon = "✅" if result.status == TestStatus.PASSED else "❌"
         print(f"{status_icon} {result.test_name}: {result.status.value}")

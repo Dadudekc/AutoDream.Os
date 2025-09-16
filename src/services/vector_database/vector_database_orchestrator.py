@@ -35,7 +35,9 @@ EXAMPLE USAGE:
 ==============
 
 # Import the service
-from src.services.vector_database.vector_database_orchestrator import Vector_Database_OrchestratorService
+from src.services.vector_database.vector_database_orchestrator import (
+    Vector_Database_OrchestratorService,
+)
 
 # Initialize service
 service = Vector_Database_OrchestratorService()

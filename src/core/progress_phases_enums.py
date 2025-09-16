@@ -17,6 +17,7 @@ from enum import Enum
 
 class ProgressPhase(Enum):
     """Architecture consolidation phases."""
+
     ANALYSIS = "analysis"
     PLANNING = "planning"
     CONSOLIDATION = "consolidation"
@@ -27,13 +28,10 @@ class ProgressPhase(Enum):
 
 class SuperiorityBenchmark(Enum):
     """Superiority benchmark categories."""
+
     CONSOLIDATION_EFFICIENCY = "consolidation_efficiency"
     QC_COMPLIANCE = "qc_compliance"
     INTEGRATION_SUCCESS = "integration_success"
     PROGRESS_VELOCITY = "progress_velocity"
     BLOCKER_RESOLUTION = "blocker_resolution"
-
-
-
-
 

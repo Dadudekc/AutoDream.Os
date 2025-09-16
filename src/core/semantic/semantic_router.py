@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """
 Semantic Router for intelligent task routing and agent matching.

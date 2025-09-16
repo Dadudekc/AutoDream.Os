@@ -14,21 +14,23 @@ License: MIT
 
 from __future__ import annotations
 
-import asyncio
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Protocol, Union
-from concurrent.futures import Future
+from typing import Any, Protocol, Union
 
 # Import basic interfaces for composition
 from .unified_core_interfaces_basic import (
-    ICoreSystem, IConfigurable, IObservable, IMonitor, IHealthCheck
+    IConfigurable,
+    ICoreSystem,
+    IHealthCheck,
+    IMonitor,
+    IObservable,
 )
-
 
 # ============================================================================
 # LIFECYCLE INTERFACES
 # ============================================================================
+
 
 class ILifecycleAware(Protocol):
     """Interface for components with lifecycle management."""
@@ -53,7 +55,7 @@ class ILifecycleAware(Protocol):
 class IInitializable(Protocol):
     """Interface for initializable components."""
 
-    def initialize(self, config: Optional[Dict[str, Any]] = None) -> bool:
+    def initialize(self, config: dict[str, Any] | None = None) -> bool:
         """Initialize component."""
         ...
 
@@ -78,6 +80,7 @@ class IDisposable(Protocol):
 # MONITORING AND METRICS INTERFACES
 # ============================================================================
 
+
 class IMonitor(Protocol):
     """Interface for monitoring components."""
 
@@ -89,7 +92,7 @@ class IMonitor(Protocol):
         """Stop monitoring."""
         ...
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get current metrics."""
         ...
 
@@ -101,7 +104,7 @@ class IMonitor(Protocol):
 class IHealthCheck(Protocol):
     """Interface for health check components."""
 
-    def check_health(self) -> Dict[str, Any]:
+    def check_health(self) -> dict[str, Any]:
         """Perform health check."""
         ...
 
@@ -118,6 +121,7 @@ class IHealthCheck(Protocol):
 # DATA PROCESSING INTERFACES
 # ============================================================================
 
+
 class IDataProcessor(Protocol):
     """Interface for data processing components."""
 
@@ -129,7 +133,7 @@ class IDataProcessor(Protocol):
         """Check if data can be processed."""
         ...
 
-    def get_supported_formats(self) -> List[str]:
+    def get_supported_formats(self) -> list[str]:
         """Get supported data formats."""
         ...
 
@@ -137,11 +141,11 @@ class IDataProcessor(Protocol):
 class IDataValidator(Protocol):
     """Interface for data validation components."""
 
-    def validate(self, data: Any) -> List[str]:
+    def validate(self, data: Any) -> list[str]:
         """Validate data, return list of errors."""
         ...
 
-    def get_validation_rules(self) -> Dict[str, Any]:
+    def get_validation_rules(self) -> dict[str, Any]:
         """Get validation rules."""
         ...
 
@@ -149,6 +153,7 @@ class IDataValidator(Protocol):
 # ============================================================================
 # ASYNC INTERFACES
 # ============================================================================
+
 
 class IAsyncTask(Protocol):
     """Interface for async tasks."""
@@ -194,18 +199,22 @@ class IAsyncTaskManager(Protocol):
 # UNIFIED CORE SYSTEM INTERFACE
 # ============================================================================
 
+
 @dataclass
 class CoreSystemMetadata:
     """Metadata for core systems."""
+
     name: str
     version: str
     description: str
     author: str
-    dependencies: List[str] = field(default_factory=list)
-    capabilities: List[str] = field(default_factory=list)
+    dependencies: list[str] = field(default_factory=list)
+    capabilities: list[str] = field(default_factory=list)
 
 
-class IUnifiedCoreSystem(ICoreSystem, IConfigurable, IObservable, ILifecycleAware, IHealthCheck, IMonitor):
+class IUnifiedCoreSystem(
+    ICoreSystem, IConfigurable, IObservable, ILifecycleAware, IHealthCheck, IMonitor
+):
     """Unified interface for all core systems combining multiple interface contracts."""
 
     @property
@@ -214,12 +223,12 @@ class IUnifiedCoreSystem(ICoreSystem, IConfigurable, IObservable, ILifecycleAwar
         ...
 
     @abstractmethod
-    def get_capabilities(self) -> List[str]:
+    def get_capabilities(self) -> list[str]:
         """Get system capabilities."""
         ...
 
     @abstractmethod
-    def get_dependencies(self) -> List[str]:
+    def get_dependencies(self) -> list[str]:
         """Get system dependencies."""
         ...
 
@@ -229,7 +238,7 @@ class IUnifiedCoreSystem(ICoreSystem, IConfigurable, IObservable, ILifecycleAwar
         ...
 
     @abstractmethod
-    def get_integration_status(self) -> Dict[str, Any]:
+    def get_integration_status(self) -> dict[str, Any]:
         """Get integration status with other systems."""
         ...
 
@@ -238,18 +247,19 @@ class IUnifiedCoreSystem(ICoreSystem, IConfigurable, IObservable, ILifecycleAwar
 # FACTORY INTERFACES
 # ============================================================================
 
+
 class ICoreSystemFactory(Protocol):
     """Factory interface for creating core systems."""
 
-    def create_system(self, system_type: str, config: Dict[str, Any]) -> IUnifiedCoreSystem:
+    def create_system(self, system_type: str, config: dict[str, Any]) -> IUnifiedCoreSystem:
         """Create a core system instance."""
         ...
 
-    def get_supported_systems(self) -> List[str]:
+    def get_supported_systems(self) -> list[str]:
         """Get list of supported system types."""
         ...
 
-    def validate_system_config(self, system_type: str, config: Dict[str, Any]) -> List[str]:
+    def validate_system_config(self, system_type: str, config: dict[str, Any]) -> list[str]:
         """Validate system configuration."""
         ...
 
@@ -258,6 +268,7 @@ class ICoreSystemFactory(Protocol):
 # REGISTRY INTERFACES
 # ============================================================================
 
+
 class ICoreSystemRegistry(Protocol):
     """Registry interface for core systems."""
 
@@ -265,11 +276,11 @@ class ICoreSystemRegistry(Protocol):
         """Register a core system."""
         ...
 
-    def get_system(self, system_name: str) -> Optional[IUnifiedCoreSystem]:
+    def get_system(self, system_name: str) -> IUnifiedCoreSystem | None:
         """Get system by name."""
         ...
 
-    def list_systems(self) -> List[IUnifiedCoreSystem]:
+    def list_systems(self) -> list[IUnifiedCoreSystem]:
         """List all registered systems."""
         ...
 
@@ -277,7 +288,7 @@ class ICoreSystemRegistry(Protocol):
         """Unregister system."""
         ...
 
-    def get_systems_by_capability(self, capability: str) -> List[IUnifiedCoreSystem]:
+    def get_systems_by_capability(self, capability: str) -> list[IUnifiedCoreSystem]:
         """Get systems by capability."""
         ...
 
@@ -286,21 +297,25 @@ class ICoreSystemRegistry(Protocol):
 # UTILITY FUNCTIONS
 # ============================================================================
 
+
 def create_interface_contract(*interfaces: type) -> type:
     """Create a combined interface contract from multiple interfaces."""
+
     class CombinedInterface(*interfaces):
         """Combined interface from multiple interface types."""
+
         pass
+
     return CombinedInterface
 
 
-def validate_interface_implementation(instance: Any, interface: type) -> List[str]:
+def validate_interface_implementation(instance: Any, interface: type) -> list[str]:
     """Validate that an instance properly implements an interface."""
     errors = []
 
     # Check if instance has all required methods
     for attr_name in dir(interface):
-        if not attr_name.startswith('_'):
+        if not attr_name.startswith("_"):
             attr = getattr(interface, attr_name, None)
             if callable(attr) or isinstance(attr, property):
                 if not hasattr(instance, attr_name):
@@ -325,38 +340,33 @@ AdvancedSystemType = Union[
     IAsyncTaskManager,
     IUnifiedCoreSystem,
     ICoreSystemFactory,
-    ICoreSystemRegistry
+    ICoreSystemRegistry,
 ]
 
 # Export all interfaces
 __all__ = [
     # Lifecycle interfaces
-    'ILifecycleAware',
-    'IInitializable',
-    'IDisposable',
-
+    "ILifecycleAware",
+    "IInitializable",
+    "IDisposable",
     # Monitoring interfaces
-    'IMonitor',
-    'IHealthCheck',
-
+    "IMonitor",
+    "IHealthCheck",
     # Data processing interfaces
-    'IDataProcessor',
-    'IDataValidator',
-
+    "IDataProcessor",
+    "IDataValidator",
     # Async interfaces
-    'IAsyncTask',
-    'IAsyncTaskManager',
-
+    "IAsyncTask",
+    "IAsyncTaskManager",
     # Unified interfaces
-    'IUnifiedCoreSystem',
-    'ICoreSystemFactory',
-    'ICoreSystemRegistry',
-
+    "IUnifiedCoreSystem",
+    "ICoreSystemFactory",
+    "ICoreSystemRegistry",
     # Types and utilities
-    'AdvancedSystemType',
-    'create_interface_contract',
-    'validate_interface_implementation',
-    'CoreSystemMetadata'
+    "AdvancedSystemType",
+    "create_interface_contract",
+    "validate_interface_implementation",
+    "CoreSystemMetadata",
 ]
 
 

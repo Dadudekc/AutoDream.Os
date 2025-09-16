@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """
 Analytics Utils
@@ -45,11 +46,7 @@ class AnalyticsUtils:
             AnalyticsData: Analytics information for the specified time range
         """
         # Calculate time-based multipliers for realistic data simulation
-        time_multipliers = {
-            "last_hour": 1,
-            "last_24h": 24,
-            "last_week": 168  # 24 * 7
-        }
+        time_multipliers = {"last_hour": 1, "last_24h": 24, "last_week": 168}  # 24 * 7
 
         base_multiplier = time_multipliers.get(time_range, 24)
 
@@ -62,7 +59,7 @@ class AnalyticsUtils:
             total_queries=total_queries,
             avg_response_time=round(avg_response_time, 3),
             error_rate=round(error_rate, 4),
-            time_range=time_range
+            time_range=time_range,
         )
 
     def process_analytics(self, analytics_data: AnalyticsData) -> dict:
@@ -88,8 +85,4 @@ class AnalyticsUtils:
             dict: Processed analytics with insights and recommendations
         """
         # TODO: Implement actual analytics processing
-        return {
-            "insights": [],
-            "recommendations": [],
-            "processed_at": "2025-09-12T12:00:00Z"
-        }
+        return {"insights": [], "recommendations": [], "processed_at": "2025-09-12T12:00:00Z"}

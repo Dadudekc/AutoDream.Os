@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """
 Task_Handlers Module
@@ -38,14 +39,11 @@ from __future__ import annotations
 
 from typing import Any
 
-from .shared.messaging_utilities import get_messaging_utilities
+# Use consolidated messaging service for broadcast functionality
 from .delivery.pyautogui_delivery import deliver_message_pyautogui
 from .models import UnifiedMessage, UnifiedMessagePriority, UnifiedMessageTag, UnifiedMessageType
 from .service import MessagingService
-
-
-# Use consolidated messaging service for broadcast functionality
-from .consolidated_messaging_service import get_consolidated_messaging_service
+from .shared.messaging_utilities import get_messaging_utilities
 
 
 def claim_task(agent: str) -> dict[str, Any] | None:

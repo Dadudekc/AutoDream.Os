@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """
 SSOT Enums - V2 Compliance Micro-refactoring
@@ -36,7 +37,7 @@ class SSOTValidationLevel(Enum):
 def get_example_usage():
     """
     Example usage for SSOT enums.
-    
+
     # Import the core component
     from src.core.ssot.unified_ssot.enums import SSOTValidationLevel
 

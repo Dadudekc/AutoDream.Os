@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """
 Coverage Reporter - V2 Compliance Module
@@ -22,81 +23,85 @@ class CoverageReporter:
 
     def __init__(self, project_root: Path):
         self.project_root = project_root
-        self.reports_dir = project_root / 'runtime' / 'reports'
+        self.reports_dir = project_root / "runtime" / "reports"
         self.reports_dir.mkdir(parents=True, exist_ok=True)
 
-    def generate_recommendations(self, gaps: list[dict[str, Any]], target: str
-        ) ->list[dict[str, Any]]:
+    def generate_recommendations(
+        self, gaps: list[dict[str, Any]], target: str
+    ) -> list[dict[str, Any]]:
         """Generate recommendations based on coverage gaps."""
         recommendations = []
         for gap in gaps:
-            if gap.get('type') == 'overall_coverage':
-                current = gap.get('current', 0)
-                target_coverage = gap.get('target', 80)
+            if gap.get("type") == "overall_coverage":
+                current = gap.get("current", 0)
+                target_coverage = gap.get("target", 80)
                 if current < target_coverage:
-                    recommendations.append({'type': 'increase_coverage',
-                        'priority': 'high' if current < 50 else 'medium',
-                        'description':
-                        f'Increase overall test coverage from {current}% to {target_coverage}%'
-                        , 'actions': [
-                        'Add unit tests for uncovered functions',
-                        'Increase integration test coverage',
-                        'Add edge case testing']})
+                    recommendations.append(
+                        {
+                            "type": "increase_coverage",
+                            "priority": "high" if current < 50 else "medium",
+                            "description": f"Increase overall test coverage from {current}% to {target_coverage}%",
+                            "actions": [
+                                "Add unit tests for uncovered functions",
+                                "Increase integration test coverage",
+                                "Add edge case testing",
+                            ],
+                        }
+                    )
         return recommendations
 
-    def generate_report(self, analysis_data: dict[str, Any]) ->dict[str, Any]:
+    def generate_report(self, analysis_data: dict[str, Any]) -> dict[str, Any]:
         """Generate comprehensive coverage report."""
-        report = {'timestamp': datetime.now().isoformat(), 'target':
-            analysis_data.get('target', 'all'), 'coverage_data':
-            analysis_data.get('coverage_data', {}), 'gaps': analysis_data.
-            get('gaps', []), 'recommendations': analysis_data.get(
-            'recommendations', []), 'summary': self._generate_summary(
-            analysis_data)}
+        report = {
+            "timestamp": datetime.now().isoformat(),
+            "target": analysis_data.get("target", "all"),
+            "coverage_data": analysis_data.get("coverage_data", {}),
+            "gaps": analysis_data.get("gaps", []),
+            "recommendations": analysis_data.get("recommendations", []),
+            "summary": self._generate_summary(analysis_data),
+        }
         return report
 
-    def _generate_summary(self, analysis_data: dict[str, Any]) ->dict[str, Any
-        ]:
+    def _generate_summary(self, analysis_data: dict[str, Any]) -> dict[str, Any]:
         """Generate summary of coverage analysis."""
-        gaps = analysis_data.get('gaps', [])
-        recommendations = analysis_data.get('recommendations', [])
-        return {'total_gaps': len(gaps), 'total_recommendations': len(
-            recommendations), 'high_priority_recommendations': len([r for r in
-            recommendations if r.get('priority') == 'high']),
-            'coverage_success': analysis_data.get('coverage_data', {}).get(
-            'success', False)}
+        gaps = analysis_data.get("gaps", [])
+        recommendations = analysis_data.get("recommendations", [])
+        return {
+            "total_gaps": len(gaps),
+            "total_recommendations": len(recommendations),
+            "high_priority_recommendations": len(
+                [r for r in recommendations if r.get("priority") == "high"]
+            ),
+            "coverage_success": analysis_data.get("coverage_data", {}).get("success", False),
+        }
 
-    def save_report(self, report: dict[str, Any], filename: str=None) ->Path:
+    def save_report(self, report: dict[str, Any], filename: str = None) -> Path:
         """Save coverage report to file."""
         if filename is None:
-            timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-            filename = f'coverage_report_{timestamp}.json'
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"coverage_report_{timestamp}.json"
         report_path = self.reports_dir / filename
-        with open(report_path, 'w', encoding='utf-8') as f:
+        with open(report_path, "w", encoding="utf-8") as f:
             json.dump(report, f, indent=2)
         return report_path
 
-    def print_report_summary(self, report: dict[str, Any]) ->None:
+    def print_report_summary(self, report: dict[str, Any]) -> None:
         """Print coverage report summary to console."""
-        logger.info('\n' + '=' * 60)
-        logger.info('📊 COVERAGE ANALYSIS REPORT')
-        logger.info('=' * 60)
-        summary = report.get('summary', {})
+        logger.info("\n" + "=" * 60)
+        logger.info("📊 COVERAGE ANALYSIS REPORT")
+        logger.info("=" * 60)
+        summary = report.get("summary", {})
         logger.info(f"Target: {report.get('target', 'all')}")
         logger.info(f"Analysis Time: {report.get('timestamp', 'N/A')}")
-        logger.info(
-            f"Coverage Success: {summary.get('coverage_success', False)}")
+        logger.info(f"Coverage Success: {summary.get('coverage_success', False)}")
         logger.info(f"Total Gaps: {summary.get('total_gaps', 0)}")
-        logger.info(
-            f"Total Recommendations: {summary.get('total_recommendations', 0)}"
-            )
-        logger.info(
-            f"High Priority Issues: {summary.get('high_priority_recommendations', 0)}"
-            )
-        recommendations = report.get('recommendations', [])
+        logger.info(f"Total Recommendations: {summary.get('total_recommendations', 0)}")
+        logger.info(f"High Priority Issues: {summary.get('high_priority_recommendations', 0)}")
+        recommendations = report.get("recommendations", [])
         if recommendations:
-            logger.info('\n🎯 RECOMMENDATIONS:')
+            logger.info("\n🎯 RECOMMENDATIONS:")
             for i, rec in enumerate(recommendations, 1):
-                priority = rec.get('priority', 'medium')
-                description = rec.get('description', 'No description')
-                logger.info(f'  {i}. [{priority.upper()}] {description}')
-        logger.info('=' * 60)
+                priority = rec.get("priority", "medium")
+                description = rec.get("description", "No description")
+                logger.info(f"  {i}. [{priority.upper()}] {description}")
+        logger.info("=" * 60)

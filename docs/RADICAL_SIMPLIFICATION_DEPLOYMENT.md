@@ -166,4 +166,3 @@ agent.block_task("Missing dependency X")
 
 **The swarm is now radically simplified for maximum execution efficiency.**
 
-

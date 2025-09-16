@@ -80,7 +80,9 @@ class TestLoadTestingScenarios:
 
         print("Gradual load increase test:")
         for result in stability_results:
-            print(f"- Load {result['load_level']}%: {result['duration']:.1f}s ({result['is_stable']})")
+            print(
+                f"- Load {result['load_level']}%: {result['duration']:.1f}s ({result['is_stable']})"
+            )
 
         # Verify system remained stable (adjusted for test environment)
         stable_results = sum(1 for r in stability_results if r["is_stable"])
@@ -101,7 +103,9 @@ class TestLoadTestingScenarios:
 
             if len(burst_operations) % 1000 == 0:
                 health = system_monitor.get_system_health()
-                print(f"Burst progress: {len(burst_operations)} operations, CPU: {health.get('cpu_percent', 0):.1f}%")
+                print(
+                    f"Burst progress: {len(burst_operations)} operations, CPU: {health.get('cpu_percent', 0):.1f}%"
+                )
 
         end_time = time.time()
         total_duration = end_time - start_time

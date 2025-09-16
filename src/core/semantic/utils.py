@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """
 Semantic Utilities - Consolidated Module
@@ -26,8 +27,9 @@ try:
     from ...web.vector_database.search_utils import SearchUtils
 except ImportError:
     # Fallback for direct execution
-    import sys
     import os
+    import sys
+
     sys.path.append(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
     from web.vector_database.analytics_utils import AnalyticsUtils
     from web.vector_database.collection_utils import CollectionUtils
@@ -38,6 +40,7 @@ except ImportError:
 # ============================================================================
 # SEMANTIC UTILITY FUNCTIONS
 # ============================================================================
+
 
 def flatten_json(obj: Any, prefix: str = "", keep: Iterable[str] | None = None) -> list[str]:
     """Turn nested JSON/dicts/lists into a list of 'key: value' strings."""
@@ -71,6 +74,7 @@ def json_to_text(obj: Any, keep: Iterable[str] | None = None) -> str:
 # ============================================================================
 # VECTOR DATABASE UTILITIES
 # ============================================================================
+
 
 class VectorDatabaseUtils:
     """Main utility orchestrator for vector database operations.
@@ -148,6 +152,7 @@ class VectorDatabaseUtils:
 # CONSOLIDATED UTILITIES INTERFACE
 # ============================================================================
 
+
 class ConsolidatedUtils:
     """Consolidated utilities interface providing both semantic and vector database functionality."""
 
@@ -156,7 +161,9 @@ class ConsolidatedUtils:
         self.vector_db = VectorDatabaseUtils()
 
     # Semantic utility functions
-    def flatten_json(self, obj: Any, prefix: str = "", keep: Iterable[str] | None = None) -> list[str]:
+    def flatten_json(
+        self, obj: Any, prefix: str = "", keep: Iterable[str] | None = None
+    ) -> list[str]:
         """Turn nested JSON/dicts/lists into a list of 'key: value' strings."""
         return flatten_json(obj, prefix, keep)
 
@@ -207,9 +214,4 @@ class ConsolidatedUtils:
 # ============================================================================
 
 # Export semantic utility functions
-__all__ = [
-    "flatten_json",
-    "json_to_text", 
-    "VectorDatabaseUtils",
-    "ConsolidatedUtils"
-]
+__all__ = ["flatten_json", "json_to_text", "VectorDatabaseUtils", "ConsolidatedUtils"]

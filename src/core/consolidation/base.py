@@ -1,12 +1,13 @@
 from __future__ import annotations
 
+import logging
 import os
 import shutil
 from collections.abc import Iterable
 from pathlib import Path
 
 from ...utils.config_core import get_config
-import logging
+
 logger = logging.getLogger(__name__)
 
 """Base utilities for consolidation tasks.

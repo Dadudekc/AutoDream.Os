@@ -27,7 +27,7 @@ class ExecutionManager:
 def get_example_usage():
     """
     Example usage for ExecutionManager.
-    
+
     # Import the core component
     from src.core.ssot.unified_ssot.execution.execution_manager import ExecutionManager
 

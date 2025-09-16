@@ -43,7 +43,7 @@ All agents MUST follow this autonomous workflow cycle for continuous operation:
 #### **1. MAILBOX CHECK (Priority: HIGH)**
 ```
 Check: agent_workspaces/{AGENT_ID}/inbox/
-Action: 
+Action:
   - Scan for new messages
   - Process each message immediately
   - Remove processed messages from inbox

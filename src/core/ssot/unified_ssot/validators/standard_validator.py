@@ -26,7 +26,7 @@ class StandardValidator:
 def get_example_usage():
     """
     Example usage for StandardValidator.
-    
+
     # Import the core component
     from src.core.ssot.unified_ssot.validators.standard_validator import StandardValidator
 

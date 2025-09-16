@@ -14,7 +14,6 @@ import json
 import logging
 from datetime import datetime
 from pathlib import Path
-from typing import Dict
 
 from .swarm_testing_framework_core import SwarmTestingReport, TestingComponent
 
@@ -23,19 +22,19 @@ logger = logging.getLogger(__name__)
 
 class ReportGenerator:
     """Handles report generation and analytics."""
-    
+
     def __init__(self, project_root: Path):
         self.project_root = project_root
         self.test_results_dir = project_root / "test_results"
         self.test_results_dir.mkdir(exist_ok=True)
-    
+
     def generate_testing_report(self, report: SwarmTestingReport):
         """Generate comprehensive testing report."""
         report_file = (
             self.test_results_dir
             / f"swarm_testing_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
         )
-        
+
         report_data = {
             "mission": "Swarm Testing & Documentation Revolution",
             "coordinator": "Agent-1",
@@ -49,12 +48,12 @@ class ReportGenerator:
                 "documented_components": report.documented_components,
                 "documentation_coverage": (
                     (report.documented_components / report.total_components * 100)
-                    if report.total_components > 0 else 0
+                    if report.total_components > 0
+                    else 0
                 ),
                 "duration_seconds": (
-                    (report.end_time - report.start_time).total_seconds()
-                    if report.end_time else 0
-                )
+                    (report.end_time - report.start_time).total_seconds() if report.end_time else 0
+                ),
             },
             "components": [
                 {
@@ -68,24 +67,24 @@ class ReportGenerator:
                     "dependencies": comp.dependencies,
                 }
                 for comp in report.component_reports.values()
-            ]
+            ],
         }
-        
+
         with open(report_file, "w", encoding="utf-8") as f:
             json.dump(report_data, f, indent=2, ensure_ascii=False)
-        
+
         logger.info(f"📊 Testing report generated: {report_file}")
-        
+
         # Generate markdown summary
         self._generate_markdown_report(report_data)
-    
-    def _generate_markdown_report(self, report_data: Dict):
+
+    def _generate_markdown_report(self, report_data: dict):
         """Generate a markdown summary report."""
         md_file = (
             self.test_results_dir
             / f"swarm_testing_summary_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
         )
-        
+
         md_content = f"""# 🐝 SWARM TESTING MISSION - EXECUTION REPORT
 
 **Coordinator:** Agent-1
@@ -108,7 +107,7 @@ class ReportGenerator:
 ## 🎯 COMPONENT BREAKDOWN BY TYPE
 
 """
-        
+
         # Group components by type
         type_stats = {}
         for comp in report_data["components"]:
@@ -120,7 +119,7 @@ class ReportGenerator:
                 type_stats[comp_type]["tested"] += 1
             if comp["has_examples"]:
                 type_stats[comp_type]["documented"] += 1
-        
+
         for comp_type, stats in type_stats.items():
             md_content += f"### {comp_type.title()} Components\n"
             md_content += f"- **Total:** {stats['total']}\n"
@@ -128,7 +127,7 @@ class ReportGenerator:
                 f"- **Tested:** {stats['tested']} ({stats['tested'] / stats['total'] * 100:.1f}%)\n"
             )
             md_content += f"- **Documented:** {stats['documented']} ({stats['documented'] / stats['total'] * 100:.1f}%)\n\n"
-        
+
         md_content += """## 🏆 MISSION ACCOMPLISHMENT STATUS
 
 **"EVERY COMPONENT TESTED, EVERY FILE DOCUMENTED"**
@@ -158,34 +157,35 @@ class ReportGenerator:
 ## 📋 COMPONENT DETAILS
 
 """
-        
+
         # Add detailed component information
         for comp in report_data["components"]:
             status_emoji = {
                 "passed": "✅",
                 "failed": "❌",
                 "testing": "🔄",
-                "not_tested": "⏳"
+                "not_tested": "⏳",
             }.get(comp["status"], "❓")
-            
+
             md_content += f"### {status_emoji} {comp['name']}\n"
             md_content += f"- **Type:** {comp['type']}\n"
             md_content += f"- **Priority:** {comp['priority']}\n"
             md_content += f"- **Status:** {comp['status']}\n"
             md_content += f"- **Coverage:** {comp['coverage']:.1f}%\n"
             md_content += f"- **Documented:** {'Yes' if comp['has_examples'] else 'No'}\n"
-            if comp['dependencies']:
+            if comp["dependencies"]:
                 md_content += f"- **Dependencies:** {', '.join(comp['dependencies'])}\n"
             md_content += "\n"
-        
+
         with open(md_file, "w", encoding="utf-8") as f:
             f.write(md_content)
-        
+
         logger.info(f"📋 Markdown report generated: {md_file}")
-    
+
     def print_summary(self, report: SwarmTestingReport):
         """Print a summary of the testing results."""
-        print(f"""
+        print(
+            f"""
 🐝 SWARM TESTING MISSION ACCOMPLISHMENT REPORT 🐝
 ================================================
 
@@ -203,15 +203,16 @@ class ReportGenerator:
 ⚡ Mission Status: {"COMPLETE" if report.tested_components == report.total_components else "IN PROGRESS"}
 
 🏆 Mission Accomplishment: {"SUCCESS" if report.failed_tests == 0 else "PARTIAL SUCCESS"}
-""")
-    
+"""
+        )
+
     def generate_analytics_report(self, report: SwarmTestingReport):
         """Generate detailed analytics report."""
         analytics_file = (
             self.test_results_dir
             / f"swarm_testing_analytics_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
         )
-        
+
         # Calculate analytics
         analytics_data = {
             "timestamp": datetime.now().isoformat(),
@@ -224,34 +225,35 @@ class ReportGenerator:
                 "documented_components": report.documented_components,
                 "success_rate": (
                     (report.passed_tests / report.tested_components * 100)
-                    if report.tested_components > 0 else 0
+                    if report.tested_components > 0
+                    else 0
                 ),
                 "documentation_rate": (
                     (report.documented_components / report.total_components * 100)
-                    if report.total_components > 0 else 0
-                )
+                    if report.total_components > 0
+                    else 0
+                ),
             },
             "component_analytics": self._analyze_components(report.component_reports),
             "performance_metrics": {
                 "duration_seconds": (
-                    (report.end_time - report.start_time).total_seconds()
-                    if report.end_time else 0
+                    (report.end_time - report.start_time).total_seconds() if report.end_time else 0
                 ),
                 "components_per_second": (
-                    report.tested_components / 
-                    ((report.end_time - report.start_time).total_seconds() or 1)
+                    report.tested_components
+                    / ((report.end_time - report.start_time).total_seconds() or 1)
                 ),
-                "average_coverage": report.coverage_percentage
-            }
+                "average_coverage": report.coverage_percentage,
+            },
         }
-        
+
         with open(analytics_file, "w", encoding="utf-8") as f:
             json.dump(analytics_data, f, indent=2, ensure_ascii=False)
-        
+
         logger.info(f"📈 Analytics report generated: {analytics_file}")
         return analytics_data
-    
-    def _analyze_components(self, components: Dict[str, TestingComponent]) -> Dict:
+
+    def _analyze_components(self, components: dict[str, TestingComponent]) -> dict:
         """Analyze component statistics."""
         analysis = {
             "by_type": {},
@@ -260,10 +262,10 @@ class ReportGenerator:
             "coverage_distribution": {
                 "high_coverage": 0,  # >80%
                 "medium_coverage": 0,  # 50-80%
-                "low_coverage": 0   # <50%
-            }
+                "low_coverage": 0,  # <50%
+            },
         }
-        
+
         for component in components.values():
             # By type
             comp_type = component.component_type
@@ -274,7 +276,7 @@ class ReportGenerator:
                 analysis["by_type"][comp_type]["tested"] += 1
             if component.test_status == "passed":
                 analysis["by_type"][comp_type]["passed"] += 1
-            
+
             # By priority
             priority = component.priority
             if priority not in analysis["by_priority"]:
@@ -284,11 +286,11 @@ class ReportGenerator:
                 analysis["by_priority"][priority]["tested"] += 1
             if component.test_status == "passed":
                 analysis["by_priority"][priority]["passed"] += 1
-            
+
             # By status
             status = component.test_status
             analysis["by_status"][status] = analysis["by_status"].get(status, 0) + 1
-            
+
             # Coverage distribution
             if component.test_coverage > 80:
                 analysis["coverage_distribution"]["high_coverage"] += 1
@@ -296,5 +298,5 @@ class ReportGenerator:
                 analysis["coverage_distribution"]["medium_coverage"] += 1
             else:
                 analysis["coverage_distribution"]["low_coverage"] += 1
-        
+
         return analysis

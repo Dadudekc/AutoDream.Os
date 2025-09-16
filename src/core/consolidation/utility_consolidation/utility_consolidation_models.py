@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 #!/usr/bin/env python3
 """
@@ -31,7 +32,9 @@ EXAMPLE USAGE:
 ==============
 
 # Import the core component
-from src.core.consolidation.utility_consolidation.utility_consolidation_models import Utility_Consolidation_Models
+from src.core.consolidation.utility_consolidation.utility_consolidation_models import (
+    Utility_Consolidation_Models,
+)
 
 # Initialize with configuration
 config = {

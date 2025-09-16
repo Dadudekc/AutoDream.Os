@@ -1,12 +1,13 @@
 from __future__ import annotations
 
+import logging
 from typing import Any
 
 import yaml
 
 from .semantic_router import SemanticRouter
 from .status_index import StatusIndex
-import logging
+
 logger = logging.getLogger(__name__)
 
 

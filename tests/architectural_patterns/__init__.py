@@ -16,9 +16,9 @@ Author: Agent-2 (Architecture & Design Specialist)
 License: MIT
 """
 
-from .test_solid_principles import TestSOLIDPrinciplesComprehensive
-from .test_design_patterns import TestDesignPatternsComprehensive
 from .test_architecture_validation import TestArchitectureValidationComprehensive
+from .test_design_patterns import TestDesignPatternsComprehensive
+from .test_solid_principles import TestSOLIDPrinciplesComprehensive
 
 __version__ = "2.0.0"
 __author__ = "Agent-2 (Architecture & Design Specialist)"
@@ -26,5 +26,5 @@ __author__ = "Agent-2 (Architecture & Design Specialist)"
 __all__ = [
     "TestSOLIDPrinciplesComprehensive",
     "TestDesignPatternsComprehensive",
-    "TestArchitectureValidationComprehensive"
+    "TestArchitectureValidationComprehensive",
 ]

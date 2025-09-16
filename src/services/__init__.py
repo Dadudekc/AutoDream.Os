@@ -4,5 +4,5 @@
 from . import consolidated_agent_management_service
 
 __all__ = [
-    'consolidated_agent_management_service',
+    "consolidated_agent_management_service",
 ]

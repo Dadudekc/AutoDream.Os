@@ -20,6 +20,7 @@ import pytest
 src_path = Path(__file__).parent.parent.parent / "src"
 sys.path.insert(0, str(src_path))
 
+
 # Mock classes for testing without actual implementation
 class MockAPIVersioning:
     def __init__(self, *args, **kwargs):
@@ -103,7 +104,7 @@ class TestAPIVersioningStrategy:
             "to_version": "v2.0.0",
             "breaking_changes": [
                 "Authentication method changed from API key to JWT",
-                "Response format updated for V2 SWARM system"
+                "Response format updated for V2 SWARM system",
             ],
             "migration_steps": [
                 "Update authentication headers",

@@ -2,7 +2,6 @@
 """Swarm Quality Control Management System"""
 
 import logging
-from typing import Dict, List, Optional
 from datetime import datetime
 
 from .swarm_communication_enums import QCStandard, QCStandardResult, SwarmCommunicationMetrics
@@ -12,38 +11,38 @@ logger = logging.getLogger(__name__)
 
 class SwarmQualityManager:
     """Manages quality control standards and monitoring for the swarm"""
-    
+
     def __init__(self, qc_check_interval_seconds: int = 300):
-        self.qc_standards: Dict[QCStandard, QCStandardResult] = {}
+        self.qc_standards: dict[QCStandard, QCStandardResult] = {}
         self.qc_check_interval_seconds = qc_check_interval_seconds
         self.metrics = SwarmCommunicationMetrics()
         self._initialize_qc_standards()
         logger.info("Swarm Quality Manager initialized")
-    
+
     def _initialize_qc_standards(self) -> None:
         """Initialize quality control standards with default values"""
         for standard in QCStandard:
             self.qc_standards[standard] = QCStandardResult(
-                standard=standard,
-                passed=False,
-                score=0.0,
-                details={},
-                checked_by="system"
+                standard=standard, passed=False, score=0.0, details={}, checked_by="system"
             )
-    
-    def perform_qc_check(self, standard: QCStandard, checked_by: str = "system") -> QCStandardResult:
+
+    def perform_qc_check(
+        self, standard: QCStandard, checked_by: str = "system"
+    ) -> QCStandardResult:
         """Perform a quality control check for a specific standard"""
         result = self._check_standard(standard, checked_by)
         self.qc_standards[standard] = result
         self.metrics.qc_checks_performed += 1
-        
+
         # Update pass rate
         passed_checks = sum(1 for r in self.qc_standards.values() if r.passed)
         self.metrics.qc_pass_rate = passed_checks / len(self.qc_standards)
-        
-        logger.info(f"QC check performed for {standard.value}: {'PASSED' if result.passed else 'FAILED'}")
+
+        logger.info(
+            f"QC check performed for {standard.value}: {'PASSED' if result.passed else 'FAILED'}"
+        )
         return result
-    
+
     def _check_standard(self, standard: QCStandard, checked_by: str) -> QCStandardResult:
         """Check a specific quality standard"""
         if standard == QCStandard.V2_COMPLIANCE:
@@ -64,9 +63,9 @@ class SwarmQualityManager:
                 passed=False,
                 score=0.0,
                 details={"error": "Unknown standard"},
-                checked_by=checked_by
+                checked_by=checked_by,
             )
-    
+
     def _check_v2_compliance(self, checked_by: str) -> QCStandardResult:
         """Check V2 compliance standard"""
         # This would integrate with actual V2 compliance checking
@@ -74,14 +73,10 @@ class SwarmQualityManager:
             standard=QCStandard.V2_COMPLIANCE,
             passed=True,
             score=95.0,
-            details={
-                "files_checked": 150,
-                "violations_found": 13,
-                "compliance_rate": 91.3
-            },
-            checked_by=checked_by
+            details={"files_checked": 150, "violations_found": 13, "compliance_rate": 91.3},
+            checked_by=checked_by,
         )
-    
+
     def _check_solid_principles(self, checked_by: str) -> QCStandardResult:
         """Check SOLID principles adherence"""
         return QCStandardResult(
@@ -93,11 +88,11 @@ class SwarmQualityManager:
                 "open_closed": 85,
                 "liskov_substitution": 90,
                 "interface_segregation": 87,
-                "dependency_inversion": 86
+                "dependency_inversion": 86,
             },
-            checked_by=checked_by
+            checked_by=checked_by,
         )
-    
+
     def _check_test_coverage(self, checked_by: str) -> QCStandardResult:
         """Check test coverage"""
         return QCStandardResult(
@@ -108,11 +103,11 @@ class SwarmQualityManager:
                 "line_coverage": 82.0,
                 "branch_coverage": 78.0,
                 "function_coverage": 85.0,
-                "class_coverage": 88.0
+                "class_coverage": 88.0,
             },
-            checked_by=checked_by
+            checked_by=checked_by,
         )
-    
+
     def _check_performance_metrics(self, checked_by: str) -> QCStandardResult:
         """Check performance metrics"""
         return QCStandardResult(
@@ -123,11 +118,11 @@ class SwarmQualityManager:
                 "response_time_avg": 0.15,
                 "memory_usage": 85.2,
                 "cpu_usage": 23.1,
-                "throughput": 1250
+                "throughput": 1250,
             },
-            checked_by=checked_by
+            checked_by=checked_by,
         )
-    
+
     def _check_security_audit(self, checked_by: str) -> QCStandardResult:
         """Check security audit"""
         return QCStandardResult(
@@ -139,11 +134,11 @@ class SwarmQualityManager:
                 "critical_issues": 0,
                 "high_issues": 1,
                 "medium_issues": 1,
-                "security_score": 94.0
+                "security_score": 94.0,
             },
-            checked_by=checked_by
+            checked_by=checked_by,
         )
-    
+
     def _check_code_review(self, checked_by: str) -> QCStandardResult:
         """Check code review compliance"""
         return QCStandardResult(
@@ -154,36 +149,40 @@ class SwarmQualityManager:
                 "reviews_completed": 45,
                 "pending_reviews": 3,
                 "review_cycle_time": 2.5,
-                "approval_rate": 87.0
+                "approval_rate": 87.0,
             },
-            checked_by=checked_by
+            checked_by=checked_by,
         )
-    
-    def get_qc_status(self) -> Dict[QCStandard, QCStandardResult]:
+
+    def get_qc_status(self) -> dict[QCStandard, QCStandardResult]:
         """Get current QC status for all standards"""
         return self.qc_standards.copy()
-    
-    def get_qc_summary(self) -> Dict[str, any]:
+
+    def get_qc_summary(self) -> dict[str, any]:
         """Get a summary of QC status"""
         passed_standards = sum(1 for result in self.qc_standards.values() if result.passed)
         total_standards = len(self.qc_standards)
-        
+
         return {
             "total_standards": total_standards,
             "passed_standards": passed_standards,
             "failed_standards": total_standards - passed_standards,
-            "overall_pass_rate": (passed_standards / total_standards) * 100 if total_standards > 0 else 0,
-            "last_checked": max(result.checked_at for result in self.qc_standards.values()) if self.qc_standards else None
+            "overall_pass_rate": (
+                (passed_standards / total_standards) * 100 if total_standards > 0 else 0
+            ),
+            "last_checked": (
+                max(result.checked_at for result in self.qc_standards.values())
+                if self.qc_standards
+                else None
+            ),
         }
-    
-    def get_failed_standards(self) -> List[QCStandardResult]:
+
+    def get_failed_standards(self) -> list[QCStandardResult]:
         """Get all failed QC standards"""
         return [result for result in self.qc_standards.values() if not result.passed]
-    
+
     def get_metrics(self) -> SwarmCommunicationMetrics:
         """Get current metrics"""
         self.metrics.last_updated = datetime.now()
         return self.metrics
-
-
 

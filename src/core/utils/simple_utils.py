@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 #!/usr/bin/env python3
 """
@@ -38,7 +39,7 @@ def write_file(filepath, content):
 def get_example_usage():
     """
     Example usage for SimpleUtils.
-    
+
     # Import the core component
     from src.core.utils.simple_utils import read_file, write_file
 

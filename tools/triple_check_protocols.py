@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """
 Triple-Check Protocols - V2 Compliance Wrapper
@@ -14,6 +15,7 @@ Usage: python tools/triple_check_protocols.py --competitive-mode
 import asyncio
 import sys
 from pathlib import Path
+
 tools_dir = Path(__file__).parent
 sys.path.insert(0, str(tools_dir))
 from check_protocols.protocol_coordinator import ProtocolCoordinator
@@ -21,13 +23,13 @@ from check_protocols.protocol_coordinator import ProtocolCoordinator
 
 async def main():
     """Main entry point for triple-check protocols."""
-    project_root = Path('.')
+    project_root = Path(".")
     coordinator = ProtocolCoordinator(project_root)
     results = await coordinator.run_competitive_mode()
     coordinator.print_summary(results)
     results_path = coordinator.save_results(results)
-    logger.info(f'\n📄 Results saved to: {results_path}')
+    logger.info(f"\n📄 Results saved to: {results_path}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     asyncio.run(main())

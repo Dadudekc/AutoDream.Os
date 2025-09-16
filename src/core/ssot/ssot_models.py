@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 #!/usr/bin/env python3
 """
@@ -32,6 +33,7 @@ class SSOTComponentType(Enum):
 
 class SSOTExecutionPhase(Enum):
     """Execution phases for SSOT operations."""
+
     INITIALIZATION = "initialization"
     PROCESSING = "processing"
     VALIDATION = "validation"
@@ -42,17 +44,17 @@ class SSOTExecutionPhase(Enum):
 def get_example_usage():
     """
     Example usage for SSOT models.
-    
+
     # Import the core component
     from src.core.ssot.ssot_models import SSOTComponent, SSOTExecutionPhase
-    
+
     # Create a component
     component = SSOTComponent(
         name="example_component",
         component_type=SSOTComponentType.MESSAGING,
         description="Example SSOT component"
     )
-    
+
     # Execute functionality
     result = component.to_dict()
     logger.info(f"Component data: {result}")
@@ -62,6 +64,7 @@ def get_example_usage():
 
 class SSOTExecutionPhase(Enum):
     """Execution phases for SSOT operations."""
+
     INITIALIZATION = "initialization"
     VALIDATION = "validation"
     EXECUTION = "execution"

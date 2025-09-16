@@ -210,9 +210,7 @@ class SwarmMonitoringHandler(http.server.BaseHTTPRequestHandler):
 
 
 # Export core components
-__all__ = [
-    'SwarmMonitoringHandler'
-]
+__all__ = ["SwarmMonitoringHandler"]
 
 
 if __name__ == "__main__":

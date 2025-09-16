@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """
 Stats Tracker - V2 Compliant Module
@@ -20,31 +21,31 @@ from typing import Any
 class StatsTracker:
     """Handles coordination statistics tracking and reporting.
 
-    Manages statistics collection, calculation, and reporting for coordination
-    operations.
+        Manages statistics collection, calculation, and reporting for coordination
+        operations.
 
-EXAMPLE USAGE:
-==============
+    EXAMPLE USAGE:
+    ==============
 
-# Import the service
-from src.services.coordination.stats_tracker import Stats_TrackerService
+    # Import the service
+    from src.services.coordination.stats_tracker import Stats_TrackerService
 
-# Initialize service
-service = Stats_TrackerService()
+    # Initialize service
+    service = Stats_TrackerService()
 
-# Basic service operation
-response = service.handle_request(request_data)
-logger.info(f"Service response: {response}")
+    # Basic service operation
+    response = service.handle_request(request_data)
+    logger.info(f"Service response: {response}")
 
-# Service with dependency injection
-from src.core.dependency_container import Container
+    # Service with dependency injection
+    from src.core.dependency_container import Container
 
-container = Container()
-service = container.get(Stats_TrackerService)
+    container = Container()
+    service = container.get(Stats_TrackerService)
 
-# Execute service method
-result = service.execute_operation(input_data, context)
-logger.info(f"Operation result: {result}")
+    # Execute service method
+    result = service.execute_operation(input_data, context)
+    logger.info(f"Operation result: {result}")
 
     """
 

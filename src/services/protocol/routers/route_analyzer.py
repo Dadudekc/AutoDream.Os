@@ -29,30 +29,30 @@ from ..messaging_protocol_models import (
 class RouteAnalyzer:
     """Analyzes route options and calculates scores.
 
-    Handles route analysis, scoring, and selection logic for message routing decisions.
+        Handles route analysis, scoring, and selection logic for message routing decisions.
 
-EXAMPLE USAGE:
-==============
+    EXAMPLE USAGE:
+    ==============
 
-# Import the service
-from src.services.protocol.routers.route_analyzer import Route_AnalyzerService
+    # Import the service
+    from src.services.protocol.routers.route_analyzer import Route_AnalyzerService
 
-# Initialize service
-service = Route_AnalyzerService()
+    # Initialize service
+    service = Route_AnalyzerService()
 
-# Basic service operation
-response = service.handle_request(request_data)
-logger.info(f"Service response: {response}")
+    # Basic service operation
+    response = service.handle_request(request_data)
+    logger.info(f"Service response: {response}")
 
-# Service with dependency injection
-from src.core.dependency_container import Container
+    # Service with dependency injection
+    from src.core.dependency_container import Container
 
-container = Container()
-service = container.get(Route_AnalyzerService)
+    container = Container()
+    service = container.get(Route_AnalyzerService)
 
-# Execute service method
-result = service.execute_operation(input_data, context)
-logger.info(f"Operation result: {result}")
+    # Execute service method
+    result = service.execute_operation(input_data, context)
+    logger.info(f"Operation result: {result}")
 
     """
 

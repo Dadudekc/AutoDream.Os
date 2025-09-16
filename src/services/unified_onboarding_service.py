@@ -19,18 +19,19 @@ Author: Agent-3 (Infrastructure & DevOps Specialist)
 License: MIT
 """
 
-import logging
 import asyncio
-from enum import Enum
-from datetime import datetime
-from typing import Dict, List, Optional, Any
-from pathlib import Path
 import json
+import logging
+from datetime import datetime
+from enum import Enum
+from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
+
 class AgentState(Enum):
     """Finite State Machine states for agents."""
+
     UNINITIALIZED = "uninitialized"
     ONBOARDING = "onboarding"
     IDLE = "idle"
@@ -41,8 +42,10 @@ class AgentState(Enum):
     CYCLE_COMPLETION = "cycle_completion"
     ERROR_RECOVERY = "error_recovery"
 
+
 class ContractType(Enum):
     """Types of contracts agents can enter."""
+
     DEDUPLICATION = "deduplication"
     V2_COMPLIANCE = "v2_compliance"
     ARCHITECTURE = "architecture"
@@ -51,11 +54,18 @@ class ContractType(Enum):
     COORDINATION = "coordination"
     ONBOARDING = "onboarding"
 
+
 class AgentContract:
     """Contract system for agent task commitments."""
-    
-    def __init__(self, agent_id: str, contract_type: ContractType, 
-                 description: str, estimated_cycles: int, dependencies: List[str] = None):
+
+    def __init__(
+        self,
+        agent_id: str,
+        contract_type: ContractType,
+        description: str,
+        estimated_cycles: int,
+        dependencies: list[str] = None,
+    ):
         self.agent_id = agent_id
         self.contract_type = contract_type
         self.description = description
@@ -66,7 +76,7 @@ class AgentContract:
         self.cycle_end = None
         self.progress_percentage = 0
         self.created_at = datetime.now()
-        
+
     def to_dict(self):
         return {
             "agent_id": self.agent_id,
@@ -76,59 +86,60 @@ class AgentContract:
             "dependencies": self.dependencies,
             "status": self.status,
             "progress_percentage": self.progress_percentage,
-            "created_at": self.created_at.isoformat()
+            "created_at": self.created_at.isoformat(),
         }
+
 
 class UnifiedOnboardingService:
     """Unified onboarding service consolidating all onboarding implementations."""
-    
+
     def __init__(self, coordination_service=None, discord_commander=None):
         self.coordination_service = coordination_service
         self.discord_commander = discord_commander
         self.agent_roles = {
             "Agent-1": "Integration & Core Systems Specialist",
-            "Agent-2": "Architecture & Design Specialist", 
+            "Agent-2": "Architecture & Design Specialist",
             "Agent-3": "Infrastructure & DevOps Specialist",
             "Agent-4": "Quality Assurance Specialist (CAPTAIN)",
             "Agent-5": "Business Intelligence Specialist",
             "Agent-6": "Coordination & Communication Specialist",
             "Agent-7": "Web Development Specialist",
-            "Agent-8": "SSOT & System Integration Specialist"
+            "Agent-8": "SSOT & System Integration Specialist",
         }
         self.agent_states = {}
         self.contracts = {}
         self.workspace_path = Path("agent_workspaces")
-        
+
     async def perform_agent_onboarding(self, agent_id: str, role: str = None) -> bool:
         """Perform onboarding for a specific agent."""
         try:
             if not role:
                 role = self.agent_roles.get(agent_id, "Specialist")
-                
+
             logger.info(f"🚀 Starting unified onboarding for {agent_id} - {role}")
-            
+
             # Update agent state
             self.agent_states[agent_id] = AgentState.ONBOARDING
-            
+
             # Create onboarding contract
             contract = self.create_onboarding_contract(agent_id)
             self.contracts[agent_id] = contract
-            
+
             # Create onboarding message
             message = self.create_onboarding_message(agent_id, role)
-            
+
             # Send onboarding message via coordination service
-            if self.coordination_service and hasattr(self.coordination_service, 'send_message'):
+            if self.coordination_service and hasattr(self.coordination_service, "send_message"):
                 success = await self._send_onboarding_message(agent_id, message)
                 if success:
                     logger.info(f"✅ Onboarding message sent to {agent_id}")
                     contract.status = "active"
                     self.agent_states[agent_id] = AgentState.IDLE
-                    
+
                     # Notify Discord Commander
                     if self.discord_commander:
                         await self._notify_discord_onboarding(agent_id, role, "success")
-                    
+
                     return True
                 else:
                     logger.error(f"❌ Failed to send onboarding message to {agent_id}")
@@ -139,25 +150,25 @@ class UnifiedOnboardingService:
                 contract.status = "active"
                 self.agent_states[agent_id] = AgentState.IDLE
                 return True
-                
+
         except Exception as e:
             logger.error(f"❌ Onboarding failed for {agent_id}: {e}")
             self.agent_states[agent_id] = AgentState.ERROR_RECOVERY
             return False
-    
+
     def create_onboarding_contract(self, agent_id: str) -> AgentContract:
         """Create onboarding contract for agent."""
         return AgentContract(
             agent_id=agent_id,
             contract_type=ContractType.ONBOARDING,
             description=f"Unified onboarding contract for {agent_id}",
-            estimated_cycles=2
+            estimated_cycles=2,
         )
-    
+
     def create_onboarding_message(self, agent_id: str, role: str) -> str:
         """Create onboarding message for agent."""
         role_guidance = self._get_role_onboarding_guidance(agent_id)
-        
+
         message = f"""
 ============================================================
 🚀 AGENT ONBOARDING - {agent_id}
@@ -189,11 +200,11 @@ Ready to begin your specialist journey!
 ------------------------------------------------------------
 """
         return message
-    
+
     def _get_role_onboarding_guidance(self, agent_id: str) -> str:
         """Get role-specific onboarding guidance."""
         role = self.agent_roles.get(agent_id, "Specialist")
-        
+
         guidance_templates = {
             "Agent-1": """
 CORE RESPONSIBILITIES:
@@ -298,10 +309,12 @@ ONBOARDING TASKS:
 2. Analyze system integration points and processes
 3. Identify integration enhancement opportunities
 4. Prepare for system integration development
-"""
+""",
         }
-        
-        return guidance_templates.get(agent_id, f"""
+
+        return guidance_templates.get(
+            agent_id,
+            f"""
 CORE RESPONSIBILITIES:
 - {role} specialized tasks and responsibilities
 - System optimization and enhancement
@@ -313,85 +326,88 @@ ONBOARDING TASKS:
 2. Analyze specialized tools and frameworks
 3. Identify enhancement opportunities
 4. Prepare for specialized development work
-""")
-    
+""",
+        )
+
     async def _send_onboarding_message(self, agent_id: str, message: str) -> bool:
         """Send onboarding message via coordination service."""
         try:
-            if hasattr(self.coordination_service, 'send_message'):
+            if hasattr(self.coordination_service, "send_message"):
                 return await self.coordination_service.send_message(agent_id, message)
             return False
         except Exception as e:
             logger.error(f"Failed to send message to {agent_id}: {e}")
             return False
-    
+
     async def _notify_discord_onboarding(self, agent_id: str, role: str, status: str):
         """Notify Discord Commander of onboarding status."""
         try:
-            if self.discord_commander and hasattr(self.discord_commander, 'send_notification'):
+            if self.discord_commander and hasattr(self.discord_commander, "send_notification"):
                 notification = {
                     "type": "onboarding",
                     "agent_id": agent_id,
                     "role": role,
                     "status": status,
-                    "timestamp": datetime.now().isoformat()
+                    "timestamp": datetime.now().isoformat(),
                 }
                 await self.discord_commander.send_notification(notification)
         except Exception as e:
             logger.error(f"Failed to notify Discord of onboarding: {e}")
-    
-    async def onboard_all_agents(self) -> Dict[str, bool]:
+
+    async def onboard_all_agents(self) -> dict[str, bool]:
         """Onboard all agents in the swarm."""
         logger.info("🚀 Starting unified onboarding for all agents...")
         results = {}
-        
+
         for agent_id, role in self.agent_roles.items():
             logger.info(f"📋 Onboarding {agent_id} - {role}")
             results[agent_id] = await self.perform_agent_onboarding(agent_id, role)
-        
+
         successful_onboards = sum(1 for success in results.values() if success)
-        logger.info(f"✅ Unified onboarding complete: {successful_onboards}/{len(results)} agents onboarded successfully")
-        
+        logger.info(
+            f"✅ Unified onboarding complete: {successful_onboards}/{len(results)} agents onboarded successfully"
+        )
+
         return results
-    
+
     def get_agent_state(self, agent_id: str) -> AgentState:
         """Get current state of an agent."""
         return self.agent_states.get(agent_id, AgentState.UNINITIALIZED)
-    
-    def get_agent_contract(self, agent_id: str) -> Optional[AgentContract]:
+
+    def get_agent_contract(self, agent_id: str) -> AgentContract | None:
         """Get current contract of an agent."""
         return self.contracts.get(agent_id)
-    
+
     def save_onboarding_state(self, filepath: str = "onboarding_state.json"):
         """Save current onboarding state to file."""
         try:
             state_data = {
                 "agent_states": {k: v.value for k, v in self.agent_states.items()},
                 "contracts": {k: v.to_dict() for k, v in self.contracts.items()},
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
-            
-            with open(filepath, 'w') as f:
+
+            with open(filepath, "w") as f:
                 json.dump(state_data, f, indent=2)
-                
+
             logger.info(f"✅ Onboarding state saved to {filepath}")
         except Exception as e:
             logger.error(f"❌ Failed to save onboarding state: {e}")
-    
+
     def load_onboarding_state(self, filepath: str = "onboarding_state.json"):
         """Load onboarding state from file."""
         try:
             if not Path(filepath).exists():
                 logger.info(f"📝 No existing onboarding state found at {filepath}")
                 return
-                
-            with open(filepath, 'r') as f:
+
+            with open(filepath) as f:
                 state_data = json.load(f)
-            
+
             # Restore agent states
             for agent_id, state_value in state_data.get("agent_states", {}).items():
                 self.agent_states[agent_id] = AgentState(state_value)
-            
+
             # Restore contracts
             for agent_id, contract_data in state_data.get("contracts", {}).items():
                 contract = AgentContract(
@@ -399,25 +415,26 @@ ONBOARDING TASKS:
                     contract_type=ContractType(contract_data["contract_type"]),
                     description=contract_data["description"],
                     estimated_cycles=contract_data["estimated_cycles"],
-                    dependencies=contract_data.get("dependencies", [])
+                    dependencies=contract_data.get("dependencies", []),
                 )
                 contract.status = contract_data["status"]
                 contract.progress_percentage = contract_data["progress_percentage"]
                 contract.created_at = datetime.fromisoformat(contract_data["created_at"])
                 self.contracts[agent_id] = contract
-            
+
             logger.info(f"✅ Onboarding state loaded from {filepath}")
         except Exception as e:
             logger.error(f"❌ Failed to load onboarding state: {e}")
 
+
 # Discord Commander Integration
 class DiscordOnboardingIntegration:
     """Discord Commander integration for onboarding notifications."""
-    
+
     def __init__(self, discord_commander):
         self.discord_commander = discord_commander
         self.onboarding_service = UnifiedOnboardingService(discord_commander=discord_commander)
-    
+
     async def handle_onboarding_command(self, command: str, agent_id: str = None) -> str:
         """Handle onboarding commands from Discord."""
         try:
@@ -425,31 +442,36 @@ class DiscordOnboardingIntegration:
                 results = await self.onboarding_service.onboard_all_agents()
                 success_count = sum(1 for success in results.values() if success)
                 return f"Onboarding complete: {success_count}/{len(results)} agents onboarded successfully"
-            
+
             elif command == "onboard_agent" and agent_id:
                 success = await self.onboarding_service.perform_agent_onboarding(agent_id)
                 return f"Agent {agent_id} onboarding: {'Success' if success else 'Failed'}"
-            
+
             elif command == "onboarding_status":
-                states = {agent: state.value for agent, state in self.onboarding_service.agent_states.items()}
+                states = {
+                    agent: state.value
+                    for agent, state in self.onboarding_service.agent_states.items()
+                }
                 return f"Onboarding Status: {states}"
-            
+
             else:
                 return "Unknown onboarding command. Available: onboard_all, onboard_agent, onboarding_status"
-                
+
         except Exception as e:
             logger.error(f"Discord onboarding command failed: {e}")
             return f"Command failed: {e}"
 
+
 if __name__ == "__main__":
     # Example usage
     service = UnifiedOnboardingService()
-    
+
     # Load existing state
     service.load_onboarding_state()
-    
+
     # Perform onboarding
     asyncio.run(service.onboard_all_agents())
-    
+
     # Save state
     service.save_onboarding_state()
+

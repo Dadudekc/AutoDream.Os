@@ -13,7 +13,6 @@ License: MIT
 
 import json
 import sys
-from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -111,7 +110,13 @@ class AdvancedCoverageReporter(CoverageReporter):
         }
 
         for agent, data in agent_breakdown.items():
-            coverage_class = "status-good" if data["coverage"] >= 80 else "status-warning" if data["coverage"] >= 60 else "status-bad"
+            coverage_class = (
+                "status-good"
+                if data["coverage"] >= 80
+                else "status-warning"
+                if data["coverage"] >= 60
+                else "status-bad"
+            )
             html += f"""
                         <tr>
                             <td>{agent.upper()}</td>
@@ -197,16 +202,16 @@ class AdvancedCoverageReporter(CoverageReporter):
     def _calculate_coverage_trends(self, coverage_data: dict[str, Any]) -> dict[str, Any]:
         """Calculate coverage trends and patterns."""
         files = coverage_data.get("files", {})
-        
+
         # Calculate average coverage by file type
         file_types = {}
         for file_path, file_data in files.items():
             file_ext = Path(file_path).suffix.lower()
             coverage = file_data.get("summary", {}).get("percent_covered", 0)
-            
+
             if file_ext not in file_types:
                 file_types[file_ext] = {"total": 0, "count": 0, "files": []}
-            
+
             file_types[file_ext]["total"] += coverage
             file_types[file_ext]["count"] += 1
             file_types[file_ext]["files"].append(str(file_path))
@@ -218,7 +223,12 @@ class AdvancedCoverageReporter(CoverageReporter):
         return {
             "by_file_type": file_types,
             "total_files": len(files),
-            "average_coverage": sum(f.get("summary", {}).get("percent_covered", 0) for f in files.values()) / len(files) if files else 0,
+            "average_coverage": (
+                sum(f.get("summary", {}).get("percent_covered", 0) for f in files.values())
+                / len(files)
+                if files
+                else 0
+            ),
         }
 
 
@@ -228,7 +238,7 @@ class AdvancedProgressTracker(ProgressTracker):
     def generate_analytics_report(self) -> str:
         """Generate analytics report with performance insights."""
         summary = self.get_progress_summary()
-        
+
         # Calculate performance metrics
         test_durations = [r["duration"] for r in self.test_results]
         avg_duration = sum(test_durations) / len(test_durations) if test_durations else 0
@@ -267,24 +277,34 @@ class AdvancedProgressTracker(ProgressTracker):
         recommendations = []
 
         if summary["pass_rate"] < 90:
-            recommendations.append(f"Pass rate is {summary['pass_rate']:.1f}%. Focus on fixing failing tests.")
+            recommendations.append(
+                f"Pass rate is {summary['pass_rate']:.1f}%. Focus on fixing failing tests."
+            )
 
         if summary["tests_per_second"] < 1:
-            recommendations.append("Test execution is slow. Consider optimizing test setup and teardown.")
+            recommendations.append(
+                "Test execution is slow. Consider optimizing test setup and teardown."
+            )
 
         if error_types:
             most_common_error = max(error_types.items(), key=lambda x: x[1])
-            recommendations.append(f"Most common error: {most_common_error[0]} ({most_common_error[1]} occurrences)")
+            recommendations.append(
+                f"Most common error: {most_common_error[0]} ({most_common_error[1]} occurrences)"
+            )
 
         if summary["elapsed_time"] > 300:  # 5 minutes
-            recommendations.append("Test suite execution time is long. Consider parallel execution or test optimization.")
+            recommendations.append(
+                "Test suite execution time is long. Consider parallel execution or test optimization."
+            )
 
         return recommendations
 
     def export_results_to_json(self) -> str:
         """Export test results to JSON file."""
-        export_path = self.report_dir / f"test_results_export_{self.timestamp.strftime('%Y%m%d_%H%M%S')}.json"
-        
+        export_path = (
+            self.report_dir / f"test_results_export_{self.timestamp.strftime('%Y%m%d_%H%M%S')}.json"
+        )
+
         export_data = {
             "export_timestamp": self.timestamp.isoformat(),
             "test_results": self.test_results,
@@ -325,9 +345,13 @@ class TestReportingSystemAdvanced:
         mock_coverage_data = {
             "totals": {"percent_covered": 85.0, "num_covered": 100, "num_statements": 120},
             "files": {
-                "src/test.py": {"summary": {"percent_covered": 90.0, "num_covered": 90, "num_statements": 100}},
-                "src/other.py": {"summary": {"percent_covered": 60.0, "num_covered": 30, "num_statements": 50}},
-            }
+                "src/test.py": {
+                    "summary": {"percent_covered": 90.0, "num_covered": 90, "num_statements": 100}
+                },
+                "src/other.py": {
+                    "summary": {"percent_covered": 60.0, "num_covered": 30, "num_statements": 50}
+                },
+            },
         }
 
         report_path = reporter.generate_detailed_report(mock_coverage_data)
@@ -345,7 +369,7 @@ class TestReportingSystemAdvanced:
     def test_analytics_report_generation(self):
         """Test analytics report generation."""
         tracker = AdvancedProgressTracker()
-        
+
         # Add some test results
         tracker.record_test_result("test_1", "passed", 1.0)
         tracker.record_test_result("test_2", "failed", 2.0, "AssertionError: Expected 5, got 3")

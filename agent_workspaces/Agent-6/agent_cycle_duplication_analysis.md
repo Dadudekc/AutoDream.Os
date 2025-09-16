@@ -12,7 +12,7 @@
 2. **Message Pattern Duplication**
    - Every A2A message triggers 3-4 file creations:
      - Coordination plan file
-     - Inbox message file  
+     - Inbox message file
      - Devlog file
      - Status update
    - **4x multiplication** of every communication

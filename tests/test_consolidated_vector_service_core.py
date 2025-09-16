@@ -29,114 +29,115 @@ sys.path.insert(0, str(src_path))
 # Mock imports for testing
 try:
     from src.services.consolidated_vector_service import (
+        CollectionConfig,
         ConsolidatedVectorService,
-        VectorDocument,
+        DocumentType,
+        EmbeddingModel,
+        SearchQuery,
+        SearchResult,
         VectorDatabaseConfig,
         VectorDatabaseResult,
         VectorDatabaseStats,
-        SearchQuery,
-        SearchResult,
-        EmbeddingModel,
-        DocumentType,
-        CollectionConfig
+        VectorDocument,
     )
+
     VECTOR_SERVICE_AVAILABLE = True
 except ImportError:
     VECTOR_SERVICE_AVAILABLE = False
-    
+
     # Create mock classes for testing
     class EmbeddingModel:
         SENTENCE_TRANSFORMERS = "sentence_transformers"
         OPENAI = "openai"
-    
+
     class DocumentType:
         TEXT = "text"
         CODE = "code"
         JSON = "json"
-    
+
     class VectorDocument:
         def __init__(self, id, content, metadata=None, document_type=DocumentType.TEXT):
             self.id = id
             self.content = content
             self.metadata = metadata or {}
             self.document_type = document_type
-    
+
     class VectorDatabaseConfig:
         def __init__(self, host="localhost", port=6333, collection_name="default_collection"):
             self.host = host
             self.port = port
             self.collection_name = collection_name
-    
+
     class VectorDatabaseResult:
         def __init__(self, success=True, message="Success"):
             self.success = success
             self.message = message
-    
+
     class VectorDatabaseStats:
         def __init__(self, total_documents=0, total_collections=0, index_size_mb=0.0):
             self.total_documents = total_documents
             self.total_collections = total_collections
             self.index_size_mb = index_size_mb
-    
+
     class SearchQuery:
         def __init__(self, query, limit=10, filters=None):
             self.query = query
             self.limit = limit
             self.filters = filters or {}
-    
+
     class SearchResult:
         def __init__(self, documents=None, scores=None, total_found=0):
             self.documents = documents or []
             self.scores = scores or []
             self.total_found = total_found
-    
+
     class CollectionConfig:
         def __init__(self, name, dimension=384):
             self.name = name
             self.dimension = dimension
-    
+
     class ConsolidatedVectorService:
         def __init__(self, agent_id="default", config=None):
             self.agent_id = agent_id
             self.config = config or VectorDatabaseConfig()
             self.embedding_model = EmbeddingModel.SENTENCE_TRANSFORMERS
             self._engine = None
-        
+
         def generate_embeddings(self, texts, model=None):
             return [[0.1, 0.2, 0.3] for _ in texts]
-        
+
         def store_document(self, doc):
             return VectorDatabaseResult(success=True)
-        
+
         def get_document(self, doc_id):
             return VectorDocument(id=doc_id, content="Test content")
-        
+
         def delete_document(self, doc_id):
             return VectorDatabaseResult(success=True)
-        
+
         def search_documents(self, query):
             return SearchResult()
-        
+
         def get_stats(self):
             return VectorDatabaseStats()
-        
+
         def create_collection(self, config):
             return VectorDatabaseResult(success=True)
-        
+
         def list_collections(self):
             return ["collection1", "collection2"]
 
 
 class TestConsolidatedVectorServiceCore:
     """Test suite for core consolidated vector service functionality"""
-    
+
     def setup_method(self):
         """Setup test fixtures."""
         self.service = ConsolidatedVectorService(agent_id="test-agent")
         self.sample_texts = [
             "This is a test document for vector operations",
             "Another test document with different content",
-            "Third document for comprehensive testing"
+            "Third document for comprehensive testing",
         ]
 
     def teardown_method(self):
@@ -163,7 +164,9 @@ class TestConsolidatedVectorServiceCore:
     @pytest.mark.unit
     def test_embedding_generation_sentence_transformers(self):
         """Test embedding generation using sentence transformers."""
-        with patch("src.services.consolidated_vector_service.SentenceTransformer") as mock_transformer:
+        with patch(
+            "src.services.consolidated_vector_service.SentenceTransformer"
+        ) as mock_transformer:
             mock_encoder = Mock()
             mock_encoder.encode.return_value = np.array([[0.1, 0.2, 0.3], [0.4, 0.5, 0.6]])
             mock_transformer.return_value = mock_encoder
@@ -184,7 +187,9 @@ class TestConsolidatedVectorServiceCore:
         mock_response.data = [Mock(embedding=[0.1, 0.2, 0.3]), Mock(embedding=[0.4, 0.5, 0.6])]
         mock_client.embeddings.create.return_value = mock_response
 
-        with patch("src.services.consolidated_vector_service.openai.OpenAI", return_value=mock_client):
+        with patch(
+            "src.services.consolidated_vector_service.openai.OpenAI", return_value=mock_client
+        ):
             service = ConsolidatedVectorService()
             service.embedding_model = EmbeddingModel.OPENAI
             embeddings = service.generate_embeddings(self.sample_texts[:2])
@@ -259,7 +264,9 @@ class TestConsolidatedVectorServiceCore:
             success=True, message="Stored successfully"
         )
 
-        with patch("src.services.consolidated_vector_service.SentenceTransformer") as mock_transformer:
+        with patch(
+            "src.services.consolidated_vector_service.SentenceTransformer"
+        ) as mock_transformer:
             mock_encoder = Mock()
             mock_encoder.encode.return_value = np.array([[0.1, 0.2, 0.3]])
             mock_transformer.return_value = mock_encoder
@@ -283,7 +290,9 @@ class TestConsolidatedVectorServiceCore:
             success=False, message="Storage failed"
         )
 
-        with patch("src.services.consolidated_vector_service.SentenceTransformer") as mock_transformer:
+        with patch(
+            "src.services.consolidated_vector_service.SentenceTransformer"
+        ) as mock_transformer:
             mock_encoder = Mock()
             mock_encoder.encode.return_value = np.array([[0.1, 0.2, 0.3]])
             mock_transformer.return_value = mock_encoder
@@ -311,7 +320,9 @@ class TestConsolidatedVectorServiceCore:
         )
         mock_engine.search.return_value = mock_search_result
 
-        with patch("src.services.consolidated_vector_service.SentenceTransformer") as mock_transformer:
+        with patch(
+            "src.services.consolidated_vector_service.SentenceTransformer"
+        ) as mock_transformer:
             mock_encoder = Mock()
             mock_encoder.encode.return_value = np.array([[0.1, 0.2, 0.3]])
             mock_transformer.return_value = mock_encoder
@@ -364,7 +375,8 @@ class TestConsolidatedVectorServiceCore:
     def test_get_stats(self):
         """Test database statistics retrieval."""
         mock_stats = VectorDatabaseStats(
-            total_documents=100, total_collections=5, index_size_mb=50.5)
+            total_documents=100, total_collections=5, index_size_mb=50.5
+        )
         mock_engine = Mock()
         mock_engine.get_stats.return_value = mock_stats
 
@@ -417,7 +429,9 @@ class TestConsolidatedVectorServiceCore:
     @pytest.mark.unit
     def test_empty_text_embedding(self):
         """Test embedding generation with empty text."""
-        with patch("src.services.consolidated_vector_service.SentenceTransformer") as mock_transformer:
+        with patch(
+            "src.services.consolidated_vector_service.SentenceTransformer"
+        ) as mock_transformer:
             mock_encoder = Mock()
             mock_encoder.encode.return_value = np.array([[]])
             mock_transformer.return_value = mock_encoder
@@ -431,7 +445,9 @@ class TestConsolidatedVectorServiceCore:
     @pytest.mark.unit
     def test_multiple_text_embedding(self):
         """Test embedding generation with multiple texts."""
-        with patch("src.services.consolidated_vector_service.SentenceTransformer") as mock_transformer:
+        with patch(
+            "src.services.consolidated_vector_service.SentenceTransformer"
+        ) as mock_transformer:
             mock_encoder = Mock()
             mock_encoder.encode.return_value = np.array(
                 [[0.1, 0.2, 0.3], [0.4, 0.5, 0.6], [0.7, 0.8, 0.9]]
@@ -469,7 +485,8 @@ class TestConsolidatedVectorServiceCore:
 
         for doc_type in doc_types:
             doc = VectorDocument(
-                id=f"test-{doc_type.value}", content="Test content", document_type=doc_type)
+                id=f"test-{doc_type.value}", content="Test content", document_type=doc_type
+            )
             assert doc.document_type == doc_type
 
     @pytest.mark.unit
@@ -511,9 +528,7 @@ class TestConsolidatedVectorServiceCore:
 
 
 # Export test classes
-__all__ = [
-    'TestConsolidatedVectorServiceCore'
-]
+__all__ = ["TestConsolidatedVectorServiceCore"]
 
 
 if __name__ == "__main__":

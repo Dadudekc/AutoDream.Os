@@ -13,13 +13,13 @@ License: MIT
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional, Protocol
+from typing import Any, Protocol
 
 
 class IConfigurationProvider(Protocol):
     """Interface for configuration providers."""
 
-    def get_config(self, key: str) -> Optional[Any]:
+    def get_config(self, key: str) -> Any | None:
         """Get configuration value by key."""
         ...
 
@@ -31,7 +31,7 @@ class IConfigurationProvider(Protocol):
         """Check if configuration key exists."""
         ...
 
-    def get_all_config(self) -> Dict[str, Any]:
+    def get_all_config(self) -> dict[str, Any]:
         """Get all configuration values."""
         ...
 
@@ -43,15 +43,15 @@ class IConfigurationProvider(Protocol):
 class IConfigurationValidator(Protocol):
     """Interface for configuration validation."""
 
-    def validate_config(self, config: Dict[str, Any]) -> bool:
+    def validate_config(self, config: dict[str, Any]) -> bool:
         """Validate configuration settings."""
         ...
 
-    def get_validation_errors(self) -> List[str]:
+    def get_validation_errors(self) -> list[str]:
         """Get configuration validation errors."""
         ...
 
-    def is_valid(self, config: Dict[str, Any]) -> bool:
+    def is_valid(self, config: dict[str, Any]) -> bool:
         """Check if configuration is valid."""
         ...
 
@@ -65,7 +65,7 @@ class ICoordinator(ABC):
         pass
 
     @abstractmethod
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get coordination status."""
         pass
 
@@ -86,11 +86,11 @@ class ICoordinatorRegistry(Protocol):
         """Unregister a coordinator."""
         ...
 
-    def get_coordinator(self, coordinator_id: str) -> Optional[ICoordinator]:
+    def get_coordinator(self, coordinator_id: str) -> ICoordinator | None:
         """Get coordinator by ID."""
         ...
 
-    def list_coordinators(self) -> List[str]:
+    def list_coordinators(self) -> list[str]:
         """List all coordinator IDs."""
         ...
 
@@ -98,11 +98,11 @@ class ICoordinatorRegistry(Protocol):
 class ICoordinatorFactory(Protocol):
     """Interface for coordinator factory."""
 
-    def create_coordinator(self, coordinator_type: str, **kwargs) -> Optional[ICoordinator]:
+    def create_coordinator(self, coordinator_type: str, **kwargs) -> ICoordinator | None:
         """Create a coordinator instance."""
         ...
 
-    def get_supported_types(self) -> List[str]:
+    def get_supported_types(self) -> list[str]:
         """Get supported coordinator types."""
         ...
 
@@ -114,11 +114,11 @@ class ICoordinatorFactory(Protocol):
 class ICoreSystemFactory(Protocol):
     """Interface for core system factory."""
 
-    def create_system(self, system_type: str, **kwargs) -> Optional[Any]:
+    def create_system(self, system_type: str, **kwargs) -> Any | None:
         """Create a core system instance."""
         ...
 
-    def get_supported_types(self) -> List[str]:
+    def get_supported_types(self) -> list[str]:
         """Get supported system types."""
         ...
 
@@ -138,15 +138,11 @@ class ICoreSystemRegistry(Protocol):
         """Unregister a core system."""
         ...
 
-    def get_system(self, system_id: str) -> Optional[Any]:
+    def get_system(self, system_id: str) -> Any | None:
         """Get system by ID."""
         ...
 
-    def list_systems(self) -> List[str]:
+    def list_systems(self) -> list[str]:
         """List all system IDs."""
         ...
-
-
-
-
 

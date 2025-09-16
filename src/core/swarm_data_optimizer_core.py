@@ -14,17 +14,16 @@ License: MIT
 import json
 import logging
 import time
-from dataclasses import dataclass, asdict
-from datetime import datetime, timedelta
+from dataclasses import dataclass
 from enum import Enum
-from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
 
 class OptimizationStrategy(Enum):
     """Data optimization strategies."""
+
     CACHING = "caching"
     COMPRESSION = "compression"
     INDEXING = "indexing"
@@ -35,6 +34,7 @@ class OptimizationStrategy(Enum):
 
 class DataType(Enum):
     """Data types for optimization."""
+
     METRICS = "metrics"
     CONFIGURATION = "configuration"
     MESSAGES = "messages"
@@ -46,6 +46,7 @@ class DataType(Enum):
 @dataclass
 class OptimizationResult:
     """Result of data optimization operation."""
+
     strategy: OptimizationStrategy
     data_type: DataType
     original_size: int
@@ -53,7 +54,7 @@ class OptimizationResult:
     compression_ratio: float
     processing_time: float
     success: bool
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
 
     def __post_init__(self):
         if self.compression_ratio == 0 and self.original_size > 0:
@@ -63,6 +64,7 @@ class OptimizationResult:
 @dataclass
 class CacheEntry:
     """Cache entry for optimized data."""
+
     key: str
     data: Any
     timestamp: float
@@ -84,21 +86,21 @@ class SwarmDataOptimizerCore:
         """Initialize swarm data optimizer core."""
         self.cache_size_limit = cache_size_limit
         self.default_ttl = default_ttl
-        
+
         # Cache system
-        self.cache: Dict[str, CacheEntry] = {}
+        self.cache: dict[str, CacheEntry] = {}
         self.cache_hits = 0
         self.cache_misses = 0
-        
+
         # Optimization tracking
-        self.optimization_results: List[OptimizationResult] = []
+        self.optimization_results: list[OptimizationResult] = []
         self.optimization_stats = {
             "total_optimizations": 0,
             "total_savings": 0,
             "average_compression": 0.0,
-            "cache_hit_rate": 0.0
+            "cache_hit_rate": 0.0,
         }
-        
+
         self.logger = logging.getLogger(__name__)
         self.logger.info("SwarmDataOptimizerCore initialized")
 
@@ -106,34 +108,36 @@ class SwarmDataOptimizerCore:
         self,
         data: Any,
         data_type: DataType,
-        strategies: Optional[List[OptimizationStrategy]] = None
+        strategies: list[OptimizationStrategy] | None = None,
     ) -> OptimizationResult:
         """Optimize data using specified strategies."""
         try:
             start_time = time.time()
-            
+
             # Default strategies based on data type
             if strategies is None:
                 strategies = self._get_default_strategies(data_type)
-            
+
             # Serialize data to get original size
             original_data = json.dumps(data, default=str)
-            original_size = len(original_data.encode('utf-8'))
-            
+            original_size = len(original_data.encode("utf-8"))
+
             optimized_data = data
             total_compression = 0
-            
+
             # Apply optimization strategies
             for strategy in strategies:
                 optimized_data = self._apply_strategy(optimized_data, strategy, data_type)
-            
+
             # Calculate final size
             final_data = json.dumps(optimized_data, default=str)
-            optimized_size = len(final_data.encode('utf-8'))
-            
+            optimized_size = len(final_data.encode("utf-8"))
+
             processing_time = time.time() - start_time
-            compression_ratio = (original_size - optimized_size) / original_size if original_size > 0 else 0
-            
+            compression_ratio = (
+                (original_size - optimized_size) / original_size if original_size > 0 else 0
+            )
+
             result = OptimizationResult(
                 strategy=strategies[0] if strategies else OptimizationStrategy.CACHING,
                 data_type=data_type,
@@ -144,17 +148,17 @@ class SwarmDataOptimizerCore:
                 success=True,
                 metadata={
                     "strategies_applied": [s.value for s in strategies],
-                    "optimization_timestamp": time.time()
-                }
+                    "optimization_timestamp": time.time(),
+                },
             )
-            
+
             # Track optimization
             self.optimization_results.append(result)
             self._update_optimization_stats(result)
-            
+
             self.logger.info(f"Optimized {data_type.value} data: {compression_ratio:.1%} reduction")
             return result
-            
+
         except Exception as e:
             self.logger.error(f"Error optimizing data: {e}")
             return OptimizationResult(
@@ -165,22 +169,30 @@ class SwarmDataOptimizerCore:
                 compression_ratio=0,
                 processing_time=0,
                 success=False,
-                metadata={"error": str(e)}
+                metadata={"error": str(e)},
             )
 
-    def _get_default_strategies(self, data_type: DataType) -> List[OptimizationStrategy]:
+    def _get_default_strategies(self, data_type: DataType) -> list[OptimizationStrategy]:
         """Get default optimization strategies for data type."""
         strategy_map = {
             DataType.METRICS: [OptimizationStrategy.CACHING, OptimizationStrategy.COMPRESSION],
             DataType.CONFIGURATION: [OptimizationStrategy.CACHING, OptimizationStrategy.INDEXING],
-            DataType.MESSAGES: [OptimizationStrategy.COMPRESSION, OptimizationStrategy.DEDUPLICATION],
+            DataType.MESSAGES: [
+                OptimizationStrategy.COMPRESSION,
+                OptimizationStrategy.DEDUPLICATION,
+            ],
             DataType.REPORTS: [OptimizationStrategy.COMPRESSION, OptimizationStrategy.INDEXING],
             DataType.COORDINATES: [OptimizationStrategy.CACHING],
-            DataType.PROGRESS: [OptimizationStrategy.CACHING, OptimizationStrategy.BATCH_PROCESSING]
+            DataType.PROGRESS: [
+                OptimizationStrategy.CACHING,
+                OptimizationStrategy.BATCH_PROCESSING,
+            ],
         }
         return strategy_map.get(data_type, [OptimizationStrategy.CACHING])
 
-    def _apply_strategy(self, data: Any, strategy: OptimizationStrategy, data_type: DataType) -> Any:
+    def _apply_strategy(
+        self, data: Any, strategy: OptimizationStrategy, data_type: DataType
+    ) -> Any:
         """Apply specific optimization strategy to data."""
         try:
             if strategy == OptimizationStrategy.CACHING:
@@ -197,7 +209,7 @@ class SwarmDataOptimizerCore:
                 return self._apply_lazy_loading(data)
             else:
                 return data
-                
+
         except Exception as e:
             self.logger.error(f"Error applying strategy {strategy.value}: {e}")
             return data
@@ -207,7 +219,7 @@ class SwarmDataOptimizerCore:
         try:
             # Create cache key
             cache_key = f"{data_type.value}_{hash(str(data))}"
-            
+
             # Check if data is already cached
             if cache_key in self.cache:
                 entry = self.cache[cache_key]
@@ -218,27 +230,27 @@ class SwarmDataOptimizerCore:
                 else:
                     # Remove expired entry
                     del self.cache[cache_key]
-            
+
             # Cache miss
             self.cache_misses += 1
-            
+
             # Add to cache
-            data_size = len(json.dumps(data, default=str).encode('utf-8'))
+            data_size = len(json.dumps(data, default=str).encode("utf-8"))
             entry = CacheEntry(
                 key=cache_key,
                 data=data,
                 timestamp=time.time(),
                 access_count=1,
                 size=data_size,
-                ttl=self.default_ttl
+                ttl=self.default_ttl,
             )
-            
+
             # Manage cache size
             self._manage_cache_size()
             self.cache[cache_key] = entry
-            
+
             return data
-            
+
         except Exception as e:
             self.logger.error(f"Error applying caching: {e}")
             return data
@@ -253,11 +265,11 @@ class SwarmDataOptimizerCore:
                 return compressed
             elif isinstance(data, list):
                 # Remove duplicates and empty items
-                compressed = list(set(item for item in data if item is not None and item != ""))
+                compressed = list({item for item in data if item is not None and item != ""})
                 return compressed
             else:
                 return data
-                
+
         except Exception as e:
             self.logger.error(f"Error applying compression: {e}")
             return data
@@ -272,14 +284,14 @@ class SwarmDataOptimizerCore:
                     "_index": {
                         "keys": list(data.keys()),
                         "count": len(data),
-                        "created_at": time.time()
+                        "created_at": time.time(),
                     },
-                    "_data": data
+                    "_data": data,
                 }
                 return indexed_data
             else:
                 return data
-                
+
         except Exception as e:
             self.logger.error(f"Error applying indexing: {e}")
             return data
@@ -309,7 +321,7 @@ class SwarmDataOptimizerCore:
                 return deduplicated
             else:
                 return data
-                
+
         except Exception as e:
             self.logger.error(f"Error applying deduplication: {e}")
             return data
@@ -320,16 +332,16 @@ class SwarmDataOptimizerCore:
             if isinstance(data, list) and len(data) > 10:
                 # Process in batches for better performance
                 batch_size = 10
-                batches = [data[i:i + batch_size] for i in range(0, len(data), batch_size)]
+                batches = [data[i : i + batch_size] for i in range(0, len(data), batch_size)]
                 return {
                     "_batched": True,
                     "_batch_count": len(batches),
                     "_batch_size": batch_size,
-                    "_data": batches
+                    "_data": batches,
                 }
             else:
                 return data
-                
+
         except Exception as e:
             self.logger.error(f"Error applying batch processing: {e}")
             return data
@@ -343,14 +355,11 @@ class SwarmDataOptimizerCore:
                     "_lazy_loaded": True,
                     "_keys": list(data.keys()),
                     "_load_function": "load_data_on_demand",
-                    "_metadata": {
-                        "total_items": len(data),
-                        "created_at": time.time()
-                    }
+                    "_metadata": {"total_items": len(data), "created_at": time.time()},
                 }
             else:
                 return data
-                
+
         except Exception as e:
             self.logger.error(f"Error applying lazy loading: {e}")
             return data
@@ -361,16 +370,15 @@ class SwarmDataOptimizerCore:
             if len(self.cache) >= self.cache_size_limit:
                 # Remove least recently used entries
                 sorted_entries = sorted(
-                    self.cache.items(),
-                    key=lambda x: (x[1].access_count, x[1].timestamp)
+                    self.cache.items(), key=lambda x: (x[1].access_count, x[1].timestamp)
                 )
-                
+
                 # Remove 20% of cache entries
                 remove_count = max(1, len(sorted_entries) // 5)
                 for i in range(remove_count):
                     key, _ = sorted_entries[i]
                     del self.cache[key]
-                    
+
         except Exception as e:
             self.logger.error(f"Error managing cache size: {e}")
 
@@ -379,39 +387,39 @@ class SwarmDataOptimizerCore:
         try:
             self.optimization_stats["total_optimizations"] += 1
             self.optimization_stats["total_savings"] += result.original_size - result.optimized_size
-            
+
             # Update average compression
             total_compression = sum(r.compression_ratio for r in self.optimization_results)
-            self.optimization_stats["average_compression"] = (
-                total_compression / len(self.optimization_results)
+            self.optimization_stats["average_compression"] = total_compression / len(
+                self.optimization_results
             )
-            
+
             # Update cache hit rate
             total_requests = self.cache_hits + self.cache_misses
             if total_requests > 0:
-                self.optimization_stats["cache_hit_rate"] = (
-                    self.cache_hits / total_requests * 100
-                )
-                
+                self.optimization_stats["cache_hit_rate"] = self.cache_hits / total_requests * 100
+
         except Exception as e:
             self.logger.error(f"Error updating optimization stats: {e}")
 
-    def get_cache_statistics(self) -> Dict[str, Any]:
+    def get_cache_statistics(self) -> dict[str, Any]:
         """Get cache statistics."""
         try:
             total_size = sum(entry.size for entry in self.cache.values())
             total_requests = self.cache_hits + self.cache_misses
-            
+
             return {
                 "cache_entries": len(self.cache),
                 "cache_size_bytes": total_size,
                 "cache_hits": self.cache_hits,
                 "cache_misses": self.cache_misses,
-                "cache_hit_rate": (self.cache_hits / total_requests * 100) if total_requests > 0 else 0,
+                "cache_hit_rate": (
+                    (self.cache_hits / total_requests * 100) if total_requests > 0 else 0
+                ),
                 "average_entry_size": total_size / len(self.cache) if self.cache else 0,
-                "cache_limit": self.cache_size_limit
+                "cache_limit": self.cache_size_limit,
             }
-            
+
         except Exception as e:
             self.logger.error(f"Error getting cache statistics: {e}")
             return {"error": str(e)}
@@ -423,7 +431,7 @@ class SwarmDataOptimizerCore:
             self.cache_hits = 0
             self.cache_misses = 0
             self.logger.info("Cache cleared")
-            
+
         except Exception as e:
             self.logger.error(f"Error clearing cache: {e}")
 

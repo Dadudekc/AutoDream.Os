@@ -180,4 +180,3 @@
 **REMEMBER: We're optimizing for maintainability, not just reducing numbers.**
 
 **QUALITY > QUANTITY. FUNCTIONALITY > FILE COUNT.**
-

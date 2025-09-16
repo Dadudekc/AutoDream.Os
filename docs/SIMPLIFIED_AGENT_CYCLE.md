@@ -132,4 +132,3 @@ Agent-X: [brief message]
 
 **REMEMBER: We're here to build software, not optimize processes.**
 **WORK > PROCESS. RESULTS > RITUALS.**
-

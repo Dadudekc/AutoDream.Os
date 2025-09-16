@@ -275,12 +275,3 @@ export class Dashboard {
         console.log('📊 Dashboard component destroyed');
     }
 }
-
-
-
-
-
-
-
-
-

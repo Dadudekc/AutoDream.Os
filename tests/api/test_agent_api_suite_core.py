@@ -17,7 +17,6 @@ License: MIT
 import sys
 import uuid
 from pathlib import Path
-from typing import Any
 
 import pytest
 
@@ -27,20 +26,17 @@ sys.path.insert(0, str(src_path))
 
 # Mock imports for testing
 try:
-    from src.core.testing_framework import (
-        IntegrationTestFramework,
-        TestResult,
-        TestStatus
-    )
+    from src.core.testing_framework import IntegrationTestFramework, TestResult, TestStatus
+
     TESTING_FRAMEWORK_AVAILABLE = True
 except ImportError:
     TESTING_FRAMEWORK_AVAILABLE = False
-    
+
     # Create mock classes for testing
     class IntegrationTestFramework:
         def __init__(self):
             self.base_url = "http://localhost:8000/v2"
-            
+
         def validate_api_endpoint(self, endpoint, method, request_data=None, expected_status=200):
             return TestResult(
                 test_id="mock_test",
@@ -50,11 +46,24 @@ except ImportError:
                 start_time="2025-01-13T12:00:00",
                 end_time="2025-01-13T12:01:00",
                 duration=60.0,
-                metadata={"response_data": {"agent_id": "mock-agent", "status": "ACTIVE_AGENT_MODE"}}
+                metadata={
+                    "response_data": {"agent_id": "mock-agent", "status": "ACTIVE_AGENT_MODE"}
+                },
             )
-    
+
     class TestResult:
-        def __init__(self, test_id, test_name, test_type, status, start_time, end_time=None, duration=0.0, error_message=None, metadata=None):
+        def __init__(
+            self,
+            test_id,
+            test_name,
+            test_type,
+            status,
+            start_time,
+            end_time=None,
+            duration=0.0,
+            error_message=None,
+            metadata=None,
+        ):
             self.test_id = test_id
             self.test_name = test_name
             self.test_type = test_type
@@ -65,7 +74,7 @@ except ImportError:
             self.error_message = error_message
             self.metadata = metadata or {}
             self.assertions = []
-    
+
     class TestStatus:
         RUNNING = "running"
         PASSED = "passed"
@@ -74,7 +83,7 @@ except ImportError:
 
 class TestAgentAPISuiteCore:
     """Core API testing suite for agent management endpoints"""
-    
+
     def __init__(self):
         self.framework = IntegrationTestFramework()
         self.base_url = "http://localhost:8000/v2"
@@ -118,7 +127,8 @@ class TestAgentAPISuiteCore:
 
             # Test agent registration
             registration_result = self.framework.validate_api_endpoint(
-                "/agents", "POST", request_data=agent_data, expected_status=201)
+                "/agents", "POST", request_data=agent_data, expected_status=201
+            )
 
             assert registration_result.status == TestStatus.PASSED, "Agent registration failed"
 
@@ -131,11 +141,13 @@ class TestAgentAPISuiteCore:
             # Track for cleanup
             self.test_agents.append(agent_data["agent_id"])
 
-            result.assertions.extend([
-                {"test": "registration_request", "status": "passed"},
-                {"test": "response_validation", "status": "passed"},
-                {"test": "data_persistence", "status": "passed"},
-            ])
+            result.assertions.extend(
+                [
+                    {"test": "registration_request", "status": "passed"},
+                    {"test": "response_validation", "status": "passed"},
+                    {"test": "data_persistence", "status": "passed"},
+                ]
+            )
 
             result.status = TestStatus.PASSED
             print("✅ Agent registration API test passed")
@@ -177,12 +189,14 @@ class TestAgentAPISuiteCore:
 
             # Register agent
             self.framework.validate_api_endpoint(
-                "/agents", "POST", request_data=agent_data, expected_status=201)
+                "/agents", "POST", request_data=agent_data, expected_status=201
+            )
             self.test_agents.append(agent_id)
 
             # Test individual agent retrieval
             get_result = self.framework.validate_api_endpoint(
-                f"/agents/{agent_id}", "GET", expected_status=200)
+                f"/agents/{agent_id}", "GET", expected_status=200
+            )
 
             assert get_result.status == TestStatus.PASSED, "Individual agent retrieval failed"
 
@@ -193,7 +207,8 @@ class TestAgentAPISuiteCore:
 
             # Test agents list endpoint
             list_result = self.framework.validate_api_endpoint(
-                "/agents", "GET", expected_status=200)
+                "/agents", "GET", expected_status=200
+            )
 
             assert list_result.status == TestStatus.PASSED, "Agents list retrieval failed"
 
@@ -202,11 +217,13 @@ class TestAgentAPISuiteCore:
             agent_ids = [agent["agent_id"] for agent in list_data]
             assert agent_id in agent_ids
 
-            result.assertions.extend([
-                {"test": "individual_retrieval", "status": "passed"},
-                {"test": "list_retrieval", "status": "passed"},
-                {"test": "data_consistency", "status": "passed"},
-            ])
+            result.assertions.extend(
+                [
+                    {"test": "individual_retrieval", "status": "passed"},
+                    {"test": "list_retrieval", "status": "passed"},
+                    {"test": "data_consistency", "status": "passed"},
+                ]
+            )
 
             result.status = TestStatus.PASSED
             print("✅ Agent retrieval API test passed")
@@ -247,7 +264,8 @@ class TestAgentAPISuiteCore:
             }
 
             self.framework.validate_api_endpoint(
-                "/agents", "POST", request_data=agent_data, expected_status=201)
+                "/agents", "POST", request_data=agent_data, expected_status=201
+            )
             self.test_agents.append(agent_id)
 
             # Test agent update (PUT endpoint)
@@ -258,23 +276,27 @@ class TestAgentAPISuiteCore:
             }
 
             update_result = self.framework.validate_api_endpoint(
-                f"/agents/{agent_id}", "PUT", request_data=update_data, expected_status=200)
+                f"/agents/{agent_id}", "PUT", request_data=update_data, expected_status=200
+            )
 
             assert update_result.status == TestStatus.PASSED, "Agent update failed"
 
             # Verify update was applied
             get_result = self.framework.validate_api_endpoint(
-                f"/agents/{agent_id}", "GET", expected_status=200)
+                f"/agents/{agent_id}", "GET", expected_status=200
+            )
 
             updated_data = get_result.metadata.get("response_data", {})
             assert updated_data["agent_name"] == update_data["agent_name"]
             assert updated_data["specialization"] == update_data["specialization"]
 
-            result.assertions.extend([
-                {"test": "update_request", "status": "passed"},
-                {"test": "update_verification", "status": "passed"},
-                {"test": "data_integrity", "status": "passed"},
-            ])
+            result.assertions.extend(
+                [
+                    {"test": "update_request", "status": "passed"},
+                    {"test": "update_verification", "status": "passed"},
+                    {"test": "data_integrity", "status": "passed"},
+                ]
+            )
 
             result.status = TestStatus.PASSED
             print("✅ Agent update API test passed")
@@ -315,25 +337,30 @@ class TestAgentAPISuiteCore:
             }
 
             self.framework.validate_api_endpoint(
-                "/agents", "POST", request_data=agent_data, expected_status=201)
+                "/agents", "POST", request_data=agent_data, expected_status=201
+            )
 
             # Test agent deletion
             delete_result = self.framework.validate_api_endpoint(
-                f"/agents/{agent_id}", "DELETE", expected_status=204)
+                f"/agents/{agent_id}", "DELETE", expected_status=204
+            )
 
             assert delete_result.status == TestStatus.PASSED, "Agent deletion failed"
 
             # Verify agent is deleted
             get_result = self.framework.validate_api_endpoint(
-                f"/agents/{agent_id}", "GET", expected_status=404)
+                f"/agents/{agent_id}", "GET", expected_status=404
+            )
 
             assert get_result.status == TestStatus.PASSED, "Deleted agent should return 404"
 
-            result.assertions.extend([
-                {"test": "deletion_request", "status": "passed"},
-                {"test": "deletion_verification", "status": "passed"},
-                {"test": "resource_cleanup", "status": "passed"},
-            ])
+            result.assertions.extend(
+                [
+                    {"test": "deletion_request", "status": "passed"},
+                    {"test": "deletion_verification", "status": "passed"},
+                    {"test": "resource_cleanup", "status": "passed"},
+                ]
+            )
 
             result.status = TestStatus.PASSED
             print("✅ Agent deletion API test passed")
@@ -370,9 +397,7 @@ class TestAgentAPISuiteCore:
 
 
 # Export test classes
-__all__ = [
-    'TestAgentAPISuiteCore'
-]
+__all__ = ["TestAgentAPISuiteCore"]
 
 
 if __name__ == "__main__":

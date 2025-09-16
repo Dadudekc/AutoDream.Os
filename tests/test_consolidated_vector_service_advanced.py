@@ -29,29 +29,26 @@ sys.path.insert(0, str(src_path))
 
 # Import core components
 from .test_consolidated_vector_service_core import (
+    CollectionConfig,
     ConsolidatedVectorService,
-    VectorDocument,
-    VectorDatabaseConfig,
-    VectorDatabaseResult,
-    VectorDatabaseStats,
+    EmbeddingModel,
     SearchQuery,
     SearchResult,
-    EmbeddingModel,
-    DocumentType,
-    CollectionConfig
+    VectorDatabaseResult,
+    VectorDocument,
 )
 
 
 class TestConsolidatedVectorServiceAdvanced:
     """Test suite for advanced consolidated vector service functionality"""
-    
+
     def setup_method(self):
         """Setup test fixtures."""
         self.service = ConsolidatedVectorService(agent_id="test-agent")
         self.sample_texts = [
             "This is a test document for vector operations",
             "Another test document with different content",
-            "Third document for comprehensive testing"
+            "Third document for comprehensive testing",
         ]
 
     def teardown_method(self):
@@ -63,7 +60,9 @@ class TestConsolidatedVectorServiceAdvanced:
         """Test embedding generation performance."""
         large_texts = ["Test document " * 100] * 10
 
-        with patch("src.services.consolidated_vector_service.SentenceTransformer") as mock_transformer:
+        with patch(
+            "src.services.consolidated_vector_service.SentenceTransformer"
+        ) as mock_transformer:
             mock_encoder = Mock()
             mock_encoder.encode.return_value = np.random.rand(10, 384)
             mock_transformer.return_value = mock_encoder
@@ -103,7 +102,9 @@ class TestConsolidatedVectorServiceAdvanced:
             total_found=1,
         )
 
-        with patch("src.services.consolidated_vector_service.SentenceTransformer") as mock_transformer:
+        with patch(
+            "src.services.consolidated_vector_service.SentenceTransformer"
+        ) as mock_transformer:
             mock_encoder = Mock()
             mock_encoder.encode.return_value = np.array([[0.1, 0.2, 0.3]])
             mock_transformer.return_value = mock_encoder
@@ -171,7 +172,9 @@ class TestConsolidatedVectorServiceAdvanced:
         # Generate 1000 documents
         large_texts = [f"Document {i} with content for testing" for i in range(1000)]
 
-        with patch("src.services.consolidated_vector_service.SentenceTransformer") as mock_transformer:
+        with patch(
+            "src.services.consolidated_vector_service.SentenceTransformer"
+        ) as mock_transformer:
             mock_encoder = Mock()
             mock_encoder.encode.return_value = np.random.rand(1000, 384)
             mock_transformer.return_value = mock_encoder
@@ -188,8 +191,8 @@ class TestConsolidatedVectorServiceAdvanced:
     @pytest.mark.unit
     def test_concurrent_operations(self):
         """Test concurrent document operations."""
-        import threading
         import queue
+        import threading
 
         mock_engine = Mock()
         mock_engine.store.return_value = VectorDatabaseResult(success=True)
@@ -255,7 +258,7 @@ class TestConsolidatedVectorServiceAdvanced:
         # Process documents in batches to test memory management
         batch_size = 10
         for i in range(0, len(large_docs), batch_size):
-            batch = large_docs[i:i + batch_size]
+            batch = large_docs[i : i + batch_size]
             for doc in batch:
                 result = service.store_document(doc)
                 assert result.success is True
@@ -273,7 +276,10 @@ class TestConsolidatedVectorServiceAdvanced:
 
         # Test recovery from engine failure
         mock_engine = Mock()
-        mock_engine.store.side_effect = [Exception("Engine error"), VectorDatabaseResult(success=True)]
+        mock_engine.store.side_effect = [
+            Exception("Engine error"),
+            VectorDatabaseResult(success=True),
+        ]
         service._engine = mock_engine
 
         doc = VectorDocument(id="recovery-test", content="Test content")
@@ -308,14 +314,10 @@ class TestConsolidatedVectorServiceAdvanced:
             "type": "document",
             "category": "technical",
             "date_range": {"start": "2025-01-01", "end": "2025-12-31"},
-            "tags": ["python", "vector", "search"]
+            "tags": ["python", "vector", "search"],
         }
 
-        query = SearchQuery(
-            query="advanced search with filters",
-            limit=10,
-            filters=complex_filters
-        )
+        query = SearchQuery(query="advanced search with filters", limit=10, filters=complex_filters)
 
         results = service.search_documents(query)
 
@@ -335,7 +337,9 @@ class TestConsolidatedVectorServiceAdvanced:
             mock_encoder.encode.return_value = np.array([[0.1, 0.2, 0.3]])
             mock_st.return_value = mock_encoder
 
-            st_embeddings = service.generate_embeddings([test_text], EmbeddingModel.SENTENCE_TRANSFORMERS)
+            st_embeddings = service.generate_embeddings(
+                [test_text], EmbeddingModel.SENTENCE_TRANSFORMERS
+            )
             assert len(st_embeddings) == 1
 
         # Test OpenAI
@@ -358,9 +362,9 @@ class TestConsolidatedVectorServiceAdvanced:
         mock_engine = Mock()
         mock_engine.store.return_value = VectorDatabaseResult(success=True)
         mock_engine.get.return_value = VectorDocument(
-            id="versioned-doc", 
+            id="versioned-doc",
             content="Updated content",
-            metadata={"version": "2.0", "updated_at": "2025-01-13"}
+            metadata={"version": "2.0", "updated_at": "2025-01-13"},
         )
 
         service = ConsolidatedVectorService()
@@ -370,7 +374,7 @@ class TestConsolidatedVectorServiceAdvanced:
         doc_v1 = VectorDocument(
             id="versioned-doc",
             content="Original content",
-            metadata={"version": "1.0", "created_at": "2025-01-01"}
+            metadata={"version": "1.0", "created_at": "2025-01-01"},
         )
 
         result1 = service.store_document(doc_v1)
@@ -380,7 +384,7 @@ class TestConsolidatedVectorServiceAdvanced:
         doc_v2 = VectorDocument(
             id="versioned-doc",
             content="Updated content",
-            metadata={"version": "2.0", "updated_at": "2025-01-13"}
+            metadata={"version": "2.0", "updated_at": "2025-01-13"},
         )
 
         result2 = service.store_document(doc_v2)
@@ -402,7 +406,7 @@ class TestConsolidatedVectorServiceAdvanced:
 
         # Create multiple collections
         collections = ["test_collection_1", "test_collection_2", "test_collection_3"]
-        
+
         for collection_name in collections:
             config = CollectionConfig(name=collection_name, dimension=384)
             result = service.create_collection(config)
@@ -431,8 +435,7 @@ class TestConsolidatedVectorServiceAdvanced:
 
         # Test with special characters
         special_doc = VectorDocument(
-            id="special-doc",
-            content="Special chars: !@#$%^&*()_+-=[]{}|;':\",./<>?`~"
+            id="special-doc", content="Special chars: !@#$%^&*()_+-=[]{}|;':\",./<>?`~"
         )
         result = service.store_document(special_doc)
         assert isinstance(result, VectorDatabaseResult)
@@ -441,7 +444,7 @@ class TestConsolidatedVectorServiceAdvanced:
 # Integration Tests
 class TestVectorServiceIntegration:
     """Integration tests for consolidated vector service"""
-    
+
     def test_full_vector_workflow_integration(self):
         """Test complete vector workflow from embedding to search."""
         mock_engine = Mock()
@@ -452,7 +455,9 @@ class TestVectorServiceIntegration:
             total_found=1,
         )
 
-        with patch("src.services.consolidated_vector_service.SentenceTransformer") as mock_transformer:
+        with patch(
+            "src.services.consolidated_vector_service.SentenceTransformer"
+        ) as mock_transformer:
             mock_encoder = Mock()
             mock_encoder.encode.return_value = np.array([[0.1, 0.2, 0.3]])
             mock_transformer.return_value = mock_encoder
@@ -515,10 +520,7 @@ class TestVectorServiceIntegration:
 
 
 # Export test classes and functions
-__all__ = [
-    'TestConsolidatedVectorServiceAdvanced',
-    'TestVectorServiceIntegration'
-]
+__all__ = ["TestConsolidatedVectorServiceAdvanced", "TestVectorServiceIntegration"]
 
 
 if __name__ == "__main__":
@@ -531,7 +533,7 @@ if __name__ == "__main__":
     print("✅ Advanced error handling tests loaded successfully")
     print("✅ Memory optimization tests loaded successfully")
     print("🐝 WE ARE SWARM - Advanced vector service tests ready!")
-    
+
     # Example usage
     print("\n🚀 Running Advanced Vector Service Test Suite...")
     print("Performance tests: Embedding generation, large scale operations")

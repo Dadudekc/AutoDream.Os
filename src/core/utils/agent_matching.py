@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """
 Agent Matching Utilities - V2 Compliant Agent Matching Logic
@@ -11,7 +12,7 @@ V2 Compliance: Under 300-line limit with focused functionality
 """
 
 from dataclasses import dataclass
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
 
 def get_unified_validator():
@@ -33,7 +34,7 @@ class AgentCapability:
 def get_example_usage():
     """
     Example usage for AgentCapability.
-    
+
     # Import the core component
     from src.core.utils.agent_matching import AgentCapability
 

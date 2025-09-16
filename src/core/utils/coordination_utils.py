@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """
 Coordination Utilities - Shared V2 Compliant Utilities
@@ -10,7 +11,8 @@ V2 Compliance: Under 300-line limit with modular architecture
 @License: MIT
 """
 
-from typing import Dict, Any, List
+from typing import Any, Dict, List
+
 
 # Stub utility classes for coordination functionality
 class AgentMatchingUtils:
@@ -28,7 +30,7 @@ class AgentMatchingUtils:
 def get_example_usage():
     """
     Example usage for CoordinationUtils.
-    
+
     # Import the core component
     from src.core.utils.coordination_utils import AgentMatchingUtils
 

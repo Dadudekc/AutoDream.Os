@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 #!/usr/bin/env python3
 """
@@ -129,4 +130,3 @@ __all__ = [
     "Alert",
     "PerformanceReport",
 ]
-

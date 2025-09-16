@@ -12,8 +12,7 @@ License: MIT
 
 from __future__ import annotations
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional, Protocol
+from typing import Any, Protocol
 
 
 class ILifecycleAware(Protocol):
@@ -80,7 +79,7 @@ class IMonitor(Protocol):
         """Stop monitoring."""
         ...
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get monitoring metrics."""
         ...
 
@@ -92,7 +91,7 @@ class IMonitor(Protocol):
 class IHealthCheck(Protocol):
     """Interface for health check capabilities."""
 
-    def health_check(self) -> Dict[str, Any]:
+    def health_check(self) -> dict[str, Any]:
         """Perform health check and return status."""
         ...
 
@@ -103,8 +102,4 @@ class IHealthCheck(Protocol):
     def get_health_status(self) -> str:
         """Get health status as string."""
         ...
-
-
-
-
 

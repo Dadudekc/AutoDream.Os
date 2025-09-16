@@ -11,7 +11,6 @@ Mission: Modularize test_error_handling.py for V2 compliance
 License: MIT
 """
 
-import sys
 import time
 from unittest.mock import Mock, patch
 
@@ -19,8 +18,9 @@ import pytest
 
 # Import error handling components
 try:
-    from src.core.error_handling_unified import UnifiedErrorHandler
     from src.core.unified_logging_system import UnifiedLoggingSystem
+
+    from src.core.error_handling_unified import UnifiedErrorHandler
 
     ERROR_HANDLING_AVAILABLE = True
 except ImportError:
@@ -148,15 +148,18 @@ class TestExceptionManagement:
 
     def test_custom_exception_hierarchy(self):
         """Test custom exception hierarchy for swarm system."""
+
         class SwarmException(Exception):
             """Base exception for swarm system."""
 
         class OperationalException(SwarmException):
             """Operational error."""
+
             pass
 
         class ConfigurationException(SwarmException):
             """Configuration error."""
+
             pass
 
         # Test exception hierarchy
@@ -221,6 +224,7 @@ class TestSystemResilience:
 
     def test_circuit_breaker_pattern(self):
         """Test circuit breaker pattern for fault tolerance."""
+
         class CircuitBreaker:
             def __init__(self, failure_threshold=3):
                 self.failure_count = 0
@@ -282,6 +286,7 @@ class TestSystemResilience:
 
     def test_fallback_mechanisms(self):
         """Test fallback mechanisms for service failures."""
+
         def primary_operation():
             raise ConnectionError("Primary service unavailable")
 

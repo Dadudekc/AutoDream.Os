@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """
 Collection Utils
@@ -44,7 +45,7 @@ class CollectionUtils:
         """
         # Simulate realistic collection data based on common use cases
         import random
-        from datetime import datetime, timedelta
+        from datetime import timedelta
 
         # Generate sample collections for different domains
         collection_templates = [
@@ -52,7 +53,7 @@ class CollectionUtils:
             ("code_repositories", 512, 75),
             ("knowledge_base", 768, 200),
             ("chat_history", 256, 300),
-            ("analytics_data", 128, 50)
+            ("analytics_data", 128, 50),
         ]
 
         collections = []
@@ -64,12 +65,14 @@ class CollectionUtils:
             days_ago = random.randint(1, 30)
             created_at = (base_time - timedelta(days=days_ago)).isoformat() + "Z"
 
-            collections.append(Collection(
-                name=name,
-                dimension=dimension,
-                document_count=max(0, doc_count),  # Ensure non-negative
-                created_at=created_at
-            ))
+            collections.append(
+                Collection(
+                    name=name,
+                    dimension=dimension,
+                    document_count=max(0, doc_count),  # Ensure non-negative
+                    created_at=created_at,
+                )
+            )
 
         return collections
 
@@ -102,7 +105,6 @@ class CollectionUtils:
         """
         # Generate sample documents based on collection type
         import random
-        from datetime import datetime
 
         # Determine document count based on collection name patterns
         base_docs = 50
@@ -123,8 +125,8 @@ class CollectionUtils:
                     "source": f"source_{i % 5}",
                     "category": ["tech", "business", "science", "health", "education"][i % 5],
                     "created_at": (datetime.now().replace(hour=i % 24)).isoformat(),
-                    "tags": [f"tag_{j}" for j in range(random.randint(1, 3))]
-                }
+                    "tags": [f"tag_{j}" for j in range(random.randint(1, 3))],
+                },
             }
 
             # Include vectors if requested
@@ -139,5 +141,5 @@ class CollectionUtils:
             collection_name=request.collection_name,
             documents=documents,
             exported_at=datetime.now().isoformat(),
-            format=request.format
+            format=request.format,
         )

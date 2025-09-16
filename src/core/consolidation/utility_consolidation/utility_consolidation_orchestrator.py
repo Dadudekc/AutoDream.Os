@@ -28,7 +28,9 @@ EXAMPLE USAGE:
 ==============
 
 # Import the core component
-from src.core.consolidation.utility_consolidation.utility_consolidation_orchestrator import Utility_Consolidation_Orchestrator
+from src.core.consolidation.utility_consolidation.utility_consolidation_orchestrator import (
+    Utility_Consolidation_Orchestrator,
+)
 
 # Initialize with configuration
 config = {

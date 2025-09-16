@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """"
 Agent Coordination Strategies - V2 Compliant Strategy Pattern Implementation

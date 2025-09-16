@@ -12,9 +12,8 @@ License: MIT
 
 from __future__ import annotations
 
-from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional, Protocol
+from typing import Any, Protocol
 
 
 class ICoreSystem(Protocol):
@@ -38,7 +37,7 @@ class ICoreSystem(Protocol):
         """Shutdown the system."""
         ...
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get system status information."""
         ...
 
@@ -46,15 +45,15 @@ class ICoreSystem(Protocol):
 class IConfigurable(Protocol):
     """Interface for configurable components."""
 
-    def configure(self, config: Dict[str, Any]) -> bool:
+    def configure(self, config: dict[str, Any]) -> bool:
         """Configure the component with provided settings."""
         ...
 
-    def get_config(self) -> Dict[str, Any]:
+    def get_config(self) -> dict[str, Any]:
         """Get current configuration."""
         ...
 
-    def validate_config(self, config: Dict[str, Any]) -> bool:
+    def validate_config(self, config: dict[str, Any]) -> bool:
         """Validate configuration settings."""
         ...
 
@@ -86,6 +85,7 @@ class IObserver(Protocol):
 @dataclass
 class CoreSystemMetadata:
     """Metadata for core system components."""
+
     name: str
     version: str
     description: str
@@ -94,23 +94,21 @@ class CoreSystemMetadata:
     updated_at: str
 
 
-class IUnifiedCoreSystem(ICoreSystem, IConfigurable, IObservable, ILifecycleAware, IHealthCheck, IMonitor):
+class IUnifiedCoreSystem(
+    ICoreSystem, IConfigurable, IObservable, ILifecycleAware, IHealthCheck, IMonitor
+):
     """Unified interface combining all core system capabilities."""
-    
+
     @property
     def metadata(self) -> CoreSystemMetadata:
         """Get system metadata."""
         ...
-    
-    def get_capabilities(self) -> List[str]:
+
+    def get_capabilities(self) -> list[str]:
         """Get list of system capabilities."""
         ...
-    
+
     def is_operational(self) -> bool:
         """Check if system is operational."""
         ...
-
-
-
-
 

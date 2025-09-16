@@ -11,12 +11,11 @@ License: MIT
 """
 
 import pytest
-from datetime import datetime
 
 
 class TestXPRewards:
     """Test XP reward distribution and tracking."""
-    
+
     def test_xp_calculation_and_distribution(self):
         """Test XP calculation and distribution logic."""
         reward_scenarios = [
@@ -42,14 +41,14 @@ class TestXPRewards:
                 "expected_total_xp": 2600,
             },
         ]
-        
+
         for scenario in reward_scenarios:
             calculated_xp = (
                 scenario["base_xp"] * scenario["complexity_multiplier"] * scenario["quality_bonus"]
             )
-            
+
             assert calculated_xp == scenario["expected_total_xp"]
-    
+
     def test_xp_award_process(self):
         """Test XP award process and balance updates."""
         initial_balance = 100
@@ -59,21 +58,21 @@ class TestXPRewards:
             "xp_amount": 250,
             "reason": "Contract completion",
         }
-        
+
         # Simulate XP award
         new_balance = initial_balance + award_request["xp_amount"]
         level = (new_balance // 500) + 1  # Assuming 500 XP per level
-        
+
         result = {
             "total_xp": new_balance,
             "level": level,
             "xp_gained": award_request["xp_amount"],
         }
-        
+
         assert result["total_xp"] == initial_balance + award_request["xp_amount"]
         assert "level" in result
         assert result["level"] >= 1
-    
+
     def test_xp_leaderboard_and_analytics(self):
         """Test XP leaderboard and analytics."""
         # Mock XP data
@@ -83,17 +82,17 @@ class TestXPRewards:
             {"agent_id": "Agent-2", "total_xp": 1200, "level": 3, "contracts_completed": 6},
             {"agent_id": "Agent-8", "total_xp": 900, "level": 2, "contracts_completed": 4},
         ]
-        
+
         # Validate leaderboard ordering
         sorted_by_xp = sorted(agent_xp_data, key=lambda x: x["total_xp"], reverse=True)
         assert sorted_by_xp[0]["agent_id"] == "Agent-1"
         assert sorted_by_xp[-1]["agent_id"] == "Agent-8"
-        
+
         # Test level calculation (assuming 500 XP per level)
         for agent in agent_xp_data:
             expected_level = (agent["total_xp"] // 500) + 1
             assert agent["level"] == expected_level
-    
+
     def test_xp_penalty_system(self):
         """Test XP penalty system for failed contracts."""
         penalty_scenarios = [
@@ -119,11 +118,11 @@ class TestXPRewards:
                 "expected_penalty_xp": 37,  # Rounded down
             },
         ]
-        
+
         for scenario in penalty_scenarios:
             penalty_amount = int(scenario["original_xp"] * (scenario["penalty_percentage"] / 100))
             assert penalty_amount == scenario["expected_penalty_xp"]
-    
+
     def test_xp_bonus_system(self):
         """Test XP bonus system for exceptional performance."""
         bonus_scenarios = [
@@ -149,11 +148,11 @@ class TestXPRewards:
                 "expected_bonus_xp": 60,
             },
         ]
-        
+
         for scenario in bonus_scenarios:
             bonus_amount = int(scenario["base_xp"] * (scenario["bonus_percentage"] / 100))
             assert bonus_amount == scenario["expected_bonus_xp"]
-    
+
     def test_xp_milestone_system(self):
         """Test XP milestone system and achievements."""
         milestone_scenarios = [
@@ -177,13 +176,13 @@ class TestXPRewards:
                 ],
             },
         ]
-        
+
         for scenario in milestone_scenarios:
             total_xp = scenario["total_xp"]
             for milestone in scenario["milestones"]:
                 expected_unlocked = total_xp >= milestone["xp_threshold"]
                 assert milestone["unlocked"] == expected_unlocked
-    
+
     def test_xp_transfer_system(self):
         """Test XP transfer system between agents."""
         transfer_scenarios = [
@@ -208,14 +207,14 @@ class TestXPRewards:
                 "expected_to_balance": 250,
             },
         ]
-        
+
         for scenario in transfer_scenarios:
             from_balance_after = scenario["from_balance_before"] - scenario["xp_amount"]
             to_balance_after = scenario["to_balance_before"] + scenario["xp_amount"]
-            
+
             assert from_balance_after == scenario["expected_from_balance"]
             assert to_balance_after == scenario["expected_to_balance"]
-    
+
     def test_xp_audit_trail(self):
         """Test XP audit trail and history tracking."""
         xp_events = [
@@ -244,18 +243,18 @@ class TestXPRewards:
                 "balance_after": 1225,
             },
         ]
-        
+
         # Validate audit trail
         for event in xp_events:
             required_fields = ["agent_id", "event_type", "xp_amount", "timestamp", "balance_after"]
             for field in required_fields:
                 assert field in event
-        
+
         # Test chronological ordering
         timestamps = [event["timestamp"] for event in xp_events]
         sorted_timestamps = sorted(timestamps)
         assert timestamps == sorted_timestamps
-    
+
     def test_xp_analytics_and_reporting(self):
         """Test XP analytics and reporting functionality."""
         analytics_data = {
@@ -278,14 +277,14 @@ class TestXPRewards:
                 {"month": "2025-09", "total_xp": 5500},
             ],
         }
-        
+
         # Validate analytics data
         assert analytics_data["total_xp_distributed"] > 0
         assert analytics_data["average_xp_per_contract"] > 0
         assert len(analytics_data["top_performers"]) > 0
         assert len(analytics_data["xp_distribution_by_priority"]) > 0
         assert len(analytics_data["monthly_xp_trend"]) > 0
-        
+
         # Validate top performers ordering
         top_performers = analytics_data["top_performers"]
         for i in range(len(top_performers) - 1):

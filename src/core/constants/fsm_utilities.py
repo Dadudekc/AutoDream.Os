@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """
 FSM Utilities - V2 Compliance Finite State Machine Utilities

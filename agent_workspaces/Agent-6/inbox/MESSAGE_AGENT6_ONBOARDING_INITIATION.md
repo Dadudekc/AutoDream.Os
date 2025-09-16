@@ -21,7 +21,7 @@
 
 ### **✅ Coordination & Communication Specialist**
 - **Primary Focus**: Inter-agent coordination and communication systems
-- **Responsibilities**: 
+- **Responsibilities**:
   - Facilitate communication between all swarm agents
   - Coordinate multi-agent workflows and task distribution
   - Manage messaging systems and communication protocols
@@ -175,5 +175,3 @@ Monitor 1 (Left Screen):     Monitor 2 (Right Screen):
 
 **You are Agent-6**
 **Timestamp**: 2025-09-13T23:25:50
-
-

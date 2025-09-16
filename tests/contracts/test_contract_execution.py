@@ -10,13 +10,14 @@ Author: Agent-2 (Architecture & Design Specialist)
 License: MIT
 """
 
-import pytest
 from datetime import datetime, timedelta
+
+import pytest
 
 
 class TestContractExecution:
     """Test contract execution and completion tracking."""
-    
+
     def test_progress_tracking(self):
         """Test contract progress tracking."""
         progress_updates = [
@@ -34,7 +35,7 @@ class TestContractExecution:
             {"stage": "testing", "progress": 80, "description": "Testing and validation completed"},
             {"stage": "completion", "progress": 100, "description": "Contract fully completed"},
         ]
-        
+
         # Validate progress flow
         previous_progress = 0
         for update in progress_updates:
@@ -42,10 +43,10 @@ class TestContractExecution:
             assert update["progress"] <= 100
             assert "description" in update
             previous_progress = update["progress"]
-        
+
         # Final progress should be 100%
         assert progress_updates[-1]["progress"] == 100
-    
+
     def test_completion_criteria_validation(self):
         """Test contract completion criteria validation."""
         completion_scenarios = [
@@ -78,12 +79,12 @@ class TestContractExecution:
                 "expected_complete": False,
             },
         ]
-        
+
         for scenario in completion_scenarios:
             # Simulate completion criteria validation
             criteria_met = 0
             total_criteria = len(scenario["completion_criteria"])
-            
+
             for criteria in scenario["completion_criteria"]:
                 if criteria == "All merge conflicts resolved":
                     if scenario["evidence"].get("merge_conflicts_resolved", 0) > 0:
@@ -103,10 +104,10 @@ class TestContractExecution:
                 elif criteria == "Documentation updated":
                     if scenario["evidence"].get("documentation_updated", False):
                         criteria_met += 1
-            
+
             is_complete = criteria_met == total_criteria
             assert is_complete == scenario["expected_complete"]
-    
+
     def test_partial_completion_handling(self):
         """Test handling of partially completed contracts."""
         partial_completion_scenarios = [
@@ -125,20 +126,20 @@ class TestContractExecution:
                 "can_claim_partial_xp": False,  # All-or-nothing contract
             },
         ]
-        
+
         for scenario in partial_completion_scenarios:
             total_tasks = len(scenario["requirements"])
             completed_tasks = len(scenario["completed_tasks"])
             actual_percentage = (completed_tasks / total_tasks) * 100
-            
+
             assert actual_percentage == scenario["expected_completion_percentage"]
-            
+
             if scenario["can_claim_partial_xp"]:
                 assert completed_tasks > 0
             else:
                 # All-or-nothing contracts don't allow partial XP
                 assert completed_tasks == total_tasks or completed_tasks == 0
-    
+
     def test_contract_timeout_handling(self):
         """Test contract timeout and deadline handling."""
         current_time = datetime.now()
@@ -163,17 +164,17 @@ class TestContractExecution:
                 "expected_expired": False,  # Within grace period
             },
         ]
-        
+
         for scenario in deadline_scenarios:
             deadline_dt = datetime.fromisoformat(scenario["deadline"])
             is_expired = deadline_dt < current_time
-            
+
             if "grace_period_hours" in scenario:
                 grace_deadline = deadline_dt + timedelta(hours=scenario["grace_period_hours"])
                 is_expired = grace_deadline < current_time
-            
+
             assert is_expired == scenario["expected_expired"]
-    
+
     def test_contract_quality_assessment(self):
         """Test contract quality assessment and scoring."""
         quality_scenarios = [
@@ -211,13 +212,13 @@ class TestContractExecution:
                 "expected_grade": "F",
             },
         ]
-        
+
         for scenario in quality_scenarios:
             metrics = scenario["metrics"]
             quality_score = sum(metrics.values()) / len(metrics)
-            
+
             assert abs(quality_score - scenario["expected_quality_score"]) < 0.1
-            
+
             # Determine grade based on quality score
             if quality_score >= 90:
                 grade = "A"
@@ -229,9 +230,9 @@ class TestContractExecution:
                 grade = "D"
             else:
                 grade = "F"
-            
+
             assert grade == scenario["expected_grade"]
-    
+
     def test_contract_rollback_mechanism(self):
         """Test contract rollback mechanism for failed executions."""
         rollback_scenarios = [
@@ -254,14 +255,14 @@ class TestContractExecution:
                 "rollback_steps": [],
             },
         ]
-        
+
         for scenario in rollback_scenarios:
             if scenario["rollback_required"]:
                 assert len(scenario["rollback_steps"]) > 0
                 assert all(isinstance(step, str) for step in scenario["rollback_steps"])
             else:
                 assert len(scenario["rollback_steps"]) == 0
-    
+
     def test_contract_dependency_management(self):
         """Test contract dependency management and resolution."""
         dependency_scenarios = [
@@ -290,16 +291,16 @@ class TestContractExecution:
                 "can_start": True,
             },
         ]
-        
+
         for scenario in dependency_scenarios:
             can_start = True
             for dep in scenario["dependencies"]:
                 if scenario["dependency_status"].get(dep) != "completed":
                     can_start = False
                     break
-            
+
             assert can_start == scenario["can_start"]
-    
+
     def test_contract_performance_monitoring(self):
         """Test contract performance monitoring and metrics."""
         performance_metrics = {
@@ -309,7 +310,7 @@ class TestContractExecution:
             "xp_distribution_efficiency": 0.94,
             "system_uptime": "99.9%",
         }
-        
+
         # Validate performance thresholds
         assert float(performance_metrics["contract_creation_rate"].split()[0]) > 0
         assert float(performance_metrics["average_completion_time"].split()[0]) < 24

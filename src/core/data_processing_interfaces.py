@@ -12,7 +12,7 @@ License: MIT
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Protocol
+from typing import Any, Protocol
 
 
 class IDataProcessor(Protocol):
@@ -26,11 +26,11 @@ class IDataProcessor(Protocol):
         """Check if processor can handle data type."""
         ...
 
-    def get_supported_types(self) -> List[str]:
+    def get_supported_types(self) -> list[str]:
         """Get list of supported data types."""
         ...
 
-    def get_processing_stats(self) -> Dict[str, Any]:
+    def get_processing_stats(self) -> dict[str, Any]:
         """Get processing statistics."""
         ...
 
@@ -42,7 +42,7 @@ class IDataValidator(Protocol):
         """Validate input data."""
         ...
 
-    def get_validation_errors(self) -> List[str]:
+    def get_validation_errors(self) -> list[str]:
         """Get list of validation errors."""
         ...
 
@@ -82,23 +82,19 @@ class IAsyncTaskManager(Protocol):
         """Submit a task for execution."""
         ...
 
-    def get_task_result(self, task_id: str) -> Optional[Any]:
+    def get_task_result(self, task_id: str) -> Any | None:
         """Get result of completed task."""
         ...
 
-    def get_active_tasks(self) -> List[str]:
+    def get_active_tasks(self) -> list[str]:
         """Get list of active task IDs."""
         ...
 
-    def get_completed_tasks(self) -> List[str]:
+    def get_completed_tasks(self) -> list[str]:
         """Get list of completed task IDs."""
         ...
 
     def cleanup_completed_tasks(self) -> int:
         """Clean up completed tasks and return count."""
         ...
-
-
-
-
 

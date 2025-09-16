@@ -13,7 +13,6 @@ License: MIT
 
 import logging
 import socketserver
-from typing import Optional
 
 # Import core components
 from .simple_monitoring_dashboard_core import SwarmMonitoringHandler
@@ -338,13 +337,15 @@ class SimpleSwarmDashboard:
     def __init__(self, host="localhost", port=8000):
         self.host = host
         self.port = port
-        self.httpd: Optional[socketserver.TCPServer] = None
+        self.httpd: socketserver.TCPServer | None = None
         self.is_running = False
 
     def start(self):
         """Start the dashboard server"""
         try:
-            with socketserver.TCPServer((self.host, self.port), AdvancedSwarmMonitoringHandler) as httpd:
+            with socketserver.TCPServer(
+                (self.host, self.port), AdvancedSwarmMonitoringHandler
+            ) as httpd:
                 self.httpd = httpd
                 self.is_running = True
 
@@ -379,10 +380,7 @@ class SimpleSwarmDashboard:
 
 
 # Export advanced components
-__all__ = [
-    'AdvancedSwarmMonitoringHandler',
-    'SimpleSwarmDashboard'
-]
+__all__ = ["AdvancedSwarmMonitoringHandler", "SimpleSwarmDashboard"]
 
 
 if __name__ == "__main__":
@@ -393,7 +391,7 @@ if __name__ == "__main__":
     print("✅ Server management loaded successfully")
     print("✅ Main dashboard class loaded successfully")
     print("🐝 WE ARE SWARM - Advanced monitoring dashboard ready!")
-    
+
     # Example usage
     dashboard = SimpleSwarmDashboard()
     print("✅ Dashboard instance created successfully")

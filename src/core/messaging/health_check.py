@@ -4,16 +4,21 @@ Health check system for messaging systems registry.
 Provides import verification and health monitoring for all registered
 messaging systems to prevent silent failures and ensure system integrity.
 """
+
 from __future__ import annotations
+
 import logging
 import sys
 from typing import NamedTuple
-from .registry_loader import iter_specs, resolve, SystemSpec
+
+from .registry_loader import iter_specs, resolve
+
 logger = logging.getLogger(__name__)
 
 
 class HealthCheckResult(NamedTuple):
     """Result of a health check for a single system."""
+
     system_id: str
     system_name: str
     category: str
@@ -23,7 +28,7 @@ class HealthCheckResult(NamedTuple):
     status_icon: str
 
 
-def check_imports() ->list[HealthCheckResult]:
+def check_imports() -> list[HealthCheckResult]:
     """
     Check import health for all registered messaging systems.
 
@@ -35,28 +40,39 @@ def check_imports() ->list[HealthCheckResult]:
         try:
             resolve(spec)
             if spec.critical:
-                status_icon = '✅'
+                status_icon = "✅"
             else:
-                status_icon = '✓'
-            result = HealthCheckResult(system_id=spec.id, system_name=spec.
-                name, category=spec.category, critical=spec.critical,
-                healthy=True, error_message=None, status_icon=status_icon)
+                status_icon = "✓"
+            result = HealthCheckResult(
+                system_id=spec.id,
+                system_name=spec.name,
+                category=spec.category,
+                critical=spec.critical,
+                healthy=True,
+                error_message=None,
+                status_icon=status_icon,
+            )
         except Exception as e:
             if spec.critical:
-                status_icon = '❌'
+                status_icon = "❌"
             else:
-                status_icon = '⚠️'
-            error_msg = f'{type(e).__name__}: {str(e)}'
-            result = HealthCheckResult(system_id=spec.id, system_name=spec.
-                name, category=spec.category, critical=spec.critical,
-                healthy=False, error_message=error_msg, status_icon=status_icon
-                )
-            logger.warning(f'Health check failed for {spec.id}: {error_msg}')
+                status_icon = "⚠️"
+            error_msg = f"{type(e).__name__}: {str(e)}"
+            result = HealthCheckResult(
+                system_id=spec.id,
+                system_name=spec.name,
+                category=spec.category,
+                critical=spec.critical,
+                healthy=False,
+                error_message=error_msg,
+                status_icon=status_icon,
+            )
+            logger.warning(f"Health check failed for {spec.id}: {error_msg}")
         results.append(result)
     return results
 
 
-def check_critical_systems() ->list[HealthCheckResult]:
+def check_critical_systems() -> list[HealthCheckResult]:
     """
     Check health for only critical messaging systems.
 
@@ -66,7 +82,7 @@ def check_critical_systems() ->list[HealthCheckResult]:
     return [result for result in check_imports() if result.critical]
 
 
-def assert_all_importable() ->None:
+def assert_all_importable() -> None:
     """
     Assert that all messaging systems can be imported.
 
@@ -76,28 +92,24 @@ def assert_all_importable() ->None:
     results = check_imports()
     failures = [r for r in results if not r.healthy]
     if not failures:
-        logger.info('All messaging systems passed health checks')
+        logger.info("All messaging systems passed health checks")
         return
     critical_failures = [f for f in failures if f.critical]
     non_critical_failures = [f for f in failures if not f.critical]
     failure_lines = []
     for failure in failures:
         failure_lines.append(
-            f'- {failure.status_icon} {failure.system_id}: {failure.error_message}'
-            )
-    failure_report = '\n'.join(failure_lines)
+            f"- {failure.status_icon} {failure.system_id}: {failure.error_message}"
+        )
+    failure_report = "\n".join(failure_lines)
     if critical_failures:
-        logger.error(
-            f'Critical messaging systems failed health checks:\n{failure_report}'
-            )
+        logger.error(f"Critical messaging systems failed health checks:\n{failure_report}")
         sys.exit(1)
     if non_critical_failures:
-        logger.warning(
-            f'Non-critical messaging systems failed health checks:\n{failure_report}'
-            )
+        logger.warning(f"Non-critical messaging systems failed health checks:\n{failure_report}")
 
 
-def get_health_summary() ->dict[str, int]:
+def get_health_summary() -> dict[str, int]:
     """
     Get a summary of health check results.
 
@@ -105,24 +117,26 @@ def get_health_summary() ->dict[str, int]:
         Dictionary with counts of healthy/unhealthy systems by category
     """
     results = check_imports()
-    summary = {'total': len(results), 'healthy': len([r for r in results if
-        r.healthy]), 'unhealthy': len([r for r in results if not r.healthy]
-        ), 'critical_healthy': len([r for r in results if r.critical and r.
-        healthy]), 'critical_unhealthy': len([r for r in results if r.
-        critical and not r.healthy])}
+    summary = {
+        "total": len(results),
+        "healthy": len([r for r in results if r.healthy]),
+        "unhealthy": len([r for r in results if not r.healthy]),
+        "critical_healthy": len([r for r in results if r.critical and r.healthy]),
+        "critical_unhealthy": len([r for r in results if r.critical and not r.healthy]),
+    }
     categories = {}
     for result in results:
         if result.category not in categories:
-            categories[result.category] = {'healthy': 0, 'unhealthy': 0}
+            categories[result.category] = {"healthy": 0, "unhealthy": 0}
         if result.healthy:
-            categories[result.category]['healthy'] += 1
+            categories[result.category]["healthy"] += 1
         else:
-            categories[result.category]['unhealthy'] += 1
-    summary['by_category'] = categories
+            categories[result.category]["unhealthy"] += 1
+    summary["by_category"] = categories
     return summary
 
 
-def print_health_report(verbose: bool=False) ->None:
+def print_health_report(verbose: bool = False) -> None:
     """
     Print a formatted health report for all messaging systems.
 
@@ -131,32 +145,26 @@ def print_health_report(verbose: bool=False) ->None:
     """
     results = check_imports()
     summary = get_health_summary()
-    logger.info(f'\n🏥 Messaging Systems Health Report')
+    logger.info("\n🏥 Messaging Systems Health Report")
     logger.info(f"Total Systems: {summary['total']}")
-    logger.info(
-        f"Healthy: {summary['healthy']} | Unhealthy: {summary['unhealthy']}")
+    logger.info(f"Healthy: {summary['healthy']} | Unhealthy: {summary['unhealthy']}")
     logger.info(
         f"Critical Systems: {summary['critical_healthy']}/{summary['critical_healthy'] + summary['critical_unhealthy']} healthy"
-        )
-    if summary['unhealthy'] > 0:
-        logger.info(f'\n❌ Unhealthy Systems:')
+    )
+    if summary["unhealthy"] > 0:
+        logger.info("\n❌ Unhealthy Systems:")
         for result in results:
             if not result.healthy:
-                logger.info(
-                    f'  {result.status_icon} [{result.category}] {result.system_id}'
-                    )
+                logger.info(f"  {result.status_icon} [{result.category}] {result.system_id}")
                 if verbose and result.error_message:
-                    logger.info(f'    Error: {result.error_message}')
-    if summary['healthy'] > 0:
-        logger.info(f'\n✅ Healthy Systems:')
+                    logger.info(f"    Error: {result.error_message}")
+    if summary["healthy"] > 0:
+        logger.info("\n✅ Healthy Systems:")
         for result in results:
             if result.healthy:
-                logger.info(
-                    f'  {result.status_icon} [{result.category}] {result.system_id}'
-                    )
-    logger.info(f'\n📊 By Category:')
-    for category, counts in summary['by_category'].items():
-        total = counts['healthy'] + counts['unhealthy']
-        healthy_pct = counts['healthy'] / total * 100 if total > 0 else 0
-        logger.info(
-            f"  {category}: {counts['healthy']}/{total} ({healthy_pct:.1f}%)")
+                logger.info(f"  {result.status_icon} [{result.category}] {result.system_id}")
+    logger.info("\n📊 By Category:")
+    for category, counts in summary["by_category"].items():
+        total = counts["healthy"] + counts["unhealthy"]
+        healthy_pct = counts["healthy"] / total * 100 if total > 0 else 0
+        logger.info(f"  {category}: {counts['healthy']}/{total} ({healthy_pct:.1f}%)")

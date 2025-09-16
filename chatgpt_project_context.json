@@ -1,20 +1,284 @@
 {
   "project_overview": {
-    "total_files": 17,
+    "total_files": 236,
     "languages": [
       ".py",
       ".js"
     ],
-    "total_functions": 43,
-    "total_classes": 3,
-    "total_complexity": 80
+    "total_functions": 2554,
+    "total_classes": 556,
+    "total_complexity": 4877
   },
   "file_summary": {
-    "archive\\captain_handbooks_consolidated\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\orchestrators\\emergency_orchestrator.py": {
+    "agent8_coordination_interface.py": {
       "language": ".py",
-      "function_count": 16,
+      "function_count": 2,
+      "class_count": 0,
+      "complexity": 2
+    },
+    "simple_messaging_system.py": {
+      "language": ".py",
+      "function_count": 3,
+      "class_count": 0,
+      "complexity": 3
+    },
+    "run_discord_agent_bot.py": {
+      "language": ".py",
+      "function_count": 3,
       "class_count": 1,
+      "complexity": 5
+    },
+    "integrated_onboarding_coordination_system.py": {
+      "language": ".py",
+      "function_count": 30,
+      "class_count": 5,
+      "complexity": 59
+    },
+    "tests\\test_reporting_core.py": {
+      "language": ".py",
+      "function_count": 18,
+      "class_count": 3,
       "complexity": 32
+    },
+    "tests\\swarm_testing_framework_core.py": {
+      "language": ".py",
+      "function_count": 12,
+      "class_count": 5,
+      "complexity": 24
+    },
+    "tests\\swarm_testing_framework_reporting.py": {
+      "language": ".py",
+      "function_count": 6,
+      "class_count": 1,
+      "complexity": 12
+    },
+    "tests\\swarm_testing_framework_main.py": {
+      "language": ".py",
+      "function_count": 7,
+      "class_count": 1,
+      "complexity": 13
+    },
+    "tests\\test_architecture_core.py": {
+      "language": ".py",
+      "function_count": 11,
+      "class_count": 2,
+      "complexity": 21
+    },
+    "tests\\test_commandresult_advanced.py": {
+      "language": ".py",
+      "function_count": 15,
+      "class_count": 1,
+      "complexity": 22
+    },
+    "tests\\test_architecture_advanced.py": {
+      "language": ".py",
+      "function_count": 14,
+      "class_count": 3,
+      "complexity": 27
+    },
+    "tests\\test_commandresult_core.py": {
+      "language": ".py",
+      "function_count": 15,
+      "class_count": 1,
+      "complexity": 30
+    },
+    "tests\\test_consolidated_messaging_service_advanced.py": {
+      "language": ".py",
+      "function_count": 21,
+      "class_count": 3,
+      "complexity": 41
+    },
+    "tests\\swarm_testing_framework_execution.py": {
+      "language": ".py",
+      "function_count": 9,
+      "class_count": 1,
+      "complexity": 18
+    },
+    "tests\\test_consolidated_vector_service_advanced.py": {
+      "language": ".py",
+      "function_count": 21,
+      "class_count": 2,
+      "complexity": 40
+    },
+    "tests\\test_consolidated_messaging_service_core.py": {
+      "language": ".py",
+      "function_count": 27,
+      "class_count": 2,
+      "complexity": 54
+    },
+    "tests\\test_reporting_advanced.py": {
+      "language": ".py",
+      "function_count": 12,
+      "class_count": 3,
+      "complexity": 24
+    },
+    "tests\\test_consolidated_vector_service_core.py": {
+      "language": ".py",
+      "function_count": 39,
+      "class_count": 11,
+      "complexity": 78
+    },
+    "tests\\operational\\test_stability_core.py": {
+      "language": ".py",
+      "function_count": 13,
+      "class_count": 6,
+      "complexity": 23
+    },
+    "tests\\operational\\test_error_handling_advanced.py": {
+      "language": ".py",
+      "function_count": 15,
+      "class_count": 6,
+      "complexity": 27
+    },
+    "tests\\operational\\test_stability_advanced.py": {
+      "language": ".py",
+      "function_count": 11,
+      "class_count": 7,
+      "complexity": 22
+    },
+    "tests\\operational\\test_error_handling_core.py": {
+      "language": ".py",
+      "function_count": 23,
+      "class_count": 9,
+      "complexity": 40
+    },
+    "tests\\api\\test_api_documentation_core.py": {
+      "language": ".py",
+      "function_count": 13,
+      "class_count": 4,
+      "complexity": 26
+    },
+    "tests\\api\\test_agent_api_suite_core.py": {
+      "language": ".py",
+      "function_count": 13,
+      "class_count": 4,
+      "complexity": 26
+    },
+    "tests\\api\\test_api_documentation_advanced.py": {
+      "language": ".py",
+      "function_count": 18,
+      "class_count": 5,
+      "complexity": 36
+    },
+    "tests\\api\\test_agent_api_suite_advanced.py": {
+      "language": ".py",
+      "function_count": 21,
+      "class_count": 1,
+      "complexity": 39
+    },
+    "tests\\deployment\\deployment_verification_advanced.py": {
+      "language": ".py",
+      "function_count": 35,
+      "class_count": 1,
+      "complexity": 70
+    },
+    "tests\\contracts\\__init__.py": {
+      "language": ".py",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
+    },
+    "tests\\deployment\\deployment_verification_core.py": {
+      "language": ".py",
+      "function_count": 19,
+      "class_count": 4,
+      "complexity": 38
+    },
+    "tests\\contracts\\test_contract_execution.py": {
+      "language": ".py",
+      "function_count": 8,
+      "class_count": 1,
+      "complexity": 16
+    },
+    "tests\\contracts\\test_contract_creation.py": {
+      "language": ".py",
+      "function_count": 8,
+      "class_count": 1,
+      "complexity": 16
+    },
+    "tests\\contracts\\test_contract_rewards.py": {
+      "language": ".py",
+      "function_count": 9,
+      "class_count": 1,
+      "complexity": 18
+    },
+    "tests\\swarm_testing_framework\\__init__.py": {
+      "language": ".py",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
+    },
+    "tests\\architectural_patterns\\test_design_patterns.py": {
+      "language": ".py",
+      "function_count": 7,
+      "class_count": 1,
+      "complexity": 14
+    },
+    "tests\\architectural_patterns\\test_solid_principles.py": {
+      "language": ".py",
+      "function_count": 18,
+      "class_count": 7,
+      "complexity": 36
+    },
+    "tests\\coordination\\test_coordination_service_core.py": {
+      "language": ".py",
+      "function_count": 29,
+      "class_count": 6,
+      "complexity": 58
+    },
+    "tests\\architectural_patterns\\__init__.py": {
+      "language": ".py",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
+    },
+    "tests\\coordination\\__init__.py": {
+      "language": ".py",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
+    },
+    "tests\\architectural_patterns\\test_architecture_validation.py": {
+      "language": ".py",
+      "function_count": 7,
+      "class_count": 1,
+      "complexity": 14
+    },
+    "tests\\coordination\\test_coordination_service_advanced.py": {
+      "language": ".py",
+      "function_count": 27,
+      "class_count": 7,
+      "complexity": 53
+    },
+    "src\\web\\swarm_monitoring_ui.py": {
+      "language": ".py",
+      "function_count": 7,
+      "class_count": 2,
+      "complexity": 13
+    },
+    "src\\web\\simple_monitoring_dashboard_advanced.py": {
+      "language": ".py",
+      "function_count": 4,
+      "class_count": 2,
+      "complexity": 8
+    },
+    "src\\web\\swarm_monitoring_data.py": {
+      "language": ".py",
+      "function_count": 12,
+      "class_count": 1,
+      "complexity": 24
+    },
+    "src\\web\\swarm_monitoring_core.py": {
+      "language": ".py",
+      "function_count": 13,
+      "class_count": 4,
+      "complexity": 25
+    },
+    "src\\web\\simple_monitoring_dashboard_core.py": {
+      "language": ".py",
+      "function_count": 12,
+      "class_count": 1,
+      "complexity": 24
     },
     "src\\web\\static\\js\\dashboard-new.js": {
       "language": ".js",
@@ -22,37 +286,253 @@
       "class_count": 0,
       "complexity": 0
     },
-    "src\\web\\static\\js\\dashboard-utils.js": {
+    "src\\web\\static\\js\\dashboard-utils-new.js": {
       "language": ".js",
       "function_count": 0,
       "class_count": 0,
       "complexity": 0
     },
-    "src\\web\\static\\js\\performance\\performance-optimization-orchestrator.js": {
+    "src\\web\\static\\js\\unified-frontend-utilities.js": {
       "language": ".js",
       "function_count": 0,
       "class_count": 0,
       "complexity": 0
     },
-    "src\\web\\static\\js\\trading-robot\\chart-state-validation-module.js": {
+    "src\\web\\static\\js\\api.js": {
       "language": ".js",
       "function_count": 0,
       "class_count": 0,
       "complexity": 0
     },
-    "src\\web\\static\\js\\utilities\\unified-utilities.js": {
+    "src\\web\\static\\js\\app.js": {
       "language": ".js",
       "function_count": 0,
       "class_count": 0,
       "complexity": 0
     },
-    "src\\services\\messaging\\models.py": {
+    "src\\web\\static\\js\\performance\\performance-optimization-report.js": {
+      "language": ".js",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
+    },
+    "src\\web\\static\\js\\trading-robot\\chart-validation\\module.js": {
+      "language": ".js",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
+    },
+    "src\\web\\static\\js\\components\\dashboard.js": {
+      "language": ".js",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
+    },
+    "src\\web\\static\\js\\components\\navigation.js": {
+      "language": ".js",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
+    },
+    "src\\web\\vector_database\\analytics_utils.py": {
+      "language": ".py",
+      "function_count": 2,
+      "class_count": 1,
+      "complexity": 4
+    },
+    "src\\web\\vector_database\\document_utils.py": {
+      "language": ".py",
+      "function_count": 3,
+      "class_count": 1,
+      "complexity": 6
+    },
+    "src\\web\\vector_database\\collection_utils.py": {
+      "language": ".py",
+      "function_count": 2,
+      "class_count": 1,
+      "complexity": 4
+    },
+    "src\\web\\vector_database\\middleware.py": {
+      "language": ".py",
+      "function_count": 9,
+      "class_count": 1,
+      "complexity": 18
+    },
+    "src\\web\\dashboard\\models.py": {
+      "language": ".py",
+      "function_count": 0,
+      "class_count": 4,
+      "complexity": 0
+    },
+    "src\\services\\consolidated_agent_management_service.py": {
+      "language": ".py",
+      "function_count": 21,
+      "class_count": 2,
+      "complexity": 42
+    },
+    "src\\web\\dashboard\\metrics_collector.py": {
+      "language": ".py",
+      "function_count": 4,
+      "class_count": 1,
+      "complexity": 8
+    },
+    "src\\services\\consolidated_onboarding_service.py": {
+      "language": ".py",
+      "function_count": 4,
+      "class_count": 0,
+      "complexity": 4
+    },
+    "src\\services\\coordination\\bulk_coordinator.py": {
+      "language": ".py",
+      "function_count": 8,
+      "class_count": 1,
+      "complexity": 16
+    },
+    "src\\services\\__init__.py": {
       "language": ".py",
       "function_count": 0,
       "class_count": 0,
       "complexity": 0
     },
+    "src\\services\\handlers_orchestrator.py": {
+      "language": ".py",
+      "function_count": 32,
+      "class_count": 5,
+      "complexity": 63
+    },
+    "src\\services\\coordination\\stats_tracker.py": {
+      "language": ".py",
+      "function_count": 9,
+      "class_count": 1,
+      "complexity": 18
+    },
+    "src\\services\\unified_onboarding_service.py": {
+      "language": ".py",
+      "function_count": 11,
+      "class_count": 5,
+      "complexity": 22
+    },
+    "src\\services\\unified_coordination_service.py": {
+      "language": ".py",
+      "function_count": 17,
+      "class_count": 4,
+      "complexity": 34
+    },
+    "src\\services\\coordination\\strategy_coordinator.py": {
+      "language": ".py",
+      "function_count": 11,
+      "class_count": 1,
+      "complexity": 22
+    },
+    "src\\services\\consolidated_messaging_service.py": {
+      "language": ".py",
+      "function_count": 8,
+      "class_count": 1,
+      "complexity": 14
+    },
+    "src\\services\\models\\vector_models.py": {
+      "language": ".py",
+      "function_count": 3,
+      "class_count": 10,
+      "complexity": 5
+    },
+    "src\\services\\utils\\vector_config_utils.py": {
+      "language": ".py",
+      "function_count": 1,
+      "class_count": 0,
+      "complexity": 1
+    },
+    "src\\services\\protocol\\routers\\route_analyzer.py": {
+      "language": ".py",
+      "function_count": 10,
+      "class_count": 1,
+      "complexity": 20
+    },
+    "src\\services\\vector_database\\status_indexer.py": {
+      "language": ".py",
+      "function_count": 2,
+      "class_count": 0,
+      "complexity": 2
+    },
+    "src\\services\\thea\\browser\\thea_browser_service.py": {
+      "language": ".py",
+      "function_count": 18,
+      "class_count": 2,
+      "complexity": 36
+    },
+    "src\\services\\thea\\responses\\thea_response_service.py": {
+      "language": ".py",
+      "function_count": 9,
+      "class_count": 2,
+      "complexity": 18
+    },
+    "src\\services\\thea\\authentication\\thea_authentication_service.py": {
+      "language": ".py",
+      "function_count": 14,
+      "class_count": 4,
+      "complexity": 28
+    },
+    "src\\services\\thea\\core\\thea_communication_manager.py": {
+      "language": ".py",
+      "function_count": 10,
+      "class_count": 1,
+      "complexity": 20
+    },
+    "src\\services\\messaging\\delivery\\fallback.py": {
+      "language": ".py",
+      "function_count": 2,
+      "class_count": 0,
+      "complexity": 2
+    },
+    "src\\services\\messaging\\task_handlers.py": {
+      "language": ".py",
+      "function_count": 3,
+      "class_count": 0,
+      "complexity": 3
+    },
+    "src\\services\\messaging\\thea_handlers.py": {
+      "language": ".py",
+      "function_count": 1,
+      "class_count": 0,
+      "complexity": 1
+    },
+    "src\\services\\thea\\commander\\thea_response_processor.py": {
+      "language": ".py",
+      "function_count": 11,
+      "class_count": 2,
+      "complexity": 22
+    },
+    "src\\services\\thea\\commander\\thea_commander_manager.py": {
+      "language": ".py",
+      "function_count": 8,
+      "class_count": 1,
+      "complexity": 16
+    },
     "src\\services\\messaging\\providers\\fallback_provider\\__init__.py": {
+      "language": ".py",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
+    },
+    "src\\services\\messaging\\cli\\messaging_cli.py": {
+      "language": ".py",
+      "function_count": 9,
+      "class_count": 1,
+      "complexity": 18
+    },
+    "src\\services\\thea\\messaging\\thea_messaging_service.py": {
+      "language": ".py",
+      "function_count": 9,
+      "class_count": 2,
+      "complexity": 18
+    },
+    "src\\services\\messaging\\cli\\messaging_cli_clean.py": {
+      "language": ".py",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
+    },
+    "src\\services\\messaging\\history_service\\__init__.py": {
       "language": ".py",
       "function_count": 0,
       "class_count": 0,
@@ -64,23 +544,593 @@
       "class_count": 0,
       "complexity": 0
     },
-    "src\\services\\messaging\\cli\\perf_cli\\__init__.py": {
+    "src\\services\\analytics\\advanced_analytics_service.py": {
       "language": ".py",
-      "function_count": 0,
-      "class_count": 0,
-      "complexity": 0
+      "function_count": 14,
+      "class_count": 1,
+      "complexity": 27
     },
-    "src\\services\\agent_management\\consolidated_service.py": {
+    "src\\services\\analytics\\intelligent_caching_system.py": {
       "language": ".py",
-      "function_count": 21,
-      "class_count": 2,
+      "function_count": 22,
+      "class_count": 5,
       "complexity": 42
     },
-    "src\\discord_commander\\webhook\\__init__.py": {
+    "src\\services\\analytics\\analytics_performance_optimizer.py": {
+      "language": ".py",
+      "function_count": 21,
+      "class_count": 5,
+      "complexity": 41
+    },
+    "src\\services\\analytics\\advanced_data_analysis_engine.py": {
+      "language": ".py",
+      "function_count": 21,
+      "class_count": 4,
+      "complexity": 41
+    },
+    "src\\services\\analytics\\business_intelligence_orchestrator.py": {
+      "language": ".py",
+      "function_count": 17,
+      "class_count": 1,
+      "complexity": 33
+    },
+    "src\\services\\analytics\\machine_learning_engine.py": {
+      "language": ".py",
+      "function_count": 25,
+      "class_count": 6,
+      "complexity": 49
+    },
+    "src\\services\\analytics\\bi_dashboard_service.py": {
+      "language": ".py",
+      "function_count": 13,
+      "class_count": 1,
+      "complexity": 25
+    },
+    "src\\services\\analytics\\optimized_analytics_service.py": {
+      "language": ".py",
+      "function_count": 14,
+      "class_count": 1,
+      "complexity": 23
+    },
+    "src\\services\\analytics\\parallel_processing_engine.py": {
+      "language": ".py",
+      "function_count": 20,
+      "class_count": 5,
+      "complexity": 36
+    },
+    "src\\services\\communication\\consolidated_communication.py": {
+      "language": ".py",
+      "function_count": 18,
+      "class_count": 11,
+      "complexity": 35
+    },
+    "src\\services\\contracts\\contract_management_service.py": {
+      "language": ".py",
+      "function_count": 16,
+      "class_count": 1,
+      "complexity": 32
+    },
+    "src\\core\\core_interface_repository.py": {
+      "language": ".py",
+      "function_count": 15,
+      "class_count": 3,
+      "complexity": 30
+    },
+    "src\\core\\agent5_phase1_bi_support_advanced.py": {
+      "language": ".py",
+      "function_count": 16,
+      "class_count": 1,
+      "complexity": 32
+    },
+    "src\\core\\agent5_phase1_bi_support_core.py": {
+      "language": ".py",
+      "function_count": 22,
+      "class_count": 5,
+      "complexity": 44
+    },
+    "src\\core\\consolidated_workflow_engine.py": {
+      "language": ".py",
+      "function_count": 24,
+      "class_count": 3,
+      "complexity": 47
+    },
+    "src\\core\\core_interface_service.py": {
+      "language": ".py",
+      "function_count": 10,
+      "class_count": 1,
+      "complexity": 20
+    },
+    "src\\core\\configuration_coordination_interfaces.py": {
+      "language": ".py",
+      "function_count": 25,
+      "class_count": 7,
+      "complexity": 50
+    },
+    "src\\core\\core_interface_factory.py": {
+      "language": ".py",
+      "function_count": 10,
+      "class_count": 2,
+      "complexity": 18
+    },
+    "src\\core\\communication_interfaces.py": {
+      "language": ".py",
+      "function_count": 13,
+      "class_count": 3,
+      "complexity": 26
+    },
+    "src\\core\\unified_progress_tracking_core.py": {
+      "language": ".py",
+      "function_count": 8,
+      "class_count": 8,
+      "complexity": 16
+    },
+    "src\\core\\minimal_coordination.py": {
+      "language": ".py",
+      "function_count": 12,
+      "class_count": 1,
+      "complexity": 23
+    },
+    "src\\core\\consolidated_automation_system.py": {
+      "language": ".py",
+      "function_count": 33,
+      "class_count": 3,
+      "complexity": 64
+    },
+    "src\\core\\core_system_interfaces.py": {
+      "language": ".py",
+      "function_count": 15,
+      "class_count": 6,
+      "complexity": 30
+    },
+    "src\\core\\lifecycle_monitoring_interfaces.py": {
+      "language": ".py",
+      "function_count": 17,
+      "class_count": 5,
+      "complexity": 34
+    },
+    "src\\core\\data_processing_interfaces.py": {
+      "language": ".py",
+      "function_count": 17,
+      "class_count": 4,
+      "complexity": 34
+    },
+    "src\\core\\error_handling_basic_examples.py": {
+      "language": ".py",
+      "function_count": 7,
+      "class_count": 8,
+      "complexity": 12
+    },
+    "src\\core\\progress_phases_enums.py": {
+      "language": ".py",
+      "function_count": 0,
+      "class_count": 2,
+      "complexity": 0
+    },
+    "src\\core\\progress_models.py": {
+      "language": ".py",
+      "function_count": 0,
+      "class_count": 4,
+      "complexity": 0
+    },
+    "src\\core\\progress_dashboard.py": {
+      "language": ".py",
+      "function_count": 9,
+      "class_count": 1,
+      "complexity": 18
+    },
+    "src\\core\\radical_simplification.py": {
+      "language": ".py",
+      "function_count": 15,
+      "class_count": 1,
+      "complexity": 29
+    },
+    "src\\core\\progress_tracking_system.py": {
+      "language": ".py",
+      "function_count": 8,
+      "class_count": 2,
+      "complexity": 16
+    },
+    "src\\core\\test_standard_message_reminder.py": {
+      "language": ".py",
+      "function_count": 9,
+      "class_count": 0,
+      "complexity": 9
+    },
+    "src\\core\\self_validation_protocol.py": {
+      "language": ".py",
+      "function_count": 21,
+      "class_count": 6,
+      "complexity": 42
+    },
+    "src\\core\\swarm_communication_enums.py": {
+      "language": ".py",
+      "function_count": 0,
+      "class_count": 8,
+      "complexity": 0
+    },
+    "src\\core\\test_system_integration.py": {
+      "language": ".py",
+      "function_count": 5,
+      "class_count": 0,
+      "complexity": 5
+    },
+    "src\\core\\unified_onboarding_coordinates.py": {
+      "language": ".py",
+      "function_count": 17,
+      "class_count": 1,
+      "complexity": 30
+    },
+    "src\\core\\test_execution_engine.py": {
+      "language": ".py",
+      "function_count": 8,
+      "class_count": 0,
+      "complexity": 8
+    },
+    "src\\core\\streamlined_message_system.py": {
+      "language": ".py",
+      "function_count": 7,
+      "class_count": 1,
+      "complexity": 14
+    },
+    "src\\core\\agent5_phase2_agent1_coordination.py": {
+      "language": ".py",
+      "function_count": 9,
+      "class_count": 2,
+      "complexity": 17
+    },
+    "src\\core\\unified_autonomous_loop.py": {
+      "language": ".py",
+      "function_count": 21,
+      "class_count": 1,
+      "complexity": 41
+    },
+    "src\\core\\agent5_phase2_task3_data_integration.py": {
+      "language": ".py",
+      "function_count": 13,
+      "class_count": 3,
+      "complexity": 25
+    },
+    "src\\core\\agent5_phase1_bi_support.py": {
+      "language": ".py",
+      "function_count": 17,
+      "class_count": 1,
+      "complexity": 34
+    },
+    "src\\core\\agent5_phase2_bi_integration.py": {
+      "language": ".py",
+      "function_count": 10,
+      "class_count": 2,
+      "complexity": 19
+    },
+    "src\\core\\error_handling_examples.py": {
+      "language": ".py",
+      "function_count": 10,
+      "class_count": 1,
+      "complexity": 14
+    },
+    "src\\core\\agent5_phase2_task1_analytics_consolidation.py": {
+      "language": ".py",
+      "function_count": 12,
+      "class_count": 3,
+      "complexity": 23
+    },
+    "src\\core\\agent5_phase2_task2_performance_monitoring.py": {
+      "language": ".py",
+      "function_count": 13,
+      "class_count": 3,
+      "complexity": 25
+    },
+    "src\\core\\shared_utilities.py": {
+      "language": ".py",
+      "function_count": 55,
+      "class_count": 9,
+      "complexity": 102
+    },
+    "src\\core\\agent5_phase2_coordination_support.py": {
+      "language": ".py",
+      "function_count": 9,
+      "class_count": 2,
+      "complexity": 17
+    },
+    "src\\core\\print_statement_cleanup.py": {
+      "language": ".py",
+      "function_count": 8,
+      "class_count": 1,
+      "complexity": 15
+    },
+    "src\\core\\consolidated_process_monitoring.py": {
+      "language": ".py",
+      "function_count": 40,
+      "class_count": 10,
+      "complexity": 73
+    },
+    "src\\core\\self_validation_execution_engine.py": {
+      "language": ".py",
+      "function_count": 10,
+      "class_count": 1,
+      "complexity": 20
+    },
+    "src\\core\\swarm_quality_manager.py": {
+      "language": ".py",
+      "function_count": 14,
+      "class_count": 1,
+      "complexity": 28
+    },
+    "src\\core\\test_mailbox_automation.py": {
+      "language": ".py",
+      "function_count": 6,
+      "class_count": 0,
+      "complexity": 6
+    },
+    "src\\core\\swarm_communication_coordinator_core.py": {
+      "language": ".py",
+      "function_count": 12,
+      "class_count": 1,
+      "complexity": 23
+    },
+    "src\\core\\swarm_business_intelligence.py": {
+      "language": ".py",
+      "function_count": 13,
+      "class_count": 6,
+      "complexity": 26
+    },
+    "src\\core\\swarm_data_optimizer.py": {
+      "language": ".py",
+      "function_count": 18,
+      "class_count": 5,
+      "complexity": 36
+    },
+    "src\\core\\swarm_decision_manager.py": {
+      "language": ".py",
+      "function_count": 12,
+      "class_count": 1,
+      "complexity": 24
+    },
+    "src\\core\\swarm_data_optimizer_core.py": {
+      "language": ".py",
+      "function_count": 16,
+      "class_count": 5,
+      "complexity": 32
+    },
+    "src\\core\\test_task_claiming_automation.py": {
+      "language": ".py",
+      "function_count": 6,
+      "class_count": 0,
+      "complexity": 6
+    },
+    "src\\core\\simplified_messaging.py": {
+      "language": ".py",
+      "function_count": 8,
+      "class_count": 1,
+      "complexity": 15
+    },
+    "src\\core\\swarm_bi_coordinator.py": {
+      "language": ".py",
+      "function_count": 12,
+      "class_count": 3,
+      "complexity": 24
+    },
+    "src\\core\\swarm_agent_manager.py": {
+      "language": ".py",
+      "function_count": 11,
+      "class_count": 1,
+      "complexity": 22
+    },
+    "src\\core\\test_self_validation_protocol.py": {
+      "language": ".py",
+      "function_count": 5,
+      "class_count": 0,
+      "complexity": 5
+    },
+    "src\\core\\swarm_data_optimizer_advanced.py": {
+      "language": ".py",
+      "function_count": 16,
+      "class_count": 2,
+      "complexity": 32
+    },
+    "src\\core\\unified_progress_tracking_advanced.py": {
+      "language": ".py",
+      "function_count": 12,
+      "class_count": 1,
+      "complexity": 23
+    },
+    "src\\core\\unified_core_interfaces_advanced.py": {
+      "language": ".py",
+      "function_count": 42,
+      "class_count": 14,
+      "complexity": 82
+    },
+    "src\\core\\consolidation\\base.py": {
+      "language": ".py",
+      "function_count": 5,
+      "class_count": 1,
+      "complexity": 10
+    },
+    "src\\core\\unified_core_system.py": {
+      "language": ".py",
+      "function_count": 36,
+      "class_count": 8,
+      "complexity": 69
+    },
+    "src\\core\\unified_core_interfaces_basic.py": {
+      "language": ".py",
+      "function_count": 31,
+      "class_count": 12,
+      "complexity": 62
+    },
+    "src\\core\\coordination\\fsm_system.py": {
+      "language": ".py",
+      "function_count": 3,
+      "class_count": 2,
+      "complexity": 6
+    },
+    "src\\core\\coordination\\onboarding_coordinator.py": {
+      "language": ".py",
+      "function_count": 12,
+      "class_count": 1,
+      "complexity": 24
+    },
+    "src\\core\\coordination\\contract_system.py": {
+      "language": ".py",
+      "function_count": 2,
+      "class_count": 2,
+      "complexity": 4
+    },
+    "src\\core\\ssot\\ssot_models.py": {
+      "language": ".py",
+      "function_count": 11,
+      "class_count": 8,
+      "complexity": 21
+    },
+    "src\\core\\semantic\\status_cli.py": {
+      "language": ".py",
+      "function_count": 2,
+      "class_count": 0,
+      "complexity": 2
+    },
+    "src\\core\\semantic\\utils.py": {
+      "language": ".py",
+      "function_count": 25,
+      "class_count": 2,
+      "complexity": 47
+    },
+    "src\\core\\backup_disaster_recovery\\__init__.py": {
       "language": ".py",
       "function_count": 0,
       "class_count": 0,
       "complexity": 0
+    },
+    "src\\core\\deployment\\models\\factory_functions.py": {
+      "language": ".py",
+      "function_count": 7,
+      "class_count": 0,
+      "complexity": 7
+    },
+    "src\\core\\messaging\\health_check.py": {
+      "language": ".py",
+      "function_count": 5,
+      "class_count": 1,
+      "complexity": 5
+    },
+    "src\\core\\quality\\v2_compliance_validator.py": {
+      "language": ".py",
+      "function_count": 17,
+      "class_count": 5,
+      "complexity": 33
+    },
+    "src\\core\\quality\\v2_compliance_validator_core.py": {
+      "language": ".py",
+      "function_count": 13,
+      "class_count": 5,
+      "complexity": 26
+    },
+    "src\\core\\swarm\\swarm_communication_core.py": {
+      "language": ".py",
+      "function_count": 14,
+      "class_count": 5,
+      "complexity": 27
+    },
+    "src\\core\\error_handling\\error_factory.py": {
+      "language": ".py",
+      "function_count": 36,
+      "class_count": 11,
+      "complexity": 71
+    },
+    "src\\core\\quality\\v2_compliance_validator_advanced.py": {
+      "language": ".py",
+      "function_count": 12,
+      "class_count": 1,
+      "complexity": 22
+    },
+    "src\\core\\quality\\coordinate_consolidation_validator.py": {
+      "language": ".py",
+      "function_count": 11,
+      "class_count": 5,
+      "complexity": 21
+    },
+    "src\\core\\repository\\core_repository.py": {
+      "language": ".py",
+      "function_count": 17,
+      "class_count": 7,
+      "complexity": 33
+    },
+    "src\\core\\services\\progress_tracking_core.py": {
+      "language": ".py",
+      "function_count": 14,
+      "class_count": 5,
+      "complexity": 27
+    },
+    "src\\core\\services\\progress_tracking_advanced.py": {
+      "language": ".py",
+      "function_count": 15,
+      "class_count": 3,
+      "complexity": 29
+    },
+    "src\\core\\services\\progress_tracking_service.py": {
+      "language": ".py",
+      "function_count": 17,
+      "class_count": 5,
+      "complexity": 33
+    },
+    "src\\discord_commander\\discord_command_handlers.py": {
+      "language": ".py",
+      "function_count": 1,
+      "class_count": 1,
+      "complexity": 2
+    },
+    "src\\discord_commander\\handlers_agents.py": {
+      "language": ".py",
+      "function_count": 4,
+      "class_count": 1,
+      "complexity": 7
+    },
+    "src\\discord_commander\\discord_agent_bot_core.py": {
+      "language": ".py",
+      "function_count": 6,
+      "class_count": 1,
+      "complexity": 12
+    },
+    "src\\discord_commander\\discord_rate_limiting.py": {
+      "language": ".py",
+      "function_count": 6,
+      "class_count": 1,
+      "complexity": 12
+    },
+    "src\\discord_commander\\handlers_agent_summary.py": {
+      "language": ".py",
+      "function_count": 1,
+      "class_count": 1,
+      "complexity": 2
+    },
+    "src\\discord_commander\\discord_security_policies.py": {
+      "language": ".py",
+      "function_count": 15,
+      "class_count": 1,
+      "complexity": 30
+    },
+    "src\\discord_commander\\discord_dynamic_agent_commands.py": {
+      "language": ".py",
+      "function_count": 3,
+      "class_count": 0,
+      "complexity": 3
+    },
+    "src\\discord_commander\\discord_agent_bot_refactored.py": {
+      "language": ".py",
+      "function_count": 5,
+      "class_count": 2,
+      "complexity": 9
+    },
+    "src\\discord_commander\\communication_engine\\__init__.py": {
+      "language": ".py",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
+    },
+    "src\\discord_commander\\discord_commander.py": {
+      "language": ".py",
+      "function_count": 8,
+      "class_count": 1,
+      "complexity": 15
     },
     "src\\discord_commander\\messaging_gateway\\__init__.py": {
       "language": ".py",
@@ -88,7 +1138,121 @@
       "class_count": 0,
       "complexity": 0
     },
-    "src\\discord_commander\\communication_engine\\__init__.py": {
+    "src\\discord_commander\\onboarding_integration.py": {
+      "language": ".py",
+      "function_count": 3,
+      "class_count": 1,
+      "complexity": 5
+    },
+    "src\\discord_commander\\agent_communication_engine.py": {
+      "language": ".py",
+      "function_count": 11,
+      "class_count": 1,
+      "complexity": 21
+    },
+    "src\\discord_commander\\handlers_swarm.py": {
+      "language": ".py",
+      "function_count": 3,
+      "class_count": 2,
+      "complexity": 6
+    },
+    "src\\discord_commander\\webhook\\__init__.py": {
+      "language": ".py",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
+    },
+    "src\\infrastructure\\browser\\thea_login_handler.py": {
+      "language": ".py",
+      "function_count": 3,
+      "class_count": 2,
+      "complexity": 6
+    },
+    "src\\infrastructure\\browser\\thea_session_manager.py": {
+      "language": ".py",
+      "function_count": 10,
+      "class_count": 2,
+      "complexity": 20
+    },
+    "src\\infrastructure\\monitoring\\components\\__init__.py": {
+      "language": ".py",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
+    },
+    "src\\infrastructure\\monitoring\\__init__.py": {
+      "language": ".py",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
+    },
+    "src\\infrastructure\\monitoring\\infrastructure_monitoring_integration.py": {
+      "language": ".py",
+      "function_count": 19,
+      "class_count": 7,
+      "complexity": 38
+    },
+    "src\\infrastructure\\monitoring\\components\\infrastructure_services.py": {
+      "language": ".py",
+      "function_count": 6,
+      "class_count": 1,
+      "complexity": 12
+    },
+    "src\\infrastructure\\monitoring\\components\\monitoring_components.py": {
+      "language": ".py",
+      "function_count": 12,
+      "class_count": 8,
+      "complexity": 24
+    },
+    "src\\infrastructure\\monitoring\\components\\performance_metrics.py": {
+      "language": ".py",
+      "function_count": 13,
+      "class_count": 3,
+      "complexity": 26
+    },
+    "src\\utils\\config_management\\config_scanner.py": {
+      "language": ".py",
+      "function_count": 15,
+      "class_count": 7,
+      "complexity": 30
+    },
+    "src\\utils\\config_management\\config_consolidator.py": {
+      "language": ".py",
+      "function_count": 11,
+      "class_count": 2,
+      "complexity": 22
+    },
+    "src\\utils\\file_operations\\file_backup.py": {
+      "language": ".py",
+      "function_count": 14,
+      "class_count": 3,
+      "complexity": 28
+    },
+    "src\\utils\\file_operations\\file_metadata.py": {
+      "language": ".py",
+      "function_count": 12,
+      "class_count": 3,
+      "complexity": 24
+    },
+    "src\\utils\\config_management\\config_validator.py": {
+      "language": ".py",
+      "function_count": 12,
+      "class_count": 2,
+      "complexity": 24
+    },
+    "src\\utils\\file_operations\\__init__.py": {
+      "language": ".py",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
+    },
+    "src\\utils\\config_management\\__init__.py": {
+      "language": ".py",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
+    },
+    "src\\integration\\unified_onboarding_demo.py": {
       "language": ".py",
       "function_count": 0,
       "class_count": 0,
@@ -100,17 +1264,167 @@
       "class_count": 0,
       "complexity": 0
     },
+    "src\\coordination\\coordination_factory.py": {
+      "language": ".py",
+      "function_count": 17,
+      "class_count": 2,
+      "complexity": 33
+    },
+    "src\\utils\\file_operations\\file_serialization.py": {
+      "language": ".py",
+      "function_count": 21,
+      "class_count": 1,
+      "complexity": 42
+    },
     "src\\onboarding\\__init__.py": {
       "language": ".py",
       "function_count": 0,
       "class_count": 0,
       "complexity": 0
     },
+    "src\\coordination\\agent_instructions.py": {
+      "language": ".py",
+      "function_count": 11,
+      "class_count": 1,
+      "complexity": 22
+    },
+    "src\\coordination\\cycle_coordinator.py": {
+      "language": ".py",
+      "function_count": 8,
+      "class_count": 1,
+      "complexity": 15
+    },
+    "src\\coordination\\onboarding_coordinator.py": {
+      "language": ".py",
+      "function_count": 17,
+      "class_count": 4,
+      "complexity": 34
+    },
+    "src\\coordination\\coordination_service.py": {
+      "language": ".py",
+      "function_count": 25,
+      "class_count": 2,
+      "complexity": 50
+    },
+    "tools\\triple_check_protocols.py": {
+      "language": ".py",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
+    },
+    "src\\coordination\\__init__.py": {
+      "language": ".py",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
+    },
+    "tools\\duplication_analyzer.py": {
+      "language": ".py",
+      "function_count": 18,
+      "class_count": 1,
+      "complexity": 35
+    },
+    "tools\\data_log_manager.py": {
+      "language": ".py",
+      "function_count": 10,
+      "class_count": 1,
+      "complexity": 19
+    },
+    "tools\\functionality_verification.py": {
+      "language": ".py",
+      "function_count": 1,
+      "class_count": 0,
+      "complexity": 1
+    },
+    "tools\\double_check_protocols.py": {
+      "language": ".py",
+      "function_count": 0,
+      "class_count": 0,
+      "complexity": 0
+    },
+    "tools\\messaging_performance_cli.py": {
+      "language": ".py",
+      "function_count": 17,
+      "class_count": 2,
+      "complexity": 32
+    },
+    "tools\\audit_cleanup.py": {
+      "language": ".py",
+      "function_count": 1,
+      "class_count": 0,
+      "complexity": 1
+    },
+    "tools\\run_project_scan.py": {
+      "language": ".py",
+      "function_count": 1,
+      "class_count": 0,
+      "complexity": 1
+    },
+    "tools\\analysis_cli.py": {
+      "language": ".py",
+      "function_count": 7,
+      "class_count": 0,
+      "complexity": 7
+    },
     "tools\\captain_snapshot.py": {
       "language": ".py",
       "function_count": 6,
       "class_count": 0,
       "complexity": 6
+    },
+    "tools\\config_backup_automation.py": {
+      "language": ".py",
+      "function_count": 7,
+      "class_count": 1,
+      "complexity": 13
+    },
+    "tools\\config_validation_pipeline.py": {
+      "language": ".py",
+      "function_count": 14,
+      "class_count": 2,
+      "complexity": 27
+    },
+    "tools\\codemods\\replace_prints_with_logger.py": {
+      "language": ".py",
+      "function_count": 4,
+      "class_count": 1,
+      "complexity": 5
+    },
+    "tools\\loc_remediation\\loc_analyzer.py": {
+      "language": ".py",
+      "function_count": 6,
+      "class_count": 1,
+      "complexity": 11
+    },
+    "tools\\check_protocols\\protocol_reporter.py": {
+      "language": ".py",
+      "function_count": 8,
+      "class_count": 1,
+      "complexity": 16
+    },
+    "tools\\check_protocols\\protocol_validator.py": {
+      "language": ".py",
+      "function_count": 3,
+      "class_count": 1,
+      "complexity": 6
+    },
+    "tools\\verification\\verification_reporter.py": {
+      "language": ".py",
+      "function_count": 10,
+      "class_count": 1,
+      "complexity": 20
+    },
+    "tools\\check_protocols\\protocol_coordinator.py": {
+      "language": ".py",
+      "function_count": 3,
+      "class_count": 1,
+      "complexity": 6
+    },
+    "tools\\audit\\audit_reporter.py": {
+      "language": ".py",
+      "function_count": 9,
+      "class_count": 1,
+      "complexity": 18
     }
   },
   "key_components": [],

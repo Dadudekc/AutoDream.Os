@@ -13,14 +13,13 @@ License: MIT
 
 from __future__ import annotations
 
-import asyncio
 from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional, Protocol, Union
-
+from typing import Any, Protocol, Union
 
 # ============================================================================
 # CORE SYSTEM INTERFACES
 # ============================================================================
+
 
 class ICoreSystem(Protocol):
     """Core system interface for all major system components."""
@@ -43,7 +42,7 @@ class ICoreSystem(Protocol):
         """Shutdown the system."""
         ...
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get system status."""
         ...
 
@@ -51,15 +50,15 @@ class ICoreSystem(Protocol):
 class IConfigurable(Protocol):
     """Interface for configurable components."""
 
-    def configure(self, config: Dict[str, Any]) -> bool:
+    def configure(self, config: dict[str, Any]) -> bool:
         """Configure the component."""
         ...
 
-    def get_configuration(self) -> Dict[str, Any]:
+    def get_configuration(self) -> dict[str, Any]:
         """Get current configuration."""
         ...
 
-    def validate_configuration(self, config: Dict[str, Any]) -> List[str]:
+    def validate_configuration(self, config: dict[str, Any]) -> list[str]:
         """Validate configuration, return list of errors."""
         ...
 
@@ -92,6 +91,7 @@ class IObserver(Protocol):
 # CONFIGURATION INTERFACES
 # ============================================================================
 
+
 class IConfigurationProvider(Protocol):
     """Interface for configuration providers."""
 
@@ -107,7 +107,7 @@ class IConfigurationProvider(Protocol):
         """Check if configuration key exists."""
         ...
 
-    def get_section(self, section: str) -> Dict[str, Any]:
+    def get_section(self, section: str) -> dict[str, Any]:
         """Get configuration section."""
         ...
 
@@ -119,11 +119,11 @@ class IConfigurationProvider(Protocol):
 class IConfigurationValidator(Protocol):
     """Interface for configuration validators."""
 
-    def validate(self, config: Dict[str, Any]) -> List[str]:
+    def validate(self, config: dict[str, Any]) -> list[str]:
         """Validate configuration, return validation errors."""
         ...
 
-    def get_schema(self) -> Dict[str, Any]:
+    def get_schema(self) -> dict[str, Any]:
         """Get validation schema."""
         ...
 
@@ -131,6 +131,7 @@ class IConfigurationValidator(Protocol):
 # ============================================================================
 # COORDINATION INTERFACES
 # ============================================================================
+
 
 class ICoordinator(ABC):
     """Abstract base class for all coordinators."""
@@ -158,7 +159,7 @@ class ICoordinatorRegistry(Protocol):
         """Register a coordinator."""
         ...
 
-    def get_coordinator(self, coordinator_id: str) -> Optional[ICoordinator]:
+    def get_coordinator(self, coordinator_id: str) -> ICoordinator | None:
         """Get coordinator by ID."""
         ...
 
@@ -166,7 +167,7 @@ class ICoordinatorRegistry(Protocol):
         """Unregister coordinator."""
         ...
 
-    def list_coordinators(self, coordinator_type: Optional[str] = None) -> List[ICoordinator]:
+    def list_coordinators(self, coordinator_type: str | None = None) -> list[ICoordinator]:
         """List coordinators."""
         ...
 
@@ -182,6 +183,7 @@ class ICoordinatorFactory(Protocol):
 # ============================================================================
 # COMMUNICATION INTERFACES
 # ============================================================================
+
 
 class IMessageHandler(Protocol):
     """Interface for message handlers."""
@@ -214,7 +216,7 @@ class ICommunicationChannel(ABC):
         ...
 
     @abstractmethod
-    async def receive_messages(self, recipient: str) -> List[Any]:
+    async def receive_messages(self, recipient: str) -> list[Any]:
         """Receive messages for a recipient."""
         ...
 
@@ -234,11 +236,11 @@ class ICommunicationSystem(Protocol):
         """Send message."""
         ...
 
-    async def broadcast_message(self, message: Any, channel_ids: List[str] = None) -> List[Any]:
+    async def broadcast_message(self, message: Any, channel_ids: list[str] = None) -> list[Any]:
         """Broadcast message."""
         ...
 
-    async def receive_messages(self, recipient: str, channel_ids: List[str] = None) -> List[Any]:
+    async def receive_messages(self, recipient: str, channel_ids: list[str] = None) -> list[Any]:
         """Receive messages."""
         ...
 
@@ -253,44 +255,32 @@ CoreSystemType = Union[
     IObservable,
 ]
 
-CommunicationType = Union[
-    ICommunicationChannel,
-    ICommunicationSystem,
-    IMessageHandler
-]
+CommunicationType = Union[ICommunicationChannel, ICommunicationSystem, IMessageHandler]
 
-CoordinationType = Union[
-    ICoordinator,
-    ICoordinatorRegistry,
-    ICoordinatorFactory
-]
+CoordinationType = Union[ICoordinator, ICoordinatorRegistry, ICoordinatorFactory]
 
 # Export all interfaces
 __all__ = [
     # Core system interfaces
-    'ICoreSystem',
-    'IConfigurable',
-    'IObservable',
-    'IObserver',
-
+    "ICoreSystem",
+    "IConfigurable",
+    "IObservable",
+    "IObserver",
     # Configuration interfaces
-    'IConfigurationProvider',
-    'IConfigurationValidator',
-
+    "IConfigurationProvider",
+    "IConfigurationValidator",
     # Coordination interfaces
-    'ICoordinator',
-    'ICoordinatorRegistry',
-    'ICoordinatorFactory',
-
+    "ICoordinator",
+    "ICoordinatorRegistry",
+    "ICoordinatorFactory",
     # Communication interfaces
-    'IMessageHandler',
-    'ICommunicationChannel',
-    'ICommunicationSystem',
-
+    "IMessageHandler",
+    "ICommunicationChannel",
+    "ICommunicationSystem",
     # Types
-    'CoreSystemType',
-    'CommunicationType',
-    'CoordinationType',
+    "CoreSystemType",
+    "CommunicationType",
+    "CoordinationType",
 ]
 
 

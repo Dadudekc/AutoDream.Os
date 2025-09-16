@@ -32,12 +32,13 @@ result = service.execute_operation(input_data, context)
 logger.info(f"Operation result: {result}")
 
 """
+
 from __future__ import annotations
 
 import logging
 
-from ..shared.messaging_utilities import get_messaging_utilities
 from ..models import UnifiedMessage
+from ..shared.messaging_utilities import get_messaging_utilities
 from .inbox_delivery import send_message_inbox
 from .pyautogui_delivery import deliver_message_pyautogui
 

@@ -29,7 +29,7 @@ class TestArchitecturalPatterns:
     def test_repository_pattern(self):
         """Test repository pattern for data access."""
         print("🧪 Testing Repository Pattern...")
-        
+
         try:
             from src.core.coordinate_loader import CoordinateLoader
 
@@ -47,7 +47,7 @@ class TestArchitecturalPatterns:
 
             print(f"✅ Repository Pattern: Successfully retrieved data for {len(agents)} agents")
             return True
-            
+
         except ImportError as e:
             print(f"⚠️ Repository Pattern Test: Import failed - {e}")
             return False
@@ -55,16 +55,18 @@ class TestArchitecturalPatterns:
     def test_facade_pattern(self):
         """Test facade pattern for simplified interfaces."""
         print("🧪 Testing Facade Pattern...")
-        
+
         try:
             from src.services.consolidated_messaging_service import ConsolidatedMessagingService
 
             service = ConsolidatedMessagingService()
 
             # Test simple interface to complex operations
-            methods = [m for m in dir(service) if not m.startswith('_')]
-            high_level_methods = [m for m in methods if 'send' in m.lower() or 'message' in m.lower()]
-            
+            methods = [m for m in dir(service) if not m.startswith("_")]
+            high_level_methods = [
+                m for m in methods if "send" in m.lower() or "message" in m.lower()
+            ]
+
             if high_level_methods:
                 print(f"✅ Facade Pattern: Found {len(high_level_methods)} high-level methods")
                 print(f"   Sample methods: {high_level_methods[:3]}")
@@ -132,9 +134,13 @@ class TestArchitecturalPatterns:
             from src.services.consolidated_messaging_service import ConsolidatedMessagingService
 
             # Check for observer pattern methods
-            methods = [m for m in dir(ConsolidatedMessagingService) if not m.startswith('_')]
-            observer_methods = [m for m in methods if 'subscribe' in m.lower() or 'notify' in m.lower() or 'observer' in m.lower()]
-            
+            methods = [m for m in dir(ConsolidatedMessagingService) if not m.startswith("_")]
+            observer_methods = [
+                m
+                for m in methods
+                if "subscribe" in m.lower() or "notify" in m.lower() or "observer" in m.lower()
+            ]
+
             if observer_methods:
                 print(f"✅ Observer Pattern: Found observer methods: {observer_methods}")
             else:
@@ -224,14 +230,18 @@ class TestArchitecturalIntegrity:
             from src.services.consolidated_messaging_service import ConsolidatedMessagingService
 
             # Check for consistent method naming patterns
-            loader_methods = [m for m in dir(CoordinateLoader) if not m.startswith('_')]
-            service_methods = [m for m in dir(ConsolidatedMessagingService) if not m.startswith('_')]
+            loader_methods = [m for m in dir(CoordinateLoader) if not m.startswith("_")]
+            service_methods = [
+                m for m in dir(ConsolidatedMessagingService) if not m.startswith("_")
+            ]
 
             # Look for consistent patterns
-            get_methods = [m for m in loader_methods + service_methods if m.startswith('get_')]
-            set_methods = [m for m in loader_methods + service_methods if m.startswith('set_')]
+            get_methods = [m for m in loader_methods + service_methods if m.startswith("get_")]
+            set_methods = [m for m in loader_methods + service_methods if m.startswith("set_")]
 
-            print(f"✅ Interface Consistency: Found {len(get_methods)} get methods, {len(set_methods)} set methods")
+            print(
+                f"✅ Interface Consistency: Found {len(get_methods)} get methods, {len(set_methods)} set methods"
+            )
             return True
 
         except ImportError as e:
@@ -289,11 +299,17 @@ class TestErrorHandlingArchitecture:
             from src.services.consolidated_messaging_service import ConsolidatedMessagingService
 
             # Check for circuit breaker methods
-            methods = [m for m in dir(ConsolidatedMessagingService) if not m.startswith('_')]
-            circuit_breaker_methods = [m for m in methods if 'circuit' in m.lower() or 'breaker' in m.lower() or 'retry' in m.lower()]
-            
+            methods = [m for m in dir(ConsolidatedMessagingService) if not m.startswith("_")]
+            circuit_breaker_methods = [
+                m
+                for m in methods
+                if "circuit" in m.lower() or "breaker" in m.lower() or "retry" in m.lower()
+            ]
+
             if circuit_breaker_methods:
-                print(f"✅ Circuit Breaker: Found circuit breaker methods: {circuit_breaker_methods}")
+                print(
+                    f"✅ Circuit Breaker: Found circuit breaker methods: {circuit_breaker_methods}"
+                )
             else:
                 print("⚠️ Circuit Breaker: No explicit circuit breaker methods found")
 
@@ -311,9 +327,13 @@ class TestErrorHandlingArchitecture:
             from src.services.consolidated_messaging_service import ConsolidatedMessagingService
 
             # Check for fallback mechanisms
-            methods = [m for m in dir(ConsolidatedMessagingService) if not m.startswith('_')]
-            fallback_methods = [m for m in methods if 'fallback' in m.lower() or 'degraded' in m.lower() or 'backup' in m.lower()]
-            
+            methods = [m for m in dir(ConsolidatedMessagingService) if not m.startswith("_")]
+            fallback_methods = [
+                m
+                for m in methods
+                if "fallback" in m.lower() or "degraded" in m.lower() or "backup" in m.lower()
+            ]
+
             if fallback_methods:
                 print(f"✅ Graceful Degradation: Found fallback methods: {fallback_methods}")
             else:
@@ -347,8 +367,8 @@ def run_advanced_architectural_tests():
         print("-" * 50)
 
         # Get all test methods
-        test_methods = [method for method in dir(test_suite) if method.startswith('test_')]
-        
+        test_methods = [method for method in dir(test_suite) if method.startswith("test_")]
+
         for method_name in test_methods:
             total_tests += 1
             try:
@@ -374,7 +394,7 @@ def run_advanced_architectural_tests():
     print(f"Passed: {passed_tests}")
     print(f"Failed: {failed_tests}")
     print(f"Success Rate: {(passed_tests / total_tests * 100):.1f}%")
-    
+
     if total_tests > 0:
         if passed_tests / total_tests >= 0.8:
             print("🎉 STATUS: EXCELLENT - Advanced architectural integrity validated!")
@@ -384,7 +404,9 @@ def run_advanced_architectural_tests():
             print("⚠️ STATUS: NEEDS IMPROVEMENT - Significant architectural concerns")
 
     print("\n🏗️ MISSION STATUS: Advanced architectural testing completed")
-    print(f"🎯 CURRENT STATUS: {(passed_tests / total_tests * 100):.1f}% advanced architectural coverage achieved")
+    print(
+        f"🎯 CURRENT STATUS: {(passed_tests / total_tests * 100):.1f}% advanced architectural coverage achieved"
+    )
     print("🎯 NEXT: Integrate with pytest framework and CI/CD pipeline")
 
     return passed_tests, failed_tests
@@ -398,12 +420,12 @@ if __name__ == "__main__":
     print("✅ Architectural integrity tests loaded successfully")
     print("✅ Error handling architecture tests loaded successfully")
     print("🐝 WE ARE SWARM - Advanced architectural testing ready!")
-    
+
     # Run advanced architectural tests
     passed, failed = run_advanced_architectural_tests()
-    
+
     print("\n🐝 WE ARE SWARM - AGENT-2 ADVANCED ARCHITECTURAL TESTING MISSION COMPLETE!")
     print("🏗️ Architectural Patterns, Integrity, and Error Handling Validated")
-    
+
     # Exit with appropriate code
     exit(0 if failed == 0 else 1)

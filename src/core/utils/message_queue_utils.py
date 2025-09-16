@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 #!/usr/bin/env python3
 """
@@ -12,9 +13,9 @@ License: MIT
 """
 
 import datetime
-from datetime import timedelta
 import heapq
-from typing import List, Dict, Any
+from datetime import timedelta
+from typing import Any, Dict, List
 
 
 class MessageQueueUtils:
@@ -30,7 +31,7 @@ class MessageQueueUtils:
 def get_example_usage():
     """
     Example usage for MessageQueueUtils.
-    
+
     # Import the core component
     from src.core.utils.message_queue_utils import MessageQueueUtils
 

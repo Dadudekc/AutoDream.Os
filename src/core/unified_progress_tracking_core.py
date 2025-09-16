@@ -18,13 +18,13 @@ import threading
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
 
 class ProgressPhase(Enum):
     """Architecture consolidation phases."""
+
     ANALYSIS = "analysis"
     PLANNING = "planning"
     CONSOLIDATION = "consolidation"
@@ -35,6 +35,7 @@ class ProgressPhase(Enum):
 
 class SuperiorityBenchmark(Enum):
     """Superiority benchmark categories."""
+
     CONSOLIDATION_EFFICIENCY = "consolidation_efficiency"
     QC_COMPLIANCE = "qc_compliance"
     INTEGRATION_SUCCESS = "integration_success"
@@ -45,26 +46,28 @@ class SuperiorityBenchmark(Enum):
 @dataclass
 class ProgressMilestone:
     """Individual progress milestone."""
+
     name: str
     description: str
     current_progress: float = 0.0
     target_progress: float = 100.0
     status: str = "pending"
-    start_date: Optional[datetime] = None
-    completion_date: Optional[datetime] = None
-    dependencies: List[str] = field(default_factory=list)
-    blockers: List[str] = field(default_factory=list)
+    start_date: datetime | None = None
+    completion_date: datetime | None = None
+    dependencies: list[str] = field(default_factory=list)
+    blockers: list[str] = field(default_factory=list)
 
 
 @dataclass
 class AgentProgress:
     """Progress tracking for individual agents."""
+
     agent_id: str
     specialty: str
     current_progress: float = 0.0
     target_progress: float = 100.0
     phase: ProgressPhase = ProgressPhase.ANALYSIS
-    milestones: List[ProgressMilestone] = field(default_factory=list)
+    milestones: list[ProgressMilestone] = field(default_factory=list)
     qc_compliance: float = 0.0
     last_update: datetime = field(default_factory=datetime.now)
     coordination_status: str = "active"
@@ -74,13 +77,14 @@ class AgentProgress:
 @dataclass
 class SystemProgress:
     """Progress tracking for system components."""
+
     system_name: str
     component_type: str
     current_progress: float = 0.0
     target_progress: float = 100.0
     phase: ProgressPhase = ProgressPhase.ANALYSIS
     responsible_agent: str = ""
-    milestones: List[ProgressMilestone] = field(default_factory=list)
+    milestones: list[ProgressMilestone] = field(default_factory=list)
     qc_compliance: float = 0.0
     integration_status: str = "pending"
     superiority_score: float = 0.0
@@ -89,6 +93,7 @@ class SystemProgress:
 @dataclass
 class SuperiorityMetrics:
     """Superiority benchmark metrics."""
+
     benchmark: SuperiorityBenchmark
     current_value: float
     target_value: float
@@ -100,16 +105,19 @@ class SuperiorityMetrics:
 @dataclass
 class UnifiedProgressDashboard:
     """Complete unified progress tracking dashboard."""
+
     total_progress: float = 0.0
     phase: ProgressPhase = ProgressPhase.ANALYSIS
-    agents: Dict[str, AgentProgress] = field(default_factory=dict)
-    systems: Dict[str, SystemProgress] = field(default_factory=dict)
-    superiority_benchmarks: Dict[SuperiorityBenchmark, SuperiorityMetrics] = field(default_factory=dict)
+    agents: dict[str, AgentProgress] = field(default_factory=dict)
+    systems: dict[str, SystemProgress] = field(default_factory=dict)
+    superiority_benchmarks: dict[SuperiorityBenchmark, SuperiorityMetrics] = field(
+        default_factory=dict
+    )
     overall_qc_compliance: float = 0.0
     coordination_efficiency: float = 0.0
     last_update: datetime = field(default_factory=datetime.now)
-    alerts: List[str] = field(default_factory=list)
-    recommendations: List[str] = field(default_factory=list)
+    alerts: list[str] = field(default_factory=list)
+    recommendations: list[str] = field(default_factory=list)
 
 
 class ProgressTrackerCore:
@@ -125,41 +133,46 @@ class ProgressTrackerCore:
 
         logger.info("🐝 Core Progress Tracking initialized!")
 
-    def _create_agent_milestones(self, component: str) -> List[ProgressMilestone]:
+    def _create_agent_milestones(self, component: str) -> list[ProgressMilestone]:
         """Create milestones for agent progress tracking."""
         if component == "services_layer":
             return [
                 ProgressMilestone("Component Mapping", "Map all service components", 0, 25),
                 ProgressMilestone("Dependency Analysis", "Analyze service dependencies", 0, 50),
                 ProgressMilestone("Consolidation Planning", "Create consolidation roadmap", 0, 75),
-                ProgressMilestone("Implementation", "Execute consolidation plan", 0, 100)
+                ProgressMilestone("Implementation", "Execute consolidation plan", 0, 100),
             ]
         elif component == "infrastructure_chunks":
             return [
                 ProgressMilestone("Chunk Analysis", "Analyze infrastructure chunks", 0, 25),
                 ProgressMilestone("Dependency Mapping", "Map chunk dependencies", 0, 50),
                 ProgressMilestone("Consolidation Design", "Design chunk consolidation", 0, 75),
-                ProgressMilestone("Integration", "Integrate consolidated chunks", 0, 100)
+                ProgressMilestone("Integration", "Integrate consolidated chunks", 0, 100),
             ]
         else:
             return [
                 ProgressMilestone("Analysis", "Component analysis phase", 0, 25),
                 ProgressMilestone("Planning", "Planning and design phase", 0, 50),
                 ProgressMilestone("Implementation", "Implementation phase", 0, 75),
-                ProgressMilestone("Optimization", "Optimization and testing", 0, 100)
+                ProgressMilestone("Optimization", "Optimization and testing", 0, 100),
             ]
 
-    def _create_system_milestones(self, system_name: str) -> List[ProgressMilestone]:
+    def _create_system_milestones(self, system_name: str) -> list[ProgressMilestone]:
         """Create milestones for system progress tracking."""
         return [
             ProgressMilestone("Analysis", f"{system_name} analysis", 0, 25),
             ProgressMilestone("Design", f"{system_name} design", 0, 50),
             ProgressMilestone("Implementation", f"{system_name} implementation", 0, 75),
-            ProgressMilestone("Integration", f"{system_name} integration", 0, 100)
+            ProgressMilestone("Integration", f"{system_name} integration", 0, 100),
         ]
 
-    def update_agent_progress(self, agent_id: str, progress: float, phase: Optional[ProgressPhase] = None,
-                            qc_compliance: Optional[float] = None) -> bool:
+    def update_agent_progress(
+        self,
+        agent_id: str,
+        progress: float,
+        phase: ProgressPhase | None = None,
+        qc_compliance: float | None = None,
+    ) -> bool:
         """Update agent progress."""
         with self._lock:
             if agent_id not in self.dashboard.agents:
@@ -181,11 +194,18 @@ class ProgressTrackerCore:
             # Update milestones based on progress
             self._update_agent_milestones(agent)
 
-            self.logger.info(f"Updated {agent_id} progress: {progress:.1f}% (QC: {agent.qc_compliance:.1f}%)")
+            self.logger.info(
+                f"Updated {agent_id} progress: {progress:.1f}% (QC: {agent.qc_compliance:.1f}%)"
+            )
             return True
 
-    def update_system_progress(self, system_name: str, progress: float, phase: Optional[ProgressPhase] = None,
-                             qc_compliance: Optional[float] = None) -> bool:
+    def update_system_progress(
+        self,
+        system_name: str,
+        progress: float,
+        phase: ProgressPhase | None = None,
+        qc_compliance: float | None = None,
+    ) -> bool:
         """Update system progress."""
         with self._lock:
             if system_name not in self.dashboard.systems:
@@ -274,19 +294,21 @@ class ProgressTrackerCore:
                 else:
                     metrics.trend = "stable"
 
-                self.logger.info(f"Updated {benchmark.value}: {value:.1f} (Target: {metrics.target_value:.1f})")
+                self.logger.info(
+                    f"Updated {benchmark.value}: {value:.1f} (Target: {metrics.target_value:.1f})"
+                )
 
 
 # Export all core components
 __all__ = [
-    'ProgressPhase',
-    'SuperiorityBenchmark',
-    'ProgressMilestone',
-    'AgentProgress',
-    'SystemProgress',
-    'SuperiorityMetrics',
-    'UnifiedProgressDashboard',
-    'ProgressTrackerCore'
+    "ProgressPhase",
+    "SuperiorityBenchmark",
+    "ProgressMilestone",
+    "AgentProgress",
+    "SystemProgress",
+    "SuperiorityMetrics",
+    "UnifiedProgressDashboard",
+    "ProgressTrackerCore",
 ]
 
 

@@ -25,11 +25,11 @@ sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 # Import the service under test
 try:
     from src.services.consolidated_messaging_service import (
-        ConsolidatedMessagingService,
-        SWARM_AGENTS,
         MESSAGING_AVAILABLE,
         PYAUTOGUI_AVAILABLE,
-        PYPERCLIP_AVAILABLE
+        PYPERCLIP_AVAILABLE,
+        SWARM_AGENTS,
+        ConsolidatedMessagingService,
     )
 except ImportError:
     # Mock the service for testing
@@ -38,23 +38,32 @@ except ImportError:
             self.dry_run = dry_run
             self.messaging_core = None
             self.coordinate_loader = None
-        
+
         def load_coordinates_from_json(self):
             return {}
-        
+
         def send_message_pyautogui(self, agent, message, priority="NORMAL", tag="GENERAL"):
             return True if self.dry_run else False
-        
+
         def broadcast_message(self, message):
-            return {agent: True for agent in SWARM_AGENTS}
-        
+            return dict.fromkeys(SWARM_AGENTS, True)
+
         def list_agents(self):
             return SWARM_AGENTS
-        
+
         def show_message_history(self):
             return []
 
-    SWARM_AGENTS = ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
+    SWARM_AGENTS = [
+        "Agent-1",
+        "Agent-2",
+        "Agent-3",
+        "Agent-4",
+        "Agent-5",
+        "Agent-6",
+        "Agent-7",
+        "Agent-8",
+    ]
     MESSAGING_AVAILABLE = True
     PYAUTOGUI_AVAILABLE = True
     PYPERCLIP_AVAILABLE = True
@@ -71,6 +80,7 @@ class TestConsolidatedMessagingServiceCore:
     def teardown_method(self):
         """Cleanup test fixtures."""
         import shutil
+
         shutil.rmtree(self.temp_dir, ignore_errors=True)
 
     @pytest.mark.unit

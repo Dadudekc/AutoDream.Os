@@ -11,9 +11,7 @@ Mission: Modularize test_commandresult.py for V2 compliance
 License: MIT
 """
 
-import time
 from dataclasses import asdict
-from typing import Any
 
 import pytest
 
@@ -68,11 +66,7 @@ class TestCommandResultCore:
     def test_result_with_none_values(self):
         """Test CommandResult with explicit None values."""
         result = CommandResult(
-            success=False, 
-            message="No data available", 
-            data=None, 
-            execution_time=None, 
-            agent=None
+            success=False, message="No data available", data=None, execution_time=None, agent=None
         )
 
         assert result.success is False
@@ -88,7 +82,7 @@ class TestCommandResultCore:
             message="Test message",
             data={"key": "value"},
             execution_time=1.0,
-            agent="Agent-1"
+            agent="Agent-1",
         )
 
         # Test that we can access attributes but cannot modify them
@@ -133,11 +127,7 @@ class TestCommandResultCore:
     def test_result_parametrized(self, success, message, data, execution_time, agent):
         """Parametrized test for CommandResult creation with various inputs."""
         result = CommandResult(
-            success=success,
-            message=message,
-            data=data,
-            execution_time=execution_time,
-            agent=agent
+            success=success, message=message, data=data, execution_time=execution_time, agent=agent
         )
 
         assert result.success == success
@@ -151,15 +141,9 @@ class TestCommandResultCore:
         complex_data = {
             "user": {
                 "id": 123,
-                "profile": {
-                    "name": "John Doe",
-                    "preferences": ["option1", "option2"]
-                }
+                "profile": {"name": "John Doe", "preferences": ["option1", "option2"]},
             },
-            "metadata": {
-                "created_at": "2025-01-01T00:00:00Z",
-                "tags": ["important", "urgent"]
-            }
+            "metadata": {"created_at": "2025-01-01T00:00:00Z", "tags": ["important", "urgent"]},
         }
 
         result = CommandResult(
@@ -167,7 +151,7 @@ class TestCommandResultCore:
             message="Complex data processed",
             data=complex_data,
             execution_time=2.5,
-            agent="Agent-4"
+            agent="Agent-4",
         )
 
         assert result.success is True
@@ -179,11 +163,7 @@ class TestCommandResultCore:
     def test_result_with_empty_strings(self):
         """Test CommandResult with empty string values."""
         result = CommandResult(
-            success=True,
-            message="",
-            data={"empty_field": ""},
-            execution_time=0.0,
-            agent=""
+            success=True, message="", data={"empty_field": ""}, execution_time=0.0, agent=""
         )
 
         assert result.success is True
@@ -199,7 +179,7 @@ class TestCommandResultCore:
             message="Zero execution time",
             data={"count": 0, "value": 0.0},
             execution_time=0.0,
-            agent="Agent-5"
+            agent="Agent-5",
         )
 
         assert result.success is False
@@ -212,13 +192,9 @@ class TestCommandResultCore:
         result = CommandResult(
             success=True,
             message="Boolean data test",
-            data={
-                "enabled": True,
-                "disabled": False,
-                "mixed": {"active": True, "inactive": False}
-            },
+            data={"enabled": True, "disabled": False, "mixed": {"active": True, "inactive": False}},
             execution_time=0.1,
-            agent="Agent-6"
+            agent="Agent-6",
         )
 
         assert result.success is True
@@ -233,7 +209,7 @@ class TestCommandResultCore:
             "numbers": [1, 2, 3, 4, 5],
             "strings": ["a", "b", "c"],
             "mixed": [1, "text", True, None],
-            "nested": [{"id": 1}, {"id": 2}]
+            "nested": [{"id": 1}, {"id": 2}],
         }
 
         result = CommandResult(
@@ -241,7 +217,7 @@ class TestCommandResultCore:
             message="List data processed",
             data=list_data,
             execution_time=0.3,
-            agent="Agent-7"
+            agent="Agent-7",
         )
 
         assert result.success is True
@@ -258,7 +234,7 @@ class TestCommandResultCore:
             message="Test message",
             data={"key": "value"},
             execution_time=1.0,
-            agent="Agent-1"
+            agent="Agent-1",
         )
 
         result2 = CommandResult(
@@ -266,7 +242,7 @@ class TestCommandResultCore:
             message="Test message",
             data={"key": "value"},
             execution_time=1.0,
-            agent="Agent-1"
+            agent="Agent-1",
         )
 
         result3 = CommandResult(
@@ -274,7 +250,7 @@ class TestCommandResultCore:
             message="Different message",
             data={"key": "value"},
             execution_time=1.0,
-            agent="Agent-1"
+            agent="Agent-1",
         )
 
         # Test equality
@@ -288,11 +264,11 @@ class TestCommandResultCore:
             message="Test operation",
             data={"result": "success"},
             execution_time=0.5,
-            agent="Agent-1"
+            agent="Agent-1",
         )
 
         result_str = str(result)
-        
+
         # Basic checks for string representation
         assert "CommandResult" in result_str or "success=True" in result_str
         assert "Test operation" in result_str or "message=" in result_str
@@ -304,11 +280,11 @@ class TestCommandResultCore:
             message="Test operation",
             data={"result": "success"},
             execution_time=0.5,
-            agent="Agent-1"
+            agent="Agent-1",
         )
 
         result_repr = repr(result)
-        
+
         # Basic checks for repr representation
         assert "CommandResult" in result_repr or "success=True" in result_repr
 

@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 #!/usr/bin/env python3
 """
@@ -111,4 +112,3 @@ class MonitoringStatus(Enum):
     STOPPED = "stopped"
     ERROR = "error"
     MAINTENANCE = "maintenance"
-

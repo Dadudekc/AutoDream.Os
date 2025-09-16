@@ -270,5 +270,3 @@ class InfrastructureMonitoringIntegration:
     def record_resource_usage(self, resource: str, usage: float) -> None:
         """Record resource usage metrics."""
         self.performance_collector.record_resource_usage(resource, usage)
-
-

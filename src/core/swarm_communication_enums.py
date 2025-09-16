@@ -4,11 +4,12 @@
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set
+from typing import Any
 
 
 class SwarmDecisionType(Enum):
     """Types of decisions that can be made by the swarm"""
+
     MISSION_ASSIGNMENT = "mission_assignment"
     ARCHITECTURE_CHANGE = "architecture_change"
     QUALITY_STANDARD_UPDATE = "quality_standard_update"
@@ -19,6 +20,7 @@ class SwarmDecisionType(Enum):
 
 class QCStandard(Enum):
     """Quality control standards for the swarm"""
+
     V2_COMPLIANCE = "v2_compliance"
     SOLID_PRINCIPLES = "solid_principles"
     TEST_COVERAGE = "test_coverage"
@@ -29,6 +31,7 @@ class QCStandard(Enum):
 
 class SwarmAgentStatus(Enum):
     """Status of swarm agents"""
+
     ACTIVE = "active"
     COORDINATING = "coordinating"
     EXECUTING = "executing"
@@ -39,6 +42,7 @@ class SwarmAgentStatus(Enum):
 
 class DecisionStatus(Enum):
     """Status of swarm decisions"""
+
     PENDING = "pending"
     VOTING = "voting"
     APPROVED = "approved"
@@ -49,43 +53,47 @@ class DecisionStatus(Enum):
 @dataclass
 class SwarmAgent:
     """Represents a swarm agent"""
+
     agent_id: str
     specialty: str
     status: SwarmAgentStatus = SwarmAgentStatus.ACTIVE
-    last_activity: Optional[datetime] = None
-    capabilities: Set[str] = field(default_factory=set)
-    current_mission: Optional[str] = None
-    performance_metrics: Dict[str, Any] = field(default_factory=dict)
+    last_activity: datetime | None = None
+    capabilities: set[str] = field(default_factory=set)
+    current_mission: str | None = None
+    performance_metrics: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
 class SwarmDecision:
     """Represents a swarm decision"""
+
     decision_id: str
     decision_type: SwarmDecisionType
     description: str
     proposer: str
     status: DecisionStatus = DecisionStatus.PENDING
-    votes: Dict[str, bool] = field(default_factory=dict)
+    votes: dict[str, bool] = field(default_factory=dict)
     created_at: datetime = field(default_factory=datetime.now)
-    deadline: Optional[datetime] = None
-    implementation_notes: Optional[str] = None
+    deadline: datetime | None = None
+    implementation_notes: str | None = None
 
 
 @dataclass
 class QCStandardResult:
     """Result of a quality control standard check"""
+
     standard: QCStandard
     passed: bool
     score: float
-    details: Dict[str, Any]
+    details: dict[str, Any]
     checked_at: datetime = field(default_factory=datetime.now)
-    checked_by: Optional[str] = None
+    checked_by: str | None = None
 
 
 @dataclass
 class SwarmCommunicationMetrics:
     """Metrics for swarm communication"""
+
     active_agents: int = 0
     total_decisions: int = 0
     pending_decisions: int = 0
@@ -96,6 +104,4 @@ class SwarmCommunicationMetrics:
     qc_pass_rate: float = 0.0
     communication_uptime_hours: float = 0.0
     last_updated: datetime = field(default_factory=datetime.now)
-
-
 

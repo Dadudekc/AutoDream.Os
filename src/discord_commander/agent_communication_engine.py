@@ -23,9 +23,11 @@ try:
 except ImportError:
     # Fallback for direct execution
     import sys
+
     sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
-    from utils.unified_utilities import get_unified_utility
     from discord_commander_models import CommandResult, create_command_result
+
+    from utils.unified_utilities import get_unified_utility
 
 
 class AgentCommunicationEngine(ABC):
@@ -81,13 +83,13 @@ class AgentCommunicationEngine(ABC):
             # Try to use the consolidated messaging system first
             try:
                 from ...services.consolidated_messaging_service import ConsolidatedMessagingService
-                
+
                 # Get messaging service instance
                 messaging_service = ConsolidatedMessagingService()
-                
+
                 # Send via messaging system with simplified interface
                 success = messaging_service.send_message(agent, message, sender)
-                
+
                 if success:
                     self.logger.info(f"Message sent to {agent} via messaging system")
                     return create_command_result(
@@ -98,13 +100,15 @@ class AgentCommunicationEngine(ABC):
                     )
                 else:
                     # Fallback to inbox file method
-                    self.logger.warning(f"Messaging system failed for {agent}, falling back to inbox file")
-                    
+                    self.logger.warning(
+                        f"Messaging system failed for {agent}, falling back to inbox file"
+                    )
+
             except ImportError as e:
                 self.logger.warning(f"Messaging system not available: {e}, using inbox file method")
             except Exception as e:
                 self.logger.warning(f"Messaging system error: {e}, using inbox file method")
-            
+
             # Fallback: Create inbox path
             inbox_path = self._get_unified_utility().path.join(
                 os.getcwd(), "agent_workspaces", agent, "inbox"
@@ -130,7 +134,11 @@ class AgentCommunicationEngine(ABC):
             return create_command_result(
                 success=True,
                 message=f"Message successfully delivered to {agent}'s inbox",
-                data={"filename": message_filename, "path": message_file_path, "method": "inbox_file"},
+                data={
+                    "filename": message_filename,
+                    "path": message_file_path,
+                    "method": "inbox_file",
+                },
                 agent=agent,
             )
 
@@ -204,18 +212,20 @@ class AgentCommunicationEngine(ABC):
             # Try to use the consolidated messaging system first
             try:
                 from ...services.consolidated_messaging_service import ConsolidatedMessagingService
-                
+
                 # Get messaging service instance
                 messaging_service = ConsolidatedMessagingService()
-                
+
                 # Use the messaging system for broadcast
                 results = messaging_service.broadcast_message(message, sender)
-                
+
                 successful_count = sum(1 for success in results.values() if success)
                 total_count = len(results)
-                
+
                 if successful_count > 0:
-                    self.logger.info(f"Broadcast sent to {successful_count}/{total_count} agents via messaging system")
+                    self.logger.info(
+                        f"Broadcast sent to {successful_count}/{total_count} agents via messaging system"
+                    )
                     return create_command_result(
                         success=True,
                         message=f"Broadcast successfully delivered to {successful_count}/{total_count} agents via messaging system",
@@ -223,17 +233,21 @@ class AgentCommunicationEngine(ABC):
                             "successful_deliveries": successful_count,
                             "total_agents": total_count,
                             "method": "messaging_system",
-                            "results": results
+                            "results": results,
                         },
                     )
                 else:
-                    self.logger.warning("Messaging system broadcast failed, falling back to individual messages")
-                    
+                    self.logger.warning(
+                        "Messaging system broadcast failed, falling back to individual messages"
+                    )
+
             except ImportError as e:
-                self.logger.warning(f"Messaging system not available: {e}, using individual messages")
+                self.logger.warning(
+                    f"Messaging system not available: {e}, using individual messages"
+                )
             except Exception as e:
                 self.logger.warning(f"Messaging system error: {e}, using individual messages")
-            
+
             # Fallback: Send individual messages
             agents = [f"Agent-{i}" for i in range(1, 9)]
             successful_deliveries = 0
@@ -253,7 +267,7 @@ class AgentCommunicationEngine(ABC):
                     data={
                         "successful_deliveries": successful_deliveries,
                         "total_agents": len(agents),
-                        "method": "individual_messages"
+                        "method": "individual_messages",
                     },
                 )
             else:
@@ -266,7 +280,7 @@ class AgentCommunicationEngine(ABC):
                     data={
                         "successful_deliveries": successful_deliveries,
                         "failed_deliveries": failed_deliveries,
-                        "method": "individual_messages"
+                        "method": "individual_messages",
                     },
                 )
 
@@ -299,6 +313,7 @@ class AgentCommunicationEngine(ABC):
             if self._get_unified_utility().path.exists(status_file):
                 with open(status_file) as f:
                     import json
+
                     return json.load(f)
             else:
                 self.logger.warning(f"Status file not found for {agent}")

@@ -23,8 +23,4 @@ from .test_contract_rewards import TestXPRewards
 __version__ = "2.0.0"
 __author__ = "Agent-2 (Architecture & Design Specialist)"
 
-__all__ = [
-    "TestContractCreation",
-    "TestContractExecution", 
-    "TestXPRewards"
-]
+__all__ = ["TestContractCreation", "TestContractExecution", "TestXPRewards"]

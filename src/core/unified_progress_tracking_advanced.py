@@ -16,15 +16,18 @@ from __future__ import annotations
 import json
 import logging
 import threading
-import time
-from datetime import datetime
-from typing import Any, Dict, List, Optional
 from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime
+from typing import Any
 
 # Import core components
 from .unified_progress_tracking_core import (
-    ProgressPhase, SuperiorityBenchmark, ProgressMilestone, AgentProgress,
-    SystemProgress, SuperiorityMetrics, UnifiedProgressDashboard, ProgressTrackerCore
+    AgentProgress,
+    ProgressPhase,
+    ProgressTrackerCore,
+    SuperiorityBenchmark,
+    SuperiorityMetrics,
+    SystemProgress,
 )
 
 logger = logging.getLogger(__name__)
@@ -45,7 +48,9 @@ class UnifiedProgressTrackingSystem(ProgressTrackerCore):
         self._initialize_systems()
         self._initialize_superiority_benchmarks()
 
-        logger.info("🐝 Unified Progress Tracking System initialized - Phase 3 coordination active!")
+        logger.info(
+            "🐝 Unified Progress Tracking System initialized - Phase 3 coordination active!"
+        )
 
     def _initialize_agents(self) -> None:
         """Initialize agent progress tracking."""
@@ -58,7 +63,7 @@ class UnifiedProgressTrackingSystem(ProgressTrackerCore):
             ("Agent-6", "Web Interface & Communication Specialist", "communication_coordination"),
             ("Agent-7", "Quality Gatekeeper", "quality_assurance"),
             ("Agent-8", "PR Orchestrator", "process_orchestration"),
-            ("Captain Agent-4", "Strategic Oversight & Final Approval", "strategic_oversight")
+            ("Captain Agent-4", "Strategic Oversight & Final Approval", "strategic_oversight"),
         ]
 
         for agent_id, specialty, component in agents_data:
@@ -71,7 +76,7 @@ class UnifiedProgressTrackingSystem(ProgressTrackerCore):
                 milestones=self._create_agent_milestones(component),
                 qc_compliance=0.0,
                 coordination_status="active",
-                superiority_score=0.0
+                superiority_score=0.0,
             )
             self.dashboard.agents[agent_id] = agent_progress
 
@@ -88,7 +93,7 @@ class UnifiedProgressTrackingSystem(ProgressTrackerCore):
             ("Infrastructure Chunks", "infrastructure", "Agent-3", 0.0, ProgressPhase.ANALYSIS),
             ("Deployment Systems", "infrastructure", "Agent-3", 0.0, ProgressPhase.ANALYSIS),
             ("Resource Management", "infrastructure", "Agent-3", 0.0, ProgressPhase.ANALYSIS),
-            ("Integration Layer", "services", "Agent-1", 0.0, ProgressPhase.ANALYSIS)
+            ("Integration Layer", "services", "Agent-1", 0.0, ProgressPhase.ANALYSIS),
         ]
 
         for system_name, component_type, responsible_agent, progress, phase in systems_data:
@@ -102,7 +107,7 @@ class UnifiedProgressTrackingSystem(ProgressTrackerCore):
                 milestones=self._create_system_milestones(system_name),
                 qc_compliance=progress,  # Assume QC matches progress for completed systems
                 integration_status="completed" if progress >= 100 else "pending",
-                superiority_score=progress
+                superiority_score=progress,
             )
             self.dashboard.systems[system_name] = system_progress
 
@@ -115,7 +120,7 @@ class UnifiedProgressTrackingSystem(ProgressTrackerCore):
             (SuperiorityBenchmark.QC_COMPLIANCE, 91.5, 95.0),
             (SuperiorityBenchmark.INTEGRATION_SUCCESS, 85.0, 100.0),
             (SuperiorityBenchmark.PROGRESS_VELOCITY, 20.0, 25.0),
-            (SuperiorityBenchmark.BLOCKER_RESOLUTION, 95.0, 95.0)
+            (SuperiorityBenchmark.BLOCKER_RESOLUTION, 95.0, 95.0),
         ]
 
         for benchmark, current, target in benchmarks_data:
@@ -125,17 +130,21 @@ class UnifiedProgressTrackingSystem(ProgressTrackerCore):
                 target_value=target,
                 status="on_track" if current >= target * 0.9 else "at_risk",
                 trend="improving",
-                last_update=datetime.now()
+                last_update=datetime.now(),
             )
             self.dashboard.superiority_benchmarks[benchmark] = metrics
 
-        logger.info(f"Initialized {len(self.dashboard.superiority_benchmarks)} superiority benchmarks")
+        logger.info(
+            f"Initialized {len(self.dashboard.superiority_benchmarks)} superiority benchmarks"
+        )
 
     def calculate_overall_progress(self) -> float:
         """Calculate overall architecture consolidation progress."""
         with self._lock:
             agent_progress = [agent.current_progress for agent in self.dashboard.agents.values()]
-            system_progress = [system.current_progress for system in self.dashboard.systems.values()]
+            system_progress = [
+                system.current_progress for system in self.dashboard.systems.values()
+            ]
 
             all_progress = agent_progress + system_progress
             if all_progress:
@@ -172,7 +181,7 @@ class UnifiedProgressTrackingSystem(ProgressTrackerCore):
                 return (completed_milestones / total_milestones) * 100
             return 0.0
 
-    def generate_progress_report(self) -> Dict[str, Any]:
+    def generate_progress_report(self) -> dict[str, Any]:
         """Generate comprehensive progress report."""
         with self._lock:
             # Update overall metrics
@@ -196,8 +205,10 @@ class UnifiedProgressTrackingSystem(ProgressTrackerCore):
                         "phase": agent.phase.value,
                         "qc_compliance": agent.qc_compliance,
                         "superiority_score": agent.superiority_score,
-                        "milestones_completed": sum(1 for m in agent.milestones if m.status == "completed"),
-                        "total_milestones": len(agent.milestones)
+                        "milestones_completed": sum(
+                            1 for m in agent.milestones if m.status == "completed"
+                        ),
+                        "total_milestones": len(agent.milestones),
                     }
                     for agent_id, agent in self.dashboard.agents.items()
                 },
@@ -208,7 +219,7 @@ class UnifiedProgressTrackingSystem(ProgressTrackerCore):
                         "responsible_agent": system.responsible_agent,
                         "qc_compliance": system.qc_compliance,
                         "integration_status": system.integration_status,
-                        "superiority_score": system.superiority_score
+                        "superiority_score": system.superiority_score,
                     }
                     for system_name, system in self.dashboard.systems.items()
                 },
@@ -217,12 +228,12 @@ class UnifiedProgressTrackingSystem(ProgressTrackerCore):
                         "current": metrics.current_value,
                         "target": metrics.target_value,
                         "status": metrics.status,
-                        "trend": metrics.trend
+                        "trend": metrics.trend,
                     }
                     for benchmark, metrics in self.dashboard.superiority_benchmarks.items()
                 },
                 "alerts": self.dashboard.alerts,
-                "recommendations": self.dashboard.recommendations
+                "recommendations": self.dashboard.recommendations,
             }
 
     def _generate_alerts_and_recommendations(self) -> None:
@@ -233,8 +244,12 @@ class UnifiedProgressTrackingSystem(ProgressTrackerCore):
         # Check agent progress
         for agent_id, agent in self.dashboard.agents.items():
             if agent.current_progress < self.alert_threshold:
-                alerts.append(f"⚠️ {agent_id} progress below threshold: {agent.current_progress:.1f}%")
-                recommendations.append(f"🔄 Accelerate {agent_id} progress - coordinate additional resources")
+                alerts.append(
+                    f"⚠️ {agent_id} progress below threshold: {agent.current_progress:.1f}%"
+                )
+                recommendations.append(
+                    f"🔄 Accelerate {agent_id} progress - coordinate additional resources"
+                )
 
             if agent.qc_compliance < 90:
                 alerts.append(f"🛡️ {agent_id} QC compliance low: {agent.qc_compliance:.1f}%")
@@ -243,13 +258,19 @@ class UnifiedProgressTrackingSystem(ProgressTrackerCore):
         # Check system progress
         for system_name, system in self.dashboard.systems.items():
             if system.current_progress < self.alert_threshold:
-                alerts.append(f"⚠️ {system_name} progress below threshold: {system.current_progress:.1f}%")
-                recommendations.append(f"🔄 Accelerate {system_name} consolidation with {system.responsible_agent}")
+                alerts.append(
+                    f"⚠️ {system_name} progress below threshold: {system.current_progress:.1f}%"
+                )
+                recommendations.append(
+                    f"🔄 Accelerate {system_name} consolidation with {system.responsible_agent}"
+                )
 
         # Check superiority benchmarks
         for benchmark, metrics in self.dashboard.superiority_benchmarks.items():
             if metrics.status == "at_risk":
-                alerts.append(f"🎯 {benchmark.value} benchmark at risk: {metrics.current_value:.1f}%")
+                alerts.append(
+                    f"🎯 {benchmark.value} benchmark at risk: {metrics.current_value:.1f}%"
+                )
                 recommendations.append(f"📈 Implement corrective actions for {benchmark.value}")
 
         self.dashboard.alerts = alerts
@@ -259,7 +280,7 @@ class UnifiedProgressTrackingSystem(ProgressTrackerCore):
         """Export progress data to JSON file."""
         try:
             report = self.generate_progress_report()
-            with open(file_path, 'w', encoding='utf-8') as f:
+            with open(file_path, "w", encoding="utf-8") as f:
                 json.dump(report, f, indent=2, default=str)
             self.logger.info(f"Progress data exported to {file_path}")
             return True
@@ -275,7 +296,7 @@ class UnifiedProgressTrackingSystem(ProgressTrackerCore):
 
 
 # Global progress tracking instance
-_progress_tracking_system: Optional[UnifiedProgressTrackingSystem] = None
+_progress_tracking_system: UnifiedProgressTrackingSystem | None = None
 _progress_lock = threading.Lock()
 
 
@@ -298,10 +319,7 @@ logger.info("📊 Real-time progress monitoring and superiority benchmark tracki
 
 
 # Export all advanced components
-__all__ = [
-    'UnifiedProgressTrackingSystem',
-    'get_unified_progress_tracking_system'
-]
+__all__ = ["UnifiedProgressTrackingSystem", "get_unified_progress_tracking_system"]
 
 
 if __name__ == "__main__":

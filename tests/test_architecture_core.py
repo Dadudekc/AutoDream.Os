@@ -24,6 +24,7 @@ print(f"Python path updated. Src path: {src_path}")
 
 try:
     import pytest
+
     HAS_PYTEST = True
 except ImportError:
     HAS_PYTEST = False
@@ -36,20 +37,24 @@ class TestSOLIDPrinciplesCompliance:
     def test_single_responsibility_principle(self):
         """Test SRP: Each class should have only one reason to change."""
         print("🧪 Testing Single Responsibility Principle...")
-        
+
         try:
             from src.services.consolidated_messaging_service import ConsolidatedMessagingService
 
             # Should only handle messaging operations
-            methods = [m for m in dir(ConsolidatedMessagingService) if not m.startswith('_')]
-            messaging_methods = [m for m in methods if 'message' in m.lower() or 'send' in m.lower()]
-            
+            methods = [m for m in dir(ConsolidatedMessagingService) if not m.startswith("_")]
+            messaging_methods = [
+                m for m in methods if "message" in m.lower() or "send" in m.lower()
+            ]
+
             # Check for unrelated methods
-            unrelated_methods = ['database', 'file', 'network', 'auth', 'config']
+            unrelated_methods = ["database", "file", "network", "auth", "config"]
             for method in unrelated_methods:
                 assert method not in methods, f"Service should not have {method}"
 
-            print(f"✅ SRP: ConsolidatedMessagingService has single messaging responsibility with {len(messaging_methods)} messaging methods")
+            print(
+                f"✅ SRP: ConsolidatedMessagingService has single messaging responsibility with {len(messaging_methods)} messaging methods"
+            )
             return True
 
         except ImportError as e:
@@ -59,16 +64,22 @@ class TestSOLIDPrinciplesCompliance:
     def test_open_closed_principle(self):
         """Test OCP: Open for extension, closed for modification."""
         print("🧪 Testing Open/Closed Principle...")
-        
+
         try:
             from src.services.consolidated_messaging_service import ConsolidatedMessagingService
 
             # Should be extensible without modification
             # Check if service has extension points
-            methods = [m for m in dir(ConsolidatedMessagingService) if not m.startswith('_')]
-            extensible_methods = [m for m in methods if 'extend' in m.lower() or 'plugin' in m.lower() or 'hook' in m.lower()]
-            
-            print(f"✅ OCP: Service supports extension with {len(extensible_methods)} extensible methods")
+            methods = [m for m in dir(ConsolidatedMessagingService) if not m.startswith("_")]
+            extensible_methods = [
+                m
+                for m in methods
+                if "extend" in m.lower() or "plugin" in m.lower() or "hook" in m.lower()
+            ]
+
+            print(
+                f"✅ OCP: Service supports extension with {len(extensible_methods)} extensible methods"
+            )
             return True
 
         except ImportError as e:
@@ -81,17 +92,21 @@ class TestSOLIDPrinciplesCompliance:
     def test_liskov_substitution_principle(self):
         """Test LSP: Subtypes should be substitutable for base types."""
         print("🧪 Testing Liskov Substitution Principle...")
-        
+
         try:
             # Test service inheritance and polymorphism
             from src.core.coordinate_loader import CoordinateLoader
             from src.services.consolidated_messaging_service import ConsolidatedMessagingService
 
             # Both should implement similar interfaces
-            loader_methods = [m for m in dir(CoordinateLoader) if not m.startswith('_')]
-            service_methods = [m for m in dir(ConsolidatedMessagingService) if not m.startswith('_')]
-            
-            print("✅ LSP: Services demonstrate substitutable behavior through consistent interfaces")
+            loader_methods = [m for m in dir(CoordinateLoader) if not m.startswith("_")]
+            service_methods = [
+                m for m in dir(ConsolidatedMessagingService) if not m.startswith("_")
+            ]
+
+            print(
+                "✅ LSP: Services demonstrate substitutable behavior through consistent interfaces"
+            )
             return True
 
         except ImportError as e:
@@ -109,15 +124,19 @@ class TestSOLIDPrinciplesCompliance:
             from src.services.consolidated_messaging_service import ConsolidatedMessagingService
 
             # Should only expose necessary methods
-            methods = [m for m in dir(ConsolidatedMessagingService) if not m.startswith('_')]
-            messaging_methods = [m for m in methods if 'message' in m.lower() or 'send' in m.lower()]
+            methods = [m for m in dir(ConsolidatedMessagingService) if not m.startswith("_")]
+            messaging_methods = [
+                m for m in methods if "message" in m.lower() or "send" in m.lower()
+            ]
             concentration_ratio = len(messaging_methods) / len(methods) if methods else 0
-            
+
             assert concentration_ratio > 0.5, (
                 f"Interface too broad: {concentration_ratio:.2f} messaging focus"
             )
 
-            print(f"✅ ISP: Interface focused with {concentration_ratio:.2f} messaging concentration")
+            print(
+                f"✅ ISP: Interface focused with {concentration_ratio:.2f} messaging concentration"
+            )
             return True
 
         except ImportError as e:
@@ -136,10 +155,8 @@ class TestSOLIDPrinciplesCompliance:
             params = list(init_signature.parameters.keys())
 
             # Should accept dependencies through constructor (not hard-coded)
-            has_dependency_params = (
-                len([p for p in params if p not in ['self']]) > 0
-            )
-            
+            has_dependency_params = len([p for p in params if p not in ["self"]]) > 0
+
             if has_dependency_params:
                 print("✅ DIP: Service accepts dependencies through constructor")
             else:
@@ -165,10 +182,12 @@ class TestDependencyInjectionPatterns:
 
             # Verify ArchitecturalPrinciple is available for dependency injection
             init_signature = inspect.signature(ArchitecturalPrinciple.__init__)
-            dependency_params = [p for p in init_signature.parameters.keys() if p != 'self']
-            
+            dependency_params = [p for p in init_signature.parameters.keys() if p != "self"]
+
             if dependency_params:
-                print(f"✅ Constructor Injection: Found {len(dependency_params)} dependency parameters")
+                print(
+                    f"✅ Constructor Injection: Found {len(dependency_params)} dependency parameters"
+                )
                 print("✅ Architectural Dependencies: ArchitecturalPrinciple enum available")
             else:
                 print("⚠️ Constructor Injection: No dependency parameters found")
@@ -208,14 +227,18 @@ class TestDependencyInjectionPatterns:
     def test_factory_pattern_implementation(self):
         """Test factory pattern for object creation."""
         print("🧪 Testing Factory Pattern...")
-        
+
         try:
             # Test if services have factory methods
             from src.services.consolidated_messaging_service import ConsolidatedMessagingService
-            
-            methods = [m for m in dir(ConsolidatedMessagingService) if not m.startswith('_')]
-            factory_methods = [m for m in methods if 'create' in m.lower() or 'build' in m.lower() or 'make' in m.lower()]
-            
+
+            methods = [m for m in dir(ConsolidatedMessagingService) if not m.startswith("_")]
+            factory_methods = [
+                m
+                for m in methods
+                if "create" in m.lower() or "build" in m.lower() or "make" in m.lower()
+            ]
+
             if factory_methods:
                 print(f"✅ Factory Pattern: Found factory methods: {factory_methods}")
             else:
@@ -237,9 +260,13 @@ class TestDependencyInjectionPatterns:
 
             # Check if loader acts as a DI container
             loader = CoordinateLoader()
-            methods = [m for m in dir(loader) if not m.startswith('_')]
-            container_methods = [m for m in methods if 'get' in m.lower() or 'resolve' in m.lower() or 'register' in m.lower()]
-            
+            methods = [m for m in dir(loader) if not m.startswith("_")]
+            container_methods = [
+                m
+                for m in methods
+                if "get" in m.lower() or "resolve" in m.lower() or "register" in m.lower()
+            ]
+
             if container_methods:
                 print(f"✅ DI Container: Found container methods: {container_methods}")
             else:
@@ -260,11 +287,11 @@ class TestDependencyInjectionPatterns:
 
             # Check if service delegates control to external dependencies
             source = inspect.getsource(ConsolidatedMessagingService)
-            
+
             # Look for delegation patterns
-            delegation_patterns = ['self.', 'delegate', 'callback', 'handler']
+            delegation_patterns = ["self.", "delegate", "callback", "handler"]
             delegation_found = any(pattern in source for pattern in delegation_patterns)
-            
+
             if delegation_found:
                 print("✅ IoC: Service demonstrates inversion of control through delegation")
             else:
@@ -297,8 +324,8 @@ def run_core_architectural_tests():
         print("-" * 50)
 
         # Get all test methods
-        test_methods = [method for method in dir(test_suite) if method.startswith('test_')]
-        
+        test_methods = [method for method in dir(test_suite) if method.startswith("test_")]
+
         for method_name in test_methods:
             total_tests += 1
             try:
@@ -324,7 +351,7 @@ def run_core_architectural_tests():
     print(f"Passed: {passed_tests}")
     print(f"Failed: {failed_tests}")
     print(f"Success Rate: {(passed_tests / total_tests * 100):.1f}%")
-    
+
     if total_tests > 0:
         if passed_tests / total_tests >= 0.8:
             print("🎉 STATUS: EXCELLENT - Core architectural integrity validated!")
@@ -334,7 +361,9 @@ def run_core_architectural_tests():
             print("⚠️ STATUS: NEEDS IMPROVEMENT - Significant architectural concerns")
 
     print("\n🏗️ MISSION STATUS: Core architectural testing completed")
-    print(f"🎯 CURRENT STATUS: {(passed_tests / total_tests * 100):.1f}% core architectural coverage achieved")
+    print(
+        f"🎯 CURRENT STATUS: {(passed_tests / total_tests * 100):.1f}% core architectural coverage achieved"
+    )
     print("🎯 NEXT: Run advanced architectural tests")
 
     return passed_tests, failed_tests
@@ -348,12 +377,12 @@ if __name__ == "__main__":
     print("✅ Dependency injection pattern tests loaded successfully")
     print("✅ Core architectural validation tests loaded successfully")
     print("🐝 WE ARE SWARM - Core architectural testing ready!")
-    
+
     # Run core architectural tests
     passed, failed = run_core_architectural_tests()
-    
+
     print("\n🐝 WE ARE SWARM - AGENT-2 CORE ARCHITECTURAL TESTING MISSION COMPLETE!")
     print("🏗️ SOLID Principles and Dependency Injection Patterns Validated")
-    
+
     # Exit with appropriate code
     exit(0 if failed == 0 else 1)

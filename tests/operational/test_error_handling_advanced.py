@@ -18,8 +18,9 @@ import pytest
 
 # Import error handling components
 try:
-    from src.core.error_handling_unified import UnifiedErrorHandler
     from src.core.unified_logging_system import UnifiedLoggingSystem
+
+    from src.core.error_handling_unified import UnifiedErrorHandler
 
     ERROR_HANDLING_AVAILABLE = True
 except ImportError:
@@ -139,7 +140,8 @@ class TestErrorReportingAndMonitoring:
             if component not in component_errors:
                 component_errors[component] = {}
             component_errors[component][error_type] = (
-                component_errors[component].get(error_type, 0) + 1)
+                component_errors[component].get(error_type, 0) + 1
+            )
 
         # Verify analysis
         assert error_counts["ConnectionError"] == 2

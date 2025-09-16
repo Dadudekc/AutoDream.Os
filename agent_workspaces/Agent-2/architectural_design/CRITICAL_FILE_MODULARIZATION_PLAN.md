@@ -1,8 +1,8 @@
 # 🧹 Critical File Modularization Plan
 
-**Agent-2 Architecture & Design Specialist**  
-**Critical File Modularization Implementation**  
-**Timestamp**: 2025-01-13 15:30:00  
+**Agent-2 Architecture & Design Specialist**
+**Critical File Modularization Implementation**
+**Timestamp**: 2025-01-13 15:30:00
 **Status**: Modularization Plan Ready
 
 ---
@@ -37,7 +37,7 @@
 ```python
 # Responsibilities: Core onboarding functionality
 # Classes: AgentState, ContractType, AgentContract
-# Methods: 
+# Methods:
 # - perform_agent_onboarding()
 # - create_onboarding_contract()
 # - create_onboarding_message()
@@ -137,8 +137,8 @@ class ContractType(Enum):
 
 class AgentContract:
     """Contract system for agent task commitments."""
-    
-    def __init__(self, agent_id: str, contract_type: ContractType, 
+
+    def __init__(self, agent_id: str, contract_type: ContractType,
                  description: str, estimated_cycles: int, dependencies: List[str] = None):
         self.agent_id = agent_id
         self.contract_type = contract_type
@@ -150,7 +150,7 @@ class AgentContract:
         self.cycle_end = None
         self.progress_percentage = 0
         self.created_at = datetime.now()
-        
+
     def to_dict(self):
         return {
             "agent_id": self.agent_id,
@@ -165,7 +165,7 @@ class AgentContract:
 
 class OnboardingCoordinator:
     """Coordinates agent onboarding process."""
-    
+
     def __init__(self, coordination_service):
         self.coordination_service = coordination_service
         self.agent_roles = {
@@ -178,7 +178,7 @@ class OnboardingCoordinator:
             "Agent-7": "Web Development Specialist",
             "Agent-8": "SSOT & System Integration Specialist"
         }
-    
+
     def perform_agent_onboarding(self, agent_id: str, role: str) -> bool:
         """Perform onboarding for a specific agent."""
         try:
@@ -187,7 +187,7 @@ class OnboardingCoordinator:
         except Exception as e:
             logger.error(f"Onboarding failed for {agent_id}: {e}")
             return False
-    
+
     def create_onboarding_contract(self, agent_id: str) -> AgentContract:
         """Create onboarding contract for agent."""
         return AgentContract(
@@ -196,24 +196,24 @@ class OnboardingCoordinator:
             description=f"Onboarding contract for {agent_id}",
             estimated_cycles=2
         )
-    
+
     def create_onboarding_message(self, agent_id: str, role: str) -> str:
         """Create onboarding message for agent."""
         # Implementation details...
         pass
-    
+
     def _get_role_onboarding_guidance(self, agent_id: str) -> str:
         """Get role-specific onboarding guidance."""
         # Implementation details...
         pass
-    
+
     def onboard_all_agents(self) -> Dict[str, bool]:
         """Onboard all agents in the swarm."""
         results = {}
         for agent_id, role in self.agent_roles.items():
             results[agent_id] = self.perform_agent_onboarding(agent_id, role)
         return results
-    
+
     def get_agent_specific_prompt(self, agent_id: str) -> str:
         """Get agent-specific prompt based on state and contract."""
         # Implementation details...
@@ -249,14 +249,14 @@ logger = logging.getLogger(__name__)
 
 class AgentFSM:
     """Finite State Machine for agent state management."""
-    
+
     def __init__(self, agent_id: str):
         self.agent_id = agent_id
         self.current_state = AgentState.UNINITIALIZED
         self.previous_state = None
         self.state_history = []
         self.transition_count = 0
-        
+
     def transition_to(self, new_state: AgentState):
         """Transition to a new state."""
         if new_state != self.current_state:
@@ -269,7 +269,7 @@ class AgentFSM:
             })
             self.transition_count += 1
             logger.info(f"🔄 {self.agent_id} FSM: {self.previous_state.value if self.previous_state else 'None'} → {new_state.value}")
-    
+
     def get_state_info(self):
         """Get current state information."""
         return {
@@ -282,14 +282,14 @@ class AgentFSM:
 
 class CoordinationService:
     """Service for coordination and state management."""
-    
+
     def __init__(self):
         self.coordinates_file = Path("cursor_agent_coords.json")
         self.agent_coordinates = self.load_coordinates()
         self.agent_fsms = {}
         self.contracts = {}
         self.persistent_state_file = Path("agent_workspaces/persistent_state.json")
-        
+
     def load_persistent_state(self):
         """Load persistent state from file."""
         try:
@@ -317,7 +317,7 @@ class CoordinationService:
                 logger.info("✅ Persistent state loaded successfully")
         except Exception as e:
             logger.error(f"❌ Failed to load persistent state: {e}")
-    
+
     def save_persistent_state(self):
         """Save persistent state to file."""
         try:
@@ -332,7 +332,7 @@ class CoordinationService:
             logger.info("✅ Persistent state saved successfully")
         except Exception as e:
             logger.error(f"❌ Failed to save persistent state: {e}")
-    
+
     def load_coordinates(self) -> Dict[str, Dict]:
         """Load agent coordinates from file."""
         try:
@@ -345,7 +345,7 @@ class CoordinationService:
         except Exception as e:
             logger.error(f"❌ Failed to load coordinates: {e}")
             return {}
-    
+
     def get_chat_coordinates(self, agent_id: str) -> Optional[Tuple[int, int]]:
         """Get chat input coordinates for agent."""
         try:
@@ -357,13 +357,13 @@ class CoordinationService:
         except Exception as e:
             logger.error(f"❌ Failed to get chat coordinates for {agent_id}: {e}")
             return None
-    
+
     def get_onboarding_coordinates(self, agent_id: str) -> Optional[Tuple[int, int]]:
         """Get onboarding coordinates for agent."""
         return self.get_chat_coordinates(agent_id)
-    
-    def create_contract(self, agent_id: str, contract_type: ContractType, 
-                       description: str, estimated_cycles: int, 
+
+    def create_contract(self, agent_id: str, contract_type: ContractType,
+                       description: str, estimated_cycles: int,
                        dependencies: List[str] = None) -> AgentContract:
         """Create a new contract for an agent."""
         contract = AgentContract(agent_id, contract_type, description, estimated_cycles, dependencies)
@@ -397,7 +397,7 @@ logger = logging.getLogger(__name__)
 
 class AgentInstructions:
     """Handles agent-specific instructions and prompts."""
-    
+
     def __init__(self):
         self.agent_roles = {
             "Agent-1": "Integration & Core Systems Specialist",
@@ -409,7 +409,7 @@ class AgentInstructions:
             "Agent-7": "Web Development Specialist",
             "Agent-8": "SSOT & System Integration Specialist"
         }
-    
+
     def _get_agent1_instructions(self, state: AgentState, contract: Optional[AgentContract], is_onboarded: bool) -> str:
         """Get Agent-1 specific instructions."""
         if not is_onboarded:
@@ -434,7 +434,7 @@ Ready to begin your integration specialist journey!
 """
         # Additional state-based instructions...
         return "Agent-1 specific instructions based on state and contract"
-    
+
     def _get_agent2_instructions(self, state: AgentState, contract: Optional[AgentContract], is_onboarded: bool) -> str:
         """Get Agent-2 specific instructions."""
         if not is_onboarded:
@@ -459,7 +459,7 @@ Ready to begin your architecture specialist journey!
 """
         # Additional state-based instructions...
         return "Agent-2 specific instructions based on state and contract"
-    
+
     def _get_agent3_instructions(self, state: AgentState, contract: Optional[AgentContract], is_onboarded: bool) -> str:
         """Get Agent-3 specific instructions."""
         if not is_onboarded:
@@ -484,7 +484,7 @@ Ready to begin your infrastructure specialist journey!
 """
         # Additional state-based instructions...
         return "Agent-3 specific instructions based on state and contract"
-    
+
     def _get_agent4_instructions(self, state: AgentState, contract: Optional[AgentContract], is_onboarded: bool) -> str:
         """Get Agent-4 specific instructions."""
         if not is_onboarded:
@@ -509,7 +509,7 @@ Ready to begin your captain journey!
 """
         # Additional state-based instructions...
         return "Agent-4 specific instructions based on state and contract"
-    
+
     def _get_agent5_instructions(self, state: AgentState, contract: Optional[AgentContract], is_onboarded: bool) -> str:
         """Get Agent-5 specific instructions."""
         if not is_onboarded:
@@ -534,7 +534,7 @@ Ready to begin your BI specialist journey!
 """
         # Additional state-based instructions...
         return "Agent-5 specific instructions based on state and contract"
-    
+
     def _get_agent6_instructions(self, state: AgentState, contract: Optional[AgentContract], is_onboarded: bool) -> str:
         """Get Agent-6 specific instructions."""
         if not is_onboarded:
@@ -559,7 +559,7 @@ Ready to begin your coordination specialist journey!
 """
         # Additional state-based instructions...
         return "Agent-6 specific instructions based on state and contract"
-    
+
     def _get_agent7_instructions(self, state: AgentState, contract: Optional[AgentContract], is_onboarded: bool) -> str:
         """Get Agent-7 specific instructions."""
         if not is_onboarded:
@@ -584,7 +584,7 @@ Ready to begin your web development specialist journey!
 """
         # Additional state-based instructions...
         return "Agent-7 specific instructions based on state and contract"
-    
+
     def _get_agent8_instructions(self, state: AgentState, contract: Optional[AgentContract], is_onboarded: bool) -> str:
         """Get Agent-8 specific instructions."""
         if not is_onboarded:
@@ -638,7 +638,7 @@ logger = logging.getLogger(__name__)
 
 class CoordinationFactory:
     """Factory for creating coordination system components."""
-    
+
     def __init__(self):
         self.coordination_service = None
         self.onboarding_coordinator = None
@@ -647,32 +647,32 @@ class CoordinationFactory:
             "Agent-1", "Agent-2", "Agent-3", "Agent-4",
             "Agent-5", "Agent-6", "Agent-7", "Agent-8"
         ]
-    
+
     def create_coordination_service(self) -> CoordinationService:
         """Create coordination service instance."""
         if not self.coordination_service:
             self.coordination_service = CoordinationService()
         return self.coordination_service
-    
+
     def create_onboarding_coordinator(self) -> OnboardingCoordinator:
         """Create onboarding coordinator instance."""
         if not self.onboarding_coordinator:
             coordination_service = self.create_coordination_service()
             self.onboarding_coordinator = OnboardingCoordinator(coordination_service)
         return self.onboarding_coordinator
-    
+
     def create_agent_instructions(self) -> AgentInstructions:
         """Create agent instructions instance."""
         if not self.agent_instructions:
             self.agent_instructions = AgentInstructions()
         return self.agent_instructions
-    
+
     def create_integrated_system(self):
         """Create the complete integrated system."""
         coordination_service = self.create_coordination_service()
         onboarding_coordinator = self.create_onboarding_coordinator()
         agent_instructions = self.create_agent_instructions()
-        
+
         return IntegratedOnboardingCoordinationSystem(
             coordination_service,
             onboarding_coordinator,
@@ -681,7 +681,7 @@ class CoordinationFactory:
 
 class IntegratedOnboardingCoordinationSystem:
     """Main integrated system orchestrator."""
-    
+
     def __init__(self, coordination_service, onboarding_coordinator, agent_instructions):
         self.coordination_service = coordination_service
         self.onboarding_coordinator = onboarding_coordinator
@@ -690,20 +690,20 @@ class IntegratedOnboardingCoordinationSystem:
             "Agent-1", "Agent-2", "Agent-3", "Agent-4",
             "Agent-5", "Agent-6", "Agent-7", "Agent-8"
         ]
-    
+
     def onboard_all_agents(self) -> Dict[str, bool]:
         """Onboard all agents in the swarm."""
         return self.onboarding_coordinator.onboard_all_agents()
-    
+
     def start_enhanced_cycles(self):
         """Start enhanced coordination cycles."""
         logger.info("🚀 Starting enhanced coordination cycles...")
         # Implementation details...
-    
+
     def get_contract_status(self):
         """Get current contract status."""
         return self.coordination_service.contracts
-    
+
     def run(self, args):
         """Main execution method."""
         if args.onboard_all_agents:
@@ -719,9 +719,9 @@ def main():
     parser.add_argument("--onboard-all-agents", action="store_true", help="Onboard all agents")
     parser.add_argument("--start-enhanced-cycles", action="store_true", help="Start enhanced cycles")
     parser.add_argument("--contract-status", action="store_true", help="Show contract status")
-    
+
     args = parser.parse_args()
-    
+
     factory = CoordinationFactory()
     system = factory.create_integrated_system()
     system.run(args)
@@ -789,5 +789,5 @@ if __name__ == "__main__":
 
 **🧹 Critical File Modularization Plan Complete - Ready for Implementation! 🧹**
 
-**Agent-2 Architecture & Design Specialist**  
+**Agent-2 Architecture & Design Specialist**
 **Next: Begin Critical Files Modularization Implementation**

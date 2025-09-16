@@ -3,16 +3,13 @@
 
 import asyncio
 import logging
-import threading
 import time
-from typing import Dict, List, Optional
 from concurrent.futures import ThreadPoolExecutor
 
-from .swarm_communication_enums import SwarmAgentStatus, DecisionStatus
 from .swarm_agent_manager import SwarmAgentManager
 from .swarm_decision_manager import SwarmDecisionManager
 from .swarm_quality_manager import SwarmQualityManager
-from .unified_core_interfaces import IUnifiedCoreSystem, CoreSystemMetadata
+from .unified_core_interfaces import CoreSystemMetadata, IUnifiedCoreSystem
 
 logger = logging.getLogger(__name__)
 
@@ -28,7 +25,11 @@ class SwarmCommunicationCoordinatorCore(IUnifiedCoreSystem):
             description="Core coordinator for swarm communication and democratic decision making",
             author="Agent-2",
             dependencies=["swarm_agent_manager", "swarm_decision_manager", "swarm_quality_manager"],
-            capabilities=["swarm_coordination", "democratic_decision_making", "communication_routing"]
+            capabilities=[
+                "swarm_coordination",
+                "democratic_decision_making",
+                "communication_routing",
+            ],
         )
 
         # Initialize modular components
@@ -53,10 +54,10 @@ class SwarmCommunicationCoordinatorCore(IUnifiedCoreSystem):
         if self._running:
             logger.warning("Swarm Communication Coordinator is already running")
             return
-        
+
         self._running = True
         self.executor = ThreadPoolExecutor(max_workers=4)
-        
+
         try:
             loop = asyncio.get_running_loop()
             asyncio.create_task(self._coordination_broadcast_loop())
@@ -78,11 +79,11 @@ class SwarmCommunicationCoordinatorCore(IUnifiedCoreSystem):
         """Get system metadata"""
         return self._metadata
 
-    def get_capabilities(self) -> List[str]:
+    def get_capabilities(self) -> list[str]:
         """Get system capabilities"""
         return self._metadata.capabilities
 
-    def get_dependencies(self) -> List[str]:
+    def get_dependencies(self) -> list[str]:
         """Get system dependencies"""
         return self._metadata.dependencies
 
@@ -129,10 +130,10 @@ class SwarmCommunicationCoordinatorCore(IUnifiedCoreSystem):
         """Perform periodic quality checks"""
         try:
             from .swarm_communication_enums import QCStandard
-            
+
             for standard in QCStandard:
                 self.quality_manager.perform_qc_check(standard, "system")
-            
+
             logger.debug("Performed periodic quality checks")
         except Exception as e:
             logger.error(f"Error performing quality checks: {e}")
@@ -142,37 +143,37 @@ class SwarmCommunicationCoordinatorCore(IUnifiedCoreSystem):
         try:
             pending_decisions = self.decision_manager.get_pending_decisions()
             voting_decisions = self.decision_manager.get_voting_decisions()
-            
+
             # Check for timeouts and finalize decisions
             for decision in pending_decisions + voting_decisions:
                 if decision.deadline and time.time() > decision.deadline.timestamp():
                     self.decision_manager._finalize_decision(decision.decision_id, timeout=True)
-            
+
             logger.debug(f"Monitored {len(pending_decisions + voting_decisions)} decisions")
         except Exception as e:
             logger.error(f"Error monitoring decisions: {e}")
 
-    def get_coordination_status(self) -> Dict[str, any]:
+    def get_coordination_status(self) -> dict[str, any]:
         """Get current coordination status"""
         return {
             "system_status": "running" if self._running else "stopped",
             "agent_summary": self.agent_manager.get_agent_summary(),
             "decision_summary": self.decision_manager.get_decision_summary(),
             "quality_summary": self.quality_manager.get_qc_summary(),
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
     def create_mission_assignment_decision(self, mission_description: str, proposer: str) -> str:
         """Create a mission assignment decision"""
         from .swarm_communication_enums import SwarmDecisionType
-        
+
         decision = self.decision_manager.create_decision(
             decision_type=SwarmDecisionType.MISSION_ASSIGNMENT,
             description=mission_description,
             proposer=proposer,
-            deadline_hours=24
+            deadline_hours=24,
         )
-        
+
         logger.info(f"Created mission assignment decision: {decision.decision_id}")
         return decision.decision_id
 
@@ -180,38 +181,36 @@ class SwarmCommunicationCoordinatorCore(IUnifiedCoreSystem):
         """Vote on a decision"""
         return self.decision_manager.vote_on_decision(decision_id, agent_id, vote)
 
-    def get_system_metrics(self) -> Dict[str, any]:
+    def get_system_metrics(self) -> dict[str, any]:
         """Get comprehensive system metrics"""
         return {
             "agent_metrics": self.agent_manager.get_metrics(),
             "decision_metrics": self.decision_manager.get_metrics(),
             "quality_metrics": self.quality_manager.get_metrics(),
-            "system_uptime": time.time() - getattr(self, '_start_time', time.time())
+            "system_uptime": time.time() - getattr(self, "_start_time", time.time()),
         }
 
     def get_status_report(self) -> str:
         """Get a human-readable status report"""
         status = self.get_coordination_status()
-        
+
         report = f"""
 === SWARM COMMUNICATION COORDINATOR STATUS ===
-System Status: {status['system_status'].upper()}
-Active Agents: {status['agent_summary']['active_agents']}/{status['agent_summary']['total_agents']}
-Pending Decisions: {status['decision_summary']['pending_decisions']}
-Voting Decisions: {status['decision_summary']['voting_decisions']}
-QC Pass Rate: {status['quality_summary']['overall_pass_rate']:.1f}%
-Last Updated: {time.strftime('%Y-%m-%d %H:%M:%S')}
+System Status: {status["system_status"].upper()}
+Active Agents: {status["agent_summary"]["active_agents"]}/{status["agent_summary"]["total_agents"]}
+Pending Decisions: {status["decision_summary"]["pending_decisions"]}
+Voting Decisions: {status["decision_summary"]["voting_decisions"]}
+QC Pass Rate: {status["quality_summary"]["overall_pass_rate"]:.1f}%
+Last Updated: {time.strftime("%Y-%m-%d %H:%M:%S")}
 ===============================================
         """
-        
+
         return report.strip()
 
 
 def get_swarm_communication_coordinator_core() -> SwarmCommunicationCoordinatorCore:
     """Get the singleton instance of the swarm communication coordinator core"""
-    if not hasattr(get_swarm_communication_coordinator_core, '_instance'):
+    if not hasattr(get_swarm_communication_coordinator_core, "_instance"):
         get_swarm_communication_coordinator_core._instance = SwarmCommunicationCoordinatorCore()
     return get_swarm_communication_coordinator_core._instance
-
-
 

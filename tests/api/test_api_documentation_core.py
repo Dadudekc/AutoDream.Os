@@ -20,6 +20,7 @@ import pytest
 src_path = Path(__file__).parent.parent.parent / "src"
 sys.path.insert(0, str(src_path))
 
+
 # Mock classes for testing without actual implementation
 class MockOpenAPISpec:
     def __init__(self, *args, **kwargs):
@@ -48,7 +49,7 @@ class TestOpenAPISpecification:
             "info": {
                 "title": "V2 SWARM API",
                 "version": "1.0.0",
-                "description": "Comprehensive API for V2 SWARM system"
+                "description": "Comprehensive API for V2 SWARM system",
             },
             "servers": [{"url": "https://api.v2swarm.com/v1", "description": "Production server"}],
             "paths": {},

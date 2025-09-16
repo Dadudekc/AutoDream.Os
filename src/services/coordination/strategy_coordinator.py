@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """
 Strategy Coordinator - V2 Compliant Module
@@ -26,30 +27,30 @@ from ..models.messaging_models import (
 class StrategyCoordinator:
     """Handles coordination strategy determination and application.
 
-    Manages strategy selection, rule application, and coordination execution.
+        Manages strategy selection, rule application, and coordination execution.
 
-EXAMPLE USAGE:
-==============
+    EXAMPLE USAGE:
+    ==============
 
-# Import the service
-from src.services.coordination.strategy_coordinator import Strategy_CoordinatorService
+    # Import the service
+    from src.services.coordination.strategy_coordinator import Strategy_CoordinatorService
 
-# Initialize service
-service = Strategy_CoordinatorService()
+    # Initialize service
+    service = Strategy_CoordinatorService()
 
-# Basic service operation
-response = service.handle_request(request_data)
-logger.info(f"Service response: {response}")
+    # Basic service operation
+    response = service.handle_request(request_data)
+    logger.info(f"Service response: {response}")
 
-# Service with dependency injection
-from src.core.dependency_container import Container
+    # Service with dependency injection
+    from src.core.dependency_container import Container
 
-container = Container()
-service = container.get(Strategy_CoordinatorService)
+    container = Container()
+    service = container.get(Strategy_CoordinatorService)
 
-# Execute service method
-result = service.execute_operation(input_data, context)
-logger.info(f"Operation result: {result}")
+    # Execute service method
+    result = service.execute_operation(input_data, context)
+    logger.info(f"Operation result: {result}")
 
     """
 

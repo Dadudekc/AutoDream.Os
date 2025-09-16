@@ -25,7 +25,7 @@ class StrictValidator:
 def get_example_usage():
     """
     Example usage for StrictValidator.
-    
+
     # Import the core component
     from src.core.ssot.unified_ssot.validators.strict_validator import StrictValidator
 

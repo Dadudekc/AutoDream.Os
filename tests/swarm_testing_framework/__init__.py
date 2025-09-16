@@ -18,18 +18,15 @@ License: MIT
 """
 
 from .swarm_testing_framework_core import (
-    TestingComponent,
-    SwarmTestingReport,
     ComponentDiscovery,
+    CoverageCalculator,
+    SwarmTestingReport,
     TestFileManager,
-    CoverageCalculator
+    TestingComponent,
 )
-
 from .swarm_testing_framework_execution import TestExecutor
-
-from .swarm_testing_framework_reporting import ReportGenerator
-
 from .swarm_testing_framework_main import SwarmTestingFramework
+from .swarm_testing_framework_reporting import ReportGenerator
 
 __version__ = "2.0.0"
 __author__ = "Agent-2 (Architecture & Design Specialist)"
@@ -42,5 +39,5 @@ __all__ = [
     "CoverageCalculator",
     "TestExecutor",
     "ReportGenerator",
-    "SwarmTestingFramework"
+    "SwarmTestingFramework",
 ]

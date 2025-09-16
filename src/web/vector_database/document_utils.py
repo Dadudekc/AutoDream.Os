@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """
 Document Utils
@@ -56,7 +57,6 @@ class DocumentUtils:
         """
         # Simulate realistic document retrieval with pagination
         import random
-        from datetime import datetime, timedelta
 
         # Calculate pagination parameters
         total_docs = random.randint(50, 200)
@@ -79,8 +79,8 @@ class DocumentUtils:
                     "created_at": created_at,
                     "tags": [f"tag_{j}" for j in range(random.randint(1, 4))],
                     "word_count": random.randint(100, 2000),
-                    "language": "en"
-                }
+                    "language": "en",
+                },
             }
 
             # Apply filters if specified
@@ -100,7 +100,7 @@ class DocumentUtils:
             "page": request.page,
             "page_size": request.page_size,
             "has_next": end_idx < total_docs,
-            "total_pages": (total_docs + request.page_size - 1) // request.page_size
+            "total_pages": (total_docs + request.page_size - 1) // request.page_size,
         }
 
     def simulate_add_document(self, request: DocumentRequest) -> Document:
@@ -132,7 +132,6 @@ class DocumentUtils:
         """
         # Simulate realistic document creation with validation
         import hashlib
-        from datetime import datetime
 
         # Generate a unique ID based on content hash for consistency
         content_hash = hashlib.md5((request.content or "").encode()).hexdigest()[:8]
@@ -146,14 +145,16 @@ class DocumentUtils:
             "content_length": len(request.content or ""),
             "word_count": len((request.content or "").split()),
             "language": base_metadata.get("language", "en"),
-            "version": "1.0"
+            "version": "1.0",
         }
 
         # Add content analysis if content is provided
         if request.content:
             content_lower = request.content.lower()
             # Simple keyword-based categorization
-            if any(word in content_lower for word in ["python", "javascript", "code", "programming"]):
+            if any(
+                word in content_lower for word in ["python", "javascript", "code", "programming"]
+            ):
                 enhanced_metadata["category"] = "technical"
             elif any(word in content_lower for word in ["business", "finance", "market"]):
                 enhanced_metadata["category"] = "business"
@@ -164,7 +165,7 @@ class DocumentUtils:
             id=document_id,
             content=request.content or "",
             metadata=enhanced_metadata,
-            created_at=enhanced_metadata["created_at"]
+            created_at=enhanced_metadata["created_at"],
         )
 
     def simulate_delete_document(self, document_id: str) -> bool:

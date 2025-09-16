@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """
 Vector Database Middleware
@@ -26,29 +27,29 @@ from .validation_middleware import ValidationMiddleware
 class VectorDatabaseMiddleware:
     """Main middleware orchestrator for vector database operations.
 
-    V2 Compliance: < 100 lines, facade pattern, single responsibility.
-    This class orchestrates all middleware components.
+        V2 Compliance: < 100 lines, facade pattern, single responsibility.
+        This class orchestrates all middleware components.
 
-EXAMPLE USAGE:
-==============
+    EXAMPLE USAGE:
+    ==============
 
-# Basic usage example
-from src.web.vector_database.middleware import Middleware
+    # Basic usage example
+    from src.web.vector_database.middleware import Middleware
 
-# Initialize and use
-instance = Middleware()
-result = instance.execute()
-logger.info(f"Execution result: {result}")
+    # Initialize and use
+    instance = Middleware()
+    result = instance.execute()
+    logger.info(f"Execution result: {result}")
 
-# Advanced configuration
-config = {
-    "option1": "value1",
-    "option2": True
-}
+    # Advanced configuration
+    config = {
+        "option1": "value1",
+        "option2": True
+    }
 
-instance = Middleware(config)
-advanced_result = instance.execute_advanced()
-logger.info(f"Advanced result: {advanced_result}")
+    instance = Middleware(config)
+    advanced_result = instance.execute_advanced()
+    logger.info(f"Advanced result: {advanced_result}")
 
     """
 

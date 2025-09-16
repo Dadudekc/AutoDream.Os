@@ -25,7 +25,7 @@
 **Target**: `swarm_monitoring_dashboard.py` (823 lines)
 **Strategy**: Split into 3 modules:
 - `swarm_monitoring_core.py` (≤400 lines)
-- `swarm_monitoring_ui.py` (≤400 lines)  
+- `swarm_monitoring_ui.py` (≤400 lines)
 - `swarm_monitoring_data.py` (≤400 lines)
 
 **Reduction**: 823 → 3×400 = 1,200 lines (46% increase in modules, 100% V2 compliant)

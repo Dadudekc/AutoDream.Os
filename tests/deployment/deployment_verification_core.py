@@ -23,12 +23,13 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
 class IntegrationTestFramework:
     """Mock integration test framework for V2 compliance."""
-    
+
     def __init__(self, base_url: str = None):
         self.base_url = base_url or "http://localhost:8000"
 
     def make_request(self, method: str, endpoint: str, **kwargs):
         """Mock HTTP request method."""
+
         class MockResponse:
             def __init__(self):
                 self.status_code = 200
@@ -39,6 +40,7 @@ class IntegrationTestFramework:
 
 class TestStatus:
     """Test status constants."""
+
     PASSED = "PASSED"
     FAILED = "FAILED"
     ERROR = "ERROR"
@@ -47,7 +49,7 @@ class TestStatus:
 class DeploymentVerificationCore:
     """
     Core deployment verification functionality.
-    
+
     V2 Compliance: Extracted from monolithic file.
     """
 
@@ -71,7 +73,7 @@ class DeploymentVerificationCore:
     def run_full_deployment_verification(self) -> dict[str, Any]:
         """
         Execute comprehensive deployment verification.
-        
+
         Returns:
             dict: Complete verification results with status and recommendations
         """
@@ -128,17 +130,21 @@ class DeploymentVerificationCore:
             try:
                 response = self.framework.make_request("GET", endpoint)
                 if response.status_code == 200:
-                    results.append({
-                        "check": check_name,
-                        "status": "PASSED",
-                        "response_time": response.elapsed.total_seconds(),
-                    })
+                    results.append(
+                        {
+                            "check": check_name,
+                            "status": "PASSED",
+                            "response_time": response.elapsed.total_seconds(),
+                        }
+                    )
                 else:
-                    results.append({
-                        "check": check_name,
-                        "status": "FAILED",
-                        "error": f"HTTP {response.status_code}",
-                    })
+                    results.append(
+                        {
+                            "check": check_name,
+                            "status": "FAILED",
+                            "error": f"HTTP {response.status_code}",
+                        }
+                    )
                     overall_status = "FAILED"
             except Exception as e:
                 results.append({"check": check_name, "status": "ERROR", "error": str(e)})
@@ -168,27 +174,33 @@ class DeploymentVerificationCore:
             try:
                 response = self.framework.make_request("GET", endpoint, timeout=10)
                 if response.status_code in [200, 201]:
-                    results.append({
-                        "service": service_name,
-                        "status": "AVAILABLE",
-                        "response_time": response.elapsed.total_seconds(),
-                        "endpoint": endpoint,
-                    })
+                    results.append(
+                        {
+                            "service": service_name,
+                            "status": "AVAILABLE",
+                            "response_time": response.elapsed.total_seconds(),
+                            "endpoint": endpoint,
+                        }
+                    )
                 else:
-                    results.append({
-                        "service": service_name,
-                        "status": "UNAVAILABLE",
-                        "error": f"HTTP {response.status_code}",
-                        "endpoint": endpoint,
-                    })
+                    results.append(
+                        {
+                            "service": service_name,
+                            "status": "UNAVAILABLE",
+                            "error": f"HTTP {response.status_code}",
+                            "endpoint": endpoint,
+                        }
+                    )
                     overall_status = "FAILED"
             except Exception as e:
-                results.append({
-                    "service": service_name,
-                    "status": "ERROR",
-                    "error": str(e),
-                    "endpoint": endpoint,
-                })
+                results.append(
+                    {
+                        "service": service_name,
+                        "status": "ERROR",
+                        "error": str(e),
+                        "endpoint": endpoint,
+                    }
+                )
                 overall_status = "FAILED"
 
         return {
@@ -221,30 +233,36 @@ class DeploymentVerificationCore:
                     response = self.framework.make_request("POST", endpoint, json=payload)
 
                 if response.status_code in [200, 201, 202]:
-                    results.append({
-                        "endpoint": endpoint,
-                        "method": method,
-                        "description": description,
-                        "status": "FUNCTIONAL",
-                        "response_time": response.elapsed.total_seconds(),
-                    })
+                    results.append(
+                        {
+                            "endpoint": endpoint,
+                            "method": method,
+                            "description": description,
+                            "status": "FUNCTIONAL",
+                            "response_time": response.elapsed.total_seconds(),
+                        }
+                    )
                 else:
-                    results.append({
-                        "endpoint": endpoint,
-                        "method": method,
-                        "description": description,
-                        "status": "FAILED",
-                        "error": f"HTTP {response.status_code}",
-                    })
+                    results.append(
+                        {
+                            "endpoint": endpoint,
+                            "method": method,
+                            "description": description,
+                            "status": "FAILED",
+                            "error": f"HTTP {response.status_code}",
+                        }
+                    )
                     overall_status = "FAILED"
             except Exception as e:
-                results.append({
-                    "endpoint": endpoint,
-                    "method": method,
-                    "description": description,
-                    "status": "ERROR",
-                    "error": str(e),
-                })
+                results.append(
+                    {
+                        "endpoint": endpoint,
+                        "method": method,
+                        "description": description,
+                        "status": "ERROR",
+                        "error": str(e),
+                    }
+                )
                 overall_status = "FAILED"
 
         return {
@@ -274,19 +292,23 @@ class DeploymentVerificationCore:
                 time.sleep(0.1)  # Simulate DB response time
                 response_time = time.time() - start_time
 
-                results.append({
-                    "operation": operation_name,
-                    "status": "SUCCESS",
-                    "response_time": response_time,
-                    "query": query,
-                })
+                results.append(
+                    {
+                        "operation": operation_name,
+                        "status": "SUCCESS",
+                        "response_time": response_time,
+                        "query": query,
+                    }
+                )
             except Exception as e:
-                results.append({
-                    "operation": operation_name,
-                    "status": "FAILED",
-                    "error": str(e),
-                    "query": query,
-                })
+                results.append(
+                    {
+                        "operation": operation_name,
+                        "status": "FAILED",
+                        "error": str(e),
+                        "query": query,
+                    }
+                )
                 overall_status = "FAILED"
 
         return {
@@ -311,11 +333,13 @@ class DeploymentVerificationCore:
         for check_name, check_method in config_checks:
             try:
                 result = check_method()
-                results.append({
-                    "check": check_name,
-                    "status": result.get("status", "UNKNOWN"),
-                    "details": result.get("details", {}),
-                })
+                results.append(
+                    {
+                        "check": check_name,
+                        "status": result.get("status", "UNKNOWN"),
+                        "details": result.get("details", {}),
+                    }
+                )
                 if result.get("status") != "PASSED":
                     overall_status = "FAILED"
             except Exception as e:

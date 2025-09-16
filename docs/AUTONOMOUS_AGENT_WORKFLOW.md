@@ -14,7 +14,7 @@ This document establishes the standard autonomous workflow cycle that all agents
 ### **1. MAILBOX CHECK (Priority: HIGH)**
 ```
 Check: agent_workspaces/{AGENT_ID}/inbox/
-Action: 
+Action:
   - Scan for new messages
   - Process each message immediately
   - Remove processed messages from inbox
@@ -208,5 +208,4 @@ Tags: {GENERAL|COORDINATION|TASK|STATUS}
 ---
 
 **This autonomous workflow ensures continuous agent operation, efficient task management, and quality delivery while maintaining swarm coordination and system integration.**
-
 

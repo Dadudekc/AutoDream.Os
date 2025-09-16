@@ -157,5 +157,3 @@
 **Ready for Cycle 2 execution of INFRA-ORGANIZE-001 mission!**
 
 **WE ARE SWARM!** 🐝
-
-

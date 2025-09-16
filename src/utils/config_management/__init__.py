@@ -15,25 +15,17 @@ Author: Agent-3 (Infrastructure & DevOps Specialist)
 License: MIT
 """
 
+from .config_consolidator import ConfigConsolidationResult, ConfigurationConsolidator
 from .config_scanner import (
+    ConfigFileScanner,
     ConfigPattern,
     ConfigurationScanner,
+    ConfigurationScannerRegistry,
     EnvironmentVariableScanner,
     JSONConfigScanner,
     YAMLConfigScanner,
-    ConfigFileScanner,
-    ConfigurationScannerRegistry
 )
-
-from .config_validator import (
-    ConfigValidationResult,
-    ConfigurationValidator
-)
-
-from .config_consolidator import (
-    ConfigConsolidationResult,
-    ConfigurationConsolidator
-)
+from .config_validator import ConfigurationValidator, ConfigValidationResult
 
 __all__ = [
     # Scanner classes
@@ -44,15 +36,14 @@ __all__ = [
     "YAMLConfigScanner",
     "ConfigFileScanner",
     "ConfigurationScannerRegistry",
-    
     # Validator classes
     "ConfigValidationResult",
     "ConfigurationValidator",
-    
     # Consolidator classes
     "ConfigConsolidationResult",
-    "ConfigurationConsolidator"
+    "ConfigurationConsolidator",
 ]
 
 __version__ = "1.0.0"
 __author__ = "Agent-3 (Infrastructure & DevOps Specialist)"
+

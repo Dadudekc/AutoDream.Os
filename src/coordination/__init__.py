@@ -17,26 +17,10 @@ Author: Agent-2 (Architecture & Design Specialist)
 License: MIT
 """
 
-from .onboarding_coordinator import (
-    AgentState,
-    ContractType,
-    AgentContract,
-    OnboardingCoordinator
-)
-
-from .coordination_service import (
-    AgentFSM,
-    CoordinationService
-)
-
-from .agent_instructions import (
-    AgentInstructions
-)
-
-from .coordination_factory import (
-    CoordinationFactory,
-    IntegratedOnboardingCoordinationSystem
-)
+from .agent_instructions import AgentInstructions
+from .coordination_factory import CoordinationFactory, IntegratedOnboardingCoordinationSystem
+from .coordination_service import AgentFSM, CoordinationService
+from .onboarding_coordinator import AgentContract, AgentState, ContractType, OnboardingCoordinator
 
 __version__ = "2.0.0"
 __author__ = "Agent-2 (Architecture & Design Specialist)"
@@ -45,7 +29,6 @@ __all__ = [
     # Enums
     "AgentState",
     "ContractType",
-    
     # Core Classes
     "AgentContract",
     "AgentFSM",
@@ -53,5 +36,5 @@ __all__ = [
     "CoordinationService",
     "AgentInstructions",
     "CoordinationFactory",
-    "IntegratedOnboardingCoordinationSystem"
+    "IntegratedOnboardingCoordinationSystem",
 ]

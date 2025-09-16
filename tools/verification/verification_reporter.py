@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """
 Verification Reporter - V2 Compliance Module
@@ -21,135 +22,150 @@ class VerificationReporter:
 
     def __init__(self, project_root: Path):
         self.project_root = project_root
-        self.reports_dir = project_root / 'runtime' / 'reports'
+        self.reports_dir = project_root / "runtime" / "reports"
         self.reports_dir.mkdir(parents=True, exist_ok=True)
 
-    def generate_verification_report(self, verification_result: dict[str, Any]
-        ) ->dict[str, Any]:
+    def generate_verification_report(self, verification_result: dict[str, Any]) -> dict[str, Any]:
         """Generate comprehensive verification report."""
-        report = {'report_type': 'functionality_verification', 'timestamp':
-            verification_result.get('timestamp', ''),
-            'verification_summary': self._generate_verification_summary(
-            verification_result), 'change_analysis': self._analyze_changes(
-            verification_result), 'preservation_analysis': self.
-            _analyze_preservation(verification_result), 'recommendations':
-            verification_result.get('recommendations', []), 'raw_result':
-            verification_result}
+        report = {
+            "report_type": "functionality_verification",
+            "timestamp": verification_result.get("timestamp", ""),
+            "verification_summary": self._generate_verification_summary(verification_result),
+            "change_analysis": self._analyze_changes(verification_result),
+            "preservation_analysis": self._analyze_preservation(verification_result),
+            "recommendations": verification_result.get("recommendations", []),
+            "raw_result": verification_result,
+        }
         return report
 
-    def _generate_verification_summary(self, result: dict[str, Any]) ->dict[
-        str, Any]:
+    def _generate_verification_summary(self, result: dict[str, Any]) -> dict[str, Any]:
         """Generate verification summary."""
-        return {'status': result.get('verification_status', 'unknown'),
-            'preservation_score': result.get('preservation_score', 0.0),
-            'baseline_exists': result.get('baseline_exists', False),
-            'has_errors': bool(result.get('error')), 'error_message':
-            result.get('error', '')}
+        return {
+            "status": result.get("verification_status", "unknown"),
+            "preservation_score": result.get("preservation_score", 0.0),
+            "baseline_exists": result.get("baseline_exists", False),
+            "has_errors": bool(result.get("error")),
+            "error_message": result.get("error", ""),
+        }
 
-    def _analyze_changes(self, result: dict[str, Any]) ->dict[str, Any]:
+    def _analyze_changes(self, result: dict[str, Any]) -> dict[str, Any]:
         """Analyze changes detected."""
-        differences = result.get('differences', {})
-        return {'file_changes': {'total': len(differences.get(
-            'file_changes', [])), 'added': len([c for c in differences.get(
-            'file_changes', []) if c.get('change_type') == 'added']),
-            'modified': len([c for c in differences.get('file_changes', []) if
-            c.get('change_type') == 'modified']), 'deleted': len([c for c in
-            differences.get('file_changes', []) if c.get('change_type') ==
-            'deleted'])}, 'import_changes': len(differences.get(
-            'import_changes', [])), 'function_changes': len(differences.get
-            ('function_changes', [])), 'class_changes': len(differences.get
-            ('class_changes', [])), 'test_changes': len(differences.get(
-            'test_changes', []))}
+        differences = result.get("differences", {})
+        return {
+            "file_changes": {
+                "total": len(differences.get("file_changes", [])),
+                "added": len(
+                    [
+                        c
+                        for c in differences.get("file_changes", [])
+                        if c.get("change_type") == "added"
+                    ]
+                ),
+                "modified": len(
+                    [
+                        c
+                        for c in differences.get("file_changes", [])
+                        if c.get("change_type") == "modified"
+                    ]
+                ),
+                "deleted": len(
+                    [
+                        c
+                        for c in differences.get("file_changes", [])
+                        if c.get("change_type") == "deleted"
+                    ]
+                ),
+            },
+            "import_changes": len(differences.get("import_changes", [])),
+            "function_changes": len(differences.get("function_changes", [])),
+            "class_changes": len(differences.get("class_changes", [])),
+            "test_changes": len(differences.get("test_changes", [])),
+        }
 
-    def _analyze_preservation(self, result: dict[str, Any]) ->dict[str, Any]:
+    def _analyze_preservation(self, result: dict[str, Any]) -> dict[str, Any]:
         """Analyze functionality preservation."""
-        preservation_score = result.get('preservation_score', 0.0)
-        return {'score': preservation_score, 'grade': self.
-            _get_preservation_grade(preservation_score), 'status': self.
-            _get_preservation_status(preservation_score), 'risk_level':
-            self._get_risk_level(preservation_score)}
+        preservation_score = result.get("preservation_score", 0.0)
+        return {
+            "score": preservation_score,
+            "grade": self._get_preservation_grade(preservation_score),
+            "status": self._get_preservation_status(preservation_score),
+            "risk_level": self._get_risk_level(preservation_score),
+        }
 
-    def _get_preservation_grade(self, score: float) ->str:
+    def _get_preservation_grade(self, score: float) -> str:
         """Get preservation grade based on score."""
         if score >= 95.0:
-            return 'A'
+            return "A"
         elif score >= 90.0:
-            return 'B'
+            return "B"
         elif score >= 80.0:
-            return 'C'
+            return "C"
         elif score >= 70.0:
-            return 'D'
+            return "D"
         else:
-            return 'F'
+            return "F"
 
-    def _get_preservation_status(self, score: float) ->str:
+    def _get_preservation_status(self, score: float) -> str:
         """Get preservation status based on score."""
         if score >= 95.0:
-            return 'Excellent'
+            return "Excellent"
         elif score >= 90.0:
-            return 'Good'
+            return "Good"
         elif score >= 80.0:
-            return 'Acceptable'
+            return "Acceptable"
         elif score >= 70.0:
-            return 'Concerning'
+            return "Concerning"
         else:
-            return 'Critical'
+            return "Critical"
 
-    def _get_risk_level(self, score: float) ->str:
+    def _get_risk_level(self, score: float) -> str:
         """Get risk level based on score."""
         if score >= 95.0:
-            return 'Low'
+            return "Low"
         elif score >= 80.0:
-            return 'Medium'
+            return "Medium"
         else:
-            return 'High'
+            return "High"
 
-    def save_report(self, report: dict[str, Any], filename: str=None) ->Path:
+    def save_report(self, report: dict[str, Any], filename: str = None) -> Path:
         """Save verification report to file."""
         if filename is None:
-            timestamp = report.get('timestamp', '').replace(':', '-').replace(
-                '.', '-')
-            filename = f'verification_report_{timestamp}.json'
+            timestamp = report.get("timestamp", "").replace(":", "-").replace(".", "-")
+            filename = f"verification_report_{timestamp}.json"
         report_path = self.reports_dir / filename
-        with open(report_path, 'w', encoding='utf-8') as f:
+        with open(report_path, "w", encoding="utf-8") as f:
             json.dump(report, f, indent=2)
         return report_path
 
-    def print_verification_summary(self, report: dict[str, Any]) ->None:
+    def print_verification_summary(self, report: dict[str, Any]) -> None:
         """Print verification summary to console."""
-        logger.info('\n' + '=' * 70)
-        logger.info('📋 FUNCTIONALITY VERIFICATION REPORT')
-        logger.info('=' * 70)
-        summary = report.get('verification_summary', {})
+        logger.info("\n" + "=" * 70)
+        logger.info("📋 FUNCTIONALITY VERIFICATION REPORT")
+        logger.info("=" * 70)
+        summary = report.get("verification_summary", {})
         logger.info(f"Status: {summary.get('status', 'UNKNOWN')}")
-        logger.info(
-            f"Preservation Score: {summary.get('preservation_score', 0.0):.1f}%"
-            )
-        logger.info(f"Baseline Exists: {summary.get('baseline_exists', False)}"
-            )
-        if summary.get('has_errors'):
-            logger.info(
-                f"⚠️  Errors: {summary.get('error_message', 'Unknown error')}")
-        changes = report.get('change_analysis', {})
-        logger.info('\n📊 CHANGE ANALYSIS:')
-        file_changes = changes.get('file_changes', {})
+        logger.info(f"Preservation Score: {summary.get('preservation_score', 0.0):.1f}%")
+        logger.info(f"Baseline Exists: {summary.get('baseline_exists', False)}")
+        if summary.get("has_errors"):
+            logger.info(f"⚠️  Errors: {summary.get('error_message', 'Unknown error')}")
+        changes = report.get("change_analysis", {})
+        logger.info("\n📊 CHANGE ANALYSIS:")
+        file_changes = changes.get("file_changes", {})
         logger.info(
             f"  File Changes: {file_changes.get('total', 0)} (Added: {file_changes.get('added', 0)}, Modified: {file_changes.get('modified', 0)}, Deleted: {file_changes.get('deleted', 0)})"
-            )
+        )
         logger.info(f"  Import Changes: {changes.get('import_changes', 0)}")
-        logger.info(f"  Function Changes: {changes.get('function_changes', 0)}"
-            )
+        logger.info(f"  Function Changes: {changes.get('function_changes', 0)}")
         logger.info(f"  Class Changes: {changes.get('class_changes', 0)}")
         logger.info(f"  Test Changes: {changes.get('test_changes', 0)}")
-        preservation = report.get('preservation_analysis', {})
-        logger.info('\n🎯 PRESERVATION ANALYSIS:')
+        preservation = report.get("preservation_analysis", {})
+        logger.info("\n🎯 PRESERVATION ANALYSIS:")
         logger.info(f"  Grade: {preservation.get('grade', 'N/A')}")
         logger.info(f"  Status: {preservation.get('status', 'UNKNOWN')}")
-        logger.info(
-            f"  Risk Level: {preservation.get('risk_level', 'UNKNOWN')}")
-        recommendations = report.get('recommendations', [])
+        logger.info(f"  Risk Level: {preservation.get('risk_level', 'UNKNOWN')}")
+        recommendations = report.get("recommendations", [])
         if recommendations:
-            logger.info('\n💡 RECOMMENDATIONS:')
+            logger.info("\n💡 RECOMMENDATIONS:")
             for i, rec in enumerate(recommendations, 1):
-                logger.info(f'  {i}. {rec}')
-        logger.info('=' * 70)
+                logger.info(f"  {i}. {rec}")
+        logger.info("=" * 70)

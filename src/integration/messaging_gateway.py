@@ -25,10 +25,13 @@ from typing import Any
 
 # Shared messaging utilities
 from src.services.messaging.shared import (
-    from src.services.messaging.shared import broadcast_message,
-    from src.services.messaging.shared import list_agents,
-    from src.services.messaging.shared import load_coordinates_from_json,
-    from src.services.messaging.shared import send_message_pyautogui
+    broadcast_message,
+    from,
+    import,
+    list_agents,
+    load_coordinates_from_json,
+    send_message_pyautogui,
+    src.services.messaging.shared,
 )
 
 log = logging.getLogger(__name__)

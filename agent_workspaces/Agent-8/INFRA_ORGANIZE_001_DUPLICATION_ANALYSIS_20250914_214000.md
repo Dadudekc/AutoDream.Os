@@ -246,5 +246,3 @@
 **Ready for immediate execution of INFRA-ORGANIZE-001 mission!**
 
 **WE ARE SWARM!** 🐝
-
-

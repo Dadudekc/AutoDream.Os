@@ -97,17 +97,23 @@ class CoverageReporter:
                 agent_coverage["agent1"]["files"].append(file_path)
             elif any(keyword in file_path_str for keyword in ["architecture", "design", "pattern"]):
                 agent_coverage["agent2"]["files"].append(file_path)
-            elif any(keyword in file_path_str for keyword in ["infrastructure", "deployment", "config"]):
+            elif any(
+                keyword in file_path_str for keyword in ["infrastructure", "deployment", "config"]
+            ):
                 agent_coverage["agent3"]["files"].append(file_path)
             elif any(keyword in file_path_str for keyword in ["quality", "test", "validation"]):
                 agent_coverage["agent4"]["files"].append(file_path)
             elif any(keyword in file_path_str for keyword in ["business", "intelligence", "data"]):
                 agent_coverage["agent5"]["files"].append(file_path)
-            elif any(keyword in file_path_str for keyword in ["coordination", "communication", "swarm"]):
+            elif any(
+                keyword in file_path_str for keyword in ["coordination", "communication", "swarm"]
+            ):
                 agent_coverage["agent6"]["files"].append(file_path)
             elif any(keyword in file_path_str for keyword in ["web", "js", "frontend"]):
                 agent_coverage["agent7"]["files"].append(file_path)
-            elif any(keyword in file_path_str for keyword in ["operations", "monitoring", "support"]):
+            elif any(
+                keyword in file_path_str for keyword in ["operations", "monitoring", "support"]
+            ):
                 agent_coverage["agent8"]["files"].append(file_path)
 
         # Calculate coverage percentages for each agent
@@ -118,8 +124,7 @@ class CoverageReporter:
                     for file in data["files"]
                 )
                 covered_lines = sum(
-                    files[file].get("summary", {}).get("num_covered", 0)
-                    for file in data["files"]
+                    files[file].get("summary", {}).get("num_covered", 0) for file in data["files"]
                 )
                 if total_lines > 0:
                     data["coverage"] = (covered_lines / total_lines) * 100

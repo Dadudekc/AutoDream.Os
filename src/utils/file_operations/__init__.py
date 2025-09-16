@@ -15,36 +15,23 @@ Author: Agent-3 (Infrastructure & DevOps Specialist)
 License: MIT
 """
 
-from .file_metadata import (
-    FileInfo,
-    DirectoryInfo,
-    FileMetadataOperations
-)
-
-from .file_serialization import (
-    FileSerializationOperations
-)
-
-from .file_backup import (
-    BackupResult,
-    ScanResult,
-    FileBackupOperations
-)
+from .file_backup import BackupResult, FileBackupOperations, ScanResult
+from .file_metadata import DirectoryInfo, FileInfo, FileMetadataOperations
+from .file_serialization import FileSerializationOperations
 
 __all__ = [
     # Metadata classes
     "FileInfo",
     "DirectoryInfo",
     "FileMetadataOperations",
-    
     # Serialization classes
     "FileSerializationOperations",
-    
     # Backup classes
     "BackupResult",
     "ScanResult",
-    "FileBackupOperations"
+    "FileBackupOperations",
 ]
 
 __version__ = "1.0.0"
 __author__ = "Agent-3 (Infrastructure & DevOps Specialist)"
+

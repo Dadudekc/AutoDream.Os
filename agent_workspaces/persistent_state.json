@@ -1,0 +1,62 @@
+{
+  "fsms": {
+    "Agent-1": {
+      "agent_id": "Agent-1",
+      "current_state": "task_execution",
+      "previous_state": "uninitialized",
+      "transition_count": 1,
+      "state_history_count": 1
+    },
+    "Agent-2": {
+      "agent_id": "Agent-2",
+      "current_state": "uninitialized",
+      "previous_state": null,
+      "transition_count": 0,
+      "state_history_count": 0
+    },
+    "Agent-3": {
+      "agent_id": "Agent-3",
+      "current_state": "uninitialized",
+      "previous_state": null,
+      "transition_count": 0,
+      "state_history_count": 0
+    },
+    "Agent-4": {
+      "agent_id": "Agent-4",
+      "current_state": "uninitialized",
+      "previous_state": null,
+      "transition_count": 0,
+      "state_history_count": 0
+    },
+    "Agent-5": {
+      "agent_id": "Agent-5",
+      "current_state": "uninitialized",
+      "previous_state": null,
+      "transition_count": 0,
+      "state_history_count": 0
+    },
+    "Agent-6": {
+      "agent_id": "Agent-6",
+      "current_state": "uninitialized",
+      "previous_state": null,
+      "transition_count": 0,
+      "state_history_count": 0
+    },
+    "Agent-7": {
+      "agent_id": "Agent-7",
+      "current_state": "uninitialized",
+      "previous_state": null,
+      "transition_count": 0,
+      "state_history_count": 0
+    },
+    "Agent-8": {
+      "agent_id": "Agent-8",
+      "current_state": "uninitialized",
+      "previous_state": null,
+      "transition_count": 0,
+      "state_history_count": 0
+    }
+  },
+  "contracts": [],
+  "timestamp": "2025-09-16T21:04:35.459278"
+}

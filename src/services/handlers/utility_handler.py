@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """
+    """Handle requests"""
 Utility Handler - V2 Compliant Module
 ====================================
 
@@ -10,7 +11,9 @@ V2 Compliance: < 300 lines, single responsibility.
 Author: V2 SWARM CAPTAIN
 License: MIT
 """
+    """Handle requests"""
 
+    """Handle requests"""
 import logging
 from typing import Any
 
@@ -25,6 +28,7 @@ logger = logging.getLogger(__name__)
 
 class UtilityHandler:
     """Handles utility commands for messaging system."""
+    """Handle requests"""
 
     def __init__(self):
 
@@ -52,6 +56,7 @@ result = service.execute_operation(input_data, context)
 logger.info(f"Operation result: {result}")
 
         """Initialize utility handler."""
+    """Handle requests"""
         self.logger = logger
 
     def check_status(self, agent_id: str | None = None) -> dict[str, Any]:
@@ -63,6 +68,7 @@ logger.info(f"Operation result: {result}")
         Returns:
             Dict containing status information
         """
+    """Handle requests"""
         try:
             onboarding_handler = OnboardingHandler()
 
@@ -116,6 +122,7 @@ logger.info(f"Operation result: {result}")
         Returns:
             List of agent information dictionaries
         """
+    """Handle requests"""
         try:
             onboarding_handler = OnboardingHandler()
             onboarded_agents = onboarding_handler.list_onboarded_agents()
@@ -149,6 +156,7 @@ logger.info(f"Operation result: {result}")
         Returns:
             Dict containing coordinate information or None
         """
+    """Handle requests"""
         try:
             coords_data = load_coords_file()
             if not coords_data:
@@ -188,6 +196,7 @@ logger.info(f"Operation result: {result}")
         Returns:
             List of message history entries
         """
+    """Handle requests"""
         try:
             if not agent_id:
                 # Get general system history

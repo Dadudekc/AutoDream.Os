@@ -8,8 +8,8 @@ from typing import Any
 
 
 def _load_coordinates() -> dict[str, dict[str, Any]]:
-    """Load agent coordinates from the config/coordinates.json SSOT."""
-    coord_file = Path("config/coordinates.json")
+    """Load agent coordinates from the cursor_agent_coords.json SSOT."""
+    coord_file = Path("cursor_agent_coords.json")
     data = json.loads(coord_file.read_text(encoding="utf-8"))
     agents: dict[str, dict[str, Any]] = {}
     for agent_id, info in data.get("agents", {}).items():

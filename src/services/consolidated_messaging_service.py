@@ -1,211 +1,181 @@
 #!/usr/bin/env python3
 """
-Consolidated Messaging Service - PyAutoGUI Agent Communication
-=============================================================
+Consolidated Messaging Service - V2 COMPLIANT REDIRECT
+=====================================================
 
-Real-time agent-to-agent communication via PyAutoGUI automation.
-Fixed and optimized by Agent-2 for swarm coordination.
+V2 COMPLIANT: This file now redirects to the modular messaging system.
+The original monolithic implementation has been refactored into focused modules:
+- messaging/models/ (data models and enums)
+- messaging/interfaces/ (abstract interfaces)
+- messaging/providers/ (delivery providers)
+- messaging/cli/ (command-line interface)
+- messaging/consolidated_messaging_service.py (main coordinator)
 
-Author: Agent-2 (Architecture & Design Specialist)
+All modules are V2 compliant (<300 lines, focused responsibilities).
+
+Author: Agent-5 (Business Intelligence Specialist)
 License: MIT
 """
 
-from __future__ import annotations
-
-import argparse
-import logging
-import sys
-from pathlib import Path
-
-# Add project root to path for imports
-project_root = Path(__file__).parent.parent.parent
-sys.path.insert(0, str(project_root))
-
-from src.core.coordinate_loader import CoordinateLoader
-
-# Lazy import to prevent hard dep at import time
+# Redirect to the new modular messaging system
 try:
-    import pyautogui  # noqa: F401
-    import pyperclip  # noqa: F401
-except Exception:
-    pyautogui = None  # type: ignore
-    pyperclip = None  # type: ignore
-
-logger = logging.getLogger(__name__)
-
-
-class ConsolidatedMessagingService:
-    """Consolidated messaging service with PyAutoGUI automation."""
-
-    def __init__(self, coord_path: str = "config/coordinates.json") -> None:
-        """Initialize messaging service with coordinate validation."""
-        self.loader = CoordinateLoader(coord_path)
-        self.loader.load()
-        self.validation_report = self.loader.validate_all()
-
-        if not self.validation_report.is_all_ok():
-            logger.error("Coordinate validation failed: %s", self.validation_report.issues)
-            raise ValueError(f"Invalid coordinates: {self.validation_report.issues}")
-
-        logger.info(
-            "Messaging service initialized with %d agents", len(self.loader.get_agent_ids())
-        )
-
-    def send_message(
-        self, agent_id: str, message: str, from_agent: str = "Agent-2", priority: str = "NORMAL"
-    ) -> bool:
-        """Send message to specific agent via PyAutoGUI with priority support."""
-        try:
-            # Validate agent exists
-            if agent_id not in self.loader.get_agent_ids():
-                logger.error("Unknown agent: %s", agent_id)
-                return False
-
-            # Format message with A2A headers and priority
-            formatted_message = self._format_a2a_message(from_agent, agent_id, message, priority)
-
-            # Get coordinates and send
-            coords = self.loader.get_coords(agent_id).tuple
-            return self._paste_to_coords(coords, formatted_message)
-
-        except Exception as e:
-            logger.exception("Send message failed: %s", e)
-            return False
-
-    def broadcast_message(
-        self, message: str, from_agent: str = "Agent-2", priority: str = "NORMAL"
-    ) -> dict[str, bool]:
-        """Broadcast message to all agents with priority support."""
-        results = {}
-
-        for agent_id in self.loader.get_agent_ids():
-            try:
-                success = self.send_message(agent_id, message, from_agent, priority)
-                results[agent_id] = success
-            except Exception as e:
-                logger.error("Broadcast to %s failed: %s", agent_id, e)
-                results[agent_id] = False
-
-        return results
-
-    def _format_a2a_message(
-        self, from_agent: str, to_agent: str, message: str, priority: str = "NORMAL"
-    ) -> str:
-        """Format message as proper A2A message with headers and priority support."""
-        return f"""============================================================
-[A2A] MESSAGE
-============================================================
-📤 FROM: {from_agent}
-📥 TO: {to_agent}
-Priority: {priority}
-Tags: GENERAL
-------------------------------------------------------------
-{message}
-------------------------------------------------------------
-"""
-
-    def _paste_to_coords(self, coords, message: str) -> bool:
-        """Paste message to coordinates using PyAutoGUI + pyperclip."""
-        try:
-            if pyautogui is None or pyperclip is None:
-                logger.info("[DRY-RUN] Would paste to %s: %s", coords, message)
-                return True
-
-            # Real UI actions (guarded):
-            pyautogui.click(coords[0], coords[1])
-            # Copy message to clipboard and paste for maximum speed
-            pyperclip.copy(message)
-            pyautogui.hotkey("ctrl", "v")
-            pyautogui.press("enter")
-            logger.info("[REAL] Fast-pasted to %s", coords)
-            return True
-
-        except Exception as e:
-            logger.exception("Paste failed at %s: %s", coords, e)
-            return False
-
-    def get_status(self) -> dict[str, any]:
-        """Get service status."""
-        return {
-            "validation_report": {
-                "ok": self.validation_report.ok,
-                "issues": [
-                    {"agent_id": i.agent_id, "level": i.level, "message": i.message}
-                    for i in self.validation_report.issues
-                ],
-            },
-            "agent_count": len(self.loader.get_agent_ids()),
-            "agents": self.loader.get_agent_ids(),
-            "pyautogui_available": pyautogui is not None,
-            "pyperclip_available": pyperclip is not None,
-        }
-
-
-def build_parser() -> argparse.ArgumentParser:
-    """Build command line parser."""
-    p = argparse.ArgumentParser(description="Consolidated Messaging Service")
-    p.add_argument("--coords", default="config/coordinates.json", help="Coordinate file path")
-
-    sub = p.add_subparsers(dest="cmd", help="Commands")
-
-    # Send command
-    s = sub.add_parser("send", help="Send a message to one agent (validated)")
-    s.add_argument("--agent", required=True)
-    s.add_argument("--message", required=True)
-    s.add_argument(
-        "--from", dest="from_agent", default="Agent-2", help="Source agent ID (default: Agent-2)"
+    from src.services.messaging.consolidated_messaging_service import (
+        ConsolidatedMessagingService,
+        get_consolidated_messaging_service,
     )
-
-    # Broadcast command
-    b = sub.add_parser("broadcast", help="Broadcast message to all agents")
-    b.add_argument("--message", required=True)
-    b.add_argument(
-        "--from", dest="from_agent", default="Agent-2", help="Source agent ID (default: Agent-2)"
+    from src.services.messaging.models.messaging_models import (
+        UnifiedMessage,
+        AgentCoordinates,
+        MessageHistory,
+        MessagingMetrics,
     )
+    from src.services.messaging.models.messaging_enums import (
+        UnifiedMessageType,
+        UnifiedMessagePriority,
+        UnifiedMessageTag,
+        MessageStatus,
+        RecipientType,
+    )
+    from src.services.messaging.cli.messaging_cli import MessagingCLI
+    from src.services.messaging.interfaces.messaging_interfaces import (
+        MessageDeliveryProvider,
+        PyAutoGUIDeliveryProvider,
+        InboxDeliveryProvider,
+        MessageHistoryProvider,
+        FileBasedMessageHistoryProvider,
+    )
+    from src.services.messaging.providers.inbox_delivery import InboxMessageDelivery
+    from src.services.messaging.providers.pyautogui_delivery import PyAutoGUIMessageDelivery
+except ImportError as e:
+    # Fallback for when imports fail
+    logger.warning(f"Messaging system import failed: {e}")
+    ConsolidatedMessagingService = None
+    get_consolidated_messaging_service = None
+    get_messaging_service = None
+    UnifiedMessage = None
+    UnifiedMessageType = None
+    UnifiedMessagePriority = None
+    UnifiedMessageTag = None
+    DeliveryMethod = None
+    MessageStatus = None
+    RecipientType = None
+    AgentCoordinates = None
+    MessageHistory = None
+    MessagingMetrics = None
+    MessagingCLI = None
+    MessageDeliveryProvider = None
+    PyAutoGUIDeliveryProvider = None
+    InboxDeliveryProvider = None
+    MessageHistoryProvider = None
+    FileBasedMessageHistoryProvider = None
+    InboxMessageDelivery = None
+    PyAutoGUIMessageDelivery = None
 
-    # Status command
-    sub.add_parser("status", help="Show service status")
+# Maintain backward compatibility - re-export all key classes and functions
+__all__ = [
+    # Main service
+    "ConsolidatedMessagingService",
+    "get_consolidated_messaging_service",
+    "get_messaging_service",
 
-    return p
+    # Models and enums
+    "UnifiedMessage",
+    "UnifiedMessageType",
+    "UnifiedMessagePriority",
+    "UnifiedMessageTag",
+    "DeliveryMethod",
+    "MessageStatus",
+    "RecipientType",
+    "AgentCoordinates",
+    "MessageHistory",
+    "MessagingMetrics",
+
+    # CLI
+    "MessagingCLI",
+
+    # Interfaces
+    "MessageDeliveryProvider",
+    "PyAutoGUIDeliveryProvider",
+    "InboxDeliveryProvider",
+    "MessageHistoryProvider",
+    "FileBasedMessageHistoryProvider",
+
+    # Providers
+    "InboxMessageDelivery",
+    "PyAutoGUIMessageDelivery",
+]
 
 
-def main(argv: list[str] | None = None) -> int:
-    """Main entry point."""
-    parser = build_parser()
-    args = parser.parse_args(argv)
+# ============================================================================
+# MISSING FUNCTIONS FOR CLI COMPATIBILITY
+# ============================================================================
 
-    if not args.cmd:
-        parser.print_help()
-        return 1
+def broadcast_message(content: str, sender: str = "System") -> dict[str, bool]:
+    """Broadcast message to all agents (CLI compatibility function)."""
+    service = get_consolidated_messaging_service()
+    return service.broadcast_message(content, sender)
 
-    try:
-        svc = ConsolidatedMessagingService(args.coords)
 
-        if args.cmd == "send":
-            ok = svc.send_message(args.agent, args.message, args.from_agent)
-            logger.info("DELIVERY_OK" if ok else "DELIVERY_FAILED")
-            return 0 if ok else 3
+def get_messaging_core() -> ConsolidatedMessagingService:
+    """Get messaging core service (CLI compatibility function)."""
+    return get_consolidated_messaging_service()
 
-        elif args.cmd == "broadcast":
-            results = svc.broadcast_message(args.message, args.from_agent)
-            success_count = sum(1 for success in results.values() if success)
-            logger.info(f"BROADCAST_COMPLETE: {success_count}/{len(results)} successful")
-            return 0 if success_count == len(results) else 3
 
-        elif args.cmd == "status":
-            status = svc.get_status()
-            logger.info(f"Service Status: {status}")
-            return 0
+def list_agents() -> list[str]:
+    """List all available agents (CLI compatibility function)."""
+    # Return hardcoded list for CLI compatibility
+    return ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
 
-        else:
-            parser.print_help()
-            return 1
 
-    except Exception as e:
-        logger.error("Service error: %s", e)
-        return 2
+def send_message(content: str, recipient: str, priority: str = "normal") -> bool:
+    """Send message to specific agent (CLI compatibility function)."""
+    service = get_consolidated_messaging_service()
+    # Convert string priority to enum
+    from .messaging.models import UnifiedMessagePriority
+    prio = UnifiedMessagePriority.URGENT if priority == "urgent" else UnifiedMessagePriority.NORMAL
+    return service.send_message(content, recipient, prio)
+
+
+def send_message_inbox(content: str, recipient: str, priority: str = "normal") -> bool:
+    """Send message via inbox delivery (CLI compatibility function)."""
+    service = get_consolidated_messaging_service()
+    from .messaging.models import UnifiedMessagePriority
+    prio = UnifiedMessagePriority.URGENT if priority == "urgent" else UnifiedMessagePriority.NORMAL
+    return service.send_message_inbox(content, recipient, prio)
+
+
+def send_message_pyautogui(content: str, recipient: str, priority: str = "normal", timeout: int = 30) -> bool:
+    """Send message via PyAutoGUI delivery (CLI compatibility function)."""
+    service = get_consolidated_messaging_service()
+    from .messaging.models import UnifiedMessagePriority
+    prio = UnifiedMessagePriority.URGENT if priority == "urgent" else UnifiedMessagePriority.NORMAL
+    return service.send_message_pyautogui(content, recipient, prio, timeout)
+
+
+def send_message_with_fallback(content: str, recipient: str, priority: str = "normal") -> bool:
+    """Send message with fallback delivery (CLI compatibility function)."""
+    service = get_consolidated_messaging_service()
+    from .messaging.models import UnifiedMessagePriority
+    prio = UnifiedMessagePriority.URGENT if priority == "urgent" else UnifiedMessagePriority.NORMAL
+    return service.send_message_with_fallback(content, recipient, prio)
+
+
+def show_message_history(recipient: str = None, limit: int = 10) -> list:
+    """Show message history (CLI compatibility function)."""
+    service = get_consolidated_messaging_service()
+    return service.show_message_history(recipient, limit)
+
+
+def main():
+    """Main entry point for CLI usage."""
+    import sys
+    messaging_service = get_consolidated_messaging_service()
+    if messaging_service is None:
+        print("Messaging service not available")
+        sys.exit(1)
+    cli = MessagingCLI(messaging_service)
+    sys.exit(cli.run_cli_interface())
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
-    sys.exit(main())
+    main()

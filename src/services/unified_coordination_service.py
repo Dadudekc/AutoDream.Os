@@ -282,3 +282,4 @@ if __name__ == "__main__":
     
     stats = service.get_coordination_statistics()
     print(f"Statistics: {stats}")
+

@@ -1,6 +1,3 @@
-import logging
-
-logger = logging.getLogger(__name__)
 #!/usr/bin/env python3
 """
 Advanced Analytics CLI Tool
@@ -34,7 +31,7 @@ class AnalyticsCLI:
         self.analytics_service.start()
 
     def show_dashboard(self, dashboard_type: str = "overview") -> None:
-        pass
+
 EXAMPLE USAGE:
 ==============
 
@@ -44,7 +41,7 @@ from tools.analytics_cli import Analytics_Cli
 # Initialize and use
 instance = Analytics_Cli()
 result = instance.execute()
-logger.info(f"Execution result: {result}")
+print(f"Execution result: {result}")
 
 # Advanced configuration
 config = {
@@ -54,17 +51,17 @@ config = {
 
 instance = Analytics_Cli(config)
 advanced_result = instance.execute_advanced()
-logger.info(f"Advanced result: {advanced_result}")
+print(f"Advanced result: {advanced_result}")
 
         """Display dashboard data in terminal."""
-        logger.info(f"🐝 Advanced Analytics Dashboard - {dashboard_type.upper()}")
+        print(f"🐝 Advanced Analytics Dashboard - {dashboard_type.upper()}")
         print("=" * 60)
 
         try:
             data = self.analytics_service.get_dashboard_data(dashboard_type)
 
             if "error" in data:
-                logger.info(f"❌ Error: {data['error']}")
+                print(f"❌ Error: {data['error']}")
                 return
 
             if dashboard_type == "overview":
@@ -76,89 +73,89 @@ logger.info(f"Advanced result: {advanced_result}")
             elif dashboard_type == "quality":
                 self._display_quality_dashboard(data)
             else:
-                logger.info(f"❌ Unknown dashboard type: {dashboard_type}")
+                print(f"❌ Unknown dashboard type: {dashboard_type}")
 
         except Exception as e:
-            logger.info(f"❌ Failed to load dashboard: {e}")
+            print(f"❌ Failed to load dashboard: {e}")
 
     def _display_overview_dashboard(self, data: Dict[str, Any]) -> None:
         """Display overview dashboard in terminal."""
         kpis = data.get("kpis", {})
 
-        logger.info("📊 Key Performance Indicators:")
-        logger.info(".1f")
-        logger.info(".2f")
-        logger.info(".1f")
-        logger.info(f"   Active Agents: {kpis.get('active_agents', 'N/A')}")
+        print("📊 Key Performance Indicators:")
+        print(".1f")
+        print(".2f")
+        print(".1f")
+        print(f"   Active Agents: {kpis.get('active_agents', 'N/A')}")
 
         alerts = data.get("alerts", [])
         if alerts:
-            logger.info("\n🚨 Active Alerts:")
+            print("\n🚨 Active Alerts:")
             for alert in alerts:
-                logger.info(f"   {alert['level'].upper()}: {alert['message']}")
+                print(f"   {alert['level'].upper()}: {alert['message']}")
 
         insights = data.get("insights", [])
         if insights:
-            logger.info("\n💡 AI Insights:")
+            print("\n💡 AI Insights:")
             for insight in insights:
-                logger.info(f"   • {insight}")
+                print(f"   • {insight}")
 
     def _display_performance_dashboard(self, data: Dict[str, Any]) -> None:
         """Display performance dashboard in terminal."""
         metrics = data.get("metrics", {})
 
-        logger.info("⚡ Performance Metrics:")
-        logger.info("   Response Times: Coming soon...")
-        logger.info("   Throughput: Coming soon...")
-        logger.info("   Resource Usage: Coming soon...")
+        print("⚡ Performance Metrics:")
+        print("   Response Times: Coming soon...")
+        print("   Throughput: Coming soon...")
+        print("   Resource Usage: Coming soon...")
 
         recommendations = data.get("recommendations", [])
         if recommendations:
-            logger.info("\n🎯 Performance Recommendations:")
+            print("\n🎯 Performance Recommendations:")
             for rec in recommendations:
-                logger.info(f"   • {rec}")
+                print(f"   • {rec}")
 
     def _display_usage_dashboard(self, data: Dict[str, Any]) -> None:
         """Display usage analytics dashboard in terminal."""
         usage_metrics = data.get("usage_metrics", {})
         rankings = data.get("agent_rankings", {})
 
-        logger.info("📈 Usage Analytics:"        logger.info(f"   Total Activities (24h): {usage_metrics.get('total_system_activity', 'N/A')}")
-        logger.info(f"   Tasks Completed (24h): {usage_metrics.get('total_system_tasks', 'N/A')}")
-        logger.info(".2f")
-        logger.info(".1f")
+        print("📈 Usage Analytics:"        print(f"   Total Activities (24h): {usage_metrics.get('total_system_activity', 'N/A')}")
+        print(f"   Tasks Completed (24h): {usage_metrics.get('total_system_tasks', 'N/A')}")
+        print(".2f")
+        print(".1f")
 
         if "most_active_agents" in rankings:
             print("\n🏆 Most Active Agents:"            for agent in rankings["most_active_agents"][:3]:
-                logger.info(f"   {agent['agent']}: {agent['activities']} activities")
+                print(f"   {agent['agent']}: {agent['activities']} activities")
 
         if "most_efficient_agents" in rankings:
             print("\n⚡ Most Efficient Agents:"            for agent in rankings["most_efficient_agents"][:3]:
-                logger.info(".2f")
+                print(".2f")
 
     def _display_quality_dashboard(self, data: Dict[str, Any]) -> None:
         """Display quality dashboard in terminal."""
         metrics = data.get("metrics", {})
 
-        logger.info("🔍 Code Quality Metrics:"        print("   Violation Trends: Coming soon...")
-        logger.info("   Compliance Progress: Coming soon...")
+        print("🔍 Code Quality Metrics:"        print("   Violation Trends: Coming soon...")
+        print("   Compliance Progress: Coming soon...")
 
         alerts = data.get("alerts", [])
         if alerts:
-            logger.info("\n🚨 Quality Alerts:")
+            print("\n🚨 Quality Alerts:")
             for alert in alerts:
-                logger.info(f"   {alert['level'].upper()}: {alert['message']}")
+                print(f"   {alert['level'].upper()}: {alert['message']}")
 
     def generate_report(self, report_type: str = "daily", output_file: Optional[str] = None) -> None:
         """Generate and display/save business intelligence report."""
-        logger.info(f"📈 Generating {report_type} business intelligence report...")
+        print(f"📈 Generating {report_type} business intelligence report...")
         print("-" * 60)
 
         try:
             report = self.analytics_service.generate_report(report_type)
 
             if "error" in report:
-                logger.info(f"❌ Error generating report: {report['error']}")
+                print(f"❌ Error generating report: {report['error']}")
                 return
 
             # Display report summary
@@ -168,34 +165,34 @@ logger.info(f"Advanced result: {advanced_result}")
             if output_file:
                 with open(output_file, 'w') as f:
                     json.dump(report, f, indent=2, default=str)
-                logger.info(f"\n💾 Report saved to: {output_file}")
+                print(f"\n💾 Report saved to: {output_file}")
 
         except Exception as e:
-            logger.info(f"❌ Failed to generate report: {e}")
+            print(f"❌ Failed to generate report: {e}")
 
     def _display_report_summary(self, report: Dict[str, Any], report_type: str) -> None:
         """Display report summary in terminal."""
-        logger.info(f"📊 {report_type.title()} Business Intelligence Report")
-        logger.info(f"Generated: {report.get('generated_at', 'Unknown')}")
-        logger.info(f"Period: {report.get('period', 'Unknown')}")
+        print(f"📊 {report_type.title()} Business Intelligence Report")
+        print(f"Generated: {report.get('generated_at', 'Unknown')}")
+        print(f"Period: {report.get('period', 'Unknown')}")
 
         if "executive_summary" in report:
             summary = report["executive_summary"]
-            logger.info("\n📈 Executive Summary:"            print(".2f")
-            logger.info(".1f")
-            logger.info(f"   Tasks Completed: {summary.get('tasks_completed', 'N/A')}")
+            print("\n📈 Executive Summary:"            print(".2f")
+            print(".1f")
+            print(f"   Tasks Completed: {summary.get('tasks_completed', 'N/A')}")
 
         if "key_insights" in report and report["key_insights"]:
             print("\n💡 Key Insights:"            for insight in report["key_insights"]:
-                logger.info(f"   • {insight}")
+                print(f"   • {insight}")
 
         if "recommendations" in report and report["recommendations"]:
             print("\n🎯 Strategic Recommendations:"            for rec in report["recommendations"]:
-                logger.info(f"   • {rec}")
+                print(f"   • {rec}")
 
     def show_usage_analytics(self, agent_id: Optional[str] = None, hours_back: int = 24) -> None:
         """Display usage analytics for agent or system."""
-        logger.info(f"📊 Usage Analytics {'for ' + agent_id if agent_id else '(System-wide)'}")
+        print(f"📊 Usage Analytics {'for ' + agent_id if agent_id else '(System-wide)'}")
         print("-" * 60)
 
         try:
@@ -207,93 +204,93 @@ logger.info(f"Advanced result: {advanced_result}")
                 self._display_system_usage_analytics(data)
 
         except Exception as e:
-            logger.info(f"❌ Failed to load usage analytics: {e}")
+            print(f"❌ Failed to load usage analytics: {e}")
 
     def _display_agent_usage_analytics(self, data: Dict[str, Any], agent_id: str) -> None:
         """Display agent-specific usage analytics."""
         metrics = data.get("usage_metrics", {})
 
-        logger.info(f"🤖 Agent: {agent_id}")
-        logger.info(f"Analysis Period: {data.get('analysis_period_hours', 'N/A')} hours")
-        logger.info("\n📈 Usage Metrics:")
-        logger.info(f"   Total Activities: {metrics.get('total_activities', 'N/A')}")
-        logger.info(f"   Tasks Completed: {metrics.get('tasks_completed', 'N/A')}")
-        logger.info(".2f")
-        logger.info(".1f")
+        print(f"🤖 Agent: {agent_id}")
+        print(f"Analysis Period: {data.get('analysis_period_hours', 'N/A')} hours")
+        print("\n📈 Usage Metrics:")
+        print(f"   Total Activities: {metrics.get('total_activities', 'N/A')}")
+        print(f"   Tasks Completed: {metrics.get('tasks_completed', 'N/A')}")
+        print(".2f")
+        print(".1f")
 
         patterns = data.get("patterns", {})
         if patterns.get("peak_usage_hours"):
-            logger.info(f"   Peak Hours: {', '.join(map(str, patterns['peak_usage_hours']))}")
+            print(f"   Peak Hours: {', '.join(map(str, patterns['peak_usage_hours']))}")
 
         insights = data.get("insights", [])
         if insights:
-            logger.info("\n💡 Insights:")
+            print("\n💡 Insights:")
             for insight in insights:
-                logger.info(f"   • {insight}")
+                print(f"   • {insight}")
 
     def _display_system_usage_analytics(self, data: Dict[str, Any]) -> None:
         """Display system-wide usage analytics."""
         metrics = data.get("system_metrics", {})
 
-        logger.info("🌐 System-wide Analytics")
-        logger.info(f"Analysis Period: {data.get('analysis_period_hours', 'N/A')} hours")
-        logger.info("\n📊 System Metrics:")
-        logger.info(f"   Total Agents: {metrics.get('total_agents', 'N/A')}")
-        logger.info(f"   Total Activities: {metrics.get('total_system_activity', 'N/A')}")
-        logger.info(f"   Total Tasks: {metrics.get('total_system_tasks', 'N/A')}")
-        logger.info(".2f")
-        logger.info(".1f")
+        print("🌐 System-wide Analytics")
+        print(f"Analysis Period: {data.get('analysis_period_hours', 'N/A')} hours")
+        print("\n📊 System Metrics:")
+        print(f"   Total Agents: {metrics.get('total_agents', 'N/A')}")
+        print(f"   Total Activities: {metrics.get('total_system_activity', 'N/A')}")
+        print(f"   Total Tasks: {metrics.get('total_system_tasks', 'N/A')}")
+        print(".2f")
+        print(".1f")
 
         rankings = data.get("agent_rankings", {})
 
         if "most_active_agents" in rankings:
-            logger.info("\n🏆 Most Active Agents:")
+            print("\n🏆 Most Active Agents:")
             for agent in rankings["most_active_agents"][:3]:
-                logger.info(f"   {agent['agent']}: {agent['activities']} activities")
+                print(f"   {agent['agent']}: {agent['activities']} activities")
 
         if "most_efficient_agents" in rankings:
-            logger.info("\n⚡ Most Efficient Agents:")
+            print("\n⚡ Most Efficient Agents:")
             for agent in rankings["most_efficient_agents"][:3]:
-                logger.info(".2f")
+                print(".2f")
 
         insights = data.get("system_insights", [])
         if insights:
-            logger.info("\n💡 System Insights:")
+            print("\n💡 System Insights:")
             for insight in insights:
-                logger.info(f"   • {insight}")
+                print(f"   • {insight}")
 
     def collect_custom_metric(self, name: str, value: Any, tags: Optional[Dict[str, str]] = None) -> None:
         """Collect a custom metric."""
         try:
             self.analytics_service.collect_custom_metric(name, value, tags)
-            logger.info(f"✅ Collected custom metric: {name} = {value}")
+            print(f"✅ Collected custom metric: {name} = {value}")
             if tags:
-                logger.info(f"   Tags: {tags}")
+                print(f"   Tags: {tags}")
         except Exception as e:
-            logger.info(f"❌ Failed to collect custom metric: {e}")
+            print(f"❌ Failed to collect custom metric: {e}")
 
     def show_service_status(self) -> None:
         """Display analytics service status."""
-        logger.info("🔧 Advanced Analytics Service Status")
+        print("🔧 Advanced Analytics Service Status")
         print("-" * 40)
 
         try:
             status = self.analytics_service.get_service_status()
 
-            logger.info(f"Service Status: {'🟢 RUNNING' if status.get('service_status') == 'running' else '🔴 STOPPED'}")
-            logger.info(f"Metrics Collected: {status.get('metrics_collected', 'N/A')}")
-            logger.info(f"Active Metrics: {status.get('active_metrics', 'N/A')}")
-            logger.info(f"Uptime: {status.get('uptime', 'N/A')}")
+            print(f"Service Status: {'🟢 RUNNING' if status.get('service_status') == 'running' else '🔴 STOPPED'}")
+            print(f"Metrics Collected: {status.get('metrics_collected', 'N/A')}")
+            print(f"Active Metrics: {status.get('active_metrics', 'N/A')}")
+            print(f"Uptime: {status.get('uptime', 'N/A')}")
 
             if status.get('last_collection'):
-                logger.info(f"Last Collection: {status['last_collection']}")
+                print(f"Last Collection: {status['last_collection']}")
 
         except Exception as e:
-            logger.info(f"❌ Failed to get service status: {e}")
+            print(f"❌ Failed to get service status: {e}")
 
     def run_health_check(self) -> None:
         """Run comprehensive health check."""
-        logger.info("🏥 Analytics System Health Check")
+        print("🏥 Analytics System Health Check")
         print("-" * 40)
 
         issues = []
@@ -323,17 +320,17 @@ logger.info(f"Advanced result: {advanced_result}")
             issues.append(f"Cannot access metrics: {e}")
 
         if issues:
-            logger.info("❌ Health Check Failed - Issues Found:")
+            print("❌ Health Check Failed - Issues Found:")
             for issue in issues:
-                logger.info(f"   • {issue}")
+                print(f"   • {issue}")
         else:
-            logger.info("✅ Health Check Passed - All systems operational")
+            print("✅ Health Check Passed - All systems operational")
 
     def shutdown(self) -> None:
         """Shutdown the analytics service."""
-        logger.info("🛑 Shutting down analytics service...")
+        print("🛑 Shutting down analytics service...")
         self.analytics_service.stop()
-        logger.info("✅ Analytics service stopped")
+        print("✅ Analytics service stopped")
 
 
 def main():
@@ -450,7 +447,7 @@ Examples:
                 try:
                     tags = json.loads(args.tags)
                 except json.JSONDecodeError:
-                    logger.info("❌ Invalid tags JSON format")
+                    print("❌ Invalid tags JSON format")
                     return
 
             cli.collect_custom_metric(name, value, tags)
@@ -462,9 +459,9 @@ Examples:
             cli.run_health_check()
 
     except KeyboardInterrupt:
-        logger.info("\n🛑 Operation cancelled by user")
+        print("\n🛑 Operation cancelled by user")
     except Exception as e:
-        logger.info(f"❌ Unexpected error: {e}")
+        print(f"❌ Unexpected error: {e}")
     finally:
         cli.shutdown()
 

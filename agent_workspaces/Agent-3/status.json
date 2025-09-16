@@ -1,27 +1,14 @@
 {
   "agent_id": "Agent-3",
-  "role": "Infrastructure & DevOps Specialist",
+  "team": "Team Alpha",
+  "specialization": "Database Specialist",
+  "captain": "Agent-4",
   "status": "active",
-  "coordinates": {
-    "chat_input": [-1269, 1001],
-    "onboarding_input": [-1276, 698]
-  },
-  "onboarding_stage": "completed",
-  "last_activity": "2025-09-14T19:35:46.000000",
-  "capabilities": [
-    "Infrastructure Management",
-    "DevOps Operations",
-    "System Monitoring",
-    "Deployment Automation",
-    "Container Orchestration",
-    "CI/CD Pipeline Management"
-  ],
-  "swarm_position": "Monitor 1 - Bottom Left",
-  "active": true,
-  "contracts": ["DEV-2025-0914-001"],
-  "fsm_state": "executing",
-  "mission_status": "V2 Violation Refactoring - test_deployment_verification.py (829 lines)",
-  "captain_acknowledgment": "Captain Agent-4 mission readiness acknowledged",
-  "quality_oversight": "Established and active for mission execution",
-  "mission_deployment_strategy": "Infrastructure assessment, DevOps operations enhancement, System monitoring optimization, Quality assurance validation"
+  "last_cycle": "2025-01-16T13:05:00Z",
+  "current_focus": "Database systems and data management",
+  "cycle_count": 4,
+  "tasks_completed": 4,
+  "coordination_efficiency": 98.0,
+  "v2_compliance": 90.0,
+  "last_updated": "2025-01-16T13:15:00Z"
 }

@@ -1,47 +1,47 @@
 # 🔍 DUPLICATION ANALYSIS REPORT
-**Generated:** 2025-09-15T15:25:12.012324
+**Generated:** 2025-09-15T21:37:08.320330
 
 ## 📊 SCAN SUMMARY
-- Total Python files: 1070
-- Files processed: 1070
-- Function groups found: 3899
-- Class groups found: 958
-- Potential duplicates: 131
+- Total Python files: 929
+- Files processed: 929
+- Function groups found: 3584
+- Class groups found: 866
+- Potential duplicates: 276
 
 ## 🔍 DETAILED ANALYSIS
-- **True Duplicates:** 126 (SAFE to consolidate)
-- **Similar Functions:** 5 (REVIEW required)
+- **True Duplicates:** 274 (SAFE to consolidate)
+- **Similar Functions:** 2 (REVIEW required)
 - **False Duplicates:** 0 (DO NOT touch)
 
 ## 🎯 CONSOLIDATION PLAN
-- **Safe Consolidations:** 126
-- **Risky Consolidations:** 5
+- **Safe Consolidations:** 274
+- **Risky Consolidations:** 2
 - **Manual Review Required:** 0
 
 ### ✅ SAFE CONSOLIDATIONS (LOW RISK)
 1. **__init__**
    - Target: `src\core\coordination\contract_system.py`
-   - Sources: 2 files
+   - Sources: 4 files
    - Risk: LOW
 
 2. **to_dict**
    - Target: `src\core\coordination\contract_system.py`
-   - Sources: 2 files
+   - Sources: 4 files
    - Risk: LOW
 
 3. **__init__**
    - Target: `src\core\coordination\fsm_system.py`
-   - Sources: 2 files
+   - Sources: 3 files
    - Risk: LOW
 
 4. **transition_to**
    - Target: `src\core\coordination\fsm_system.py`
-   - Sources: 2 files
+   - Sources: 3 files
    - Risk: LOW
 
 5. **get_state_info**
    - Target: `src\core\coordination\fsm_system.py`
-   - Sources: 2 files
+   - Sources: 3 files
    - Risk: LOW
 
 6. **get_chat_coordinates**
@@ -49,48 +49,33 @@
    - Sources: 2 files
    - Risk: LOW
 
-7. **get_status**
-   - Target: `archive\captain_handbooks_consolidated\archive\consolidated_files\analytics\processors\insight_processor.py`
+7. **__init__**
+   - Target: `tests\swarm_testing_framework_core.py`
    - Sources: 2 files
    - Risk: LOW
 
-8. **__init__**
-   - Target: `archive\captain_handbooks_consolidated\archive\consolidated_files\emergency_intervention\unified_emergency\orchestrator.py`
+8. **setup_method**
+   - Target: `tests\test_consolidated_messaging_service_core.py`
    - Sources: 2 files
    - Risk: LOW
 
-9. **_register_default_protocols**
-   - Target: `archive\captain_handbooks_consolidated\archive\consolidated_files\emergency_intervention\unified_emergency\orchestrator.py`
+9. **teardown_method**
+   - Target: `tests\test_consolidated_messaging_service_core.py`
    - Sources: 2 files
    - Risk: LOW
 
-10. **detect_emergency**
-   - Target: `archive\captain_handbooks_consolidated\archive\consolidated_files\emergency_intervention\unified_emergency\orchestrator.py`
+10. **__init__**
+   - Target: `tests\test_consolidated_messaging_service_core.py`
    - Sources: 2 files
    - Risk: LOW
 
 ### ⚠️ RISKY CONSOLIDATIONS (REVIEW REQUIRED)
-1. **get_onboarding_coordinates**
-   - Similarity: 98.1%
-   - Files: 2
-   - Risk: MEDIUM
-
-2. **create_onboarding_contract**
+1. **create_onboarding_contract**
    - Similarity: 98.4%
    - Files: 2
    - Risk: MEDIUM
 
-3. **_notify_alert**
-   - Similarity: 94.6%
-   - Files: 2
-   - Risk: MEDIUM
-
-4. **__init__**
-   - Similarity: 96.5%
-   - Files: 3
-   - Risk: MEDIUM
-
-5. **__init__**
+2. **__init__**
    - Similarity: 91.0%
    - Files: 4
    - Risk: MEDIUM

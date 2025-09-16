@@ -1,4 +1,5 @@
 """
+    """Handle requests"""
 Task Context Manager
 ====================
 
@@ -7,7 +8,9 @@ V2 Compliance: < 100 lines, single responsibility.
 
 Author: Agent-7 - Web Development Specialist
 """
+    """Handle requests"""
 
+    """Handle requests"""
 import logging
 from typing import Any
 
@@ -18,9 +21,11 @@ from .vector_database.vector_database_models import SearchQuery
 
 class TaskContextManager:
     """Manages task context and search operations."""
+    """Handle requests"""
 
     def __init__(self, agent_id: str, config_path: str | None = None):
         """Initialize the task context manager."""
+    """Handle requests"""
         self.agent_id = agent_id
         self.config_path = config_path
         self.context = {}
@@ -41,6 +46,7 @@ result = service.execute_operation(input_data, context)
 logger.info(f"Operation result: {result}")
 
         """Initialize task context manager."""
+    """Handle requests"""
         self.agent_id = agent_id
         self.logger = logging.getLogger(__name__)
 
@@ -54,6 +60,7 @@ logger.info(f"Operation result: {result}")
 
     def get_task_context(self, task_description: str) -> dict[str, Any]:
         """
+    """Handle requests"""
         Get intelligent context for a task.
 
         Args:
@@ -62,6 +69,7 @@ logger.info(f"Operation result: {result}")
         Returns:
             Dict containing context, recommendations, and similar solutions
         """
+    """Handle requests"""
         try:
             if self.vector_integration["status"] != "connected":
                 return self._get_fallback_context(task_description)
@@ -93,6 +101,7 @@ logger.info(f"Operation result: {result}")
 
     def _search_similar_tasks(self, task_description: str) -> list[Any]:
         """Search for similar tasks in agent work."""
+    """Handle requests"""
         try:
             query = SearchQuery(query=task_description, collection_name="agent_work", limit=5)
             return search_vector_database(query)
@@ -102,6 +111,7 @@ logger.info(f"Operation result: {result}")
 
     def _search_related_messages(self, task_description: str) -> list[Any]:
         """Search for related messages in agent inbox."""
+    """Handle requests"""
         try:
             query = SearchQuery(query=task_description, collection_name="agent_messages", limit=3)
             return search_vector_database(query)
@@ -111,6 +121,7 @@ logger.info(f"Operation result: {result}")
 
     def _search_devlog_insights(self, task_description: str) -> list[Any]:
         """Search for devlog insights related to the task."""
+    """Handle requests"""
         try:
             query = SearchQuery(
                 query=f"devlog {task_description}", collection_name="agent_work", limit=3
@@ -122,6 +133,7 @@ logger.info(f"Operation result: {result}")
 
     def _get_fallback_context(self, task_description: str) -> dict[str, Any]:
         """Get fallback context when vector DB is unavailable."""
+    """Handle requests"""
         return {
             "task_description": task_description,
             "similar_tasks": [],

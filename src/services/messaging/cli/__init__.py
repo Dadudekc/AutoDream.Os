@@ -1,8 +1,17 @@
-# AUTO-GENERATED __init__.py
-# DO NOT EDIT MANUALLY - changes may be overwritten
+#!/usr/bin/env python3
+"""
+Messaging CLI Package
+====================
 
-from . import messaging_cli_clean
+Command-line interface for unified messaging system.
+
+Author: Agent-5 (Business Intelligence Specialist)
+License: MIT
+"""
+
+from .messaging_cli import MessagingCLI
 
 __all__ = [
-    'messaging_cli_clean',
+    "MessagingCLI",
 ]
+

@@ -1,37 +1,12 @@
 #!/usr/bin/env python3
-"""
-🐝 CONSOLIDATED FILE OPERATIONS SYSTEM
-Phase 2 Batch 2A: Unified File Management Infrastructure
-
-This module consolidates all file-related operations from:
-- unified_file_utils.py (metadata, scanning, operations)
-- file_utils.py (JSON/YAML, directory operations)
-- backup.py (backup management)
-- file_scanner.py (file scanning utilities)
-
-Provides:
-- Unified file metadata operations
-- JSON/YAML serialization/deserialization
-- Directory and file management
-- Backup and restore operations
-- File scanning and pattern matching
-- Performance-optimized file operations
-"""
-
+# Consolidated File Operations System - V2 Compliant
 from __future__ import annotations
-
-import hashlib
-import json
-import logging
-import os
-import shutil
-import time
+import hashlib, json, logging, os, shutil, time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
 from typing import Any
-
 import yaml
 
 logger = logging.getLogger(__name__)

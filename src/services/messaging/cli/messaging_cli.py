@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Messaging CLI Interface - V2 Compliant Module
 ===========================================
@@ -11,13 +12,16 @@ License: MIT
 
 import argparse
 import logging
+from typing import List, Optional
 
 try:
-    from ..models.messaging_enums import UnifiedMessagePriority, UnifiedMessageType
     from ..models.messaging_models import UnifiedMessage
+    from ..models.messaging_enums import UnifiedMessagePriority, UnifiedMessageType
 except ImportError:
-    from models.messaging_enums import UnifiedMessagePriority, UnifiedMessageType
+    # Fallback for direct execution
     from models.messaging_models import UnifiedMessage
+    from models.messaging_enums import UnifiedMessagePriority, UnifiedMessageType
+
 logger = logging.getLogger(__name__)
 
 
@@ -37,64 +41,56 @@ Examples:
   python -m messaging.cli send --message "Hello" --recipient Agent-1
   python -m messaging.cli broadcast --message "System update" --priority high
   python -m messaging.cli history --agent Agent-1
-            """,
+            """
         )
+
         subparsers = parser.add_subparsers(dest="command", help="Available commands")
+
+        # Send message command
         send_parser = subparsers.add_parser("send", help="Send message to agent")
         send_parser.add_argument("--message", "-m", required=True, help="Message content")
         send_parser.add_argument("--recipient", "-r", required=True, help="Recipient agent")
-        send_parser.add_argument(
-            "--priority",
-            "-p",
-            choices=["low", "normal", "high", "urgent"],
-            default="normal",
-            help="Message priority",
-        )
-        send_parser.add_argument(
-            "--type",
-            "-t",
-            choices=["direct", "broadcast", "system"],
-            default="direct",
-            help="Message type",
-        )
+        send_parser.add_argument("--priority", "-p", choices=["low", "normal", "high", "urgent"],
+                                default="normal", help="Message priority")
+        send_parser.add_argument("--type", "-t", choices=["direct", "broadcast", "system"],
+                                default="direct", help="Message type")
         send_parser.add_argument("--sender", "-s", default="CLI", help="Sender identifier")
-        broadcast_parser = subparsers.add_parser(
-            "broadcast", help="Broadcast message to all agents"
-        )
+
+        # Broadcast command
+        broadcast_parser = subparsers.add_parser("broadcast", help="Broadcast message to all agents")
         broadcast_parser.add_argument("--message", "-m", required=True, help="Message content")
-        broadcast_parser.add_argument(
-            "--priority",
-            "-p",
-            choices=["low", "normal", "high", "urgent"],
-            default="normal",
-            help="Message priority",
-        )
+        broadcast_parser.add_argument("--priority", "-p", choices=["low", "normal", "high", "urgent"],
+                                     default="normal", help="Message priority")
         broadcast_parser.add_argument("--sender", "-s", default="CLI", help="Sender identifier")
+
+        # History command
         history_parser = subparsers.add_parser("history", help="Show message history")
         history_parser.add_argument("--agent", "-a", help="Agent to show history for")
-        history_parser.add_argument(
-            "--limit", "-l", type=int, default=10, help="Number of messages to show"
-        )
+        history_parser.add_argument("--limit", "-l", type=int, default=10, help="Number of messages to show")
+
+        # Status command
         status_parser = subparsers.add_parser("status", help="Show system status")
+
+        # List agents command
         list_parser = subparsers.add_parser("list", help="List available agents")
+
+        # Start onboarding command
         start_parser = subparsers.add_parser("start", help="Start agent onboarding sequence")
-        start_parser.add_argument(
-            "--dry-run",
-            action="store_true",
-            help="Run in dry-run mode (no actual clicking/pasting)",
-        )
-        start_parser.add_argument(
-            "--agent", "-a", help="Specific agent to onboard (default: all agents)"
-        )
+        start_parser.add_argument("--dry-run", action="store_true",
+                                help="Run in dry-run mode (no actual clicking/pasting)")
+        start_parser.add_argument("--agent", "-a", help="Specific agent to onboard (default: all agents)")
+
         return parser
 
-    def run_cli_interface(self, args: list[str] | None = None) -> int:
+    def run_cli_interface(self, args: Optional[List[str]] = None) -> int:
         """Run the CLI interface."""
         parser = self.create_parser()
+
         if args is None:
             parsed_args = parser.parse_args()
         else:
             parsed_args = parser.parse_args(args)
+
         try:
             if parsed_args.command == "send":
                 return self._handle_send_message(parsed_args)
@@ -111,48 +107,59 @@ Examples:
             else:
                 parser.print_help()
                 return 0
+
         except Exception as e:
             logger.error(f"CLI error: {e}")
-            logger.info(f"Error: {e}")
+            print(f"Error: {e}")
             return 1
 
     def _handle_send_message(self, args) -> int:
         """Handle sending a message."""
         try:
+            # Create message
             message = UnifiedMessage(
                 content=args.message,
                 recipient=args.recipient,
                 sender=args.sender,
                 message_type=UnifiedMessageType(args.type.upper()),
-                priority=UnifiedMessagePriority(args.priority.upper()),
+                priority=UnifiedMessagePriority(args.priority.upper())
             )
+
+            # Send message
             success = self.messaging_service.send_message(message)
+
             if success:
-                logger.info(f"✅ Message sent successfully to {args.recipient}")
+                print(f"✅ Message sent successfully to {args.recipient}")
                 return 0
             else:
-                logger.info(f"❌ Failed to send message to {args.recipient}")
+                print(f"❌ Failed to send message to {args.recipient}")
                 return 1
+
         except Exception as e:
-            logger.info(f"❌ Error sending message: {e}")
+            print(f"❌ Error sending message: {e}")
             return 1
 
     def _handle_broadcast_message(self, args) -> int:
         """Handle broadcasting a message."""
         try:
+            # Send broadcast message
             results = self.messaging_service.broadcast_message(
-                content=args.message, sender=args.sender
+                content=args.message,
+                sender=args.sender
             )
+
             successful = sum(1 for success in results.values() if success)
             total = len(results)
+
             if successful > 0:
-                logger.info(f"✅ Broadcast sent to {successful}/{total} agents")
+                print(f"✅ Broadcast sent to {successful}/{total} agents")
                 return 0
             else:
-                logger.info("❌ Failed to send broadcast to any agents")
+                print(f"❌ Failed to send broadcast to any agents")
                 return 1
+
         except Exception as e:
-            logger.info(f"❌ Error broadcasting message: {e}")
+            print(f"❌ Error broadcasting message: {e}")
             return 1
 
     def _handle_show_history(self, args) -> int:
@@ -160,51 +167,53 @@ Examples:
         try:
             messages = self.messaging_service.show_message_history(args.agent)
             if messages:
-                logger.info(f"Message history for {args.agent}:")
-                for msg in messages[-args.limit :]:
-                    logger.info(f"  [{msg.timestamp}] {msg.sender}: {msg.content}")
+                print(f"Message history for {args.agent}:")
+                for msg in messages[-args.limit:]:
+                    print(f"  [{msg.timestamp}] {msg.sender}: {msg.content}")
             else:
-                logger.info(f"No message history found for {args.agent}")
+                print(f"No message history found for {args.agent}")
             return 0
         except Exception as e:
-            logger.info(f"❌ Error showing history: {e}")
+            print(f"❌ Error showing history: {e}")
             return 1
 
     def _handle_show_status(self) -> int:
         """Handle showing system status."""
         try:
             status = self.messaging_service.get_system_status()
-            logger.info("Messaging System Status:")
+            print("Messaging System Status:")
             for key, value in status.items():
-                logger.info(f"  {key}: {value}")
+                print(f"  {key}: {value}")
             return 0
         except Exception as e:
-            logger.info(f"❌ Error showing status: {e}")
+            print(f"❌ Error showing status: {e}")
             return 1
 
     def _handle_list_agents(self) -> int:
         """Handle listing available agents."""
         try:
             agents = self.messaging_service.list_available_agents()
-            logger.info("Available agents:")
+            print("Available agents:")
             for agent in agents:
-                logger.info(f"  • {agent}")
+                print(f"  • {agent}")
             return 0
         except Exception as e:
-            logger.info(f"❌ Error listing agents: {e}")
+            print(f"❌ Error listing agents: {e}")
             return 1
 
     def _handle_start_onboarding(self, args) -> int:
         """Handle starting agent onboarding sequence."""
         try:
             return self.messaging_service.start_agent_onboarding(
-                dry_run=args.dry_run, specific_agent=args.agent
+                dry_run=args.dry_run,
+                specific_agent=args.agent
             )
         except Exception as e:
-            logger.info(f"❌ Error starting onboarding: {e}")
+            print(f"❌ Error starting onboarding: {e}")
             return 1
 
 
 if __name__ == "__main__":
-    logger.info("Messaging CLI - Run from consolidated_messaging_service.py")
-    logger.info("Example: python -m src.services.messaging.consolidated_messaging_service")
+    # When run as a script, create a basic CLI instance
+    print("Messaging CLI - Run from consolidated_messaging_service.py")
+    print("Example: python -m src.services.messaging.consolidated_messaging_service")

@@ -34,7 +34,7 @@ def load_map(path: str) -> dict:
 
 
 def transform(text: str, mapping: dict) -> str:
-    pass
+
 EXAMPLE USAGE:
 ==============
 
@@ -44,7 +44,7 @@ from tools.codemods.migrate_managers import Migrate_Managers
 # Initialize and use
 instance = Migrate_Managers()
 result = instance.execute()
-logger.info(f"Execution result: {result}")
+print(f"Execution result: {result}")
 
 # Advanced configuration
 config = {
@@ -54,7 +54,7 @@ config = {
 
 instance = Migrate_Managers(config)
 advanced_result = instance.execute_advanced()
-logger.info(f"Advanced result: {advanced_result}")
+print(f"Advanced result: {advanced_result}")
 
     """Transform text using mapping rules."""
     result = text

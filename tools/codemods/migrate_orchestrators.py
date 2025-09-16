@@ -18,7 +18,7 @@ from tools.codemods.migrate_orchestrators import Migrate_Orchestrators
 # Initialize and use
 instance = Migrate_Orchestrators()
 result = instance.execute()
-logger.info(f"Execution result: {result}")
+print(f"Execution result: {result}")
 
 # Advanced configuration
 config = {
@@ -28,7 +28,7 @@ config = {
 
 instance = Migrate_Orchestrators(config)
 advanced_result = instance.execute_advanced()
-logger.info(f"Advanced result: {advanced_result}")
+print(f"Advanced result: {advanced_result}")
 
 """
 

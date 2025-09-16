@@ -1,22 +1,7 @@
 #!/usr/bin/env python3
-"""
-Agent Instructions Module
-=========================
-
-Handles agent-specific instructions and prompts including:
-- Agent-specific instruction generation
-- State-based prompt creation
-- Contract-based guidance
-- Role-specific instructions
-
-Author: Agent-2 (Architecture & Design Specialist)
-License: MIT
-"""
-
+# Agent Instructions Module - V2 Compliant
 import logging
-
 from .onboarding_coordinator import AgentContract, AgentState
-
 logger = logging.getLogger(__name__)
 
 

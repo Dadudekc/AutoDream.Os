@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """
+    """Handle requests"""
 Messaging Gateway - Discord ↔ PyAutoGUI Bridge (V2)
 ===================================================
 
@@ -10,7 +11,9 @@ with safe fallbacks, config-driven coordinates, and summary helpers.
 Author: Agent-4 (Captain - Discord Integration Coordinator)
 License: MIT
 """
+    """Handle requests"""
 
+    """Handle requests"""
 from __future__ import annotations
 
 import importlib
@@ -42,9 +45,11 @@ log = logging.getLogger(__name__)
 
 def _import_symbol(spec: str, default_attr: str = "ConsolidatedMessagingService") -> Any:
     """
+    """Handle requests"""
     Import "pkg.mod:Class" or "pkg.mod.Class" or bare module "pkg.mod" (then default_attr).
     Returns the attribute (class/callable). Raises ImportError on failure.
     """
+    """Handle requests"""
     mod_name: str
     attr_name: str | None = None
 
@@ -97,12 +102,15 @@ class DispatchResult:
 
 class MessagingGateway:
     """
+    """Handle requests"""
     Routes messages to agents' UI via ConsolidatedMessagingService (PyAutoGUI channel).
     - Config-driven coordinates with normalization
     - Safe fallback core if CMS unavailable
     - Deterministic, structured DispatchResult responses
     """
+    """Handle requests"""
 
+    """Handle requests"""
     _CORE_SPECS: tuple[str, ...] = (
         # Most explicit (module + class)
         "src.services.messaging.consolidated_messaging_service:ConsolidatedMessagingService",
@@ -225,8 +233,10 @@ class MessagingGateway:
         self, agent_key: str, message: str, meta: dict[str, Any] | None = None
     ) -> dict[str, Any]:
         """
+    """Handle requests"""
         Async wrapper for send_pyautogui. Returns dict format for Discord integration.
         """
+    """Handle requests"""
         result = self.send_pyautogui(agent_key, message, meta)
         # Convert DispatchResult to dict format expected by Discord code
         return {
@@ -259,9 +269,11 @@ class MessagingGateway:
         self, agent_key: str, text: str, meta: dict[str, Any] | None = None
     ) -> DispatchResult:
         """
+    """Handle requests"""
         Synchronous send. Returns structured DispatchResult.
         Resilient to core signature variations.
         """
+    """Handle requests"""
         req_id = str(uuid.uuid4())
         ts = time.time()
         tgt = self._normalize_target(agent_key)

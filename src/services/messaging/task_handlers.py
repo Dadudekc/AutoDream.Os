@@ -1,6 +1,3 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 Task_Handlers Module
 
@@ -22,7 +19,7 @@ service = Task_HandlersService()
 
 # Basic service operation
 response = service.handle_request(request_data)
-logger.info(f"Service response: {response}")
+print(f"Service response: {response}")
 
 # Service with dependency injection
 from src.core.dependency_container import Container
@@ -32,18 +29,17 @@ service = container.get(Task_HandlersService)
 
 # Execute service method
 result = service.execute_operation(input_data, context)
-logger.info(f"Operation result: {result}")
+print(f"Operation result: {result}")
 
 """
 from __future__ import annotations
 
 from typing import Any
 
-# Use consolidated messaging service for broadcast functionality
+from .coordinates import get_agent_coordinates
 from .delivery.pyautogui_delivery import deliver_message_pyautogui
 from .models import UnifiedMessage, UnifiedMessagePriority, UnifiedMessageTag, UnifiedMessageType
 from .service import MessagingService
-from .shared.messaging_utilities import get_messaging_utilities
 
 
 def claim_task(agent: str) -> dict[str, Any] | None:
@@ -65,8 +61,7 @@ def handle_claim(agent: str) -> str:
     if t:
         return f"✅ Task {t['task_id']} assigned to {agent}\nTitle: {t['title']}"
     # notify Captain-4
-    utils = get_messaging_utilities()
-    coords = utils.get_agent_coordinates("Agent-4")
+    coords = get_agent_coordinates("Agent-4")
     if coords:
         msg = UnifiedMessage(
             content=f"🚨 TASK QUEUE EMPTY — {agent} requested work",
@@ -81,8 +76,7 @@ def handle_claim(agent: str) -> str:
 
 
 def handle_complete(agent: str, task_id: str, notes: str) -> str:
-    utils = get_messaging_utilities()
-    coords = utils.get_agent_coordinates(agent)
+    coords = get_agent_coordinates(agent)
     svc = MessagingService()
     body = f"✅ TASK COMPLETED\nID: {task_id}\nBy: {agent}\nNotes: {notes}"
     if coords:

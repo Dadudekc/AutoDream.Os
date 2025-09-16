@@ -1,6 +1,3 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 Thea_Handlers Module
 
@@ -22,7 +19,7 @@ service = Thea_HandlersService()
 
 # Basic service operation
 response = service.handle_request(request_data)
-logger.info(f"Service response: {response}")
+print(f"Service response: {response}")
 
 # Service with dependency injection
 from src.core.dependency_container import Container
@@ -32,7 +29,7 @@ service = container.get(Thea_HandlersService)
 
 # Execute service method
 result = service.execute_operation(input_data, context)
-logger.info(f"Operation result: {result}")
+print(f"Operation result: {result}")
 
 """
 from __future__ import annotations

@@ -1,9 +1,9 @@
 """
-Codemod: Replace logger.info("") with logging
+Codemod: Replace print() with logging
 =====================================
 
-Automatically replaces logger.info("") statements with proper logging calls.
-Skips test files and handles various logger.info("") patterns.
+Automatically replaces print() statements with proper logging calls.
+Skips test files and handles various print() patterns.
 
 Usage:
     python tools/codemods/replace_prints_with_logger.py
@@ -29,8 +29,30 @@ def should_skip_file(path: Path) -> bool:
 
 
 def transform_file(file_path: Path) -> bool:
+
+EXAMPLE USAGE:
+==============
+
+# Basic usage example
+from tools.codemods.replace_prints_with_logger import Replace_Prints_With_Logger
+
+# Initialize and use
+instance = Replace_Prints_With_Logger()
+result = instance.execute()
+print(f"Execution result: {result}")
+
+# Advanced configuration
+config = {
+    "option1": "value1",
+    "option2": True
+}
+
+instance = Replace_Prints_With_Logger(config)
+advanced_result = instance.execute_advanced()
+print(f"Advanced result: {advanced_result}")
+
     """
-    Transform logger.info("") statements to logging in a single file.
+    Transform print() statements to logging in a single file.
     Returns True if file was modified, False otherwise.
     """
     try:
@@ -103,7 +125,7 @@ def transform_file(file_path: Path) -> bool:
 
 def main():
     """Main entry point."""
-    logger.info('🔧 Replacing logger.info("") statements with logging...')
+    logger.info("🔧 Replacing print() statements with logging...")
     root_dir = Path(".")
     files_processed = 0
     files_modified = 0
@@ -119,7 +141,7 @@ def main():
             if print_count == 0:
                 continue
             total_prints_found += print_count
-            logger.info(f'FILE {py_file}: Found {print_count} logger.info("") statement(s)')
+            logger.info(f"FILE {py_file}: Found {print_count} print() statement(s)")
             if transform_file(py_file):
                 files_modified += 1
                 logger.info(f"SUCCESS {py_file}: Transformed")
@@ -128,9 +150,9 @@ def main():
     logger.info("\nTRANSFORMATION SUMMARY:")
     logger.info(f"Files processed: {files_processed}")
     logger.info(f"Files modified: {files_modified}")
-    logger.info(f'Total logger.info("") statements found: {total_prints_found}')
+    logger.info(f"Total print() statements found: {total_prints_found}")
     if files_modified == 0:
-        logger.info('SUCCESS No logger.info("") statements found in non-test files!')
+        logger.info("SUCCESS No print() statements found in non-test files!")
     else:
         logger.info(f"SUCCESS Successfully transformed {files_modified} file(s)")
 

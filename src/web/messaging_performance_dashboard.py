@@ -1,17 +1,7 @@
-import logging
-
-logger = logging.getLogger(__name__)
 #!/usr/bin/env python3
-"""
-Messaging Performance Dashboard
-===============================
-
-Specialized web dashboard for messaging system performance monitoring with real-time metrics,
-bottleneck visualization, and optimization recommendations.
-
-Author: Agent-5 (Business Intelligence Specialist)
-License: MIT
-"""
+# Messaging Performance Dashboard - V2 Compliant
+import logging
+logger = logging.getLogger(__name__)
 
 import asyncio
 import json
@@ -31,8 +21,6 @@ from services.messaging_performance_monitor import get_messaging_performance_mon
 
 
 class MessagingPerformanceDashboard:
-    """Web dashboard for messaging performance monitoring."""
-
     def __init__(self):
         self.app = FastAPI(title="Messaging Performance Dashboard", version="1.0.0")
         self.performance_monitor = get_messaging_performance_monitor()
@@ -59,25 +47,9 @@ class MessagingPerformanceDashboard:
             return {"metrics": "performance data"}
 
 # Initialize and use
-instance = Messaging_Performance_Dashboard()
-result = instance.execute()
-logger.info(f"Execution result: {result}")
-
-# Advanced configuration
-config = {
-    "option1": "value1",
-    "option2": True
-}
-
-instance = Messaging_Performance_Dashboard(config)
-advanced_result = instance.execute_advanced()
-logger.info(f"Advanced result: {advanced_result}")
-
-        """Setup FastAPI routes."""
-
+    def _setup_routes(self):
         @self.app.get("/", response_class=HTMLResponse)
         async def messaging_performance_dashboard(request: Request):
-            """Main messaging performance dashboard page."""
             return self.templates.TemplateResponse(
                 "messaging_performance.html",
                 {"request": request, "title": "Messaging Performance Dashboard"}
@@ -85,7 +57,6 @@ logger.info(f"Advanced result: {advanced_result}")
 
         @self.app.get("/api/messaging/metrics/current")
         async def get_current_metrics():
-            """Get current messaging performance metrics."""
             try:
                 metrics = self.performance_monitor.get_current_metrics()
                 return JSONResponse(content={
@@ -106,7 +77,6 @@ logger.info(f"Advanced result: {advanced_result}")
 
         @self.app.get("/api/messaging/metrics/history")
         async def get_metrics_history(hours_back: int = 1):
-            """Get messaging metrics history."""
             try:
                 history = self.performance_monitor.get_metrics_history(hours_back)
                 data = []
@@ -596,7 +566,8 @@ logger.info(f"Advanced result: {advanced_result}")
     def start(self, host: str = "localhost", port: int = 8002) -> None:
         """Start the messaging performance dashboard web server."""
         logger.info(f"🚀 Starting Messaging Performance Dashboard on http://{host}:{port}")
-        logger.info("📊 Dashboard Features:"        print("   - Real-time messaging performance metrics")
+        logger.info("📊 Dashboard Features:")
+        logger.info("   - Real-time messaging performance metrics")
         logger.info("   - CPU, memory, and queue depth monitoring")
         logger.info("   - Bottleneck detection and alerts")
         logger.info("   - Throughput and error rate trending")

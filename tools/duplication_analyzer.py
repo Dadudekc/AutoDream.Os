@@ -1,6 +1,4 @@
-import logging
-
-logger = logging.getLogger(__name__)
+#!/usr/bin/env python3
 """
 Duplication Analysis Tool
 ========================
@@ -14,6 +12,7 @@ Usage:
     python tools/duplication_analyzer.py --find-true-duplicates
     python tools/duplication_analyzer.py --generate-consolidation-plan
 """
+
 import ast
 import difflib
 import hashlib
@@ -22,6 +21,7 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
+# Add project root to path
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
@@ -43,16 +43,41 @@ class DuplicationAnalyzer:
         ]
 
     def scan_codebase(self) -> dict[str, Any]:
+
+EXAMPLE USAGE:
+==============
+
+# Basic usage example
+from tools.duplication_analyzer import Duplication_Analyzer
+
+# Initialize and use
+instance = Duplication_Analyzer()
+result = instance.execute()
+print(f"Execution result: {result}")
+
+# Advanced configuration
+config = {
+    "option1": "value1",
+    "option2": True
+}
+
+instance = Duplication_Analyzer(config)
+advanced_result = instance.execute_advanced()
+print(f"Advanced result: {advanced_result}")
+
         """Scan entire codebase for potential duplications."""
-        logger.info("🔍 Scanning codebase for duplications...")
+        print("🔍 Scanning codebase for duplications...")
+
         functions = defaultdict(list)
         classes = defaultdict(list)
         imports = defaultdict(list)
+
         for py_file in self.project_root.rglob("*.py"):
             if self._should_include_file(py_file):
                 try:
                     content = py_file.read_text(encoding="utf-8")
                     tree = ast.parse(content)
+
                     for node in ast.walk(tree):
                         if isinstance(node, ast.FunctionDef):
                             func_hash = self._get_function_hash(node, content)
@@ -64,6 +89,7 @@ class DuplicationAnalyzer:
                                     "content": self._get_node_content(node, content),
                                 }
                             )
+
                         elif isinstance(node, ast.ClassDef):
                             class_hash = self._get_class_hash(node, content)
                             classes[class_hash].append(
@@ -74,8 +100,10 @@ class DuplicationAnalyzer:
                                     "content": self._get_node_content(node, content),
                                 }
                             )
+
                 except Exception as e:
-                    logger.info(f"Warning: Could not process {py_file}: {e}")
+                    print(f"Warning: Could not process {py_file}: {e}")
+
         return {
             "functions": dict(functions),
             "classes": dict(classes),
@@ -103,6 +131,7 @@ class DuplicationAnalyzer:
     def _get_function_hash(self, node: ast.FunctionDef, content: str) -> str:
         """Generate hash for function content."""
         func_content = self._get_node_content(node, content)
+        # Remove docstrings and comments for better matching
         clean_content = self._clean_code_content(func_content)
         return hashlib.md5(clean_content.encode()).hexdigest()
 
@@ -123,15 +152,19 @@ class DuplicationAnalyzer:
         """Clean code content for better duplicate detection."""
         lines = []
         for line in content.split("\n"):
+            # Remove comments
             line = line.split("#")[0]
+            # Remove leading/trailing whitespace
             line = line.strip()
+            # Skip empty lines
             if line:
                 lines.append(line)
         return "\n".join(lines)
 
     def analyze_duplicates(self, scan_results: dict[str, Any]) -> dict[str, Any]:
         """Analyze scan results to categorize duplications."""
-        logger.info("🔍 Analyzing duplication patterns...")
+        print("🔍 Analyzing duplication patterns...")
+
         analysis = {
             "true_duplicates": [],
             "similar_functions": [],
@@ -139,6 +172,8 @@ class DuplicationAnalyzer:
             "consolidation_candidates": [],
             "risk_assessment": {},
         }
+
+        # Analyze functions
         for hash_key, instances in scan_results["functions"].items():
             if len(instances) > 1:
                 category = self._categorize_function_duplicates(instances)
@@ -149,6 +184,8 @@ class DuplicationAnalyzer:
                         "similarity_score": self._calculate_similarity(instances),
                     }
                 )
+
+        # Analyze classes
         for hash_key, instances in scan_results["classes"].items():
             if len(instances) > 1:
                 category = self._categorize_class_duplicates(instances)
@@ -159,19 +196,29 @@ class DuplicationAnalyzer:
                         "similarity_score": self._calculate_similarity(instances),
                     }
                 )
+
+        # Generate consolidation plan
         analysis["consolidation_plan"] = self._generate_consolidation_plan(analysis)
+
         return analysis
 
     def _categorize_function_duplicates(self, instances: list[dict]) -> str:
         """Categorize function duplicates."""
         if len(instances) < 2:
             return "false_duplicates"
+
+        # Check if functions have different purposes (false duplicates)
         names = [inst["name"] for inst in instances]
         files = [inst["file"] for inst in instances]
+
+        # Same name in different modules might be different functions
         if len(set(names)) == 1 and len(set(files)) > 1:
+            # Check if they're in different domains
             domains = [self._get_file_domain(f) for f in files]
             if len(set(domains)) > 1:
                 return "false_duplicates"
+
+        # Check content similarity
         contents = [inst["content"] for inst in instances]
         if self._are_contents_identical(contents):
             return "true_duplicates"
@@ -184,19 +231,22 @@ class DuplicationAnalyzer:
         """Categorize class duplicates."""
         if len(instances) < 2:
             return "false_duplicates"
+
+        # Check if classes serve different purposes
         names = [inst["name"] for inst in instances]
         if len(set(names)) == 1:
             files = [inst["file"] for inst in instances]
             domains = [self._get_file_domain(f) for f in files]
             if len(set(domains)) > 1:
                 return "false_duplicates"
-        return "true_duplicates"
+
+        return "true_duplicates"  # Classes are usually more distinct
 
     def _get_file_domain(self, file_path: str) -> str:
         """Get the domain/module category of a file."""
         path_parts = file_path.split("/")
         if len(path_parts) >= 2:
-            return path_parts[1]
+            return path_parts[1]  # e.g., 'services', 'core', 'web'
         return "unknown"
 
     def _are_contents_identical(self, contents: list[str]) -> bool:
@@ -210,10 +260,12 @@ class DuplicationAnalyzer:
         """Check if contents are similar (but not identical)."""
         if len(contents) < 2:
             return False
+
+        # Use sequence matcher for similarity
         for i in range(len(contents)):
             for j in range(i + 1, len(contents)):
                 similarity = difflib.SequenceMatcher(None, contents[i], contents[j]).ratio()
-                if similarity > 0.8:
+                if similarity > 0.8:  # 80% similar
                     return True
         return False
 
@@ -221,12 +273,15 @@ class DuplicationAnalyzer:
         """Calculate average similarity between instances."""
         if len(instances) < 2:
             return 1.0
+
         contents = [inst["content"] for inst in instances]
         similarities = []
+
         for i in range(len(contents)):
             for j in range(i + 1, len(contents)):
                 similarity = difflib.SequenceMatcher(None, contents[i], contents[j]).ratio()
                 similarities.append(similarity)
+
         return sum(similarities) / len(similarities) if similarities else 1.0
 
     def _generate_consolidation_plan(self, analysis: dict[str, Any]) -> dict[str, Any]:
@@ -238,6 +293,8 @@ class DuplicationAnalyzer:
             "estimated_effort": {},
             "risk_assessment": {},
         }
+
+        # Process true duplicates (safest)
         for duplicate in analysis["true_duplicates"]:
             instances = duplicate["instances"]
             if len(instances) >= 2:
@@ -250,6 +307,8 @@ class DuplicationAnalyzer:
                     "effort": "SMALL",
                 }
                 plan["safe_consolidations"].append(consolidation)
+
+        # Process similar functions (medium risk)
         for similar in analysis["similar_functions"]:
             instances = similar["instances"]
             if len(instances) >= 2:
@@ -263,6 +322,8 @@ class DuplicationAnalyzer:
                     "effort": "MEDIUM",
                 }
                 plan["risky_consolidations"].append(consolidation)
+
+        # Process false duplicates (manual review)
         for false_dup in analysis["false_duplicates"]:
             instances = false_dup["instances"]
             if len(instances) >= 2:
@@ -274,15 +335,20 @@ class DuplicationAnalyzer:
                     "reason": "Different domains or purposes despite similar code",
                 }
                 plan["manual_review_required"].append(review_item)
+
         return plan
 
     def _choose_target_file(self, instances: list[dict]) -> str:
         """Choose the best target file for consolidation."""
+        # Prefer files in core modules, then services, etc.
         priority_order = ["core", "services", "utils", "web", "tests"]
+
         for domain in priority_order:
             for instance in instances:
                 if domain in instance["file"]:
                     return instance["file"]
+
+        # Default to first instance
         return instances[0]["file"]
 
     def generate_report(self, scan_results: dict[str, Any], analysis: dict[str, Any]) -> str:
@@ -291,6 +357,8 @@ class DuplicationAnalyzer:
         report.append("# 🔍 DUPLICATION ANALYSIS REPORT")
         report.append(f"**Generated:** {__import__('datetime').datetime.now().isoformat()}")
         report.append("")
+
+        # Summary
         summary = scan_results["summary"]
         report.append("## 📊 SCAN SUMMARY")
         report.append(f"- Total Python files: {summary['total_files']}")
@@ -299,6 +367,8 @@ class DuplicationAnalyzer:
         report.append(f"- Class groups found: {summary['class_groups']}")
         report.append(f"- Potential duplicates: {summary['potential_duplicates']}")
         report.append("")
+
+        # Detailed Analysis
         report.append("## 🔍 DETAILED ANALYSIS")
         report.append(
             f"- **True Duplicates:** {len(analysis['true_duplicates'])} (SAFE to consolidate)"
@@ -308,35 +378,45 @@ class DuplicationAnalyzer:
         )
         report.append(f"- **False Duplicates:** {len(analysis['false_duplicates'])} (DO NOT touch)")
         report.append("")
+
+        # Consolidation Plan
         plan = analysis["consolidation_plan"]
         report.append("## 🎯 CONSOLIDATION PLAN")
         report.append(f"- **Safe Consolidations:** {len(plan['safe_consolidations'])}")
         report.append(f"- **Risky Consolidations:** {len(plan['risky_consolidations'])}")
         report.append(f"- **Manual Review Required:** {len(plan['manual_review_required'])}")
         report.append("")
+
+        # Safe Consolidations
         if plan["safe_consolidations"]:
             report.append("### ✅ SAFE CONSOLIDATIONS (LOW RISK)")
-            for i, consolidation in enumerate(plan["safe_consolidations"][:10], 1):
+            for i, consolidation in enumerate(plan["safe_consolidations"][:10], 1):  # Show first 10
                 report.append(f"{i}. **{consolidation['function_class']}**")
                 report.append(f"   - Target: `{consolidation['target_file']}`")
                 report.append(f"   - Sources: {len(consolidation['source_files'])} files")
                 report.append(f"   - Risk: {consolidation['risk_level']}")
                 report.append("")
+
+        # Risky Consolidations
         if plan["risky_consolidations"]:
             report.append("### ⚠️ RISKY CONSOLIDATIONS (REVIEW REQUIRED)")
-            for i, consolidation in enumerate(plan["risky_consolidations"][:5], 1):
+            for i, consolidation in enumerate(plan["risky_consolidations"][:5], 1):  # Show first 5
                 report.append(f"{i}. **{consolidation['function_class']}**")
                 report.append(f"   - Similarity: {consolidation['similarity_score']:.1%}")
                 report.append(f"   - Files: {len(consolidation['source_files'])}")
                 report.append(f"   - Risk: {consolidation['risk_level']}")
                 report.append("")
+
+        # Manual Review Items
         if plan["manual_review_required"]:
             report.append("### 🤔 MANUAL REVIEW REQUIRED")
-            for i, item in enumerate(plan["manual_review_required"][:5], 1):
+            for i, item in enumerate(plan["manual_review_required"][:5], 1):  # Show first 5
                 report.append(f"{i}. **{item['function_class']}**")
                 report.append(f"   - Domains: {', '.join(item['domains'])}")
                 report.append(f"   - Reason: {item['reason']}")
                 report.append("")
+
+        # Recommendations
         report.append("## 🎯 RECOMMENDATIONS")
         report.append("1. **Start with Safe Consolidations** - Low risk, immediate benefits")
         report.append("2. **Review Risky Consolidations Carefully** - Manual verification required")
@@ -345,6 +425,7 @@ class DuplicationAnalyzer:
         )
         report.append("4. **Test After Each Consolidation** - Use verification tools")
         report.append("5. **Maintain Rollback Capability** - Keep consolidation-safety-net branch")
+
         return "\n".join(report)
 
 
@@ -360,32 +441,44 @@ def main():
         "--generate-consolidation-plan", action="store_true", help="Generate consolidation plan"
     )
     parser.add_argument("--comprehensive", action="store_true", help="Run comprehensive analysis")
+
     args = parser.parse_args()
+
     analyzer = DuplicationAnalyzer()
+
     if args.scan:
         results = analyzer.scan_codebase()
-        logger.info(
+        print(
             f"✅ Scan complete: {results['summary']['potential_duplicates']} potential duplicates found"
         )
+
     elif args.comprehensive:
-        logger.info("🔍 Running comprehensive duplication analysis...")
+        print("🔍 Running comprehensive duplication analysis...")
         scan_results = analyzer.scan_codebase()
         analysis = analyzer.analyze_duplicates(scan_results)
+
+        # Generate report
         report = analyzer.generate_report(scan_results, analysis)
+
+        # Save report
         report_file = project_root / "duplication_analysis_report.md"
         with open(report_file, "w", encoding="utf-8") as f:
             f.write(report)
-        logger.info("✅ Comprehensive analysis complete")
-        logger.info(f"📄 Report saved to: {report_file}")
+
+        print("✅ Comprehensive analysis complete")
+        print(f"📄 Report saved to: {report_file}")
+
+        # Print summary
         plan = analysis["consolidation_plan"]
-        logger.info("\n📊 SUMMARY:")
-        logger.info(f"   Safe consolidations: {len(plan['safe_consolidations'])}")
-        logger.info(f"   Risky consolidations: {len(plan['risky_consolidations'])}")
-        logger.info(f"   Manual reviews needed: {len(plan['manual_review_required'])}")
+        print("\n📊 SUMMARY:")
+        print(f"   Safe consolidations: {len(plan['safe_consolidations'])}")
+        print(f"   Risky consolidations: {len(plan['risky_consolidations'])}")
+        print(f"   Manual reviews needed: {len(plan['manual_review_required'])}")
+
     else:
-        logger.info("Usage:")
-        logger.info("  python tools/duplication_analyzer.py --scan")
-        logger.info("  python tools/duplication_analyzer.py --comprehensive")
+        print("Usage:")
+        print("  python tools/duplication_analyzer.py --scan")
+        print("  python tools/duplication_analyzer.py --comprehensive")
 
 
 if __name__ == "__main__":

@@ -2,12 +2,15 @@ import logging
 
 logger = logging.getLogger(__name__)
 """
+    """Handle requests"""
 SQLite Agent Repository - Infrastructure Adapter
 ===============================================
 
 Concrete implementation of AgentRepository using SQLite.
 """
+    """Handle requests"""
 
+    """Handle requests"""
 import json
 import sqlite3
 from collections.abc import Iterable
@@ -20,23 +23,28 @@ from ...domain.value_objects.ids import AgentId
 
 class SqliteAgentRepository(AgentRepository):
     """
+    """Handle requests"""
     SQLite implementation of the AgentRepository port.
 
     This adapter provides persistence for agents using SQLite database.
     """
+    """Handle requests"""
 
     def __init__(self, db_path: str = "data/agents.db"):
         """
+    """Handle requests"""
         Initialize the SQLite repository.
 
         Args:
             db_path: Path to the SQLite database file
         """
+    """Handle requests"""
         self.db_path = db_path
         self._init_db()
 
     def _init_db(self) -> None:
         """Initialize the database schema."""
+    """Handle requests"""
         with self._get_connection() as conn:
             conn.execute(
 
@@ -62,6 +70,7 @@ advanced_result = instance.execute_advanced()
 logger.info(f"Advanced result: {advanced_result}")
 
                 """
+    """Handle requests"""
                 CREATE TABLE IF NOT EXISTS agents (
                     id TEXT PRIMARY KEY,
                     name TEXT NOT NULL,
@@ -73,12 +82,14 @@ logger.info(f"Advanced result: {advanced_result}")
                     last_active_at TEXT
                 )
             """
+    """Handle requests"""
             )
             conn.commit()
 
     @contextmanager
     def _get_connection(self):
         """Get a database connection with proper cleanup."""
+    """Handle requests"""
         conn = sqlite3.connect(self.db_path)
         try:
             yield conn
@@ -87,6 +98,7 @@ logger.info(f"Advanced result: {advanced_result}")
 
     def get(self, agent_id: AgentId) -> Agent | None:
         """
+    """Handle requests"""
         Retrieve an agent by its identifier.
 
         Args:
@@ -95,9 +107,11 @@ logger.info(f"Advanced result: {advanced_result}")
         Returns:
             The agent if found, None otherwise
         """
+    """Handle requests"""
         with self._get_connection() as conn:
             row = conn.execute(
                 """
+    """Handle requests"""
                 SELECT id, name, role, capabilities, max_concurrent_tasks,
                        is_active, created_at, last_active_at
                 FROM agents WHERE id = ?
@@ -112,6 +126,7 @@ logger.info(f"Advanced result: {advanced_result}")
 
     def get_by_capability(self, capability: str) -> Iterable[Agent]:
         """
+    """Handle requests"""
         Retrieve agents that have a specific capability.
 
         Args:
@@ -120,9 +135,11 @@ logger.info(f"Advanced result: {advanced_result}")
         Returns:
             Iterable of agents with the specified capability
         """
+    """Handle requests"""
         with self._get_connection() as conn:
             rows = conn.execute(
                 """
+    """Handle requests"""
                 SELECT id, name, role, capabilities, max_concurrent_tasks,
                        is_active, created_at, last_active_at
                 FROM agents
@@ -136,20 +153,24 @@ logger.info(f"Advanced result: {advanced_result}")
 
     def get_active(self) -> Iterable[Agent]:
         """
+    """Handle requests"""
         Retrieve all active agents.
 
         Returns:
             Iterable of active agents
         """
+    """Handle requests"""
         with self._get_connection() as conn:
             rows = conn.execute(
                 """
+    """Handle requests"""
                 SELECT id, name, role, capabilities, max_concurrent_tasks,
                        is_active, created_at, last_active_at
                 FROM agents
                 WHERE is_active = 1
                 ORDER BY last_active_at DESC
             """
+    """Handle requests"""
             ).fetchall()
 
             for row in rows:
@@ -157,14 +178,17 @@ logger.info(f"Advanced result: {advanced_result}")
 
     def get_available(self) -> Iterable[Agent]:
         """
+    """Handle requests"""
         Retrieve agents that can accept more tasks.
 
         Returns:
             Iterable of available agents
         """
+    """Handle requests"""
         with self._get_connection() as conn:
             rows = conn.execute(
                 """
+    """Handle requests"""
                 SELECT a.id, a.name, a.role, a.capabilities, a.max_concurrent_tasks,
                        a.is_active, a.created_at, a.last_active_at,
                        COUNT(t.id) as current_tasks
@@ -176,6 +200,7 @@ logger.info(f"Advanced result: {advanced_result}")
                 HAVING COUNT(t.id) < a.max_concurrent_tasks
                 ORDER BY (COUNT(t.id) * 1.0 / a.max_concurrent_tasks) ASC
             """
+    """Handle requests"""
             ).fetchall()
 
             for row in rows:
@@ -186,6 +211,7 @@ logger.info(f"Advanced result: {advanced_result}")
 
     def add(self, agent: Agent) -> None:
         """
+    """Handle requests"""
         Add a new agent to the repository.
 
         Args:
@@ -194,10 +220,12 @@ logger.info(f"Advanced result: {advanced_result}")
         Raises:
             ValueError: If agent with same ID already exists
         """
+    """Handle requests"""
         with self._get_connection() as conn:
             try:
                 conn.execute(
                     """
+    """Handle requests"""
                     INSERT INTO agents (
                         id, name, role, capabilities, max_concurrent_tasks,
                         is_active, created_at, last_active_at
@@ -211,14 +239,17 @@ logger.info(f"Advanced result: {advanced_result}")
 
     def save(self, agent: Agent) -> None:
         """
+    """Handle requests"""
         Save an existing agent (create or update).
 
         Args:
             agent: The agent to save
         """
+    """Handle requests"""
         with self._get_connection() as conn:
             conn.execute(
                 """
+    """Handle requests"""
                 INSERT OR REPLACE INTO agents (
                     id, name, role, capabilities, max_concurrent_tasks,
                     is_active, created_at, last_active_at
@@ -230,6 +261,7 @@ logger.info(f"Advanced result: {advanced_result}")
 
     def delete(self, agent_id: AgentId) -> bool:
         """
+    """Handle requests"""
         Delete an agent from the repository.
 
         Args:
@@ -238,6 +270,7 @@ logger.info(f"Advanced result: {advanced_result}")
         Returns:
             True if agent was deleted, False if not found
         """
+    """Handle requests"""
         with self._get_connection() as conn:
             cursor = conn.execute("DELETE FROM agents WHERE id = ?", (agent_id,))
             conn.commit()
@@ -245,19 +278,23 @@ logger.info(f"Advanced result: {advanced_result}")
 
     def list_all(self) -> Iterable[Agent]:
         """
+    """Handle requests"""
         List all agents in the repository.
 
         Returns:
             Iterable of all agents
         """
+    """Handle requests"""
         with self._get_connection() as conn:
             rows = conn.execute(
                 """
+    """Handle requests"""
                 SELECT id, name, role, capabilities, max_concurrent_tasks,
                        is_active, created_at, last_active_at
                 FROM agents
                 ORDER BY created_at DESC
             """
+    """Handle requests"""
             ).fetchall()
 
             for row in rows:
@@ -265,6 +302,7 @@ logger.info(f"Advanced result: {advanced_result}")
 
     def _row_to_agent(self, row) -> Agent:
         """Convert database row to Agent entity."""
+    """Handle requests"""
         from datetime import datetime
 
         (
@@ -303,6 +341,7 @@ logger.info(f"Advanced result: {advanced_result}")
 
     def _agent_to_row(self, agent: Agent):
         """Convert Agent entity to database row tuple."""
+    """Handle requests"""
         return (
             agent.id,  # str (from AgentId)
             agent.name,

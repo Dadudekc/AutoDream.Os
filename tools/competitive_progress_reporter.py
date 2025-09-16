@@ -1,6 +1,3 @@
-import logging
-
-logger = logging.getLogger(__name__)
 #!/usr/bin/env python3
 """
 Competitive Progress Reporter
@@ -60,7 +57,7 @@ from tools.competitive_progress_reporter import Competitive_Progress_Reporter
 # Initialize and use
 instance = Competitive_Progress_Reporter()
 result = instance.execute()
-logger.info(f"Execution result: {result}")
+print(f"Execution result: {result}")
 
 # Advanced configuration
 config = {
@@ -70,11 +67,11 @@ config = {
 
 instance = Competitive_Progress_Reporter(config)
 advanced_result = instance.execute_advanced()
-logger.info(f"Advanced result: {advanced_result}")
+print(f"Advanced result: {advanced_result}")
 
         """Start automated competitive progress reporting."""
-        logger.info("🐝 COMPETITIVE PROGRESS REPORTER ACTIVATED")
-        logger.info("📊 Reporting every 3 minutes - DOMINATION TARGET: Exceed 99%+ Benchmark")
+        print("🐝 COMPETITIVE PROGRESS REPORTER ACTIVATED")
+        print("📊 Reporting every 3 minutes - DOMINATION TARGET: Exceed 99%+ Benchmark")
         print("=" * 80)
 
         while True:
@@ -174,31 +171,31 @@ logger.info(f"Advanced result: {advanced_result}")
 
     def display_progress_report(self, report: Dict[str, Any]):
         """Display formatted progress report."""
-        logger.info(f"\n{'='*80}")
-        logger.info(f"🐝 COMPETITIVE PROGRESS REPORT #{report['report_number']}")
-        logger.info(f"⏰ {report['timestamp']}")
-        logger.info(f"🏃 Agent-7 | COMPETITIVE_DOMINATION_MODE")
-        logger.info(f"{'='*80}")
+        print(f"\n{'='*80}")
+        print(f"🐝 COMPETITIVE PROGRESS REPORT #{report['report_number']}")
+        print(f"⏰ {report['timestamp']}")
+        print(f"🏃 Agent-7 | COMPETITIVE_DOMINATION_MODE")
+        print(f"{'='*80}")
 
         metrics = report['metrics']
-        logger.info(f"📊 Current Score: {metrics['current_score']:.2f}%")
-        logger.info(f"🎯 Agent-2 Benchmark: {self.agent_2_benchmark}%")
-        logger.info(f"🏆 Benchmark Difference: {metrics['benchmark_comparison']:+.2f}%")
-        logger.info(f"⚡ Domination Progress: {metrics['domination_progress']:.1f}%")
-        logger.info(f"🔧 Optimizations Applied: {metrics['optimizations_applied']}")
-        logger.info(f"✅ V2 Compliance Checks: {metrics['v2_compliance_checks']}")
-        logger.info(f"🚀 Performance Improvements: {metrics['performance_improvements']}")
-        logger.info(f"⏱️  Elapsed Time: {metrics['elapsed_time_minutes']:.1f} minutes")
+        print(f"📊 Current Score: {metrics['current_score']:.2f}%")
+        print(f"🎯 Agent-2 Benchmark: {self.agent_2_benchmark}%")
+        print(f"🏆 Benchmark Difference: {metrics['benchmark_comparison']:+.2f}%")
+        print(f"⚡ Domination Progress: {metrics['domination_progress']:.1f}%")
+        print(f"🔧 Optimizations Applied: {metrics['optimizations_applied']}")
+        print(f"✅ V2 Compliance Checks: {metrics['v2_compliance_checks']}")
+        print(f"🚀 Performance Improvements: {metrics['performance_improvements']}")
+        print(f"⏱️  Elapsed Time: {metrics['elapsed_time_minutes']:.1f} minutes")
 
-        logger.info(f"\n🏆 Status: {report['status']}")
-        logger.info(f"🎯 Next Milestone: {report['next_milestone']}")
+        print(f"\n🏆 Status: {report['status']}")
+        print(f"🎯 Next Milestone: {report['next_milestone']}")
 
         if report['optimizations_completed']:
-            logger.info(f"\n🔧 Recent Optimizations:")
+            print(f"\n🔧 Recent Optimizations:")
             for i, opt in enumerate(report['optimizations_completed'][-3:], 1):  # Show last 3
-                logger.info(f"   {i}. {opt}")
+                print(f"   {i}. {opt}")
 
-        logger.info(f"{'='*80}")
+        print(f"{'='*80}")
 
     async def save_progress_report(self, report: Dict[str, Any]):
         """Save progress report to file."""
@@ -253,11 +250,11 @@ async def main():
     try:
         await reporter.start_competitive_reporting()
     except KeyboardInterrupt:
-        logger.info("\n🐝 Competitive progress reporting stopped by user")
+        print("\n🐝 Competitive progress reporting stopped by user")
         final_report = await reporter.get_final_domination_report()
-        logger.info(f"🏆 Final Domination Report: {final_report}")
+        print(f"🏆 Final Domination Report: {final_report}")
     except Exception as e:
-        logger.info(f"❌ Error in competitive progress reporting: {e}")
+        print(f"❌ Error in competitive progress reporting: {e}")
 
 
 if __name__ == "__main__":

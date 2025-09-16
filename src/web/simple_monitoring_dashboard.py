@@ -55,6 +55,11 @@ instance = Simple_Monitoring_Dashboard(config)
 advanced_result = instance.execute_advanced()
 logger.info(f"Advanced result: {advanced_result}")
 
+
+class SimpleMonitoringDashboardHandler(BaseHTTPRequestHandler):
+    """Simple monitoring dashboard HTTP request handler."""
+    
+    def do_GET(self):
         """Handle GET requests"""
         try:
             if self.path == "/":

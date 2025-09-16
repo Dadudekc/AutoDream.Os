@@ -10,15 +10,11 @@ Reads from runtime/agents_index.json and presents a concise table.
 
 Author: Agent-4 - Strategic Oversight & Emergency Intervention Manager
 """
-import json
-import logging
-import os
-import sys
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+from core.unified_utilities import get_logger, read_json
 
 ROOT = Path(__file__).resolve().parents[1]
 INDEX_FILE = ROOT / "runtime" / "agents_index.json"
@@ -30,60 +26,35 @@ def load_agents_index() -> dict[str, Any]:
         return {}
     try:
         with open(INDEX_FILE, encoding="utf-8") as f:
-            return json.load(f)
+            return read_json(f)
     except Exception as e:
-        logging.getLogger(__name__).info(f"❌ Error loading agents index: {e}")
+        get_logger(__name__).info(f"❌ Error loading agents index: {e}")
         return {}
 
 
 def calculate_staleness(last_updated: str) -> tuple[int, str]:
-    """Calculate staleness in minutes and return status."""
-    try:
-        if not last_updated:
-            return 999, "❌ NO DATA"
 
-        # Parse the timestamp
-        last_time = datetime.fromisoformat(last_updated.replace("Z", "+00:00"))
-        now = datetime.now(UTC)
-
-        # Calculate difference in minutes
-        diff_minutes = int((now - last_time).total_seconds() / 60)
-
-        # Determine status
-        if diff_minutes < 5:
-            status = "🟢 FRESH"
-        elif diff_minutes < 30:
-            status = "🟡 WARM"
-        elif diff_minutes < 120:
-            status = "🟠 STALE"
-        else:
-            status = "🔴 DEAD"
-
-        return diff_minutes, status
-    except Exception:
-        return 999, "❌ ERROR"
-
-
-# EXAMPLE USAGE:
-# ==============
+EXAMPLE USAGE:
+==============
 
 # Basic usage example
-# from tools.captain_snapshot import Captain_Snapshot
+from tools.captain_snapshot import Captain_Snapshot
 
 # Initialize and use
-# instance = Captain_Snapshot()
-# result = instance.execute()
-# logger.info(f"Execution result: {result}")
+instance = Captain_Snapshot()
+result = instance.execute()
+print(f"Execution result: {result}")
 
 # Advanced configuration
-config = {"option1": "value1", "option2": True}
+config = {
+    "option1": "value1",
+    "option2": True
+}
 
-# instance = Captain_Snapshot(config)
-# advanced_result = instance.execute_advanced()
-# logger.info(f"Advanced result: {advanced_result}")
+instance = Captain_Snapshot(config)
+advanced_result = instance.execute_advanced()
+print(f"Advanced result: {advanced_result}")
 
-
-def calculate_staleness_fixed(last_updated: str) -> tuple[int, str]:
     """Calculate staleness in minutes and return status."""
     try:
         if last_updated.endswith("Z"):

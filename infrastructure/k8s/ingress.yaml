@@ -1,0 +1,71 @@
+# V3-001: Cloud Infrastructure Setup - Kubernetes Ingress
+# Agent-1: Architecture Foundation Specialist
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: swarm-ingress
+  namespace: swarm-v3
+  labels:
+    app: swarm-app
+    version: v3
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  tls:
+  - hosts:
+    - swarm.example.com
+    secretName: swarm-tls-secret
+  rules:
+  - host: swarm.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: swarm-app-service
+            port:
+              number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: swarm-network-policy
+  namespace: swarm-v3
+spec:
+  podSelector:
+    matchLabels:
+      app: swarm-app
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: swarm-v3
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          name: swarm-v3
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 443
+    - protocol: TCP
+      port: 80
+    - protocol: TCP
+      port: 5432
+    - protocol: TCP
+      port: 6379

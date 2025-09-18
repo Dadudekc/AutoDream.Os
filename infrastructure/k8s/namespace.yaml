@@ -1,0 +1,49 @@
+# V3-001: Cloud Infrastructure Setup - Kubernetes Namespace
+# Agent-1: Architecture Foundation Specialist
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: swarm-v3
+  labels:
+    name: swarm-v3
+    app: swarm-agent-cellphone
+    version: v3
+    managed-by: terraform
+    agent: agent-1
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: swarm-v3-quota
+  namespace: swarm-v3
+spec:
+  hard:
+    requests.cpu: "4"
+    requests.memory: 8Gi
+    limits.cpu: "8"
+    limits.memory: 16Gi
+    persistentvolumeclaims: "10"
+    services: "10"
+    secrets: "20"
+    configmaps: "20"
+---
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: swarm-v3-limits
+  namespace: swarm-v3
+spec:
+  limits:
+  - default:
+      cpu: "1"
+      memory: "2Gi"
+    defaultRequest:
+      cpu: "100m"
+      memory: "256Mi"
+    type: Container
+  - max:
+      storage: "10Gi"
+    min:
+      storage: "1Gi"
+    type: PersistentVolumeClaim

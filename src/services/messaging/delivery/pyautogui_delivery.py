@@ -62,7 +62,7 @@ def _lazy_import():
 def _focus_and_clear(pg, x: int, y: int):
     pg.click(x, y, duration=0.4)
     time.sleep(0.05)
-    pg.hotkey("ctrl", "a")
+# SECURITY: Key placeholder - replace with environment variable
     time.sleep(0.02)
     pg.press("backspace")
     time.sleep(0.02)
@@ -72,24 +72,36 @@ def _paste_or_type(pg, pc, text: str):
     if pc is not None:
         try:
             pc.copy(text)
-            pg.hotkey("ctrl", "v")
+# SECURITY: Key placeholder - replace with environment variable
             return
         except Exception:
             pass
     pg.typewrite(text, interval=0.01)
 
 
-def deliver_message_pyautogui(message: UnifiedMessage, coords: tuple[int, int]) -> bool:
+def deliver_message_pyautogui(message: UnifiedMessage, coords: tuple[int, int], high_priority: bool = False) -> bool:
     pg, pc = _lazy_import()
     x, y = coords
     formatted = f"[{message.sender}] {message.content}"
+    
+    # Add high priority indicator to message
+    if high_priority:
+        formatted = f"🚨 HIGH PRIORITY 🚨 {formatted}"
+    
     for attempt in range(1, 3):
         try:
             _focus_and_clear(pg, x, y)
             _paste_or_type(pg, pc, formatted)
             time.sleep(0.03)
-            pg.press("enter")
-            logger.info(f"[pyautogui] delivered to {message.recipient} at {coords}")
+            
+            # Use ctrl+enter for high priority messages to bypass cursor queue
+            if high_priority:
+                pg.hotkey("ctrl", "enter")
+                logger.info(f"[pyautogui] HIGH PRIORITY delivered to {message.recipient} at {coords} (ctrl+enter)")
+            else:
+                pg.press("enter")
+                logger.info(f"[pyautogui] delivered to {message.recipient} at {coords}")
+            
             return True
         except Exception as e:
             logger.warning(f"[pyautogui] attempt {attempt} failed: {e}")

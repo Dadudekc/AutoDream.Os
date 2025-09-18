@@ -1,13 +1,18 @@
 {
   "agent_id": "Agent-7",
   "agent_name": "SSOT Warden",
-  "status": "ACTIVE_AGENT_MODE",
   "current_phase": "TASK_EXECUTION",
   "last_updated": "2025-01-07 04:05:00",
   "current_mission": "SSOT Enforcement and System Integration",
   "mission_priority": "HIGH",
-  "current_tasks": ["Contract system integration", "SSOT file identification"],
-  "completed_tasks": ["Hard onboarding completed", "Role assignment received"],
+  "current_tasks": [
+    "Contract system integration",
+    "SSOT file identification"
+  ],
+  "completed_tasks": [
+    "Hard onboarding completed",
+    "Role assignment received"
+  ],
   "achievements": [
     "Successfully onboarded as SSOT Warden",
     "Validation system implemented and tested",
@@ -18,5 +23,7 @@
     "Check for duplicated truth and consolidate",
     "Implement authoritative loaders",
     "Report READY status to Captain"
-  ]
+  ],
+  "fsm_state": "ACTIVE",
+  "last_transition": "2025-09-17T00:00:00Z"
 }

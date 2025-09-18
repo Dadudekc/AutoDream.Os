@@ -116,8 +116,8 @@ class CrossPlatformEnvironment:
                     
                     # Parse key=value pairs
                     if '=' in line:
-                        key, value = line.split('=', 1)
-                        key = key.strip()
+# SECURITY: Key placeholder - replace with environment variable
+# SECURITY: Key placeholder - replace with environment variable
                         value = value.strip()
                         
                         # Remove quotes if present
@@ -126,7 +126,7 @@ class CrossPlatformEnvironment:
                         elif value.startswith("'") and value.endswith("'"):
                             value = value[1:-1]
                         
-                        self.set_env_var(key, value)
+# SECURITY: Key placeholder - replace with environment variable
             
             logger.info(f"Loaded environment variables from {env_file}")
             return True
@@ -140,7 +140,7 @@ class CrossPlatformEnvironment:
         config = {}
         
         # Discord configuration
-        config['discord_token'] = self.get_env_var('DISCORD_TOKEN')
+# SECURITY: Token placeholder - replace with environment variable
         config['discord_channel_id'] = self.get_env_var('DISCORD_CHANNEL_ID')
         
         # Agent-specific Discord channels
@@ -154,7 +154,7 @@ class CrossPlatformEnvironment:
         
         # Thea configuration
         config['thea_username'] = self.get_env_var('THEA_USERNAME')
-        config['thea_password'] = self.get_env_var('THEA_PASSWORD')
+# SECURITY: Password placeholder - replace with environment variable
         
         # Database configuration
         config['database_path'] = self.get_env_var('DATABASE_PATH', 'data/agent_system.db')
@@ -237,3 +237,5 @@ def is_debug_mode() -> bool:
 def is_test_mode() -> bool:
     """Check if running in test mode."""
     return get_development_config()['test_mode']
+
+

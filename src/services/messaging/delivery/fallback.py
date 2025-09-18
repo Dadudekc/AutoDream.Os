@@ -44,11 +44,11 @@ from .pyautogui_delivery import deliver_message_pyautogui
 logger = logging.getLogger(__name__)
 
 
-def send_with_fallback(message: UnifiedMessage) -> bool:
+def send_with_fallback(message: UnifiedMessage, high_priority: bool = False) -> bool:
     coords = get_agent_coordinates(message.recipient)
     if coords:
         try:
-            if deliver_message_pyautogui(message, coords):
+            if deliver_message_pyautogui(message, coords, high_priority=high_priority):
                 return True
         except Exception as e:
             logger.warning(f"[fallback] pyautogui path failed: {e}")

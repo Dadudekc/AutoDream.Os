@@ -1,1 +1,7 @@
-{"state": "RESET", "updated": true}
+{
+  "agent_id": "Agent-4",
+  "agent_name": "Captain (Strategic Oversight)",
+  "fsm_state": "RESET",
+  "last_transition": "2025-09-17T00:00:00Z",
+  "last_updated": "2025-09-17T00:00:00Z"
+}

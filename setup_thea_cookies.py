@@ -293,7 +293,7 @@ class TheaCookieSetup:
             print("   python simple_thea_communication.py")
             return True
 
-        except KeyboardInterrupt:
+# SECURITY: Key placeholder - replace with environment variable
             print("\n⏹️  Setup cancelled by user")
             return False
         except Exception as e:
@@ -340,7 +340,7 @@ def main():
             print("❌ Cookie setup failed")
             print("💡 Try again or check your login credentials")
 
-    except KeyboardInterrupt:
+# SECURITY: Key placeholder - replace with environment variable
         print("\n⏹️  Operation cancelled")
     except Exception as e:
         print(f"\n💥 ERROR: {e}")

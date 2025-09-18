@@ -1,181 +1,151 @@
 #!/usr/bin/env python3
 """
-Consolidated Messaging Service - V2 COMPLIANT REDIRECT
-=====================================================
+Consolidated Messaging Service V2 - Modular Architecture
+========================================================
 
-V2 COMPLIANT: This file now redirects to the modular messaging system.
-The original monolithic implementation has been refactored into focused modules:
-- messaging/models/ (data models and enums)
-- messaging/interfaces/ (abstract interfaces)
-- messaging/providers/ (delivery providers)
-- messaging/cli/ (command-line interface)
-- messaging/consolidated_messaging_service.py (main coordinator)
+Modular messaging service for V2 compliance.
+Orchestrates core messaging, status monitoring, and onboarding services.
 
-All modules are V2 compliant (<300 lines, focused responsibilities).
-
-Author: Agent-5 (Business Intelligence Specialist)
+Author: Agent-2 (Architecture & Design Specialist)
 License: MIT
 """
 
-# Redirect to the new modular messaging system
-try:
-    from src.services.messaging.consolidated_messaging_service import (
-        ConsolidatedMessagingService,
-        get_consolidated_messaging_service,
+import argparse
+import logging
+import sys
+from pathlib import Path
+from typing import List
+
+# Add project root to Python path
+project_root = Path(__file__).parent.parent.parent.parent
+sys.path.insert(0, str(project_root))
+
+from src.services.messaging import MessagingService, StatusMonitor, OnboardingService
+
+logger = logging.getLogger(__name__)
+
+
+class ConsolidatedMessagingService:
+    """Consolidated messaging service - main interface."""
+    
+    def __init__(self, coord_path: str = "config/coordinates.json") -> None:
+        """Initialize consolidated messaging service."""
+        self.coord_path = coord_path
+        self.messaging_service = MessagingService(coord_path)
+        self.status_monitor = StatusMonitor(self.messaging_service)
+        self.onboarding_service = OnboardingService(self.messaging_service)
+    
+    def send_message(self, agent_id: str, message: str, from_agent: str = "Agent-2", priority: str = "NORMAL") -> bool:
+        """Send message to specific agent."""
+        return self.messaging_service.send_message(agent_id, message, from_agent, priority)
+    
+    def broadcast_message(self, message: str, from_agent: str = "Agent-2", priority: str = "NORMAL") -> dict:
+        """Send message to all active agents."""
+        return self.messaging_service.broadcast_message(message, from_agent, priority)
+    
+    def get_status(self) -> dict:
+        """Get comprehensive system status."""
+        return self.status_monitor.get_comprehensive_status()
+    
+    def hard_onboard_agent(self, agent_id: str) -> bool:
+        """Hard onboard specific agent."""
+        return self.onboarding_service.hard_onboard_agent(agent_id)
+    
+    def hard_onboard_all_agents(self) -> dict:
+        """Hard onboard all active agents."""
+        return self.onboarding_service.hard_onboard_all_agents()
+
+
+def build_parser() -> argparse.ArgumentParser:
+    """Build command line argument parser."""
+    parser = argparse.ArgumentParser(
+        description="Consolidated Messaging Service V2 - Modular Architecture"
     )
-    from src.services.messaging.models.messaging_models import (
-        UnifiedMessage,
-        AgentCoordinates,
-        MessageHistory,
-        MessagingMetrics,
+    
+    parser.add_argument(
+        "--coords",
+        default="config/coordinates.json",
+        help="Path to coordinates configuration file"
     )
-    from src.services.messaging.models.messaging_enums import (
-        UnifiedMessageType,
-        UnifiedMessagePriority,
-        UnifiedMessageTag,
-        MessageStatus,
-        RecipientType,
-    )
-    from src.services.messaging.cli.messaging_cli import MessagingCLI
-    from src.services.messaging.interfaces.messaging_interfaces import (
-        MessageDeliveryProvider,
-        PyAutoGUIDeliveryProvider,
-        InboxDeliveryProvider,
-        MessageHistoryProvider,
-        FileBasedMessageHistoryProvider,
-    )
-    from src.services.messaging.providers.inbox_delivery import InboxMessageDelivery
-    from src.services.messaging.providers.pyautogui_delivery import PyAutoGUIMessageDelivery
-except ImportError as e:
-    # Fallback for when imports fail
-    logger.warning(f"Messaging system import failed: {e}")
-    ConsolidatedMessagingService = None
-    get_consolidated_messaging_service = None
-    get_messaging_service = None
-    UnifiedMessage = None
-    UnifiedMessageType = None
-    UnifiedMessagePriority = None
-    UnifiedMessageTag = None
-    DeliveryMethod = None
-    MessageStatus = None
-    RecipientType = None
-    AgentCoordinates = None
-    MessageHistory = None
-    MessagingMetrics = None
-    MessagingCLI = None
-    MessageDeliveryProvider = None
-    PyAutoGUIDeliveryProvider = None
-    InboxDeliveryProvider = None
-    MessageHistoryProvider = None
-    FileBasedMessageHistoryProvider = None
-    InboxMessageDelivery = None
-    PyAutoGUIMessageDelivery = None
-
-# Maintain backward compatibility - re-export all key classes and functions
-__all__ = [
-    # Main service
-    "ConsolidatedMessagingService",
-    "get_consolidated_messaging_service",
-    "get_messaging_service",
-
-    # Models and enums
-    "UnifiedMessage",
-    "UnifiedMessageType",
-    "UnifiedMessagePriority",
-    "UnifiedMessageTag",
-    "DeliveryMethod",
-    "MessageStatus",
-    "RecipientType",
-    "AgentCoordinates",
-    "MessageHistory",
-    "MessagingMetrics",
-
-    # CLI
-    "MessagingCLI",
-
-    # Interfaces
-    "MessageDeliveryProvider",
-    "PyAutoGUIDeliveryProvider",
-    "InboxDeliveryProvider",
-    "MessageHistoryProvider",
-    "FileBasedMessageHistoryProvider",
-
-    # Providers
-    "InboxMessageDelivery",
-    "PyAutoGUIMessageDelivery",
-]
+    
+    subparsers = parser.add_subparsers(dest="cmd", help="Available commands")
+    
+    # Send message command
+    send_parser = subparsers.add_parser("send", help="Send message to specific agent")
+    send_parser.add_argument("--agent", required=True, help="Target agent ID")
+    send_parser.add_argument("--message", required=True, help="Message to send")
+    send_parser.add_argument("--from-agent", default="Agent-2", help="Source agent ID")
+    send_parser.add_argument("--priority", default="NORMAL", help="Message priority")
+    
+    # Broadcast message command
+    broadcast_parser = subparsers.add_parser("broadcast", help="Send message to all agents")
+    broadcast_parser.add_argument("--message", required=True, help="Message to broadcast")
+    broadcast_parser.add_argument("--from-agent", default="Agent-2", help="Source agent ID")
+    broadcast_parser.add_argument("--priority", default="NORMAL", help="Message priority")
+    
+    # Status command
+    subparsers.add_parser("status", help="Get system status")
+    
+    # Hard onboard command
+    onboard_parser = subparsers.add_parser("hard-onboard", help="Hard onboard agents")
+    onboard_group = onboard_parser.add_mutually_exclusive_group(required=True)
+    onboard_group.add_argument("--agent", help="Specific agent to onboard")
+    onboard_group.add_argument("--all-agents", action="store_true", help="Onboard all agents")
+    
+    return parser
 
 
-# ============================================================================
-# MISSING FUNCTIONS FOR CLI COMPATIBILITY
-# ============================================================================
-
-def broadcast_message(content: str, sender: str = "System") -> dict[str, bool]:
-    """Broadcast message to all agents (CLI compatibility function)."""
-    service = get_consolidated_messaging_service()
-    return service.broadcast_message(content, sender)
-
-
-def get_messaging_core() -> ConsolidatedMessagingService:
-    """Get messaging core service (CLI compatibility function)."""
-    return get_consolidated_messaging_service()
-
-
-def list_agents() -> list[str]:
-    """List all available agents (CLI compatibility function)."""
-    # Return hardcoded list for CLI compatibility
-    return ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
-
-
-def send_message(content: str, recipient: str, priority: str = "normal") -> bool:
-    """Send message to specific agent (CLI compatibility function)."""
-    service = get_consolidated_messaging_service()
-    # Convert string priority to enum
-    from .messaging.models import UnifiedMessagePriority
-    prio = UnifiedMessagePriority.URGENT if priority == "urgent" else UnifiedMessagePriority.NORMAL
-    return service.send_message(content, recipient, prio)
-
-
-def send_message_inbox(content: str, recipient: str, priority: str = "normal") -> bool:
-    """Send message via inbox delivery (CLI compatibility function)."""
-    service = get_consolidated_messaging_service()
-    from .messaging.models import UnifiedMessagePriority
-    prio = UnifiedMessagePriority.URGENT if priority == "urgent" else UnifiedMessagePriority.NORMAL
-    return service.send_message_inbox(content, recipient, prio)
-
-
-def send_message_pyautogui(content: str, recipient: str, priority: str = "normal", timeout: int = 30) -> bool:
-    """Send message via PyAutoGUI delivery (CLI compatibility function)."""
-    service = get_consolidated_messaging_service()
-    from .messaging.models import UnifiedMessagePriority
-    prio = UnifiedMessagePriority.URGENT if priority == "urgent" else UnifiedMessagePriority.NORMAL
-    return service.send_message_pyautogui(content, recipient, prio, timeout)
-
-
-def send_message_with_fallback(content: str, recipient: str, priority: str = "normal") -> bool:
-    """Send message with fallback delivery (CLI compatibility function)."""
-    service = get_consolidated_messaging_service()
-    from .messaging.models import UnifiedMessagePriority
-    prio = UnifiedMessagePriority.URGENT if priority == "urgent" else UnifiedMessagePriority.NORMAL
-    return service.send_message_with_fallback(content, recipient, prio)
-
-
-def show_message_history(recipient: str = None, limit: int = 10) -> list:
-    """Show message history (CLI compatibility function)."""
-    service = get_consolidated_messaging_service()
-    return service.show_message_history(recipient, limit)
-
-
-def main():
-    """Main entry point for CLI usage."""
-    import sys
-    messaging_service = get_consolidated_messaging_service()
-    if messaging_service is None:
-        print("Messaging service not available")
-        sys.exit(1)
-    cli = MessagingCLI(messaging_service)
-    sys.exit(cli.run_cli_interface())
+def main(argv: List[str] | None = None) -> int:
+    """Main entry point."""
+    parser = build_parser()
+    args = parser.parse_args(argv)
+    
+    if not args.cmd:
+        parser.print_help()
+        return 1
+    
+    try:
+        # Initialize services
+        messaging_service = MessagingService(args.coords)
+        status_monitor = StatusMonitor(messaging_service)
+        onboarding_service = OnboardingService(messaging_service)
+        
+        # Handle commands
+        if args.cmd == "send":
+            success = messaging_service.send_message(args.agent, args.message, args.from_agent)
+            return 0 if success else 1
+            
+        elif args.cmd == "broadcast":
+            results = messaging_service.broadcast_message(args.message, args.from_agent)
+            success_count = sum(1 for success in results.values() if success)
+            return 0 if success_count == len(results) else 1
+            
+        elif args.cmd == "status":
+            status = status_monitor.get_comprehensive_status()
+            logging.info(f"Service Status: {status}")
+            return 0
+            
+        elif args.cmd == "hard-onboard":
+            if args.agent:
+                success = onboarding_service.hard_onboard_agent(args.agent)
+                return 0 if success else 1
+            elif args.all_agents:
+                results = onboarding_service.hard_onboard_all_agents()
+                successful = sum(1 for success in results.values() if success)
+                return 0 if successful == len(results) else 1
+            else:
+                logging.error("Error: Must specify either --agent or --all-agents")
+                return 1
+            
+        else:
+            parser.print_help()
+            return 1
+            
+    except Exception as e:
+        logging.error("Service error: %s", e)
+        return 2
 
 
 if __name__ == "__main__":
-    main()
+    logging.basicConfig(level=logging.INFO)
+    sys.exit(main())

@@ -9,7 +9,7 @@ Author: Agent-5 (Business Intelligence Specialist)
 License: MIT
 """
 
-from .messaging_cli import MessagingCLI
+from .messaging_cli_clean import MessagingCLI
 
 __all__ = [
     "MessagingCLI",

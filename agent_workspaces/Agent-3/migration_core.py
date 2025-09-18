@@ -145,3 +145,5 @@ class MigrationCore:
                 max(1, self.migration_results['migrations_completed'] + self.migration_results['errors_encountered'])
             ) * 100
         }
+
+

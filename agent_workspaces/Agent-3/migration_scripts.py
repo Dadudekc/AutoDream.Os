@@ -233,3 +233,5 @@ class MigrationScripts:
     def get_migration_script_names(self) -> List[str]:
         """Get list of migration script names."""
         return list(self.scripts.keys())
+
+

@@ -1,7 +1,6 @@
 {
   "agent_id": "Agent-6",
   "agent_name": "SOLID Sentinel",
-  "status": "MISSION_COMPLETE_READY",
   "current_phase": "COMPLETE",
   "last_updated": "2025-01-27 23:15:00",
   "current_mission": "SOLID Compliance Enforcement",
@@ -22,7 +21,11 @@
     "Created SOLID-compliant unit tests",
     "Delivered comprehensive mission report to Captain"
   ],
-  "next_actions": ["Await Captain review and approval"],
+  "next_actions": [
+    "Await Captain review and approval"
+  ],
   "solid_compliance_score": 95,
-  "mission_timestamp": "2025-01-27 23:15:00"
+  "mission_timestamp": "2025-01-27 23:15:00",
+  "fsm_state": "SURVEY_MISSION_COMPLETED",
+  "last_transition": "2025-09-17T00:00:00Z"
 }

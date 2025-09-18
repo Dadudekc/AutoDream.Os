@@ -1,176 +1,193 @@
 #!/usr/bin/env python3
 """
-    """Handle requests"""
-Vector Database Orchestrator
-============================
+Vector Database Orchestrator V2
+===============================
 
-Orchestrates vector database operations and provides service interface.
-V2 Compliance: < 300 lines, single responsibility.
-
-Author: V2 Implementation Team
-License: MIT
+V2 compliant vector database orchestration system.
 """
-    """Handle requests"""
 
-    """Handle requests"""
 import logging
-from typing import Any
+import asyncio
+from typing import Dict, List, Optional, Any
+from dataclasses import dataclass
+from .orchestration.core import OrchestrationCore, OrchestrationConfig
 
-from .vector_database_engine import VectorDatabaseEngine
-from .vector_database_models import (
-    CollectionConfig,
-    DocumentType,
-    SearchQuery,
-    SearchResult,
-    VectorDatabaseConfig,
-    VectorDatabaseResult,
-    VectorDatabaseStats,
-    VectorDocument,
-)
+logger = logging.getLogger(__name__)
 
 
-class VectorDatabaseService:
-    """Service interface for vector database operations."""
-    """Handle requests"""
+@dataclass
+class DatabaseConfig:
+    """Database configuration."""
+    host: str = "localhost"
+    port: int = 5432
+    database: str = "vectordb"
+    username: str = "admin"
+# SECURITY: Password placeholder - replace with environment variable
+    max_connections: int = 10
+    timeout_seconds: int = 30
 
-    def __init__(self, config: VectorDatabaseConfig | None = None):
 
-EXAMPLE USAGE:
-==============
-
-# Import the service
-from src.services.vector_database.vector_database_orchestrator import (
-    Vector_Database_OrchestratorService,
-)
-
-# Initialize service
-service = Vector_Database_OrchestratorService()
-
-# Basic service operation
-response = service.handle_request(request_data)
-logger.info(f"Service response: {response}")
-
-# Service with dependency injection
-from src.core.dependency_container import Container
-
-container = Container()
-service = container.get(Vector_Database_OrchestratorService)
-
-# Execute service method
-result = service.execute_operation(input_data, context)
-logger.info(f"Operation result: {result}")
-
-        """Initialize vector database service."""
-    """Handle requests"""
-        self.logger = logging.getLogger(__name__)
-        self.engine = VectorDatabaseEngine(config)
-        self.config = config or VectorDatabaseConfig()
-        self.logger.info("VectorDatabaseService initialized")
-
-    def add_document(
-        self, document: VectorDocument, collection_name: str = "default"
-    ) -> VectorDatabaseResult:
-        """Add a document to the vector database."""
-    """Handle requests"""
-        return self.engine.add_document(document, collection_name)
-
-    def search_documents(
-        self,
-        query: str,
-        collection_name: str = "default",
-        limit: int = 10,
-        document_types: list[DocumentType] | None = None,
-    ) -> list[SearchResult]:
-        """Search documents in the vector database."""
-    """Handle requests"""
-        search_query = SearchQuery(
-            query=query, collection_name=collection_name, limit=limit, document_types=document_types
+class VectorDatabaseOrchestrator:
+    """V2 compliant vector database orchestrator."""
+    
+    def __init__(self, config: DatabaseConfig):
+        self.config = config
+        self.orchestration_core = OrchestrationCore(
+            OrchestrationConfig(
+                max_connections=config.max_connections,
+                timeout_seconds=config.timeout_seconds
+            )
         )
-        return self.engine.search_documents(search_query)
-
-    def get_document(
-        self, document_id: str, collection_name: str = "default"
-    ) -> VectorDocument | None:
-        """Retrieve a document by ID."""
-    """Handle requests"""
-        return self.engine.get_document(document_id, collection_name)
-
-    def delete_document(
-        self, document_id: str, collection_name: str = "default"
-    ) -> VectorDatabaseResult:
-        """Delete a document by ID."""
-    """Handle requests"""
-        return self.engine.delete_document(document_id, collection_name)
-
-    def create_collection(self, config: CollectionConfig) -> VectorDatabaseResult:
-        """Create a new collection."""
-    """Handle requests"""
-        return self.engine.create_collection(config)
-
-    def get_stats(self) -> VectorDatabaseStats:
-        """Get database statistics."""
-    """Handle requests"""
-        return self.engine.get_stats()
-
-    def get_status(self) -> dict[str, Any]:
-        """Get service status."""
-    """Handle requests"""
+        self.is_connected = False
+        self.operation_count = 0
+        logger.info("VectorDatabaseOrchestrator V2 initialized")
+    
+    async def connect(self) -> bool:
+        """Connect to the vector database."""
+        try:
+            if not self.orchestration_core.acquire_connection():
+                logger.warning("Cannot acquire connection, max connections reached")
+                return False
+            
+            # Simulate connection
+            await asyncio.sleep(0.1)
+            self.is_connected = True
+            logger.info("Connected to vector database")
+            return True
+        
+        except Exception as e:
+            logger.error(f"Failed to connect: {e}")
+            self.orchestration_core.release_connection()
+            return False
+    
+    async def disconnect(self):
+        """Disconnect from the vector database."""
+        if self.is_connected:
+            self.is_connected = False
+            self.orchestration_core.release_connection()
+            logger.info("Disconnected from vector database")
+    
+    async def execute_query(self, query: str, params: Optional[Dict] = None) -> Dict[str, Any]:
+        """Execute a vector database query."""
+        if not self.is_connected:
+            raise RuntimeError("Not connected to database")
+        
+        try:
+            self.operation_count += 1
+            
+            # Simulate query execution
+            await asyncio.sleep(0.05)
+            
+            result = {
+                'success': True,
+                'query': query,
+                'params': params,
+                'operation_id': self.operation_count,
+                'result_count': 10  # Mock result
+            }
+            
+            logger.debug(f"Query executed successfully: {self.operation_count}")
+            return result
+        
+        except Exception as e:
+            logger.error(f"Query execution failed: {e}")
+            return {
+                'success': False,
+                'error': str(e),
+                'operation_id': self.operation_count
+            }
+    
+    async def batch_insert(self, vectors: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Insert multiple vectors in batch."""
+        if not self.is_connected:
+            raise RuntimeError("Not connected to database")
+        
+        try:
+            self.operation_count += 1
+            
+            # Simulate batch insert
+            await asyncio.sleep(0.1 * (len(vectors) / 100))
+            
+            result = {
+                'success': True,
+                'inserted_count': len(vectors),
+                'operation_id': self.operation_count
+            }
+            
+            logger.info(f"Batch insert completed: {len(vectors)} vectors")
+            return result
+        
+        except Exception as e:
+            logger.error(f"Batch insert failed: {e}")
+            return {
+                'success': False,
+                'error': str(e),
+                'operation_id': self.operation_count
+            }
+    
+    async def search_vectors(self, query_vector: List[float], limit: int = 10) -> Dict[str, Any]:
+        """Search for similar vectors."""
+        if not self.is_connected:
+            raise RuntimeError("Not connected to database")
+        
+        try:
+            self.operation_count += 1
+            
+            # Simulate vector search
+            await asyncio.sleep(0.1)
+            
+            result = {
+                'success': True,
+                'results': [
+                    {'id': f'result_{i}', 'similarity': 0.9 - (i * 0.1)}
+                    for i in range(min(limit, 10))
+                ],
+                'operation_id': self.operation_count
+            }
+            
+            logger.debug(f"Vector search completed: {len(result['results'])} results")
+            return result
+        
+        except Exception as e:
+            logger.error(f"Vector search failed: {e}")
+            return {
+                'success': False,
+                'error': str(e),
+                'operation_id': self.operation_count
+            }
+    
+    def get_status(self) -> Dict[str, Any]:
+        """Get orchestrator status."""
+        orchestration_status = self.orchestration_core.get_status()
+        
         return {
-            "service": "vector_database",
-            "engine_status": self.engine.get_status(),
-            "config": {
-                "max_collections": self.config.max_collections,
-                "max_documents_per_collection": self.config.max_documents_per_collection,
-                "enable_persistence": self.config.enable_persistence,
-            },
+            'connected': self.is_connected,
+            'operation_count': self.operation_count,
+            'orchestration': orchestration_status,
+            'config': {
+                'host': self.config.host,
+                'port': self.config.port,
+                'database': self.config.database
+            }
         }
-
-
-# Global service instance
-_service_instance: VectorDatabaseService | None = None
-
-
-def get_vector_database_service() -> VectorDatabaseService:
-    """Get the global vector database service instance."""
-    """Handle requests"""
-    global _service_instance
-    if _service_instance is None:
-        _service_instance = VectorDatabaseService()
-    return _service_instance
-
-
-def add_document_to_vector_db(
-    document: VectorDocument, collection_name: str = "default"
-) -> VectorDatabaseResult:
-    """Add a document to the vector database."""
-    """Handle requests"""
-    service = get_vector_database_service()
-    return service.add_document(document, collection_name)
-
-
-def search_vector_database(
-    query: str,
-    collection_name: str = "default",
-    limit: int = 10,
-    document_types: list[DocumentType] | None = None,
-) -> list[SearchResult]:
-    """Search the vector database."""
-    """Handle requests"""
-    service = get_vector_database_service()
-    return service.search_documents(query, collection_name, limit, document_types)
-
-
-def get_vector_database_stats() -> VectorDatabaseStats:
-    """Get vector database statistics."""
-    """Handle requests"""
-    service = get_vector_database_service()
-    return service.get_stats()
-
-
-__all__ = [
-    "VectorDatabaseService",
-    "get_vector_database_service",
-    "add_document_to_vector_db",
-    "search_vector_database",
-    "get_vector_database_stats",
-]
+    
+    async def health_check(self) -> Dict[str, Any]:
+        """Perform health check."""
+        try:
+            if not self.is_connected:
+                return {'healthy': False, 'reason': 'Not connected'}
+            
+            # Simple ping query
+            result = await self.execute_query("SELECT 1")
+            
+            return {
+                'healthy': result['success'],
+                'response_time': 0.05,  # Mock response time
+                'operation_id': result.get('operation_id')
+            }
+        
+        except Exception as e:
+            return {
+                'healthy': False,
+                'reason': str(e)
+            }

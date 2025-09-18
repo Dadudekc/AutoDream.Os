@@ -1,0 +1,139 @@
+# Persistent Volume Claims for V2_SWARM system
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: swarm-agent-workspaces-pvc
+  namespace: swarm-system
+  labels:
+    app: agent-cellphone-v2
+    component: storage
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: fast-ssd
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: swarm-devlogs-pvc
+  namespace: swarm-system
+  labels:
+    app: agent-cellphone-v2
+    component: storage
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: fast-ssd
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: swarm-logs-pvc
+  namespace: swarm-system
+  labels:
+    app: agent-cellphone-v2
+    component: storage
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: standard
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: swarm-data-pvc
+  namespace: swarm-system
+  labels:
+    app: agent-cellphone-v2
+    component: storage
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 20Gi
+  storageClassName: fast-ssd
+
+---
+# PostgreSQL data volume
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: swarm-postgres-pvc
+  namespace: swarm-system
+  labels:
+    app: agent-cellphone-v2
+    component: database
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: fast-ssd
+
+---
+# Redis data volume
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: swarm-redis-pvc
+  namespace: swarm-system
+  labels:
+    app: agent-cellphone-v2
+    component: cache
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: fast-ssd
+
+---
+# Prometheus data volume
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: swarm-prometheus-pvc
+  namespace: swarm-system
+  labels:
+    app: agent-cellphone-v2
+    component: monitoring
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Gi
+  storageClassName: standard
+
+---
+# Grafana data volume
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: swarm-grafana-pvc
+  namespace: swarm-system
+  labels:
+    app: agent-cellphone-v2
+    component: monitoring
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: fast-ssd

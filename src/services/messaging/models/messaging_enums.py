@@ -69,6 +69,7 @@ class UnifiedMessageTag(Enum):
     GENERAL = "GENERAL"
     TASK = "TASK"
     STATUS = "STATUS"
+    PROJECT_UPDATE = "PROJECT_UPDATE"
 
 
 class RecipientType(Enum):

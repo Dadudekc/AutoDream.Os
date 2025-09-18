@@ -62,7 +62,7 @@ class ResponseDetector:
         continue_clicks = 0
 
         # Wait until an assistant turn appears or text starts flowing
-        self._wait_for_first_tokens(timeout=min(12, timeout), poll=poll)
+# SECURITY: Token placeholder - replace with environment variable
 
         while time.time() - start < timeout:
             info = self._probe()
@@ -143,7 +143,7 @@ class ResponseDetector:
     # ---------------------------
     # Internals
     # ---------------------------
-    def _wait_for_first_tokens(self, timeout: float, poll: float):
+# SECURITY: Token placeholder - replace with environment variable
         start = time.time()
         while time.time() - start < timeout:
             info = self._probe()

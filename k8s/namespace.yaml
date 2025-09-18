@@ -1,0 +1,10 @@
+# Kubernetes namespace for V2_SWARM system
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: swarm-system
+  labels:
+    name: swarm-system
+    app: agent-cellphone-v2
+    version: v2.0.0
+    environment: production

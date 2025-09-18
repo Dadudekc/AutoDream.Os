@@ -1,0 +1,151 @@
+# V3-001: Cloud Infrastructure Setup - Kubernetes Deployment
+# Agent-1: Architecture Foundation Specialist
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: swarm-app
+  namespace: swarm-v3
+  labels:
+    app: swarm-app
+    version: v3
+    component: main-application
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: swarm-app
+  template:
+    metadata:
+      labels:
+        app: swarm-app
+        version: v3
+        component: main-application
+    spec:
+      serviceAccountName: swarm-app-sa
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 2000
+      containers:
+      - name: swarm-app
+        image: swarm-agent-cellphone:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+          name: http
+          protocol: TCP
+        env:
+        - name: PYTHONPATH
+          value: "/app/src"
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        - name: DISCORD_BOT_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: swarm-secrets
+              key: discord-bot-token
+        - name: DISCORD_CHANNEL_ID
+          valueFrom:
+            configMapKeyRef:
+              name: swarm-config
+              key: discord-channel-id
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: swarm-secrets
+              key: database-url
+        - name: REDIS_URL
+          valueFrom:
+            secretKeyRef:
+              name: swarm-secrets
+              key: redis-url
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "512Mi"
+          limits:
+            cpu: "500m"
+            memory: "1Gi"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+        volumeMounts:
+        - name: app-data
+          mountPath: /app/data
+        - name: app-logs
+          mountPath: /app/logs
+      volumes:
+      - name: app-data
+        persistentVolumeClaim:
+          claimName: swarm-data-pvc
+      - name: app-logs
+        emptyDir: {}
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: swarm-app-service
+  namespace: swarm-v3
+  labels:
+    app: swarm-app
+    version: v3
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 8000
+    protocol: TCP
+    name: http
+  selector:
+    app: swarm-app
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: swarm-app-sa
+  namespace: swarm-v3
+  labels:
+    app: swarm-app
+    version: v3
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: swarm-app-role
+  namespace: swarm-v3
+rules:
+- apiGroups: [""]
+  resources: ["configmaps", "secrets"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: swarm-app-rolebinding
+  namespace: swarm-v3
+subjects:
+- kind: ServiceAccount
+  name: swarm-app-sa
+  namespace: swarm-v3
+roleRef:
+  kind: Role
+  name: swarm-app-role
+  apiGroup: rbac.authorization.k8s.io

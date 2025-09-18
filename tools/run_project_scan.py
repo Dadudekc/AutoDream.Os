@@ -36,7 +36,7 @@ def run() -> None:
     scanner.categorize_agents()
     scanner.report_generator.save_report()
     scanner.export_chatgpt_context()
-    scanner.generate_modular_reports()
+    scanner.modular_reporter.generate_modular_reports()
     artifacts = [
         "project_analysis.json",
         "test_analysis.json",

@@ -20,7 +20,18 @@ from typing import List
 project_root = Path(__file__).parent.parent.parent.parent
 sys.path.insert(0, str(project_root))
 
-from src.services.messaging import MessagingService, StatusMonitor, OnboardingService
+# Import after adding project root to path
+try:
+    from src.services.messaging.core.messaging_service import MessagingService
+    from src.services.messaging.status.status_monitor import StatusMonitor
+    from src.services.messaging.onboarding.onboarding_service import OnboardingService
+    from src.services.messaging.enhanced_messaging_service import get_enhanced_messaging_service
+except ImportError:
+    # Fallback for direct execution
+    from messaging.core.messaging_service import MessagingService
+    from messaging.status.status_monitor import StatusMonitor
+    from messaging.onboarding.onboarding_service import OnboardingService
+    from messaging.enhanced_messaging_service import get_enhanced_messaging_service
 
 logger = logging.getLogger(__name__)
 
@@ -29,9 +40,9 @@ class ConsolidatedMessagingService:
     """Consolidated messaging service - main interface."""
     
     def __init__(self, coord_path: str = "config/coordinates.json") -> None:
-        """Initialize consolidated messaging service."""
+        """Initialize consolidated messaging service with vector database integration."""
         self.coord_path = coord_path
-        self.messaging_service = MessagingService(coord_path)
+        self.messaging_service = get_enhanced_messaging_service()  # Use enhanced version with vector DB
         self.status_monitor = StatusMonitor(self.messaging_service)
         self.onboarding_service = OnboardingService(self.messaging_service)
     

@@ -1,93 +1,62 @@
 repos:
-  # Python formatting and linting
+  # Standard Python formatting and linting
+  - repo: https://github.com/psf/black
+    rev: 23.12.1
+    hooks:
+      - id: black
+        language_version: python3
+        args: [--line-length=100]
+
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        args: [--profile=black, --line-length=100]
+
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.6.9
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+
+  # Custom AutoDream.OS Vibe Check
+  - repo: local
+    hooks:
+      - id: vibe-check
+        name: AutoDream.OS Vibe Check
+        entry: python -m src.core.vibe_check
+        language: system
+        types: [python]
+        args: [--strict]
+        stages: [commit]
+        verbose: true
+        description: "Enforce design principles and prevent overcomplication"
+
+  # Type checking
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.8.0
+    hooks:
+      - id: mypy
+        additional_dependencies: [types-all]
+        args: [--strict, --ignore-missing-imports]
+
+  # Security checks
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.5
+    hooks:
+      - id: bandit
+        args: [-r, src/, -f, json]
+        exclude: tests/
+
+  # General hooks
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v6.0.0
+    rev: v4.5.0
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: check-yaml
       - id: check-added-large-files
+        args: ['--maxkb=1000']
       - id: check-merge-conflict
       - id: debug-statements
-
-  # Black - Python code formatter
-  - repo: https://github.com/psf/black
-    rev: 25.1.0
-    hooks:
-      - id: black
-        language_version: python3.11
-        args: [--line-length=100]
-
-  # isort - Import sorter
-  - repo: https://github.com/pycqa/isort
-    rev: 6.0.1
-    hooks:
-      - id: isort
-        args: ["--profile", "black", "--line-length=100"]
-
-  # Ruff - Fast Python linter and formatter
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.13.0
-    hooks:
-      - id: ruff
-        args: [--fix, --line-length=100, --extend-select=E,F,W,I,UP,B,C4,S]
-      - id: ruff-format
-        args: [--line-length=100]
-
-  # flake8 - Python style guide enforcement
-  - repo: https://github.com/pycqa/flake8
-    rev: 7.3.0
-    hooks:
-      - id: flake8
-        args: [--max-line-length=88, --extend-ignore=E203,W503,E501]
-        exclude: |
-          (?x)(
-              \.git|
-              __pycache__|
-              build|
-              dist|
-              \.venv|
-              venv|
-              \.mypy_cache|
-              \.pytest_cache
-          )
-
-  # pyupgrade - Python syntax upgrader
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v3.20.0
-    hooks:
-      - id: pyupgrade
-        args: [--py38-plus]
-
-  # mypy - Static type checker
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.14.1
-    hooks:
-      - id: mypy
-        args: [--python-version=3.8, --warn-return-any, --warn-unused-configs, --disallow-untyped-defs, --disallow-incomplete-defs, --check-untyped-defs, --disallow-untyped-decorators, --no-implicit-optional, --warn-redundant-casts, --warn-unused-ignores, --warn-no-return, --warn-unreachable, --strict-equality]
-        exclude: |
-          (?x)(
-              tests/.*
-          )
-
-  # Bandit - Security linter
-  - repo: https://github.com/PyCQA/bandit
-    rev: 1.8.3
-    hooks:
-      - id: bandit
-        args: [-r, ., --skip=B101,B601]
-        exclude: |
-          (?x)(
-              tests/.*
-          )
-
-  # Safety - Vulnerability scanner
-  - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
-    rev: v1.3.3
-    hooks:
-      - id: python-safety-dependencies-check
-        files: requirements\.txt$
-
-ci:
-  autofix_commit_msg: "style: auto fixes from pre-commit hooks"
-  autoupdate_commit_msg: "ci: pre-commit autoupdate"
+      - id: check-docstring-first

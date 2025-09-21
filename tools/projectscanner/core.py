@@ -273,3 +273,6 @@ class ModularReportGenerator:
                 json.dump({"status": "generated", "timestamp": "2025-01-18"}, f, indent=2)
         
         logger.info(f"✅ Generated {len(reports)} modular reports in {analysis_dir}")
+
+
+

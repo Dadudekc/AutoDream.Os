@@ -10,6 +10,7 @@ pyperclip>=1.8.0
 
 # Discord bot dependencies
 discord.py>=2.3.0
+python-dotenv>=1.0.0
 
 # Development and testing (minimal runtime deps)
 pytest>=7.0.0

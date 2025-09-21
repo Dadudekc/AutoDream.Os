@@ -288,3 +288,5 @@ class RepositoryManager:
         """Get all repositories."""
         with self._lock:
             return self.repositories.copy()
+
+

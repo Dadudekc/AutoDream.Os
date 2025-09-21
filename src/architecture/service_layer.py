@@ -333,3 +333,5 @@ class ServiceManager:
         """Health check all services."""
         with self._lock:
             return {name: service.health_check() for name, service in self.services.items()}
+
+

@@ -1,0 +1,48 @@
+# Dream.OS Integration Template
+
+**Phase:** {{ phase }}
+**Component:** {{ component }}
+**Status:** {{ status }}
+
+## 🚀 **DREAM.OS INTEGRATION**
+
+### **Integration Objective:**
+{{ objective }}
+
+### **Technical Requirements:**
+{% for requirement in technical_requirements %}
+- {{ requirement }}
+{% endfor %}
+
+### **Implementation Details:**
+{% for detail in implementation_details %}
+- {{ detail }}
+{% endfor %}
+
+### **V2 Compliance:**
+- **File Size:** ≤400 lines
+- **Classes:** ≤5 per file
+- **Functions:** ≤10 per file
+- **Complexity:** ≤10 cyclomatic complexity
+- **Parameters:** ≤5 per function
+- **Inheritance:** ≤2 levels deep
+
+### **Testing Requirements:**
+{% for test in testing_requirements %}
+- {{ test }}
+{% endfor %}
+
+### **Integration Points:**
+{% for point in integration_points %}
+- {{ point }}
+{% endfor %}
+
+{% if memory %}
+### **Memory Context:**
+{{ memory.context }}
+{% endif %}
+
+---
+**Generated:** {{ timestamp }}
+**🐝 WE. ARE. SWARM.**
+

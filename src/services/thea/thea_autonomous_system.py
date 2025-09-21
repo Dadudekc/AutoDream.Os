@@ -31,6 +31,7 @@ from typing import Optional, Dict, Any
 from .thea_browser_manager import TheaBrowserManager
 from .thea_cookie_manager import TheaCookieManager
 from .thea_communication_core import TheaCommunicationCore
+from .thea_conversation_manager import TheaConversationManager
 
 logger = logging.getLogger(__name__)
 
@@ -43,7 +44,8 @@ class TheaAutonomousSystem:
                  cookie_file: str = "thea_cookies.json",
                  responses_dir: str = "thea_responses",
                  max_retries: int = 3,
-                 retry_delay: int = 5):
+                 retry_delay: int = 5,
+                 conversation_manager: Optional[TheaConversationManager] = None):
         """
         Initialize the autonomous Thea system.
         
@@ -53,12 +55,14 @@ class TheaAutonomousSystem:
             responses_dir: Directory for storing responses and logs
             max_retries: Maximum retry attempts for failed operations
             retry_delay: Delay between retry attempts (seconds)
+            conversation_manager: Optional conversation manager for persistent conversations
         """
         self.headless = headless
         self.max_retries = max_retries
         self.retry_delay = retry_delay
         
         # Initialize components
+        self.conversation_manager = conversation_manager or TheaConversationManager()
         self.browser_manager = TheaBrowserManager(headless=headless)
         self.cookie_manager = TheaCookieManager(cookie_file)
         self.communication_core = TheaCommunicationCore(responses_dir)
@@ -106,34 +110,50 @@ class TheaAutonomousSystem:
                 if not self.driver:
                     raise Exception("Failed to initialize browser driver")
                 
-                # Navigate to Thea first
-                thea_url = "https://chatgpt.com/g/g-67f437d96d7c81918b2dbc12f0423867-thea-manager"
-                logger.info(f"🌐 Navigating to Thea: {thea_url}")
-                self.driver.get(thea_url)
+                # Navigate to base ChatGPT domain first
+                logger.info("🌐 Navigating to ChatGPT base domain...")
+                self.driver.get("https://chatgpt.com")
                 time.sleep(3)
                 
-                # Load cookies after navigation (when domain is correct)
+                # Load cookies after navigation to correct domain
                 if self.cookie_manager.has_valid_cookies():
                     logger.info("🍪 Loading existing cookies after navigation...")
                     self.cookie_manager.load_cookies(self.driver)
                 else:
-                    logger.info("🍪 No valid cookies found - will need fresh session")
+                    logger.info("No valid cookies found - will need fresh session")
+                
+                # Check for existing conversation link first
+                active_conversation_link = self.conversation_manager.get_active_conversation_link()
+                
+                if active_conversation_link:
+                    logger.info(f"🔄 Loading existing conversation: {active_conversation_link}")
+                    self.driver.get(active_conversation_link)
+                    time.sleep(3)
+                else:
+                    # Navigate to Thea for new conversation
+                    thea_url = "https://chatgpt.com/g/g-67f437d96d7c81918b2dbc12f0423867-thea-manager"
+                    logger.info(f"🌐 Navigating to Thea for new conversation: {thea_url}")
+                    self.driver.get(thea_url)
+                    time.sleep(3)
+                    
+                    # Create new conversation and save link
+                    self.conversation_manager.create_new_conversation(self.driver, "Strategic Consultation")
                 
                 # Save cookies after navigation
                 self.cookie_manager.save_cookies(self.driver)
                 
                 self.is_initialized = True
                 self.last_activity = datetime.now()
-                logger.info("✅ Thea Autonomous System initialized successfully")
+                logger.info("Thea Autonomous System initialized successfully")
                 return True
                 
             except Exception as e:
-                logger.error(f"❌ Initialization attempt {attempt + 1} failed: {e}")
+                logger.error(f"Initialization attempt {attempt + 1} failed: {e}")
                 if attempt < self.max_retries - 1:
-                    logger.info(f"⏳ Retrying in {self.retry_delay} seconds...")
+                    logger.info(f"Retrying in {self.retry_delay} seconds...")
                     time.sleep(self.retry_delay)
                 else:
-                    logger.error("❌ All initialization attempts failed")
+                    logger.error("All initialization attempts failed")
                     return False
         
         return False
@@ -193,21 +213,25 @@ class TheaAutonomousSystem:
                 # Save cookies after successful interaction
                 self.cookie_manager.save_cookies(self.driver)
                 
-                logger.info(f"✅ Autonomous message exchange completed successfully")
+                logger.info(f"Autonomous message exchange completed successfully")
+                
+                # Update conversation activity
+                self.conversation_manager.update_conversation_activity()
+                
                 return response_text
                 
             except Exception as e:
-                logger.error(f"❌ Message attempt {attempt + 1} failed: {e}")
+                logger.error(f"Message attempt {attempt + 1} failed: {e}")
                 if attempt < self.max_retries - 1:
-                    logger.info(f"⏳ Retrying in {self.retry_delay} seconds...")
+                    logger.info(f"Retrying in {self.retry_delay} seconds...")
                     time.sleep(self.retry_delay)
                     
                     # Try to recover by reinitializing
                     if not self._recover_session():
-                        logger.error("❌ Session recovery failed")
+                        logger.error("Session recovery failed")
                         return None
                 else:
-                    logger.error("❌ All message attempts failed")
+                    logger.error("All message attempts failed")
                     return None
         
         return None
@@ -241,7 +265,7 @@ class TheaAutonomousSystem:
         Returns:
             Dictionary containing system status information
         """
-        return {
+        status = {
             "initialized": self.is_initialized,
             "headless_mode": self.headless,
             "last_activity": self.last_activity.isoformat() if self.last_activity else None,
@@ -250,10 +274,15 @@ class TheaAutonomousSystem:
             "max_retries": self.max_retries,
             "retry_delay": self.retry_delay
         }
+        
+        # Add conversation status
+        status["conversation_status"] = self.conversation_manager.get_status()
+        
+        return status
     
     def cleanup(self):
         """Clean up system resources."""
-        logger.info("🧹 Cleaning up Thea Autonomous System...")
+        logger.info("Cleaning up Thea Autonomous System...")
         
         try:
             if self.driver:
@@ -261,10 +290,10 @@ class TheaAutonomousSystem:
                 self.driver = None
             
             self.is_initialized = False
-            logger.info("✅ Cleanup completed")
+            logger.info("Cleanup completed")
             
         except Exception as e:
-            logger.error(f"❌ Cleanup failed: {e}")
+            logger.error(f"Cleanup failed: {e}")
     
     def __enter__(self):
         """Context manager entry."""
@@ -323,3 +352,9 @@ if __name__ == "__main__":
         print(f"📝 Response preview: {response[:200]}...")
     else:
         print("❌ Failed to get response from Thea")
+
+
+
+
+
+

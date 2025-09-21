@@ -229,3 +229,6 @@ resource "aws_elasticache_replication_group" "swarm_redis" {
     Name = "${var.project_name}-redis"
   }
 }
+
+
+

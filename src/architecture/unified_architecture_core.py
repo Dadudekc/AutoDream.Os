@@ -279,9 +279,24 @@ class UnifiedArchitecture:
         """Check if the architecture is initialized."""
         return self._initialized
 
+    def cleanup(self) -> bool:
+        """Cleanup the unified architecture."""
+        if not self._initialized:
+            logger.warning("Architecture not initialized")
+            return True
+
+        try:
+            self._initialized = False
+            logger.info("Unified architecture cleaned up")
+            return True
+        except Exception as e:
+            logger.error(f"Failed to cleanup architecture: {e}")
+            return False
+
 
 # Global unified architecture instance
 unified_architecture = UnifiedArchitecture()
+unified_architecture_core = unified_architecture
 
 
 def initialize_architecture() -> bool:

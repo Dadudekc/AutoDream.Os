@@ -26,11 +26,8 @@ class DiscordBotConfig:
             "discord_channel_id": os.getenv("DISCORD_CHANNEL_ID", "your_discord_channel_id_here"),
             "discord_guild_id": os.getenv("DISCORD_GUILD_ID", "your_discord_guild_id_here"),
             
-            # Agent-specific channels
+            # Agent-specific channels - 5-Agent Mode
             "agent_channels": {
-                "Agent-1": os.getenv("DISCORD_CHANNEL_AGENT_1", "your_agent_1_channel_id"),
-                "Agent-2": os.getenv("DISCORD_CHANNEL_AGENT_2", "your_agent_2_channel_id"),
-                "Agent-3": os.getenv("DISCORD_CHANNEL_AGENT_3", "1387515009621430392"),
                 "Agent-4": os.getenv("DISCORD_CHANNEL_AGENT_4", "your_agent_4_channel_id"),
                 "Agent-5": os.getenv("DISCORD_CHANNEL_AGENT_5", "your_agent_5_channel_id"),
                 "Agent-6": os.getenv("DISCORD_CHANNEL_AGENT_6", "your_agent_6_channel_id"),

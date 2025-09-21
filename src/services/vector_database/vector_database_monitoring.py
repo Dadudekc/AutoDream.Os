@@ -11,8 +11,35 @@ import time
 from typing import Dict, List, Optional, Any
 from dataclasses import dataclass
 from datetime import datetime, timezone
+from enum import Enum
 
 logger = logging.getLogger(__name__)
+
+
+class AlertLevel(Enum):
+    """Alert level enumeration."""
+    INFO = "info"
+    WARNING = "warning"
+    ERROR = "error"
+    CRITICAL = "critical"
+
+
+@dataclass
+class Alert:
+    """Alert data structure."""
+    message: str
+    level: AlertLevel
+    timestamp: datetime
+    source: str = "vector_database"
+
+
+@dataclass
+class PerformanceMetric:
+    """Performance metric data structure."""
+    name: str
+    value: float
+    timestamp: datetime
+    unit: str = "ms"
 
 
 @dataclass

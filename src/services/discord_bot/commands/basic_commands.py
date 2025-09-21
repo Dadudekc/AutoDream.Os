@@ -1,167 +1,219 @@
 #!/usr/bin/env python3
 """
-Basic Discord Commands
-======================
+Discord Bot Basic Commands
+==========================
 
-Basic slash commands for Discord bot.
+Basic command setup for the Discord bot.
+Provides fundamental commands for bot interaction.
+
+V2 Compliance: ≤400 lines, 1 class, 5 functions
 """
 
 import discord
-from discord import app_commands
+from discord.ext import commands
+from typing import Dict, Any
+import logging
+
+logger = logging.getLogger(__name__)
 
 
-def setup_basic_commands(bot):
-    """Setup basic bot slash commands."""
+def setup_basic_commands(bot: commands.Bot):
+    """Setup basic Discord bot commands."""
 
-    @bot.tree.command(name="ping", description="Test bot responsiveness")
-    async def ping(interaction: discord.Interaction):
-        """Test bot responsiveness."""
-        latency = round(bot.latency * 1000)
-        await interaction.response.send_message(f"🏓 Pong! Latency: {latency}ms")
+    @bot.command(name="ping", help="Check bot responsiveness")
+    async def ping(ctx):
+        """Check bot ping/latency."""
+        try:
+            latency = round(bot.latency * 1000)
+            embed = discord.Embed(
+                title="🏓 Pong!",
+                description=f"**Latency:** {latency}ms",
+                color=0x00ff00
+            )
+            embed.set_footer(text="🐝 WE ARE SWARM - Discord Commander Active")
+            await ctx.send(embed=embed)
 
-    @bot.tree.command(name="commands", description="Show help information")
-    async def help_command(interaction: discord.Interaction):
-        """Show help information."""
-        help_text = """
-**V2_SWARM Enhanced Discord Agent Bot Commands:**
+        except Exception as e:
+            logger.error(f"Error in ping command: {e}")
+            await ctx.send("❌ Error processing ping command")
 
-**Basic Commands:**
-- `/ping` - Test bot responsiveness
-- `/commands` - Show this help message
-- `/swarm-help` - Show this help message (alias)
-- `/status` - Show system status
+    @bot.command(name="status", help="Get Discord Commander status")
+    async def status(ctx):
+        """Get Discord Commander status."""
+        try:
+            embed = discord.Embed(
+                title="🐝 Discord Commander Status",
+                color=0x0099ff
+            )
 
-**Agent Commands:**
-- `/agents` - List all agents and their status
-- `/agent-channels` - List agent-specific Discord channels
-- `/swarm` - Send message to all agents
+            embed.add_field(
+                name="Commander",
+                value="Active" if bot.is_ready else "Offline",
+                inline=True
+            )
 
-**Devlog Commands:**
-- `/devlog` - Create devlog entry (main channel)
-- `/agent-devlog` - Create devlog for specific agent
-- `/test-devlog` - Test devlog functionality
+            embed.add_field(
+                name="Agent ID",
+                value=getattr(bot, 'agent_id', 'Discord-Commander'),
+                inline=True
+            )
 
-**Messaging Commands:**
-- `/send` - Send message to specific agent
-- `/msg-status` - Get messaging system status
-- `/message-history` - View message history for agents
-- `/list-agents` - List all available agents and their status
-- `/system-status` - Get comprehensive messaging system status
-- `/send-advanced` - Send message with advanced options
-- `/broadcast-advanced` - Broadcast message with advanced options
+            embed.add_field(
+                name="Guilds",
+                value=len(bot.guilds),
+                inline=True
+            )
 
-**Onboarding Commands:**
-- `/onboard-agent` - Onboard a specific agent
-- `/onboard-all` - Onboard all agents
-- `/onboarding-status` - Check onboarding status for agents
-- `/onboarding-info` - Get information about the onboarding process
+            embed.add_field(
+                name="Latency",
+                value=f"{round(bot.latency * 1000)}ms" if bot.latency else "Unknown",
+                inline=True
+            )
 
-**Project Update Commands:**
-- `/project-update` - Send project update to all agents
-- `/milestone` - Send milestone completion notification
-- `/system-status` - Send system status update
-- `/v2-compliance` - Send V2 compliance update
-- `/doc-cleanup` - Send documentation cleanup update
-- `/feature-announce` - Send feature announcement
-- `/update-history` - View project update history
-- `/update-stats` - View project update statistics
+            embed.set_footer(text="WE ARE SWARM - Agent Coordination Active")
+            await ctx.send(embed=embed)
 
-**System Commands:**
-- `/info` - Show bot information
+        except Exception as e:
+            logger.error(f"Error in status command: {e}")
+            await ctx.send("❌ Error getting status")
 
-**Usage Examples:**
-- `/swarm message:All agents report status`
-- `/devlog action:Tools cleanup completed`
-- `/agent-devlog agent:Agent-4 action:Mission completed successfully`
-- `/send agent:Agent-1 message:Hello from Discord`
-- `/send-advanced agent:Agent-1 message:Urgent update priority:URGENT message_type:system`
-- `/broadcast-advanced message:System maintenance in 1 hour priority:HIGH`
-- `/message-history agent:Agent-1 limit:5`
-- `/list-agents`
-- `/onboard-agent agent:Agent-1 dry_run:false`
-- `/onboard-all dry_run:true`
-- `/onboarding-status agent:Agent-1`
-- `/project-update update_type:milestone title:V2 Compliance Complete description:All agents now V2 compliant`
-- `/milestone name:Documentation Cleanup completion:100 description:Removed 13 redundant files`
-- `/system-status system:Messaging Service status:Operational details:All systems green`
-- `/v2-compliance status:Compliant files_checked:150 violations:0 details:All files under 400 lines`
-- `/msg-status`
-- `/agent-channels`
+    @bot.command(name="help", help="Show available commands")
+    async def help_command(ctx):
+        """Show available Discord bot commands."""
+        try:
+            embed = discord.Embed(
+                title="🐝 Discord Commander Help",
+                description="Available Commands:",
+                color=0x0099ff
+            )
 
-**Ready for enhanced swarm coordination!** 🐝
-        """
-        await interaction.response.send_message(help_text)
+            embed.add_field(
+                name="!ping",
+                value="Check bot responsiveness and latency",
+                inline=False
+            )
 
-    @bot.tree.command(name="swarm-help", description="Show help information")
-    async def help_command_simple(interaction: discord.Interaction):
-        """Show help information."""
-        help_text = """
-**V2_SWARM Enhanced Discord Agent Bot Commands:**
+            embed.add_field(
+                name="!status",
+                value="Get Discord Commander status information",
+                inline=False
+            )
 
-**Basic Commands:**
-- `/ping` - Test bot responsiveness
-- `/commands` - Show this help message
-- `/swarm-help` - Show this help message (alias)
-- `/status` - Show system status
+            embed.add_field(
+                name="!help",
+                value="Show this help message",
+                inline=False
+            )
 
-**Agent Commands:**
-- `/agents` - List all agents and their status
-- `/agent-channels` - List agent-specific Discord channels
-- `/swarm` - Send message to all agents
+            embed.add_field(
+                name="!swarm",
+                value="Get swarm coordination status",
+                inline=False
+            )
 
-**Devlog Commands:**
-- `/devlog` - Create devlog entry (main channel)
-- `/agent-devlog` - Create devlog for specific agent
-- `/test-devlog` - Test devlog functionality
+            embed.add_field(
+                name="!agents",
+                value="List connected agents",
+                inline=False
+            )
 
-**Messaging Commands:**
-- `/send` - Send message to specific agent
-- `/msg-status` - Get messaging system status
-- `/message-history` - View message history for agents
-- `/list-agents` - List all available agents and their status
-- `/system-status` - Get comprehensive messaging system status
-- `/send-advanced` - Send message with advanced options
-- `/broadcast-advanced` - Broadcast message with advanced options
+            embed.set_footer(text="🐝 WE ARE SWARM - Use @DiscordCommander to mention me!")
+            await ctx.send(embed=embed)
 
-**Onboarding Commands:**
-- `/onboard-agent` - Onboard a specific agent
-- `/onboard-all` - Onboard all agents
-- `/onboarding-status` - Check onboarding status for agents
-- `/onboarding-info` - Get information about the onboarding process
+        except Exception as e:
+            logger.error(f"Error in help command: {e}")
+            await ctx.send("❌ Error showing help")
 
-**Project Update Commands:**
-- `/project-update` - Send project update to all agents
-- `/milestone` - Send milestone completion notification
-- `/system-status` - Send system status update
-- `/v2-compliance` - Send V2 compliance update
-- `/doc-cleanup` - Send documentation cleanup update
-- `/feature-announce` - Send feature announcement
-- `/update-history` - View project update history
-- `/update-stats` - View project update statistics
+    @bot.command(name="swarm", help="Get swarm coordination status")
+    async def swarm_status(ctx):
+        """Get swarm coordination status."""
+        try:
+            embed = discord.Embed(
+                title="🐝 Swarm Coordination Status",
+                color=0xffaa00
+            )
 
-**System Commands:**
-- `/info` - Show bot information
+            embed.add_field(
+                name="Swarm Status",
+                value="Active",
+                inline=True
+            )
 
-**Usage Examples:**
-- `/swarm message:All agents report status`
-- `/devlog action:Tools cleanup completed`
-- `/agent-devlog agent:Agent-4 action:Mission completed successfully`
-- `/send agent:Agent-1 message:Hello from Discord`
-- `/send-advanced agent:Agent-1 message:Urgent update priority:URGENT message_type:system`
-- `/broadcast-advanced message:System maintenance in 1 hour priority:HIGH`
-- `/message-history agent:Agent-1 limit:5`
-- `/list-agents`
-- `/onboard-agent agent:Agent-1 dry_run:false`
-- `/onboard-all dry_run:true`
-- `/onboarding-status agent:Agent-1`
-- `/project-update update_type:milestone title:V2 Compliance Complete description:All agents now V2 compliant`
-- `/milestone name:Documentation Cleanup completion:100 description:Removed 13 redundant files`
-- `/system-status system:Messaging Service status:Operational details:All systems green`
-- `/v2-compliance status:Compliant files_checked:150 violations:0 details:All files under 400 lines`
-- `/msg-status`
-- `/agent-channels`
+            embed.add_field(
+                name="Connected Agents",
+                value=len(getattr(bot, 'connected_agents', set())),
+                inline=True
+            )
 
-**Ready for enhanced swarm coordination!** 🐝
-        """
-        await interaction.response.send_message(help_text)
+            embed.add_field(
+                name="Active Tasks",
+                value="Monitoring",
+                inline=True
+            )
+
+            embed.add_field(
+                name="Coordination Mode",
+                value="Real-time",
+                inline=True
+            )
+
+            embed.set_footer(text="WE ARE SWARM - Agent Intelligence Collective")
+            await ctx.send(embed=embed)
+
+        except Exception as e:
+            logger.error(f"Error in swarm command: {e}")
+            await ctx.send("❌ Error getting swarm status")
+
+    @bot.command(name="agents", help="List connected agents")
+    async def list_agents(ctx):
+        """List connected agents."""
+        try:
+            connected_agents = getattr(bot, 'connected_agents', set())
+            if not connected_agents:
+                await ctx.send("🤖 **No agents currently connected**")
+                return
+
+            embed = discord.Embed(
+                title="🤖 Connected Agents",
+                description=f"Total: {len(connected_agents)} agents",
+                color=0x00aa00
+            )
+
+            for i, agent in enumerate(connected_agents, 1):
+                embed.add_field(
+                    name=f"Agent {i}",
+                    value=agent,
+                    inline=True
+                )
+
+            embed.set_footer(text="🐝 WE ARE SWARM - Agent Network Active")
+            await ctx.send(embed=embed)
+
+        except Exception as e:
+            logger.error(f"Error in agents command: {e}")
+            await ctx.send("❌ Error listing agents")
+
+
+class BasicCommandHandler:
+    """Basic command handler for Discord bot."""
+
+    def __init__(self, bot: commands.Bot):
+        """Initialize basic command handler."""
+        self.bot = bot
+        self.logger = logging.getLogger(f"{__name__}.BasicCommandHandler")
+
+    def get_command_list(self) -> Dict[str, str]:
+        """Get list of available commands."""
+        return {
+            "ping": "Check bot responsiveness",
+            "status": "Get Discord Commander status",
+            "help": "Show available commands",
+            "swarm": "Get swarm coordination status",
+            "agents": "List connected agents"
+        }
+
+    def get_command_help(self, command_name: str) -> str:
+        """Get help for specific command."""
+        commands = self.get_command_list()
+        return commands.get(command_name, "Command not found")
 

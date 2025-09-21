@@ -138,3 +138,5 @@ def log_performance(logger: logging.Logger, operation: str, duration: float, **k
 
 # Initialize logging for the application
 SharedLogger.configure_logging()
+
+

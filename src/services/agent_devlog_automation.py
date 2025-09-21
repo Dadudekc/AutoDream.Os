@@ -168,48 +168,8 @@ async def auto_create_cycle_completion(agent_id: str, action: str, results: str)
         await automation.close()
 
 
-# Integration with existing messaging system
-class EnhancedMessagingService:
-    """Enhanced messaging service with automatic devlog creation."""
-    
-    def __init__(self):
-        """Initialize enhanced messaging service."""
-        self.devlog_automation = AgentDevlogAutomation()
-        self.auto_devlog_enabled = True
-    
-    async def send_message_with_devlog(self, 
-                                     from_agent: str,
-                                     to_agent: str, 
-                                     message: str,
-                                     create_devlog: bool = True) -> tuple[bool, Optional[str]]:
-        """Send message and optionally create devlog."""
-        
-        # Send the actual message (using existing messaging system)
-        # This would integrate with the existing PyAutoGUI messaging
-        
-        # Create devlog if enabled
-        devlog_filepath = None
-        if create_devlog and self.auto_devlog_enabled:
-            try:
-                await self.devlog_automation.initialize()
-                devlog_filepath, success = await self.devlog_automation.create_coordination_devlog(
-                    from_agent, message, to_agent
-                )
-                logger.info(f"Auto-created devlog: {devlog_filepath}")
-            except Exception as e:
-                logger.error(f"Failed to create auto devlog: {e}")
-        
-        return True, devlog_filepath
-    
-    async def close(self):
-        """Close services."""
-        await self.devlog_automation.close()
-
-
-# Convenience functions for easy import
-async def auto_create_devlog(agent_id: str, action: str, status: str = "completed", 
-                           details: Optional[dict] = None) -> tuple[str, bool]:
-    """Create a devlog automatically."""
+# NOTE: Enhanced messaging functionality moved to consolidated_messaging_service.py
+# All messaging functionality consolidated into single SSOT service
     automation = AgentDevlogAutomation()
     try:
         await automation.initialize()

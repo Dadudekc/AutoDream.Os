@@ -201,3 +201,5 @@ def log_and_raise(
     error_msg = custom_message or f"Error in {context}: {error}"
     logger.error(error_msg, exc_info=True)
     raise type(error)(error_msg) from error
+
+

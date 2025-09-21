@@ -302,3 +302,6 @@ class DistributedDatabaseManager:
     def add_config(self, name: str, config: DatabaseConfig) -> None:
         """Add new database configuration."""
         self.configs[name] = config
+
+
+

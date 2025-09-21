@@ -21,6 +21,7 @@ import numpy as np
 
 from .vector_database_orchestrator import VectorDatabaseOrchestrator
 from .status_indexer import StatusIndexer
+from .indexing import IndexStats
 from .vector_database_models import (
     VectorRecord, VectorMetadata, VectorQuery, VectorType, VectorStatus
 )
@@ -37,8 +38,17 @@ class VectorDatabaseIntegration:
         self.config = config or {}
         
         # Initialize core components
-        self.orchestrator = VectorDatabaseOrchestrator(db_path)
-        self.status_indexer = StatusIndexer(self.orchestrator)
+        from .vector_database_orchestrator import DatabaseConfig
+        db_config = DatabaseConfig(database=db_path)
+        self.orchestrator = VectorDatabaseOrchestrator(db_config)
+
+        # Connect to database (synchronous)
+        if not self.orchestrator.connect_sync():
+            logger.warning("Failed to connect to vector database")
+        else:
+            logger.info("Successfully connected to vector database")
+
+        self.status_indexer = StatusIndexer(orchestrator=self.orchestrator)
         
         # Integration settings
         self.auto_indexing = self.config.get('auto_indexing', True)
@@ -195,8 +205,8 @@ class VectorDatabaseIntegration:
                 similarity_threshold=0.7
             )
             
-            # Search vectors
-            results = self.orchestrator.search_vectors(query)
+            # Search vectors (synchronous)
+            results = self.orchestrator.search_vectors_sync(query)
             
             logger.info(f"Status search completed: {len(results)} results for {agent_id}")
             return results

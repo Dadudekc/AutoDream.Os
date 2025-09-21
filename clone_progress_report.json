@@ -1,0 +1,62 @@
+{
+  "timestamp": "2025-09-21 03:15:44",
+  "total_tasks": 4,
+  "tasks_by_status": {
+    "pending": 0,
+    "cloning": 0,
+    "completed": 0,
+    "failed": 4
+  },
+  "results_summary": {
+    "total_attempts": 4,
+    "successful": 0,
+    "failed": 4,
+    "total_files_cloned": 0,
+    "total_duration": 78.56559586524963
+  },
+  "tasks": [
+    {
+      "name": "vscode",
+      "status": "failed",
+      "progress": 0.0,
+      "errors": [],
+      "dependencies": [
+        "nodejs",
+        "npm",
+        "typescript"
+      ]
+    },
+    {
+      "name": "autodream-os",
+      "status": "failed",
+      "progress": 0.0,
+      "errors": [],
+      "dependencies": [
+        "python",
+        "pip",
+        "pytest"
+      ]
+    },
+    {
+      "name": "agent-cellphone-v2",
+      "status": "failed",
+      "progress": 0.0,
+      "errors": [],
+      "dependencies": [
+        "python",
+        "pip",
+        "pytest"
+      ]
+    },
+    {
+      "name": "vscode-extensions",
+      "status": "failed",
+      "progress": 0.0,
+      "errors": [],
+      "dependencies": [
+        "nodejs",
+        "npm"
+      ]
+    }
+  ]
+}

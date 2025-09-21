@@ -1,0 +1,42 @@
+[
+  {
+    "type": "message_forwarding",
+    "timestamp": "2025-09-19T20:27:36.560735",
+    "data": {
+      "message_id": "MSG_20250919_202736",
+      "from_agent": "Agent-3",
+      "to_agent": "Agent-1",
+      "status": "success"
+    }
+  },
+  {
+    "type": "message_forwarding",
+    "timestamp": "2025-09-19T20:27:41.400954",
+    "data": {
+      "message_id": "MSG_20250919_202741",
+      "from_agent": "Agent-3",
+      "to_agent": "Agent-2",
+      "status": "success"
+    }
+  },
+  {
+    "type": "message_forwarding",
+    "timestamp": "2025-09-19T20:27:46.678301",
+    "data": {
+      "message_id": "MSG_20250919_202746",
+      "from_agent": "Agent-3",
+      "to_agent": "Agent-4",
+      "status": "success"
+    }
+  },
+  {
+    "type": "message_forwarding",
+    "timestamp": "2025-09-19T20:27:53.543096",
+    "data": {
+      "message_id": "MSG_20250919_202753",
+      "from_agent": "Agent-3",
+      "to_agent": "Agent-3",
+      "status": "success"
+    }
+  }
+]

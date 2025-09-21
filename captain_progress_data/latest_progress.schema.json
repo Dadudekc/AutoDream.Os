@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CaptainProgress",
+  "type": "object",
+  "required": ["team_composite_0_100", "agents", "weights"],
+  "properties": {
+    "team_composite_0_100": { "type": "number" },
+    "weights": { "type": "object", "additionalProperties": { "type": "number" } },
+    "agents": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["composite_0_100", "breakdown", "raw"],
+        "properties": {
+          "composite_0_100": { "type": "number" },
+          "breakdown": { "type": "object", "additionalProperties": { "type": "number" } },
+          "raw": { "type": "object" }
+        }
+      }
+    }
+  }
+}
+
+
+

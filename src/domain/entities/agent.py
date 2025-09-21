@@ -42,6 +42,9 @@ class AgentCapability(Enum):
     COMMAND_EXECUTION = "command_execution"
     DATA_PROCESSING = "data_processing"
     COORDINATION = "coordination"
+    USER_INTERFACE = "user_interface"
+    SECURITY = "security"
+    SYSTEM_INTEGRATION = "system_integration"
 
 
 @dataclass
@@ -373,3 +376,62 @@ class Agent:
         """Detailed string representation of the agent."""
         return (f"Agent(id='{self._id}', name='{self._name}', "
                 f"type={self._agent_type.value}, status={self._status.value})")
+
+
+class AgentManager:
+    """Manager for agent entities."""
+
+    def __init__(self):
+        """Initialize agent manager."""
+        self._agents: Dict[str, Agent] = {}
+        self.logger = logging.getLogger(f"{__name__}.AgentManager")
+
+    def register_agent(self, agent: Agent) -> None:
+        """Register an agent."""
+        self._agents[agent.id] = agent
+        self.logger.debug(f"Agent registered: {agent.name}")
+
+    def unregister_agent(self, agent_id: str) -> bool:
+        """Unregister an agent."""
+        if agent_id in self._agents:
+            del self._agents[agent_id]
+            self.logger.debug(f"Agent unregistered: {agent_id}")
+            return True
+        return False
+
+    def get_agent(self, agent_id: str) -> Optional[Agent]:
+        """Get an agent by ID."""
+        return self._agents.get(agent_id)
+
+    def get_all_agents(self) -> Dict[str, Agent]:
+        """Get all agents."""
+        return self._agents.copy()
+
+    def get_agents_by_type(self, agent_type: AgentType) -> List[Agent]:
+        """Get agents by type."""
+        return [agent for agent in self._agents.values()
+                if agent.agent_type == agent_type]
+
+    def get_agents_by_capability(self, capability: AgentCapability) -> List[Agent]:
+        """Get agents by capability."""
+        return [agent for agent in self._agents.values()
+                if agent.has_capability(capability)]
+
+    def get_available_agents(self) -> List[Agent]:
+        """Get available agents."""
+        return [agent for agent in self._agents.values()
+                if agent.is_available()]
+
+    def cleanup_all(self) -> None:
+        """Cleanup all agents."""
+        self._agents.clear()
+        self.logger.info("All agents cleaned up")
+
+    @property
+    def agents(self) -> Dict[str, Agent]:
+        """Get all agents."""
+        return self._agents.copy()
+
+
+# Global agent manager
+agent_manager = AgentManager()

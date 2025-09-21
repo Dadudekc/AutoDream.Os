@@ -42,6 +42,19 @@ class TaskType(Enum):
     DOCUMENTATION = "documentation"
     DEPLOYMENT = "deployment"
     MAINTENANCE = "maintenance"
+    SYSTEM = "system"
+
+
+class TaskCategory(Enum):
+    """Task category enumeration."""
+    SYSTEM_OPERATION = "system_operation"
+    DEVELOPMENT = "development"
+    TESTING = "testing"
+    DOCUMENTATION = "documentation"
+    DEPLOYMENT = "deployment"
+    MAINTENANCE = "maintenance"
+    INTEGRATION = "integration"
+    MONITORING = "monitoring"
 
 
 @dataclass
@@ -391,3 +404,98 @@ class Task:
         """Detailed string representation of the task."""
         return (f"Task(id='{self._id}', title='{self._title}', "
                 f"type={self._task_type.value}, status={self._status.value})")
+
+
+@dataclass
+class TaskConfiguration:
+    """Configuration for task management."""
+    max_concurrent_tasks: int = 10
+    default_timeout: int = 300
+    retry_attempts: int = 3
+    priority_queue: bool = True
+    auto_assignment: bool = True
+
+
+class TaskManager:
+    """Manager for task entities."""
+
+    def __init__(self):
+        """Initialize task manager."""
+        self._tasks: Dict[str, Task] = {}
+        self.logger = logging.getLogger(f"{__name__}.TaskManager")
+
+    def create_task(self, title: str, description: str, task_type: TaskType,
+                   priority: TaskPriority = TaskPriority.NORMAL) -> Task:
+        """Create a new task."""
+        task_id = f"task_{len(self._tasks) + 1}"
+        task = Task(task_id, title, description, task_type, priority)
+        self._tasks[task_id] = task
+        self.logger.debug(f"Task created: {title}")
+        return task
+
+    def get_task(self, task_id: str) -> Optional[Task]:
+        """Get a task by ID."""
+        return self._tasks.get(task_id)
+
+    def get_all_tasks(self) -> Dict[str, Task]:
+        """Get all tasks."""
+        return self._tasks.copy()
+
+    def get_tasks_by_status(self, status: TaskStatus) -> List[Task]:
+        """Get tasks by status."""
+        return [task for task in self._tasks.values()
+                if task.status == status]
+
+    def get_tasks_by_type(self, task_type: TaskType) -> List[Task]:
+        """Get tasks by type."""
+        return [task for task in self._tasks.values()
+                if task.task_type == task_type]
+
+    def get_tasks_by_priority(self, priority: TaskPriority) -> List[Task]:
+        """Get tasks by priority."""
+        return [task for task in self._tasks.values()
+                if task.priority == priority]
+
+    def get_pending_tasks(self) -> List[Task]:
+        """Get pending tasks."""
+        return self.get_tasks_by_status(TaskStatus.PENDING)
+
+    def assign_task(self, task_id: str, agent_id: str) -> bool:
+        """Assign a task to an agent."""
+        task = self.get_task(task_id)
+        if task and task.assign_to_agent(agent_id):
+            self.logger.info(f"Task {task_id} assigned to {agent_id}")
+            return True
+        return False
+
+    def complete_task(self, task_id: str, success: bool = True) -> bool:
+        """Complete a task."""
+        task = self.get_task(task_id)
+        if task:
+            task.complete(success)
+            self.logger.info(f"Task {task_id} completed (success: {success})")
+            return True
+        return False
+
+    def cancel_task(self, task_id: str, reason: str = "") -> bool:
+        """Cancel a task."""
+        task = self.get_task(task_id)
+        if task:
+            task.cancel(reason)
+            self.logger.info(f"Task {task_id} cancelled: {reason}")
+            return True
+        return False
+
+    def cleanup_all(self) -> None:
+        """Cleanup all tasks."""
+        self._tasks.clear()
+        self.logger.info("All tasks cleaned up")
+
+    @property
+    def tasks(self) -> Dict[str, Task]:
+        """Get all tasks."""
+        return self._tasks.copy()
+
+
+# Global task manager
+task_manager = TaskManager()

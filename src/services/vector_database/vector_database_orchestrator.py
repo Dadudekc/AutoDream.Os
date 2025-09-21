@@ -8,6 +8,7 @@ V2 compliant vector database orchestration system.
 
 import logging
 import asyncio
+import time
 from typing import Dict, List, Optional, Any
 from dataclasses import dataclass
 from .orchestration.core import OrchestrationCore, OrchestrationConfig
@@ -59,7 +60,25 @@ class VectorDatabaseOrchestrator:
             logger.error(f"Failed to connect: {e}")
             self.orchestration_core.release_connection()
             return False
-    
+
+    def connect_sync(self) -> bool:
+        """Connect to the vector database (synchronous)."""
+        try:
+            if not self.orchestration_core.acquire_connection():
+                logger.warning("Cannot acquire connection, max connections reached")
+                return False
+
+            # Simulate connection (synchronous)
+            time.sleep(0.1)
+            self.is_connected = True
+            logger.info("Connected to vector database")
+            return True
+
+        except Exception as e:
+            logger.error(f"Failed to connect: {e}")
+            self.orchestration_core.release_connection()
+            return False
+
     async def disconnect(self):
         """Disconnect from the vector database."""
         if self.is_connected:
@@ -155,7 +174,38 @@ class VectorDatabaseOrchestrator:
                 'error': str(e),
                 'operation_id': self.operation_count
             }
-    
+
+    def search_vectors_sync(self, query_vector: List[float], limit: int = 10) -> Dict[str, Any]:
+        """Search for similar vectors (synchronous)."""
+        if not self.is_connected:
+            raise RuntimeError("Not connected to database")
+
+        try:
+            self.operation_count += 1
+
+            # Simulate vector search (synchronous)
+            time.sleep(0.1)
+
+            result = {
+                'success': True,
+                'results': [
+                    {'id': f'result_{i}', 'similarity': 0.9 - (i * 0.1)}
+                    for i in range(min(limit, 10))
+                ],
+                'operation_id': self.operation_count
+            }
+
+            logger.debug(f"Vector search completed: {len(result['results'])} results")
+            return result
+
+        except Exception as e:
+            logger.error(f"Vector search failed: {e}")
+            return {
+                'success': False,
+                'error': str(e),
+                'operation_id': self.operation_count
+            }
+
     def get_status(self) -> Dict[str, Any]:
         """Get orchestrator status."""
         orchestration_status = self.orchestration_core.get_status()

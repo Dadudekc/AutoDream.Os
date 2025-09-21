@@ -1,0 +1,69 @@
+{
+  "project_name": "AutoDream.OS",
+  "version": "2.1.0",
+  "components": {},
+  "patterns": [
+    {
+      "name": "KISS Principle",
+      "description": "Keep It Simple, Stupid - prefer simple solutions",
+      "examples": [
+        "Use simple functions instead of complex classes",
+        "Prefer if/else over complex match statements",
+        "Use built-in types instead of custom wrappers"
+      ],
+      "anti_patterns": [
+        "Over-engineering simple problems",
+        "Creating abstractions before they're needed",
+        "Complex inheritance hierarchies"
+      ],
+      "enforcement_level": "required"
+    },
+    {
+      "name": "YAGNI",
+      "description": "You Aren't Gonna Need It - don't build features until needed",
+      "examples": [
+        "Start with simple data structures",
+        "Add complexity only when requirements demand it",
+        "Prefer composition over inheritance"
+      ],
+      "anti_patterns": [
+        "Building features for hypothetical future needs",
+        "Creating complex interfaces for simple use cases",
+        "Over-abstracting before understanding requirements"
+      ],
+      "enforcement_level": "required"
+    },
+    {
+      "name": "Single Responsibility",
+      "description": "Each component should have one clear purpose",
+      "examples": [
+        "Separate data access from business logic",
+        "Keep UI components focused on presentation",
+        "Isolate external service integrations"
+      ],
+      "anti_patterns": [
+        "God classes that do everything",
+        "Functions that handle multiple concerns",
+        "Modules mixing different abstraction levels"
+      ],
+      "enforcement_level": "required"
+    },
+    {
+      "name": "Error Handling",
+      "description": "Use anyhow for consistent error handling",
+      "examples": [
+        "from anyhow import Result, Context",
+        "def process_data() -> Result[str]: ...",
+        "Use .context() for error context"
+      ],
+      "anti_patterns": [
+        "Bare except clauses",
+        "Silent error swallowing",
+        "Inconsistent error types"
+      ],
+      "enforcement_level": "required"
+    }
+  ],
+  "last_updated": "2025-09-20T18:03:22.044966",
+  "active_agents": []
+}

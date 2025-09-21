@@ -198,3 +198,5 @@ class StrategyFactory:
     def list_strategies(cls) -> List[str]:
         """List available strategies."""
         return list(cls._strategies.keys())
+
+

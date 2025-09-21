@@ -56,7 +56,7 @@ class TheaCommunicationCore:
     def send_message_selenium(self, driver, message: str) -> bool:
         """Send message using Selenium automation."""
         try:
-            print("🤖 AUTOMATED MESSAGE SENDING")
+            print("AUTOMATED MESSAGE SENDING")
             print("-" * 30)
 
             from selenium.webdriver.common.by import By
@@ -68,20 +68,28 @@ class TheaCommunicationCore:
 
             # Navigate to Thea if not already there
             if "thea-manager" not in driver.current_url:
-                print("🌐 Navigating to Thea...")
+                print("Navigating to Thea...")
                 driver.get(thea_url)
                 time.sleep(3)
 
             # Wait for input field to be available
             wait = WebDriverWait(driver, 10)
 
-            # Try multiple selectors for the input field
+            # Try multiple selectors for the input field (updated for current ChatGPT)
             input_selectors = [
+                "#prompt-textarea > p", # Primary selector - contenteditable paragraph
+                "p[data-placeholder='Ask anything']", # Alternative selector
+                "p[class*='placeholder']", # Another alternative
                 "textarea[data-testid*='prompt']",
                 "textarea[placeholder*='Message']",
                 "#prompt-textarea",
+                "textarea[placeholder*='Send a message']",
+                "textarea[data-testid='prompt-textarea']",
+                "div[contenteditable='true'][role='textbox']",
                 "textarea",
                 "[contenteditable='true']",
+                "div[data-testid='conversation-composer-input'] textarea",
+                "div[data-testid='conversation-composer-input'] div[contenteditable='true']",
             ]
 
             input_field = None
@@ -97,31 +105,63 @@ class TheaCommunicationCore:
                         )
                     break
                 except Exception as e:
-                    print(f"⚠️  Skipping selector {selector}: {e}")
+                    print(f"Skipping selector {selector}: {e}")
                     continue
 
             if not input_field:
-                print("❌ Could not find input field")
+                print("Could not find input field")
                 return False
 
             # Clear and send message with proper line breaks
             input_field.clear()
 
-            # Send message line by line to respect Shift+Enter for line breaks
-            lines = message.split("\n")
-            for i, line in enumerate(lines):
-                if i > 0:  # Not the first line
-                    # Send Shift+Enter for line break
-                    pyautogui.hotkey('shift', 'enter')
-                    time.sleep(0.5)
+            # Check if this is a contenteditable element (like the paragraph)
+            is_contenteditable = input_field.get_attribute('contenteditable') == 'true' or input_field.tag_name == 'p'
+            
+            if is_contenteditable:
+                # For contenteditable elements, use Selenium's send_keys with proper line breaks
+                print("Using Selenium send_keys for contenteditable element")
+                from selenium.webdriver.common.keys import Keys
                 
-                # Type the line
-                pyautogui.typewrite(line)
-                time.sleep(0.1)
+                # Send message line by line to respect Shift+Enter for line breaks
+                lines = message.split("\n")
+                for i, line in enumerate(lines):
+                    if i > 0:  # Not the first line
+                        # Send Shift+Enter for line break
+                        input_field.send_keys(Keys.SHIFT + Keys.ENTER)
+                        time.sleep(0.1)
+                    
+                    # Type the line
+                    input_field.send_keys(line)
+                    time.sleep(0.1)
+            else:
+                # For regular textareas, use PyAutoGUI
+                print("Using PyAutoGUI for textarea element")
+                # Send message line by line to respect Shift+Enter for line breaks
+                lines = message.split("\n")
+                for i, line in enumerate(lines):
+                    if i > 0:  # Not the first line
+                        # Send Shift+Enter for line break
+                        pyautogui.hotkey('shift', 'enter')
+                        time.sleep(0.5)
+                    
+                    # Type the line
+                    pyautogui.typewrite(line)
+                    time.sleep(0.1)
 
             # Wait a moment then send the message
             time.sleep(1)
-            pyautogui.press('enter')
+            
+            if is_contenteditable:
+                # For contenteditable elements, use Selenium ActionChains
+                from selenium.webdriver.common.action_chains import ActionChains
+                from selenium.webdriver.common.keys import Keys
+                print("Using Selenium ActionChains to send message")
+                ActionChains(driver).send_keys(Keys.ENTER).perform()
+            else:
+                # For regular textareas, use PyAutoGUI
+                print("Using PyAutoGUI to send message")
+                pyautogui.press('enter')
 
             print("✅ Message sent via Selenium!")
             return True

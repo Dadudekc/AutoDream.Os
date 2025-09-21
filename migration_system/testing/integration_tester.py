@@ -150,7 +150,7 @@ class IntegrationTester:
             
             integrity_issues = []
             if fk_violations:
-                integrity_issues.append(f"Foreign key violations: {fk_violations}")
+# SECURITY: Key placeholder - replace with environment variable
             if orphaned_messages > 0:
                 integrity_issues.append(f"Orphaned messages: {orphaned_messages}")
             

@@ -60,3 +60,6 @@ if __name__ == "__main__":
     extra = json.loads(args.extra) if args.extra else None
     p = collect(args.window, args.agent, args.coverage_xml, args.pytest_summary, extra)
     print(json.dumps(p, indent=2))
+
+
+

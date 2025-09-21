@@ -17,7 +17,7 @@ from pathlib import Path
 from typing import Dict, List, Optional, Any
 
 from .models.messaging_models import UnifiedMessage, UnifiedMessageType, UnifiedMessagePriority, UnifiedMessageTag
-from .service import MessagingService
+from .core.messaging_service import MessagingService
 
 logger = logging.getLogger(__name__)
 

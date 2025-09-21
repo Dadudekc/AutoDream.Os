@@ -107,3 +107,9 @@ class IndexProcessor:
             'is_processing': self.is_processing,
             'total_entries': len(self.index_manager.entries)
         }
+
+    def start_processing(self) -> None:
+        """Start the processing of queued operations."""
+        if not self.is_processing:
+            logger.info("Starting index processing")
+            self._process_queue()

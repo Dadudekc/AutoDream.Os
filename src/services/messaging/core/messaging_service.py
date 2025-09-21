@@ -8,10 +8,16 @@ Core messaging functionality for agent-to-agent communication.
 
 import json
 import logging
+import sys
 from pathlib import Path
 from typing import Dict, List
 
-from src.core.coordinate_loader import CoordinateLoader
+# Add project root to Python path
+project_root = Path(__file__).parent.parent.parent.parent
+sys.path.insert(0, str(project_root))
+sys.path.append(str(project_root))
+
+from .coordinate_loader import CoordinateLoader
 
 # Lazy import to prevent hard dep at import time
 try:

@@ -1,0 +1,61 @@
+# Unified Configuration File
+# Based on Dream.OS patterns with V2 compliance
+
+app:
+  name: "Agent-Cellphone-V2"
+  version: "1.0.0"
+  debug: false
+  log_level: "INFO"
+  max_retries: 3
+  timeout: 30.0
+
+ai:
+  model: "gpt-4"
+  temperature: 0.7
+  max_tokens: 2000
+  memory:
+    max_entries: 1000
+    min_score: 0.5
+
+discord:
+  bot_token: ""
+  channel_id: 0
+  enabled: false
+
+database:
+  url: "sqlite:///memory.db"
+  pool_size: 5
+  timeout: 30.0
+
+# Task scheduling configuration
+task_scheduler:
+  max_workers: 4
+  retry_delay: 2.0
+  max_retries: 3
+
+# Agent coordination
+agents:
+  agent_1:
+    name: "Integration & Core Systems Specialist"
+    coordinates: [-1269, 481]
+    enabled: true
+  agent_2:
+    name: "Architecture & Design Specialist"
+    coordinates: [-308, 480]
+    enabled: true
+  agent_3:
+    name: "Infrastructure & DevOps Specialist"
+    coordinates: [-1269, 1001]
+    enabled: true
+  agent_4:
+    name: "Captain & Quality Manager"
+    coordinates: [-308, 1000]
+    enabled: true
+
+# Dream.OS integration settings
+dream_os:
+  enabled: true
+  integration_phase: 1
+  config_validation: true
+  hot_reload: true
+

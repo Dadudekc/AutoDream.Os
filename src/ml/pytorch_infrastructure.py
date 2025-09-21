@@ -303,3 +303,6 @@ class PyTorchInfrastructure:
             "trainable_params": trainable_params,
             "model_type": type(model).__name__
         }
+
+
+

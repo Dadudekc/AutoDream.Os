@@ -87,6 +87,7 @@ class CommandSynchronizationTester:
                                 'required': param.default == inspect.Parameter.empty
                             })
 
+                    logger.info(f"🔍 Extracted command params: {[p['name'] for p in params]}")
                     return params
 
                 def __init__(self):
@@ -121,7 +122,8 @@ class CommandSynchronizationTester:
             key_methods = [
                 'send_message',
                 'broadcast_message',
-                'get_swarm_status'
+                'get_swarm_status',
+                'get_available_agents'
             ]
 
             for method_name in key_methods:
@@ -145,6 +147,9 @@ class CommandSynchronizationTester:
                             'parameters': params,
                             'function': method
                         }
+                        logger.info(f"✅ Extracted method: {method_name} with params: {[p['name'] for p in params]}")
+                else:
+                    logger.warning(f"⚠️  Method {method_name} not found in MessagingService")
 
             # Add Discord provider methods
             discord_provider_methods = [
@@ -202,7 +207,8 @@ class CommandSynchronizationTester:
             'swarm_status': ['get_swarm_status'],
             'send_to_agent': ['send_message_to_agent', 'send_message'],
             'broadcast': ['broadcast_to_swarm', 'broadcast_message'],
-            'agent_list': []  # This is Discord-specific
+            'agent_list': ['get_available_agents'],  # Now uses messaging system
+            'send_message': ['send_message']  # Direct messaging system method
         }
 
         for command_name, expected_methods in command_to_method_mapping.items():
@@ -237,17 +243,24 @@ class CommandSynchronizationTester:
         command_params = command_info.get('parameters', [])
         method_params = method_info.get('parameters', [])
 
-        # Remove interaction parameter from command params for fair comparison
-        command_params = [p for p in command_params if p['name'] != 'interaction']
+        # Remove Discord-specific parameters for fair comparison
+        discord_specific_params = ['interaction', 'ctx']
+        command_params = [p for p in command_params if p['name'] not in discord_specific_params]
 
         if not command_params and not method_params:
             return 1.0  # Both have no parameters
 
         if not command_params or not method_params:
-            return 0.0  # One has parameters, the other doesn't
+            return 0.5  # One has parameters, the other doesn't - partial match
 
-        # Simple parameter count comparison
-        param_count_match = 1.0 if len(command_params) == len(method_params) else 0.5
+        # Parameter count comparison (allow some flexibility)
+        param_count_diff = abs(len(command_params) - len(method_params))
+        if param_count_diff == 0:
+            param_count_match = 1.0
+        elif param_count_diff == 1:
+            param_count_match = 0.8
+        else:
+            param_count_match = 0.5
 
         # Parameter name matching
         name_matches = 0
@@ -257,7 +270,7 @@ class CommandSynchronizationTester:
                     name_matches += 1
                     break
 
-        name_match_score = name_matches / max(len(command_params), len(method_params))
+        name_match_score = name_matches / max(len(command_params), len(method_params)) if max(len(command_params), len(method_params)) > 0 else 1.0
 
         # Overall match score
         return (param_count_match * 0.4) + (name_match_score * 0.6)

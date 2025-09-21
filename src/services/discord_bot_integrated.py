@@ -340,49 +340,8 @@ class IntegratedDiscordBotService:
             self.logger.error(f"❌ Failed to initialize Discord bot: {e}")
             raise
     
-    async def _integrate_systems(self):
-        """Integrate all systems together."""
-        try:
-            self.logger.info("🔗 Integrating systems...")
-            
-            # Integrate command router with design patterns
-            if hasattr(self.bot, 'command_router'):
-                self.bot.command_router.pattern_manager = pattern_manager
-            
-            # Integrate security manager with design patterns
-            if hasattr(self.bot, 'security_manager'):
-                self.bot.security_manager.pattern_manager = pattern_manager
-            
-            # Integrate UI embeds with design patterns
-            if hasattr(self.bot, 'ui_embeds'):
-                self.bot.ui_embeds.pattern_manager = pattern_manager
-            
-            # Integrate agent communication with domain entities
-            if hasattr(self.bot, 'agent_communication'):
-                self.bot.agent_communication.agent_manager = agent_manager
-                self.bot.agent_communication.event_bus = event_bus
-            
-            # Publish integration complete event
-            integration_event = SystemEvent(
-                event_id="",
-                event_type=EventType.SYSTEM,
-                event_name="discord_system_integration_complete",
-                source="integrated_discord_service",
-                system_component="discord_bot",
-                operation="integration_complete",
-                data={
-                    "architecture_initialized": self.architecture_initialized,
-                    "bot_initialized": self.bot is not None,
-                    "systems_integrated": True
-                }
-            )
-            event_bus.publish(integration_event)
-            
-            self.logger.info("✅ Systems integrated successfully")
-            
-        except Exception as e:
-            self.logger.error(f"❌ Failed to integrate systems: {e}")
-            raise
+    # System integration is handled through messaging service
+    # No additional integration needed for basic functionality
     
     async def start(self) -> None:
         """Start the Discord bot service."""

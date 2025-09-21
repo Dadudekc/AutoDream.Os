@@ -360,28 +360,29 @@ class DiscordCommandHandler:
                 await interaction.response.send_message("❌ Error sending message via core service")
 
         @self.bot.tree.command(name="agent_list", description="List all available agents with status")
-        async def agent_list(interaction: discord.Interaction, include_status: bool = True):
+        async def agent_list(interaction: discord.Interaction, include_status: bool = True, filter_mode: str = "5-agent"):
             """List all available agents with optional status information."""
             try:
                 # Get agents from messaging service
                 from src.services.messaging.core.messaging_service import MessagingService
 
                 messaging_service = MessagingService("config/coordinates.json")
-                available_agents = messaging_service.loader.get_agent_ids() if messaging_service.loader else []
+                agents_status = messaging_service.get_available_agents()
 
-                # Filter to 5-agent mode agents
-                five_agent_mode_agents = ["Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
-                agents = [agent for agent in five_agent_mode_agents if agent in available_agents]
+                # Filter based on mode
+                if filter_mode == "5-agent":
+                    five_agent_mode_agents = ["Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
+                    agents_status = {k: v for k, v in agents_status.items() if k in five_agent_mode_agents}
 
                 embed = discord.Embed(
                     title="🤖 Available Agents",
-                    description=f"Total: {len(agents)} agents (5-Agent Mode)",
+                    description=f"Total: {len(agents_status)} agents ({filter_mode.title()} Mode)",
                     color=0x0099ff
                 )
 
                 embed.add_field(
                     name="Mode",
-                    value="5-Agent Configuration",
+                    value=f"{filter_mode.title()} Configuration",
                     inline=True
                 )
 
@@ -392,15 +393,23 @@ class DiscordCommandHandler:
                 )
 
                 embed.add_field(
-                    name="Total Available",
-                    value=len(available_agents),
+                    name="Active Agents",
+                    value=sum(1 for status in agents_status.values() if status),
                     inline=True
                 )
 
-                for i, agent in enumerate(agents, 1):
+                embed.add_field(
+                    name="Total Agents",
+                    value=len(agents_status),
+                    inline=True
+                )
+
+                for i, (agent, is_active) in enumerate(agents_status.items(), 1):
+                    status_icon = "🟢" if is_active else "🔴"
+                    status_text = "Active" if is_active else "Inactive"
                     embed.add_field(
-                        name=f"Agent {i}",
-                        value=agent,
+                        name=f"{status_icon} Agent {i}",
+                        value=f"{agent} ({status_text})",
                         inline=True
                     )
 

@@ -174,60 +174,57 @@ class EnhancedDiscordAgentBot(commands.Bot):
 
     def setup_events(self):
         """Setup Discord bot event handlers."""
+        # Event handlers are defined as methods below
+        pass
 
-        @self.event
-        async def on_ready():
-            """Called when bot is ready and connected."""
-            self.is_ready = True
-            self.logger.info(f"🤖 Discord Commander {self.user} is online!")
+    async def on_ready(self):
+        """Called when bot is ready and connected."""
+        self.is_ready = True
+        self.logger.info(f"🤖 Discord Commander {self.user} is online!")
 
-            # Update presence
-            await self.change_presence(
-                activity=discord.Activity(
-                    type=discord.ActivityType.watching,
-                    name="🐝 WE ARE SWARM - Agent Coordination Active"
-                )
+        # Update presence
+        await self.change_presence(
+            activity=discord.Activity(
+                type=discord.ActivityType.watching,
+                name="🐝 WE ARE SWARM - Agent Coordination Active"
             )
+        )
 
-            # Sync slash commands after bot is ready
-            try:
-                synced = await self.tree.sync()
-                self.logger.info(f"✅ Synced {len(synced)} slash commands")
-            except Exception as e:
-                self.logger.warning(f"⚠️  Failed to sync slash commands: {e}")
+        # Sync slash commands after bot is ready
+        try:
+            synced = await self.tree.sync()
+            self.logger.info(f"✅ Synced {len(synced)} slash commands")
+        except Exception as e:
+            self.logger.warning(f"⚠️  Failed to sync slash commands: {e}")
 
-        @self.event
-        async def on_guild_join(guild):
-            """Called when bot joins a guild."""
-            self.logger.info(f"✅ Joined guild: {guild.name}")
-            await self._broadcast_system_message(
-                f"🤖 Discord Commander has joined {guild.name}",
-                color=0x00ff00
-            )
+    async def on_guild_join(self, guild):
+        """Called when bot joins a guild."""
+        self.logger.info(f"✅ Joined guild: {guild.name}")
+        await self._broadcast_system_message(
+            f"🤖 Discord Commander has joined {guild.name}",
+            color=0x00ff00
+        )
 
-        @self.event
-        async def on_guild_remove(guild):
-            """Called when bot leaves a guild."""
-            self.logger.info(f"❌ Left guild: {guild.name}")
+    async def on_guild_remove(self, guild):
+        """Called when bot leaves a guild."""
+        self.logger.info(f"❌ Left guild: {guild.name}")
 
-        @self.event
-        async def on_member_join(member):
-            """Called when a member joins."""
-            if not member.bot:
-                self.logger.info(f"👋 Member joined: {member.display_name}")
+    async def on_member_join(self, member):
+        """Called when a member joins."""
+        if not member.bot:
+            self.logger.info(f"👋 Member joined: {member.display_name}")
 
-        @self.event
-        async def on_message(message):
-            """Handle incoming messages."""
-            if message.author == self.user:
-                return
+    async def on_message(self, message):
+        """Handle incoming messages."""
+        if message.author == self.user:
+            return
 
-            # Process commands
-            await self.process_commands(message)
+        # Process commands
+        await self.process_commands(message)
 
-            # Handle mentions
-            if self.user.mentioned_in(message):
-                await self._handle_mention(message)
+        # Handle mentions
+        if self.user.mentioned_in(message):
+            await self._handle_mention(message)
 
     async def _handle_mention(self, message):
         """Handle bot mentions."""

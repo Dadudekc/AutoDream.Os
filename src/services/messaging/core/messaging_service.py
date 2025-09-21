@@ -89,7 +89,16 @@ class MessagingService:
                 logger.info(f"Skipping inactive agent {agent_id}")
         
         return results
-    
+
+    def get_available_agents(self) -> Dict[str, bool]:
+        """Get all available agents and their active status."""
+        agents_status = {}
+
+        for agent_id in self.loader.get_agent_ids():
+            agents_status[agent_id] = self._is_agent_active(agent_id)
+
+        return agents_status
+
     def _get_quality_guidelines(self) -> str:
         """Get quality guidelines reminder for all agent communications."""
         return """🎯 QUALITY GUIDELINES REMINDER

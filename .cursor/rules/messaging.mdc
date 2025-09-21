@@ -211,8 +211,4 @@ async def send_parallel(messages, concurrency_limit=3):
 - ✅ Timing must be configurable/adaptive, not hardcoded
 - ✅ Flag validation must prevent invalid combinations
 - ✅ Parallel delivery options must be available
-<<<<<<< HEAD
 - ✅ Comprehensive logging for debugging and monitoring
-=======
-- ✅ Comprehensive logging for debugging and monitoring
->>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65

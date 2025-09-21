@@ -1,0 +1,118 @@
+# Kubernetes deployment for V2_SWARM main application
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: swarm-app
+  namespace: swarm-system
+  labels:
+    app: agent-cellphone-v2
+    component: main-application
+    version: v2.0.0
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: agent-cellphone-v2
+      component: main-application
+  template:
+    metadata:
+      labels:
+        app: agent-cellphone-v2
+        component: main-application
+        version: v2.0.0
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8000"
+        prometheus.io/path: "/metrics"
+    spec:
+      serviceAccountName: swarm-service-account
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+      - name: swarm-app
+        image: swarm-agent-cellphone:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+          name: http
+          protocol: TCP
+        env:
+        - name: PYTHONPATH
+          valueFrom:
+            configMapKeyRef:
+              name: swarm-config
+              key: PYTHONPATH
+        - name: PYTHONUNBUFFERED
+          valueFrom:
+            configMapKeyRef:
+              name: swarm-config
+              key: PYTHONUNBUFFERED
+        - name: DISCORD_BOT_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: swarm-secrets
+              key: discord-bot-token
+        - name: DISCORD_CHANNEL_ID
+          valueFrom:
+            secretKeyRef:
+              name: swarm-secrets
+              key: discord-channel-id
+        - name: DATABASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: swarm-config
+              key: DATABASE_URL
+        - name: REDIS_URL
+          valueFrom:
+            configMapKeyRef:
+              name: swarm-config
+              key: REDIS_URL
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+        volumeMounts:
+        - name: agent-workspaces
+          mountPath: /app/agent_workspaces
+        - name: devlogs
+          mountPath: /app/devlogs
+        - name: logs
+          mountPath: /app/logs
+        - name: data
+          mountPath: /app/data
+      volumes:
+      - name: agent-workspaces
+        persistentVolumeClaim:
+          claimName: swarm-agent-workspaces-pvc
+      - name: devlogs
+        persistentVolumeClaim:
+          claimName: swarm-devlogs-pvc
+      - name: logs
+        persistentVolumeClaim:
+          claimName: swarm-logs-pvc
+      - name: data
+        persistentVolumeClaim:
+          claimName: swarm-data-pvc
+      restartPolicy: Always

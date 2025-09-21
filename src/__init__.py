@@ -4,11 +4,9 @@
 from . import agent_registry
 from . import commandresult
 from . import coordinate_agent_registry
-from . import swarmstatus
 
 __all__ = [
     'agent_registry',
     'commandresult',
     'coordinate_agent_registry',
-    'swarmstatus',
 ]

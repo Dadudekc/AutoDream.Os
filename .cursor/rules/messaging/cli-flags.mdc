@@ -102,8 +102,4 @@ python -m src.services.messaging_cli -a Agent-5 --bulk -m "Test"
 
 # ERROR: Missing agent for contract
 python -m src.services.messaging_cli --get-next-task
-<<<<<<< HEAD
 ```
-=======
-```
->>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65

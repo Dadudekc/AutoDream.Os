@@ -19,7 +19,7 @@ service = FallbackService()
 
 # Basic service operation
 response = service.handle_request(request_data)
-logger.info(f"Service response: {response}")
+print(f"Service response: {response}")
 
 # Service with dependency injection
 from src.core.dependency_container import Container
@@ -29,28 +29,26 @@ service = container.get(FallbackService)
 
 # Execute service method
 result = service.execute_operation(input_data, context)
-logger.info(f"Operation result: {result}")
+print(f"Operation result: {result}")
 
 """
-
 from __future__ import annotations
 
 import logging
 
+from ..coordinates import get_agent_coordinates, list_agents
 from ..models import UnifiedMessage
-from ..shared.messaging_utilities import get_messaging_utilities
 from .inbox_delivery import send_message_inbox
 from .pyautogui_delivery import deliver_message_pyautogui
 
 logger = logging.getLogger(__name__)
 
 
-def send_with_fallback(message: UnifiedMessage) -> bool:
-    utils = get_messaging_utilities()
-    coords = utils.get_agent_coordinates(message.recipient)
+def send_with_fallback(message: UnifiedMessage, high_priority: bool = False) -> bool:
+    coords = get_agent_coordinates(message.recipient)
     if coords:
         try:
-            if deliver_message_pyautogui(message, coords):
+            if deliver_message_pyautogui(message, coords, high_priority=high_priority):
                 return True
         except Exception as e:
             logger.warning(f"[fallback] pyautogui path failed: {e}")
@@ -59,16 +57,15 @@ def send_with_fallback(message: UnifiedMessage) -> bool:
 
 
 def broadcast(content: str, sender: str) -> dict[str, bool]:
-    utils = get_messaging_utilities()
     results: dict[str, bool] = {}
-    for agent in utils.list_agents():
+    for agent in list_agents():
         m = UnifiedMessage(
             content=content,
             sender=sender,
             recipient=agent,
             message_type=...,  # type: ignore
         )
-        # keep type minimal; delivery doesn't depend on it
+        # keep type minimal; delivery doesn’t depend on it
         ok = send_with_fallback(m)
         results[agent] = ok
     return results

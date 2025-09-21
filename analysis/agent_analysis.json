@@ -1,1 +1,23 @@
-{}
+{
+  "agents": [
+    {
+      "id": "Agent-1",
+      "role": "Captain",
+      "status": "active",
+      "tasks_completed": 0,
+      "specialization": "Leadership and coordination"
+    },
+    {
+      "id": "Agent-2",
+      "role": "Captain",
+      "status": "active",
+      "tasks_completed": 0,
+      "specialization": "Code quality and V2 compliance"
+    }
+  ],
+  "swarm_coordination": {
+    "total_agents": 8,
+    "active_agents": 8,
+    "coordination_method": "PyAutoGUI automation"
+  }
+}

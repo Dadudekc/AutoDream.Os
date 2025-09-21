@@ -1,0 +1,10 @@
+{
+  "model_performance_thresholds": {
+    "mse_threshold": 0.1,
+    "mae_threshold": 0.05,
+    "rmse_threshold": 0.3
+  },
+  "data_drift_detection": true,
+  "model_drift_detection": true,
+  "alerting_enabled": true
+}

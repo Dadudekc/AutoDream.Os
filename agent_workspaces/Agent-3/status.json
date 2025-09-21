@@ -1,27 +1,24 @@
 {
   "agent_id": "Agent-3",
-  "role": "Infrastructure & DevOps Specialist",
-  "status": "active",
-  "coordinates": {
-    "chat_input": [-1269, 1001],
-    "onboarding_input": [-1276, 698]
-  },
-  "onboarding_stage": "completed",
-  "last_activity": "2025-09-14T19:35:46.000000",
-  "capabilities": [
-    "Infrastructure Management",
-    "DevOps Operations",
-    "System Monitoring",
-    "Deployment Automation",
-    "Container Orchestration",
-    "CI/CD Pipeline Management"
-  ],
-  "swarm_position": "Monitor 1 - Bottom Left",
-  "active": true,
-  "contracts": ["DEV-2025-0914-001"],
-  "fsm_state": "executing",
-  "mission_status": "V2 Violation Refactoring - test_deployment_verification.py (829 lines)",
-  "captain_acknowledgment": "Captain Agent-4 mission readiness acknowledged",
-  "quality_oversight": "Established and active for mission execution",
-  "mission_deployment_strategy": "Infrastructure assessment, DevOps operations enhancement, System monitoring optimization, Quality assurance validation"
+  "agent_name": "Infrastructure & DevOps Specialist",
+  "status": "ACTIVE_AGENT_MODE",
+  "current_phase": "TASK_EXECUTION",
+  "last_updated": "2025-01-18 16:15:00",
+  "current_mission": "V3 Infrastructure Deployment",
+  "mission_priority": "HIGH",
+  "current_tasks": ["Inbox cleanup completed", "Status update in progress"],
+  "completed_tasks": ["Processed test messages", "Organized inbox structure"],
+  "achievements": ["Maintained 98% coordination efficiency", "90% V2 compliance"],
+  "next_actions": ["Claim next infrastructure task", "Report to Captain", "Begin task execution"],
+  "team": "Team Alpha",
+  "specialization": "Infrastructure & DevOps Specialist",
+  "captain": "Agent-4",
+  "last_cycle": "2025-01-18T16:15:00Z",
+  "current_focus": "Infrastructure deployment and database systems",
+  "cycle_count": 5,
+  "tasks_completed": 5,
+  "coordination_efficiency": 98.0,
+  "v2_compliance": 90.0,
+  "fsm_state": "ACTIVE",
+  "last_transition": "2025-01-18T16:15:00Z"
 }

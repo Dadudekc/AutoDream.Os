@@ -1,12 +1,12 @@
 # AUTO-GENERATED __init__.py
 # DO NOT EDIT MANUALLY - changes may be overwritten
 
-from . import language_analyzer
-from . import project_scanner
-from . import report_generator
+from . import (
+    analysis_cli,
+    run_project_scan,
+)
 
 __all__ = [
-    'language_analyzer',
-    'project_scanner',
-    'report_generator',
+    "analysis_cli",
+    "run_project_scan",
 ]

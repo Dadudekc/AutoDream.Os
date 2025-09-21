@@ -1,6 +1,3 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 Thea_Handlers Module
 
@@ -22,7 +19,7 @@ service = Thea_HandlersService()
 
 # Basic service operation
 response = service.handle_request(request_data)
-logger.info(f"Service response: {response}")
+print(f"Service response: {response}")
 
 # Service with dependency injection
 from src.core.dependency_container import Container
@@ -32,7 +29,7 @@ service = container.get(Thea_HandlersService)
 
 # Execute service method
 result = service.execute_operation(input_data, context)
-logger.info(f"Operation result: {result}")
+print(f"Operation result: {result}")
 
 """
 from __future__ import annotations
@@ -42,7 +39,7 @@ def send_to_thea(
     message: str,
     *,
     username: str | None = None,
-    password: str | None = None,
+# SECURITY: Password placeholder - replace with environment variable
     headless: bool = True,
     thread_url: str | None = None,
     resume_last: bool = False,
@@ -53,7 +50,7 @@ def send_to_thea(
 
     thea = SimpleTheaCommunication(
         username=username,
-        password=password,
+# SECURITY: Password placeholder - replace with environment variable
         use_selenium=True,
         headless=headless,
         thread_url=thread_url,

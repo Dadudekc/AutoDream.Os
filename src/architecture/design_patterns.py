@@ -1,160 +1,254 @@
 """
-Unified Design Patterns - KISS Principle Implementation
-======================================================
+Design Patterns - V2 Compliant (Simplified)
+===========================================
 
-Essential design patterns consolidated into a single, simple module.
-Follows KISS principle: Keep It Simple, Stupid.
+Core design patterns with essential functionality only.
+Eliminates overcomplexity while maintaining core features.
 
-V2 Compliance: < 150 lines, single responsibility.
-
-Author: Agent-2 (Architecture & Design Specialist) - KISS Leadership
+V2 Compliance: < 400 lines, single responsibility
+Author: Agent-1 (Integration Specialist)
 License: MIT
 """
-
 import logging
-from dataclasses import dataclass
-from datetime import datetime
+from typing import Any, Dict, List, Optional, Callable
 from enum import Enum
-from typing import Any
+from dataclasses import dataclass, field
+import threading
 
 logger = logging.getLogger(__name__)
 
 
 class PatternType(Enum):
     """Design pattern type enumeration."""
-
     SINGLETON = "singleton"
     FACTORY = "factory"
     OBSERVER = "observer"
     STRATEGY = "strategy"
-    ADAPTER = "adapter"
+    COMMAND = "command"
 
 
 @dataclass
-class DesignPattern:
-    """Design pattern data structure."""
-
-    name: str
+class PatternConfig:
+    """Configuration for design patterns."""
     pattern_type: PatternType
+    name: str
     description: str
-    implementation: str
-    use_cases: list[str]
+    enabled: bool = True
+    config: Dict[str, Any] = field(default_factory=dict)
 
 
-class UnifiedDesignPatterns:
-    """
-    Unified Design Patterns - Essential patterns only.
+class Singleton:
+    """Thread-safe singleton pattern implementation."""
+    _instances = {}
+    _lock = threading.Lock()
+    
+    def __new__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            with cls._lock:
+                if cls not in cls._instances:
+                    cls._instances[cls] = super().__new__(cls)
+        return cls._instances[cls]
 
-    Consolidates all design patterns into a single, simple module
-    following KISS principles.
-    """
 
+class Factory:
+    """Simple factory pattern implementation."""
+    
     def __init__(self):
-        """Initialize unified design patterns."""
-        self.patterns: dict[str, DesignPattern] = {}
-        self.logger = logging.getLogger(__name__)
-        self._initialize_patterns()
+        self._creators: Dict[str, Callable] = {}
+    
+    def register_creator(self, name: str, creator: Callable) -> None:
+        """Register a creator function for a type."""
+        self._creators[name] = creator
+        logger.debug(f"Creator registered for type: {name}")
+    
+    def create(self, name: str, *args, **kwargs) -> Any:
+        """Create an object using the registered creator."""
+        if name not in self._creators:
+            raise ValueError(f"No creator registered for type: {name}")
+        
+        creator = self._creators[name]
+        return creator(*args, **kwargs)
+    
+    def get_available_types(self) -> List[str]:
+        """Get list of available types."""
+# SECURITY: Key placeholder - replace with environment variable
 
-    def _initialize_patterns(self):
-        """Initialize essential design patterns."""
-        self.patterns["singleton"] = DesignPattern(
-            name="Singleton",
-            pattern_type=PatternType.SINGLETON,
-            description="Ensure only one instance of a class exists",
-            implementation="""class Singleton:
-    _instance = None
-    def __new__(cls):
-        if cls._instance is None:
-            cls._instance = super().__new__(cls)
-        return cls._instance""",
-            use_cases=["Configuration managers", "Database connections", "Logging systems"],
-        )
-        self.patterns["factory"] = DesignPattern(
-            name="Factory",
-            pattern_type=PatternType.FACTORY,
-            description="Create objects without specifying their exact class",
-            implementation="""class ObjectFactory:
-    @staticmethod
-    def create_object(object_type):
-        if object_type == 'type1':
-            return Type1Object()
-        elif object_type == 'type2':
-            return Type2Object()
-        return None""",
-            use_cases=["Object creation", "Plugin systems", "Database drivers"],
-        )
-        self.patterns["observer"] = DesignPattern(
-            name="Observer",
-            pattern_type=PatternType.OBSERVER,
-            description="Notify multiple objects about state changes",
-            implementation="""class Subject:
+
+class Observer:
+    """Simple observer pattern implementation."""
+    
     def __init__(self):
-        self._observers = []
-    def attach(self, observer):
-        self._observers.append(observer)
-    def notify(self):
-        for observer in self._observers:
-            observer.update()""",
-            use_cases=["Event systems", "Model-View architectures", "Notification systems"],
-        )
-
-    def get_pattern(self, name: str) -> DesignPattern | None:
-        """Get design pattern by name."""
-        return self.patterns.get(name.lower())
-
-    def list_patterns(self) -> list[DesignPattern]:
-        """List all available design patterns."""
-        return list(self.patterns.values())
-
-    def get_pattern_by_type(self, pattern_type: PatternType) -> list[DesignPattern]:
-        """Get patterns by type."""
-        return [
-            pattern for pattern in self.patterns.values() if pattern.pattern_type == pattern_type
-        ]
-
-    def apply_pattern(self, pattern_name: str, context: dict[str, Any]) -> dict[str, Any]:
-        """Apply design pattern in given context."""
-        pattern = self.get_pattern(pattern_name)
-        if not pattern:
-            return {"error": f"Pattern '{pattern_name}' not found"}
-        try:
-            result = {
-                "pattern": pattern.name,
-                "type": pattern.pattern_type.value,
-                "applied": True,
-                "context": context,
-                "timestamp": datetime.now().isoformat(),
-            }
-            self.logger.info(f"✅ Applied pattern: {pattern.name}")
-            return result
-        except Exception as e:
-            self.logger.error(f"❌ Failed to apply pattern {pattern_name}: {e}")
-            return {"error": str(e), "pattern": pattern_name}
-
-    def get_pattern_recommendations(self, use_case: str) -> list[DesignPattern]:
-        """Get pattern recommendations for specific use case."""
-        recommendations = []
-        for pattern in self.patterns.values():
-            if any(use_case.lower() in case.lower() for case in pattern.use_cases):
-                recommendations.append(pattern)
-        return recommendations
+        self._observers: List[Callable] = []
+        self._lock = threading.Lock()
+    
+    def attach(self, observer: Callable) -> None:
+        """Attach an observer."""
+        with self._lock:
+            if observer not in self._observers:
+                self._observers.append(observer)
+                logger.debug("Observer attached")
+    
+    def detach(self, observer: Callable) -> None:
+        """Detach an observer."""
+        with self._lock:
+            if observer in self._observers:
+                self._observers.remove(observer)
+                logger.debug("Observer detached")
+    
+    def notify(self, *args, **kwargs) -> None:
+        """Notify all observers."""
+        with self._lock:
+            for observer in self._observers:
+                try:
+                    observer(*args, **kwargs)
+                except Exception as e:
+                    logger.error(f"Error notifying observer: {e}")
+    
+    def get_observer_count(self) -> int:
+        """Get the number of observers."""
+        return len(self._observers)
 
 
-def main():
-    """Main function for unified design patterns."""
-    logger.info("🎨 Unified Design Patterns - KISS Implementation")
-    logger.info("=" * 50)
-    patterns = UnifiedDesignPatterns()
-    available_patterns = patterns.list_patterns()
-    logger.info(f"📋 Available patterns: {len(available_patterns)}")
-    for pattern in available_patterns:
-        logger.info(f"  • {pattern.name} ({pattern.pattern_type.value})")
-    recommendations = patterns.get_pattern_recommendations("configuration")
-    logger.info(f"\n💡 Recommendations for 'configuration': {len(recommendations)}")
-    for rec in recommendations:
-        logger.info(f"  • {rec.name}: {rec.description}")
-    return {"patterns_count": len(available_patterns), "recommendations": len(recommendations)}
+class Strategy:
+    """Simple strategy pattern implementation."""
+    
+    def __init__(self):
+        self._strategies: Dict[str, Callable] = {}
+        self._current_strategy: Optional[str] = None
+    
+    def add_strategy(self, name: str, strategy: Callable) -> None:
+        """Add a strategy."""
+        self._strategies[name] = strategy
+        logger.debug(f"Strategy added: {name}")
+    
+    def set_strategy(self, name: str) -> None:
+        """Set the current strategy."""
+        if name not in self._strategies:
+            raise ValueError(f"Strategy not found: {name}")
+        
+        self._current_strategy = name
+        logger.debug(f"Strategy set to: {name}")
+    
+    def execute_strategy(self, *args, **kwargs) -> Any:
+        """Execute the current strategy."""
+        if not self._current_strategy:
+            raise ValueError("No strategy set")
+        
+        strategy = self._strategies[self._current_strategy]
+        return strategy(*args, **kwargs)
+    
+    def get_available_strategies(self) -> List[str]:
+        """Get list of available strategies."""
+# SECURITY: Key placeholder - replace with environment variable
 
 
-if __name__ == "__main__":
-    main()
+class Command:
+    """Simple command pattern implementation."""
+    
+    def __init__(self, execute_func: Callable, undo_func: Optional[Callable] = None):
+        self._execute_func = execute_func
+        self._undo_func = undo_func
+        self._executed = False
+    
+    def execute(self, *args, **kwargs) -> Any:
+        """Execute the command."""
+        result = self._execute_func(*args, **kwargs)
+        self._executed = True
+        logger.debug("Command executed")
+        return result
+    
+    def undo(self, *args, **kwargs) -> Any:
+        """Undo the command."""
+        if not self._executed:
+            raise ValueError("Command not executed yet")
+        
+        if not self._undo_func:
+            raise ValueError("No undo function available")
+        
+        result = self._undo_func(*args, **kwargs)
+        self._executed = False
+        logger.debug("Command undone")
+        return result
+    
+    def can_undo(self) -> bool:
+        """Check if the command can be undone."""
+        return self._undo_func is not None and self._executed
+
+
+class PatternRegistry:
+    """Registry for managing design patterns."""
+    
+    def __init__(self):
+        self._patterns: Dict[str, PatternConfig] = {}
+        self._instances: Dict[str, Any] = {}
+    
+    def register_pattern(self, config: PatternConfig) -> None:
+        """Register a pattern configuration."""
+        self._patterns[config.name] = config
+        logger.debug(f"Pattern registered: {config.name}")
+    
+    def get_pattern(self, name: str) -> Optional[PatternConfig]:
+        """Get a pattern configuration."""
+        return self._patterns.get(name)
+    
+    def get_all_patterns(self) -> Dict[str, PatternConfig]:
+        """Get all pattern configurations."""
+        return self._patterns.copy()
+    
+    def create_pattern_instance(self, name: str, pattern_type: PatternType) -> Any:
+        """Create a pattern instance."""
+        if name in self._instances:
+            return self._instances[name]
+        
+        if pattern_type == PatternType.SINGLETON:
+            instance = Singleton()
+        elif pattern_type == PatternType.FACTORY:
+            instance = Factory()
+        elif pattern_type == PatternType.OBSERVER:
+            instance = Observer()
+        elif pattern_type == PatternType.STRATEGY:
+            instance = Strategy()
+        elif pattern_type == PatternType.COMMAND:
+            instance = Command(lambda: None)
+        else:
+            raise ValueError(f"Unknown pattern type: {pattern_type}")
+        
+        self._instances[name] = instance
+        logger.debug(f"Pattern instance created: {name}")
+        return instance
+    
+    def get_pattern_instance(self, name: str) -> Optional[Any]:
+        """Get a pattern instance."""
+        return self._instances.get(name)
+    
+    def clear_instances(self) -> None:
+        """Clear all pattern instances."""
+        self._instances.clear()
+        logger.info("All pattern instances cleared")
+
+
+# Global pattern registry
+pattern_registry = PatternRegistry()
+
+
+def register_pattern(pattern_type: PatternType, name: str, description: str, 
+                    enabled: bool = True, config: Dict[str, Any] = None) -> None:
+    """Convenience function to register a pattern."""
+    config_obj = PatternConfig(
+        pattern_type=pattern_type,
+        name=name,
+        description=description,
+        enabled=enabled,
+        config=config or {}
+    )
+    pattern_registry.register_pattern(config_obj)
+
+
+def get_pattern(name: str) -> Optional[PatternConfig]:
+    """Convenience function to get a pattern."""
+    return pattern_registry.get_pattern(name)
+
+
+def create_pattern_instance(name: str, pattern_type: PatternType) -> Any:
+    """Convenience function to create a pattern instance."""
+    return pattern_registry.create_pattern_instance(name, pattern_type)

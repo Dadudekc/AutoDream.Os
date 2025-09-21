@@ -1,208 +1,159 @@
 #!/usr/bin/env python3
 """
-Consolidated Messaging Service - PyAutoGUI Agent Communication
-=============================================================
+Consolidated Messaging Service V2 - Modular Architecture
+========================================================
 
-Real-time agent-to-agent communication via PyAutoGUI automation.
-Fixed and optimized by Agent-2 for swarm coordination.
+Modular messaging service for V2 compliance.
+Orchestrates core messaging, status monitoring, and onboarding services.
 
 Author: Agent-2 (Architecture & Design Specialist)
 License: MIT
 """
 
-from __future__ import annotations
-
 import argparse
 import logging
 import sys
 from pathlib import Path
+from typing import List
 
-# Add project root to path for imports
-project_root = Path(__file__).parent.parent.parent
+# Add project root to Python path
+project_root = Path(__file__).parent.parent.parent.parent
 sys.path.insert(0, str(project_root))
 
-from src.core.coordinate_loader import CoordinateLoader
-
-# Lazy import to prevent hard dep at import time
+# Import after adding project root to path
 try:
-    import pyautogui  # noqa: F401
-    import pyperclip  # noqa: F401
-except Exception:
-    pyautogui = None  # type: ignore
-    pyperclip = None  # type: ignore
+    from src.services.messaging.core.messaging_service import MessagingService
+    from src.services.messaging.status.status_monitor import StatusMonitor
+    from src.services.messaging.onboarding.onboarding_service import OnboardingService
+    from src.services.messaging.enhanced_messaging_service import get_enhanced_messaging_service
+except ImportError:
+    # Fallback for direct execution
+    from messaging.core.messaging_service import MessagingService
+    from messaging.status.status_monitor import StatusMonitor
+    from messaging.onboarding.onboarding_service import OnboardingService
+    from messaging.enhanced_messaging_service import get_enhanced_messaging_service
 
 logger = logging.getLogger(__name__)
 
 
 class ConsolidatedMessagingService:
-    """Consolidated messaging service with PyAutoGUI automation."""
-
+    """Consolidated messaging service - main interface."""
+    
     def __init__(self, coord_path: str = "config/coordinates.json") -> None:
-        """Initialize messaging service with coordinate validation."""
-        self.loader = CoordinateLoader(coord_path)
-        self.loader.load()
-        self.validation_report = self.loader.validate_all()
-
-        if not self.validation_report.is_all_ok():
-            logger.error("Coordinate validation failed: %s", self.validation_report.issues)
-            raise ValueError(f"Invalid coordinates: {self.validation_report.issues}")
-
-        logger.info(
-            "Messaging service initialized with %d agents", len(self.loader.get_agent_ids())
-        )
-
-    def send_message(
-        self, agent_id: str, message: str, from_agent: str = "Agent-2", priority: str = "NORMAL"
-    ) -> bool:
-        """Send message to specific agent via PyAutoGUI with priority support."""
-        try:
-            # Validate agent exists
-            if agent_id not in self.loader.get_agent_ids():
-                logger.error("Unknown agent: %s", agent_id)
-                return False
-
-            # Format message with A2A headers and priority
-            formatted_message = self._format_a2a_message(from_agent, agent_id, message, priority)
-
-            # Get coordinates and send
-            coords = self.loader.get_coords(agent_id).tuple
-            return self._paste_to_coords(coords, formatted_message)
-
-        except Exception as e:
-            logger.exception("Send message failed: %s", e)
-            return False
-
-    def broadcast_message(
-        self, message: str, from_agent: str = "Agent-2", priority: str = "NORMAL"
-    ) -> dict[str, bool]:
-        """Broadcast message to all agents with priority support."""
-        results = {}
-
-        for agent_id in self.loader.get_agent_ids():
-            try:
-                success = self.send_message(agent_id, message, from_agent, priority)
-                results[agent_id] = success
-            except Exception as e:
-                logger.error("Broadcast to %s failed: %s", agent_id, e)
-                results[agent_id] = False
-
-        return results
-
-    def _format_a2a_message(
-        self, from_agent: str, to_agent: str, message: str, priority: str = "NORMAL"
-    ) -> str:
-        """Format message as proper A2A message with headers and priority support."""
-        return f"""============================================================
-[A2A] MESSAGE
-============================================================
-📤 FROM: {from_agent}
-📥 TO: {to_agent}
-Priority: {priority}
-Tags: GENERAL
-------------------------------------------------------------
-{message}
-------------------------------------------------------------
-"""
-
-    def _paste_to_coords(self, coords, message: str) -> bool:
-        """Paste message to coordinates using PyAutoGUI + pyperclip."""
-        try:
-            if pyautogui is None or pyperclip is None:
-                logger.info("[DRY-RUN] Would paste to %s: %s", coords, message)
-                return True
-
-            # Real UI actions (guarded):
-            pyautogui.click(coords[0], coords[1])
-            # Copy message to clipboard and paste for maximum speed
-            pyperclip.copy(message)
-            pyautogui.hotkey("ctrl", "v")
-            pyautogui.press("enter")
-            logger.info("[REAL] Fast-pasted to %s", coords)
-            return True
-
-        except Exception as e:
-            logger.exception("Paste failed at %s: %s", coords, e)
-            return False
-
-    def get_status(self) -> dict[str, any]:
-        """Get service status."""
-        return {
-            "validation_report": {
-                "ok": self.validation_report.ok,
-                "issues": [
-                    {"agent_id": i.agent_id, "level": i.level, "message": i.message}
-                    for i in self.validation_report.issues
-                ],
-            },
-            "agent_count": len(self.loader.get_agent_ids()),
-            "agents": self.loader.get_agent_ids(),
-            "pyautogui_available": pyautogui is not None,
-            "pyperclip_available": pyperclip is not None,
-        }
+        """Initialize consolidated messaging service with vector database integration."""
+        self.coord_path = coord_path
+        self.messaging_service = get_enhanced_messaging_service()  # Use enhanced version with vector DB
+        self.status_monitor = StatusMonitor(self.messaging_service)
+        self.onboarding_service = OnboardingService(self.messaging_service)
+    
+    def send_message(self, agent_id: str, message: str, from_agent: str = "Agent-2", priority: str = "NORMAL") -> bool:
+        """Send message to specific agent."""
+        return self.messaging_service.send_message(agent_id, message, from_agent, priority)
+    
+    def broadcast_message(self, message: str, from_agent: str = "Agent-2", priority: str = "NORMAL") -> dict:
+        """Send message to all active agents."""
+        return self.messaging_service.broadcast_message(message, from_agent, priority)
+    
+    def get_status(self) -> dict:
+        """Get comprehensive system status."""
+        return self.status_monitor.get_comprehensive_status()
+    
+    def hard_onboard_agent(self, agent_id: str) -> bool:
+        """Hard onboard specific agent."""
+        return self.onboarding_service.hard_onboard_agent(agent_id)
+    
+    def hard_onboard_all_agents(self) -> dict:
+        """Hard onboard all active agents."""
+        return self.onboarding_service.hard_onboard_all_agents()
 
 
 def build_parser() -> argparse.ArgumentParser:
-    """Build command line parser."""
-    p = argparse.ArgumentParser(description="Consolidated Messaging Service")
-    p.add_argument("--coords", default="config/coordinates.json", help="Coordinate file path")
-
-    sub = p.add_subparsers(dest="cmd", help="Commands")
-
-    # Send command
-    s = sub.add_parser("send", help="Send a message to one agent (validated)")
-    s.add_argument("--agent", required=True)
-    s.add_argument("--message", required=True)
-    s.add_argument(
-        "--from", dest="from_agent", default="Agent-2", help="Source agent ID (default: Agent-2)"
+    """Build command line argument parser."""
+    parser = argparse.ArgumentParser(
+        description="Consolidated Messaging Service V2 - Modular Architecture"
     )
-
-    # Broadcast command
-    b = sub.add_parser("broadcast", help="Broadcast message to all agents")
-    b.add_argument("--message", required=True)
-    b.add_argument(
-        "--from", dest="from_agent", default="Agent-2", help="Source agent ID (default: Agent-2)"
+    
+    parser.add_argument(
+        "--coords",
+        default="config/coordinates.json",
+        help="Path to coordinates configuration file"
     )
-
+    
+    subparsers = parser.add_subparsers(dest="cmd", help="Available commands")
+    
+    # Send message command
+    send_parser = subparsers.add_parser("send", help="Send message to specific agent")
+    send_parser.add_argument("--agent", required=True, help="Target agent ID")
+    send_parser.add_argument("--message", required=True, help="Message to send")
+    send_parser.add_argument("--from-agent", default="Agent-2", help="Source agent ID")
+    send_parser.add_argument("--priority", default="NORMAL", help="Message priority")
+    
+    # Broadcast message command
+    broadcast_parser = subparsers.add_parser("broadcast", help="Send message to all agents")
+    broadcast_parser.add_argument("--message", required=True, help="Message to broadcast")
+    broadcast_parser.add_argument("--from-agent", default="Agent-2", help="Source agent ID")
+    broadcast_parser.add_argument("--priority", default="NORMAL", help="Message priority")
+    
     # Status command
-    sub.add_parser("status", help="Show service status")
+    subparsers.add_parser("status", help="Get system status")
+    
+    # Hard onboard command
+    onboard_parser = subparsers.add_parser("hard-onboard", help="Hard onboard agents")
+    onboard_group = onboard_parser.add_mutually_exclusive_group(required=True)
+    onboard_group.add_argument("--agent", help="Specific agent to onboard")
+    onboard_group.add_argument("--all-agents", action="store_true", help="Onboard all agents")
+    
+    return parser
 
-    return p
 
-
-def main(argv: list[str] | None = None) -> int:
+def main(argv: List[str] | None = None) -> int:
     """Main entry point."""
     parser = build_parser()
     args = parser.parse_args(argv)
-
+    
     if not args.cmd:
         parser.print_help()
         return 1
-
+    
     try:
-        svc = ConsolidatedMessagingService(args.coords)
-
+        # Initialize services
+        messaging_service = MessagingService(args.coords)
+        status_monitor = StatusMonitor(messaging_service)
+        onboarding_service = OnboardingService(messaging_service)
+        
+        # Handle commands
         if args.cmd == "send":
-            ok = svc.send_message(args.agent, args.message, args.from_agent)
-            logger.info("DELIVERY_OK" if ok else "DELIVERY_FAILED")
-            return 0 if ok else 3
-
+            success = messaging_service.send_message(args.agent, args.message, args.from_agent)
+            return 0 if success else 1
+            
         elif args.cmd == "broadcast":
-            results = svc.broadcast_message(args.message, args.from_agent)
+            results = messaging_service.broadcast_message(args.message, args.from_agent)
             success_count = sum(1 for success in results.values() if success)
-            logger.info(f"BROADCAST_COMPLETE: {success_count}/{len(results)} successful")
-            return 0 if success_count == len(results) else 3
-
+            return 0 if success_count == len(results) else 1
+            
         elif args.cmd == "status":
-            status = svc.get_status()
-            logger.info(f"Service Status: {status}")
+            status = status_monitor.get_comprehensive_status()
+            logging.info(f"Service Status: {status}")
             return 0
-
+            
+        elif args.cmd == "hard-onboard":
+            if args.agent:
+                success = onboarding_service.hard_onboard_agent(args.agent)
+                return 0 if success else 1
+            elif args.all_agents:
+                results = onboarding_service.hard_onboard_all_agents()
+                successful = sum(1 for success in results.values() if success)
+                return 0 if successful == len(results) else 1
+            else:
+                logging.error("Error: Must specify either --agent or --all-agents")
+                return 1
+            
         else:
             parser.print_help()
             return 1
-
+            
     except Exception as e:
-        logger.error("Service error: %s", e)
+        logging.error("Service error: %s", e)
         return 2
 
 

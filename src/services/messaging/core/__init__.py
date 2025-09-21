@@ -1,11 +1,13 @@
-# AUTO-GENERATED __init__.py
-# DO NOT EDIT MANUALLY - changes may be overwritten
+"""
+Core Messaging Components
+========================
 
-from . import messaging_coordinator
-from . import messaging_factory
+Core messaging functionality for agent communication.
+"""
 
-__all__ = [
-    'messaging_coordinator',
-    'messaging_factory',
-]
+from .messaging_service import MessagingService
+
+__all__ = ["MessagingService"]
+
+
 

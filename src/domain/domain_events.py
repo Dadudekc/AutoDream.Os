@@ -1,121 +1,293 @@
 """
-Domain Events - Business Events
-===============================
+Domain Events - V2 Compliant (Simplified)
+=========================================
 
-Domain events represent significant business events that occur within the domain.
-They enable loose coupling and event-driven architecture.
+Core domain events with essential functionality only.
+Eliminates overcomplexity while maintaining core features.
+
+V2 Compliance: < 400 lines, single responsibility
+Author: Agent-1 (Integration Specialist)
+License: MIT
 """
-
-from dataclasses import dataclass, field
+import logging
 from datetime import datetime
-from typing import Any
+from typing import Dict, List, Optional, Any, Callable
+from enum import Enum
+from dataclasses import dataclass, field
+import uuid
 
-from .value_objects.ids import AgentId, TaskId
+logger = logging.getLogger(__name__)
 
 
-@dataclass(frozen=True)
+class EventType(Enum):
+    """Event type enumeration."""
+    SYSTEM = "system"
+    AGENT = "agent"
+    TASK = "task"
+    USER = "user"
+
+
+class EventPriority(Enum):
+    """Event priority enumeration."""
+    LOW = "low"
+    NORMAL = "normal"
+    HIGH = "high"
+    CRITICAL = "critical"
+
+
+@dataclass
 class DomainEvent:
-    """
-    Base class for all domain events.
-
-    Domain events are immutable and contain all necessary information
-    about what happened in the domain.
-    """
-
+    """Base domain event structure."""
     event_id: str
-    occurred_at: datetime = field(default_factory=datetime.utcnow)
-    event_version: int = 1
+    event_type: EventType
+    event_name: str
+    source: str
+    data: Dict[str, Any] = field(default_factory=dict)
+    priority: EventPriority = EventPriority.NORMAL
+    timestamp: datetime = field(default_factory=datetime.now)
+    correlation_id: Optional[str] = None
 
-    @property
-    def event_type(self) -> str:
-        """Get the event type name."""
-        return self.__class__.__name__
-
-    def to_dict(self) -> dict[str, Any]:
-        """Convert event to dictionary representation."""
-        return {
-            "event_id": self.event_id,
-            "event_type": self.event_type,
-            "occurred_at": self.occurred_at.isoformat(),
-            "event_version": self.event_version,
-        }
+    def __post_init__(self):
+        if not self.event_id:
+            self.event_id = str(uuid.uuid4())
+        if not self.correlation_id:
+            self.correlation_id = str(uuid.uuid4())
 
 
-@dataclass(frozen=True)
-class TaskCreated(DomainEvent):
-    """Event raised when a new task is created."""
+@dataclass
+class SystemEvent(DomainEvent):
+    """System-related domain event."""
+    system_component: str = ""
+    operation: str = ""
 
-    task_id: TaskId
-    title: str
-    priority: int
-
-    def to_dict(self) -> dict[str, Any]:
-        data = super().to_dict()
-        data.update({"task_id": self.task_id, "title": self.title, "priority": self.priority})
-        return data
+    def __post_init__(self):
+        super().__post_init__()
+        self.event_type = EventType.SYSTEM
 
 
-@dataclass(frozen=True)
-class TaskAssigned(DomainEvent):
-    """Event raised when a task is assigned to an agent."""
+@dataclass
+class AgentEvent(DomainEvent):
+    """Agent-related domain event."""
+    agent_id: str = ""
+    agent_name: str = ""
+    action: str = ""
 
-    task_id: TaskId
-    agent_id: AgentId
-    assigned_at: datetime
-
-    def to_dict(self) -> dict[str, Any]:
-        data = super().to_dict()
-        data.update(
-            {
-                "task_id": self.task_id,
-                "agent_id": self.agent_id,
-                "assigned_at": self.assigned_at.isoformat(),
-            }
-        )
-        return data
+    def __post_init__(self):
+        super().__post_init__()
+        self.event_type = EventType.AGENT
 
 
-@dataclass(frozen=True)
-class TaskCompleted(DomainEvent):
-    """Event raised when a task is completed."""
+@dataclass
+class TaskEvent(DomainEvent):
+    """Task-related domain event."""
+    task_id: str = ""
+    task_name: str = ""
+    action: str = ""
 
-    task_id: TaskId
-    agent_id: AgentId
-    completed_at: datetime
-
-    def to_dict(self) -> dict[str, Any]:
-        data = super().to_dict()
-        data.update(
-            {
-                "task_id": self.task_id,
-                "agent_id": self.agent_id,
-                "completed_at": self.completed_at.isoformat(),
-            }
-        )
-        return data
+    def __post_init__(self):
+        super().__post_init__()
+        self.event_type = EventType.TASK
 
 
-@dataclass(frozen=True)
-class AgentActivated(DomainEvent):
-    """Event raised when an agent becomes active."""
+@dataclass
+class UserEvent(DomainEvent):
+    """User-related domain event."""
+    user_id: str = ""
+    user_name: str = ""
+    action: str = ""
 
-    agent_id: AgentId
-    activated_at: datetime
-
-    def to_dict(self) -> dict[str, Any]:
-        data = super().to_dict()
-        data.update({"agent_id": self.agent_id, "activated_at": self.activated_at.isoformat()})
-        return data
+    def __post_init__(self):
+        super().__post_init__()
+        self.event_type = EventType.USER
 
 
-@dataclass(frozen=True)
-class AgentDeactivated(DomainEvent):
-    """Event raised when an agent becomes inactive."""
+class EventHandler:
+    """Simple event handler for domain events."""
+    
+    def __init__(self):
+        self._handlers: Dict[str, List[Callable]] = {}
+        self._event_history: List[DomainEvent] = []
+    
+    def register_handler(self, event_name: str, handler: Callable) -> None:
+        """Register an event handler."""
+        if event_name not in self._handlers:
+            self._handlers[event_name] = []
+        self._handlers[event_name].append(handler)
+        logger.debug(f"Handler registered for event: {event_name}")
+    
+    def unregister_handler(self, event_name: str, handler: Callable) -> None:
+        """Unregister an event handler."""
+        if event_name in self._handlers:
+            if handler in self._handlers[event_name]:
+                self._handlers[event_name].remove(handler)
+                logger.debug(f"Handler unregistered for event: {event_name}")
+    
+    def publish_event(self, event: DomainEvent) -> None:
+        """Publish a domain event."""
+        self._event_history.append(event)
+        
+        if event.event_name in self._handlers:
+            for handler in self._handlers[event.event_name]:
+                try:
+                    handler(event)
+                    logger.debug(f"Event {event.event_name} handled successfully")
+                except Exception as e:
+                    logger.error(f"Error handling event {event.event_name}: {e}")
+        
+        logger.info(f"Event published: {event.event_name} from {event.source}")
+    
+    def get_event_history(self, event_type: Optional[EventType] = None) -> List[DomainEvent]:
+        """Get event history, optionally filtered by type."""
+        if event_type:
+            return [event for event in self._event_history if event.event_type == event_type]
+        return self._event_history.copy()
+    
+    def clear_history(self) -> None:
+        """Clear event history."""
+        self._event_history.clear()
+        logger.info("Event history cleared")
 
-    agent_id: AgentId
-    deactivated_at: datetime
 
-    def to_dict(self) -> dict[str, Any]:
-        data = super().to_dict()
-        data.update({"agent_id": self.agent_id, "deactivated_at": self.deactivated_at.isoformat()})
-        return data
+class EventBus:
+    """Simple event bus for domain events."""
+    
+    def __init__(self):
+        self._handlers: Dict[str, List[Callable]] = {}
+        self._subscribers: Dict[str, List[Callable]] = {}
+    
+    def subscribe(self, event_name: str, handler: Callable) -> None:
+        """Subscribe to an event."""
+        if event_name not in self._subscribers:
+            self._subscribers[event_name] = []
+        self._subscribers[event_name].append(handler)
+        logger.debug(f"Subscribed to event: {event_name}")
+    
+    def unsubscribe(self, event_name: str, handler: Callable) -> None:
+        """Unsubscribe from an event."""
+        if event_name in self._subscribers:
+            if handler in self._subscribers[event_name]:
+                self._subscribers[event_name].remove(handler)
+                logger.debug(f"Unsubscribed from event: {event_name}")
+    
+    def publish(self, event: DomainEvent) -> None:
+        """Publish an event to all subscribers."""
+        if event.event_name in self._subscribers:
+            for handler in self._subscribers[event.event_name]:
+                try:
+                    handler(event)
+                    logger.debug(f"Event {event.event_name} published to subscriber")
+                except Exception as e:
+                    logger.error(f"Error publishing event {event.event_name}: {e}")
+        
+        logger.info(f"Event published: {event.event_name}")
+    
+    def get_subscriber_count(self, event_name: str) -> int:
+        """Get the number of subscribers for an event."""
+        return len(self._subscribers.get(event_name, []))
+
+
+class EventStore:
+    """Simple event store for domain events."""
+    
+    def __init__(self):
+        self._events: List[DomainEvent] = []
+        self._event_index: Dict[str, List[DomainEvent]] = {}
+    
+    def append_event(self, event: DomainEvent) -> None:
+        """Append an event to the store."""
+        self._events.append(event)
+        
+        # Index by event name
+        if event.event_name not in self._event_index:
+            self._event_index[event.event_name] = []
+        self._event_index[event.event_name].append(event)
+        
+        logger.debug(f"Event stored: {event.event_name}")
+    
+    def get_events(self, event_name: Optional[str] = None) -> List[DomainEvent]:
+        """Get events, optionally filtered by name."""
+        if event_name:
+            return self._event_index.get(event_name, []).copy()
+        return self._events.copy()
+    
+    def get_events_by_type(self, event_type: EventType) -> List[DomainEvent]:
+        """Get events by type."""
+        return [event for event in self._events if event.event_type == event_type]
+    
+    def get_events_by_source(self, source: str) -> List[DomainEvent]:
+        """Get events by source."""
+        return [event for event in self._events if event.source == source]
+    
+    def clear_events(self) -> None:
+        """Clear all events."""
+        self._events.clear()
+        self._event_index.clear()
+        logger.info("Event store cleared")
+
+
+# Global instances
+event_handler = EventHandler()
+event_bus = EventBus()
+event_store = EventStore()
+
+
+def publish_event(event: DomainEvent) -> None:
+    """Convenience function to publish an event."""
+    event_handler.publish_event(event)
+    event_bus.publish(event)
+    event_store.append_event(event)
+
+
+def create_system_event(name: str, source: str, data: Dict[str, Any] = None, 
+                       component: str = "", operation: str = "") -> SystemEvent:
+    """Create a system event."""
+    return SystemEvent(
+        event_id=str(uuid.uuid4()),
+        event_name=name,
+        source=source,
+        data=data or {},
+        system_component=component,
+        operation=operation
+    )
+
+
+def create_agent_event(name: str, source: str, data: Dict[str, Any] = None,
+                      agent_id: str = "", agent_name: str = "", action: str = "") -> AgentEvent:
+    """Create an agent event."""
+    return AgentEvent(
+        event_id=str(uuid.uuid4()),
+        event_name=name,
+        source=source,
+        data=data or {},
+        agent_id=agent_id,
+        agent_name=agent_name,
+        action=action
+    )
+
+
+def create_task_event(name: str, source: str, data: Dict[str, Any] = None,
+                     task_id: str = "", task_name: str = "", action: str = "") -> TaskEvent:
+    """Create a task event."""
+    return TaskEvent(
+        event_id=str(uuid.uuid4()),
+        event_name=name,
+        source=source,
+        data=data or {},
+        task_id=task_id,
+        task_name=task_name,
+        action=action
+    )
+
+
+def create_user_event(name: str, source: str, data: Dict[str, Any] = None,
+                     user_id: str = "", user_name: str = "", action: str = "") -> UserEvent:
+    """Create a user event."""
+    return UserEvent(
+        event_id=str(uuid.uuid4()),
+        event_name=name,
+        source=source,
+        data=data or {},
+        user_id=user_id,
+        user_name=user_name,
+        action=action
+    )

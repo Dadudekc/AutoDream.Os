@@ -1,0 +1,112 @@
+# runtime/fsm/fsm_spec.yaml
+version: 1.0
+owner: V2_SWARM
+last_updated: 2025-09-17
+
+namespaces:
+  agent:
+    states:
+      - ONBOARDING
+      - ACTIVE
+      - CONTRACT_EXECUTION_ACTIVE
+      - SURVEY_MISSION_COMPLETED
+      - PAUSED
+      - ERROR
+      - RESET
+      - SHUTDOWN
+    initial: ONBOARDING
+    terminal:
+      - SHUTDOWN
+    transitions:
+      - from: ONBOARDING
+        to: ACTIVE
+        guard: env_ready && creds_ok
+        action: init_agent_context
+      - from: ACTIVE
+        to: CONTRACT_EXECUTION_ACTIVE
+        guard: has_contract
+        action: start_contract
+      - from: CONTRACT_EXECUTION_ACTIVE
+        to: SURVEY_MISSION_COMPLETED
+        guard: contract_checks_pass
+        action: finalize_contract
+      - from: SURVEY_MISSION_COMPLETED
+        to: ACTIVE
+        guard: queued_tasks>0
+        action: pickup_next_task
+      - from: ACTIVE
+        to: PAUSED
+        guard: maintenance_window
+        action: park_agent
+      - from: *
+        to: ERROR
+        guard: fatal_exception
+        action: dump_context
+      - from: ERROR
+        to: RESET
+        guard: autoheal_possible
+        action: heal_and_clean
+      - from: RESET
+        to: ACTIVE
+        guard: health_ok
+        action: warm_resume
+      - from: *
+        to: SHUTDOWN
+        guard: shutdown_signal
+        action: graceful_exit
+
+  swarm:
+    states: [IDLE, COORDINATING, BROADCAST, DEGRADED, HALT]
+    initial: IDLE
+    transitions:
+      - {from: IDLE, to: COORDINATING, guard: active_agents>=2, action: assign_work}
+      - {from: COORDINATING, to: BROADCAST, guard: global_announcement, action: fan_out}
+      - {from: COORDINATING, to: DEGRADED, guard: unhealthy_ratio>0.25, action: shed_load}
+      - {from: DEGRADED, to: COORDINATING, guard: recovery_ok, action: rebalance}
+      - {from: *, to: HALT, guard: emergency_stop, action: stop_all}
+
+status_sources:
+  - path: data/semantic_seed/status/Agent-*/.json
+    fields:
+      - fsm_state
+      - last_transition
+      - health
+  - path: agent_workspaces/Agent-*/status.json
+    fields:
+      - fsm_state
+      - run_id
+  - path: swarm_coordination/swarm_state.json
+    fields:
+      - swarm_state
+      - coordinator
+
+guards:
+  env_ready: "checks.env && checks.paths"
+  creds_ok: "checks.tokens >= required.tokens"
+  has_contract: "queue.contracts>0"
+  contract_checks_pass: "qa.contract_validation==true"
+  maintenance_window: "now in windows.maintenance"
+  fatal_exception: "last_exit_code != 0 && severity=='fatal'"
+  autoheal_possible: "healer.plan_ready==true"
+  health_ok: "health.score>=0.9"
+  shutdown_signal: "signals.shutdown==true"
+  active_agents: "metrics.active_agents"
+  global_announcement: "signals.broadcast==true"
+  unhealthy_ratio: "metrics.unhealthy/metrics.total"
+  recovery_ok: "metrics.unhealthy==0"
+  emergency_stop: "signals.emergency_stop==true"
+
+actions:
+  init_agent_context: scripts/fsm/actions/init_agent_context.py
+  start_contract: scripts/fsm/actions/start_contract.py
+  finalize_contract: scripts/fsm/actions/finalize_contract.py
+  park_agent: scripts/fsm/actions/park_agent.py
+  dump_context: scripts/fsm/actions/dump_context.py
+  heal_and_clean: scripts/fsm/actions/heal_and_clean.py
+  warm_resume: scripts/fsm/actions/warm_resume.py
+  graceful_exit: scripts/fsm/actions/graceful_exit.py
+  assign_work: scripts/fsm/actions/assign_work.py
+  fan_out: scripts/fsm/actions/fan_out.py
+  shed_load: scripts/fsm/actions/shed_load.py
+  rebalance: scripts/fsm/actions/rebalance.py
+  stop_all: scripts/fsm/actions/stop_all.py

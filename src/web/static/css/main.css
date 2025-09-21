@@ -1,7 +1,0 @@
-/* V2 Compliance: Cleanup and optimization - NO new features */
-/* Consolidated imports for performance optimization */
-@import url('responsive_framework.css');
-@import url('layouts.css');
-@import url('buttons.css');
-@import url('forms.css');
-@import url('ui_components.css');

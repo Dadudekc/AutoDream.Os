@@ -32,6 +32,24 @@ repos:
         verbose: true
         description: "Enforce design principles and prevent overcomplication"
 
+      - id: quality-gates
+        name: Quality Gates Check
+        entry: python quality_gates.py
+        language: system
+        files: \.py$
+        pass_filenames: false
+        always_run: true
+        stages: [pre-commit]
+        
+      - id: v2-compliance
+        name: V2 Compliance Check
+        entry: python check_v2_compliance.py
+        language: system
+        files: \.py$
+        pass_filenames: false
+        always_run: true
+        stages: [pre-commit]
+
   # Type checking
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.8.0

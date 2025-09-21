@@ -1,0 +1,174 @@
+{
+    "captain_snapshot.py": {
+        "language": ".py",
+        "functions": [
+            "load_agents_index",
+            "calculate_staleness",
+            "get_status_priority",
+            "format_agent_row",
+            "main"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 5
+    },
+    "audit_cleanup.py": {
+        "language": ".py",
+        "functions": [
+            "load_config",
+            "load_ignores",
+            "path_ignored_by_patterns",
+            "is_ignored_dir",
+            "sha256_file",
+            "list_files",
+            "ext_of",
+            "match_any",
+            "git_available",
+            "git_head_stats",
+            "percent",
+            "main",
+            "top_exts"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 13
+    },
+    "check_snapshot_up_to_date.py": {
+        "language": ".py",
+        "functions": [
+            "git_diff_has_changes",
+            "main"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 2
+    },
+    "analysis_cli.py": {
+        "language": ".py",
+        "functions": [
+            "should_exclude_file",
+            "count_lines",
+            "analyze_python_file",
+            "analyze_project",
+            "ci_gate_check",
+            "format_violations_text",
+            "main"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 7
+    },
+    "run_project_scan.py": {
+        "language": ".py",
+        "functions": [
+            "run"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 1
+    },
+    "generate_utils_catalog.py": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "agent_checkin.py": {
+        "language": ".py",
+        "functions": [
+            "_iso_now",
+            "ensure_dirs",
+            "load_json_arg",
+            "validate_minimum",
+            "append_jsonl",
+            "atomic_write",
+            "update_index",
+            "main"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 8
+    },
+    "codemods\\migrate_orchestrators.py": {
+        "language": ".py",
+        "functions": [
+            "load_map",
+            "transform",
+            "iter_py",
+            "main"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 4
+    },
+    "codemods\\replace_prints_with_logger.py": {
+        "language": ".py",
+        "functions": [
+            "should_skip_file",
+            "transform_file",
+            "main",
+            "visit_Call"
+        ],
+        "classes": {
+            "PrintTransformer": {
+                "methods": [
+                    "visit_Call"
+                ],
+                "docstring": null,
+                "base_classes": [
+                    "ast.NodeTransformer"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 5
+    },
+    "codemods\\migrate_managers.py": {
+        "language": ".py",
+        "functions": [
+            "load_map",
+            "transform",
+            "iter_python_files",
+            "main"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 4
+    },
+    "auto_remediate_loc.py": {
+        "language": ".py",
+        "functions": [
+            "should_exclude",
+            "count_lines",
+            "analyze_file_loc",
+            "analyze_class_loc",
+            "analyze_function_loc",
+            "generate_file_split_suggestion",
+            "generate_class_split_suggestion",
+            "generate_function_split_suggestion",
+            "generate_refactor_plan",
+            "generate_text_report",
+            "main"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 11
+    },
+    "__init__.py": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "codemods\\__init__.py": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    }
+}

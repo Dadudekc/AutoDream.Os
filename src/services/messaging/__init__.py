@@ -1,8 +1,18 @@
-# AUTO-GENERATED __init__.py
-# DO NOT EDIT MANUALLY - changes may be overwritten
+"""
+Messaging Service Package
+========================
 
-from . import models
+Modular messaging service components for V2 compliance.
+"""
+
+from .core.messaging_service import MessagingService
+from .status.status_monitor import StatusMonitor
+from .onboarding.onboarding_service import OnboardingService
+from .project_update_system import ProjectUpdateSystem
 
 __all__ = [
-    'models',
+    "MessagingService",
+    "StatusMonitor", 
+    "OnboardingService",
+    "ProjectUpdateSystem"
 ]

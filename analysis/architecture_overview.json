@@ -1,16 +1,22 @@
 {
-  "project_structure": {},
-  "key_components": [],
-  "architecture_patterns": [],
-  "code_metrics": {
-    "total_files": 236,
-    "total_functions": 2554,
-    "total_classes": 556,
-    "total_complexity": 4877,
-    "languages_used": [
-      ".py",
-      ".js"
+  "system_architecture": {
+    "pattern": "Modular Agent System",
+    "components": [
+      "Agent Registry",
+      "Communication Services",
+      "Analysis Tools",
+      "V2 Compliance Engine"
     ]
   },
-  "recommendations": []
+  "design_principles": [
+    "V2 Compliance (\u2264400 lines per file)",
+    "Modular Design",
+    "Single Source of Truth",
+    "Agent Swarm Coordination"
+  ],
+  "quality_metrics": {
+    "code_coverage": 0.0,
+    "v2_compliance_rate": 0.0,
+    "test_coverage": 0.0
+  }
 }

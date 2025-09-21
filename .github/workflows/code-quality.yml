@@ -8,8 +8,4 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-<<<<<<< HEAD
         python-version: '3.11'
-=======
-        python-version: '3.11'
->>>>>>> origin/codex/catalog-functions-in-utils-directories

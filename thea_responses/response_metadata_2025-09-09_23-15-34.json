@@ -1,0 +1,13 @@
+{
+  "timestamp": "2025-09-09T23:15:35.060959",
+  "screenshot_path": "thea_responses\\thea_response_2025-09-09_23-15-34.png",
+  "sent_message_path": "thea_responses\\sent_message_2025-09-09_23-14-31.txt",
+  "sent_message_preview": "Testing headless mode - please confirm this works and provide a brief response",
+  "extracted_response": "Headless mode confirmed\u2014signal received. Ops channel is hot. Proceeding.",
+  "thea_url": "https://chatgpt.com/g/g-67f437d96d7c81918b2dbc12f0423867-thea-manager",
+  "user_observation": "automated_extraction_used",
+  "status": "response_captured",
+  "detection_method": "automated_dom_polling",
+  "character_count": 78,
+  "response_extracted": true
+}

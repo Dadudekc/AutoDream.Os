@@ -216,3 +216,4 @@ class BasicCommandHandler:
         """Get help for specific command."""
         commands = self.get_command_list()
         return commands.get(command_name, "Command not found")
+

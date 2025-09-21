@@ -1,4 +1,4 @@
-# Project Instructions (AGENTS.md)
+# Agent Architecture & Guidelines
 
 ## 🐝 **WE ARE SWARM: Understanding Our Agent Architecture**
 
@@ -114,8 +114,6 @@ Tags: {GENERAL|COORDINATION|TASK|STATUS}
 5. **Integration**: Proper integration with existing systems
 6. **Self-Validation**: Self-validation protocol executed successfully
 
-**Reference**: See `docs/AUTONOMOUS_AGENT_WORKFLOW.md` for complete documentation and examples.
-
 ---
 
 ## 📋 **Agent Development Guidelines**
@@ -136,6 +134,13 @@ This repository is primarily a **Python** project. Unless explicitly noted, all 
 - **Features:** Real-time agent-to-agent communication via PyAutoGUI automation
 - **Coordinate Validation:** Pre-delivery coordinate validation and routing safeguards
 - **All Agents:** Can now use PyAutoGUI messaging for swarm coordination
+
+### **Vector Database Integration (NEW)**
+- **Location:** `tools/simple_vector_search.py`
+- **Status:** ✅ **OPERATIONAL** - Integrated by Agent-4
+- **Usage:** `python tools/simple_vector_search.py --query "search term" --devlogs`
+- **Features:** Semantic search across all agent messages and experiences
+- **Benefits:** Swarm intelligence, collective learning, experience sharing
 
 ### **Project Scanner (Critical Tool)**
 - **Location:** `tools/projectscanner/` (modular package)

@@ -1,0 +1,202 @@
+{
+  "swarm_agents": {
+    "Agent-1": {
+      "agent_id": "Agent-1",
+      "role": "AgentRole.SPECIALIST",
+      "specialization": "Integration",
+      "team": "Team Alpha",
+      "coordination_weight": 0.8,
+      "expertise_areas": [
+        "Integration"
+      ],
+      "current_workload": 0.0,
+      "availability_status": "available",
+      "last_coordination": "2025-09-16T13:59:04.507823",
+      "coordination_metrics": {
+        "decisions_participated": 0,
+        "consensus_accuracy": 0.0,
+        "response_time_avg": 0.0,
+        "coordination_effectiveness": 0.0
+      }
+    },
+    "Agent-2": {
+      "agent_id": "Agent-2",
+      "role": "AgentRole.COORDINATOR",
+      "specialization": "V2 Compliance",
+      "team": "Team Alpha",
+      "coordination_weight": 0.9,
+      "expertise_areas": [
+        "V2 Compliance"
+      ],
+      "current_workload": 0.0,
+      "availability_status": "available",
+      "last_coordination": "2025-09-16T13:59:04.507823",
+      "coordination_metrics": {
+        "decisions_participated": 0,
+        "consensus_accuracy": 0.0,
+        "response_time_avg": 0.0,
+        "coordination_effectiveness": 0.0
+      }
+    },
+    "Agent-3": {
+      "agent_id": "Agent-3",
+      "role": "AgentRole.SPECIALIST",
+      "specialization": "Database",
+      "team": "Team Alpha",
+      "coordination_weight": 0.8,
+      "expertise_areas": [
+        "Database"
+      ],
+      "current_workload": 0.0,
+      "availability_status": "available",
+      "last_coordination": "2025-09-16T13:59:04.507823",
+      "coordination_metrics": {
+        "decisions_participated": 0,
+        "consensus_accuracy": 0.0,
+        "response_time_avg": 0.0,
+        "coordination_effectiveness": 0.0
+      }
+    },
+    "Agent-4": {
+      "agent_id": "Agent-4",
+      "role": "AgentRole.CAPTAIN",
+      "specialization": "Coordination",
+      "team": "Team Alpha",
+      "coordination_weight": 1.0,
+      "expertise_areas": [
+        "Coordination"
+      ],
+      "current_workload": 0.0,
+      "availability_status": "available",
+      "last_coordination": "2025-09-16T13:59:04.507823",
+      "coordination_metrics": {
+        "decisions_participated": 0,
+        "consensus_accuracy": 0.0,
+        "response_time_avg": 0.0,
+        "coordination_effectiveness": 0.0
+      }
+    },
+    "Agent-5": {
+      "agent_id": "Agent-5",
+      "role": "AgentRole.ANALYST",
+      "specialization": "Analysis",
+      "team": "Team Alpha",
+      "coordination_weight": 0.7,
+      "expertise_areas": [
+        "Analysis"
+      ],
+      "current_workload": 0.0,
+      "availability_status": "available",
+      "last_coordination": "2025-09-16T13:59:04.507823",
+      "coordination_metrics": {
+        "decisions_participated": 0,
+        "consensus_accuracy": 0.0,
+        "response_time_avg": 0.0,
+        "coordination_effectiveness": 0.0
+      }
+    },
+    "Agent-6": {
+      "agent_id": "Agent-6",
+      "role": "AgentRole.EXECUTOR",
+      "specialization": "Implementation",
+      "team": "Team Alpha",
+      "coordination_weight": 0.8,
+      "expertise_areas": [
+        "Implementation"
+      ],
+      "current_workload": 0.0,
+      "availability_status": "available",
+      "last_coordination": "2025-09-16T13:59:04.507823",
+      "coordination_metrics": {
+        "decisions_participated": 0,
+        "consensus_accuracy": 0.0,
+        "response_time_avg": 0.0,
+        "coordination_effectiveness": 0.0
+      }
+    },
+    "Agent-7": {
+      "agent_id": "Agent-7",
+      "role": "AgentRole.ANALYST",
+      "specialization": "Testing",
+      "team": "Team Alpha",
+      "coordination_weight": 0.7,
+      "expertise_areas": [
+        "Testing"
+      ],
+      "current_workload": 0.0,
+      "availability_status": "available",
+      "last_coordination": "2025-09-16T13:59:04.507823",
+      "coordination_metrics": {
+        "decisions_participated": 0,
+        "consensus_accuracy": 0.0,
+        "response_time_avg": 0.0,
+        "coordination_effectiveness": 0.0
+      }
+    },
+    "Agent-8": {
+      "agent_id": "Agent-8",
+      "role": "AgentRole.EXECUTOR",
+      "specialization": "Deployment",
+      "team": "Team Alpha",
+      "coordination_weight": 0.8,
+      "expertise_areas": [
+        "Deployment"
+      ],
+      "current_workload": 0.0,
+      "availability_status": "available",
+      "last_coordination": "2025-09-16T13:59:04.507823",
+      "coordination_metrics": {
+        "decisions_participated": 0,
+        "consensus_accuracy": 0.0,
+        "response_time_avg": 0.0,
+        "coordination_effectiveness": 0.0
+      }
+    }
+  },
+  "active_decisions": {
+    "DECISION_20250916_135904_Agent-4": {
+      "decision_id": "DECISION_20250916_135904_Agent-4",
+      "decision_type": "DecisionType.TASK_ASSIGNMENT",
+      "title": "V3 System Integration Testing",
+      "description": "Propose comprehensive testing of V3 autonomous workflow system integration with all 8 agents",
+      "proposed_by": "Agent-4",
+      "created_at": "2025-09-16T13:59:04.508829",
+      "status": "pending",
+      "votes": {},
+      "resolution": null,
+      "resolved_at": null,
+      "confidence_score": 0.0
+    }
+  },
+  "coordination_history": [
+    {
+      "message_id": "MSG_20250916_135904",
+      "from_agent": "Agent-4",
+      "to_agents": [
+        "Agent-1",
+        "Agent-2",
+        "Agent-3",
+        "Agent-4",
+        "Agent-5",
+        "Agent-6",
+        "Agent-7",
+        "Agent-8"
+      ],
+      "message_type": "decision",
+      "content": "New decision proposal: V3 System Integration Testing - Propose comprehensive testing of V3 autonomous workflow system integration with all 8 agents",
+      "priority": "medium",
+      "created_at": "2025-09-16T13:59:04.508829",
+      "requires_response": true,
+      "response_deadline": "2025-09-16T13:59:04.508829"
+    }
+  ],
+  "swarm_metrics": {
+    "total_decisions": 0,
+    "consensus_rate": 0.0,
+    "coordination_efficiency": 0.0,
+    "response_time_avg": 0.0,
+    "conflict_resolution_rate": 0.0
+  },
+  "swarm_state": "IDLE",
+  "last_transition": "2025-09-17T00:00:00Z"
+}

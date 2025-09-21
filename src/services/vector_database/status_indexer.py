@@ -1,70 +1,57 @@
-import logging
-
-logger = logging.getLogger(__name__)
 #!/usr/bin/env python3
-"""Agent status indexing helper.
+"""
+Status Indexer V2
+=================
 
-Loads ``status.json`` files, computes embeddings, and upserts them into the
-vector database's ``agent_status_embeddings`` table.
-
-EXAMPLE USAGE:
-==============
-
-# Import the service
-from src.services.vector_database.status_indexer import Status_IndexerService
-
-# Initialize service
-service = Status_IndexerService()
-
-# Basic service operation
-response = service.handle_request(request_data)
-logger.info(f"Service response: {response}")
-
-# Service with dependency injection
-from src.core.dependency_container import Container
-
-container = Container()
-service = container.get(Status_IndexerService)
-
-# Execute service method
-result = service.execute_operation(input_data, context)
-logger.info(f"Operation result: {result}")
-
+V2 compliant status indexing system for vector database.
 """
 
-from __future__ import annotations
+import logging
+from typing import Dict, Optional
+from .indexing import IndexManager, IndexProcessor, IndexType, IndexStats
 
-import json
-import sqlite3
-from datetime import datetime
-from pathlib import Path
-
-# from ...core import vector_database as vdb  # Commented out to fix import issues
-from ..embedding_service import EmbeddingService
+logger = logging.getLogger(__name__)
 
 
-def load_status(path: Path) -> tuple[str, str, str]:
-    """Return ``agent_id``, serialized status, and ``last_updated``."""
-    with path.open("r", encoding="utf-8") as file:
-        data = json.load(file)
-    agent_id = data.get("agent_id") or path.parent.name
-    raw_status = json.dumps(data, sort_keys=True)
-    last_updated = data.get("last_updated", datetime.utcnow().isoformat())
-    return agent_id, raw_status, last_updated
-
-
-def index_all_statuses(
-    base_dir: Path = Path("."),
-    conn: sqlite3.Connection | None = None,
-    embedding_service: EmbeddingService | None = None,
-) -> None:
-    """Index all ``status.json`` files under ``base_dir``."""
-    service = embedding_service or EmbeddingService()
-    db_conn = conn or vdb.get_connection()
-    for status_file in base_dir.rglob("status.json"):
-        agent_id, raw_status, last_updated = load_status(status_file)
-        embedding = service.generate_embedding(raw_status)
-        vdb.upsert_agent_status(db_conn, agent_id, raw_status, embedding, last_updated)
-
-
-__all__ = ["index_all_statuses"]
+class StatusIndexer:
+    """V2 compliant status indexer with modular architecture."""
+    
+    def __init__(self, storage_path: str = "data/index_storage.json"):
+        self.index_manager = IndexManager(storage_path)
+        self.index_processor = IndexProcessor(self.index_manager)
+        logger.info("StatusIndexer V2 initialized")
+    
+    def create_index(
+        self, 
+        entry_id: str, 
+        index_type: IndexType, 
+        metadata: Dict[str, any]
+    ):
+        """Create a new index operation."""
+        return self.index_processor.queue_operation(entry_id, index_type, metadata)
+    
+    def get_status(self, entry_id: str) -> Optional[Dict[str, any]]:
+        """Get status of an index entry."""
+        entry = self.index_manager.get_entry(entry_id)
+        if entry:
+            return entry.to_dict()
+        return None
+    
+    def get_statistics(self) -> Dict[str, any]:
+        """Get index statistics."""
+        stats = self.index_manager.get_stats()
+        queue_status = self.index_processor.get_queue_status()
+        
+        return {
+            'stats': stats.to_dict(),
+            'queue': queue_status,
+            'success_rate': stats.success_rate()
+        }
+    
+    def cleanup_stale_entries(self, max_age_seconds: int = 86400):
+        """Clean up stale index entries."""
+        self.index_manager.cleanup_stale_entries(max_age_seconds)
+    
+    def get_queue_status(self) -> Dict[str, any]:
+        """Get current processing queue status."""
+        return self.index_processor.get_queue_status()

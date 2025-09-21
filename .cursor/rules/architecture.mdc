@@ -32,8 +32,4 @@ alwaysApply: true
 - Repository → Service → Controller pattern
 - All data access goes through repositories
 - Business logic lives in services
-<<<<<<< HEAD
 - Controllers handle request/response logic
-=======
-- Controllers handle request/response logic
->>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65

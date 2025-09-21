@@ -1,0 +1,9 @@
+{
+  "agent_id": "Agent-5",
+  "agent_name": "Business Intelligence Specialist",
+  "fsm_state": "ACTIVE",
+  "last_transition": "2025-09-17T00:00:00Z",
+  "last_updated": "2025-09-17T00:00:00Z",
+  "current_mission": "Business Intelligence Analysis",
+  "mission_priority": "HIGH"
+}

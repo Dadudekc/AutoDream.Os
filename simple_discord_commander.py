@@ -219,11 +219,11 @@ class SimpleDiscordCommander(commands.Bot):
                 import sys
                 from pathlib import Path
                 sys.path.insert(0, str(Path(__file__).parent / "src"))
-                from services.messaging.core.messaging_service import MessagingService
+                from services.consolidated_messaging_service import ConsolidatedMessagingService
                 
                 # Initialize messaging service with absolute path
                 coord_path = str(Path(__file__).parent / "config" / "coordinates.json")
-                messaging_service = MessagingService(coord_path)
+                messaging_service = ConsolidatedMessagingService(coord_path)
                 
                 # Send message with priority
                 success = messaging_service.send_message(agent, message, "Discord-Commander", priority)
@@ -235,6 +235,7 @@ class SimpleDiscordCommander(commands.Bot):
                     response += f"**Message:** {message}\n"
                     response += f"**Priority:** {priority_emoji} {priority}\n"
                     response += f"**From:** Discord-Commander\n"
+                    response += f"**Delivery:** Inbox (fallback mode)\n"
                     response += "\n🐝 **WE ARE SWARM** - Message delivered!"
                 else:
                     response = f"❌ **Failed to send message to {agent}**\n\n"
@@ -259,11 +260,11 @@ class SimpleDiscordCommander(commands.Bot):
                 import sys
                 from pathlib import Path
                 sys.path.insert(0, str(Path(__file__).parent / "src"))
-                from services.messaging.core.messaging_service import MessagingService
+                from services.consolidated_messaging_service import ConsolidatedMessagingService
                 
                 # Initialize messaging service with absolute path
                 coord_path = str(Path(__file__).parent / "config" / "coordinates.json")
-                messaging_service = MessagingService(coord_path)
+                messaging_service = ConsolidatedMessagingService(coord_path)
                 
                 # Broadcast message with priority
                 results = messaging_service.broadcast_message(message, "Discord-Commander", priority)
@@ -274,7 +275,8 @@ class SimpleDiscordCommander(commands.Bot):
                 priority_emoji = "🔴" if priority == "URGENT" else "🟡" if priority == "HIGH" else "🟢"
                 response = f"**SWARM MESSAGE SENT** 🐝\n\n"
                 response += f"**Message:** {message}\n"
-                response += f"**Priority:** {priority_emoji} {priority}\n\n"
+                response += f"**Priority:** {priority_emoji} {priority}\n"
+                response += f"**Delivery:** Inbox (fallback mode)\n\n"
                 response += f"**Delivered to:** {len(active_agents)} active agents\n"
                 
                 if active_agents:

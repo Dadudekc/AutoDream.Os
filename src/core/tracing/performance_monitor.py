@@ -183,11 +183,13 @@ class PerformanceMonitor:
         
         # Record in trace
         with self.tracer.trace_span("timing_metric") as span:
-            self.tracer.add_span_tags({
+            span_tags = {
                 "operation.name": operation_name,
-                "operation.duration": duration,
-                **tags or {}
-            })
+                "operation.duration": duration
+            }
+            if tags:
+                span_tags.update(tags)
+            self.tracer.add_span_tags(span_tags)
     
     def record_counter(self, name: str, increment: int = 1, tags: Dict[str, str] = None) -> None:
         """Record counter metric."""
@@ -312,3 +314,7 @@ class PerformanceDecorator:
             
             return wrapper
         return decorator
+
+
+
+

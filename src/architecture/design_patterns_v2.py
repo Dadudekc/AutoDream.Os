@@ -388,3 +388,5 @@ class PatternRegistry:
     def list_patterns(cls) -> List[PatternType]:
         """List registered patterns."""
         return list(cls._patterns.keys())
+
+

@@ -16,3 +16,5 @@ class ResponseAnalyzer(ResponseHandler):
         """Create analysis using the parent handler."""
         # The analysis is created automatically in the response handler
         return screenshot_path
+
+

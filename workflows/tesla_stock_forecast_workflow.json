@@ -1,0 +1,61 @@
+{
+  "name": "Tesla Stock Forecast App Development",
+  "description": "Complete development workflow for Tesla stock forecasting application",
+  "created_at": "2025-09-19T20:24:48.433658",
+  "steps": [
+    {
+      "step_id": "database_setup",
+      "agent_id": "Agent-4",
+      "task": "Set up PostgreSQL database schema and SQLAlchemy models",
+      "dependencies": [],
+      "timeout_minutes": 30
+    },
+    {
+      "step_id": "backend_api",
+      "agent_id": "Agent-1",
+      "task": "Develop RESTful API endpoints and WebSocket support",
+      "dependencies": [
+        "database_setup"
+      ],
+      "timeout_minutes": 45
+    },
+    {
+      "step_id": "frontend_gui",
+      "agent_id": "Agent-2",
+      "task": "Create React frontend with charts and responsive design",
+      "dependencies": [
+        "backend_api"
+      ],
+      "timeout_minutes": 60
+    },
+    {
+      "step_id": "ml_models",
+      "agent_id": "Agent-3",
+      "task": "Implement machine learning models for stock prediction",
+      "dependencies": [
+        "database_setup"
+      ],
+      "timeout_minutes": 90
+    },
+    {
+      "step_id": "integration_testing",
+      "agent_id": "Agent-4",
+      "task": "Perform end-to-end integration testing",
+      "dependencies": [
+        "backend_api",
+        "frontend_gui",
+        "ml_models"
+      ],
+      "timeout_minutes": 30
+    },
+    {
+      "step_id": "deployment",
+      "agent_id": "Agent-4",
+      "task": "Deploy application to production environment",
+      "dependencies": [
+        "integration_testing"
+      ],
+      "timeout_minutes": 20
+    }
+  ]
+}

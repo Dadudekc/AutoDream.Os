@@ -260,3 +260,5 @@ class FileRepository(Repository[T]):
         """Get entity count."""
         with self._lock:
             return len(self._entities)
+
+

@@ -1,0 +1,159 @@
+{
+  "name": "V2 Trading Robot",
+  "description": "Transform Tesla Trading Robot into V2-compliant masterpiece using collective intelligence",
+  "created_at": "2025-09-19T20:23:05.734639",
+  "status": "draft",
+  "phases": [
+    {
+      "name": "Foundation Phase",
+      "description": "Core systems and V2 compliance framework",
+      "tasks": [
+        {
+          "type": "send_message",
+          "agent": "Agent-1",
+          "message": "V2 Trading Robot Foundation Phase - Refactor core systems into modular components (\u2264400 lines each). Focus on data pipeline optimization, trading engine refactoring, and real-time data streaming.",
+          "priority": "HIGH",
+          "tags": [
+            "V2_COMPLIANCE",
+            "CORE_SYSTEMS",
+            "FOUNDATION"
+          ]
+        },
+        {
+          "type": "send_message",
+          "agent": "Agent-4",
+          "message": "V2 Trading Robot Foundation Phase - Set up V2 compliance framework, testing standards, and quality metrics. Coordinate with Agent-1 for foundation work.",
+          "priority": "HIGH",
+          "tags": [
+            "V2_COMPLIANCE",
+            "QUALITY",
+            "FOUNDATION"
+          ]
+        },
+        {
+          "type": "create_task_file",
+          "agent": "Agent-1",
+          "priority": "HIGH",
+          "tasks": [
+            {
+              "task_id": "V2-TR-001",
+              "title": "Data Pipeline Optimization",
+              "description": "Create modular data pipeline with real-time streaming",
+              "priority": "HIGH",
+              "estimated_duration": "2 cycles"
+            },
+            {
+              "task_id": "V2-TR-002",
+              "title": "Trading Engine Refactoring",
+              "description": "Split monolithic trading robot into modular components",
+              "priority": "HIGH",
+              "estimated_duration": "3 cycles"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Specialization Phase",
+      "description": "UI excellence and ML intelligence",
+      "tasks": [
+        {
+          "type": "send_message",
+          "agent": "Agent-2",
+          "message": "V2 Trading Robot Specialization Phase - Create modular UI components (\u2264200 lines each), advanced data visualization, and professional trading interface.",
+          "priority": "HIGH",
+          "tags": [
+            "V2_COMPLIANCE",
+            "UI_EXCELLENCE",
+            "SPECIALIZATION"
+          ]
+        },
+        {
+          "type": "send_message",
+          "agent": "Agent-3",
+          "message": "V2 Trading Robot Specialization Phase - Implement database architecture, ML models, backtesting engine, and sentiment analysis.",
+          "priority": "HIGH",
+          "tags": [
+            "V2_COMPLIANCE",
+            "ML_INTELLIGENCE",
+            "SPECIALIZATION"
+          ]
+        },
+        {
+          "type": "create_task_file",
+          "agent": "Agent-2",
+          "priority": "HIGH",
+          "tasks": [
+            {
+              "task_id": "V2-TR-005",
+              "title": "Modular UI Components",
+              "description": "Create modular PyQt5 components with V2 compliance",
+              "priority": "HIGH",
+              "estimated_duration": "3 cycles"
+            }
+          ]
+        },
+        {
+          "type": "create_task_file",
+          "agent": "Agent-3",
+          "priority": "HIGH",
+          "tasks": [
+            {
+              "task_id": "V2-TR-009",
+              "title": "Database Architecture",
+              "description": "Design and implement SQLite database",
+              "priority": "HIGH",
+              "estimated_duration": "2 cycles"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Integration Phase",
+      "description": "System integration and final testing",
+      "tasks": [
+        {
+          "type": "send_message",
+          "agent": "Agent-4",
+          "message": "V2 Trading Robot Integration Phase - Coordinate final integration, comprehensive testing, security audit, and deployment preparation.",
+          "priority": "CRITICAL",
+          "tags": [
+            "V2_COMPLIANCE",
+            "INTEGRATION",
+            "QUALITY"
+          ]
+        },
+        {
+          "type": "send_message",
+          "agent": "Agent-1",
+          "message": "V2 Trading Robot Integration Phase - Finalize core systems integration and prepare for production deployment.",
+          "priority": "HIGH",
+          "tags": [
+            "V2_COMPLIANCE",
+            "INTEGRATION",
+            "CORE_SYSTEMS"
+          ]
+        },
+        {
+          "type": "create_devlog",
+          "title": "V2 Trading Robot Integration Complete",
+          "content": "All agents have completed their specialized tasks. System integration and final testing in progress.",
+          "priority": "HIGH"
+        }
+      ]
+    }
+  ],
+  "agents": [
+    "Agent-4",
+    "Agent-1",
+    "Agent-2",
+    "Agent-3"
+  ],
+  "progress": {
+    "total_phases": 3,
+    "completed_phases": 0,
+    "current_phase": 0,
+    "overall_progress": 0.0
+  }
+}

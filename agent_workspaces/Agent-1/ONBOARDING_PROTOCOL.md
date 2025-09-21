@@ -139,3 +139,7 @@ Captain, I have received your high-priority message and confirm I am active and 
 ```
 
 **🐝 WE ARE SWARM - Complete onboarding to join the swarm!**
+
+
+
+

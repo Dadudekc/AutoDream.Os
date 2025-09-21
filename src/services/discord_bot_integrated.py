@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-Integrated Discord Bot Service with V2_SWARM Architecture Foundation
+Integrated Discord Bot Service - Fixed for 5-Agent Mode
 
-This service integrates the Discord bot with the V2_SWARM architecture foundation,
-providing unified command handling, security, and agent communication capabilities.
+This service provides a Discord bot integrated with the consolidated messaging service.
+Fixed to work properly with 5-agent testing mode without architecture dependencies.
 
-Author: Agent-2 (Discord System Migration)
-Date: 2025-01-15
-Version: 2.0.0
+Author: Agent-2 (Discord System Migration - Fixed)
+Date: 2025-01-19
+Version: 3.0.0 (Fixed)
 """
 
 import asyncio
@@ -22,322 +22,376 @@ from discord.ext import commands
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from services.discord_bot.core.discord_bot import EnhancedDiscordAgentBot
-from architecture.design_patterns import pattern_manager, PatternType, PatternConfig
-from architecture.system_integration import integration_manager, IntegrationType, IntegrationConfig
-from architecture.unified_architecture_core import unified_architecture_core, ComponentType, ComponentConfig
-from domain.entities.agent import agent_manager, AgentType, AgentCapability, AgentConfiguration
-from domain.entities.task import task_manager, TaskType, TaskCategory, TaskConfiguration
-from domain.domain_events import event_bus, SystemEvent, AgentEvent, TaskEvent
+# Import messaging service for integration
+try:
+    from services.messaging.core.messaging_service import MessagingService
+except ImportError:
+    # Fallback for direct execution
+    from messaging.core.messaging_service import MessagingService
 
 logger = logging.getLogger(__name__)
 
 
 class IntegratedDiscordBotService:
-    """Integrated Discord bot service with architecture foundation."""
-    
+    """Integrated Discord bot service with consolidated messaging."""
+
     def __init__(self):
+        """Initialize Discord bot service."""
         self.bot = None
-        self.architecture_initialized = False
+        self.messaging_service = None
+        self.is_initialized = False
         self.logger = logging.getLogger(f"{__name__}.IntegratedDiscordBotService")
-    
+
     async def initialize(self) -> bool:
-        """Initialize the integrated Discord bot service."""
+        """Initialize the Discord bot service."""
         try:
             self.logger.info("🚀 Initializing Integrated Discord Bot Service...")
-            
-            # Initialize architecture foundation
-            await self._initialize_architecture()
-            
+
+            # Initialize messaging service
+            await self._initialize_messaging_service()
+
             # Initialize Discord bot
             await self._initialize_discord_bot()
-            
-            # Integrate systems
-            await self._integrate_systems()
-            
+
+            # Setup slash commands
+            await self._setup_slash_commands()
+
+            self.is_initialized = True
             self.logger.info("✅ Integrated Discord Bot Service initialized successfully")
             return True
-            
+
         except Exception as e:
             self.logger.error(f"❌ Failed to initialize Integrated Discord Bot Service: {e}")
             return False
-    
-    async def _initialize_architecture(self):
-        """Initialize the architecture foundation."""
+
+    async def _initialize_messaging_service(self):
+        """Initialize messaging service integration."""
         try:
-            self.logger.info("🏗️ Initializing architecture foundation...")
-            
-            # Initialize unified architecture core
-            await unified_architecture_core.initialize()
-            
-            # Initialize design patterns
-            await self._initialize_design_patterns()
-            
-            # Initialize system integrations
-            await self._initialize_system_integrations()
-            
-            # Initialize domain entities
-            await self._initialize_domain_entities()
-            
-            self.architecture_initialized = True
-            self.logger.info("✅ Architecture foundation initialized")
-            
+            self.logger.info("🔗 Initializing messaging service integration...")
+            self.messaging_service = MessagingService("config/coordinates.json")
+            self.logger.info("✅ Messaging service integration complete")
+
         except Exception as e:
-            self.logger.error(f"❌ Failed to initialize architecture foundation: {e}")
+            self.logger.error(f"❌ Failed to initialize messaging service: {e}")
             raise
-    
-    async def _initialize_design_patterns(self):
-        """Initialize design patterns for Discord system."""
+
+    async def _initialize_discord_bot(self):
+        """Initialize the Discord bot."""
         try:
-            # Initialize command pattern
-            command_config = PatternConfig(
-                pattern_type=PatternType.COMMAND,
-                name="integrated_discord_command_pattern",
-                description="Integrated command pattern for Discord slash commands"
-            )
-            
-            # Initialize security pattern
-            security_config = PatternConfig(
-                pattern_type=PatternType.SECURITY,
-                name="integrated_discord_security_pattern",
-                description="Integrated security pattern for Discord bot security"
-            )
-            
-            # Initialize UI pattern
-            ui_config = PatternConfig(
-                pattern_type=PatternType.UI,
-                name="integrated_discord_ui_pattern",
-                description="Integrated UI pattern for Discord embeds and interactions"
-            )
-            
-            # Initialize communication pattern
-            communication_config = PatternConfig(
-                pattern_type=PatternType.COMMUNICATION,
-                name="integrated_discord_communication_pattern",
-                description="Integrated communication pattern for Discord messaging"
-            )
-            
-            self.logger.info("✅ Design patterns initialized")
-            
+            self.logger.info("🤖 Initializing Discord bot...")
+
+            # Create bot instance with proper intents
+            intents = discord.Intents.default()
+            intents.message_content = True
+            intents.members = True
+            intents.guilds = True
+
+            self.bot = commands.Bot(command_prefix="!", intents=intents)
+
+            # Setup event handlers
+            await self._setup_event_handlers()
+
+            # Setup messaging integration
+            self.bot.messaging_service = self.messaging_service
+
+            self.logger.info("✅ Discord bot initialized")
+
         except Exception as e:
-            self.logger.error(f"❌ Failed to initialize design patterns: {e}")
+            self.logger.error(f"❌ Failed to initialize Discord bot: {e}")
             raise
-    
-    async def _initialize_system_integrations(self):
-        """Initialize system integrations for Discord system."""
-        try:
-            # Initialize Discord API integration
-            discord_api_config = IntegrationConfig(
-                integration_type=IntegrationType.API,
-                name="integrated_discord_api",
-                endpoint="https://discord.com/api/v10"
+
+    async def _setup_event_handlers(self):
+        """Setup Discord bot event handlers."""
+
+        @self.bot.event
+        async def on_ready():
+            """Called when bot is ready and connected."""
+            self.logger.info(f"🤖 Discord Commander is online as {self.bot.user}")
+
+            # Update presence for 5-agent mode
+            await self.bot.change_presence(
+                activity=discord.Activity(
+                    type=discord.ActivityType.watching,
+                    name="🐝 5-Agent Mode - WE ARE SWARM"
+                )
             )
-            
-            # Initialize messaging integration
-            messaging_config = IntegrationConfig(
-                integration_type=IntegrationType.MESSAGING,
-                name="integrated_agent_messaging",
-                endpoint="agent_workspaces"
-            )
-            
-            # Initialize database integration
-            database_config = IntegrationConfig(
-                integration_type=IntegrationType.DATABASE,
-                name="integrated_discord_database",
-                endpoint="sqlite:///discord_integrated.db"
-            )
-            
-            self.logger.info("✅ System integrations initialized")
-            
-        except Exception as e:
-            self.logger.error(f"❌ Failed to initialize system integrations: {e}")
-            raise
-    
-    async def _initialize_domain_entities(self):
-        """Initialize domain entities for Discord system."""
-        try:
-            # Create integrated Discord bot agent configuration
-            discord_agent_config = AgentConfiguration(
-                agent_id="integrated_discord_bot_agent",
-                name="Integrated Discord Bot Agent",
-                agent_type=AgentType.SERVICE,
-                capabilities={
-                    AgentCapability.MESSAGING,
-                    AgentCapability.COMMAND_EXECUTION,
-                    AgentCapability.USER_INTERFACE,
-                    AgentCapability.SECURITY,
-                    AgentCapability.SYSTEM_INTEGRATION,
-                    AgentCapability.COORDINATION
-                }
-            )
-            
-            # Create integrated Discord bot task configuration
-            discord_task_config = TaskConfiguration(
-                task_id="integrated_discord_bot_task",
-                name="Integrated Discord Bot Task",
-                description="Main integrated Discord bot operation task",
-                task_type=TaskType.SYSTEM,
-                category=TaskCategory.SYSTEM_OPERATION
-            )
-            
-            self.logger.info("✅ Domain entities initialized")
-            
-        except Exception as e:
-            self.logger.error(f"❌ Failed to initialize domain entities: {e}")
-            raise
+
+        @self.bot.event
+        async def on_message(message):
+            """Handle incoming messages."""
+            if message.author == self.bot.user:
+                return
+
+            # Process commands
+            await self.bot.process_commands(message)
+
+    async def _setup_slash_commands(self):
+        """Setup Discord slash commands."""
+
+        @self.bot.tree.command(name="swarm_status", description="Get current swarm status")
+        async def swarm_status(interaction: discord.Interaction):
+            """Get current swarm status."""
+            try:
+                embed = discord.Embed(
+                    title="🐝 Swarm Status Report",
+                    description="5-Agent Testing Mode Active",
+                    color=0x00ff00,
+                    timestamp=discord.utils.utcnow()
+                )
+
+                # Messaging service status
+                messaging_status = "✅ Connected" if self.messaging_service else "❌ Disconnected"
+                embed.add_field(name="Messaging Service", value=messaging_status, inline=True)
+
+                # Discord bot status
+                bot_status = "✅ Online" if self.bot.is_ready() else "❌ Offline"
+                embed.add_field(name="Discord Bot", value=bot_status, inline=True)
+
+                # 5-agent mode info
+                embed.add_field(
+                    name="Active Agents",
+                    value="Agent-4, Agent-5, Agent-6, Agent-7, Agent-8",
+                    inline=False
+                )
+
+                embed.set_footer(text="WE ARE SWARM - Discord Commander")
+                await interaction.response.send_message(embed=embed)
+
+            except Exception as e:
+                self.logger.error(f"Error getting swarm status: {e}")
+                await interaction.response.send_message("❌ Error getting swarm status")
+
+        @self.bot.tree.command(name="send_to_agent", description="Send message to specific agent")
+        async def send_to_agent(interaction: discord.Interaction, agent: str, message: str):
+            """Send message to specific agent."""
+            try:
+                if not self.messaging_service:
+                    await interaction.response.send_message("❌ Messaging service not available")
+                    return
+
+                # Validate agent ID
+                valid_agents = ["Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
+                if agent not in valid_agents:
+                    await interaction.response.send_message(
+                        f"❌ Invalid agent. Valid agents: {', '.join(valid_agents)}"
+                    )
+                    return
+
+                # Send message through messaging service
+                success = self.messaging_service.send_message(
+                    agent_id=agent,
+                    message=f"[Discord] {message}",
+                    from_agent=f"Discord-{interaction.user.name}"
+                )
+
+                if success:
+                    embed = discord.Embed(
+                        title="✅ Message Sent",
+                        description=f"Sent to {agent}: {message}",
+                        color=0x00ff00
+                    )
+                else:
+                    embed = discord.Embed(
+                        title="❌ Message Failed",
+                        description=f"Could not send message to {agent}",
+                        color=0xff0000
+                    )
+
+                embed.set_footer(text="WE ARE SWARM - Agent Communication")
+                await interaction.response.send_message(embed=embed)
+
+            except Exception as e:
+                self.logger.error(f"Error sending message: {e}")
+                await interaction.response.send_message("❌ Error sending message")
+
+        @self.bot.tree.command(name="broadcast", description="Broadcast message to all agents")
+        async def broadcast(interaction: discord.Interaction, message: str):
+            """Broadcast message to all agents."""
+            try:
+                if not self.messaging_service:
+                    await interaction.response.send_message("❌ Messaging service not available")
+                    return
+
+                # Send to all 5 active agents
+                agent_ids = ["Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
+                results = {}
+
+                for agent_id in agent_ids:
+                    results[agent_id] = self.messaging_service.send_message(
+                        agent_id=agent_id,
+                        message=f"[Discord Broadcast] {message}",
+                        from_agent=f"Discord-{interaction.user.name}"
+                    )
+
+                successful = sum(1 for result in results.values() if result)
+                total = len(results)
+
+                embed = discord.Embed(
+                    title="📡 Broadcast Results",
+                    description=f"Message: {message}",
+                    color=0x0099ff
+                )
+
+                embed.add_field(
+                    name="Successful",
+                    value=f"{successful}/{total}",
+                    inline=True
+                )
+
+                embed.add_field(
+                    name="Failed",
+                    value=f"{total - successful}/{total}",
+                    inline=True
+                )
+
+                embed.set_footer(text="WE ARE SWARM - Swarm Communication")
+                await interaction.response.send_message(embed=embed)
+
+            except Exception as e:
+                self.logger.error(f"Error broadcasting message: {e}")
+                await interaction.response.send_message("❌ Error broadcasting message")
+
+        @self.bot.tree.command(name="agent_list", description="List all available agents")
+        async def agent_list(interaction: discord.Interaction):
+            """List all available agents."""
+            try:
+                agents = ["Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
+
+                embed = discord.Embed(
+                    title="🤖 Available Agents",
+                    description=f"**5-Agent Testing Mode Active**\nTotal: {len(agents)} agents",
+                    color=0x0099ff
+                )
+
+                for i, agent in enumerate(agents, 1):
+                    embed.add_field(
+                        name=f"Agent {i}",
+                        value=agent,
+                        inline=True
+                    )
+
+                embed.set_footer(text="WE ARE SWARM - Agent Network")
+                await interaction.response.send_message(embed=embed)
+
+            except Exception as e:
+                self.logger.error(f"Error listing agents: {e}")
+                await interaction.response.send_message("❌ Error listing agents")
+
+        @self.bot.tree.command(name="system_check", description="Check system integration status")
+        async def system_check(interaction: discord.Interaction):
+            """Check system integration status."""
+            try:
+                embed = discord.Embed(
+                    title="🔧 System Integration Check",
+                    description="Discord Commander System Status",
+                    color=0x0099ff,
+                    timestamp=discord.utils.utcnow()
+                )
+
+                # Bot status
+                embed.add_field(
+                    name="Discord Bot",
+                    value="✅ Online" if self.bot.is_ready() else "❌ Offline",
+                    inline=True
+                )
+
+                # Messaging service status
+                messaging_status = "✅ Connected" if self.messaging_service else "❌ Disconnected"
+                embed.add_field(
+                    name="Messaging Service",
+                    value=messaging_status,
+                    inline=True
+                )
+
+                # 5-agent mode info
+                embed.add_field(
+                    name="Agent Mode",
+                    value="5-Agent Testing Mode",
+                    inline=False
+                )
+
+                embed.set_footer(text="WE ARE SWARM - System Check Complete")
+                await interaction.response.send_message(embed=embed)
+
+            except Exception as e:
+                self.logger.error(f"Error checking system: {e}")
+                await interaction.response.send_message("❌ Error checking system")
     
     async def _initialize_discord_bot(self):
         """Initialize the Discord bot."""
         try:
             self.logger.info("🤖 Initializing Discord bot...")
-            
+
             # Create bot instance
             intents = discord.Intents.default()
             intents.message_content = True
-            intents.members = False
-            
-            self.bot = EnhancedDiscordAgentBot(
-                command_prefix="!",
-                intents=intents
-            )
-            
-            # Add architecture integration to bot
-            self.bot.pattern_manager = pattern_manager
-            self.bot.integration_manager = integration_manager
-            self.bot.unified_architecture = unified_architecture_core
-            self.bot.agent_manager = agent_manager
-            self.bot.task_manager = task_manager
-            self.bot.event_bus = event_bus
-            self.bot._architecture_initialized = True
-            
-            self.logger.info("✅ Discord bot initialized")
-            
+            intents.members = True
+            intents.guilds = True
+
+            self.bot = commands.Bot(command_prefix="!", intents=intents)
+
+            # No architecture dependencies needed for basic functionality
+
+            # Setup messaging integration
+            self.bot.messaging_service = self.messaging_service
+            self.logger.info("✅ Discord bot initialized with messaging service integration")
+
         except Exception as e:
             self.logger.error(f"❌ Failed to initialize Discord bot: {e}")
             raise
     
-    async def _integrate_systems(self):
-        """Integrate all systems together."""
-        try:
-            self.logger.info("🔗 Integrating systems...")
-            
-            # Integrate command router with design patterns
-            if hasattr(self.bot, 'command_router'):
-                self.bot.command_router.pattern_manager = pattern_manager
-            
-            # Integrate security manager with design patterns
-            if hasattr(self.bot, 'security_manager'):
-                self.bot.security_manager.pattern_manager = pattern_manager
-            
-            # Integrate UI embeds with design patterns
-            if hasattr(self.bot, 'ui_embeds'):
-                self.bot.ui_embeds.pattern_manager = pattern_manager
-            
-            # Integrate agent communication with domain entities
-            if hasattr(self.bot, 'agent_communication'):
-                self.bot.agent_communication.agent_manager = agent_manager
-                self.bot.agent_communication.event_bus = event_bus
-            
-            # Publish integration complete event
-            integration_event = SystemEvent(
-                event_id="",
-                event_name="discord_system_integration_complete",
-                source="integrated_discord_service",
-                system_component="discord_bot",
-                operation="integration_complete",
-                data={
-                    "architecture_initialized": self.architecture_initialized,
-                    "bot_initialized": self.bot is not None,
-                    "systems_integrated": True
-                }
-            )
-            await event_bus.publish_event(integration_event)
-            
-            self.logger.info("✅ Systems integrated successfully")
-            
-        except Exception as e:
-            self.logger.error(f"❌ Failed to integrate systems: {e}")
-            raise
+    # System integration is handled through messaging service
+    # No additional integration needed for basic functionality
     
     async def start(self) -> None:
-        """Start the integrated Discord bot service."""
+        """Start the Discord bot service."""
         try:
             if not self.bot:
                 raise RuntimeError("Discord bot not initialized")
-            
-            self.logger.info("🚀 Starting Integrated Discord Bot Service...")
-            
+
+            self.logger.info("🚀 Starting Discord Commander...")
+
             # Get bot token
             token = os.getenv("DISCORD_BOT_TOKEN")
-# SECURITY: Token placeholder - replace with environment variable
-# SECURITY: Token placeholder - replace with environment variable
-            
+            if not token:
+                raise RuntimeError("DISCORD_BOT_TOKEN environment variable not set")
+
+            # Sync slash commands
+            try:
+                synced = await self.bot.tree.sync()
+                self.logger.info(f"✅ Synced {len(synced)} slash commands")
+            except Exception as e:
+                self.logger.error(f"❌ Failed to sync slash commands: {e}")
+
             # Start the bot
-# SECURITY: Token placeholder - replace with environment variable
-            
+            await self.bot.start(token)
+
+        except discord.LoginFailure:
+            self.logger.error("❌ Invalid Discord bot token!")
+            raise
         except Exception as e:
-            self.logger.error(f"❌ Failed to start Integrated Discord Bot Service: {e}")
+            self.logger.error(f"❌ Failed to start Discord Commander: {e}")
             raise
     
     async def stop(self) -> None:
-        """Stop the integrated Discord bot service."""
+        """Stop the Discord bot service."""
         try:
             if self.bot:
-                self.logger.info("🛑 Stopping Integrated Discord Bot Service...")
+                self.logger.info("🛑 Stopping Discord Commander...")
                 await self.bot.close()
-            
-            # Cleanup architecture
-            if self.architecture_initialized:
-                await self._cleanup_architecture()
-            
-            self.logger.info("✅ Integrated Discord Bot Service stopped")
-            
+
+            self.logger.info("✅ Discord Commander stopped")
+
         except Exception as e:
-            self.logger.error(f"❌ Failed to stop Integrated Discord Bot Service: {e}")
-    
-    async def _cleanup_architecture(self):
-        """Cleanup the architecture foundation."""
-        try:
-            self.logger.info("🧹 Cleaning up architecture foundation...")
-            
-            # Cleanup unified architecture core
-            await unified_architecture_core.cleanup()
-            
-            # Cleanup pattern manager
-            await pattern_manager.cleanup_all()
-            
-            # Cleanup integration manager
-            await integration_manager.cleanup_all()
-            
-            # Cleanup agent manager
-            await agent_manager.cleanup_all()
-            
-            # Cleanup task manager
-            await task_manager.cleanup_all()
-            
-            # Cleanup event bus
-            await event_bus.cleanup()
-            
-            self.architecture_initialized = False
-            self.logger.info("✅ Architecture foundation cleaned up")
-            
-        except Exception as e:
-            self.logger.error(f"❌ Failed to cleanup architecture foundation: {e}")
-    
+            self.logger.error(f"❌ Failed to stop Discord Commander: {e}")
+
     def get_status(self) -> dict:
-        """Get the status of the integrated Discord bot service."""
+        """Get the status of the Discord bot service."""
         return {
-            "service_initialized": self.bot is not None,
-            "architecture_initialized": self.architecture_initialized,
+            "service_initialized": self.is_initialized,
             "bot_ready": self.bot.user is not None if self.bot else False,
             "guild_count": len(self.bot.guilds) if self.bot and self.bot.guilds else 0,
-            "latency": round(self.bot.latency * 1000) if self.bot else 0,
-            "architecture_status": {
-                "patterns_active": len(pattern_manager.patterns),
-                "integrations_active": len(integration_manager.integrations),
-                "agents_registered": len(agent_manager.agents),
-                "tasks_active": len(task_manager.tasks)
-            }
+            "messaging_service_connected": self.messaging_service is not None
         }
 
 
@@ -362,8 +416,7 @@ async def main():
         # Start service
         await service.start()
         
-# SECURITY: Key placeholder - replace with environment variable
-# SECURITY: Key placeholder - replace with environment variable
+# Start the bot with proper token handling
     except Exception as e:
         logger.error(f"❌ Service error: {e}")
     finally:

@@ -139,6 +139,19 @@ Welcome to V2_SWARM, {agent_id}!
 - **V2 Compliance Pipeline**: Automated refactoring and validation
 - **Modular Architecture**: Clean separation of concerns
 - **Performance Optimization**: Advanced caching and scaling
+- **Vector Database Integration**: Automatic knowledge storage and semantic search
+
+**VECTOR DATABASE FEATURES:**
+- **Automatic Message Storage**: All messages stored for semantic search
+- **Knowledge Retrieval**: Search similar past experiences and solutions
+- **Swarm Intelligence**: Learn from collective agent experiences
+- **Experience Search**: Find how other agents solved similar problems
+
+**VECTOR DATABASE COMMANDS:**
+- `python tools/agent_vector_search.py --query "Discord bot issues" --limit 5`
+- `python tools/agent_vector_search.py --agent Agent-4 --query "consolidation" --experience`
+- `python tools/agent_vector_search.py --agent Agent-4 --knowledge-summary`
+- `python tools/agent_vector_search.py --swarm-summary`
 
 Ready for autonomous operation and team coordination!
 

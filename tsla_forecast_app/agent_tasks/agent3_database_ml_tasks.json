@@ -1,0 +1,124 @@
+{
+  "agent_id": "Agent-3",
+  "specialization": "Database & ML Specialist",
+  "mission": "V2-Compliant Trading Robot Intelligence & Data Management",
+  "priority": "HIGH",
+  "status": "ready_to_claim",
+  "tasks": [
+    {
+      "task_id": "V2-TR-009",
+      "title": "Database Architecture",
+      "description": "Design and implement SQLite database for trade history and performance data",
+      "priority": "HIGH",
+      "estimated_duration": "2 cycles",
+      "deliverables": [
+        "database/schema.sql (≤200 lines)",
+        "database/database_manager.py (≤400 lines)",
+        "database/migrations/ (≤200 lines each)",
+        "Trade history storage",
+        "Performance metrics tracking",
+        "Data backup and recovery"
+      ],
+      "v2_compliance": {
+        "file_size_limit": 400,
+        "normalized_database": true,
+        "data_integrity": true,
+        "migration_system": true
+      }
+    },
+    {
+      "task_id": "V2-TR-010",
+      "title": "Machine Learning Integration",
+      "description": "Implement ML models for price prediction and strategy optimization",
+      "priority": "HIGH",
+      "estimated_duration": "4 cycles",
+      "deliverables": [
+        "ml_models/price_predictor.py (≤400 lines)",
+        "ml_models/strategy_optimizer.py (≤400 lines)",
+        "ml_models/risk_assessor.py (≤400 lines)",
+        "LSTM price prediction model",
+        "Genetic algorithm strategy optimization",
+        "Risk assessment ML models"
+      ],
+      "v2_compliance": {
+        "file_size_limit": 400,
+        "model_modularity": true,
+        "performance_optimized": true,
+        "memory_efficient": true
+      }
+    },
+    {
+      "task_id": "V2-TR-011",
+      "title": "Backtesting Engine",
+      "description": "Create comprehensive backtesting system with historical data analysis",
+      "priority": "HIGH",
+      "estimated_duration": "3 cycles",
+      "deliverables": [
+        "backtesting/engine.py (≤400 lines)",
+        "backtesting/data_loader.py (≤200 lines)",
+        "backtesting/performance_analyzer.py (≤400 lines)",
+        "Historical data processing",
+        "Strategy performance analysis",
+        "Monte Carlo simulation"
+      ],
+      "v2_compliance": {
+        "file_size_limit": 400,
+        "modular_testing": true,
+        "comprehensive_metrics": true,
+        "scalable_architecture": true
+      }
+    },
+    {
+      "task_id": "V2-TR-012",
+      "title": "Market Sentiment Analysis",
+      "description": "Integrate sentiment analysis for enhanced trading decisions",
+      "priority": "MEDIUM",
+      "estimated_duration": "2 cycles",
+      "deliverables": [
+        "sentiment/sentiment_analyzer.py (≤400 lines)",
+        "sentiment/news_processor.py (≤200 lines)",
+        "Twitter sentiment analysis",
+        "News sentiment processing",
+        "Social media integration"
+      ],
+      "v2_compliance": {
+        "file_size_limit": 400,
+        "real_time_processing": true,
+        "data_validation": true,
+        "error_handling": true
+      }
+    },
+    {
+      "task_id": "V2-TR-013",
+      "title": "Portfolio Optimization",
+      "description": "Implement advanced portfolio optimization algorithms",
+      "priority": "MEDIUM",
+      "estimated_duration": "2 cycles",
+      "deliverables": [
+        "optimization/portfolio_optimizer.py (≤400 lines)",
+        "optimization/risk_metrics.py (≤200 lines)",
+        "Modern Portfolio Theory implementation",
+        "Risk-adjusted returns calculation",
+        "Portfolio rebalancing algorithms"
+      ],
+      "v2_compliance": {
+        "file_size_limit": 400,
+        "mathematical_accuracy": true,
+        "performance_optimized": true,
+        "comprehensive_testing": true
+      }
+    }
+  ],
+  "dependencies": ["V2-TR-001", "V2-TR-002"],
+  "success_criteria": [
+    "All ML models ≤400 lines",
+    "Comprehensive backtesting",
+    "Real-time sentiment analysis",
+    "Portfolio optimization",
+    "Database performance"
+  ],
+  "coordination_notes": "Work closely with Agent-1 for data integration and Agent-4 for quality assurance"
+}
+
+
+

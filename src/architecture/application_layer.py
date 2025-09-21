@@ -303,3 +303,5 @@ class ApplicationFacade:
         """Get application health status."""
         system_status_result = self.application_service.get_system_status()
         return system_status_result.to_dict() if system_status_result.success else {"error": system_status_result.error}
+
+

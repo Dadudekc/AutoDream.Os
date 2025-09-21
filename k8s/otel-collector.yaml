@@ -170,3 +170,9 @@ spec:
     name: prometheus
   selector:
     app: otel-collector
+
+
+
+
+
+

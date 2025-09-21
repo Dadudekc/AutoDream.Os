@@ -25,6 +25,9 @@ class PatternType(Enum):
     OBSERVER = "observer"
     STRATEGY = "strategy"
     COMMAND = "command"
+    SECURITY = "security"
+    UI = "ui"
+    COMMUNICATION = "communication"
 
 
 @dataclass
@@ -210,6 +213,15 @@ class PatternRegistry:
             instance = Strategy()
         elif pattern_type == PatternType.COMMAND:
             instance = Command(lambda: None)
+        elif pattern_type == PatternType.SECURITY:
+            # Security pattern - could be implemented as a decorator or wrapper
+            instance = Command(lambda: None)  # Placeholder
+        elif pattern_type == PatternType.UI:
+            # UI pattern - could be implemented as a component factory
+            instance = Factory()
+        elif pattern_type == PatternType.COMMUNICATION:
+            # Communication pattern - could be implemented as observer
+            instance = Observer()
         else:
             raise ValueError(f"Unknown pattern type: {pattern_type}")
         
@@ -229,6 +241,78 @@ class PatternRegistry:
 
 # Global pattern registry
 pattern_registry = PatternRegistry()
+
+
+class PatternManager:
+    """Manager for design patterns."""
+
+    def __init__(self):
+        """Initialize pattern manager."""
+        self._patterns: Dict[str, PatternConfig] = {}
+        self._instances: Dict[str, Any] = {}
+        self.logger = logging.getLogger(f"{__name__}.PatternManager")
+
+    def register_pattern(self, config: PatternConfig) -> None:
+        """Register a pattern configuration."""
+        self._patterns[config.name] = config
+        self.logger.debug(f"Pattern registered: {config.name}")
+
+    def get_pattern(self, name: str) -> Optional[PatternConfig]:
+        """Get a pattern configuration."""
+        return self._patterns.get(name)
+
+    def get_all_patterns(self) -> Dict[str, PatternConfig]:
+        """Get all pattern configurations."""
+        return self._patterns.copy()
+
+    def create_pattern_instance(self, name: str, pattern_type: PatternType) -> Any:
+        """Create a pattern instance."""
+        if name in self._instances:
+            return self._instances[name]
+
+        if pattern_type == PatternType.SINGLETON:
+            instance = Singleton()
+        elif pattern_type == PatternType.FACTORY:
+            instance = Factory()
+        elif pattern_type == PatternType.OBSERVER:
+            instance = Observer()
+        elif pattern_type == PatternType.STRATEGY:
+            instance = Strategy()
+        elif pattern_type == PatternType.COMMAND:
+            instance = Command(lambda: None)
+        elif pattern_type == PatternType.SECURITY:
+            # Security pattern - could be implemented as a decorator or wrapper
+            instance = Command(lambda: None)  # Placeholder
+        elif pattern_type == PatternType.UI:
+            # UI pattern - could be implemented as a component factory
+            instance = Factory()
+        elif pattern_type == PatternType.COMMUNICATION:
+            # Communication pattern - could be implemented as observer
+            instance = Observer()
+        else:
+            raise ValueError(f"Unknown pattern type: {pattern_type}")
+
+        self._instances[name] = instance
+        self.logger.debug(f"Pattern instance created: {name}")
+        return instance
+
+    def get_pattern_instance(self, name: str) -> Optional[Any]:
+        """Get a pattern instance."""
+        return self._instances.get(name)
+
+    def cleanup_all(self) -> None:
+        """Cleanup all pattern instances."""
+        self._instances.clear()
+        self.logger.info("All pattern instances cleaned up")
+
+    @property
+    def patterns(self) -> Dict[str, PatternConfig]:
+        """Get all patterns."""
+        return self._patterns.copy()
+
+
+# Global pattern manager
+pattern_manager = PatternManager()
 
 
 def register_pattern(pattern_type: PatternType, name: str, description: str, 

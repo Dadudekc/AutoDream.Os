@@ -186,3 +186,7 @@ def get_activity_monitor() -> ActivityMonitor:
     if not hasattr(get_activity_monitor, '_instance'):
         get_activity_monitor._instance = ActivityMonitor()
     return get_activity_monitor._instance
+
+
+
+

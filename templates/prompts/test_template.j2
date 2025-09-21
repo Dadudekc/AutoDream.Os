@@ -1,0 +1,17 @@
+
+# Test Template
+
+**Agent:** {{ agent_name }}
+**Task:** {{ task_name }}
+**Priority:** {{ priority }}
+
+## Test Content
+{{ content }}
+
+{% if memory %}
+### Memory Context
+{{ memory.context }}
+{% endif %}
+
+---
+**Generated:** {{ timestamp }}

@@ -101,7 +101,7 @@ class TheaCookieManager:
             with open(self.cookie_file, "w", encoding="utf-8") as f:
                 json.dump(persistent_cookies, f, indent=2)
 
-            logger.info(f"✅ Saved {len(persistent_cookies)} Thea cookies to {self.cookie_file}")
+            logger.info(f"Saved {len(persistent_cookies)} Thea cookies to {self.cookie_file}")
             return True
 
         except Exception as e:

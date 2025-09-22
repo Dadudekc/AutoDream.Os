@@ -170,32 +170,6 @@ async def auto_create_cycle_completion(agent_id: str, action: str, results: str)
 
 # NOTE: Enhanced messaging functionality moved to consolidated_messaging_service.py
 # All messaging functionality consolidated into single SSOT service
-    automation = AgentDevlogAutomation()
-    try:
-        await automation.initialize()
-        return await automation.create_cycle_devlog(agent_id, action, status, details)
-    finally:
-        await automation.close()
-
-
-async def auto_create_cycle_start(agent_id: str, focus: str) -> tuple[str, bool]:
-    """Create a cycle start devlog automatically."""
-    automation = AgentDevlogAutomation()
-    try:
-        await automation.initialize()
-        return await automation.create_cycle_start_devlog(agent_id, focus)
-    finally:
-        await automation.close()
-
-
-async def auto_create_cycle_completion(agent_id: str, action: str, results: str) -> tuple[str, bool]:
-    """Create a cycle completion devlog automatically."""
-    automation = AgentDevlogAutomation()
-    try:
-        await automation.initialize()
-        return await automation.create_cycle_completion_devlog(agent_id, action, results)
-    finally:
-        await automation.close()
 
 
 if __name__ == "__main__":

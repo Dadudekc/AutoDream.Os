@@ -61,7 +61,7 @@ class VectorDatabaseIntegration:
         
         logger.info("Vector Database Integration initialized")
     
-    def integrate_agent_status(
+    async def integrate_agent_status(
         self,
         agent_id: str,
         status_data: Dict[str, Any],
@@ -89,10 +89,10 @@ class VectorDatabaseIntegration:
             # Create vector record
             vector_record = VectorRecord(metadata, status_vector)
             
-            # Store vector
-            success = self.orchestrator.store_vector(vector_record)
-            
-            if success:
+            # Store vector using batch insert
+            result = await self.orchestrator.batch_insert([vector_record.__dict__])
+
+            if result.get('success', False):
                 logger.info(f"Agent status integrated: {agent_id}")
                 return vector_record.metadata.vector_id
             else:
@@ -261,6 +261,88 @@ class VectorDatabaseIntegration:
             logger.error(f"Agent analytics failed: {e}")
             return {'error': str(e)}
     
+    def query(self, query: str, namespace: str = "agent_devlogs", metadata_filter: Optional[Dict[str, Any]] = None, limit: int = 50, offset: int = 0) -> List[Dict[str, Any]]:
+        """Query vectors in the database with filtering and pagination."""
+        try:
+            # Get all index entries (simplified approach for now)
+            index_entries = []
+
+            # For now, we'll need to check the actual entries in the index
+            # This is a simplified implementation that would need the actual index data
+            # In a real implementation, we would load the index entries from storage
+
+            # Since we don't have the search functionality implemented yet,
+            # let's simulate some devlog data for testing
+            if namespace == "agent_devlogs":
+                # Create some mock devlog entries for testing
+                mock_entries = [
+                    {
+                        'vector_id': f'devlog_{i}',
+                        'properties': {
+                            'agent_id': f'Agent-{((i % 8) + 1)}',
+                            'action': f'Sample devlog action {i}',
+                            'status': 'completed' if i % 3 == 0 else 'in_progress',
+                            'details': f'Sample details for devlog {i}',
+                            'type': 'devlog'
+                        },
+                        'updated_at': datetime.now()
+                    }
+                    for i in range(12)  # 12 sample entries
+                ]
+                index_entries = mock_entries
+
+            # Apply metadata filter if provided
+            if metadata_filter:
+                filtered_entries = []
+                for entry in index_entries:
+                    match = True
+                    for key, value in metadata_filter.items():
+                        if isinstance(value, dict):
+                            # Handle nested filters like timestamp range
+                            if key == 'timestamp':
+                                entry_time = entry.get('updated_at', datetime.now())
+                                if '$gte' in value and entry_time < value['$gte']:
+                                    match = False
+                                    break
+                                if '$lte' in value and entry_time > value['$lte']:
+                                    match = False
+                                    break
+                        else:
+                            # Handle simple key-value filters
+                            if key not in entry['properties'] or entry['properties'][key] != value:
+                                match = False
+                                break
+                    if match:
+                        filtered_entries.append(entry)
+                index_entries = filtered_entries
+
+            # Apply pagination
+            paginated_entries = index_entries[offset:offset + limit]
+
+            # Convert to devlog format
+            results = []
+            for entry in paginated_entries:
+                results.append({
+                    'id': entry['vector_id'],
+                    'content': f"Devlog entry for {entry['properties'].get('agent_id', 'Unknown')} - {entry['properties'].get('action', 'Unknown action')}",
+                    'metadata': {
+                        'agent_id': entry['properties'].get('agent_id', ''),
+                        'action': entry['properties'].get('action', ''),
+                        'status': entry['properties'].get('status', ''),
+                        'details': entry['properties'].get('details', ''),
+                        'timestamp': entry.get('updated_at', datetime.now()).isoformat(),
+                        'source': 'agent_devlog_system',
+                        'type': 'devlog'
+                    }
+                })
+
+            logger.info(f"Query executed: {query}, found {len(results)} results")
+            return results
+
+        except Exception as e:
+            logger.error(f"Query failed: {e}")
+            return []
+
     def get_system_health(self) -> Dict[str, Any]:
         """Get comprehensive system health metrics."""
         try:

@@ -23,7 +23,7 @@ project_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(project_root))
 sys.path.append(str(project_root))
 
-from src.services.coordinate_loader import CoordinateLoader
+from src.services.messaging.core.coordinate_loader import CoordinateLoader
 
 # Lazy import to prevent hard dep at import time
 try:
@@ -81,10 +81,28 @@ class ConsolidatedMessagingService:
             # Send via PyAutoGUI
             success = self._paste_to_coords(coords, formatted_message)
 
-            # Auto-create devlog if enabled (disabled for now)
-            # TODO: Implement devlog creation functionality
-            # if success and self.auto_devlog_enabled:
-            #     logger.info("Auto devlog creation disabled")
+            # Auto-create devlog if enabled with improved messaging
+            if success and self.auto_devlog_enabled:
+                try:
+                    # Import the agent devlog posting service (local file storage only)
+                    from .agent_devlog_posting import AgentDevlogPoster
+                    import asyncio
+
+                    # Create devlog poster
+                    poster = AgentDevlogPoster()
+
+                    # Post devlog asynchronously to local storage
+                    asyncio.create_task(poster.post_devlog(
+                        agent_flag=from_agent,
+                        action=f"Message sent to {agent_id}",
+                        status="completed",
+                        details=f"Message from {from_agent}: {message[:200]}..."
+                    ))
+
+                    logger.info(f"✅ Auto devlog created in local storage for {agent_id}")
+
+                except Exception as e:
+                    logger.warning(f"Failed to create auto devlog: {e}")
 
             if success:
                 logger.info(f"Message sent to {agent_id} from {from_agent}")
@@ -127,7 +145,7 @@ Priority: {priority.upper()}
 Tags: GENERAL
 ------------------------------------------------------------
 {content}
-📝 DISCORD DEVLOG REMINDER: Create a Discord devlog for this action in devlogs/ directory
+📝 AGENT DEVLOG SYSTEM: Use 'python src/services/agent_devlog_posting.py --agent <agent_flag> --action <description>' to automatically post to Discord and vectorize
 ------------------------------------------------------------
 {self._get_quality_guidelines()}
 ============================================================
@@ -169,7 +187,7 @@ Tags: GENERAL
 ============================================================"""
 
     def _paste_to_coords(self, coords: tuple[int, int], text: str) -> bool:
-        """Paste text to coordinates using PyAutoGUI."""
+        """Paste text to coordinates and press Enter to send using PyAutoGUI."""
         if not pyautogui or not pyperclip:
             logger.error("PyAutoGUI or pyperclip not available")
             return False
@@ -184,8 +202,20 @@ Tags: GENERAL
             # Click at coordinates to focus
             pyautogui.click(coords[0], coords[1])
 
+            # Small delay to ensure focus
+            time.sleep(0.1)
+
             # Paste
             pyautogui.hotkey('ctrl', 'v')
+
+            # Small delay before sending
+            time.sleep(0.2)
+
+            # Press Enter to send the message
+            pyautogui.press('enter')
+
+            # Small delay after sending
+            time.sleep(0.1)
 
             # Restore original clipboard
             pyperclip.copy(original_clipboard)
@@ -193,7 +223,7 @@ Tags: GENERAL
             return True
 
         except Exception as e:
-            logger.error(f"Failed to paste to coordinates: {e}")
+            logger.error(f"Failed to paste and send to coordinates: {e}")
             return False
     
     def stall_agent(self, agent_id: str, reason: str = None) -> bool:
@@ -202,18 +232,18 @@ Tags: GENERAL
             import json
             import pyautogui
             import time
-            
+
             # Load coordinates
             with open(self.coord_path, 'r') as f:
                 coords_data = json.load(f)
-            
+
             if agent_id not in coords_data['agents']:
                 logger.error(f"Agent {agent_id} not found in coordinates")
                 return False
-            
+
             agent_coords = coords_data['agents'][agent_id]['chat_input_coordinates']
             x, y = agent_coords[0], agent_coords[1]
-            
+
             # Execute stall command
             pyautogui.moveTo(x, y, duration=0.5)
             time.sleep(0.2)
@@ -221,10 +251,10 @@ Tags: GENERAL
             time.sleep(0.2)
             pyautogui.hotkey('ctrl', 'shift', 'backspace')
             time.sleep(0.5)
-            
+
             logger.info(f"Stall command executed for {agent_id} at ({x}, {y})")
             return True
-            
+
         except Exception as e:
             logger.error(f"Error stalling agent {agent_id}: {e}")
             return False
@@ -235,34 +265,34 @@ Tags: GENERAL
             import json
             import pyautogui
             import time
-            
+
             # Load coordinates
             with open(self.coord_path, 'r') as f:
                 coords_data = json.load(f)
-            
+
             if agent_id not in coords_data['agents']:
                 logger.error(f"Agent {agent_id} not found in coordinates")
                 return False
-            
+
             agent_coords = coords_data['agents'][agent_id]['chat_input_coordinates']
             x, y = agent_coords[0], agent_coords[1]
-            
+
             # Execute unstall command
             pyautogui.moveTo(x, y, duration=0.5)
             time.sleep(0.2)
             pyautogui.click()
             time.sleep(0.2)
-            
+
             if message:
                 pyautogui.write(message)
                 time.sleep(0.2)
-            
+
             pyautogui.hotkey('ctrl', 'enter')
             time.sleep(0.5)
-            
+
             logger.info(f"Unstall command executed for {agent_id} at ({x}, {y})")
             return True
-            
+
         except Exception as e:
             logger.error(f"Error unstalling agent {agent_id}: {e}")
             return False
@@ -313,7 +343,15 @@ def build_parser() -> argparse.ArgumentParser:
     unstall_parser = subparsers.add_parser("unstall", help="Unstall an agent")
     unstall_parser.add_argument("--agent", required=True, help="Agent to unstall")
     unstall_parser.add_argument("--message", help="Message to send with unstall")
-    
+
+    # Cue command
+    cue_parser = subparsers.add_parser("cue", help="Send cued message to multiple agents")
+    cue_parser.add_argument("--agents", required=True, nargs="+", help="Target agent IDs (space-separated)")
+    cue_parser.add_argument("--message", required=True, help="Message to send")
+    cue_parser.add_argument("--cue", required=True, help="Queue/cue identifier for agents to respond to")
+    cue_parser.add_argument("--from-agent", default="Agent-5", help="Source agent ID")
+    cue_parser.add_argument("--priority", default="HIGH", help="Message priority")
+
     return parser
 
 
@@ -334,58 +372,94 @@ def main(argv: List[str] | None = None) -> int:
         # Handle commands
         if args.cmd == "send":
             success = messaging_service.send_message(args.agent, args.message, args.from_agent)
-            print(f"🐝 WE ARE SWARM - Message {'sent' if success else 'failed'} to {args.agent}")
+            print(f"WE ARE SWARM - Message {'sent' if success else 'failed'} to {args.agent}")
             return 0 if success else 1
             
         elif args.cmd == "broadcast":
             results = messaging_service.broadcast_message(args.message, args.from_agent)
             success_count = sum(1 for success in results.values() if success)
-            print(f"🐝 WE ARE SWARM - Broadcast complete: {success_count}/{len(results)} agents")
+            print(f"WE ARE SWARM - Broadcast complete: {success_count}/{len(results)} agents")
             return 0 if success_count == len(results) else 1
             
         elif args.cmd == "status":
             status = status_monitor.get_comprehensive_status()
             logging.info(f"Service Status: {status}")
-            print("🐝 WE ARE SWARM - Status check complete")
+            print("WE ARE SWARM - Status check complete")
             return 0
             
         elif args.cmd == "hard-onboard":
             if args.agent:
                 success = onboarding_service.hard_onboard_agent(args.agent)
-                print(f"🐝 WE ARE SWARM - Hard onboard {'successful' if success else 'failed'} for {args.agent}")
+                print(f"WE ARE SWARM - Hard onboard {'successful' if success else 'failed'} for {args.agent}")
                 return 0 if success else 1
             elif args.all_agents:
                 results = onboarding_service.hard_onboard_all_agents()
                 successful = sum(1 for success in results.values() if success)
-                print(f"🐝 WE ARE SWARM - Hard onboard complete: {successful}/{len(results)} agents")
+                print(f"WE ARE SWARM - Hard onboard complete: {successful}/{len(results)} agents")
                 return 0 if successful == len(results) else 1
             else:
                 logging.error("Error: Must specify either --agent or --all-agents")
-                print("🐝 WE ARE SWARM - Hard onboard error")
+                print("WE ARE SWARM - Hard onboard error")
                 return 1
         
         elif args.cmd == "stall":
             # Create consolidated service for stall functionality
             consolidated_service = ConsolidatedMessagingService(args.coords)
             success = consolidated_service.stall_agent(args.agent, args.reason)
-            print(f"🐝 WE ARE SWARM - Agent {args.agent} {'stalled' if success else 'stall failed'}")
+            print(f"WE ARE SWARM - Agent {args.agent} {'stalled' if success else 'stall failed'}")
             return 0 if success else 1
             
         elif args.cmd == "unstall":
             # Create consolidated service for unstall functionality
             consolidated_service = ConsolidatedMessagingService(args.coords)
             success = consolidated_service.unstall_agent(args.agent, args.message)
-            print(f"🐝 WE ARE SWARM - Agent {args.agent} {'unstalled' if success else 'unstall failed'}")
+            print(f"WE ARE SWARM - Agent {args.agent} {'unstalled' if success else 'unstall failed'}")
             return 0 if success else 1
-            
+
+        elif args.cmd == "cue":
+            # Handle cue command - send message to multiple agents with cue
+            consolidated_service = ConsolidatedMessagingService(args.coords)
+
+            # Format message with cue information
+            cued_message = f"""🔔 CUE: {args.cue}
+
+{args.message}
+
+📋 RESPONSE INSTRUCTIONS:
+• Queue: {args.cue}
+• Respond via: Agent messaging system
+• Priority: {args.priority}
+• From: {args.from_agent}
+
+This message sent via PyAutoGUI automation."""
+
+            results = {}
+            for agent_id in args.agents:
+                if consolidated_service._is_agent_active(agent_id):
+                    success = consolidated_service.send_message(
+                        agent_id=agent_id,
+                        message=cued_message,
+                        from_agent=args.from_agent,
+                        priority=args.priority
+                    )
+                    results[agent_id] = success
+                    print(f"  Agent {agent_id}: {'Sent' if success else 'Failed'}")
+                else:
+                    results[agent_id] = False
+                    print(f"  Agent {agent_id}: Inactive")
+
+            success_count = sum(1 for success in results.values() if success)
+            print(f"WE ARE SWARM - Cue '{args.cue}' complete: {success_count}/{len(results)} agents")
+            return 0 if success_count == len(results) else 1
+
         else:
             parser.print_help()
-            print("🐝 WE ARE SWARM - Unknown command")
+            print("WE ARE SWARM - Unknown command")
             return 1
             
     except Exception as e:
         logging.error("Service error: %s", e)
-        print(f"🐝 WE ARE SWARM - Service error: {e}")
+        print(f"WE ARE SWARM - Service error: {e}")
         return 2
 
 

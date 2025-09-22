@@ -1,0 +1,393 @@
+/* RealTimeMonitoring.css */
+
+.real-time-monitoring {
+    padding: 20px;
+    background: #1a1a1a;
+    border-radius: 8px;
+    color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.monitoring-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #333;
+    padding-bottom: 15px;
+}
+
+.monitoring-header h2 {
+    margin: 0;
+    color: #4CAF50;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.connection-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.status-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.monitoring-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 20px;
+}
+
+.monitoring-panel {
+    background: #2a2a2a;
+    border-radius: 8px;
+    padding: 20px;
+    border: 1px solid #333;
+}
+
+.monitoring-panel h3 {
+    margin: 0 0 20px 0;
+    color: #4CAF50;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.monitoring-panel.full-width {
+    grid-column: 1 / -1;
+}
+
+/* System Health Metrics */
+.health-metrics {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.health-metric {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.metric-label {
+    font-size: 14px;
+    color: #ccc;
+    font-weight: 500;
+}
+
+.metric-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #4CAF50;
+}
+
+.metric-bar {
+    width: 100%;
+    height: 8px;
+    background: #333;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.metric-fill.cpu {
+    background: linear-gradient(90deg, #F44336, #FF5722);
+}
+
+.metric-fill.memory {
+    background: linear-gradient(90deg, #2196F3, #03A9F4);
+}
+
+.metric-fill.disk {
+    background: linear-gradient(90deg, #FF9800, #FFC107);
+}
+
+/* Agent Status Grid */
+.agent-status-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+.agent-status-item {
+    background: #333;
+    border-radius: 6px;
+    padding: 15px;
+    border: 1px solid #444;
+    text-align: center;
+}
+
+.agent-status-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.agent-id {
+    font-weight: bold;
+    color: #4CAF50;
+    font-size: 14px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #4CAF50;
+}
+
+.status-dot.active {
+    background: #4CAF50;
+    animation: pulse 2s infinite;
+}
+
+.status-dot.inactive {
+    background: #FF9800;
+}
+
+.agent-efficiency {
+    color: #2196F3;
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+
+.agent-task {
+    color: #ccc;
+    font-size: 11px;
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+
+.agent-activity {
+    color: #999;
+    font-size: 10px;
+}
+
+/* Devlog Summary */
+.devlog-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.devlog-stat {
+    text-align: center;
+    background: #333;
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #444;
+}
+
+.stat-label {
+    color: #ccc;
+    font-size: 12px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #4CAF50;
+}
+
+/* Recent Activity */
+.recent-activity h4 {
+    margin-bottom: 15px;
+    color: #4CAF50;
+    font-size: 16px;
+}
+
+.activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.activity-item {
+    display: grid;
+    grid-template-columns: 1fr 2fr 80px 80px;
+    gap: 10px;
+    padding: 8px;
+    background: #333;
+    border-radius: 4px;
+    font-size: 12px;
+    align-items: center;
+}
+
+.activity-agent {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.activity-action {
+    color: #ccc;
+}
+
+.activity-status {
+    color: #2196F3;
+    font-weight: 500;
+    text-align: center;
+}
+
+.activity-time {
+    color: #999;
+    text-align: right;
+    font-size: 11px;
+}
+
+/* Live Logs */
+.logs-container {
+    height: 300px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.logs-scroll {
+    height: 100%;
+    overflow-y: auto;
+    background: #1a1a1a;
+}
+
+.log-entry {
+    display: grid;
+    grid-template-columns: 80px 60px 100px 1fr;
+    gap: 10px;
+    padding: 6px 10px;
+    border-bottom: 1px solid #333;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    align-items: center;
+}
+
+.log-entry:hover {
+    background: #2a2a2a;
+}
+
+.log-timestamp {
+    color: #666;
+    font-size: 10px;
+}
+
+.log-level {
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 10px;
+}
+
+.log-entry.info .log-level {
+    background: #2196F3;
+    color: white;
+}
+
+.log-entry.warning .log-level {
+    background: #FF9800;
+    color: white;
+}
+
+.log-entry.error .log-level {
+    background: #F44336;
+    color: white;
+}
+
+.log-source {
+    color: #4CAF50;
+    font-size: 10px;
+}
+
+.log-message {
+    color: #ccc;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .monitoring-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .agent-status-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .monitoring-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+
+    .agent-status-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .activity-item {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 5px;
+    }
+
+    .log-entry {
+        grid-template-columns: 70px 50px 80px 1fr;
+        font-size: 10px;
+        gap: 5px;
+    }
+
+    .devlog-summary {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .agent-status-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .devlog-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .log-entry {
+        grid-template-columns: 60px 40px 60px 1fr;
+    }
+}
+
+/* Scrollbar Styling */
+.logs-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+
+.logs-scroll::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+.logs-scroll::-webkit-scrollbar-thumb {
+    background: #4CAF50;
+    border-radius: 3px;
+}
+
+.logs-scroll::-webkit-scrollbar-thumb:hover {
+    background: #66BB6A;
+}
+

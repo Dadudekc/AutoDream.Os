@@ -444,15 +444,15 @@ if __name__ == "__main__":
     # Train model
     if pipeline.train_model(training_data):
         print("✅ Model training completed successfully")
-        print(f"📊 Accuracy: {pipeline.current_model.accuracy".3f"}")
-        print(f"⏱️ Training time: {pipeline.current_model.training_time".2f"}s")
+        print(f"📊 Accuracy: {pipeline.current_model.accuracy:.3f}")
+        print(f"⏱️ Training time: {pipeline.current_model.training_time:.2f}s")
     else:
         print("❌ Model training failed")
 
     # Make prediction
     prediction = pipeline.make_prediction([1.0, 2.0, 3.0])
     if prediction is not None:
-        print(f"🔮 Prediction: {prediction".3f"}")
+        print(f"🔮 Prediction: {prediction:.3f}")
     else:
         print("❌ Prediction failed")
 

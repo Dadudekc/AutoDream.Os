@@ -138,4 +138,32 @@ class MailboxManager:
             {"sender": message.get('from'), "subject": message.get('subject')}
         )
 
+    def deliver_message(self, message: Dict[str, Any]) -> bool:
+        """Deliver a message to the agent's inbox."""
+        try:
+            # Create message filename with timestamp
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+            message_filename = f"message_{timestamp}.json"
+
+            message_file = self.inbox_dir / message_filename
+
+            # Add metadata if not present
+            if 'id' not in message:
+                message['id'] = f"msg_{timestamp}"
+            if 'timestamp' not in message:
+                message['timestamp'] = datetime.now().isoformat()
+            if 'delivered_to' not in message:
+                message['delivered_to'] = self.agent_id
+
+            # Write message to inbox
+            with open(message_file, 'w') as f:
+                json.dump(message, f, indent=2)
+
+            logger.info(f"{self.agent_id}: Message delivered to inbox - {message.get('id', 'unknown')}")
+            return True
+
+        except Exception as e:
+            logger.error(f"{self.agent_id}: Error delivering message: {e}")
+            return False
+
 

@@ -1,0 +1,421 @@
+/* DevlogAnalytics.css */
+
+.devlog-analytics {
+    padding: 20px;
+    background: #1a1a1a;
+    border-radius: 8px;
+    color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.analytics-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #333;
+    padding-bottom: 15px;
+}
+
+.analytics-header h2 {
+    margin: 0;
+    color: #4CAF50;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.export-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.export-btn {
+    background: #2196F3;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.export-btn:hover {
+    background: #1976D2;
+}
+
+.analytics-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+}
+
+/* Summary Cards */
+.summary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.summary-card {
+    background: #2a2a2a;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #333;
+}
+
+.summary-card h3 {
+    margin: 0 0 10px 0;
+    color: #ccc;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.summary-value {
+    font-size: 32px;
+    font-weight: bold;
+    color: #4CAF50;
+}
+
+/* Analytics Sections */
+.analytics-section {
+    background: #2a2a2a;
+    border-radius: 8px;
+    padding: 20px;
+    border: 1px solid #333;
+}
+
+.analytics-section h3 {
+    margin: 0 0 20px 0;
+    color: #4CAF50;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* Status Distribution */
+.status-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.status-bar {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.status-label {
+    min-width: 100px;
+    font-size: 14px;
+    color: #ccc;
+}
+
+.status-progress {
+    flex: 1;
+    height: 20px;
+    background: #333;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.status-fill.completed {
+    background: linear-gradient(90deg, #4CAF50, #66BB6A);
+}
+
+.status-fill.in_progress {
+    background: linear-gradient(90deg, #FF9800, #FFB74D);
+}
+
+.status-fill.failed {
+    background: linear-gradient(90deg, #F44336, #EF5350);
+}
+
+.status-fill.unknown {
+    background: linear-gradient(90deg, #9E9E9E, #BDBDBD);
+}
+
+.status-count {
+    min-width: 40px;
+    text-align: right;
+    font-size: 14px;
+    color: #ccc;
+}
+
+/* Agents List */
+.agents-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.agent-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: #333;
+    border-radius: 6px;
+    border: 1px solid #444;
+}
+
+.agent-rank {
+    background: #4CAF50;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.agent-info {
+    flex: 1;
+}
+
+.agent-id {
+    font-weight: bold;
+    color: #4CAF50;
+    font-size: 16px;
+}
+
+.agent-role {
+    color: #ccc;
+    font-size: 14px;
+    margin-top: 2px;
+}
+
+.agent-count {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2196F3;
+}
+
+/* Activity Chart */
+.activity-chart {
+    display: flex;
+    align-items: end;
+    gap: 10px;
+    height: 200px;
+    margin-top: 20px;
+}
+
+.activity-day {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.activity-date {
+    font-size: 12px;
+    color: #999;
+    transform: rotate(-45deg);
+    white-space: nowrap;
+}
+
+.activity-bar {
+    width: 100%;
+    height: 150px;
+    background: #333;
+    border-radius: 4px;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.activity-fill {
+    width: 100%;
+    background: linear-gradient(180deg, #4CAF50, #66BB6A);
+    border-radius: 4px 4px 0 0;
+    transition: height 0.3s ease;
+}
+
+.activity-count {
+    font-size: 14px;
+    font-weight: bold;
+    color: #4CAF50;
+}
+
+/* Agents Overview */
+.agents-overview {
+    margin-top: 20px;
+}
+
+.agents-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.agent-overview-card {
+    background: #333;
+    border-radius: 6px;
+    padding: 15px;
+    border: 1px solid #444;
+}
+
+.agent-overview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.agent-overview-id {
+    font-weight: bold;
+    color: #4CAF50;
+    font-size: 16px;
+}
+
+.agent-overview-count {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2196F3;
+}
+
+.agent-overview-role {
+    color: #ccc;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.agent-overview-bar {
+    width: 100%;
+    height: 8px;
+    background: #444;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.agent-overview-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4CAF50, #66BB6A);
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+/* Trends Analysis */
+.trends-summary {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 20px;
+}
+
+.trend-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.trend-label {
+    color: #ccc;
+    font-size: 14px;
+}
+
+.trend-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #4CAF50;
+}
+
+.daily-breakdown h4 {
+    margin-bottom: 15px;
+    color: #4CAF50;
+}
+
+.daily-table {
+    display: grid;
+    grid-template-columns: 1fr repeat(5, 80px);
+    gap: 10px;
+    font-size: 14px;
+}
+
+.daily-header {
+    display: contents;
+    font-weight: bold;
+    color: #4CAF50;
+}
+
+.daily-header span {
+    padding: 8px;
+    text-align: center;
+}
+
+.daily-row {
+    display: contents;
+}
+
+.daily-row span {
+    padding: 8px;
+    background: #333;
+    text-align: center;
+    border-radius: 4px;
+}
+
+/* Loading and Error States */
+.loading {
+    text-align: center;
+    padding: 40px;
+    font-size: 18px;
+    color: #ccc;
+}
+
+.error {
+    text-align: center;
+    padding: 40px;
+    font-size: 18px;
+    color: #F44336;
+    background: #2a2a2a;
+    border-radius: 8px;
+    border: 1px solid #F44336;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .analytics-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+
+    .export-buttons {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .summary-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .agents-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .trends-summary {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .activity-chart {
+        height: 150px;
+    }
+
+    .activity-bar {
+        height: 100px;
+    }
+
+    .daily-table {
+        grid-template-columns: 1fr repeat(5, 60px);
+        font-size: 12px;
+    }
+}
+

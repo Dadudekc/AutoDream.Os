@@ -17,8 +17,8 @@ from pathlib import Path
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from services.messaging.core.messaging_service import MessagingService
-from services.discord_commander_fixed import DiscordCommanderBot
+from .consolidated_messaging_service import ConsolidatedMessagingService
+from .discord_bot_integrated import IntegratedDiscordBotService
 
 logger = logging.getLogger(__name__)
 
@@ -28,8 +28,8 @@ class DiscordCommanderTester:
 
     def __init__(self):
         """Initialize tester."""
-        self.messaging_service = MessagingService("config/coordinates.json")
-        self.bot = DiscordCommanderBot()
+        self.messaging_service = ConsolidatedMessagingService()
+        self.bot = IntegratedDiscordBotService()
 
     def test_messaging_service(self) -> bool:
         """Test messaging service integration."""

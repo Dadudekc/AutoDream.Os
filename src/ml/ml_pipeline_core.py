@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-ML Pipeline Core
-===============
+ML Pipeline Core - Enhanced with Data Ingestion System
+======================================================
 
-Core ML pipeline functionality.
+Core ML pipeline functionality enhanced with the SOS data ingestion system.
 """
 
 import sys
@@ -11,7 +11,7 @@ import logging
 import time
 import numpy as np
 from pathlib import Path
-from typing import Dict, Any, Optional, List
+from typing import Dict, Any, Optional, List, Union
 
 # Add project root to path
 project_root = Path(__file__).parent.parent.parent
@@ -20,23 +20,62 @@ sys.path.insert(0, str(project_root))
 from .ml_pipeline_models import ModelConfig, TrainingData, ModelMetrics, DeploymentConfig
 from .ml_pipeline_fallback import FallbackMLModel
 
+# Import SOS data ingestion components
+try:
+    from .data_ingestion_system.data_ingestion.IngestManager import IngestManager
+    from .data_ingestion_system.data_ingestion.PreprocessorAgent import PreprocessorAgent
+    from .data_ingestion_system.data_ingestion.LocalEmbeddingsGeneratorAgent import LocalEmbeddingsGeneratorAgent
+    from .data_ingestion_system.data_ingestion.VectorStoreAgent import VectorStoreAgent
+    from .data_ingestion_system.data_ingestion.OrchestratorAgent import OrchestratorAgent
+    SOS_AVAILABLE = True
+except ImportError as e:
+    logger.warning(f"SOS data ingestion system not available: {e}")
+    SOS_AVAILABLE = False
+
 logger = logging.getLogger(__name__)
 
 
 class MLPipelineCore:
-    """Core ML pipeline functionality."""
-    
+    """Core ML pipeline functionality with enhanced data ingestion."""
+
     def __init__(self, config: Optional[ModelConfig] = None):
-        """Initialize ML pipeline core."""
+        """Initialize ML pipeline core with data ingestion capabilities."""
         self.config = config or ModelConfig()
         self.models: Dict[str, Any] = {}
         self.training_data: Dict[str, TrainingData] = {}
         self.model_metrics: Dict[str, ModelMetrics] = {}
-        
+
         # Initialize fallback model
         self.fallback_model = FallbackMLModel(self.config)
-        
-        logger.info("ML Pipeline Core initialized")
+
+        # Initialize SOS data ingestion system
+        self._init_data_ingestion_system()
+
+        logger.info("ML Pipeline Core with Data Ingestion initialized")
+
+    def _init_data_ingestion_system(self):
+        """Initialize the SOS data ingestion system."""
+        if not SOS_AVAILABLE:
+            logger.warning("SOS data ingestion system not available - using fallback mode")
+            self.ingestion_available = False
+            return
+
+        try:
+            self.data_folder = "./data/uploads"
+            self.ingestion_manager = IngestManager(folder_path=self.data_folder)
+            self.preprocessor = PreprocessorAgent(chunk_size=500, chunk_overlap=50)
+            self.embeddings_generator = LocalEmbeddingsGeneratorAgent(model="mistral")
+            self.vector_store = VectorStoreAgent(collection_name="ml_pipeline_collection")
+            self.orchestrator = OrchestratorAgent(
+                folder_to_watch=self.data_folder,
+                embedding_model="mistral",
+                vector_collection="ml_pipeline_collection"
+            )
+            self.ingestion_available = True
+            logger.info("SOS data ingestion system initialized successfully")
+        except Exception as e:
+            logger.error(f"Failed to initialize SOS data ingestion: {e}")
+            self.ingestion_available = False
     
     def create_training_data(self, 
                            num_samples: int = 1000,
@@ -294,5 +333,247 @@ class MLPipelineCore:
             logger.error(f"Error evaluating model {model_name}: {e}")
             return {"status": "failed", "error": str(e)}
 
+    # -------------------------
+    # ENHANCED DATA INGESTION METHODS
+    # -------------------------
+
+    def ingest_data_from_files(self, folder_path: Optional[str] = None) -> List[Dict[str, str]]:
+        """Ingest data from files using SOS system."""
+        if not self.ingestion_available:
+            logger.error("Data ingestion system not available")
+            return []
+
+        try:
+            folder_to_use = folder_path or self.data_folder
+            logger.info(f"Ingesting data from: {folder_to_use}")
+
+            # Use the SOS ingestion system
+            documents = self.ingestion_manager.ingest()
+            logger.info(f"Successfully ingested {len(documents)} documents")
+
+            return documents
+
+        except Exception as e:
+            logger.error(f"Error ingesting data: {e}")
+            return []
+
+    def process_text_data(self, text_data: Union[str, List[str]], chunk_size: int = 500) -> List[str]:
+        """Process text data with enhanced preprocessing."""
+        if not self.ingestion_available:
+            logger.error("Data ingestion system not available")
+            return []
+
+        try:
+            if isinstance(text_data, str):
+                text_data = [text_data]
+
+            processed_chunks = []
+            for text in text_data:
+                # Clean text
+                cleaned_text = self.preprocessor.clean_text(text)
+
+                # Chunk text
+                chunks = self.preprocessor.chunk_text(cleaned_text)
+                processed_chunks.extend(chunks)
+
+                logger.info(f"Processed text into {len(chunks)} chunks")
+
+            return processed_chunks
+
+        except Exception as e:
+            logger.error(f"Error processing text data: {e}")
+            return []
+
+    def generate_embeddings_from_data(self, data: Union[str, List[str], List[Dict[str, str]]]) -> Optional[List[Dict[str, Any]]]:
+        """Generate embeddings from various data formats."""
+        if not self.ingestion_available:
+            logger.error("Data ingestion system not available")
+            return None
+
+        try:
+            # Convert input to standardized format
+            if isinstance(data, str):
+                chunks = self.process_text_data(data)
+                processed_data = [{"content": chunk} for chunk in chunks]
+            elif isinstance(data, list) and isinstance(data[0], str):
+                chunks = self.process_text_data(data)
+                processed_data = [{"content": chunk} for chunk in chunks]
+            else:
+                processed_data = data
+
+            # Generate embeddings
+            embeddings = self.embeddings_generator.generate_embeddings(processed_data)
+            logger.info(f"Generated embeddings for {len(embeddings)} chunks")
+
+            return embeddings
+
+        except Exception as e:
+            logger.error(f"Error generating embeddings: {e}")
+            return None
+
+    def store_embeddings_in_vector_db(self, embeddings: List[Dict[str, Any]]) -> bool:
+        """Store embeddings in vector database."""
+        if not self.ingestion_available:
+            logger.error("Data ingestion system not available")
+            return False
+
+        try:
+            self.vector_store.add_embeddings(embeddings)
+            self.vector_store.persist()
+            logger.info("Embeddings stored in vector database successfully")
+            return True
+
+        except Exception as e:
+            logger.error(f"Error storing embeddings: {e}")
+            return False
+
+    def run_full_data_pipeline(self, input_data: Optional[str] = None) -> Dict[str, Any]:
+        """Run the complete data ingestion to vector storage pipeline."""
+        if not self.ingestion_available:
+            return {"status": "failed", "error": "Data ingestion system not available"}
+
+        try:
+            logger.info("Starting full data pipeline...")
+
+            # Step 1: Ingest data
+            if input_data:
+                # Process provided text data
+                documents = [{"content": input_data, "file_name": "input_data.txt"}]
+            else:
+                # Ingest from files
+                documents = self.ingest_data_from_files()
+
+            if not documents:
+                return {"status": "failed", "error": "No data to process"}
+
+            # Step 2: Process documents
+            processed_chunks = []
+            for doc in documents:
+                chunks = self.process_text_data(doc["content"])
+                processed_chunks.extend([{"content": chunk, "file_name": doc["file_name"]} for chunk in chunks])
+
+            # Step 3: Generate embeddings
+            embeddings = self.generate_embeddings_from_data(processed_chunks)
+
+            if not embeddings:
+                return {"status": "failed", "error": "Failed to generate embeddings"}
+
+            # Step 4: Store in vector database
+            success = self.store_embeddings_in_vector_db(embeddings)
+
+            if success:
+                result = {
+                    "status": "completed",
+                    "documents_processed": len(documents),
+                    "chunks_created": len(processed_chunks),
+                    "embeddings_generated": len(embeddings),
+                    "stored_in_vector_db": True
+                }
+                logger.info("Full data pipeline completed successfully")
+                return result
+            else:
+                return {"status": "failed", "error": "Failed to store embeddings in vector database"}
+
+        except Exception as e:
+            logger.error(f"Error in full data pipeline: {e}")
+            return {"status": "failed", "error": str(e)}
+
+    def search_vector_database(self, query: str, top_k: int = 5) -> List[Dict[str, Any]]:
+        """Search the vector database with a query."""
+        if not self.ingestion_available:
+            logger.error("Data ingestion system not available")
+            return []
+
+        try:
+            # Generate embedding for query
+            query_embedding = self.embeddings_generator.generate_embeddings([{"content": query}])
+
+            if not query_embedding:
+                logger.error("Failed to generate query embedding")
+                return []
+
+            # Search vector database
+            results = self.vector_store.search_similar(query_embedding[0], top_k=top_k)
+
+            logger.info(f"Found {len(results)} similar documents")
+            return results
+
+        except Exception as e:
+            logger.error(f"Error searching vector database: {e}")
+            return []
+
+    def get_data_ingestion_stats(self) -> Dict[str, Any]:
+        """Get statistics about the data ingestion system."""
+        if not self.ingestion_available:
+            return {"available": False, "error": "System not available"}
+
+        try:
+            # Get vector store statistics
+            collection_stats = self.vector_store.get_collection_stats()
+
+            return {
+                "available": True,
+                "data_folder": self.data_folder,
+                "embedding_model": "mistral",
+                "vector_collection": "ml_pipeline_collection",
+                "collection_stats": collection_stats
+            }
+
+        except Exception as e:
+            logger.error(f"Error getting data ingestion stats: {e}")
+            return {"available": True, "error": str(e)}
+
+
+# -------------------------
+# INTEGRATION TEST FUNCTION
+# -------------------------
+
+def test_data_ingestion_integration():
+    """Test the integrated data ingestion system."""
+    logger.info("Testing data ingestion integration...")
+
+    # Create sample test data
+    test_data = [
+        "This is a test document for the ML pipeline integration.",
+        "The system should be able to process multiple text documents efficiently.",
+        "Vector embeddings will help with semantic search capabilities."
+    ]
+
+    try:
+        # Initialize pipeline
+        pipeline = MLPipelineCore()
+        logger.info("✅ ML Pipeline initialized")
+
+        # Test data processing
+        chunks = pipeline.process_text_data(test_data)
+        logger.info(f"✅ Processed {len(chunks)} text chunks")
+
+        # Test embedding generation
+        embeddings = pipeline.generate_embeddings_from_data(test_data)
+        logger.info(f"✅ Generated {len(embeddings)} embeddings")
+
+        # Test full pipeline
+        result = pipeline.run_full_data_pipeline("Test document for ML pipeline")
+        logger.info(f"✅ Full pipeline result: {result}")
+
+        # Test vector search
+        search_results = pipeline.search_vector_database("test document", top_k=3)
+        logger.info(f"✅ Vector search returned {len(search_results)} results")
+
+        # Get stats
+        stats = pipeline.get_data_ingestion_stats()
+        logger.info(f"✅ System stats: {stats}")
+
+        logger.info("🎉 Data ingestion integration test PASSED!")
+        return True
+
+    except Exception as e:
+        logger.error(f"❌ Data ingestion integration test FAILED: {e}")
+        return False
+
+
+if __name__ == "__main__":
+    # Run integration test
+    test_data_ingestion_integration()
 
 

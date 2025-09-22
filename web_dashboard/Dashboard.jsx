@@ -2,6 +2,7 @@ import './Dashboard.css';
 
 import AgentStatus from './AgentStatus';
 import Configuration from './Configuration';
+import DevlogAnalytics from './DevlogAnalytics';
 import React from 'react';
 import RealTimeMonitoring from './RealTimeMonitoring';
 import SystemHealth from './SystemHealth';
@@ -28,6 +29,9 @@ const Dashboard = () => {
           </div>
           <div className="dashboard-section">
             <SystemHealth />
+          </div>
+          <div className="dashboard-section full-width">
+            <DevlogAnalytics />
           </div>
           <div className="dashboard-section full-width">
             <RealTimeMonitoring />

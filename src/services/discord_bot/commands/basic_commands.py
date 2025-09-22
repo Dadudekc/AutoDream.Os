@@ -117,6 +117,12 @@ def setup_basic_commands(bot: commands.Bot):
                 inline=False
             )
 
+            embed.add_field(
+                name="!devlog_help",
+                value="Show help for the agent devlog posting system",
+                inline=False
+            )
+
             embed.set_footer(text="🐝 WE ARE SWARM - Use @DiscordCommander to mention me!")
             await ctx.send(embed=embed)
 
@@ -193,6 +199,66 @@ def setup_basic_commands(bot: commands.Bot):
             logger.error(f"Error in agents command: {e}")
             await ctx.send("❌ Error listing agents")
 
+    @bot.command(name="devlog_help", help="Show devlog posting help")
+    async def devlog_help(ctx):
+        """Show help for the devlog posting system."""
+        try:
+            embed = discord.Embed(
+                title="🤖 Agent Devlog System Help",
+                description="Automated devlog posting for agents",
+                color=0x0099ff
+            )
+
+            embed.add_field(
+                name="📝 Usage",
+                value="Use the standalone Python script:",
+                inline=False
+            )
+
+            embed.add_field(
+                name="Command",
+                value="`python src/services/agent_devlog_posting.py`",
+                inline=False
+            )
+
+            embed.add_field(
+                name="Parameters",
+                value=(
+                    "`--agent Agent-4` (Required: Agent-1 through Agent-8)\n"
+                    "`--action \"Task completed\"` (Required: Action description)\n"
+                    "`--status completed` (Optional: completed|in_progress|failed)\n"
+                    "`--details \"Details here\"` (Optional: Additional details)\n"
+                    "`--vectorize` (Optional: Add to vector database)\n"
+                    "`--cleanup` (Optional: Delete file after vectorization)\n"
+                    "`--dry-run` (Optional: Test mode - create file only, use -t)"
+                ),
+                inline=False
+            )
+
+            embed.add_field(
+                name="Examples",
+                value=(
+                    "`python src/services/agent_devlog_posting.py --agent Agent-4 --action \"Discord integration completed\"`\n"
+                    "`python src/services/agent_devlog_posting.py --agent Agent-3 --action \"Code review\" --status in_progress --details \"Reviewing pull request\"`\n"
+                    "`python src/services/agent_devlog_posting.py --agent Agent-4 --action \"Task completed\" --vectorize --cleanup`\n"
+                    "`python src/services/agent_devlog_posting.py --agent Agent-4 --action \"Test\" --dry-run`"
+                ),
+                inline=False
+            )
+
+            embed.add_field(
+                name="Features",
+                value="✅ Agent flag validation\n✅ Automatic Discord channel routing\n✅ File storage in devlogs/ directory\n✅ Vector database integration\n✅ Automatic cleanup after vectorization\n✅ Proper formatting and timestamps",
+                inline=False
+            )
+
+            embed.set_footer(text="🐝 WE ARE SWARM - Use the Python script for devlog posting")
+            await ctx.send(embed=embed)
+
+        except Exception as e:
+            logger.error(f"Error in devlog_help command: {e}")
+            await ctx.send("❌ Error showing devlog help")
+
 
 class BasicCommandHandler:
     """Basic command handler for Discord bot."""
@@ -209,7 +275,8 @@ class BasicCommandHandler:
             "status": "Get Discord Commander status",
             "help": "Show available commands",
             "swarm": "Get swarm coordination status",
-            "agents": "List connected agents"
+            "agents": "List connected agents",
+            "devlog_help": "Show help for the agent devlog posting system"
         }
 
     def get_command_help(self, command_name: str) -> str:

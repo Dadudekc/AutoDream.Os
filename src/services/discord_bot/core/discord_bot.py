@@ -71,6 +71,25 @@ class EnhancedDiscordAgentBot(commands.Bot):
         # Setup slash commands
         self.setup_slash_commands()
 
+        # Load additional cogs
+        self.load_cogs()
+
+    def load_cogs(self):
+        """Load additional Discord cogs including ChatMate integration."""
+        try:
+            # Load social media commands cog
+            from .commands.social_media_commands import SocialMediaCommands
+            self.add_cog(SocialMediaCommands(self))
+            self.logger.info("✅ Social media commands cog loaded")
+
+            # Initialize social media service
+            from src.services.social_media_integration import initialize_social_media_integration
+            asyncio.create_task(initialize_social_media_integration())
+            self.logger.info("✅ ChatMate social media integration initialized")
+
+        except Exception as e:
+            self.logger.error(f"❌ Failed to load social media cog: {e}")
+
     def setup_slash_commands(self):
         """Setup Discord slash commands."""
 

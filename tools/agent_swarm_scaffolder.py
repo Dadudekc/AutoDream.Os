@@ -384,7 +384,7 @@ Examples:
 
         # Initialize git if not skipped
         if not args.skip_git:
-        init_git_repo(base_path)
+            init_git_repo(base_path)
 
         print(f"\n🎉 {PROJECT_NAME} setup complete!\n")
 

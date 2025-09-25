@@ -61,14 +61,18 @@ class DiscordCommanderLauncher:
 
         # Check for Discord token
         token = os.getenv("DISCORD_BOT_TOKEN")
-        if not token:
+        if token == "development_token_placeholder":
+            print("⚠️ Using development Discord token - update .env for production")
+        elif not token:
             issues.append("DISCORD_BOT_TOKEN not set")
         else:
             print("✅ Discord Bot Token configured")
 
         # Check for Guild ID
         guild_id = os.getenv("DISCORD_GUILD_ID")
-        if not guild_id:
+        if guild_id == "development_guild_placeholder":
+            print("⚠️ Using development Discord guild ID - update .env for production")
+        elif not guild_id:
             issues.append("DISCORD_GUILD_ID not set")
         else:
             print("✅ Discord Guild ID configured")

@@ -53,16 +53,21 @@ class DiscordConfig:
     def validate(self) -> List[str]:
         """Validate configuration and return list of issues."""
         issues = []
-        
-        if not self.token:
+
+        # Allow development mode with placeholder values
+        if self.token == "development_token_placeholder":
+            issues.append("DISCORD_BOT_TOKEN is set to development placeholder - update with real token for production")
+        elif not self.token:
             issues.append("DISCORD_BOT_TOKEN not set")
-        
-        if not self.guild_id:
+
+        if self.guild_id == "development_guild_placeholder":
+            issues.append("DISCORD_GUILD_ID is set to development placeholder - update with real guild ID for production")
+        elif not self.guild_id:
             issues.append("DISCORD_GUILD_ID not set")
-        
+
         if not DISCORD_AVAILABLE:
             issues.append("discord.py not installed")
-        
+
         return issues
 
 

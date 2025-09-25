@@ -183,48 +183,22 @@ class ConsolidatedMessagingService:
 📥 TO: {to_agent}
 Priority: {priority.upper()}
 Tags: GENERAL
-------------------------------------------------------------
+-------------------------------------------------------------
 {content}
-📝 AGENT DEVLOG SYSTEM: Use 'python src/services/agent_devlog_posting.py --agent <agent_flag> --action <description>' to automatically post to Discord and vectorize
-------------------------------------------------------------
 {self._get_quality_guidelines()}
 ============================================================
-------------------------------------------------------------"""
+-------------------------------------------------------------"""
 
     def _get_quality_guidelines(self) -> str:
-        """Get quality guidelines reminder for all agent communications."""
-        return """🎯 QUALITY GUIDELINES REMINDER
+        """Get concise quality guidelines reminder for all agent communications."""
+        return """🎯 QUALITY GATES REMINDER
 ============================================================
-📋 V2 Compliance Requirements:
-• File Size: ≤400 lines (hard limit)
-• Enums: ≤3 per file
-• Classes: ≤5 per file
-• Functions: ≤10 per file
-• Complexity: ≤10 cyclomatic complexity per function
-• Parameters: ≤5 per function
-• Inheritance: ≤2 levels deep
-
-🚫 Forbidden Patterns (Red Flags):
-• Abstract Base Classes (without 2+ implementations)
-• Excessive async operations (without concurrency need)
-• Complex inheritance chains (>2 levels)
-• Event sourcing for simple operations
-• Dependency injection for simple objects
-• Threading for synchronous operations
-• 20+ fields per entity
-• 5+ enums per file
-
-✅ Required Patterns (Green Flags):
-• Simple data classes with basic fields
-• Direct method calls instead of complex event systems
-• Synchronous operations for simple tasks
-• Basic validation for essential data
-• Simple configuration with defaults
-• Basic error handling with clear messages
-
-🎯 KISS Principle: Start with the simplest solution that works!
-📊 QUALITY GATES: Run `python quality_gates.py` before submitting code!
-============================================================"""
+📋 V2 COMPLIANCE: ≤400 lines • ≤5 classes • ≤10 functions
+🚫 NO: Abstract classes • Complex inheritance • Threading
+✅ USE: Simple data classes • Direct calls • Basic validation
+🎯 KISS: Keep it simple! • Run `python quality_gates.py`
+============================================================
+📝 DEVLOG: Use 'python src/services/agent_devlog_posting.py --agent <flag> --action <desc>'"""
 
     def _paste_to_coords(self, coords: tuple[int, int], text: str) -> bool:
         """Paste text to coordinates and press Enter to send using PyAutoGUI."""
@@ -242,13 +216,19 @@ Tags: GENERAL
             # Click at coordinates to focus
             pyautogui.click(coords[0], coords[1])
 
-            # Small delay to ensure focus
-            time.sleep(0.1)
+            # Longer delay to ensure focus
+            time.sleep(0.3)
+
+            # Ensure we have focus by clicking again
+            pyautogui.click(coords[0], coords[1])
 
             # Paste
             pyautogui.hotkey('ctrl', 'v')
 
-            # Small delay before sending
+            # Wait for paste to complete
+            time.sleep(0.2)
+
+            # Small delay after paste
             time.sleep(0.2)
 
             # Press Enter to send the message

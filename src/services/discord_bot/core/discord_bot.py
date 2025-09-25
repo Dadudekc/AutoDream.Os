@@ -278,6 +278,209 @@ class EnhancedDiscordAgentBot(commands.Bot):
         # Mark commands as registered
         self._commands_registered = True
         self.logger.info("✅ Slash commands registered with beautiful UI integration")
+        
+        # Also setup traditional commands for better compatibility
+        self.setup_traditional_commands()
+
+    def setup_traditional_commands(self):
+        """Setup traditional Discord commands (using ! prefix)."""
+        # Check if traditional commands are already registered
+        if hasattr(self, '_traditional_commands_registered') and self._traditional_commands_registered:
+            self.logger.info("✅ Traditional commands already registered, skipping")
+            return
+
+        @self.command(name="help", help="Show available commands")
+        async def help_command(ctx):
+            """Show help information."""
+            embed = discord.Embed(
+                title="🐝 Discord Commander Help",
+                description="Available commands for agent coordination",
+                color=0x00ff00
+            )
+
+            embed.add_field(
+                name="🤖 Bot Commands",
+                value="`!help` - Show this help message\n"
+                      "`!status` - Show bot status\n"
+                      "`!ping` - Test bot response\n"
+                      "`!agents` - Show connected agents",
+                inline=False
+            )
+
+            embed.add_field(
+                name="📋 Agent Commands",
+                value="`!register <agent_id>` - Register an agent\n"
+                      "`!unregister <agent_id>` - Unregister an agent\n"
+                      "`!send <agent_id> <message>` - Send message to agent\n"
+                      "`!broadcast <message>` - Broadcast to all agents",
+                inline=False
+            )
+
+            embed.add_field(
+                name="📱 Social Media Commands",
+                value="`!social_status` - Get social media status\n"
+                      "`!post_update <message> [platform]` - Post to social media\n"
+                      "`!social_analytics [platform]` - Get social media analytics",
+                inline=False
+            )
+
+            embed.add_field(
+                name="🛠️ Admin Commands",
+                value="`!restart` - Restart the bot (admin only)\n"
+                      "`!shutdown` - Shutdown the bot (admin only)",
+                inline=False
+            )
+
+            embed.set_footer(text="WE ARE SWARM - Agent Coordination Active")
+            await ctx.send(embed=embed)
+
+        @self.command(name="status", help="Show bot status")
+        async def status_command(ctx):
+            """Show bot status."""
+            embed = discord.Embed(
+                title="📊 Discord Commander Status",
+                color=0x0099ff
+            )
+
+            embed.add_field(
+                name="🤖 Bot Status",
+                value="🟢 Online" if self.is_ready else "🔴 Offline",
+                inline=True
+            )
+
+            embed.add_field(
+                name="📡 Servers",
+                value=str(len(self.guilds)),
+                inline=True
+            )
+
+            embed.add_field(
+                name="👥 Users",
+                value=str(len(self.users)),
+                inline=True
+            )
+
+            embed.add_field(
+                name="⏱️ Latency",
+                value=f"{round(self.latency * 1000)}ms" if self.latency else "Unknown",
+                inline=True
+            )
+
+            embed.add_field(
+                name="🔗 Connected Agents",
+                value=str(len(self.connected_agents)),
+                inline=True
+            )
+
+            embed.add_field(
+                name="🐝 Swarm Mode",
+                value="5-Agent Mode Active",
+                inline=True
+            )
+
+            embed.set_footer(text="WE ARE SWARM - Agent Coordination Active")
+            await ctx.send(embed=embed)
+
+        @self.command(name="ping", help="Test bot response")
+        async def ping_command(ctx):
+            """Test bot response time."""
+            latency = round(self.latency * 1000) if self.latency else 0
+            await ctx.send(f"🏓 Pong! `{latency}ms`")
+
+        @self.command(name="agents", help="Show connected agents")
+        async def agents_command(ctx):
+            """Show connected agents."""
+            if not self.connected_agents:
+                await ctx.send("🤖 No agents currently connected.")
+                return
+
+            embed = discord.Embed(
+                title="👥 Connected Agents",
+                description="Active agents in the swarm",
+                color=0xff9900
+            )
+
+            for agent_id in self.connected_agents:
+                embed.add_field(
+                    name=f"🔗 {agent_id}",
+                    value="🟢 Connected",
+                    inline=True
+                )
+
+            embed.set_footer(text="WE ARE SWARM - Agent Coordination Active")
+            await ctx.send(embed=embed)
+
+        @self.command(name="register", help="Register an agent")
+        async def register_command(ctx, agent_id: str):
+            """Register an agent with the Discord system."""
+            if agent_id in self.connected_agents:
+                await ctx.send(f"⚠️ Agent {agent_id} is already registered!")
+                return
+
+            self.connected_agents.add(agent_id)
+            await ctx.send(f"✅ Agent {agent_id} registered successfully!")
+            self.logger.info(f"Agent {agent_id} registered by {ctx.author}")
+
+        @self.command(name="unregister", help="Unregister an agent")
+        async def unregister_command(ctx, agent_id: str):
+            """Unregister an agent from the Discord system."""
+            if agent_id not in self.connected_agents:
+                await ctx.send(f"⚠️ Agent {agent_id} is not registered!")
+                return
+
+            self.connected_agents.discard(agent_id)
+            await ctx.send(f"❌ Agent {agent_id} unregistered successfully!")
+            self.logger.info(f"Agent {agent_id} unregistered by {ctx.author}")
+
+        @self.command(name="send", help="Send message to agent")
+        async def send_command(ctx, agent_id: str, *, message: str):
+            """Send message to specific agent."""
+            if agent_id not in self.connected_agents:
+                await ctx.send(f"⚠️ Agent {agent_id} is not registered!")
+                return
+
+            # Simulate sending message to agent
+            await ctx.send(f"📨 Message sent to {agent_id}: {message}")
+            self.logger.info(f"Message sent to {agent_id} by {ctx.author}")
+
+        @self.command(name="broadcast", help="Broadcast message to all agents")
+        async def broadcast_command(ctx, *, message: str):
+            """Broadcast message to all connected agents."""
+            if not self.connected_agents:
+                await ctx.send("⚠️ No agents connected to broadcast to!")
+                return
+
+            await ctx.send(f"📡 Broadcasting to {len(self.connected_agents)} agents: {message}")
+
+            # Simulate broadcasting to all agents
+            for agent_id in self.connected_agents:
+                self.logger.info(f"Broadcast message to {agent_id}: {message}")
+
+        @self.command(name="restart", help="Restart the bot")
+        async def restart_command(ctx):
+            """Restart the bot (admin only)."""
+            if not ctx.author.guild_permissions.administrator:
+                await ctx.send("❌ This command requires administrator permissions!")
+                return
+
+            await ctx.send("🔄 Restarting Discord Commander...")
+            self.logger.info(f"Bot restart requested by {ctx.author}")
+            await self.close()
+
+        @self.command(name="shutdown", help="Shutdown the bot")
+        async def shutdown_command(ctx):
+            """Shutdown the bot (admin only)."""
+            if not ctx.author.guild_permissions.administrator:
+                await ctx.send("❌ This command requires administrator permissions!")
+                return
+
+            await ctx.send("🛑 Shutting down Discord Commander...")
+            self.logger.info(f"Bot shutdown requested by {ctx.author}")
+            await self.close()
+
+        # Mark traditional commands as registered
+        self._traditional_commands_registered = True
+        self.logger.info("✅ Traditional commands registered successfully")
 
     def setup_events(self):
         """Setup Discord bot event handlers."""

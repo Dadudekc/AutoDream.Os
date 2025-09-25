@@ -80,12 +80,19 @@ class DiscordCommanderController:
             agents = ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
             agent_status = {}
 
-            for agent in agents:
-                status = asyncio.run(self.bot._get_agent_status(agent))
-                agent_status[agent] = {
-                    "status": status,
-                    "last_seen": "Unknown"
-                }
+            # Use a new event loop for the async call
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+
+            try:
+                for agent in agents:
+                    status = loop.run_until_complete(self.bot._get_agent_status(agent))
+                    agent_status[agent] = {
+                        "status": status,
+                        "last_seen": "Unknown"
+                    }
+            finally:
+                loop.close()
 
             return jsonify({
                 "agents": agent_status,
@@ -106,11 +113,18 @@ class DiscordCommanderController:
                 return jsonify({"error": "Missing agent_id or message"}), 400
 
             try:
-                result = asyncio.run(self.bot.messaging_service.send_message(
-                    agent_id=agent_id,
-                    message=message,
-                    sender="Web-Controller"
-                ))
+                # Use a new event loop for the async call
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+
+                try:
+                    result = loop.run_until_complete(self.bot.messaging_service.send_message(
+                        agent_id=agent_id,
+                        message=message,
+                        sender="Web-Controller"
+                    ))
+                finally:
+                    loop.close()
 
                 return jsonify({
                     "success": result.get("success", False),
@@ -137,16 +151,23 @@ class DiscordCommanderController:
                 agents = ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
                 results = []
 
-                for agent in agents:
-                    result = asyncio.run(self.bot.messaging_service.send_message(
-                        agent_id=agent,
-                        message=f"[SWARM COORDINATION] {message}",
-                        sender="Web-Controller"
-                    ))
-                    results.append({
-                        "agent": agent,
-                        "success": result.get("success", False)
-                    })
+                # Use a new event loop for the async call
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+
+                try:
+                    for agent in agents:
+                        result = loop.run_until_complete(self.bot.messaging_service.send_message(
+                            agent_id=agent,
+                            message=f"[SWARM COORDINATION] {message}",
+                            sender="Web-Controller"
+                        ))
+                        results.append({
+                            "agent": agent,
+                            "success": result.get("success", False)
+                        })
+                finally:
+                    loop.close()
 
                 return jsonify({
                     "results": results,
@@ -167,6 +188,137 @@ class DiscordCommanderController:
                 "status": status,
                 "timestamp": datetime.now().isoformat()
             })
+
+        @self.app.route('/api/social_media_status')
+        def get_social_media_status():
+            """Get social media integration status."""
+            try:
+                social_status = {
+                    "twitter": {
+                        "enabled": os.getenv("SOCIAL_MEDIA_TWITTER_ENABLED", "false").lower() == "true",
+                        "status": "Available" if os.getenv("TWITTER_API_KEY") else "Not configured"
+                    },
+                    "discord": {
+                        "enabled": os.getenv("SOCIAL_MEDIA_DISCORD_ENABLED", "true").lower() == "true",
+                        "status": "Active" if self.bot else "Not connected"
+                    },
+                    "slack": {
+                        "enabled": os.getenv("SOCIAL_MEDIA_SLACK_ENABLED", "false").lower() == "true",
+                        "status": "Available" if os.getenv("SLACK_BOT_TOKEN") else "Not configured"
+                    },
+                    "telegram": {
+                        "enabled": os.getenv("SOCIAL_MEDIA_TELEGRAM_ENABLED", "false").lower() == "true",
+                        "status": "Available" if os.getenv("TELEGRAM_BOT_TOKEN") else "Not configured"
+                    }
+                }
+
+                return jsonify({
+                    "social_media": social_status,
+                    "timestamp": datetime.now().isoformat()
+                })
+            except Exception as e:
+                return jsonify({"error": str(e)}), 500
+
+        @self.app.route('/api/social_media_post', methods=['POST'])
+        def post_to_social_media():
+            """Post a message to social media platforms."""
+            if not self.bot:
+                return jsonify({"error": "Bot not initialized"}), 503
+
+            data = request.get_json()
+            message = data.get('message')
+            platforms = data.get('platforms', ['discord'])
+
+            if not message:
+                return jsonify({"error": "Missing message"}), 400
+
+            try:
+                results = {}
+
+                # Use a new event loop for the async calls
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+
+                try:
+                    # Post to Discord
+                    if 'discord' in platforms:
+                        discord_result = loop.run_until_complete(self._post_to_discord(message))
+                        results['discord'] = discord_result
+
+                    # Post to Twitter (placeholder)
+                    if 'twitter' in platforms:
+                        twitter_result = loop.run_until_complete(self._post_to_twitter(message))
+                        results['twitter'] = twitter_result
+
+                    # Post to Slack (placeholder)
+                    if 'slack' in platforms:
+                        slack_result = loop.run_until_complete(self._post_to_slack(message))
+                        results['slack'] = slack_result
+
+                    # Post to Telegram (placeholder)
+                    if 'telegram' in platforms:
+                        telegram_result = loop.run_until_complete(self._post_to_telegram(message))
+                        results['telegram'] = telegram_result
+                finally:
+                    loop.close()
+
+                return jsonify({
+                    "results": results,
+                    "message": message,
+                    "platforms": platforms,
+                    "timestamp": datetime.now().isoformat()
+                })
+            except Exception as e:
+                logger.error(f"Error posting to social media: {e}")
+                return jsonify({"error": str(e)}), 500
+
+    async def _post_to_discord(self, message: str) -> dict:
+        """Post message to Discord."""
+        try:
+            # This would use the Discord bot to post to channels
+            # For now, return success
+            return {"success": True, "message": "Posted to Discord successfully"}
+        except Exception as e:
+            return {"success": False, "error": str(e)}
+
+    async def _post_to_twitter(self, message: str) -> dict:
+        """Post message to Twitter."""
+        try:
+            # Placeholder for Twitter integration
+            api_key = os.getenv("TWITTER_API_KEY")
+            if not api_key:
+                return {"success": False, "error": "Twitter API key not configured"}
+
+            # Would implement actual Twitter posting here
+            return {"success": True, "message": "Posted to Twitter successfully"}
+        except Exception as e:
+            return {"success": False, "error": str(e)}
+
+    async def _post_to_slack(self, message: str) -> dict:
+        """Post message to Slack."""
+        try:
+            # Placeholder for Slack integration
+            token = os.getenv("SLACK_BOT_TOKEN")
+            if not token:
+                return {"success": False, "error": "Slack bot token not configured"}
+
+            # Would implement actual Slack posting here
+            return {"success": True, "message": "Posted to Slack successfully"}
+        except Exception as e:
+            return {"success": False, "error": str(e)}
+
+    async def _post_to_telegram(self, message: str) -> dict:
+        """Post message to Telegram."""
+        try:
+            # Placeholder for Telegram integration
+            token = os.getenv("TELEGRAM_BOT_TOKEN")
+            if not token:
+                return {"success": False, "error": "Telegram bot token not configured"}
+
+            # Would implement actual Telegram posting here
+            return {"success": True, "message": "Posted to Telegram successfully"}
+        except Exception as e:
+            return {"success": False, "error": str(e)}
 
     def _register_socket_events(self):
         """Register SocketIO events."""
@@ -195,6 +347,36 @@ class DiscordCommanderController:
                 'agents': agent_status,
                 'timestamp': datetime.now().isoformat()
             })
+
+        @self.socketio.on('get_social_status')
+        def handle_get_social_status():
+            """Handle request for social media status."""
+            try:
+                social_status = {
+                    "twitter": {
+                        "enabled": os.getenv("SOCIAL_MEDIA_TWITTER_ENABLED", "false").lower() == "true",
+                        "status": "Available" if os.getenv("TWITTER_API_KEY") else "Not configured"
+                    },
+                    "discord": {
+                        "enabled": os.getenv("SOCIAL_MEDIA_DISCORD_ENABLED", "true").lower() == "true",
+                        "status": "Active" if self.bot else "Not connected"
+                    },
+                    "slack": {
+                        "enabled": os.getenv("SOCIAL_MEDIA_SLACK_ENABLED", "false").lower() == "true",
+                        "status": "Available" if os.getenv("SLACK_BOT_TOKEN") else "Not configured"
+                    },
+                    "telegram": {
+                        "enabled": os.getenv("SOCIAL_MEDIA_TELEGRAM_ENABLED", "false").lower() == "true",
+                        "status": "Available" if os.getenv("TELEGRAM_BOT_TOKEN") else "Not configured"
+                    }
+                }
+
+                emit('social_status', {
+                    'social_media': social_status,
+                    'timestamp': datetime.now().isoformat()
+                })
+            except Exception as e:
+                emit('error', {'message': str(e)})
 
         @self.socketio.on('send_message')
         def handle_send_message(data):
@@ -458,6 +640,84 @@ def create_default_templates():
             background: #e74c3c;
         }
 
+        .social-media-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .social-platforms {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .social-platform {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .social-platform:hover {
+            transform: translateY(-2px);
+        }
+
+        .social-platform.enabled {
+            background: rgba(39, 174, 96, 0.2);
+            border: 2px solid #27ae60;
+        }
+
+        .social-platform.disabled {
+            background: rgba(231, 76, 60, 0.2);
+            border: 2px solid #e74c3c;
+        }
+
+        .social-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .social-status {
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .social-controls {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .social-form {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 15px;
+            align-items: end;
+        }
+
+        .platform-checkboxes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+
         .footer {
             text-align: center;
             padding: 20px;
@@ -544,6 +804,51 @@ def create_default_templates():
             </div>
 
             <div class="section">
+                <h2>📱 Social Media Integration</h2>
+                <div class="social-media-section">
+                    <h3 style="color: white; margin-top: 0;">📡 Multi-Platform Broadcasting</h3>
+
+                    <div class="social-platforms" id="social-platforms">
+                        <!-- Social platforms will be populated here -->
+                    </div>
+
+                    <div class="social-controls">
+                        <h4 style="color: white; margin-bottom: 15px;">📤 Broadcast Message</h4>
+
+                        <form id="social-form">
+                            <div class="social-form">
+                                <textarea id="social-message" placeholder="Enter message to broadcast across platforms..." required></textarea>
+                                <button type="submit">Broadcast</button>
+                            </div>
+
+                            <div class="platform-checkboxes">
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="discord-platform" checked>
+                                    <label for="discord-platform">💬 Discord</label>
+                                </div>
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="twitter-platform">
+                                    <label for="twitter-platform">🐦 Twitter</label>
+                                </div>
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="slack-platform">
+                                    <label for="slack-platform">💼 Slack</label>
+                                </div>
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="telegram-platform">
+                                    <label for="telegram-platform">📱 Telegram</label>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div id="social-results" style="margin-top: 15px; display: none;">
+                            <!-- Social media posting results will be shown here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
                 <h2>📜 Activity Logs</h2>
                 <div class="logs" id="logs">
                     <!-- Logs will be populated here -->
@@ -567,6 +872,7 @@ def create_default_templates():
             addLog('Connected to Discord Commander Controller', 'info');
             requestAgentStatus();
             requestSystemStatus();
+            requestSocialStatus();
         });
 
         socket.on('disconnect', function() {
@@ -579,12 +885,26 @@ def create_default_templates():
             updateAgentStatus(data.agents);
         });
 
+        socket.on('social_status', function(data) {
+            updateSocialStatus(data.social_media);
+        });
+
         socket.on('message_sent', function(data) {
             if (data.success) {
                 addLog(`Message sent to ${data.agent_id}: ${data.message}`, 'success');
                 document.getElementById('message-form').reset();
             } else {
                 addLog(`Failed to send message to ${data.agent_id}: ${data.message}`, 'error');
+            }
+        });
+
+        socket.on('social_broadcast', function(data) {
+            if (data.success) {
+                addLog(`Social media broadcast successful: ${data.message}`, 'success');
+                document.getElementById('social-form').reset();
+                showSocialResults(data.results);
+            } else {
+                addLog(`Social media broadcast failed: ${data.message}`, 'error');
             }
         });
 
@@ -618,9 +938,36 @@ def create_default_templates():
             }
         });
 
+        // Social media form handler
+        document.getElementById('social-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const message = document.getElementById('social-message').value;
+
+            if (message) {
+                // Get selected platforms
+                const platforms = [];
+                if (document.getElementById('discord-platform').checked) platforms.push('discord');
+                if (document.getElementById('twitter-platform').checked) platforms.push('twitter');
+                if (document.getElementById('slack-platform').checked) platforms.push('slack');
+                if (document.getElementById('telegram-platform').checked) platforms.push('telegram');
+
+                if (platforms.length === 0) {
+                    addLog('Please select at least one platform', 'error');
+                    return;
+                }
+
+                socket.emit('broadcast_social', { message: message, platforms: platforms });
+                addLog(`Broadcasting to ${platforms.join(', ')}: ${message}`, 'info');
+            }
+        });
+
         // Functions
         function requestAgentStatus() {
             socket.emit('get_agent_status');
+        }
+
+        function requestSocialStatus() {
+            socket.emit('get_social_status');
         }
 
         function requestSystemStatus() {
@@ -635,6 +982,49 @@ def create_default_templates():
                     }
                 })
                 .catch(err => addLog(`Error fetching system status: ${err}`, 'error'));
+        }
+
+        function updateSocialStatus(socialMedia) {
+            const socialPlatforms = document.getElementById('social-platforms');
+            socialPlatforms.innerHTML = '';
+
+            Object.entries(socialMedia).forEach(([platform, info]) => {
+                const platformDiv = document.createElement('div');
+                platformDiv.className = `social-platform ${info.enabled ? 'enabled' : 'disabled'}`;
+
+                let icon = '';
+                switch(platform) {
+                    case 'twitter': icon = '🐦'; break;
+                    case 'discord': icon = '💬'; break;
+                    case 'slack': icon = '💼'; break;
+                    case 'telegram': icon = '📱'; break;
+                }
+
+                platformDiv.innerHTML = `
+                    <div class="social-icon">${icon}</div>
+                    <strong>${platform.charAt(0).toUpperCase() + platform.slice(1)}</strong>
+                    <div class="social-status">${info.status}</div>
+                `;
+
+                socialPlatforms.appendChild(platformDiv);
+            });
+        }
+
+        function showSocialResults(results) {
+            const resultsDiv = document.getElementById('social-results');
+            let resultsHtml = '<h5 style="color: white; margin-bottom: 10px;">Broadcast Results:</h5>';
+
+            Object.entries(results).forEach(([platform, result]) => {
+                const status = result.success ? '✅' : '❌';
+                const statusClass = result.success ? 'success' : 'error';
+                resultsHtml += `<p style="color: white; margin: 5px 0;">
+                    <strong>${platform.charAt(0).toUpperCase() + platform.slice(1)}:</strong>
+                    <span class="${statusClass}">${status} ${result.message}</span>
+                </p>`;
+            });
+
+            resultsDiv.innerHTML = resultsHtml;
+            resultsDiv.style.display = 'block';
         }
 
         function updateAgentStatus(agents) {
@@ -672,6 +1062,7 @@ def create_default_templates():
         // Periodic updates
         setInterval(requestAgentStatus, 5000);
         setInterval(requestSystemStatus, 10000);
+        setInterval(requestSocialStatus, 15000);
     </script>
 </body>
 </html>

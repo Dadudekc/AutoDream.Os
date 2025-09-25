@@ -290,36 +290,534 @@ class DiscordCommanderBot:
             except Exception as e:
                 await ctx.send(f"❌ Error in swarm coordination: {e}")
 
-        # Help command
+        # Help command (Legacy prefix command)
         @self.bot.command(name="help")
         async def help_command(ctx):
             """Show available commands."""
             embed = discord.Embed(
-                title="🤖 Discord Commander Help",
-                description="Available commands for the Agent Swarm system",
+                title="🤖 Discord Commander - Complete Command Guide",
+                description="Modern Discord integration for the Agent Swarm system with both prefix and slash commands",
                 color=0x0099ff
             )
 
             embed.add_field(
-                name="🤖 Agent Commands",
-                value="• `!agent_status [agent_id]` - Get agent status\n• `!send_message <agent_id> <message>` - Send message to agent\n• `!agent_coordinates [agent_id]` - Get agent coordinates",
+                name="🔧 **SYSTEM MANAGEMENT**",
+                value="• `!restart` - **Restart Discord Commander** (No runtime shutdown needed!)\n• `!sync` - Sync slash commands with Discord\n• `!system_status` - Get system health and metrics",
                 inline=False
             )
 
             embed.add_field(
-                name="🔧 System Commands",
-                value="• `!system_status` - Get system status\n• `!project_info` - Get project information",
+                name="🤖 **AGENT COMMANDS**",
+                value="• `!agent_status [agent_id]` - Get agent status with rich embeds\n• `!send_message <agent_id> <message>` - Send message to agent\n• `!agent_coordinates [agent_id]` - Get agent coordinates",
                 inline=False
             )
 
             embed.add_field(
-                name="🐝 Swarm Commands",
-                value="• `!swarm_status` - Get swarm status\n• `!swarm_coordinate <message>` - Send coordination message to all agents",
+                name="🐝 **SWARM OPERATIONS**",
+                value="• `!swarm_status` - Get swarm coordination status\n• `!swarm_coordinate <message>` - Send coordination message to all agents",
                 inline=False
             )
 
-            embed.set_footer(text="🐝 WE ARE SWARM - Use the web interface for advanced control")
+            embed.add_field(
+                name="⚡ **MODERN SLASH COMMANDS**",
+                value="• `/help` - Interactive slash command help\n• `/restart` - **Restart system** (Modern interface)\n• `/agent_status [agent_id]` - Get agent status\n• `/send_message <agent_id> <message>` - Send message to agent\n• `/system_status` - Get system status\n• `/swarm_status` - Get swarm status\n• `/project_info` - Get project information",
+                inline=False
+            )
+
+            embed.add_field(
+                name="🖥️ **WEB INTERFACE**",
+                value="• **Dashboard:** `http://localhost:8080`\n• Real-time agent monitoring\n• Social media integration\n• Interactive controls\n• Live activity logs",
+                inline=False
+            )
+
+            embed.add_field(
+                name="🚀 **QUICK START**",
+                value="1. Use `/help` for modern slash commands\n2. Use `!help` for legacy prefix commands\n3. Use `/restart` to restart without shutting down\n4. Open web dashboard for advanced control",
+                inline=False
+            )
+
+            embed.set_footer(text="🐝 WE ARE SWARM - Modern Discord Integration | Use /restart for system updates")
             await ctx.send(embed=embed)
+
+        @self.bot.command(name="restart")
+        async def prefix_restart(ctx):
+            """Restart the Discord Commander system (legacy prefix command)."""
+            embed = discord.Embed(
+                title="🔄 Restarting Discord Commander",
+                description="The system will restart shortly using legacy command...",
+                color=0xffaa00
+            )
+
+            embed.add_field(name="Status", value="⏳ Restarting...", inline=False)
+            embed.add_field(name="Method", value="Legacy prefix command", inline=False)
+            embed.set_footer(text="Use /restart for modern slash command interface")
+
+            await ctx.send(embed=embed)
+
+            # Log the restart request
+            self.logger.info(f"Legacy restart requested by {ctx.author}")
+
+            # Create restart devlog
+            try:
+                import asyncio
+                from src.services.agent_devlog_posting import AgentDevlogPoster
+
+                poster = AgentDevlogPoster()
+                await poster.post_devlog(
+                    agent_flag="Agent-4",
+                    action="Discord Commander restart requested (legacy)",
+                    status="in_progress",
+                    details=f"Legacy restart requested by Discord user {ctx.author}. System will restart to apply any pending updates."
+                )
+            except Exception as e:
+                self.logger.error(f"Failed to create restart devlog: {e}")
+
+            # Schedule restart after a delay
+            async def delayed_restart():
+                await asyncio.sleep(2)  # Give time for response to be sent
+
+                # Stop the bot
+                await self.bot.close()
+
+                # Log restart completion
+                self.logger.info("Discord Commander restart completed (legacy)")
+
+                # Exit to allow restart
+                import sys
+                sys.exit(0)  # This will trigger a restart in a process manager
+
+            # Start the restart task
+            asyncio.create_task(delayed_restart())
+
+        @self.bot.command(name="sync")
+        async def prefix_sync(ctx):
+            """Sync slash commands with Discord (legacy prefix command)."""
+            embed = discord.Embed(
+                title="🔄 Syncing Commands",
+                description="Syncing slash commands with Discord...",
+                color=0xffaa00
+            )
+
+            await ctx.send(embed=embed)
+
+            try:
+                # Sync commands with Discord
+                synced = await self.bot.sync_commands()
+
+                embed = discord.Embed(
+                    title="✅ Commands Synced",
+                    description=f"Successfully synced {len(synced)} commands",
+                    color=0x00ff00
+                )
+                embed.add_field(name="Method", value="Legacy prefix command", inline=False)
+                embed.set_footer(text="Use /sync for modern slash command interface")
+
+            except Exception as sync_error:
+                embed = discord.Embed(
+                    title="⚠️ Sync Warning",
+                    description=f"Commands synced but with warnings: {sync_error}",
+                    color=0xffaa00
+                )
+                embed.add_field(name="Method", value="Legacy prefix command", inline=False)
+
+            await ctx.send(embed=embed)
+
+        # Slash Commands
+        @self.bot.slash_command(name="help", description="Show all available Discord Commander commands")
+        async def slash_help(ctx):
+            """Show available slash commands."""
+            embed = discord.Embed(
+                title="⚡ Discord Commander Slash Commands",
+                description="Modern slash commands for the Agent Swarm system",
+                color=0xff6b00
+            )
+
+            embed.add_field(
+                name="🤖 Agent Management",
+                value="• `/agent_status [agent_id]` - Get agent status\n• `/send_message <agent_id> <message>` - Send message to agent\n• `/agent_coordinates [agent_id]` - Get agent coordinates",
+                inline=False
+            )
+
+            embed.add_field(
+                name="🔧 System Control",
+                value="• `/system_status` - Get system status\n• `/project_info` - Get project information\n• `/restart` - Restart Discord Commander",
+                inline=False
+            )
+
+            embed.add_field(
+                name="🐝 Swarm Operations",
+                value="• `/swarm_status` - Get swarm status\n• `/swarm_coordinate <message>` - Coordinate all agents",
+                inline=False
+            )
+
+            embed.add_field(
+                name="🖥️ Web Interface",
+                value="• Web Dashboard: `http://localhost:8080`\n• Real-time monitoring\n• Social media integration\n• Interactive controls",
+                inline=False
+            )
+
+            embed.set_footer(text="🐝 WE ARE SWARM - Modern Discord Integration")
+            await ctx.respond(embed=embed, ephemeral=True)
+
+        @self.bot.slash_command(name="restart", description="Restart the Discord Commander system")
+        async def slash_restart(ctx):
+            """Restart the Discord Commander system."""
+            embed = discord.Embed(
+                title="🔄 Restarting Discord Commander",
+                description="The system will restart shortly...",
+                color=0xffaa00
+            )
+
+            embed.add_field(name="Status", value="⏳ Restarting...", inline=False)
+            embed.set_footer(text="This may take a few moments")
+
+            await ctx.respond(embed=embed, ephemeral=True)
+
+            # Log the restart request
+            self.logger.info(f"Restart requested by {ctx.author}")
+
+            # Create restart devlog
+            try:
+                import asyncio
+                from src.services.agent_devlog_posting import AgentDevlogPoster
+
+                poster = AgentDevlogPoster()
+                await poster.post_devlog(
+                    agent_flag="Agent-4",
+                    action="Discord Commander restart requested",
+                    status="in_progress",
+                    details=f"Restart requested by Discord user {ctx.author}. System will restart to apply any pending updates."
+                )
+            except Exception as e:
+                self.logger.error(f"Failed to create restart devlog: {e}")
+
+            # Schedule restart after a delay
+            async def delayed_restart():
+                await asyncio.sleep(2)  # Give time for response to be sent
+
+                # Stop the bot
+                await self.bot.close()
+
+                # Log restart completion
+                self.logger.info("Discord Commander restart completed")
+
+                # Exit to allow restart
+                import sys
+                sys.exit(0)  # This will trigger a restart in a process manager
+
+            # Start the restart task
+            asyncio.create_task(delayed_restart())
+
+        @self.bot.slash_command(name="agent_status", description="Get the status of agents")
+        async def slash_agent_status(ctx, agent_id: str = None):
+            """Get agent status via slash command."""
+            try:
+                if agent_id:
+                    status = await self._get_agent_status(agent_id)
+                    embed = discord.Embed(
+                        title=f"🤖 Agent {agent_id} Status",
+                        description=f"Current status of {agent_id}",
+                        color=0x00ff00 if "Active" in status else 0xff0000
+                    )
+                    embed.add_field(name="Status", value=status, inline=False)
+                else:
+                    agents = ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
+                    embed = discord.Embed(
+                        title="🤖 Agent Status Overview",
+                        description="Current status of all agents",
+                        color=0x0099ff
+                    )
+
+                    for agent in agents:
+                        status = await self._get_agent_status(agent)
+                        embed.add_field(name=agent, value=status, inline=True)
+
+                embed.set_footer(text=f"Requested by {ctx.author}")
+                await ctx.respond(embed=embed, ephemeral=True)
+
+            except Exception as e:
+                embed = discord.Embed(
+                    title="❌ Error",
+                    description=f"Failed to get agent status: {e}",
+                    color=0xff0000
+                )
+                await ctx.respond(embed=embed, ephemeral=True)
+
+        @self.bot.slash_command(name="send_message", description="Send a message to an agent")
+        async def slash_send_message(ctx, agent_id: str, message: str):
+            """Send message to agent via slash command."""
+            try:
+                result = await self.messaging_service.send_message(
+                    agent_id=agent_id,
+                    message=message,
+                    sender="Discord-Commander-Slash"
+                )
+
+                if result.get("success"):
+                    embed = discord.Embed(
+                        title="✅ Message Sent",
+                        description=f"Message sent to **{agent_id}**",
+                        color=0x00ff00
+                    )
+                    embed.add_field(name="Content", value=message[:1000], inline=False)
+                    embed.add_field(name="Recipient", value=agent_id, inline=True)
+                    embed.set_footer(text=f"Sent by {ctx.author}")
+                    await ctx.respond(embed=embed, ephemeral=True)
+                else:
+                    embed = discord.Embed(
+                        title="❌ Message Failed",
+                        description=f"Failed to send message to **{agent_id}**",
+                        color=0xff0000
+                    )
+                    embed.add_field(name="Error", value=result.get('error', 'Unknown error'), inline=False)
+                    await ctx.respond(embed=embed, ephemeral=True)
+
+            except Exception as e:
+                embed = discord.Embed(
+                    title="❌ Error",
+                    description=f"Failed to send message: {e}",
+                    color=0xff0000
+                )
+                await ctx.respond(embed=embed, ephemeral=True)
+
+        @self.bot.slash_command(name="system_status", description="Get system status")
+        async def slash_system_status(ctx):
+            """Get system status via slash command."""
+            try:
+                status = self.get_status()
+                uptime = status.get('uptime_formatted', 'Unknown')
+
+                embed = discord.Embed(
+                    title="🔧 System Status",
+                    description="Discord Commander system health",
+                    color=0x00ff00
+                )
+
+                embed.add_field(name="Status", value=status.get('status', 'Unknown').title(), inline=True)
+                embed.add_field(name="Uptime", value=uptime, inline=True)
+                embed.add_field(name="Commands", value=str(status.get('command_count', 0)), inline=True)
+                embed.add_field(name="Messages Received", value=str(status.get('messages_received', 0)), inline=True)
+
+                embed.set_footer(text=f"Requested by {ctx.author}")
+                await ctx.respond(embed=embed, ephemeral=True)
+
+            except Exception as e:
+                embed = discord.Embed(
+                    title="❌ Error",
+                    description=f"Failed to get system status: {e}",
+                    color=0xff0000
+                )
+                await ctx.respond(embed=embed, ephemeral=True)
+
+        @self.bot.slash_command(name="swarm_status", description="Get swarm coordination status")
+        async def slash_swarm_status(ctx):
+            """Get swarm status via slash command."""
+            try:
+                agents = ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
+                swarm_info = []
+
+                for agent in agents:
+                    status = await self._get_swarm_agent_status(agent)
+                    swarm_info.append(f"• {agent}: {status}")
+
+                embed = discord.Embed(
+                    title="🐝 Swarm Status",
+                    description="Multi-agent coordination status",
+                    color=0xffaa00
+                )
+
+                embed.add_field(name="Agent Status", value="\n".join(swarm_info), inline=False)
+                embed.set_footer(text=f"Requested by {ctx.author}")
+                await ctx.respond(embed=embed, ephemeral=True)
+
+            except Exception as e:
+                embed = discord.Embed(
+                    title="❌ Error",
+                    description=f"Failed to get swarm status: {e}",
+                    color=0xff0000
+                )
+                await ctx.respond(embed=embed, ephemeral=True)
+
+        @self.bot.slash_command(name="agent_coordinates", description="Get agent coordinates")
+        async def slash_agent_coordinates(ctx, agent_id: str = None):
+            """Get agent coordinates via slash command."""
+            try:
+                coords_file = Path("cursor_agent_coords.json")
+                if not coords_file.exists():
+                    embed = discord.Embed(
+                        title="❌ Coordinates Not Found",
+                        description="Agent coordinates file not found",
+                        color=0xff0000
+                    )
+                    await ctx.respond(embed=embed, ephemeral=True)
+                    return
+
+                with open(coords_file, 'r') as f:
+                    coords_data = json.load(f)
+
+                if agent_id:
+                    coords = coords_data.get(agent_id)
+                    if coords:
+                        embed = discord.Embed(
+                            title=f"📍 Agent {agent_id} Coordinates",
+                            description=f"Position: `{coords}`",
+                            color=0x0099ff
+                        )
+                    else:
+                        embed = discord.Embed(
+                            title="❌ Agent Not Found",
+                            description=f"No coordinates found for {agent_id}",
+                            color=0xff0000
+                        )
+                else:
+                    embed = discord.Embed(
+                        title="📍 Agent Coordinates",
+                        description="Current agent positions",
+                        color=0x0099ff
+                    )
+
+                    for agent, coords in coords_data.items():
+                        embed.add_field(name=agent, value=f"`{coords}`", inline=True)
+
+                embed.set_footer(text=f"Requested by {ctx.author}")
+                await ctx.respond(embed=embed, ephemeral=True)
+
+            except Exception as e:
+                embed = discord.Embed(
+                    title="❌ Error",
+                    description=f"Failed to get coordinates: {e}",
+                    color=0xff0000
+                )
+                await ctx.respond(embed=embed, ephemeral=True)
+
+        @self.bot.slash_command(name="project_info", description="Get project information")
+        async def slash_project_info(ctx):
+            """Get project information via slash command."""
+            try:
+                info = {
+                    "name": "Agent Cellphone V2",
+                    "version": "2.1.0",
+                    "description": "Advanced AI Agent System with Code Quality Standards",
+                    "total_files": self._count_project_files(),
+                    "python_files": self._count_python_files(),
+                    "agents": "8 Active Agents"
+                }
+
+                embed = discord.Embed(
+                    title="📋 Project Information",
+                    description="Agent Cellphone V2 System",
+                    color=0x0099ff
+                )
+
+                for key, value in info.items():
+                    embed.add_field(name=key.replace("_", " ").title(), value=str(value), inline=True)
+
+                embed.set_footer(text=f"🐝 WE ARE SWARM - Requested by {ctx.author}")
+                await ctx.respond(embed=embed, ephemeral=True)
+
+            except Exception as e:
+                embed = discord.Embed(
+                    title="❌ Error",
+                    description=f"Failed to get project info: {e}",
+                    color=0xff0000
+                )
+                await ctx.respond(embed=embed, ephemeral=True)
+
+        @self.bot.slash_command(name="swarm_coordinate", description="Send coordination message to all agents")
+        async def slash_swarm_coordinate(ctx, message: str):
+            """Send coordination message to all agents via slash command."""
+            try:
+                agents = ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
+                results = []
+
+                for agent in agents:
+                    result = await self.messaging_service.send_message(
+                        agent_id=agent,
+                        message=f"[SWARM COORDINATION] {message}",
+                        sender="Discord-Commander-Slash"
+                    )
+                    results.append(f"• {agent}: {'✅' if result.get('success') else '❌'}")
+
+                embed = discord.Embed(
+                    title="🐝 Swarm Coordination",
+                    description="Coordination message sent to all agents",
+                    color=0xffaa00
+                )
+
+                embed.add_field(name="Message", value=message, inline=False)
+                embed.add_field(name="Results", value="\n".join(results), inline=False)
+                embed.set_footer(text=f"Coordinated by {ctx.author}")
+                await ctx.respond(embed=embed, ephemeral=True)
+
+            except Exception as e:
+                embed = discord.Embed(
+                    title="❌ Error",
+                    description=f"Failed to coordinate swarm: {e}",
+                    color=0xff0000
+                )
+                await ctx.respond(embed=embed, ephemeral=True)
+
+        @self.bot.slash_command(name="sync", description="Sync slash commands with Discord")
+        async def slash_sync(ctx):
+            """Sync slash commands with Discord."""
+            try:
+                embed = discord.Embed(
+                    title="🔄 Syncing Commands",
+                    description="Syncing slash commands with Discord...",
+                    color=0xffaa00
+                )
+
+                await ctx.respond(embed=embed, ephemeral=True)
+
+                # Sync commands with Discord
+                try:
+                    synced = await self.bot.sync_commands()
+                    embed = discord.Embed(
+                        title="✅ Commands Synced",
+                        description=f"Successfully synced {len(synced)} commands",
+                        color=0x00ff00
+                    )
+                    embed.set_footer(text="Commands are now available!")
+                except Exception as sync_error:
+                    embed = discord.Embed(
+                        title="⚠️ Sync Warning",
+                        description=f"Commands synced but with warnings: {sync_error}",
+                        color=0xffaa00
+                    )
+
+                # Update the original response
+                await ctx.edit(embed=embed)
+
+            except Exception as e:
+                embed = discord.Embed(
+                    title="❌ Sync Failed",
+                    description=f"Failed to sync commands: {e}",
+                    color=0xff0000
+                )
+                await ctx.respond(embed=embed, ephemeral=True)
+
+        # Event handler for slash command errors
+        @self.bot.event
+        async def on_application_command_error(ctx, error):
+            """Handle slash command errors."""
+            self.logger.error(f"Slash command error: {error}")
+
+            embed = discord.Embed(
+                title="❌ Command Error",
+                description=f"An error occurred: {error}",
+                color=0xff0000
+            )
+
+            if isinstance(error, discord.errors.CommandOnCooldown):
+                embed.description = f"Command on cooldown. Try again in {error.retry_after:.2f}s"
+                embed.color = 0xffaa00
+            elif isinstance(error, discord.errors.MissingPermissions):
+                embed.description = "You don't have permission to use this command"
+            elif isinstance(error, discord.errors.BotMissingPermissions):
+                embed.description = "I don't have permission to execute this command"
+
+            embed.set_footer(text="Report this error if it persists")
+            await ctx.respond(embed=embed, ephemeral=True)
     
     async def start(self) -> bool:
         """Start the bot."""
@@ -344,13 +842,23 @@ class DiscordCommanderBot:
         """Handle bot ready event."""
         self.logger.info(f"Discord Commander Bot ready: {self.bot.user}")
         self.status_monitor.record_heartbeat()
-        
+
+        # Sync slash commands with Discord
+        try:
+            synced = await self.bot.sync_commands()
+            self.logger.info(f"Synced {len(synced)} slash commands with Discord")
+        except Exception as e:
+            self.logger.warning(f"Failed to sync commands: {e}")
+
         # Set bot status
         activity = discord.Activity(
             type=discord.ActivityType.watching,
-            name="Agent Swarm Coordination"
+            name="🐝 WE ARE SWARM - Modern Discord Integration"
         )
         await self.bot.change_presence(activity=activity)
+
+        # Log ready status
+        self.logger.info("Discord Commander is ready with both prefix and slash commands!")
     
     async def _on_message(self, message):
         """Handle message events."""

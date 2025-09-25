@@ -17,7 +17,35 @@ NO Discord dependency - completely independent system.
 
 import asyncio
 import sys
-from .agent_devlog import AgentDevlogPoster, AgentDevlogCLI
+import os
+from pathlib import Path
+
+# Add parent directory to path for imports
+parent_dir = Path(__file__).parent.parent
+sys.path.insert(0, str(parent_dir))
+
+# Import with fallback
+try:
+    from services.agent_devlog import AgentDevlogPoster, AgentDevlogCLI
+except ImportError:
+    try:
+        from .agent_devlog import AgentDevlogPoster, AgentDevlogCLI
+    except ImportError:
+        # Fallback to direct implementation if modular package doesn't exist
+        from src.services.agent_devlog_service import DiscordDevlogService
+
+        class AgentDevlogPoster:
+            def __init__(self):
+                self.devlog_service = DiscordDevlogService()
+
+            async def post_devlog(self, agent_flag: str, action: str, status: str = "completed", details: str = ""):
+                return await self.devlog_service.create_and_post_devlog(
+                    agent_id=agent_flag,
+                    action=action,
+                    status=status,
+                    details={"details": details},
+                    post_to_discord=False
+                )
 
 # Re-export for backward compatibility
 __all__ = ["AgentDevlogPoster", "AgentDevlogCLI"]

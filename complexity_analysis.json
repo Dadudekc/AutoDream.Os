@@ -1,0 +1,15 @@
+{
+  "cyclomatic_complexity": {
+    "average": 0.0,
+    "max": 0,
+    "high_complexity_files": []
+  },
+  "code_duplication": {
+    "duplicate_lines": 0,
+    "duplication_percentage": 0.0
+  },
+  "maintainability_index": {
+    "score": 0.0,
+    "rating": "unknown"
+  }
+}

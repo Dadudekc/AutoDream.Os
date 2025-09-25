@@ -295,3 +295,4 @@ class SocialMediaCommands(commands.Cog):
 async def setup(bot):
     """Setup function to add the social media commands cog to the bot."""
     await bot.add_cog(SocialMediaCommands(bot))
+

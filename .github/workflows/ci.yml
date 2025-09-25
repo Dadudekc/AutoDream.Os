@@ -18,18 +18,33 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install -r requirements-dev.txt || true
+          pip install -r requirements-security.txt || true
       - name: V2 compliance rules
         run: |
           echo "Using config/v2_rules.yaml"
           python scripts/validate_v2_compliance.py --rules config/v2_rules.yaml
+      - name: Static Analysis - Security
+        run: |
+          python tools/static_analysis/security_scanner.py --ci
+      - name: Static Analysis - Code Quality
+        run: |
+          python tools/static_analysis/code_quality_analyzer.py --ci
+      - name: Static Analysis - Dependencies
+        run: |
+          python tools/static_analysis/dependency_scanner.py --ci
       - name: Lint
         run: |
           ruff check .
           black --check .
           isort --check-only .
+          bandit -r src/ -f json -o bandit-report.json || true
+          safety check --json --short-report || true
       - name: Tests
         run: |
           pytest -q --maxfail=1 --disable-warnings --cov=scripts --cov=src --cov=agentcore --cov-report=xml --cov-fail-under=85
       - name: Upload coverage
         uses: actions/upload-artifact@v4
         with: { name: coverage-xml, path: coverage.xml }
+      - name: Upload security reports
+        uses: actions/upload-artifact@v4
+        with: { name: security-reports, path: analysis_reports/ }

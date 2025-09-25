@@ -46,13 +46,18 @@ class MessagingService:
             for issue in self.validation_report.issues:
                 logger.warning(f"  - {issue}")
     
-    def send_message(self, agent_id: str, message: str, from_agent: str = "Agent-2", priority: str = "NORMAL") -> bool:
+    def send_message(self, agent_id: str, message: str, from_agent: str = None, priority: str = "NORMAL") -> bool:
         """Send message to specific agent via PyAutoGUI automation."""
         if not self._is_agent_active(agent_id):
             logger.warning(f"Agent {agent_id} is inactive, message not sent")
             return False
             
         try:
+            # Auto-detect sender if not provided
+            if from_agent is None:
+                from ..agent_context import get_current_agent
+                from_agent = get_current_agent()
+            
             # Get agent coordinates
             try:
                 coords = self.loader.get_agent_coordinates(agent_id)
@@ -77,9 +82,14 @@ class MessagingService:
             logger.error(f"Error sending message to {agent_id}: {e}")
             return False
     
-    def broadcast_message(self, message: str, from_agent: str = "Agent-2", priority: str = "NORMAL") -> Dict[str, bool]:
+    def broadcast_message(self, message: str, from_agent: str = None, priority: str = "NORMAL") -> Dict[str, bool]:
         """Send message to all active agents."""
         results = {}
+        
+        # Auto-detect sender if not provided
+        if from_agent is None:
+            from ..agent_context import get_current_agent
+            from_agent = get_current_agent()
         
         for agent_id in self.loader.get_agent_ids():
             if self._is_agent_active(agent_id):

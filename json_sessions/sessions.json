@@ -1,0 +1,12 @@
+{
+  "json-demo": {
+    "session_id": "json-demo",
+    "participants": [
+      "Agent-1",
+      "Agent-2"
+    ],
+    "created_at": 1758687208.609486,
+    "last_activity": 1758687208.609486,
+    "message_count": 0
+  }
+}

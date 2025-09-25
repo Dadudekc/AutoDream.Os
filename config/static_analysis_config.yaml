@@ -1,0 +1,341 @@
+# Static Analysis Configuration
+# =============================
+# Comprehensive configuration for all static analysis tools
+
+# Security Analysis Configuration
+security:
+  bandit:
+    enabled: true
+    config_file: ".bandit"
+    exclude_dirs:
+      - "tests/"
+      - "test_*/"
+      - "*/test_*"
+    skip_tests:
+      - "B101"  # Skip assert_used test
+      - "B601"  # Skip shell_injection_subprocess test
+    severity_level: "medium"
+    
+  safety:
+    enabled: true
+    config_file: ".safety"
+    check_live: true
+    short_report: true
+    
+  semgrep:
+    enabled: true
+    config: "auto"
+    exclude_rules:
+      - "python.lang.security.audit.weak-cryptographic-key.weak-cryptographic-key"
+    severity_level: "error"
+
+# Code Quality Analysis Configuration
+quality:
+  ruff:
+    enabled: true
+    config_file: "pyproject.toml"
+    select:
+      - "E"      # pycodestyle errors
+      - "F"      # pyflakes
+      - "W"      # pycodestyle warnings
+      - "I"      # isort
+      - "UP"     # pyupgrade
+      - "B"      # flake8-bugbear
+      - "C4"     # flake8-comprehensions
+      - "S"      # flake8-bandit
+      - "TCH"    # flake8-type-checking
+      - "TID"    # flake8-tidy-imports
+    ignore:
+      - "W505"   # docstring line length
+    exclude:
+      - "tests/**/data/**"
+    
+  pylint:
+    enabled: true
+    config_file: "pyproject.toml"
+    disable:
+      - "C0114"  # missing-module-docstring
+      - "C0115"  # missing-class-docstring
+      - "C0116"  # missing-function-docstring
+      - "R0903"  # too-few-public-methods
+      - "R0913"  # too-many-arguments
+      - "R0914"  # too-many-locals
+      - "R0915"  # too-many-statements
+      - "W0621"  # redefined-outer-name
+      - "W0622"  # redefined-builtin
+      - "W0703"  # broad-except
+    max_line_length: 100
+    max_args: 10
+    max_attributes: 10
+    max_bool_expr: 5
+    max_branches: 15
+    max_locals: 20
+    max_parents: 7
+    max_public_methods: 30
+    max_returns: 10
+    max_statements: 60
+    max_module_lines: 400  # V2 compliance
+    max_class_lines: 100   # V2 compliance
+    
+  mypy:
+    enabled: true
+    config_file: "pyproject.toml"
+    strict: true
+    ignore_missing_imports: true
+    warn_return_any: true
+    warn_unused_configs: true
+    disallow_untyped_defs: true
+    disallow_incomplete_defs: true
+    
+  flake8:
+    enabled: true
+    config_file: "pyproject.toml"
+    max_line_length: 100
+    extend_ignore:
+      - "E203"  # whitespace before ':'
+      - "W503"  # line break before binary operator
+      - "E501"  # line too long (handled by black)
+    exclude:
+      - ".git"
+      - "__pycache__"
+      - "build"
+      - "dist"
+      - ".venv"
+      - "venv"
+      - ".mypy_cache"
+      - ".pytest_cache"
+    per_file_ignores:
+      "__init__.py:F401"
+      "tests/*:F401,F403,F405"
+
+# Dependency Analysis Configuration
+dependencies:
+  safety:
+    enabled: true
+    check_live: true
+    short_report: true
+    
+  pip_audit:
+    enabled: true
+    format: "json"
+    desc: true
+    
+  osv_scanner:
+    enabled: true
+    config: "auto"
+    
+  manual_check:
+    enabled: true
+    vulnerable_packages:
+      django:
+        min_version: "2.2.0"
+        severity: "HIGH"
+      flask:
+        min_version: "1.1.0"
+        severity: "MEDIUM"
+      requests:
+        min_version: "2.25.0"
+        severity: "HIGH"
+      urllib3:
+        min_version: "1.26.0"
+        severity: "HIGH"
+      jinja2:
+        min_version: "2.11.0"
+        severity: "MEDIUM"
+      pyyaml:
+        min_version: "5.4.0"
+        severity: "HIGH"
+      cryptography:
+        min_version: "3.4.0"
+        severity: "HIGH"
+      pillow:
+        min_version: "8.2.0"
+        severity: "MEDIUM"
+      numpy:
+        min_version: "1.21.0"
+        severity: "MEDIUM"
+      pandas:
+        min_version: "1.3.0"
+        severity: "MEDIUM"
+
+# Complexity Analysis Configuration
+complexity:
+  radon:
+    enabled: true
+    min_complexity: "B"
+    exclude:
+      - "tests/"
+      - "test_*/"
+      - "*/test_*"
+      
+  mccabe:
+    enabled: true
+    max_complexity: 10
+    exclude:
+      - "tests/"
+      - "test_*/"
+      - "*/test_*"
+
+# Reporting Configuration
+reporting:
+  output_dir: "analysis_reports"
+  formats:
+    - "json"
+    - "html"
+    - "markdown"
+  
+  html_dashboard:
+    enabled: true
+    include_charts: true
+    theme: "default"
+    
+  json_report:
+    enabled: true
+    pretty_print: true
+    include_raw_data: false
+    
+  markdown_report:
+    enabled: true
+    include_recommendations: true
+    include_remediation: true
+
+# CI/CD Integration Configuration
+ci:
+  fail_on_critical: true
+  fail_on_high_severity: true
+  fail_on_quality_score_below: 70
+  upload_reports: true
+  report_artifacts:
+    - "analysis_reports/"
+    - "bandit-report.json"
+    - "safety-report.json"
+  
+  github_actions:
+    enabled: true
+    upload_artifacts: true
+    comment_on_pr: true
+    
+  gitlab_ci:
+    enabled: false
+    upload_artifacts: true
+    
+  jenkins:
+    enabled: false
+    publish_html_report: true
+
+# Thresholds and Quality Gates
+thresholds:
+  security:
+    max_high_severity: 0
+    max_medium_severity: 5
+    max_low_severity: 20
+    
+  quality:
+    min_overall_score: 70
+    min_code_style_score: 80
+    min_type_safety_score: 80
+    max_critical_violations: 10
+    max_warning_violations: 50
+    
+  dependencies:
+    max_high_severity: 0
+    max_medium_severity: 5
+    max_low_severity: 20
+    
+  complexity:
+    max_cyclomatic_complexity: 10
+    max_cognitive_complexity: 15
+    max_function_length: 50
+    max_class_length: 200
+
+# File and Directory Exclusions
+exclusions:
+  directories:
+    - ".git"
+    - ".venv"
+    - "venv"
+    - "node_modules"
+    - ".mypy_cache"
+    - "__pycache__"
+    - ".pytest_cache"
+    - ".ruff_cache"
+    - ".cache"
+    - "dist"
+    - "build"
+    - ".idea"
+    - ".vscode"
+    - "tests/data"
+    - "test_data"
+    
+  files:
+    - "*.pyc"
+    - "*.pyo"
+    - "*.pyd"
+    - "*.so"
+    - "*.dll"
+    - "*.dylib"
+    - "*.exe"
+    - "*.egg"
+    - "*.egg-info"
+    - "*.whl"
+    - "*.tar.gz"
+    - "*.zip"
+    
+  patterns:
+    - "**/migrations/**"
+    - "**/test_*/**"
+    - "**/tests/data/**"
+    - "**/fixtures/**"
+    - "**/samples/**"
+
+# Notification Configuration
+notifications:
+  email:
+    enabled: false
+    recipients: []
+    smtp_server: ""
+    smtp_port: 587
+    smtp_username: ""
+    smtp_password: ""
+    
+  slack:
+    enabled: false
+    webhook_url: ""
+    channel: "#security-alerts"
+    
+  discord:
+    enabled: false
+    webhook_url: ""
+    channel: "security-alerts"
+    
+  teams:
+    enabled: false
+    webhook_url: ""
+    
+  github:
+    enabled: true
+    comment_on_pr: true
+    create_issues: false
+
+# Performance Configuration
+performance:
+  parallel_execution: true
+  max_workers: 4
+  timeout_seconds: 300
+  memory_limit_mb: 1024
+  
+  caching:
+    enabled: true
+    cache_dir: ".analysis_cache"
+    ttl_hours: 24
+    
+  incremental_analysis:
+    enabled: true
+    track_changes: true
+    only_changed_files: false
+
+
+
+
+
+

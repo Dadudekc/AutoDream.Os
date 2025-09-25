@@ -1,0 +1,98 @@
+{
+  "report_time": "2025-09-23T20:49:41.765535",
+  "deployment_status": {
+    "deployment_time": "2025-09-23T20:49:41.765535",
+    "components": {
+      "workflow_manager": {
+        "status": "healthy",
+        "details": {
+          "status": "initialized"
+        }
+      },
+      "workflow_optimizer": {
+        "status": "healthy",
+        "details": {
+          "cache": {
+            "cache_size": 0,
+            "max_size": 1000,
+            "hit_count": 0,
+            "miss_count": 0,
+            "hit_rate": 0,
+            "total_requests": 0
+          },
+          "performance": null,
+          "parallel_executor": {
+            "max_workers": 16,
+            "active_tasks": 0
+          },
+          "optimization_enabled": true
+        }
+      },
+      "discord_bot": {
+        "status": "healthy",
+        "details": {
+          "uptime_seconds": 0.018018,
+          "uptime_formatted": "0:00:00",
+          "last_heartbeat": null,
+          "messages_received": 0,
+          "commands_executed": 0,
+          "errors": 0,
+          "status": "healthy",
+          "bot_user": null,
+          "guild_count": 0,
+          "command_count": 7,
+          "config_valid": false
+        }
+      },
+      "discord_optimizer": {
+        "status": "healthy",
+        "details": {
+          "performance": {
+            "message_processing_time": 0,
+            "command_execution_time": 0,
+            "event_handling_time": 0,
+            "memory_usage": 0.0,
+            "messages_per_second": 0.0,
+            "commands_per_second": 0.0,
+            "error_rate": 0,
+            "uptime_seconds": 0.014015
+          },
+          "cache": {
+            "cache_size": 0,
+            "max_size": 500,
+            "hit_count": 0,
+            "miss_count": 0,
+            "hit_rate": 0,
+            "total_requests": 0
+          },
+          "rate_limiter": {
+            "max_requests_per_minute": 60,
+            "current_requests": 0
+          },
+          "async_pool": {
+            "max_concurrent": 10,
+            "active_tasks": 0,
+            "active_task_names": []
+          },
+          "optimization_enabled": true,
+          "uptime_seconds": 0.014015
+        }
+      },
+      "performance_monitor": {
+        "status": "healthy",
+        "details": {
+          "status": "initialized"
+        }
+      }
+    },
+    "overall_status": "healthy"
+  },
+  "component_tests": {
+    "workflow_manager": true,
+    "workflow_optimizer": true,
+    "discord_bot": true,
+    "discord_optimizer": true,
+    "performance_monitor": true
+  },
+  "monitoring_active": true
+}

@@ -47,6 +47,8 @@ class ConsolidatedMessagingService:
 
         # Add enhanced functionality
         self.auto_devlog_enabled = True
+        self.response_protocol_enabled = True
+        self.coordination_requests = {}  # Track coordination requests
 
     def _load_coordinates(self) -> dict:
         """Load agent coordinates from JSON file."""
@@ -58,11 +60,49 @@ class ConsolidatedMessagingService:
             logger.error(f"Error loading coordinates: {e}")
             return {}
 
+    def track_coordination_request(self, from_agent: str, to_agent: str, message: str) -> None:
+        """Track coordination requests for protocol compliance."""
+        request_id = f"{from_agent}_{to_agent}_{int(time.time())}"
+        self.coordination_requests[request_id] = {
+            "from_agent": from_agent,
+            "to_agent": to_agent,
+            "message": message,
+            "timestamp": time.time(),
+            "acknowledged": False,
+            "responded": False,
+            "completed": False
+        }
+        logger.info(f"Coordination request tracked: {request_id}")
+
+    def check_response_protocol(self) -> Dict[str, List[str]]:
+        """Check for protocol violations."""
+        violations = {"overdue": [], "unacknowledged": [], "incomplete": []}
+        current_time = time.time()
+        
+        for request_id, request in self.coordination_requests.items():
+            # Check for overdue responses (>2 agent cycles = ~10 minutes)
+            if current_time - request["timestamp"] > 600 and not request["acknowledged"]:
+                violations["overdue"].append(request_id)
+            
+            # Check for unacknowledged requests (>1 agent cycle = ~5 minutes)
+            if current_time - request["timestamp"] > 300 and not request["acknowledged"]:
+                violations["unacknowledged"].append(request_id)
+            
+            # Check for incomplete responses (>1 hour without completion)
+            if current_time - request["timestamp"] > 3600 and not request["completed"]:
+                violations["incomplete"].append(request_id)
+        
+        return violations
+
     def send_message(self, agent_id: str, message: str, from_agent: str = "Agent-2", priority: str = "NORMAL") -> bool:
         """Send message to specific agent via PyAutoGUI automation."""
         if not self._is_agent_active(agent_id):
             logger.warning(f"Agent {agent_id} is inactive, message not sent")
             return False
+
+        # Track coordination requests for protocol compliance
+        if "coordinate" in message.lower() or "coordination" in message.lower():
+            self.track_coordination_request(from_agent, agent_id, message)
 
         try:
             # Get agent coordinates
@@ -328,6 +368,9 @@ def build_parser() -> argparse.ArgumentParser:
     # Status command
     subparsers.add_parser("status", help="Get system status")
     
+    # Protocol check command
+    subparsers.add_parser("protocol-check", help="Check response protocol compliance")
+    
     # Hard onboard command
     onboard_parser = subparsers.add_parser("hard-onboard", help="Hard onboard agents")
     onboard_group = onboard_parser.add_mutually_exclusive_group(required=True)
@@ -415,6 +458,32 @@ def main(argv: List[str] | None = None) -> int:
             success = consolidated_service.unstall_agent(args.agent, args.message)
             print(f"WE ARE SWARM - Agent {args.agent} {'unstalled' if success else 'unstall failed'}")
             return 0 if success else 1
+
+        elif args.cmd == "protocol-check":
+            # Check response protocol compliance
+            violations = messaging_service.check_response_protocol()
+            print("🚨 PROTOCOL COMPLIANCE CHECK")
+            print("=" * 50)
+            
+            if violations["overdue"]:
+                print(f"❌ OVERDUE RESPONSES: {len(violations['overdue'])}")
+                for req_id in violations["overdue"]:
+                    print(f"   - {req_id}")
+            
+            if violations["unacknowledged"]:
+                print(f"⚠️ UNACKNOWLEDGED: {len(violations['unacknowledged'])}")
+                for req_id in violations["unacknowledged"]:
+                    print(f"   - {req_id}")
+            
+            if violations["incomplete"]:
+                print(f"🔄 INCOMPLETE: {len(violations['incomplete'])}")
+                for req_id in violations["incomplete"]:
+                    print(f"   - {req_id}")
+            
+            if not any(violations.values()):
+                print("✅ ALL PROTOCOLS COMPLIANT")
+            
+            return 0
 
         elif args.cmd == "cue":
             # Handle cue command - send message to multiple agents with cue

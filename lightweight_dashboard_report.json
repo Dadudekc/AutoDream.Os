@@ -1,0 +1,36 @@
+{
+  "report_time": "2025-09-23T21:17:37.725304",
+  "deployment_status": {
+    "deployment_time": "2025-09-23T21:17:37.725304",
+    "uptime_seconds": 0.005002498626708984,
+    "components": {
+      "simple_workflow_manager": {
+        "status": "healthy",
+        "details": {
+          "status": "initialized"
+        }
+      },
+      "lightweight_monitor": {
+        "status": "healthy",
+        "details": {
+          "uptime_seconds": 0.0030024051666259766,
+          "monitoring_active": true,
+          "total_requests": 0,
+          "total_errors": 0,
+          "error_rate": 0,
+          "recent_cpu_avg": 0.0,
+          "recent_memory_avg": 0.0,
+          "history_size": 0,
+          "component_count": 0
+        }
+      }
+    },
+    "overall_status": "healthy"
+  },
+  "component_tests": {
+    "simple_workflow_manager": true,
+    "lightweight_monitor": true
+  },
+  "monitoring_active": true,
+  "uptime_seconds": 0.005002498626708984
+}

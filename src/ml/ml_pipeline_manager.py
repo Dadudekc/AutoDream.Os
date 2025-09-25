@@ -1,359 +1,199 @@
-import os
-import json
+#!/usr/bin/env python3
+"""
+ML Pipeline Manager - V2-Compliant Module
+=========================================
+
+ML pipeline orchestration and management functionality.
+File size: ≤200 lines, Classes: ≤5, Functions: ≤10
+"""
+
+import sys
 import logging
-import asyncio
-from typing import Dict, Any, Optional, List
-from datetime import datetime
-from src.ml.tensorflow_infrastructure import TensorFlowInfrastructure
-from src.ml.pytorch_infrastructure import PyTorchInfrastructure
-from src.ml.model_deployment import ModelDeployment
-from src.ml.training_pipeline import TrainingPipeline
-from src.ml.model_versioning import ModelVersioning
-from src.ml.ml_monitoring import MLMonitoring
-from src.ml.validation_framework import MLValidationFramework
+from pathlib import Path
+from typing import Dict, Any, Optional, List, Union
+
+# Add project root to path
+project_root = Path(__file__).parent.parent.parent
+sys.path.insert(0, str(project_root))
+
+from .ml_pipeline_core_refactored import MLPipelineCore
+from .ml_pipeline_models import ModelConfig, TrainingData
+from .ml_pipeline_utils import DataProcessor, ModelValidator
+
+logger = logging.getLogger(__name__)
+
 
 class MLPipelineManager:
-    """
-    Main manager for the ML pipeline system.
-    Integrates all ML components: training, deployment, versioning, monitoring, and validation.
-    """
+    """ML pipeline orchestration and management."""
 
-    def __init__(self, base_path: str = "/app"):
-        """
-        Initializes the MLPipelineManager.
-
-        Args:
-            base_path: Base path for all ML components.
-        """
-        if not base_path:
-            raise ValueError("Base path cannot be empty.")
-
-        self.base_path = base_path
-        self.logger = logging.getLogger(__name__)
-        
-        # Component paths
-        self.model_path = os.path.join(base_path, "models")
-        self.data_path = os.path.join(base_path, "data")
-        self.metrics_path = os.path.join(base_path, "metrics")
-        self.test_path = os.path.join(base_path, "tests")
-        self.results_path = os.path.join(base_path, "test_results")
-        self.registry_path = os.path.join(base_path, "registry")
-
-        # Initialize components
-        self.tf_infrastructure = TensorFlowInfrastructure(self.model_path, self.data_path)
-        self.pytorch_infrastructure = PyTorchInfrastructure(self.model_path, self.data_path)
-        self.model_deployment = ModelDeployment(self.model_path)
-        self.training_pipeline = TrainingPipeline(self.data_path, self.model_path)
-        self.model_versioning = ModelVersioning(self.model_path, self.registry_path)
-        self.ml_monitoring = MLMonitoring(self.metrics_path)
-        self.validation_framework = MLValidationFramework(self.test_path, self.results_path)
-
-        # Pipeline status
+    def __init__(self, config: Optional[ModelConfig] = None):
+        """Initialize ML pipeline manager."""
+        self.config = config or ModelConfig()
+        self.core = MLPipelineCore(self.config)
+        self.data_processor = DataProcessor()
+        self.model_validator = ModelValidator()
         self.pipeline_status = "initialized"
-        self.startup_time = datetime.utcnow()
+        
+        logger.info("ML Pipeline Manager initialized")
 
-        self.logger.info("ML Pipeline Manager initialized successfully")
-
-    async def start_pipeline(self) -> None:
-        """Starts the ML pipeline system."""
+    def run_complete_pipeline(self, 
+                            data_config: Dict[str, Any],
+                            model_config: Dict[str, Any]) -> Dict[str, Any]:
+        """Run complete ML pipeline from data creation to evaluation."""
         try:
-            self.logger.info("Starting ML Pipeline system...")
+            logger.info("Starting complete ML pipeline...")
             
-            # Start model deployment server
-            deployment_task = asyncio.create_task(self.model_deployment.start_server())
+            # Create training data
+            training_data = self._create_training_data(data_config)
+            if not training_data:
+                return {"status": "failed", "error": "Failed to create training data"}
             
-            # Start training pipeline processor
-            training_task = asyncio.create_task(self.training_pipeline.process_job_queue())
+            # Create and train model
+            model_name = model_config.get("name", "default_model")
+            model_type = model_config.get("type", "neural_network")
             
-            # Start metrics cleanup task
-            cleanup_task = asyncio.create_task(self._periodic_cleanup())
+            model = self.core.create_model(model_name, model_type)
+            if not model:
+                return {"status": "failed", "error": "Failed to create model"}
             
-            self.pipeline_status = "running"
-            self.logger.info("ML Pipeline system started successfully")
+            # Train model
+            training_results = self.core.train_model(
+                model_name, training_data,
+                epochs=model_config.get("epochs"),
+                batch_size=model_config.get("batch_size")
+            )
             
-            # Wait for tasks
-            await asyncio.gather(deployment_task, training_task, cleanup_task)
+            if training_results.get("status") != "completed":
+                return {"status": "failed", "error": "Model training failed"}
+            
+            # Evaluate model
+            evaluation_results = self.core.evaluate_model(model_name, training_data)
+            if evaluation_results.get("status") != "completed":
+                return {"status": "failed", "error": "Model evaluation failed"}
+            
+            # Validate results
+            validation_results = self.model_validator.validate_results(
+                training_results, evaluation_results
+            )
+            
+            self.pipeline_status = "completed"
+            return {
+                "status": "completed", "model_name": model_name,
+                "training_results": training_results,
+                "evaluation_results": evaluation_results,
+                "validation_results": validation_results
+            }
             
         except Exception as e:
-            self.pipeline_status = "error"
-            self.logger.error(f"Failed to start ML Pipeline: {e}")
-            raise
+            logger.error(f"Error in complete pipeline: {e}")
+            self.pipeline_status = "failed"
+            return {"status": "failed", "error": str(e)}
 
-    async def _periodic_cleanup(self) -> None:
-        """Performs periodic cleanup tasks."""
-        while True:
-            try:
-                await asyncio.sleep(3600)  # Run every hour
-                await self.ml_monitoring.cleanup_old_metrics()
-                self.logger.info("Periodic cleanup completed")
-            except Exception as e:
-                self.logger.error(f"Cleanup task failed: {e}")
-
-    def create_and_train_model(self, model_name: str, framework: str, 
-                             dataset_path: str, config: Dict[str, Any]) -> str:
-        """
-        Creates and trains a new model.
-
-        Args:
-            model_name: Name of the model.
-            framework: ML framework ('tensorflow' or 'pytorch').
-            dataset_path: Path to the training dataset.
-            config: Training configuration.
-
-        Returns:
-            Job ID for the training job.
-        """
-        if not model_name:
-            raise ValueError("Model name cannot be empty.")
-        if framework not in ['tensorflow', 'pytorch']:
-            raise ValueError("Framework must be 'tensorflow' or 'pytorch'.")
-
-        # Create training job
-        job_id = self.training_pipeline.create_training_job(
-            model_name, framework, dataset_path, config
-        )
-
-        self.logger.info(f"Created training job: {job_id}")
-        return job_id
-
-    def deploy_model(self, model_name: str, framework: str, version: str = "1.0") -> Dict[str, Any]:
-        """
-        Deploys a trained model.
-
-        Args:
-            model_name: Name of the model.
-            framework: ML framework.
-            version: Model version.
-
-        Returns:
-            Deployment information.
-        """
-        if not model_name:
-            raise ValueError("Model name cannot be empty.")
-        if framework not in ['tensorflow', 'pytorch']:
-            raise ValueError("Framework must be 'tensorflow' or 'pytorch'.")
-
-        # Deploy model
-        deployment_info = self.model_deployment.deploy_model(
-            model_name, framework, version
-        )
-
-        self.logger.info(f"Deployed model: {model_name} v{version}")
-        return deployment_info
-
-    def make_prediction(self, deployment_id: str, input_data: Any) -> Dict[str, Any]:
-        """
-        Makes a prediction using a deployed model.
-
-        Args:
-            deployment_id: ID of the deployed model.
-            input_data: Input data for prediction.
-
-        Returns:
-            Prediction results.
-        """
-        if not deployment_id:
-            raise ValueError("Deployment ID cannot be empty.")
-
-        start_time = datetime.utcnow()
-        
-        # Make prediction
-        result = self.model_deployment.predict(deployment_id, input_data)
-        
-        end_time = datetime.utcnow()
-        prediction_time = (end_time - start_time).total_seconds()
-
-        # Record metrics
-        if result.get("status") == "success":
-            deployment = self.model_deployment.get_deployment_status(deployment_id)
-            self.ml_monitoring.record_prediction_metrics(
-                deployment["model_name"],
-                deployment["version"],
-                prediction_time,
-                result.get("confidence", 0.0),
-                len(str(input_data)),
-                len(str(result.get("predictions", [])))
+    def _create_training_data(self, data_config: Dict[str, Any]) -> Optional[TrainingData]:
+        """Create training data based on configuration."""
+        try:
+            return self.core.create_training_data(
+                num_samples=data_config.get("num_samples", 1000),
+                num_features=data_config.get("num_features", 10),
+                num_classes=data_config.get("num_classes", 3),
+                data_type=data_config.get("data_type", "classification")
             )
+        except Exception as e:
+            logger.error(f"Error creating training data: {e}")
+            return None
 
-        return result
+    def batch_train_models(self, 
+                          models_config: List[Dict[str, Any]],
+                          shared_data_config: Dict[str, Any]) -> Dict[str, Any]:
+        """Train multiple models with shared data configuration."""
+        try:
+            logger.info(f"Starting batch training for {len(models_config)} models...")
+            
+            # Create shared training data
+            training_data = self._create_training_data(shared_data_config)
+            if not training_data:
+                return {"status": "failed", "error": "Failed to create shared training data"}
+            
+            results = {}
+            for model_config in models_config:
+                model_name = model_config.get("name", f"model_{len(results)}")
+                try:
+                    model = self.core.create_model(model_name, model_config.get("type", "neural_network"))
+                    training_results = self.core.train_model(model_name, training_data,
+                                                           epochs=model_config.get("epochs"),
+                                                           batch_size=model_config.get("batch_size"))
+                    evaluation_results = self.core.evaluate_model(model_name, training_data)
+                    results[model_name] = {
+                        "training": training_results, "evaluation": evaluation_results,
+                        "status": "completed" if training_results.get("status") == "completed" else "failed"
+                    }
+                except Exception as e:
+                    logger.error(f"Error training model {model_name}: {e}")
+                    results[model_name] = {"status": "failed", "error": str(e)}
+            
+            successful_models = sum(1 for r in results.values() if r.get("status") == "completed")
+            return {
+                "status": "completed", "total_models": len(models_config),
+                "successful_models": successful_models, "results": results
+            }
+        except Exception as e:
+            logger.error(f"Error in batch training: {e}")
+            return {"status": "failed", "error": str(e)}
 
-    def register_model_version(self, model_name: str, version: str, framework: str,
-                             file_path: str, created_by: str, **kwargs) -> Any:
-        """
-        Registers a new model version.
-
-        Args:
-            model_name: Name of the model.
-            version: Version string.
-            framework: ML framework.
-            file_path: Path to model file.
-            created_by: Creator identifier.
-            **kwargs: Additional registration parameters.
-
-        Returns:
-            ModelVersion object.
-        """
-        return self.model_versioning.register_model_version(
-            model_name, version, framework, file_path, created_by, **kwargs
-        )
-
-    def promote_model_version(self, model_name: str, version: str, target_status: str) -> bool:
-        """
-        Promotes a model version.
-
-        Args:
-            model_name: Name of the model.
-            version: Version string.
-            target_status: Target status for promotion.
-
-        Returns:
-            True if successfully promoted.
-        """
-        from src.ml.model_versioning import VersionStatus
-        status_enum = VersionStatus(target_status)
-        return self.model_versioning.promote_version(model_name, version, status_enum)
-
-    async def run_model_validation(self, model_name: str, version: str, 
-                                 suite_name: str = "default") -> List[Any]:
-        """
-        Runs validation tests for a model.
-
-        Args:
-            model_name: Name of the model.
-            version: Model version.
-            suite_name: Name of the test suite.
-
-        Returns:
-            List of validation results.
-        """
-        return await self.validation_framework.run_test_suite(
-            suite_name, model_name, version
-        )
-
-    def create_alert_rule(self, name: str, metric_name: str, threshold: float,
-                         condition: str, severity: str, description: str) -> str:
-        """
-        Creates an alert rule.
-
-        Args:
-            name: Name of the alert rule.
-            metric_name: Name of the metric to monitor.
-            threshold: Threshold value.
-            condition: Alert condition.
-            severity: Alert severity.
-            description: Alert description.
-
-        Returns:
-            Alert rule ID.
-        """
-        from src.ml.ml_monitoring import AlertSeverity
-        severity_enum = AlertSeverity(severity)
-        return self.ml_monitoring.create_alert_rule(
-            name, metric_name, threshold, condition, severity_enum, description
-        )
+    def compare_models(self, model_names: List[str]) -> Dict[str, Any]:
+        """Compare performance of multiple models."""
+        try:
+            logger.info(f"Comparing models: {model_names}")
+            comparison_results = {}
+            for model_name in model_names:
+                if model_name not in self.core.models:
+                    comparison_results[model_name] = {"error": "Model not found"}
+                    continue
+                model_info = self.core.get_model_info(model_name)
+                metrics = self.core.model_metrics.get(model_name)
+                comparison_results[model_name] = {
+                    "info": model_info,
+                    "metrics": metrics.to_dict() if metrics else None
+                }
+            return {"status": "completed", "comparison_results": comparison_results}
+        except Exception as e:
+            logger.error(f"Error comparing models: {e}")
+            return {"status": "failed", "error": str(e)}
 
     def get_pipeline_status(self) -> Dict[str, Any]:
-        """
-        Gets the overall pipeline status.
-
-        Returns:
-            Pipeline status dictionary.
-        """
+        """Get current pipeline status."""
         return {
             "pipeline_status": self.pipeline_status,
-            "startup_time": self.startup_time.isoformat(),
-            "uptime_seconds": (datetime.utcnow() - self.startup_time).total_seconds(),
-            "components": {
-                "tensorflow_infrastructure": "active",
-                "pytorch_infrastructure": "active",
-                "model_deployment": "active",
-                "training_pipeline": "active",
-                "model_versioning": "active",
-                "ml_monitoring": "active",
-                "validation_framework": "active"
-            },
-            "training_pipeline": self.training_pipeline.get_pipeline_status(),
-            "monitoring": self.ml_monitoring.get_monitoring_dashboard_data(),
-            "validation": self.validation_framework.get_test_summary(),
-            "versioning": self.model_versioning.get_registry_summary()
+            "core_status": self.core.get_status(),
+            "models_count": len(self.core.models),
+            "config": self.config.__dict__ if hasattr(self.config, '__dict__') else str(self.config)
         }
 
-    def get_model_catalog(self) -> Dict[str, Any]:
-        """
-        Gets the model catalog with all registered models and versions.
+    def reset_pipeline(self) -> bool:
+        """Reset pipeline to initial state."""
+        try:
+            logger.info("Resetting pipeline...")
+            self.core = MLPipelineCore(self.config)
+            self.pipeline_status = "initialized"
+            logger.info("Pipeline reset successfully")
+            return True
+        except Exception as e:
+            logger.error(f"Error resetting pipeline: {e}")
+            return False
 
-        Returns:
-            Model catalog dictionary.
-        """
-        catalog = {}
-        
-        for model_name in self.model_versioning.versions.keys():
-            versions = self.model_versioning.get_model_versions(model_name)
-            latest_version = self.model_versioning.get_latest_version(model_name)
-            
-            catalog[model_name] = {
-                "total_versions": len(versions),
-                "latest_version": latest_version.version if latest_version else None,
-                "latest_status": latest_version.status.value if latest_version else None,
-                "versions": [
-                    {
-                        "version": v.version,
-                        "status": v.status.value,
-                        "framework": v.framework,
-                        "created_at": v.created_at.isoformat(),
-                        "created_by": v.created_by
-                    }
-                    for v in versions
-                ]
+    def export_results(self, output_path: str) -> bool:
+        """Export pipeline results to file."""
+        try:
+            logger.info(f"Exporting results to: {output_path}")
+            results = {
+                "pipeline_status": self.get_pipeline_status(),
+                "models": {name: self.core.get_model_info(name) for name in self.core.list_models()},
+                "metrics": {name: metrics.to_dict() for name, metrics in self.core.model_metrics.items()}
             }
-
-        return catalog
-
-    def health_check(self) -> Dict[str, Any]:
-        """
-        Performs a comprehensive health check of the ML pipeline.
-
-        Returns:
-            Health check results.
-        """
-        health_status = {
-            "overall_status": "healthy",
-            "timestamp": datetime.utcnow().isoformat(),
-            "components": {}
-        }
-
-        # Check each component
-        try:
-            health_status["components"]["model_deployment"] = self.model_deployment.health_check()
+            with open(output_path, 'w') as f:
+                f.write(str(results))
+            logger.info("Results exported successfully")
+            return True
         except Exception as e:
-            health_status["components"]["model_deployment"] = {"status": "unhealthy", "error": str(e)}
-            health_status["overall_status"] = "degraded"
-
-        try:
-            health_status["components"]["training_pipeline"] = self.training_pipeline.get_pipeline_status()
-        except Exception as e:
-            health_status["components"]["training_pipeline"] = {"status": "unhealthy", "error": str(e)}
-            health_status["overall_status"] = "degraded"
-
-        try:
-            health_status["components"]["model_versioning"] = self.model_versioning.get_registry_summary()
-        except Exception as e:
-            health_status["components"]["model_versioning"] = {"status": "unhealthy", "error": str(e)}
-            health_status["overall_status"] = "degraded"
-
-        try:
-            health_status["components"]["ml_monitoring"] = self.ml_monitoring.get_monitoring_dashboard_data()
-        except Exception as e:
-            health_status["components"]["ml_monitoring"] = {"status": "unhealthy", "error": str(e)}
-            health_status["overall_status"] = "degraded"
-
-        try:
-            health_status["components"]["validation_framework"] = self.validation_framework.get_test_summary()
-        except Exception as e:
-            health_status["components"]["validation_framework"] = {"status": "unhealthy", "error": str(e)}
-            health_status["overall_status"] = "degraded"
-
-        return health_status
-
-
-
+            logger.error(f"Error exporting results: {e}")
+            return False

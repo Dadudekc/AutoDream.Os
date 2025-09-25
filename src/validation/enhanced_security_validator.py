@@ -30,12 +30,13 @@ class SecurityFinding:
 
 
 class EnhancedSecurityValidator:
-    """Enhanced security validator with false positive detection."""
+    """Enhanced security validator with false positive detection and input validation."""
 
     def __init__(self):
         """Initialize enhanced security validator."""
         self.false_positive_patterns = self._load_false_positive_patterns()
         self.security_patterns = self._load_security_patterns()
+        self.input_validation_rules = self._load_input_validation_rules()
 
     def _load_false_positive_patterns(self) -> Dict[str, List[str]]:
         """Load false positive patterns."""
@@ -89,6 +90,81 @@ class EnhancedSecurityValidator:
                 r'AKIA[0-9A-Z]{16}',  # AWS access keys
                 r'[a-zA-Z0-9+/]{40}',  # AWS secret keys
             ]
+        }
+
+    def _load_input_validation_rules(self) -> Dict[str, Dict[str, Any]]:
+        """Load input validation rules for security."""
+        return {
+            "username": {
+                "pattern": r"^[a-zA-Z0-9_-]+$",
+                "min_length": 3,
+                "max_length": 50,
+                "forbidden_chars": "';\"\\",
+                "description": "Username validation"
+            },
+            "password": {
+                "pattern": r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]",
+                "min_length": 8,
+                "max_length": 128,
+                "description": "Password validation"
+            },
+            "email": {
+                "pattern": r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
+                "max_length": 254,
+                "description": "Email validation"
+            },
+            "url": {
+                "pattern": r"^https?://[^\s/$.?#].[^\s]*$",
+                "allowed_protocols": ["http", "https"],
+                "description": "URL validation"
+            },
+            "ip_address": {
+                "pattern": r"^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$",
+                "description": "IP address validation"
+            }
+        }
+
+    def validate_input(self, value: str, input_type: str) -> Dict[str, Any]:
+        """Validate input with security rules."""
+        if input_type not in self.input_validation_rules:
+            return {"is_valid": False, "error": f"Unknown input type: {input_type}"}
+        
+        rules = self.input_validation_rules[input_type]
+        errors = []
+        
+        # Length validation
+        if "min_length" in rules and len(value) < rules["min_length"]:
+            errors.append(f"Minimum length {rules['min_length']} required")
+        
+        if "max_length" in rules and len(value) > rules["max_length"]:
+            errors.append(f"Maximum length {rules['max_length']} exceeded")
+        
+        # Pattern validation
+        if "pattern" in rules and not re.match(rules["pattern"], value):
+            errors.append(f"Invalid {input_type} format")
+        
+        # Forbidden characters
+        if "forbidden_chars" in rules:
+            forbidden_found = [c for c in rules["forbidden_chars"] if c in value]
+            if forbidden_found:
+                errors.append(f"Forbidden characters: {set(forbidden_found)}")
+        
+        # SQL injection check
+        sql_patterns = [
+            r"(\bunion\b|\bselect\b|\binsert\b|\bupdate\b|\bdelete\b)",
+            r"(--|\#|\/\*|\*\/)",
+            r"(\bor\b|\band\b).*(\b1\b|\btrue\b)"
+        ]
+        
+        for pattern in sql_patterns:
+            if re.search(pattern, value, re.IGNORECASE):
+                errors.append("Potential SQL injection detected")
+                break
+        
+        return {
+            "is_valid": len(errors) == 0,
+            "errors": errors,
+            "sanitized_value": value.strip() if len(errors) == 0 else None
         }
 
     def validate(self) -> Dict[str, Any]:

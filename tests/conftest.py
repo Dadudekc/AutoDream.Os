@@ -152,14 +152,62 @@ def pytest_configure(config):
     config.addinivalue_line(
         "markers", "slow: mark test as slow running"
     )
+    config.addinivalue_line(
+        "markers", "performance: mark test as performance test"
+    )
+    config.addinivalue_line(
+        "markers", "messaging: mark test as messaging test"
+    )
+    config.addinivalue_line(
+        "markers", "discord: mark test as discord test"
+    )
+    config.addinivalue_line(
+        "markers", "database: mark test as database test"
+    )
+    config.addinivalue_line(
+        "markers", "migration: mark test as migration test"
+    )
+    config.addinivalue_line(
+        "markers", "schema: mark test as schema test"
+    )
+    config.addinivalue_line(
+        "markers", "agent3: mark test as Agent-3 test"
+    )
+    config.addinivalue_line(
+        "markers", "agent2: mark test as Agent-2 test"
+    )
 
 def pytest_collection_modifyitems(config, items):
     """Modify test collection."""
     for item in items:
-        # Add markers based on test names
-        if "integration" in item.name:
+        # Add markers based on test names and paths
+        test_path = str(item.fspath)
+        test_name = item.name.lower()
+        
+        # Path-based markers
+        if "/messaging/" in test_path:
+            item.add_marker(pytest.mark.messaging)
+        elif "/discord/" in test_path:
+            item.add_marker(pytest.mark.discord)
+        elif "/database/" in test_path:
+            item.add_marker(pytest.mark.database)
+        
+        # Name-based markers
+        if "integration" in test_name:
             item.add_marker(pytest.mark.integration)
-        elif "unit" in item.name:
+        elif "unit" in test_name:
             item.add_marker(pytest.mark.unit)
-        elif "slow" in item.name:
+        elif "slow" in test_name:
             item.add_marker(pytest.mark.slow)
+        elif "performance" in test_name:
+            item.add_marker(pytest.mark.performance)
+        elif "migration" in test_name:
+            item.add_marker(pytest.mark.migration)
+        elif "schema" in test_name:
+            item.add_marker(pytest.mark.schema)
+        
+        # Agent-specific markers
+        if "agent3" in test_path or "agent-3" in test_path:
+            item.add_marker(pytest.mark.agent3)
+        elif "agent2" in test_path or "agent-2" in test_path:
+            item.add_marker(pytest.mark.agent2)

@@ -12,9 +12,20 @@ pyperclip>=1.8.0
 discord.py>=2.3.0
 python-dotenv>=1.0.0
 
+# Security dependencies
+cryptography>=42.0.2
+argon2-cffi>=21.3.0
+zxcvbn>=4.4.28
+email-validator>=2.0.0
+requests>=2.31.0
+packaging>=23.0
+toml>=0.10.2
+
 # Development and testing (minimal runtime deps)
 pytest>=7.0.0
 black>=22.0.0
 isort>=5.10.0
 ruff>=0.1.0
 flake8>=6.0.0
+bandit>=1.7.0
+safety>=3.0.0

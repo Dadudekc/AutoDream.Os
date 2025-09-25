@@ -91,24 +91,48 @@ class SecurityManager:
         }
     
     def hash_password(self, password: str, salt: str = None) -> tuple[str, str]:
-        """Hash password with salt."""
-        if salt is None:
-            salt = secrets.token_hex(16)
-        
-        # Use PBKDF2 for password hashing
-        password_hash = hashlib.pbkdf2_hmac(
-            'sha256',
-            password.encode('utf-8'),
-            salt.encode('utf-8'),
-            100000  # iterations
-        )
-        
-        return password_hash.hex(), salt
+        """Hash password with salt using modern Argon2id."""
+        try:
+            # Try to use Argon2id if available (modern standard)
+            import argon2
+            hasher = argon2.PasswordHasher(
+                time_cost=3,
+                memory_cost=65536,  # 64MB
+                parallelism=4,
+                hash_len=32,
+                salt_len=16
+            )
+            password_hash = hasher.hash(password)
+            return password_hash, "argon2id"
+        except ImportError:
+            # Fallback to PBKDF2 if Argon2 not available
+            if salt is None:
+                salt = secrets.token_hex(16)
+            
+            password_hash = hashlib.pbkdf2_hmac(
+                'sha256',
+                password.encode('utf-8'),
+                salt.encode('utf-8'),
+                100000  # iterations
+            )
+            
+            return password_hash.hex(), salt
     
     def verify_password(self, password: str, password_hash: str, salt: str) -> bool:
         """Verify password against hash."""
-        computed_hash, _ = self.hash_password(password, salt)
-        return computed_hash == password_hash
+        try:
+            if salt == "argon2id":
+                # Argon2id verification
+                import argon2
+                hasher = argon2.PasswordHasher()
+                hasher.verify(password_hash, password)
+                return True
+            else:
+                # PBKDF2 verification
+                computed_hash, _ = self.hash_password(password, salt)
+                return computed_hash == password_hash
+        except Exception:
+            return False
     
     def check_account_lockout(self, user_id: str) -> bool:
         """Check if account is locked out."""

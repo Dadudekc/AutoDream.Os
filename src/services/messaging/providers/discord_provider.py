@@ -39,9 +39,14 @@ class DiscordMessagingProvider:
         self.agent_channels: Dict[str, discord.TextChannel] = {}
 
     async def send_message_to_agent(self, agent_id: str, message: str,
-                                  from_agent: str = "Discord-Commander") -> bool:
+                                  from_agent: str = None) -> bool:
         """Send message to specific agent via Discord."""
         try:
+            # Auto-detect sender if not provided
+            if from_agent is None:
+                from ..agent_context import get_current_agent
+                from_agent = get_current_agent()
+            
             # First try to send through the messaging system
             success = self.messaging_service.send_message(
                 agent_id=agent_id,
@@ -68,9 +73,14 @@ class DiscordMessagingProvider:
             return False
 
     async def broadcast_to_swarm(self, message: str, agent_ids: List[str] = None,
-                               from_agent: str = "Discord-Commander") -> Dict[str, bool]:
+                               from_agent: str = None) -> Dict[str, bool]:
         """Broadcast message to multiple agents."""
         try:
+            # Auto-detect sender if not provided
+            if from_agent is None:
+                from ..agent_context import get_current_agent
+                from_agent = get_current_agent()
+            
             results = {}
 
             if agent_ids is None:

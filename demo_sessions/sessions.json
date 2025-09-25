@@ -1,0 +1,23 @@
+{
+  "2a09050c-f6b5-489a-92e2-a148082d0c6a": {
+    "session_id": "2a09050c-f6b5-489a-92e2-a148082d0c6a",
+    "participants": [
+      "Agent-1",
+      "Agent-2",
+      "Agent-3",
+      "Agent-4"
+    ],
+    "created_at": 1758687205.1197162,
+    "last_activity": 1758687207.998362,
+    "message_count": 6
+  },
+  "old-session": {
+    "session_id": "old-session",
+    "participants": [
+      "Agent-1"
+    ],
+    "created_at": 1758687209.2195492,
+    "last_activity": 1758687209.2385669,
+    "message_count": 1
+  }
+}

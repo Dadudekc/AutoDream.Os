@@ -1,0 +1,58 @@
+[
+  {
+    "id": "6d23c678-28f1-4b4e-bcc3-2a754a4675c7",
+    "sender": "Agent-1",
+    "recipient": "Agent-2",
+    "content": "Hello Agent-2! Ready for coordination?",
+    "timestamp": 1758687205.1307282,
+    "session_id": "2a09050c-f6b5-489a-92e2-a148082d0c6a"
+  },
+  {
+    "id": "5a63b53a-2afd-4390-9b40-b1afcdaee766",
+    "sender": "Agent-2",
+    "recipient": "Agent-1",
+    "content": "Yes! I'm ready. What's the task?",
+    "timestamp": 1758687205.6562054,
+    "session_id": "2a09050c-f6b5-489a-92e2-a148082d0c6a"
+  },
+  {
+    "id": "03ad0aaa-3668-4747-b819-d6e8df862f7d",
+    "sender": "Agent-1",
+    "recipient": "Agent-2",
+    "content": "We need to implement V2 compliance refactoring.",
+    "timestamp": 1758687206.2090814,
+    "session_id": "2a09050c-f6b5-489a-92e2-a148082d0c6a"
+  },
+  {
+    "id": "489b4692-025b-43cf-beba-e8109fc96f97",
+    "sender": "Agent-3",
+    "recipient": "Agent-1",
+    "content": "I can help with the refactoring strategy!",
+    "timestamp": 1758687206.7506647,
+    "session_id": "2a09050c-f6b5-489a-92e2-a148082d0c6a"
+  },
+  {
+    "id": "0c1cb581-9fd5-4871-b6df-8df9835f72dc",
+    "sender": "Agent-4",
+    "recipient": "All",
+    "content": "I'll coordinate the refactoring process.",
+    "timestamp": 1758687207.3087347,
+    "session_id": "2a09050c-f6b5-489a-92e2-a148082d0c6a"
+  },
+  {
+    "id": "034a8668-fb30-45c0-83e5-1f0016d44ab4",
+    "sender": "Agent-2",
+    "recipient": "Agent-4",
+    "content": "Perfect! Let's start with critical files.",
+    "timestamp": 1758687207.9393094,
+    "session_id": "2a09050c-f6b5-489a-92e2-a148082d0c6a"
+  },
+  {
+    "id": "b33b071d-81aa-4cb1-860e-19f02bfc0527",
+    "sender": "Agent-1",
+    "recipient": "Agent-2",
+    "content": "This is an old message",
+    "timestamp": 1755663209.2215517,
+    "session_id": "old-session"
+  }
+]

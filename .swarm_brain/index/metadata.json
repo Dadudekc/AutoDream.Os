@@ -1,0 +1,6 @@
+{
+  "dim": 1536,
+  "num_vectors": 208,
+  "backend": "numpy",
+  "version": "1.0"
+}

@@ -1,0 +1,28 @@
+{
+  "test_run_time": "2025-09-23T20:48:45.693570",
+  "test_results": {
+    "workflow": {
+      "status": "failed",
+      "error": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"C:\\Users\\USER\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\encodings\\cp1252.py\", line 19, in encode\n    return codecs.charmap_encode(input,self.errors,encoding_table)[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeEncodeError: 'charmap' codec can't encode character '\\u2705' in position 0: character maps to <undefined>\n"
+    },
+    "discord_commander": {
+      "status": "failed",
+      "error": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"C:\\Users\\USER\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\encodings\\cp1252.py\", line 19, in encode\n    return codecs.charmap_encode(input,self.errors,encoding_table)[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeEncodeError: 'charmap' codec can't encode character '\\u2705' in position 0: character maps to <undefined>\n"
+    },
+    "performance": {
+      "status": "failed",
+      "error": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"C:\\Users\\USER\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\encodings\\cp1252.py\", line 19, in encode\n    return codecs.charmap_encode(input,self.errors,encoding_table)[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeEncodeError: 'charmap' codec can't encode character '\\u2705' in position 0: character maps to <undefined>\n"
+    },
+    "v2_compliance": {
+      "status": "failed",
+      "error": "Traceback (most recent call last):\n  File \"D:\\Agent_Cellphone_V2_Repository\\tools\\simple_project_scanner.py\", line 207, in <module>\n    main()\n  File \"D:\\Agent_Cellphone_V2_Repository\\tools\\simple_project_scanner.py\", line 199, in main\n    print(\"\\U0001f389 Project scan completed!\")\n  File \"C:\\Users\\USER\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\encodings\\cp1252.py\", line 19, in encode\n    return codecs.charmap_encode(input,self.errors,encoding_table)[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeEncodeError: 'charmap' codec can't encode character '\\U0001f389' in position 0: character maps to <undefined>\n"
+    }
+  },
+  "test_log": [],
+  "summary": {
+    "total_test_suites": 4,
+    "passed_suites": 0,
+    "failed_suites": 4,
+    "overall_status": "failed"
+  }
+}

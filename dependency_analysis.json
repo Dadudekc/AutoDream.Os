@@ -1,0 +1,14 @@
+{
+  "external_dependencies": {
+    "count": 0,
+    "packages": []
+  },
+  "internal_dependencies": {
+    "count": 0,
+    "modules": []
+  },
+  "dependency_health": {
+    "outdated_packages": 0,
+    "security_vulnerabilities": 0
+  }
+}

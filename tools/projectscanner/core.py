@@ -21,8 +21,24 @@ class ProjectScanner:
         """Initialize project scanner with project root."""
         self.project_root = Path(project_root).resolve()
         self.analysis_data: Dict[str, Any] = {}
-        self.report_generator = ReportGenerator(self.project_root)
-        self.modular_reporter = ModularReportGenerator(self.project_root)
+        self._report_generator = None
+        self._modular_reporter = None
+    
+    @property
+    def report_generator(self):
+        """Lazy load report generator to avoid circular imports."""
+        if self._report_generator is None:
+            from .reporters import ReportGenerator
+            self._report_generator = ReportGenerator(self.project_root)
+        return self._report_generator
+    
+    @property
+    def modular_reporter(self):
+        """Lazy load modular reporter to avoid circular imports."""
+        if self._modular_reporter is None:
+            from .reporters import ModularReportGenerator
+            self._modular_reporter = ModularReportGenerator(self.project_root)
+        return self._modular_reporter
         
     def scan_project(self) -> None:
         """Perform comprehensive project scan."""

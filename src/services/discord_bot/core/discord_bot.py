@@ -91,7 +91,49 @@ class EnhancedDiscordAgentBot(commands.Bot):
             self.logger.error(f"❌ Failed to load social media cog: {e}")
 
     def setup_slash_commands(self):
-        """Setup Discord slash commands."""
+        """Setup Discord slash commands with beautiful UI integration."""
+        # Check if commands are already registered to prevent duplicate registration
+        if hasattr(self, '_commands_registered') and self._commands_registered:
+            self.logger.info("✅ Slash commands already registered, skipping")
+            return
+
+        @app_commands.command(name="dashboard", description="Open the beautiful Discord Commander dashboard")
+        async def dashboard(interaction: discord.Interaction):
+            """Open the main dashboard with interactive UI."""
+            try:
+                from src.services.discord_bot.ui.discord_ui import DiscordUI
+                ui_controller = DiscordUI(self)
+                
+                embed = await ui_controller.create_main_dashboard()
+                agent_view = await ui_controller.create_agent_control_view()
+                system_view = await ui_controller.create_system_control_view()
+                
+                # Send main dashboard
+                await interaction.response.send_message(embed=embed)
+                
+                # Send agent control section
+                agent_embed = discord.Embed(
+                    title="📨 Agent Control Panel",
+                    description="Manage individual agents and communication",
+                    color=0x00ff00
+                )
+                await interaction.followup.send(embed=agent_embed, view=agent_view)
+                
+                # Send system control section
+                system_embed = discord.Embed(
+                    title="🔧 System Control Panel",
+                    description="Monitor system health and perform operations",
+                    color=0xff9900
+                )
+                await interaction.followup.send(embed=system_embed, view=system_view)
+
+            except Exception as e:
+                embed = discord.Embed(
+                    title="❌ Error",
+                    description=f"Failed to open dashboard: {str(e)}",
+                    color=0xff0000
+                )
+                await interaction.response.send_message(embed=embed, ephemeral=True)
 
         @app_commands.command(name="agent_status", description="Get status of a specific agent")
         async def agent_status(interaction: discord.Interaction, agent_id: str):
@@ -184,17 +226,74 @@ class EnhancedDiscordAgentBot(commands.Bot):
                 )
                 await interaction.response.send_message(embed=embed, ephemeral=True)
 
+        @app_commands.command(name="help", description="Show comprehensive help information")
+        async def help_command(interaction: discord.Interaction):
+            """Show comprehensive help information."""
+            embed = discord.Embed(
+                title="📋 Discord Commander Help",
+                description="Complete guide to using the Discord Commander interface",
+                color=0x0099ff,
+                timestamp=datetime.utcnow()
+            )
+            
+            embed.add_field(
+                name="🎮 Interactive Commands",
+                value="• `/dashboard` - Open beautiful interactive dashboard\n"
+                      "• `/agent_status <agent_id>` - Check specific agent status\n"
+                      "• `/message_agent <agent_id> <message>` - Send message to agent\n"
+                      "• `/swarm_status` - Get current swarm status\n"
+                      "• `/help` - Show this help information",
+                inline=False
+            )
+            
+            embed.add_field(
+                name="🎯 Interactive UI Features",
+                value="• **Clickable Buttons**: Easy-to-use interface\n"
+                      "• **Real-time Status**: Live system monitoring\n"
+                      "• **Agent Management**: Direct agent communication\n"
+                      "• **System Control**: Comprehensive system operations",
+                inline=False
+            )
+            
+            embed.add_field(
+                name="🐝 WE ARE SWARM",
+                value="This system enables true swarm intelligence through:\n"
+                      "• 8-agent coordination\n"
+                      "• Real-time communication\n"
+                      "• Democratic decision making\n"
+                      "• Collective intelligence",
+                inline=False
+            )
+            
+            embed.set_footer(text="WE ARE SWARM - Discord Commander")
+            await interaction.response.send_message(embed=embed)
+
         # Register commands with the bot
+        self.tree.add_command(dashboard)
         self.tree.add_command(agent_status)
         self.tree.add_command(message_agent)
         self.tree.add_command(swarm_status)
+        self.tree.add_command(help_command)
 
-        self.logger.info("✅ Slash commands registered")
+        # Mark commands as registered
+        self._commands_registered = True
+        self.logger.info("✅ Slash commands registered with beautiful UI integration")
 
     def setup_events(self):
         """Setup Discord bot event handlers."""
-        # Event handlers are defined as methods below
-        pass
+        
+        @self.event
+        async def on_message(message):
+            """Handle incoming messages."""
+            if message.author == self.user:
+                return
+
+            # Process commands
+            await self.process_commands(message)
+
+            # Handle mentions
+            if self.user.mentioned_in(message):
+                await self.handle_mention(message)
 
     async def on_ready(self):
         """Called when bot is ready and connected."""
@@ -213,8 +312,55 @@ class EnhancedDiscordAgentBot(commands.Bot):
         try:
             synced = await self.tree.sync()
             self.logger.info(f"✅ Synced {len(synced)} slash commands")
+            
+            # List the synced commands for debugging
+            command_names = [cmd.name for cmd in synced]
+            self.logger.info(f"📋 Synced commands: {', '.join(command_names)}")
+            
         except Exception as e:
             self.logger.warning(f"⚠️  Failed to sync slash commands: {e}")
+            # Try to sync again after a delay
+            try:
+                await asyncio.sleep(2)
+                synced = await self.tree.sync()
+                self.logger.info(f"✅ Retry sync successful: {len(synced)} commands")
+            except Exception as retry_e:
+                self.logger.error(f"❌ Retry sync failed: {retry_e}")
+
+        # Send welcome message with beautiful UI to the first available channel
+        try:
+            from src.services.discord_bot.ui.discord_ui import DiscordUI
+            ui_controller = DiscordUI(self)
+            
+            # Find the first text channel we can send messages to
+            for guild in self.guilds:
+                for channel in guild.text_channels:
+                    if channel.permissions_for(guild.me).send_messages:
+                        await ui_controller.send_welcome_message(channel)
+                        self.logger.info(f"✅ Welcome message sent to #{channel.name} in {guild.name}")
+                        break
+                else:
+                    continue
+                break
+            else:
+                self.logger.warning("⚠️  No channels available to send welcome message")
+                
+        except Exception as e:
+            self.logger.error(f"❌ Failed to send welcome message: {e}")
+
+    async def handle_mention(self, message):
+        """Handle bot mentions."""
+        try:
+            # Simple response to mentions
+            response = "🐝 **Discord Commander Active!**\n\n"
+            response += "**WE ARE SWARM** - Ready to coordinate agents!\n"
+            response += "Use `/dashboard` to see the beautiful interactive interface."
+
+            await message.channel.send(response)
+
+        except Exception as e:
+            self.logger.error(f"Error handling mention: {e}")
+            await message.channel.send("❌ Error processing mention")
 
     async def on_guild_join(self, guild):
         """Called when bot joins a guild."""

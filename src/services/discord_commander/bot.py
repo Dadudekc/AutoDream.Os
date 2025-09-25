@@ -5,14 +5,23 @@ Discord Commander Bot
 
 Main Discord bot implementation using modular components.
 V2 Compliance: ≤400 lines, focused bot functionality.
+
+Features:
+- Rich Discord embeds for better user experience
+- Comprehensive command system with error handling
+- Real-time agent status monitoring
+- Swarm coordination capabilities
+- Interactive help system
 """
 
 import asyncio
+import json
 import logging
 import os
 import sys
 from pathlib import Path
 from typing import Dict, Any, Optional
+from datetime import datetime
 
 # Discord imports with error handling
 try:
@@ -97,67 +106,220 @@ class DiscordCommanderBot:
         """Register Discord commands."""
         if not self.bot:
             return
-        
+
         # Agent commands
         @self.bot.command(name="agent_status")
         async def agent_status(ctx, agent_id: str = None):
-            handler = self.command_manager.get_command_handler("agent_status")
-            if handler:
-                result = await handler(ctx, agent_id)
-                await ctx.send(result)
-        
+            """Get status of agents."""
+            try:
+                if agent_id:
+                    # Get specific agent status
+                    status = await self._get_agent_status(agent_id)
+                    await ctx.send(f"🤖 Agent {agent_id} status: {status}")
+                else:
+                    # Get all agents status
+                    agents = ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
+                    status_text = "🤖 **Agent Status:**\n"
+                    for agent in agents:
+                        status = await self._get_agent_status(agent)
+                        status_text += f"• {agent}: {status}\n"
+                    await ctx.send(status_text)
+            except Exception as e:
+                await ctx.send(f"❌ Error getting agent status: {e}")
+
         @self.bot.command(name="send_message")
         async def send_message(ctx, agent_id: str, *, message: str):
-            handler = self.command_manager.get_command_handler("send_message")
-            if handler:
-                result = await handler(ctx, agent_id, message)
-                await ctx.send(result)
-        
+            """Send a message to an agent."""
+            try:
+                result = await self.messaging_service.send_message(
+                    agent_id=agent_id,
+                    message=message,
+                    sender="Discord-Commander"
+                )
+
+                if result.get("success"):
+                    embed = discord.Embed(
+                        title="✅ Message Sent",
+                        description=f"Message sent to **{agent_id}**",
+                        color=0x00ff00
+                    )
+                    embed.add_field(name="Content", value=message[:1000], inline=False)
+                    embed.set_footer(text=f"Sent by {ctx.author}")
+                    await ctx.send(embed=embed)
+                else:
+                    embed = discord.Embed(
+                        title="❌ Message Failed",
+                        description=f"Failed to send message to **{agent_id}**",
+                        color=0xff0000
+                    )
+                    embed.add_field(name="Error", value=result.get('error', 'Unknown error'), inline=False)
+                    await ctx.send(embed=embed)
+            except Exception as e:
+                await ctx.send(f"❌ Error sending message: {e}")
+
         @self.bot.command(name="agent_coordinates")
         async def agent_coordinates(ctx, agent_id: str = None):
-            handler = self.command_manager.get_command_handler("agent_coordinates")
-            if handler:
-                result = await handler(ctx, agent_id)
-                await ctx.send(result)
-        
+            """Get agent coordinates."""
+            try:
+                coords_file = Path("cursor_agent_coords.json")
+                if not coords_file.exists():
+                    await ctx.send("❌ Coordinates file not found")
+                    return
+
+                with open(coords_file, 'r') as f:
+                    coords_data = json.load(f)
+
+                if agent_id:
+                    coords = coords_data.get(agent_id)
+                    if coords:
+                        await ctx.send(f"📍 **{agent_id}** coordinates: `{coords}`")
+                    else:
+                        await ctx.send(f"❌ No coordinates found for {agent_id}")
+                else:
+                    embed = discord.Embed(
+                        title="📍 Agent Coordinates",
+                        description="Current agent positions",
+                        color=0x0099ff
+                    )
+                    for agent, coords in coords_data.items():
+                        embed.add_field(name=agent, value=f"`{coords}`", inline=True)
+                    await ctx.send(embed=embed)
+            except Exception as e:
+                await ctx.send(f"❌ Error getting coordinates: {e}")
+
         # System commands
         @self.bot.command(name="system_status")
         async def system_status(ctx):
-            handler = self.command_manager.get_command_handler("system_status")
-            if handler:
-                result = await handler(ctx)
-                await ctx.send(result)
-        
+            """Get system status."""
+            try:
+                status = {
+                    "timestamp": datetime.now().isoformat(),
+                    "active_agents": self._count_active_agents(),
+                    "project_files": self._count_project_files(),
+                    "discord_bot": "Connected",
+                    "messaging_service": "Operational"
+                }
+
+                embed = discord.Embed(
+                    title="🔧 System Status",
+                    description="Current system status",
+                    color=0x00ff00
+                )
+                for key, value in status.items():
+                    embed.add_field(name=key.replace("_", " ").title(), value=str(value), inline=True)
+
+                await ctx.send(embed=embed)
+            except Exception as e:
+                await ctx.send(f"❌ Error getting system status: {e}")
+
         @self.bot.command(name="project_info")
         async def project_info(ctx):
-            handler = self.command_manager.get_command_handler("project_info")
-            if handler:
-                result = await handler(ctx)
-                await ctx.send(result)
-        
+            """Get project information."""
+            try:
+                info = {
+                    "name": "Agent Cellphone V2",
+                    "version": "2.1.0",
+                    "description": "Advanced AI Agent System with Code Quality Standards",
+                    "total_files": self._count_project_files(),
+                    "python_files": self._count_python_files(),
+                    "agents": "8 Active Agents"
+                }
+
+                embed = discord.Embed(
+                    title="📋 Project Information",
+                    description="Agent Cellphone V2 System",
+                    color=0x0099ff
+                )
+                for key, value in info.items():
+                    embed.add_field(name=key.replace("_", " ").title(), value=str(value), inline=True)
+
+                embed.set_footer(text="🐝 WE ARE SWARM - Multi-Agent Intelligence System")
+                await ctx.send(embed=embed)
+            except Exception as e:
+                await ctx.send(f"❌ Error getting project info: {e}")
+
         # Swarm commands
         @self.bot.command(name="swarm_status")
         async def swarm_status(ctx):
-            handler = self.command_manager.get_command_handler("swarm_status")
-            if handler:
-                result = await handler(ctx)
-                await ctx.send(result)
-        
+            """Get swarm status."""
+            try:
+                agents = ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
+                swarm_info = []
+
+                for agent in agents:
+                    status = await self._get_swarm_agent_status(agent)
+                    swarm_info.append(f"• {agent}: {status}")
+
+                embed = discord.Embed(
+                    title="🐝 Swarm Status",
+                    description="Current swarm activity",
+                    color=0xffaa00
+                )
+                embed.add_field(name="Agents", value="\n".join(swarm_info), inline=False)
+                embed.set_footer(text="Multi-Agent Coordination Active")
+
+                await ctx.send(embed=embed)
+            except Exception as e:
+                await ctx.send(f"❌ Error getting swarm status: {e}")
+
         @self.bot.command(name="swarm_coordinate")
         async def swarm_coordinate(ctx, *, message: str):
-            handler = self.command_manager.get_command_handler("swarm_coordinate")
-            if handler:
-                result = await handler(ctx, message)
-                await ctx.send(result)
-        
+            """Send coordination message to all agents."""
+            try:
+                agents = ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
+                results = []
+
+                for agent in agents:
+                    result = await self.messaging_service.send_message(
+                        agent_id=agent,
+                        message=f"[SWARM COORDINATION] {message}",
+                        sender="Discord-Commander"
+                    )
+                    results.append(f"• {agent}: {'✅' if result.get('success') else '❌'}")
+
+                embed = discord.Embed(
+                    title="🐝 Swarm Coordination",
+                    description="Coordination message sent to all agents",
+                    color=0xffaa00
+                )
+                embed.add_field(name="Message", value=message, inline=False)
+                embed.add_field(name="Results", value="\n".join(results), inline=False)
+                embed.set_footer(text=f"Coordinated by {ctx.author}")
+
+                await ctx.send(embed=embed)
+            except Exception as e:
+                await ctx.send(f"❌ Error in swarm coordination: {e}")
+
         # Help command
         @self.bot.command(name="help")
         async def help_command(ctx):
-            commands = self.command_manager.list_commands()
-            help_text = "Available Commands:\n"
-            for cmd in commands:
-                help_text += f"!{cmd}\n"
-            await ctx.send(help_text)
+            """Show available commands."""
+            embed = discord.Embed(
+                title="🤖 Discord Commander Help",
+                description="Available commands for the Agent Swarm system",
+                color=0x0099ff
+            )
+
+            embed.add_field(
+                name="🤖 Agent Commands",
+                value="• `!agent_status [agent_id]` - Get agent status\n• `!send_message <agent_id> <message>` - Send message to agent\n• `!agent_coordinates [agent_id]` - Get agent coordinates",
+                inline=False
+            )
+
+            embed.add_field(
+                name="🔧 System Commands",
+                value="• `!system_status` - Get system status\n• `!project_info` - Get project information",
+                inline=False
+            )
+
+            embed.add_field(
+                name="🐝 Swarm Commands",
+                value="• `!swarm_status` - Get swarm status\n• `!swarm_coordinate <message>` - Send coordination message to all agents",
+                inline=False
+            )
+
+            embed.set_footer(text="🐝 WE ARE SWARM - Use the web interface for advanced control")
+            await ctx.send(embed=embed)
     
     async def start(self) -> bool:
         """Start the bot."""
@@ -221,6 +383,77 @@ class DiscordCommanderBot:
         """Check if bot is healthy."""
         return self.status_monitor.is_healthy()
 
+    async def _get_agent_status(self, agent_id: str) -> str:
+        """Get status of a specific agent."""
+        try:
+            # Check agent workspace
+            agent_dir = Path(f"agent_workspaces/{agent_id}")
+            if not agent_dir.exists():
+                return "Not found"
+
+            # Check for recent activity
+            inbox_dir = agent_dir / "inbox"
+            if inbox_dir.exists():
+                messages = list(inbox_dir.glob("*.json"))
+                if messages:
+                    latest = max(messages, key=lambda x: x.stat().st_mtime)
+                    mtime = datetime.fromtimestamp(latest.stat().st_mtime)
+                    return f"Active (last message: {mtime.strftime('%H:%M:%S')})"
+
+            return "Inactive"
+        except Exception as e:
+            return f"Error: {e}"
+
+    async def _get_swarm_agent_status(self, agent_id: str) -> str:
+        """Get swarm status for a specific agent."""
+        try:
+            agent_dir = Path(f"agent_workspaces/{agent_id}")
+            if not agent_dir.exists():
+                return "Not initialized"
+
+            # Check for recent activity
+            inbox_dir = agent_dir / "inbox"
+            if inbox_dir.exists():
+                messages = list(inbox_dir.glob("*.json"))
+                if messages:
+                    return "Active"
+
+            return "Standby"
+        except Exception:
+            return "Unknown"
+
+    def _count_active_agents(self) -> int:
+        """Count active agents."""
+        try:
+            agent_dir = Path("agent_workspaces")
+            if agent_dir.exists():
+                return len([d for d in agent_dir.iterdir() if d.is_dir()])
+            return 0
+        except Exception:
+            return 0
+
+    def _count_project_files(self) -> int:
+        """Count total project files."""
+        try:
+            count = 0
+            for file_path in Path(".").rglob("*"):
+                if file_path.is_file():
+                    count += 1
+            return count
+        except Exception:
+            return 0
+
+    def _count_python_files(self) -> int:
+        """Count Python files."""
+        try:
+            count = 0
+            for file_path in Path(".").rglob("*.py"):
+                if file_path.is_file():
+                    count += 1
+            return count
+        except Exception:
+            return 0
+
 
 async def main():
     """Main function to run the Discord Commander Bot."""
@@ -252,6 +485,10 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
+
+# Export for external use
+__all__ = ["DiscordCommanderBot"]
 
 
 

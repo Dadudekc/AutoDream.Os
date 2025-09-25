@@ -139,6 +139,9 @@ class DiscordCommander:
         from services.discord_bot.core.discord_bot import DiscordAgentInterface, DiscordSwarmCoordinator
         bot.agent_interface = DiscordAgentInterface(bot)
         bot.swarm_coordinator = DiscordSwarmCoordinator(bot)
+        
+        # Setup slash commands
+        bot.setup_slash_commands()
 
         # Add on_ready event for slash command syncing
         @bot.event
@@ -178,33 +181,26 @@ class DiscordCommander:
 
         return bot
 
-    async def _setup_slash_commands(self):
-        """Setup Discord slash commands."""
+    def _setup_additional_slash_commands(self):
+        """Setup additional Discord slash commands that aren't already registered."""
         if not self.bot:
             return
 
         try:
-            # Register slash commands
-            @self.bot.tree.command(name="ping", description="Check bot latency")
+            # Add only new commands that aren't already registered by the bot
+            # The bot already has: agent_status, message_agent, swarm_status
+            # So we only add: ping and help
+            
+            from discord import app_commands
+            
+            @app_commands.command(name="ping", description="Check bot latency")
             async def ping(interaction: discord.Interaction):
                 latency = round(self.bot.latency * 1000)
                 await interaction.response.send_message(
                     f"🏓 Pong! Latency: {latency}ms"
                 )
 
-            @self.bot.tree.command(name="status", description="Get bot status")
-            async def status(interaction: discord.Interaction):
-                status = self.bot.get_swarm_status()
-                embed = discord.Embed(
-                    title="🐝 Discord Commander Status",
-                    description="WE ARE SWARM - Agent Coordination Active",
-                    color=0x00ff00
-                )
-                for key, value in status.items():
-                    embed.add_field(name=key, value=str(value), inline=True)
-                await interaction.response.send_message(embed=embed)
-
-            @self.bot.tree.command(name="help", description="Show available commands")
+            @app_commands.command(name="help", description="Show available commands")
             async def help_command(interaction: discord.Interaction):
                 embed = discord.Embed(
                     title="🐝 Discord Commander Help",
@@ -217,8 +213,18 @@ class DiscordCommander:
                     inline=False
                 )
                 embed.add_field(
-                    name="/status",
-                    value="Get bot status",
+                    name="/agent_status",
+                    value="Get status of a specific agent",
+                    inline=False
+                )
+                embed.add_field(
+                    name="/message_agent",
+                    value="Send a message to a specific agent",
+                    inline=False
+                )
+                embed.add_field(
+                    name="/swarm_status",
+                    value="Get current swarm status",
                     inline=False
                 )
                 embed.add_field(
@@ -226,18 +232,17 @@ class DiscordCommander:
                     value="Show this help message",
                     inline=False
                 )
-                embed.add_field(
-                    name="!help",
-                    value="Traditional command help",
-                    inline=False
-                )
                 await interaction.response.send_message(embed=embed)
 
+            # Register commands with the bot using the same method as the bot
+            self.bot.tree.add_command(ping)
+            self.bot.tree.add_command(help_command)
+
             # Note: Slash commands will be synced when bot starts
-            self.logger.info("✅ Slash commands registered (will sync on bot start)")
+            self.logger.info("✅ Additional slash commands (ping, help) registered")
 
         except Exception as e:
-            self.logger.error(f"❌ Failed to setup slash commands: {e}")
+            self.logger.error(f"❌ Failed to setup additional slash commands: {e}")
 
     async def start(self) -> bool:
         """Start the Discord Commander."""

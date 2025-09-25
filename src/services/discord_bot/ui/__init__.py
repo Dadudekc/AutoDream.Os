@@ -1,20 +1,13 @@
 #!/usr/bin/env python3
 """
-Discord Bot UI Module
-====================
+Discord Bot UI Module - V2 Compliance
+=====================================
 
-V2 compliant UI components for Discord bot interactions.
+UI components for Discord bot dashboard and interactive controls.
+
+Author: Agent-2 (Security Specialist)
+License: MIT
+V2 Compliance: ≤400 lines, modular design, comprehensive error handling
 """
 
-from .embed_types import EmbedType, EmbedConfig, ButtonStyle
-from .embed_builder import EmbedBuilder
-from .interaction_handlers import InteractionHandler, ButtonFactory
-
-__all__ = [
-    'EmbedType',
-    'EmbedConfig', 
-    'ButtonStyle',
-    'EmbedBuilder',
-    'InteractionHandler',
-    'ButtonFactory'
-]
+__all__ = ["DiscordUI"]

@@ -16,8 +16,12 @@ def setup_basic_commands(bot):
     @bot.tree.command(name="ping", description="Test bot responsiveness")
     async def ping(interaction: discord.Interaction):
         """Test bot responsiveness."""
-        latency = round(bot.latency * 1000)
-        await interaction.response.send_message(f"🏓 Pong! Latency: {latency}ms")
+        latency = bot.latency
+        if latency is None or str(latency) == 'nan':
+            latency_ms = 'Unknown'
+        else:
+            latency_ms = f'{round(latency * 1000)}ms'
+        await interaction.response.send_message(f"🏓 Pong! Latency: {latency_ms}")
 
     @bot.tree.command(name="commands", description="Show help information")
     async def help_command(interaction: discord.Interaction):

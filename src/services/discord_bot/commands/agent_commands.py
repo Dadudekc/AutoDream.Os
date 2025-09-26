@@ -13,31 +13,34 @@ from discord import app_commands
 def setup_agent_commands(bot):
     """Setup agent-related slash commands."""
 
-    @bot.tree.command(name="agents", description="List all agents and their status")
+    @bot.tree.command(name="agents", description="List all agents with status and coordinates")
     async def list_agents(interaction: discord.Interaction):
-        """List all agents and their status."""
-        agent_list = "**V2_SWARM Agent Status:**\n\n"
+        """List all agents with status and coordinates."""
+        agent_list = "**V2_SWARM Agent Status & Coordinates:**\n\n"
+        
+        roles = {
+            "Agent-1": "Integration & Core Systems Specialist",
+            "Agent-2": "Architecture & Design Specialist", 
+            "Agent-3": "Infrastructure & DevOps Specialist",
+            "Agent-4": "Captain (Strategic Oversight)",
+            "Agent-5": "Business Intelligence Specialist",
+            "Agent-6": "Coordination & Communication Specialist",
+            "Agent-7": "Web Development Specialist",
+            "Agent-8": "SSOT & System Integration Specialist",
+        }
+        
         for i in range(1, 9):
             agent_id = f"Agent-{i}"
-            status = (
-                "🟢 Active"
-                if bot.agent_coordinates.get(agent_id, {}).get("active", True)
-                else "🔴 Inactive"
-            )
-            description = bot.agent_coordinates.get(agent_id, {}).get("description", f"Agent {i}")
-            roles = {
-                "Agent-1": "Integration & Core Systems Specialist",
-                "Agent-2": "Architecture & Design Specialist",
-                "Agent-3": "Infrastructure & DevOps Specialist",
-                "Agent-4": "Quality Assurance Specialist (CAPTAIN)",
-                "Agent-5": "Business Intelligence Specialist",
-                "Agent-6": "Coordination & Communication Specialist",
-                "Agent-7": "Web Development Specialist",
-                "Agent-8": "Operations & Support Specialist",
-            }
+            coords = bot.agent_coordinates.get(agent_id, {})
+            status = "🟢 Active" if coords.get("active", True) else "🔴 Inactive"
             role = roles.get(agent_id, "Specialist")
-            agent_list += f"{agent_id}: {status} - {role}\n"
-        agent_list += "\n**Captain Agent-4** coordinates all operations.\n"
+            x, y = coords.get('x', 0), coords.get('y', 0)
+            
+            agent_list += f"**{agent_id}**: {status}\n"
+            agent_list += f"  Role: {role}\n"
+            agent_list += f"  Coordinates: ({x}, {y})\n\n"
+        
+        agent_list += "**Captain Agent-4** coordinates all operations.\n"
         agent_list += "**Agent-6** handles communication protocols.\n\n"
         agent_list += "🐝 **WE ARE SWARM** - Ready for coordination!"
         await interaction.response.send_message(agent_list)

@@ -20,8 +20,6 @@ from typing import List
 project_root = Path(__file__).parent.parent.parent.parent
 sys.path.insert(0, str(project_root))
 
-from src.services.messaging import MessagingService, StatusMonitor, OnboardingService
-
 logger = logging.getLogger(__name__)
 
 
@@ -31,28 +29,70 @@ class ConsolidatedMessagingService:
     def __init__(self, coord_path: str = "config/coordinates.json") -> None:
         """Initialize consolidated messaging service."""
         self.coord_path = coord_path
-        self.messaging_service = MessagingService(coord_path)
-        self.status_monitor = StatusMonitor(self.messaging_service)
-        self.onboarding_service = OnboardingService(self.messaging_service)
+        
+        # Lazy imports to prevent pyautogui issues
+        try:
+            # Suppress pyautogui NOTE messages that cause script exit
+            import os
+            import sys
+            original_stdout = sys.stdout
+            original_stderr = sys.stderr
+            
+            # Redirect stdout/stderr to suppress pyautogui NOTE messages
+            sys.stdout = open(os.devnull, 'w')
+            sys.stderr = open(os.devnull, 'w')
+            
+            from src.services.messaging import MessagingService, StatusMonitor, OnboardingService
+            
+            # Restore stdout/stderr
+            sys.stdout.close()
+            sys.stderr.close()
+            sys.stdout = original_stdout
+            sys.stderr = original_stderr
+            
+            self.messaging_service = MessagingService(coord_path)
+            self.status_monitor = StatusMonitor(self.messaging_service)
+            self.onboarding_service = OnboardingService(self.messaging_service)
+            
+        except Exception as e:
+            logger.error(f"Failed to initialize messaging services: {e}")
+            self.messaging_service = None
+            self.status_monitor = None
+            self.onboarding_service = None
     
     def send_message(self, agent_id: str, message: str, from_agent: str = "Agent-2", priority: str = "NORMAL") -> bool:
         """Send message to specific agent."""
+        if not self.messaging_service:
+            logger.error("Messaging service not available")
+            return False
         return self.messaging_service.send_message(agent_id, message, from_agent, priority)
     
     def broadcast_message(self, message: str, from_agent: str = "Agent-2", priority: str = "NORMAL") -> dict:
         """Send message to all active agents."""
+        if not self.messaging_service:
+            logger.error("Messaging service not available")
+            return {}
         return self.messaging_service.broadcast_message(message, from_agent, priority)
     
     def get_status(self) -> dict:
         """Get comprehensive system status."""
+        if not self.status_monitor:
+            logger.error("Status monitor not available")
+            return {"error": "Status monitor not available"}
         return self.status_monitor.get_comprehensive_status()
     
     def hard_onboard_agent(self, agent_id: str) -> bool:
         """Hard onboard specific agent."""
+        if not self.onboarding_service:
+            logger.error("Onboarding service not available")
+            return False
         return self.onboarding_service.hard_onboard_agent(agent_id)
     
     def hard_onboard_all_agents(self) -> dict:
         """Hard onboard all active agents."""
+        if not self.onboarding_service:
+            logger.error("Onboarding service not available")
+            return {}
         return self.onboarding_service.hard_onboard_all_agents()
 
 
@@ -105,7 +145,9 @@ def main(argv: List[str] | None = None) -> int:
         return 1
     
     try:
-        # Initialize services
+        # Initialize services with lazy imports
+        from src.services.messaging import MessagingService, StatusMonitor, OnboardingService
+        
         messaging_service = MessagingService(args.coords)
         status_monitor = StatusMonitor(messaging_service)
         onboarding_service = OnboardingService(messaging_service)

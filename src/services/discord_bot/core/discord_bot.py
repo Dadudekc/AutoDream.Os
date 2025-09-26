@@ -48,13 +48,26 @@ class EnhancedDiscordAgentBot(commands.Bot):
         super().__init__(command_prefix=command_prefix, intents=intents)
         self.agent_coordinates = self._load_agent_coordinates()
         self.devlog_service = DiscordDevlogService()
-        self.messaging_service = ConsolidatedMessagingService("config/coordinates.json")
         
-        # Initialize advanced systems
-        self.command_router = CommandRouter(self)
-        self.agent_communication = AgentCommunicationEngine(self, self.messaging_service)
-        self.security_manager = SecurityManager(self)
-        self.ui_embeds = UIEmbedManager()
+        # Initialize messaging service with proper error handling
+        try:
+            self.messaging_service = ConsolidatedMessagingService("config/coordinates.json")
+        except Exception as e:
+            logger.error(f"Failed to initialize messaging service: {e}")
+            self.messaging_service = None
+        
+        # Initialize advanced systems with proper error handling
+        try:
+            self.command_router = CommandRouter(self)
+            self.agent_communication = AgentCommunicationEngine(self, self.messaging_service)
+            self.security_manager = SecurityManager(self)
+            self.ui_embeds = UIEmbedManager()
+        except Exception as e:
+            logger.error(f"Failed to initialize advanced systems: {e}")
+            self.command_router = None
+            self.agent_communication = None
+            self.security_manager = None
+            self.ui_embeds = None
         
         # Architecture Foundation Integration
         self.pattern_manager = None
@@ -291,41 +304,19 @@ class EnhancedDiscordAgentBot(commands.Bot):
                 logger.warning(f"⚠️  Channel {channel_id} not found")
                 return
 
-            startup_message = f"""
-🚀 **SWARM COMMANDER ONLINE** 🚀
+            startup_message = f"""🚀 **SWARM COMMANDER ONLINE** 🚀
 
 **We're online and ready to command the swarm!** 🐝
 
 **Commander Status:**
-- **Name**: {self.user.name}
-- **ID**: {self.user.id}
-- **Latency**: {round(self.latency * 1000)}ms
-- **Guilds**: {len(self.guilds)}
-- **Agents**: {len(self.agent_coordinates)} configured
-- **Architecture**: ✅ Integrated with V2_SWARM Foundation
-- **Patterns**: ✅ Design patterns active
-- **Integrations**: ✅ System integrations active
-- **Domain**: ✅ Domain entities active
+- **Name**: {self.user.name} | **ID**: {self.user.id} | **Latency**: {round(self.latency * 1000)}ms
+- **Guilds**: {len(self.guilds)} | **Agents**: {len(self.agent_coordinates)} configured
+- **Architecture**: ✅ V2_SWARM Foundation | **Patterns**: ✅ Active | **Integrations**: ✅ Active
 
-**Available Slash Commands:**
-- `/ping` - Test bot responsiveness
-- `/commands` - Show all commands
-- `/swarm-help` - Show help information
-- `/status` - Show system status
-- `/agents` - List all agents
-- `/swarm` - Send to all agents
-- `/devlog` - Create devlog
-- `/send` - Send to specific agent
-- `/agent-devlog` - Create agent-specific devlog
-- `/test-devlog` - Test devlog system
-- `/msg-status` - Get messaging status
-- `/agent-channels` - List agent channels
-- `/info` - Show bot information
+**Available Commands:** `/ping`, `/commands`, `/swarm-help`, `/status`, `/agents`, `/swarm`, `/devlog`, `/send`, `/agent-devlog`, `/test-devlog`, `/msg-status`, `/agent-channels`, `/info`
 
-**Ready for swarm coordination!** 🐝
-
-*Use `/commands` for complete command list*
-            """
+**Ready for swarm coordination!** 🐝 *Use `/commands` for complete list*"""
+            
             await channel.send(startup_message)
             logger.info("✅ Startup notification sent")
 

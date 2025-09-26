@@ -107,6 +107,15 @@ class EnhancedDiscordAgentBot(commands.Bot):
         setup_messaging_advanced_commands(self)
         setup_onboarding_commands(self)
         
+        # Setup UI-enhanced commands
+        try:
+            from src.services.discord_bot.ui.ui_integration import integrate_ui_with_bot
+            self.ui_manager = integrate_ui_with_bot(self)
+            logger.info("✅ UI-enhanced commands registered")
+        except Exception as e:
+            logger.error(f"❌ Failed to setup UI commands: {e}")
+            self.ui_manager = None
+        
         logger.info("✅ All slash commands registered in setup_hook")
 
     async def _initialize_architecture(self):
@@ -312,10 +321,14 @@ class EnhancedDiscordAgentBot(commands.Bot):
 - **Name**: {self.user.name} | **ID**: {self.user.id} | **Latency**: {round(self.latency * 1000)}ms
 - **Guilds**: {len(self.guilds)} | **Agents**: {len(self.agent_coordinates)} configured
 - **Architecture**: ✅ V2_SWARM Foundation | **Patterns**: ✅ Active | **Integrations**: ✅ Active
+- **UI System**: ✅ Interactive Views | **Modals**: ✅ Active | **Buttons**: ✅ Active
 
-**Available Commands:** `/ping`, `/commands`, `/swarm-help`, `/status`, `/agents`, `/swarm`, `/devlog`, `/send`, `/agent-devlog`, `/test-devlog`, `/msg-status`, `/agent-channels`, `/info`
+**Available Commands:** 
+**🚀 Interactive:** `/swarm-dashboard`, `/interactive-send`, `/interactive-devlog`, `/interactive-onboarding`, `/interactive-broadcast`, `/interactive-project-update`
+**⚡ Quick:** `/quick-devlog`, `/quick-broadcast`, `/quick-project-update`, `/quick-milestone`, `/agent-quick-message`
+**🔧 System:** `/ping`, `/commands`, `/swarm-help`, `/status`, `/agents`, `/swarm`, `/devlog`, `/send`, `/agent-devlog`, `/test-devlog`, `/msg-status`, `/agent-channels`, `/info`
 
-**Ready for swarm coordination!** 🐝 *Use `/commands` for complete list*"""
+**Ready for enhanced swarm coordination!** 🐝 *Use `/swarm-dashboard` for the main interface*"""
             
             await channel.send(startup_message)
             logger.info("✅ Startup notification sent")

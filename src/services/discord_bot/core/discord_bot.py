@@ -48,13 +48,26 @@ class EnhancedDiscordAgentBot(commands.Bot):
         super().__init__(command_prefix=command_prefix, intents=intents)
         self.agent_coordinates = self._load_agent_coordinates()
         self.devlog_service = DiscordDevlogService()
-        self.messaging_service = ConsolidatedMessagingService("config/coordinates.json")
         
-        # Initialize advanced systems
-        self.command_router = CommandRouter(self)
-        self.agent_communication = AgentCommunicationEngine(self, self.messaging_service)
-        self.security_manager = SecurityManager(self)
-        self.ui_embeds = UIEmbedManager()
+        # Initialize messaging service with proper error handling
+        try:
+            self.messaging_service = ConsolidatedMessagingService("config/coordinates.json")
+        except Exception as e:
+            logger.error(f"Failed to initialize messaging service: {e}")
+            self.messaging_service = None
+        
+        # Initialize advanced systems with proper error handling
+        try:
+            self.command_router = CommandRouter(self)
+            self.agent_communication = AgentCommunicationEngine(self, self.messaging_service)
+            self.security_manager = SecurityManager(self)
+            self.ui_embeds = UIEmbedManager()
+        except Exception as e:
+            logger.error(f"Failed to initialize advanced systems: {e}")
+            self.command_router = None
+            self.agent_communication = None
+            self.security_manager = None
+            self.ui_embeds = None
         
         # Architecture Foundation Integration
         self.pattern_manager = None

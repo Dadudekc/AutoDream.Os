@@ -13,11 +13,14 @@ from discord import app_commands
 def setup_messaging_commands(bot):
     """Setup messaging-related slash commands."""
 
-    @bot.tree.command(name="send", description="Send message to specific agent")
+    @bot.tree.command(name="send", description="Send message to specific agent with optional advanced settings")
     @app_commands.describe(agent="Agent ID (e.g., Agent-1, Agent-2)")
     @app_commands.describe(message="Message to send to the agent")
-    async def send_message(interaction: discord.Interaction, agent: str, message: str):
-        """Send message to specific agent."""
+    @app_commands.describe(priority="Message priority (NORMAL, HIGH, URGENT)")
+    @app_commands.describe(message_type="Message type (direct, broadcast, system)")
+    @app_commands.describe(sender="Sender identifier (default: Discord-Commander)")
+    async def send_message(interaction: discord.Interaction, agent: str, message: str, priority: str = "NORMAL", message_type: str = "direct", sender: str = "Discord-Commander"):
+        """Send message to specific agent with optional advanced settings."""
         # Validate agent ID
         if agent not in bot.agent_coordinates:
             await interaction.response.send_message(f"❌ Invalid agent ID: {agent}")
@@ -25,10 +28,16 @@ def setup_messaging_commands(bot):
             
         try:
             # Use messaging service to send message
-            success = bot.messaging_service.send_message(agent, message, "Discord-Commander")
+            success = bot.messaging_service.send_message(agent, message, sender, priority)
             
             if success:
-                await interaction.response.send_message(f"✅ **Message Sent Successfully!**\n🤖 **To:** {agent}\n💬 **Message:** {message}")
+                response = f"✅ **Message Sent Successfully!**\n"
+                response += f"🤖 **To:** {agent}\n"
+                response += f"💬 **Message:** {message}\n"
+                response += f"⚡ **Priority:** {priority}\n"
+                response += f"📝 **Type:** {message_type}\n"
+                response += f"👤 **From:** {sender}"
+                await interaction.response.send_message(response)
             else:
                 await interaction.response.send_message(f"❌ **Failed to send message to {agent}**")
                 

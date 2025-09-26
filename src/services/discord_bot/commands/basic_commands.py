@@ -29,25 +29,23 @@ def setup_basic_commands(bot):
 - `/ping` - Test bot responsiveness
 - `/commands` - Show this help message
 - `/status` - Show system status
+- `/info` - Show bot information
 
 **Agent Commands:**
-- `/agents` - List all agents and their status
+- `/agents` - List all agents with status and coordinates
 - `/agent-channels` - List agent-specific Discord channels
 - `/swarm` - Send message to all agents
+
+**Messaging Commands:**
+- `/send` - Send message to specific agent (with optional priority, type, sender)
+- `/broadcast-advanced` - Broadcast message with advanced options
+- `/msg-status` - Get comprehensive messaging system status
+- `/message-history` - View message history for an agent
 
 **Devlog Commands:**
 - `/devlog` - Create devlog entry (main channel)
 - `/agent-devlog` - Create devlog for specific agent
 - `/test-devlog` - Test devlog functionality
-
-**Messaging Commands:**
-- `/send` - Send message to specific agent
-- `/msg-status` - Get messaging system status
-- `/message-history` - View message history for agents
-- `/list-agents` - List all available agents and their status
-- `/msg-system-status` - Get comprehensive messaging system status
-- `/send-advanced` - Send message with advanced options
-- `/broadcast-advanced` - Broadcast message with advanced options
 
 **Onboarding Commands:**
 - `/onboard-agent` - Onboard a specific agent
@@ -65,27 +63,14 @@ def setup_basic_commands(bot):
 - `/update-history` - View project update history
 - `/update-stats` - View project update statistics
 
-**System Commands:**
-- `/info` - Show bot information
-
 **Usage Examples:**
-- `/swarm message:All agents report status`
-- `/devlog action:Tools cleanup completed`
-- `/agent-devlog agent:Agent-4 action:Mission completed successfully`
-- `/send agent:Agent-1 message:Hello from Discord`
-- `/send-advanced agent:Agent-1 message:Urgent update priority:URGENT message_type:system`
-- `/broadcast-advanced message:System maintenance in 1 hour priority:HIGH`
-- `/message-history agent:Agent-1 limit:5`
-- `/list-agents`
-- `/onboard-agent agent:Agent-1 dry_run:false`
-- `/onboard-all dry_run:true`
-- `/onboarding-status agent:Agent-1`
-- `/project-update update_type:milestone title:V2 Compliance Complete description:All agents now V2 compliant`
-- `/milestone name:Documentation Cleanup completion:100 description:Removed 13 redundant files`
-- `/system-status system:Messaging Service status:Operational details:All systems green`
-- `/v2-compliance status:Compliant files_checked:150 violations:0 details:All files under 400 lines`
-- `/msg-status`
-- `/agent-channels`
+- `/ping` - Test bot
+- `/agents` - List all agents with coordinates
+- `/send agent:Agent-1 message:Hello priority:HIGH` - Send high priority message
+- `/swarm message:All agents report status` - Broadcast to all agents
+- `/devlog action:Tools cleanup completed` - Create devlog entry
+- `/msg-status` - Check messaging system status
+- `/onboard-agent agent:Agent-1` - Onboard specific agent
 
 **Ready for enhanced swarm coordination!** 🐝
         """

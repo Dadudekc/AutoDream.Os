@@ -35,10 +35,14 @@ def setup_messaging_commands(bot):
         except Exception as e:
             await interaction.response.send_message(f"❌ Error sending message: {e}")
 
-    @bot.tree.command(name="msg-status", description="Get messaging system status")
+    @bot.tree.command(name="msg-status", description="Get comprehensive messaging system status")
     async def messaging_status(interaction: discord.Interaction):
-        """Get messaging system status."""
+        """Get comprehensive messaging system status."""
         try:
+            if not bot.messaging_service:
+                await interaction.response.send_message("❌ Messaging service not available")
+                return
+            
             # Get messaging service status
             status = bot.messaging_service.get_status()
             
@@ -52,6 +56,13 @@ def setup_messaging_commands(bot):
             for agent_id, coords in bot.agent_coordinates.items():
                 status_icon = "✅" if coords.get('active', True) else "❌"
                 response += f"{status_icon} {agent_id}\n"
+            
+            # Add comprehensive status if available
+            if isinstance(status, dict) and 'system_status' in status:
+                response += f"\n**System Details:**\n"
+                response += f"- Messaging Service: {status.get('messaging_service', 'Unknown')}\n"
+                response += f"- Status Monitor: {status.get('status_monitor', 'Unknown')}\n"
+                response += f"- Onboarding Service: {status.get('onboarding_service', 'Unknown')}\n"
             
             response += "\n🐝 **WE ARE SWARM** - Messaging system ready!"
             

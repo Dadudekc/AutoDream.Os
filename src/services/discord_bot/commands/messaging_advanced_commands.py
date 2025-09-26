@@ -96,38 +96,6 @@ def setup_messaging_advanced_commands(bot):
         except Exception as e:
             await interaction.response.send_message(f"❌ Error listing agents: {e}")
 
-    @bot.tree.command(name="msg-system-status", description="Get comprehensive messaging system status")
-    async def get_system_status(interaction: discord.Interaction):
-        """Get comprehensive messaging system status."""
-        try:
-            # Initialize messaging service
-            from src.services.messaging.service import MessagingService
-            
-            messaging_service = MessagingService(dry_run=False)
-            
-            # Get system status
-            status = messaging_service.get_system_status()
-            
-            response = "📊 **Messaging System Status:**\n\n"
-            response += f"**Service Status:** ✅ Active\n"
-            response += f"**Total Agents:** {len(bot.agent_coordinates)}\n"
-            response += f"**Active Agents:** {len([a for a in bot.agent_coordinates.values() if a.get('active', True)])}\n"
-            response += f"**Coordinates Loaded:** ✅ Yes\n"
-            response += f"**PyAutoGUI Available:** ✅ Yes\n"
-            response += f"**Message History:** ✅ Available\n\n"
-            
-            response += "**Agent Status:**\n"
-            for agent_id, coords in bot.agent_coordinates.items():
-                status_icon = "✅" if coords.get('active', True) else "❌"
-                response += f"{status_icon} {agent_id}\n"
-            
-            response += "\n🐝 **WE ARE SWARM** - System status retrieved!"
-            
-            await interaction.response.send_message(response)
-            
-        except Exception as e:
-            await interaction.response.send_message(f"❌ Error getting system status: {e}")
-
     @bot.tree.command(name="send-advanced", description="Send message with advanced options")
     @app_commands.describe(
         agent="Agent ID to send message to",

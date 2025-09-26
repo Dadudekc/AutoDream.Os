@@ -96,7 +96,7 @@ def setup_messaging_advanced_commands(bot):
         except Exception as e:
             await interaction.response.send_message(f"❌ Error listing agents: {e}")
 
-    @bot.tree.command(name="system-status", description="Get comprehensive messaging system status")
+    @bot.tree.command(name="msg-system-status", description="Get comprehensive messaging system status")
     async def get_system_status(interaction: discord.Interaction):
         """Get comprehensive messaging system status."""
         try:

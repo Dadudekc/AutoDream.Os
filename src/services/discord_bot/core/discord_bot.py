@@ -304,41 +304,19 @@ class EnhancedDiscordAgentBot(commands.Bot):
                 logger.warning(f"⚠️  Channel {channel_id} not found")
                 return
 
-            startup_message = f"""
-🚀 **SWARM COMMANDER ONLINE** 🚀
+            startup_message = f"""🚀 **SWARM COMMANDER ONLINE** 🚀
 
 **We're online and ready to command the swarm!** 🐝
 
 **Commander Status:**
-- **Name**: {self.user.name}
-- **ID**: {self.user.id}
-- **Latency**: {round(self.latency * 1000)}ms
-- **Guilds**: {len(self.guilds)}
-- **Agents**: {len(self.agent_coordinates)} configured
-- **Architecture**: ✅ Integrated with V2_SWARM Foundation
-- **Patterns**: ✅ Design patterns active
-- **Integrations**: ✅ System integrations active
-- **Domain**: ✅ Domain entities active
+- **Name**: {self.user.name} | **ID**: {self.user.id} | **Latency**: {round(self.latency * 1000)}ms
+- **Guilds**: {len(self.guilds)} | **Agents**: {len(self.agent_coordinates)} configured
+- **Architecture**: ✅ V2_SWARM Foundation | **Patterns**: ✅ Active | **Integrations**: ✅ Active
 
-**Available Slash Commands:**
-- `/ping` - Test bot responsiveness
-- `/commands` - Show all commands
-- `/swarm-help` - Show help information
-- `/status` - Show system status
-- `/agents` - List all agents
-- `/swarm` - Send to all agents
-- `/devlog` - Create devlog
-- `/send` - Send to specific agent
-- `/agent-devlog` - Create agent-specific devlog
-- `/test-devlog` - Test devlog system
-- `/msg-status` - Get messaging status
-- `/agent-channels` - List agent channels
-- `/info` - Show bot information
+**Available Commands:** `/ping`, `/commands`, `/swarm-help`, `/status`, `/agents`, `/swarm`, `/devlog`, `/send`, `/agent-devlog`, `/test-devlog`, `/msg-status`, `/agent-channels`, `/info`
 
-**Ready for swarm coordination!** 🐝
-
-*Use `/commands` for complete command list*
-            """
+**Ready for swarm coordination!** 🐝 *Use `/commands` for complete list*"""
+            
             await channel.send(startup_message)
             logger.info("✅ Startup notification sent")
 

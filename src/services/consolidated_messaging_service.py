@@ -32,7 +32,23 @@ class ConsolidatedMessagingService:
         
         # Lazy imports to prevent pyautogui issues
         try:
+            # Suppress pyautogui NOTE messages that cause script exit
+            import os
+            import sys
+            original_stdout = sys.stdout
+            original_stderr = sys.stderr
+            
+            # Redirect stdout/stderr to suppress pyautogui NOTE messages
+            sys.stdout = open(os.devnull, 'w')
+            sys.stderr = open(os.devnull, 'w')
+            
             from src.services.messaging import MessagingService, StatusMonitor, OnboardingService
+            
+            # Restore stdout/stderr
+            sys.stdout.close()
+            sys.stderr.close()
+            sys.stdout = original_stdout
+            sys.stderr = original_stderr
             
             self.messaging_service = MessagingService(coord_path)
             self.status_monitor = StatusMonitor(self.messaging_service)

@@ -8,12 +8,18 @@ System-related slash commands for Discord bot.
 
 import discord
 from discord import app_commands
+import logging
+from src.services.discord_bot.commands.basic_commands import safe_command
+
+
+logger = logging.getLogger(__name__)
 
 
 def setup_system_commands(bot):
     """Setup system-related slash commands."""
 
     @bot.tree.command(name="status", description="Show system status")
+    @safe_command
     async def system_status(interaction: discord.Interaction):
         """Show system status."""
         status_text = f"""
@@ -42,6 +48,7 @@ def setup_system_commands(bot):
         await interaction.response.send_message(status_text)
 
     @bot.tree.command(name="info", description="Show bot information")
+    @safe_command
     async def bot_info(interaction: discord.Interaction):
         """Show bot information."""
         info_text = f"""

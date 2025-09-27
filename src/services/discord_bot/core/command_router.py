@@ -68,9 +68,9 @@ class CommandRouter:
                 "system_monitoring": f"{webhook_base}/monitoring",
                 "command_analytics": f"{webhook_base}/analytics"
             }
-            logger.info(f"✅ Webhook endpoints configured: {len(self.webhook_endpoints)}")
+            logger.info(f"[SUCCESS] Webhook endpoints configured: {len(self.webhook_endpoints)}")
         else:
-            logger.warning("⚠️  No webhook base URL configured")
+            logger.warning("[WARNING] No webhook base URL configured")
     
     def _init_rate_limits(self):
         """Initialize rate limiting configuration."""
@@ -79,7 +79,7 @@ class CommandRouter:
             "per_user": {"requests": 10, "window": 60, "users": {}},
             "per_command": {"requests": 5, "window": 60, "commands": {}}
         }
-        logger.info("✅ Rate limiting initialized")
+        logger.info("[SUCCESS] Rate limiting initialized")
     
     def register_command_handler(self, command_name: str, handler: callable, category: CommandCategory):
         """Register a command handler."""
@@ -88,12 +88,12 @@ class CommandRouter:
             "category": category,
             "stats": {"calls": 0, "errors": 0, "last_used": None}
         }
-        logger.info(f"✅ Registered command handler: {command_name} ({category.value})")
+        logger.info(f"[SUCCESS] Registered command handler: {command_name} ({category.value})")
     
     def register_category_handler(self, category: CommandCategory, handler: callable):
         """Register a category handler."""
         self.category_handlers[category] = handler
-        logger.info(f"✅ Registered category handler: {category.value}")
+        logger.info(f"[SUCCESS] Registered category handler: {category.value}")
     
     async def route_command(self, interaction: discord.Interaction, command_name: str) -> bool:
         """Route a command to appropriate handler."""
@@ -145,7 +145,7 @@ class CommandRouter:
                 return True
             
             else:
-                logger.warning(f"⚠️  No handler found for command: {command_name}")
+                logger.warning(f"[WARNING] No handler found for command: {command_name}")
                 await interaction.response.send_message(
                     "❌ Command not found or not implemented.",
                     ephemeral=True
@@ -153,7 +153,7 @@ class CommandRouter:
                 return False
                 
         except Exception as e:
-            logger.error(f"❌ Error routing command {command_name}: {e}")
+            logger.error(f"[ERROR] Error routing command {command_name}: {e}")
             
             # Update error stats
             if command_name in self.command_handlers:
@@ -249,7 +249,7 @@ class CommandRouter:
             # This would integrate with actual webhook service
             logger.info(f"📡 Webhook notification: {event_type} - {data}")
         except Exception as e:
-            logger.error(f"❌ Failed to send webhook notification: {e}")
+            logger.error(f"[ERROR] Failed to send webhook notification: {e}")
     
     def get_command_stats(self) -> Dict[str, Any]:
         """Get command usage statistics."""

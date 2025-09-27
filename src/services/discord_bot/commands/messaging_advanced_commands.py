@@ -8,7 +8,12 @@ Advanced messaging features for Discord bot - history, agent management, and sys
 
 import discord
 from discord import app_commands
+import logging
+from src.services.discord_bot.commands.basic_commands import safe_command
 from typing import Optional
+
+
+logger = logging.getLogger(__name__)
 
 
 def setup_messaging_advanced_commands(bot):
@@ -69,6 +74,7 @@ def setup_messaging_advanced_commands(bot):
             await interaction.response.send_message(f"❌ Error retrieving message history: {e}")
 
     @bot.tree.command(name="list-agents", description="List all available agents and their status")
+    @safe_command
     async def list_agents(interaction: discord.Interaction):
         """List all available agents and their status."""
         try:
@@ -96,7 +102,8 @@ def setup_messaging_advanced_commands(bot):
         except Exception as e:
             await interaction.response.send_message(f"❌ Error listing agents: {e}")
 
-    @bot.tree.command(name="system-status", description="Get comprehensive messaging system status")
+    @bot.tree.command(name="messaging-status", description="Get comprehensive messaging system status")
+    @safe_command
     async def get_system_status(interaction: discord.Interaction):
         """Get comprehensive messaging system status."""
         try:

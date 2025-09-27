@@ -8,12 +8,18 @@ Devlog-related slash commands for Discord bot.
 
 import discord
 from discord import app_commands
+import logging
+from src.services.discord_bot.commands.basic_commands import safe_command
+
+
+logger = logging.getLogger(__name__)
 
 
 def setup_devlog_commands(bot):
     """Setup devlog-related slash commands."""
 
     @bot.tree.command(name="devlog", description="Create devlog entry")
+    @safe_command
     @app_commands.describe(action="Action description for the devlog")
     async def create_devlog(interaction: discord.Interaction, action: str):
         """Create devlog entry."""
@@ -68,6 +74,7 @@ def setup_devlog_commands(bot):
             await interaction.response.send_message(f"❌ Error creating agent devlog: {e}")
 
     @bot.tree.command(name="test-devlog", description="Test devlog functionality")
+    @safe_command
     async def test_devlog(interaction: discord.Interaction):
         """Test devlog functionality."""
         try:

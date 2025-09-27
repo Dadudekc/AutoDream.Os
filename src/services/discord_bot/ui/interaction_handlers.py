@@ -59,7 +59,7 @@ class InteractionHandler:
                     await handler(interaction)
             
         except Exception as e:
-            logger.error(f"❌ Error handling interaction: {e}")
+            logger.error(f"[ERROR] Error handling interaction: {e}")
             try:
                 await interaction.response.send_message(
                     "❌ Error processing interaction. Please try again.",

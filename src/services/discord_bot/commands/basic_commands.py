@@ -42,10 +42,12 @@ def setup_basic_commands(bot):
 - `/test-devlog` - Test devlog functionality
 
 **Messaging Commands:**
-- `/send` - Send message to specific agent
+- `/send` - Enhanced agent messaging interface with priority and type options
+- `/send-help` - Show comprehensive agent messaging help
+- `/list-agents` - List all available agents with detailed status
+- `/broadcast` - Send message to all active agents
 - `/msg-status` - Get messaging system status
 - `/message-history` - View message history for agents
-- `/list-agents` - List all available agents and their status
 - `/system-status` - Get comprehensive messaging system status
 - `/send-advanced` - Send message with advanced options
 - `/broadcast-advanced` - Broadcast message with advanced options
@@ -73,8 +75,12 @@ def setup_basic_commands(bot):
 - `/swarm message:All agents report status`
 - `/devlog action:Tools cleanup completed`
 - `/agent-devlog agent:Agent-4 action:Mission completed successfully`
-- `/send agent:Agent-1 message:Hello from Discord`
-- `/send-advanced agent:Agent-1 message:Urgent update priority:URGENT message_type:system`
+- `/send agent:Agent-1 message:Hello from Discord priority:NORMAL message_type:DIRECT`
+- `/send agent:Agent-4 message:Status report priority:HIGH message_type:SYSTEM`
+- `/send agent:Agent-7 message:Emergency alert priority:URGENT message_type:EMERGENCY`
+- `/send-help` - Show comprehensive agent messaging help
+- `/list-agents` - List all available agents with status
+- `/broadcast message:System maintenance priority:HIGH`
 - `/broadcast-advanced message:System maintenance in 1 hour priority:HIGH`
 - `/message-history agent:Agent-1 limit:5`
 - `/list-agents`
@@ -115,10 +121,12 @@ def setup_basic_commands(bot):
 - `/test-devlog` - Test devlog functionality
 
 **Messaging Commands:**
-- `/send` - Send message to specific agent
+- `/send` - Enhanced agent messaging interface with priority and type options
+- `/send-help` - Show comprehensive agent messaging help
+- `/list-agents` - List all available agents with detailed status
+- `/broadcast` - Send message to all active agents
 - `/msg-status` - Get messaging system status
 - `/message-history` - View message history for agents
-- `/list-agents` - List all available agents and their status
 - `/system-status` - Get comprehensive messaging system status
 - `/send-advanced` - Send message with advanced options
 - `/broadcast-advanced` - Broadcast message with advanced options
@@ -146,8 +154,12 @@ def setup_basic_commands(bot):
 - `/swarm message:All agents report status`
 - `/devlog action:Tools cleanup completed`
 - `/agent-devlog agent:Agent-4 action:Mission completed successfully`
-- `/send agent:Agent-1 message:Hello from Discord`
-- `/send-advanced agent:Agent-1 message:Urgent update priority:URGENT message_type:system`
+- `/send agent:Agent-1 message:Hello from Discord priority:NORMAL message_type:DIRECT`
+- `/send agent:Agent-4 message:Status report priority:HIGH message_type:SYSTEM`
+- `/send agent:Agent-7 message:Emergency alert priority:URGENT message_type:EMERGENCY`
+- `/send-help` - Show comprehensive agent messaging help
+- `/list-agents` - List all available agents with status
+- `/broadcast message:System maintenance priority:HIGH`
 - `/broadcast-advanced message:System maintenance in 1 hour priority:HIGH`
 - `/message-history agent:Agent-1 limit:5`
 - `/list-agents`

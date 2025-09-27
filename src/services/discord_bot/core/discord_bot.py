@@ -82,6 +82,7 @@ class EnhancedDiscordAgentBot(commands.Bot):
         from src.services.discord_bot.commands.messaging_advanced_commands import setup_messaging_advanced_commands
         from src.services.discord_bot.commands.onboarding_commands import setup_onboarding_commands
         from src.services.discord_bot.commands.stall_commands import setup_stall_commands
+        from src.services.discord_bot.commands.send_controller import setup_send_controller
         
         # Setup all commands
         setup_basic_commands(self)
@@ -95,6 +96,7 @@ class EnhancedDiscordAgentBot(commands.Bot):
         setup_messaging_advanced_commands(self)
         setup_onboarding_commands(self)
         setup_stall_commands(self)
+        setup_send_controller(self)
         
         logger.info("✅ All slash commands registered in setup_hook")
 

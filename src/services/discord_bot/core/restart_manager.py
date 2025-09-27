@@ -80,8 +80,8 @@ class RestartManager:
                     env=env,
                     shell=False,
                     stdin=subprocess.DEVNULL,
-                    stdout=None,
-                    stderr=None,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
                     close_fds=(os.name != "nt"),
                     creationflags=creationflags,
                     start_new_session=start_new_session,  # no-op on Windows
@@ -100,7 +100,22 @@ class RestartManager:
                 asyncio.create_task(self._shutdown_current_process())
                 return True
             else:
-                logger.error("[RESTART] New process exited early with code: %s", rc)
+                # Capture stdout and stderr for debugging
+                try:
+                    stdout, stderr = process.communicate(timeout=1)
+                    stdout_str = stdout.decode('utf-8', errors='replace') if stdout else ""
+                    stderr_str = stderr.decode('utf-8', errors='replace') if stderr else ""
+                    
+                    logger.error("[RESTART] New process exited early with code: %s", rc)
+                    if stdout_str:
+                        logger.error("[RESTART] STDOUT: %s", stdout_str.strip())
+                    if stderr_str:
+                        logger.error("[RESTART] STDERR: %s", stderr_str.strip())
+                except subprocess.TimeoutExpired:
+                    logger.error("[RESTART] New process exited early with code: %s (timeout reading output)", rc)
+                except Exception as e:
+                    logger.error("[RESTART] New process exited early with code: %s (error reading output: %s)", rc, e)
+                
                 self.restart_pending = False
                 return False
 

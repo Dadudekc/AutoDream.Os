@@ -275,3 +275,4 @@ class QualityGates:
             logger.error(f"{self.agent_id}: Error getting quality gates status: {e}")
             return {"status": "error", "message": str(e)}
 
+

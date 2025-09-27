@@ -283,3 +283,4 @@ class SSOTValidator:
             logger.error(f"{self.agent_id}: Error getting SSOT status: {e}")
             return {"status": "error", "message": str(e)}
 
+

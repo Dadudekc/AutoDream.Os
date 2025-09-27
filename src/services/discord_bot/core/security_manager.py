@@ -17,6 +17,7 @@ from collections import defaultdict, deque
 
 import discord
 from discord import app_commands
+from .security_utils import security_utils
 
 logger = logging.getLogger(__name__)
 
@@ -105,6 +106,7 @@ class SecurityManager:
             "per_command": RateLimit(requests=20, window=3600, burst=5),  # 20/hour, 5 burst
             "per_channel": RateLimit(requests=500, window=3600, burst=50),  # 500/hour, 50 burst
             "admin_commands": RateLimit(requests=50, window=3600, burst=10),  # 50/hour, 10 burst
+            "critical_commands": RateLimit(requests=3, window=300, burst=1),  # 3 per 5 minutes for restart/shutdown
             "devlog_commands": RateLimit(requests=30, window=3600, burst=5),  # 30/hour, 5 burst
         }
         logger.info("[SUCCESS] Rate limits initialized")
@@ -156,24 +158,39 @@ class SecurityManager:
         # This would implement a more sophisticated user rating system
         pass
     
+    async def _is_admin_user(self, interaction: discord.Interaction) -> bool:
+        """Check if user is an administrator."""
+        try:
+            if isinstance(interaction.channel, discord.abc.GuildChannel):
+                perms = interaction.user.guild_permissions  # type: ignore[attr-defined]
+                return bool(perms and perms.administrator)
+        except Exception:
+            pass
+        return False
+    
     async def check_rate_limit(self, user_id: str, command_name: str, 
-                             channel_id: str = None) -> bool:
+                             channel_id: str = None, interaction: discord.Interaction = None) -> bool:
         """Check if user is within rate limits."""
         current_time = time.time()
         
-        # Check global rate limit
-        if not await self._check_specific_rate_limit("global", user_id, current_time):
+        # Check if user is admin - use higher limits instead of complete bypass
+        is_admin = interaction and await self._is_admin_user(interaction)
+        
+        # Check global rate limit (admins use higher limits)
+        global_limit = "admin_commands" if is_admin else "global"
+        if not await self._check_specific_rate_limit(global_limit, user_id, current_time):
             await self._handle_security_threat(
                 user_id, ThreatType.RATE_LIMIT, SecurityLevel.MEDIUM,
-                {"limit_type": "global", "command": command_name}
+                {"limit_type": global_limit, "command": command_name, "is_admin": is_admin}
             )
             return False
         
-        # Check per-user rate limit
-        if not await self._check_specific_rate_limit("per_user", user_id, current_time):
+        # Check per-user rate limit (admins use higher limits)
+        user_limit = "admin_commands" if is_admin else "per_user"
+        if not await self._check_specific_rate_limit(user_limit, user_id, current_time):
             await self._handle_security_threat(
                 user_id, ThreatType.RATE_LIMIT, SecurityLevel.MEDIUM,
-                {"limit_type": "per_user", "command": command_name}
+                {"limit_type": user_limit, "command": command_name, "is_admin": is_admin}
             )
             return False
         
@@ -196,11 +213,22 @@ class SecurityManager:
                 )
                 return False
         
-        # Check command-specific rate limits
+        # Check critical command rate limits (restart/shutdown)
+        critical_commands = ["restart", "shutdown", "reboot"]
+        if any(cmd in command_name.lower() for cmd in critical_commands):
+            if not await self._check_specific_rate_limit("critical_commands", user_id, current_time):
+                await self._handle_security_threat(
+                    user_id, ThreatType.RATE_LIMIT, SecurityLevel.HIGH,
+                    {"limit_type": "critical_commands", "command": command_name, "is_admin": is_admin}
+                )
+                return False
+        
+        # Check admin command rate limits
         if command_name.startswith("admin"):
             if not await self._check_specific_rate_limit("admin_commands", user_id, current_time):
                 return False
         
+        # Check devlog command rate limits
         if "devlog" in command_name:
             if not await self._check_specific_rate_limit("devlog_commands", user_id, current_time):
                 return False

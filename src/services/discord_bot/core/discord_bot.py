@@ -369,7 +369,7 @@ class EnhancedDiscordAgentBot(commands.Bot):
                 # Check rate limits
                 command_name = interaction.command.name if interaction.command else "unknown"
                 if not await self.security_manager.check_rate_limit(
-                    str(interaction.user.id), command_name, str(interaction.channel.id)
+                    str(interaction.user.id), command_name, str(interaction.channel.id), interaction
                 ):
                     if not interaction.response.is_done():
                         await interaction.response.send_message(

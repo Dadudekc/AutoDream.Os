@@ -13,6 +13,7 @@ import subprocess
 import sys
 from pathlib import Path
 from typing import Optional
+from .security_utils import security_utils
 
 logger = logging.getLogger(__name__)
 
@@ -26,12 +27,17 @@ class RestartManager:
         self._lock = asyncio.Lock()
 
     def _resolve_entrypoint(self) -> Optional[Path]:
-        # Resolve project root robustly: go up until we find run_discord_commander.py
+        """Resolve project root robustly with security validation."""
         here = Path(__file__).resolve()
         for p in [here, *here.parents]:
             candidate = p.parent.parent.parent.parent / "run_discord_commander.py" if p.name == "core" else p / "run_discord_commander.py"
-            if candidate.exists():
+            
+            # Security validation
+            if candidate.exists() and security_utils.validate_path(str(candidate)):
                 return candidate
+            elif candidate.exists():
+                logger.error(f"[RESTART] Security validation failed for path: {candidate}")
+                return None
         return None
 
     async def restart_bot(self, reason: str = "Manual restart requested") -> bool:
@@ -40,7 +46,7 @@ class RestartManager:
                 logger.warning("[RESTART] Ignored: restart already pending (%s)", self.restart_reason)
                 return True  # treat as success: one restart is enough
 
-            logger.info("[RESTART] Initiating bot restart: %s", reason)
+            logger.info("[RESTART] Initiating bot restart: %s", security_utils.mask_sensitive_data(reason))
             self.restart_pending = True
             self.restart_reason = reason
 
@@ -53,15 +59,19 @@ class RestartManager:
             python_executable = sys.executable
             # -u = unbuffered, so startup logs flush immediately
             cmd = [python_executable, "-u", str(entry)]
-            logger.info("[RESTART] Executing: %s", " ".join(cmd))
+            
+            # Sanitize command arguments
+            cmd = security_utils.sanitize_command_args(cmd)
+            
+            # Log sanitized command (no sensitive data)
+            logger.info("[RESTART] Process starting with sanitized arguments")
 
-            # Inherit env; force UTF-8; ensure critical vars exist (adjust as needed)
-            env = os.environ.copy()
-            env.setdefault("PYTHONUTF8", "1")
-            env.setdefault("PYTHONIOENCODING", "utf-8")
-            # Example: ensure DISCORD_TOKEN survives; warn if missing
+            # Create secure environment for subprocess
+            env = security_utils.create_secure_environment()
+            
+            # Ensure critical variables exist
             if not env.get("DISCORD_BOT_TOKEN"):
-                logger.warning("[RESTART] DISCORD_BOT_TOKEN not present in environment for child process")
+                logger.warning("[RESTART] DISCORD_BOT_TOKEN not present in secure environment for child process")
 
             creationflags = 0
             start_new_session = False

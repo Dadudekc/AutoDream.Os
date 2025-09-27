@@ -20,6 +20,7 @@ from discord.errors import HTTPException, RateLimited
 from src.services.discord_bot.core.command_logger import command_logger_decorator, command_logger
 from src.services.onboarding.entry import kickoff_onboarding, is_onboarding_running
 from src.services.discord_bot.core.restart_manager import restart_manager
+from src.services.discord_bot.core.security_utils import security_utils
 
 logger = logging.getLogger(__name__)
 
@@ -146,12 +147,36 @@ def _plain_help_text(title: str, sections: dict[str, list[str]]) -> str:
     return "\n".join(lines)
 
 def _is_admin(interaction) -> bool:
+    """Enhanced admin verification with security validation."""
     try:
         if isinstance(interaction.channel, discord.abc.GuildChannel):
             perms = interaction.user.guild_permissions  # type: ignore[attr-defined]
-            return bool(perms and perms.administrator)
-    except Exception:
-        pass
+            
+            # Validate permissions object
+            if not security_utils.validate_discord_permissions(perms):
+                logger.warning(f"[SECURITY] Invalid permissions object for user {interaction.user.id}")
+                return False
+            
+            is_admin = bool(perms and perms.administrator)
+            
+            # Log admin access attempts
+            if is_admin:
+                security_utils.log_security_event(
+                    "ADMIN_ACCESS", 
+                    str(interaction.user.id), 
+                    f"Admin access granted for command in channel {interaction.channel.id}",
+                    "INFO"
+                )
+            
+            return is_admin
+    except Exception as e:
+        logger.error(f"[SECURITY] Admin verification failed: {e}")
+        security_utils.log_security_event(
+            "ADMIN_VERIFICATION_FAILED", 
+            str(interaction.user.id), 
+            f"Admin verification exception: {e}",
+            "MEDIUM"
+        )
     return False
 
 async def send_discord_response(interaction: discord.Interaction, **kwargs) -> bool:
@@ -319,11 +344,28 @@ def setup_basic_commands(bot):
         async def restart_cb(cb_inter):
             if not _is_admin(cb_inter):
                 return await _deny(cb_inter, "You need **Administrator** to restart the bot.")
+            
+            # Log critical action attempt
+            security_utils.log_security_event(
+                "CRITICAL_ACTION_ATTEMPT", 
+                str(cb_inter.user.id), 
+                f"Restart command initiated by admin in channel {cb_inter.channel.id}",
+                "HIGH"
+            )
+            
             confirm_view = discord.ui.View(timeout=60)
             yes_btn = Button(label="✅ Yes, Restart", style=discord.ButtonStyle.danger, custom_id="confirm:restart:yes")
             no_btn = Button(label="❌ Cancel", style=discord.ButtonStyle.secondary, custom_id="confirm:restart:no")
 
             async def yes_restart(inner):
+                # Log critical action execution
+                security_utils.log_security_event(
+                    "CRITICAL_ACTION_EXECUTED", 
+                    str(inner.user.id), 
+                    f"Restart command executed by admin in channel {inner.channel.id}",
+                    "CRITICAL"
+                )
+                
                 if inner.response.is_done():
                     await inner.followup.send("🔄 Restart initiated! Bot will restart shortly.", ephemeral=True)
                 else:
@@ -363,11 +405,28 @@ def setup_basic_commands(bot):
         async def shutdown_cb(cb_inter):
             if not _is_admin(cb_inter):
                 return await _deny(cb_inter, "You need **Administrator** to shutdown the bot.")
+            
+            # Log critical action attempt
+            security_utils.log_security_event(
+                "CRITICAL_ACTION_ATTEMPT", 
+                str(cb_inter.user.id), 
+                f"Shutdown command initiated by admin in channel {cb_inter.channel.id}",
+                "HIGH"
+            )
+            
             confirm_view = discord.ui.View(timeout=60)
             yes_btn = Button(label="⏹️ Yes, Shutdown", style=discord.ButtonStyle.danger, custom_id="confirm:shutdown:yes")
             no_btn = Button(label="❌ Cancel", style=discord.ButtonStyle.secondary, custom_id="confirm:shutdown:no")
 
             async def yes_shutdown(inner):
+                # Log critical action execution
+                security_utils.log_security_event(
+                    "CRITICAL_ACTION_EXECUTED", 
+                    str(inner.user.id), 
+                    f"Shutdown command executed by admin in channel {inner.channel.id}",
+                    "CRITICAL"
+                )
+                
                 if inner.response.is_done():
                     await inner.followup.send("⏹️ Shutdown initiated! Bot is shutting down.", ephemeral=True)
                 else:
@@ -571,7 +630,15 @@ async def _reply(inter: discord.Interaction, *, content: str | None = None,
                  embed: discord.Embed | None = None, view: discord.ui.View | None = None,
                  ephemeral: bool = True):
     """Reply safely across guild/DM, response/followup, with ephemeral fallback."""
-    kwargs = {"content": content, "embed": embed, "view": view}
+    # Filter out None values to avoid Discord.py issues
+    kwargs = {}
+    if content is not None:
+        kwargs["content"] = content
+    if embed is not None:
+        kwargs["embed"] = embed
+    if view is not None:
+        kwargs["view"] = view
+    
     try:
         if hasattr(inter, "response") and not inter.response.is_done():
             await inter.response.send_message(**kwargs, ephemeral=ephemeral)

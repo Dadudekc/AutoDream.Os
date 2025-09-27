@@ -70,7 +70,7 @@ class CommandRouter:
             }
             logger.info(f"[SUCCESS] Webhook endpoints configured: {len(self.webhook_endpoints)}")
         else:
-            logger.warning("[WARNING] No webhook base URL configured")
+            logger.info("[INFO] Webhook functionality not configured (optional)")
     
     def _init_rate_limits(self):
         """Initialize rate limiting configuration."""

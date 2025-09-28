@@ -8,6 +8,7 @@ Manages task status evaluation and task claiming.
 
 import json
 import logging
+import time
 from pathlib import Path
 from typing import Dict, Any, Optional, List
 
@@ -56,7 +57,7 @@ class TaskManager:
             return "error"
     
     async def claim_task(self) -> Optional[Dict[str, Any]]:
-        """Claim a new task from future tasks."""
+        """Claim a new task from future tasks (Operating Order v1.0)."""
         try:
             if not self.future_tasks_file.exists():
                 logger.info(f"{self.agent_id}: No future tasks file found")
@@ -75,6 +76,19 @@ class TaskManager:
             if not claimed_task:
                 logger.info(f"{self.agent_id}: No suitable task found to claim")
                 return None
+            
+            # Check SLA compliance (10 min work hours, 1 hour off-hours)
+            task_created = claimed_task.get('created_at', time.time())
+            task_age = time.time() - task_created
+            
+            # Determine if we're in work hours (simplified: 9 AM - 5 PM)
+            current_hour = time.localtime().tm_hour
+            is_work_hours = 9 <= current_hour <= 17
+            sla_threshold = 600 if is_work_hours else 3600  # 10 min or 1 hour
+            
+            if task_age > sla_threshold:
+                # Send SLA violation alert
+                await self._send_sla_violation_alert(claimed_task, task_age)
             
             # Move task to working tasks
             await self._move_task_to_working(claimed_task, available_tasks)
@@ -197,5 +211,36 @@ class TaskManager:
         except Exception as e:
             logger.error(f"{self.agent_id}: Error continuing task: {e}")
             return "error"
+    
+    async def _send_sla_violation_alert(self, task: Dict[str, Any], task_age: float) -> None:
+        """Send SLA violation alert to inbox (Operating Order v1.0)."""
+        try:
+            # Create SLA violation message file in inbox
+            inbox_dir = self.workspace_dir / "inbox"
+            inbox_dir.mkdir(exist_ok=True)
+            
+            timestamp = time.strftime("%Y%m%d_%H%M%S")
+            task_id = task.get('task_id', 'unknown')
+            message_file = inbox_dir / f"{timestamp}_sla_violation_{task_id}.json"
+            
+            message_data = {
+                "from": self.agent_id,
+                "to": self.agent_id,
+                "message": f"SLA_VIOLATION {task_id} Task age {task_age:.0f}s exceeds threshold",
+                "timestamp": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                "type": "SLA_VIOLATION",
+                "priority": "HIGH",
+                "task_id": task_id,
+                "task_age_seconds": task_age,
+                "threshold_exceeded": True
+            }
+            
+            with open(message_file, 'w') as f:
+                json.dump(message_data, f, indent=2)
+            
+            logger.warning(f"{self.agent_id}: SLA violation alert sent for task {task_id}")
+            
+        except Exception as e:
+            logger.error(f"{self.agent_id}: Error sending SLA violation alert: {e}")
 
 

@@ -15,6 +15,11 @@ from pathlib import Path
 import discord
 from discord.ext import commands
 
+# Import logging system
+from src.services.discord_bot.core.command_logger import command_logger
+from src.services.discord_bot.core.command_wrapper import safe_command
+from src.services.discord_bot.core.logging_config import setup_discord_logging
+
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
 
@@ -46,15 +51,31 @@ class EnhancedDiscordAgentBot(commands.Bot):
             intents.message_content = True
             intents.members = False
         super().__init__(command_prefix=command_prefix, intents=intents)
+        
+        # Setup logging system
+        setup_discord_logging()
         self.agent_coordinates = self._load_agent_coordinates()
         self.devlog_service = DiscordDevlogService()
-        self.messaging_service = ConsolidatedMessagingService("config/coordinates.json")
         
-        # Initialize advanced systems
-        self.command_router = CommandRouter(self)
-        self.agent_communication = AgentCommunicationEngine(self, self.messaging_service)
-        self.security_manager = SecurityManager(self)
-        self.ui_embeds = UIEmbedManager()
+        # Initialize messaging service with proper error handling
+        try:
+            self.messaging_service = ConsolidatedMessagingService("config/coordinates.json")
+        except Exception as e:
+            logger.error(f"Failed to initialize messaging service: {e}")
+            self.messaging_service = None
+        
+        # Initialize advanced systems with proper error handling
+        try:
+            self.command_router = CommandRouter(self)
+            self.agent_communication = AgentCommunicationEngine(self, self.messaging_service)
+            self.security_manager = SecurityManager(self)
+            self.ui_embeds = UIEmbedManager()
+        except Exception as e:
+            logger.error(f"Failed to initialize advanced systems: {e}")
+            self.command_router = None
+            self.agent_communication = None
+            self.security_manager = None
+            self.ui_embeds = None
         
         # Architecture Foundation Integration
         self.pattern_manager = None
@@ -82,8 +103,10 @@ class EnhancedDiscordAgentBot(commands.Bot):
         from src.services.discord_bot.commands.messaging_advanced_commands import setup_messaging_advanced_commands
         from src.services.discord_bot.commands.onboarding_commands import setup_onboarding_commands
         from src.services.discord_bot.commands.stall_commands import setup_stall_commands
+        from src.services.discord_bot.commands.admin_commands import setup_admin_commands
+        from src.services.discord_bot.commands.send_controller import setup_send_controller
         
-        # Setup all commands
+        # Setup consolidated commands for vibe coders
         setup_basic_commands(self)
         setup_agent_commands(self)
         setup_devlog_commands(self)
@@ -95,13 +118,15 @@ class EnhancedDiscordAgentBot(commands.Bot):
         setup_messaging_advanced_commands(self)
         setup_onboarding_commands(self)
         setup_stall_commands(self)
+        setup_admin_commands(self)
+        setup_send_controller(self)
         
-        logger.info("✅ All slash commands registered in setup_hook")
+        logger.info("[SUCCESS] All slash commands registered in setup_hook")
 
     async def _initialize_architecture(self):
         """Initialize architecture foundation integration."""
         try:
-            logger.info("🏗️ Initializing architecture foundation integration...")
+            logger.info("[INIT] Initializing architecture foundation integration...")
             
             # Initialize unified architecture core if available
             if self.unified_architecture:
@@ -133,10 +158,10 @@ class EnhancedDiscordAgentBot(commands.Bot):
                 await self.event_bus.publish_event(startup_event)
             
             self._architecture_initialized = True
-            logger.info("✅ Architecture foundation integration complete")
+            logger.info("[SUCCESS] Architecture foundation integration complete")
             
         except Exception as e:
-            logger.error(f"❌ Failed to initialize architecture foundation: {e}")
+            logger.error(f"[ERROR] Failed to initialize architecture foundation: {e}")
             raise
 
     async def _initialize_design_patterns(self):
@@ -170,10 +195,10 @@ class EnhancedDiscordAgentBot(commands.Bot):
                 description="Communication pattern for Discord messaging"
             )
             
-            logger.info("✅ Design patterns initialized for Discord system")
+            logger.info("[SUCCESS] Design patterns initialized for Discord system")
             
         except Exception as e:
-            logger.error(f"❌ Failed to initialize design patterns: {e}")
+            logger.error(f"[ERROR] Failed to initialize design patterns: {e}")
             raise
 
     async def _initialize_system_integrations(self):
@@ -193,10 +218,10 @@ class EnhancedDiscordAgentBot(commands.Bot):
                 endpoint="agent_workspaces"
             )
             
-            logger.info("✅ System integrations initialized for Discord system")
+            logger.info("[SUCCESS] System integrations initialized for Discord system")
             
         except Exception as e:
-            logger.error(f"❌ Failed to initialize system integrations: {e}")
+            logger.error(f"[ERROR] Failed to initialize system integrations: {e}")
             raise
 
     async def _initialize_domain_entities(self):
@@ -224,10 +249,10 @@ class EnhancedDiscordAgentBot(commands.Bot):
                 category=TaskCategory.SYSTEM_OPERATION
             )
             
-            logger.info("✅ Domain entities initialized for Discord system")
+            logger.info("[SUCCESS] Domain entities initialized for Discord system")
             
         except Exception as e:
-            logger.error(f"❌ Failed to initialize domain entities: {e}")
+            logger.error(f"[ERROR] Failed to initialize domain entities: {e}")
             raise
 
     def _load_agent_coordinates(self):
@@ -240,7 +265,7 @@ class EnhancedDiscordAgentBot(commands.Bot):
                 data = json.load(f)
                 return data.get("agents", {})
         except Exception as e:
-            logger.info(f"⚠️  Failed to load coordinates: {e}. Using defaults.")
+            logger.info(f"[WARNING] Failed to load coordinates: {e}. Using defaults.")
             # Fallback to default coordinates
             return {
                 "Agent-1": {"active": True, "description": "Integration Specialist"},
@@ -255,14 +280,14 @@ class EnhancedDiscordAgentBot(commands.Bot):
 
     async def on_ready(self):
         """Event triggered when bot is ready."""
-        logger.info(f"✅ {self.user} is online and ready!")
+        logger.info(f"[SUCCESS] {self.user} is online and ready!")
         
         # Sync slash commands
         try:
             synced = await self.tree.sync()
-            logger.info(f"✅ Synced {len(synced)} slash commands")
+            logger.info(f"[SUCCESS] Synced {len(synced)} slash commands")
         except Exception as e:
-            logger.error(f"❌ Failed to sync slash commands: {e}")
+            logger.error(f"[ERROR] Failed to sync slash commands: {e}")
         
         await self._send_startup_notification()
         
@@ -285,54 +310,32 @@ class EnhancedDiscordAgentBot(commands.Bot):
         try:
             channel_id = os.getenv("DISCORD_CHANNEL_ID")
             if not channel_id:
-                logger.warning("⚠️  DISCORD_CHANNEL_ID not set, skipping startup notification")
+                logger.warning("[WARNING] DISCORD_CHANNEL_ID not set, skipping startup notification")
                 return
 
             channel = self.get_channel(int(channel_id))
             if not channel:
-                logger.warning(f"⚠️  Channel {channel_id} not found")
+                logger.warning(f"[WARNING] Channel {channel_id} not found")
                 return
 
-            startup_message = f"""
-🚀 **SWARM COMMANDER ONLINE** 🚀
+            startup_message = f"""🚀 **SWARM COMMANDER ONLINE** 🚀
 
 **We're online and ready to command the swarm!** 🐝
 
 **Commander Status:**
-- **Name**: {self.user.name}
-- **ID**: {self.user.id}
-- **Latency**: {round(self.latency * 1000)}ms
-- **Guilds**: {len(self.guilds)}
-- **Agents**: {len(self.agent_coordinates)} configured
-- **Architecture**: ✅ Integrated with V2_SWARM Foundation
-- **Patterns**: ✅ Design patterns active
-- **Integrations**: ✅ System integrations active
-- **Domain**: ✅ Domain entities active
+- **Name**: {self.user.name} | **ID**: {self.user.id} | **Latency**: {round(self.latency * 1000)}ms
+- **Guilds**: {len(self.guilds)} | **Agents**: {len(self.agent_coordinates)} configured
+- **Architecture**: ✅ V2_SWARM Foundation | **Patterns**: ✅ Active | **Integrations**: ✅ Active
 
-**Available Slash Commands:**
-- `/ping` - Test bot responsiveness
-- `/commands` - Show all commands
-- `/swarm-help` - Show help information
-- `/status` - Show system status
-- `/agents` - List all agents
-- `/swarm` - Send to all agents
-- `/devlog` - Create devlog
-- `/send` - Send to specific agent
-- `/agent-devlog` - Create agent-specific devlog
-- `/test-devlog` - Test devlog system
-- `/msg-status` - Get messaging status
-- `/agent-channels` - List agent channels
-- `/info` - Show bot information
+**Available Commands:** `/ping`, `/commands`, `/swarm-help`, `/status`, `/agents`, `/swarm`, `/devlog`, `/send`, `/agent-devlog`, `/test-devlog`, `/msg-status`, `/agent-channels`, `/info`
 
-**Ready for swarm coordination!** 🐝
-
-*Use `/commands` for complete command list*
-            """
+**Ready for swarm coordination!** 🐝 *Use `/commands` for complete list*"""
+            
             await channel.send(startup_message)
-            logger.info("✅ Startup notification sent")
+            logger.info("[SUCCESS] Startup notification sent")
 
         except Exception as e:
-            logger.error(f"❌ Failed to send startup notification: {e}")
+            logger.error(f"[ERROR] Failed to send startup notification: {e}")
 
     async def on_message(self, message):
         """Event triggered when a message is received."""
@@ -369,21 +372,23 @@ class EnhancedDiscordAgentBot(commands.Bot):
             if interaction.type == discord.InteractionType.application_command:
                 # Check security
                 if self.security_manager.is_user_blocked(str(interaction.user.id)):
-                    await interaction.response.send_message(
-                        "🚫 You are currently blocked from using commands.",
-                        ephemeral=True
-                    )
+                    if not interaction.response.is_done():
+                        await interaction.response.send_message(
+                            "You are currently blocked from using commands.",
+                            ephemeral=True
+                        )
                     return
                 
                 # Check rate limits
                 command_name = interaction.command.name if interaction.command else "unknown"
                 if not await self.security_manager.check_rate_limit(
-                    str(interaction.user.id), command_name, str(interaction.channel.id)
+                    str(interaction.user.id), command_name, str(interaction.channel.id), interaction
                 ):
-                    await interaction.response.send_message(
-                        "⏰ Rate limit exceeded. Please wait before using commands again.",
-                        ephemeral=True
-                    )
+                    if not interaction.response.is_done():
+                        await interaction.response.send_message(
+                            "Rate limit exceeded. Please wait before using commands again.",
+                            ephemeral=True
+                        )
                     return
                 
                 # Route command through command router
@@ -391,11 +396,12 @@ class EnhancedDiscordAgentBot(commands.Bot):
                     await self.command_router.route_command(interaction, command_name)
         
         except Exception as e:
-            logger.error(f"❌ Error handling interaction: {e}")
+            logger.error(f"Error handling interaction: {e}")
             try:
-                await interaction.response.send_message(
-                    "❌ An error occurred while processing your request.",
-                    ephemeral=True
-                )
+                if not interaction.response.is_done():
+                    await interaction.response.send_message(
+                        "An error occurred while processing your request.",
+                        ephemeral=True
+                    )
             except:
                 pass

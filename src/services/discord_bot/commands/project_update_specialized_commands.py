@@ -8,7 +8,12 @@ Specialized project update slash commands for Discord bot.
 
 import discord
 from discord import app_commands
+import logging
+from src.services.discord_bot.commands.basic_commands import safe_command
 from typing import Optional
+
+
+logger = logging.getLogger(__name__)
 
 
 def setup_project_update_specialized_commands(bot):
@@ -72,6 +77,7 @@ def setup_project_update_specialized_commands(bot):
             await interaction.response.send_message(f"❌ Error sending V2 compliance update: {e}")
 
     @bot.tree.command(name="doc-cleanup", description="Send documentation cleanup update")
+    @safe_command
     @app_commands.describe(
         files_removed="Number of files removed",
         files_kept="Number of files kept",

@@ -313,10 +313,8 @@ def pytest_configure(config):
         "markers", "requires_selenium: Tests that require Selenium WebDriver"
     )
     config.addinivalue_line(
-# SECURITY: Token placeholder - replace with environment variable
-    )
-    config.addinivalue_line(
-        "markers", "requires_pyautogui: Tests that require PyAutoGUI"
+        "markers",
+        "requires_pyautogui: Tests that require PyAutoGUI"
     )
 
 

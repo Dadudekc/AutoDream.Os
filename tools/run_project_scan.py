@@ -14,10 +14,10 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 try:
-    from tools.projectscanner import ProjectScanner
+    from tools.projectscanner.enhanced_scanner import EnhancedProjectScanner
 except Exception:
     logger.info(
-        "ERROR: Unable to import ProjectScanner. Update import path in tools/run_project_scan.py."
+        "ERROR: Unable to import EnhancedProjectScanner. Update import path in tools/run_project_scan.py."
     )
     sys.exit(2)
 
@@ -30,24 +30,26 @@ def run() -> None:
         os.chdir(repo_root)
     except Exception:
         pass
-    scanner = ProjectScanner(project_root=".")
-    scanner.scan_project()
+    scanner = EnhancedProjectScanner(project_root=".")
+    
+    # Progress callback for enhanced scanning
+    def progress_callback(percent: int):
+        if percent % 20 == 0:  # Log every 20%
+            logger.info(f"📊 Enhanced scan progress: {percent}%")
+    
+    # Run enhanced scan with all features
+    scanner.scan_project(progress_callback=progress_callback)
+    
+    # Generate additional outputs
     scanner.generate_init_files(overwrite=True)
-    scanner.categorize_agents()
-    scanner.report_generator.save_report()
     scanner.export_chatgpt_context()
-    scanner.modular_reporter.generate_modular_reports()
     artifacts = [
         "project_analysis.json",
-        "test_analysis.json",
+        "test_analysis.json", 
         "chatgpt_project_context.json",
         "dependency_cache.json",
-        "analysis/agent_analysis.json",
-        "analysis/module_analysis.json",
-        "analysis/file_type_analysis.json",
-        "analysis/complexity_analysis.json",
-        "analysis/dependency_analysis.json",
-        "analysis/architecture_overview.json",
+        "analysis/enhanced_agent_analysis.json",
+        "analysis/enhanced_architecture_overview.json",
     ]
     existing = [p for p in artifacts if Path(p).exists()]
     if existing:

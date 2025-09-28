@@ -8,7 +8,12 @@ Agent onboarding commands for Discord bot.
 
 import discord
 from discord import app_commands
+import logging
+from src.services.discord_bot.commands.basic_commands import safe_command
 from typing import Optional
+
+
+logger = logging.getLogger(__name__)
 
 
 def setup_onboarding_commands(bot):
@@ -164,6 +169,7 @@ def setup_onboarding_commands(bot):
             await interaction.response.send_message(f"❌ Error checking onboarding status: {e}")
 
     @bot.tree.command(name="onboarding-info", description="Get information about the onboarding process")
+    @safe_command
     async def get_onboarding_info(interaction: discord.Interaction):
         """Get information about the onboarding process."""
         try:

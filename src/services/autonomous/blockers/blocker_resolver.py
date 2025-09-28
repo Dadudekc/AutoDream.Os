@@ -8,6 +8,7 @@ Detects and resolves blockers in autonomous workflow.
 
 import json
 import logging
+import time
 from pathlib import Path
 from typing import Dict, Any, List, Optional
 
@@ -26,7 +27,7 @@ class BlockerResolver:
         self.blockers_file = workspace_dir / "blockers.json"
     
     async def resolve_blockers(self) -> int:
-        """Check for and resolve blockers."""
+        """Check for and resolve blockers (Operating Order v1.0)."""
         blockers_resolved = 0
         
         try:
@@ -36,8 +37,16 @@ class BlockerResolver:
             if not blockers:
                 return 0
             
-            # Resolve each blocker
+            # Resolve each blocker with SLA monitoring
             for blocker in blockers:
+                # Check blocker age for SLA compliance (>20 minutes)
+                blocker_start = blocker.get('start_time', time.time())
+                blocker_age = time.time() - blocker_start
+                
+                if blocker_age > 1200:  # 20 minutes
+                    # Send BLOCKER escalation message
+                    await self._send_blocker_escalation(blocker)
+                
                 if await self._resolve_blocker(blocker):
                     blockers_resolved += 1
                     
@@ -309,5 +318,37 @@ class BlockerResolver:
         """Check for invalid configurations."""
         # Simplified implementation
         return []
+    
+    async def _send_blocker_escalation(self, blocker: Dict[str, Any]) -> None:
+        """Send BLOCKER escalation message to inbox (Operating Order v1.0)."""
+        try:
+            # Create blocker escalation message file in inbox
+            inbox_dir = self.workspace_dir / "inbox"
+            inbox_dir.mkdir(exist_ok=True)
+            
+            timestamp = time.strftime("%Y%m%d_%H%M%S")
+            blocker_id = blocker.get('type', 'unknown')
+            message_file = inbox_dir / f"{timestamp}_blocker_{blocker_id}.json"
+            
+            message_data = {
+                "from": self.agent_id,
+                "to": self.agent_id,
+                "message": f"BLOCKER {blocker_id} {blocker.get('description', 'Unknown blocker')} {blocker.get('resolution', 'Manual intervention needed')}",
+                "timestamp": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                "type": "BLOCKER",
+                "priority": "HIGH",
+                "blocker_id": blocker_id,
+                "reason": blocker.get('description', 'Unknown blocker'),
+                "need": blocker.get('resolution', 'Manual intervention needed'),
+                "age_minutes": int((time.time() - blocker.get('start_time', time.time())) / 60)
+            }
+            
+            with open(message_file, 'w') as f:
+                json.dump(message_data, f, indent=2)
+            
+            logger.info(f"{self.agent_id}: BLOCKER escalation sent to inbox: {blocker_id}")
+            
+        except Exception as e:
+            logger.error(f"{self.agent_id}: Error sending BLOCKER escalation: {e}")
 
 

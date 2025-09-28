@@ -104,6 +104,7 @@ class EnhancedDiscordAgentBot(commands.Bot):
         from src.services.discord_bot.commands.onboarding_commands import setup_onboarding_commands
         from src.services.discord_bot.commands.stall_commands import setup_stall_commands
         from src.services.discord_bot.commands.admin_commands import setup_admin_commands
+        from src.services.discord_bot.commands.send_controller import setup_send_controller
         
         # Setup consolidated commands for vibe coders
         setup_basic_commands(self)
@@ -118,6 +119,7 @@ class EnhancedDiscordAgentBot(commands.Bot):
         setup_onboarding_commands(self)
         setup_stall_commands(self)
         setup_admin_commands(self)
+        setup_send_controller(self)
         
         logger.info("[SUCCESS] All slash commands registered in setup_hook")
 

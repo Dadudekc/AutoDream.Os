@@ -155,7 +155,7 @@ def command_logger_decorator(logger_instance: CommandLogger):
                 # Send timeout message using safe response function
                 try:
                     # Import here to avoid circular imports
-                    from src.services.discord_bot.commands.basic_commands import send_discord_response
+                    from src.services.discord_bot.commands.response_utils import send_discord_response
                     await send_discord_response(
                         interaction,
                         content="⏰ Command timed out. Please try again.",
@@ -181,7 +181,7 @@ def command_logger_decorator(logger_instance: CommandLogger):
                 # Send error message using safe response function
                 try:
                     # Import here to avoid circular imports
-                    from src.services.discord_bot.commands.basic_commands import send_discord_response
+                    from src.services.discord_bot.commands.response_utils import send_discord_response
                     await send_discord_response(
                         interaction,
                         content="❌ An error occurred while executing the command. Please try again.",

@@ -1,0 +1,50 @@
+{
+  "roles": {
+    "captain": {
+      "description": "Unstall & coordinate. Owns task graph.",
+      "extra_procedures": [
+        "Poll agents' status.json; if >10m stale -> PRIORITY ping",
+        "Update runtime/consolidated_tasks.json after any assignment/status change",
+        "Escalate blockers; re-route tasks; maintain initiatives backlog"
+      ],
+      "default_owner": null,
+      "signals": ["PRIORITY","BLOCKER","PING","HEARTBEAT"]
+    },
+    "co_captain": {
+      "description": "Shadow captain; health and failover.",
+      "extra_procedures": [
+        "Run heartbeat & drift checks",
+        "Apply captain updates if captain lag > 10m"
+      ],
+      "default_owner": null,
+      "signals": ["HEARTBEAT","FAILOVER"]
+    },
+    "qc_v2": {
+      "description": "V2 compliance, QC, duplication guard.",
+      "extra_procedures": [
+        "Run scanners; write runtime/v2_report.json",
+        "Open refactor tickets; block merges if violating V2"
+      ],
+      "default_owner": null,
+      "signals": ["QC_FAIL","QC_PASS"]
+    },
+    "system_integrator": {
+      "description": "Standardize via CLI/tools; wire cues/multichat.",
+      "extra_procedures": [
+        "Audit repetitive steps; propose CLI under tools/",
+        "Message agents to respond with cue/multichat formats"
+      ],
+      "default_owner": null,
+      "signals": ["TOOL_REQ","TOOL_READY"]
+    },
+    "devlog_manager": {
+      "description": "Stylize & publish devlogs in Victor's voice.",
+      "extra_procedures": [
+        "Ingest raw devlogs; format; stage social posts",
+        "Maintain /runtime/devlogs/pending and published"
+      ],
+      "default_owner": null,
+      "signals": ["DEVLOG_PENDING","DEVLOG_PUBLISH"]
+    }
+  }
+}

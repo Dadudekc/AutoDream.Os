@@ -72,11 +72,19 @@ class DiscordBotConfig:
         """Get Discord channel ID for specific agent."""
         return self.config["agent_channels"].get(agent_id)
     
+    def get_guild_id(self) -> Optional[str]:
+        """Get Discord guild (server) ID."""
+        guild_id = self.config["discord_guild_id"]
+        if guild_id and guild_id != "your_discord_guild_id_here":
+            return guild_id
+        return None
+    
     def is_configured(self) -> bool:
         """Check if Discord bot is properly configured."""
         return (
             self.get_bot_token() is not None and
-            self.get_channel_id() is not None
+            self.get_channel_id() is not None and
+            self.get_guild_id() is not None
         )
     
     def get_config_status(self) -> Dict[str, Any]:
@@ -84,6 +92,7 @@ class DiscordBotConfig:
         return {
             "bot_token_configured": self.get_bot_token() is not None,
             "channel_id_configured": self.get_channel_id() is not None,
+            "guild_id_configured": self.get_guild_id() is not None,
             "agent_channels_configured": {
                 agent: self.get_agent_channel_id(agent) is not None
                 for agent in self.config["agent_channels"]
@@ -102,6 +111,7 @@ class DiscordBotConfig:
         
         print(f"Bot Token: {'✅ Configured' if status['bot_token_configured'] else '❌ Not configured'}")
         print(f"Channel ID: {'✅ Configured' if status['channel_id_configured'] else '❌ Not configured'}")
+        print(f"Guild ID: {'✅ Configured' if status['guild_id_configured'] else '❌ Not configured'}")
         print(f"Webhook: {'✅ Configured' if status['webhook_configured'] else '❌ Not configured'}")
         print(f"Security: {'✅ Enabled' if status['security_enabled'] else '❌ Disabled'}")
         print(f"Rate Limit: {'✅ Enabled' if status['rate_limit_enabled'] else '❌ Disabled'}")
@@ -117,6 +127,8 @@ class DiscordBotConfig:
                 print("  - Discord bot token not set (DISCORD_BOT_TOKEN)")
             if not status['channel_id_configured']:
                 print("  - Discord channel ID not set (DISCORD_CHANNEL_ID)")
+            if not status['guild_id_configured']:
+                print("  - Discord guild ID not set (DISCORD_GUILD_ID)")
         
         return self.is_configured()
 
@@ -138,7 +150,8 @@ def main():
         print("\n📝 To fix configuration issues:")
         print("1. Set DISCORD_BOT_TOKEN environment variable")
         print("2. Set DISCORD_CHANNEL_ID environment variable")
-        print("3. Set agent-specific channel IDs if needed")
+        print("3. Set DISCORD_GUILD_ID environment variable")
+        print("4. Set agent-specific channel IDs if needed")
         return 1
 
 if __name__ == "__main__":

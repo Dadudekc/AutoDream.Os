@@ -1,0 +1,38 @@
+{
+  "test_type": "quick",
+  "commands_tested": 5,
+  "success_rate": 1.0,
+  "results": [
+    {
+      "command": "ping",
+      "success": true,
+      "response_length": 21,
+      "execution_time": 0.0
+    },
+    {
+      "command": "commands",
+      "success": true,
+      "response_length": 1758,
+      "execution_time": 0.0
+    },
+    {
+      "command": "agents",
+      "success": true,
+      "response_length": 604,
+      "execution_time": 0.0
+    },
+    {
+      "command": "status",
+      "success": true,
+      "response_length": 53,
+      "execution_time": 0.0
+    },
+    {
+      "command": "send",
+      "success": true,
+      "response_length": 76,
+      "execution_time": 0.0
+    }
+  ],
+  "status": "PASSED"
+}

@@ -17,6 +17,7 @@ from collections import defaultdict, deque
 
 import discord
 from discord import app_commands
+from .security_utils import security_utils
 
 logger = logging.getLogger(__name__)
 
@@ -81,7 +82,7 @@ class SecurityManager:
         # Start security monitoring
         asyncio.create_task(self._security_monitoring_loop())
         
-        logger.info("✅ Security Manager initialized")
+        logger.info("[SUCCESS] Security Manager initialized")
     
     def _init_security_policies(self):
         """Initialize security policies."""
@@ -95,7 +96,7 @@ class SecurityManager:
             "log_security_events": True,
             "notify_admins": True
         }
-        logger.info("✅ Security policies initialized")
+        logger.info("[SUCCESS] Security policies initialized")
     
     def _init_rate_limits(self):
         """Initialize rate limits."""
@@ -105,9 +106,10 @@ class SecurityManager:
             "per_command": RateLimit(requests=20, window=3600, burst=5),  # 20/hour, 5 burst
             "per_channel": RateLimit(requests=500, window=3600, burst=50),  # 500/hour, 50 burst
             "admin_commands": RateLimit(requests=50, window=3600, burst=10),  # 50/hour, 10 burst
+            "critical_commands": RateLimit(requests=3, window=300, burst=1),  # 3 per 5 minutes for restart/shutdown
             "devlog_commands": RateLimit(requests=30, window=3600, burst=5),  # 30/hour, 5 burst
         }
-        logger.info("✅ Rate limits initialized")
+        logger.info("[SUCCESS] Rate limits initialized")
     
     async def _security_monitoring_loop(self):
         """Security monitoring loop."""
@@ -118,7 +120,7 @@ class SecurityManager:
                 await self._update_user_ratings()
                 await asyncio.sleep(60)  # Check every minute
             except Exception as e:
-                logger.error(f"❌ Error in security monitoring: {e}")
+                logger.error(f"[ERROR] Error in security monitoring: {e}")
                 await asyncio.sleep(300)  # Wait 5 minutes on error
     
     async def _cleanup_old_activity(self):
@@ -156,24 +158,39 @@ class SecurityManager:
         # This would implement a more sophisticated user rating system
         pass
     
+    async def _is_admin_user(self, interaction: discord.Interaction) -> bool:
+        """Check if user is an administrator."""
+        try:
+            if isinstance(interaction.channel, discord.abc.GuildChannel):
+                perms = interaction.user.guild_permissions  # type: ignore[attr-defined]
+                return bool(perms and perms.administrator)
+        except Exception:
+            pass
+        return False
+    
     async def check_rate_limit(self, user_id: str, command_name: str, 
-                             channel_id: str = None) -> bool:
+                             channel_id: str = None, interaction: discord.Interaction = None) -> bool:
         """Check if user is within rate limits."""
         current_time = time.time()
         
-        # Check global rate limit
-        if not await self._check_specific_rate_limit("global", user_id, current_time):
+        # Check if user is admin - use higher limits instead of complete bypass
+        is_admin = interaction and await self._is_admin_user(interaction)
+        
+        # Check global rate limit (admins use higher limits)
+        global_limit = "admin_commands" if is_admin else "global"
+        if not await self._check_specific_rate_limit(global_limit, user_id, current_time):
             await self._handle_security_threat(
                 user_id, ThreatType.RATE_LIMIT, SecurityLevel.MEDIUM,
-                {"limit_type": "global", "command": command_name}
+                {"limit_type": global_limit, "command": command_name, "is_admin": is_admin}
             )
             return False
         
-        # Check per-user rate limit
-        if not await self._check_specific_rate_limit("per_user", user_id, current_time):
+        # Check per-user rate limit (admins use higher limits)
+        user_limit = "admin_commands" if is_admin else "per_user"
+        if not await self._check_specific_rate_limit(user_limit, user_id, current_time):
             await self._handle_security_threat(
                 user_id, ThreatType.RATE_LIMIT, SecurityLevel.MEDIUM,
-                {"limit_type": "per_user", "command": command_name}
+                {"limit_type": user_limit, "command": command_name, "is_admin": is_admin}
             )
             return False
         
@@ -196,17 +213,56 @@ class SecurityManager:
                 )
                 return False
         
-        # Check command-specific rate limits
+        # Check critical command rate limits (restart/shutdown)
+        critical_commands = ["restart", "shutdown", "reboot"]
+        if any(cmd in command_name.lower() for cmd in critical_commands):
+            if not await self._check_specific_rate_limit("critical_commands", user_id, current_time):
+                await self._handle_security_threat(
+                    user_id, ThreatType.RATE_LIMIT, SecurityLevel.HIGH,
+                    {"limit_type": "critical_commands", "command": command_name, "is_admin": is_admin}
+                )
+                return False
+        
+        # Check admin command rate limits
         if command_name.startswith("admin"):
             if not await self._check_specific_rate_limit("admin_commands", user_id, current_time):
                 return False
         
+        # Check devlog command rate limits
         if "devlog" in command_name:
             if not await self._check_specific_rate_limit("devlog_commands", user_id, current_time):
                 return False
         
         # Record activity
         self.user_activity[user_id].append(current_time)
+        
+        return True
+    
+    async def _check_specific_rate_limit(self, limit_type: str, user_id: str, 
+                                       current_time: float) -> bool:
+        """Check specific rate limit for a user."""
+        if limit_type not in self.rate_limits:
+            return True
+        
+        limit = self.rate_limits[limit_type]
+        
+        # Get or create user activity record
+        if not hasattr(self, '_rate_limit_records'):
+            self._rate_limit_records = defaultdict(lambda: deque())
+        
+        user_records = self._rate_limit_records[f"{user_id}_{limit_type}"]
+        
+        # Remove old records outside the window
+        cutoff_time = current_time - limit.window
+        while user_records and user_records[0] < cutoff_time:
+            user_records.popleft()
+        
+        # Check if within limits
+        if len(user_records) >= limit.requests:
+            return False
+        
+        # Add current request
+        user_records.append(current_time)
         
         return True
     
@@ -284,7 +340,7 @@ class SecurityManager:
         
         # Log security event
         if self.security_policies["log_security_events"]:
-            logger.warning(f"🚨 Security threat: {threat_type.value} - {user_id} - {severity.value}")
+            logger.warning(f"[ALERT] Security threat: {threat_type.value} - {user_id} - {severity.value}")
         
         # Notify admins if enabled
         if self.security_policies["notify_admins"]:
@@ -297,7 +353,7 @@ class SecurityManager:
         # Schedule unblock
         asyncio.create_task(self._unblock_user_after(user_id, duration))
         
-        logger.warning(f"🚫 User blocked: {user_id} for {duration} seconds")
+        logger.warning(f"[BLOCKED] User blocked: {user_id} for {duration} seconds")
     
     async def _unblock_user_after(self, user_id: str, duration: int):
         """Unblock user after specified duration."""
@@ -305,15 +361,15 @@ class SecurityManager:
         
         if user_id in self.blocked_users:
             self.blocked_users.remove(user_id)
-            logger.info(f"✅ User unblocked: {user_id}")
+            logger.info(f"[SUCCESS] User unblocked: {user_id}")
     
     async def _notify_admins(self, event: SecurityEvent):
         """Notify administrators of security event."""
         try:
             # This would send notification to admin channels
-            logger.info(f"📢 Admin notification: {event.event_type.value} - {event.user_id}")
+            logger.info(f"[NOTIFY] Admin notification: {event.event_type.value} - {event.user_id}")
         except Exception as e:
-            logger.error(f"❌ Failed to notify admins: {e}")
+            logger.error(f"[ERROR] Failed to notify admins: {e}")
     
     def is_user_blocked(self, user_id: str) -> bool:
         """Check if user is blocked."""

@@ -8,7 +8,12 @@ Core project update slash commands for Discord bot.
 
 import discord
 from discord import app_commands
+import logging
+from src.services.discord_bot.commands.basic_commands import safe_command
 from typing import Optional
+
+
+logger = logging.getLogger(__name__)
 
 
 def setup_project_update_core_commands(bot):

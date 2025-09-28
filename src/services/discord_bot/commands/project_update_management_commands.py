@@ -8,6 +8,11 @@ Management and monitoring slash commands for project updates.
 
 import discord
 from discord import app_commands
+import logging
+from src.services.discord_bot.commands.basic_commands import safe_command
+
+
+logger = logging.getLogger(__name__)
 
 
 def setup_project_update_management_commands(bot):
@@ -60,6 +65,7 @@ def setup_project_update_management_commands(bot):
             await interaction.response.send_message(f"❌ Error retrieving update history: {e}")
 
     @bot.tree.command(name="update-stats", description="View project update statistics")
+    @safe_command
     async def view_update_stats(interaction: discord.Interaction):
         """View project update statistics."""
         try:

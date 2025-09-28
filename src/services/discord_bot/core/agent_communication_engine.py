@@ -83,7 +83,7 @@ class AgentCommunicationEngine:
         # Initialize communication monitoring
         self._init_communication_monitoring()
         
-        logger.info("✅ Agent Communication Engine initialized")
+        logger.info("[SUCCESS] Agent Communication Engine initialized")
     
     def _load_agent_config(self):
         """Load agent configuration."""
@@ -99,15 +99,15 @@ class AgentCommunicationEngine:
                     performance_metrics={}
                 )
             
-            logger.info(f"✅ Loaded {len(self.agents)} agents")
+            logger.info(f"[SUCCESS] Loaded {len(self.agents)} agents")
         except Exception as e:
-            logger.error(f"❌ Failed to load agent config: {e}")
+            logger.error(f"[ERROR] Failed to load agent config: {e}")
     
     def _init_communication_monitoring(self):
         """Initialize communication monitoring."""
         # Start background monitoring task
         asyncio.create_task(self._monitor_agent_communication())
-        logger.info("✅ Communication monitoring initialized")
+        logger.info("[SUCCESS] Communication monitoring initialized")
     
     async def _monitor_agent_communication(self):
         """Monitor agent communication in background."""
@@ -117,7 +117,7 @@ class AgentCommunicationEngine:
                 await self._update_agent_status()
                 await asyncio.sleep(30)  # Check every 30 seconds
             except Exception as e:
-                logger.error(f"❌ Error in communication monitoring: {e}")
+                logger.error(f"[ERROR] Error in communication monitoring: {e}")
                 await asyncio.sleep(60)  # Wait longer on error
     
     async def _process_message_queue(self):
@@ -143,7 +143,7 @@ class AgentCommunicationEngine:
                     processed_messages.append(message)
                     
             except Exception as e:
-                logger.error(f"❌ Error processing message {message.id}: {e}")
+                logger.error(f"[ERROR] Error processing message {message.id}: {e}")
                 message.status = MessageStatus.FAILED
                 processed_messages.append(message)
         
@@ -175,7 +175,7 @@ class AgentCommunicationEngine:
             return success
             
         except Exception as e:
-            logger.error(f"❌ Failed to send message to {message.to_agent}: {e}")
+            logger.error(f"[ERROR] Failed to send message to {message.to_agent}: {e}")
             return False
     
     async def _update_agent_status(self):
@@ -238,7 +238,7 @@ class AgentCommunicationEngine:
                 )
                 message_ids.append(message_id)
         
-        logger.info(f"📢 Broadcast sent to {len(message_ids)} agents")
+        logger.info(f"[BROADCAST] Broadcast sent to {len(message_ids)} agents")
         return message_ids
     
     async def get_agent_status(self, agent_id: str) -> Optional[AgentStatus]:

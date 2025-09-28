@@ -27,7 +27,7 @@ from pathlib import Path
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from services.agent_autonomous_workflow import run_agent_autonomous_cycle
+from services.autonomous.core.autonomous_workflow import AgentAutonomousWorkflow
 
 
 async def main():
@@ -97,37 +97,31 @@ Examples:
     cycle_results = []
     
     try:
+        workflow = AgentAutonomousWorkflow(args.agent)
+        
         if args.continuous:
-            cycle_count = 0
-            while True:
-                cycle_count += 1
-                print(f"🔄 Cycle {cycle_count} starting...")
-                
-                result = await run_agent_autonomous_cycle(args.agent)
-                cycle_results.append(result)
-                
-                print(f"✅ Cycle {cycle_count} completed")
-                print(f"📊 Actions: {len(result.get('actions_taken', []))}")
-                print(f"📨 Messages: {result.get('messages_processed', 0)}")
-                print(f"📋 Tasks: {result.get('tasks_processed', 0)}")
-                print(f"📝 Devlogs: {result.get('devlogs_created', 0)}")
-                
-                if result.get('error'):
-                    print(f"❌ Error: {result['error']}")
-                
-                print(f"⏳ Waiting {args.interval} seconds until next cycle...")
-                print("-" * 50)
-                
-                await asyncio.sleep(args.interval)
+            print(f"🔄 Starting continuous cycles for {args.agent}...")
+            print(f"   Base interval: {args.interval} seconds")
+            print(f"   Press Ctrl+C to stop gracefully")
+            print("-" * 50)
+            
+            try:
+                await workflow.run_continuous_cycles(base_interval_seconds=args.interval)
+            except KeyboardInterrupt:
+                print(f"\n🛑 Stopping continuous cycles for {args.agent}...")
+                await workflow.stop()
+                print("✅ Graceful shutdown complete")
                 
         else:
             for cycle in range(1, args.cycles + 1):
                 print(f"🔄 Cycle {cycle}/{args.cycles} starting...")
                 
-                result = await run_agent_autonomous_cycle(args.agent)
+                result = await workflow.run_autonomous_cycle()
                 cycle_results.append(result)
                 
-                print(f"✅ Cycle {cycle} completed")
+                print(f"✅ Cycle {cycle}/{args.cycles} completed")
+                print(f"   Cycle ID: {result.get('cycle_id', 'unknown')}")
+                print(f"   Status: {result.get('status', 'unknown')}")
                 print(f"📊 Actions: {len(result.get('actions_taken', []))}")
                 print(f"📨 Messages: {result.get('messages_processed', 0)}")
                 print(f"📋 Tasks: {result.get('tasks_processed', 0)}")

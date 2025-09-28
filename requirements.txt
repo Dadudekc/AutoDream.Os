@@ -1,19 +1,36 @@
-# Core dependencies
-pyyaml>=6.0
-pathlib2>=2.3.7; python_version < "3.4"
-pydantic>=2.0.0
-pydantic-settings>=2.0.0
+# V2_SWARM Discord Commander Dependencies
+# ======================================
 
-# CLI and utilities
-click>=8.0.0
-pyperclip>=1.8.0
+# Core Runtime Dependencies
+# -------------------------
+discord.py>=2.3.0              # Discord bot framework
+PyAutoGUI>=0.9.54              # GUI automation (requires tkinter)
+pyperclip>=1.8.0               # Clipboard operations
+pyyaml>=6.0                    # YAML configuration files
 
-# Discord bot dependencies
-discord.py>=2.3.0
+# System Dependencies (install separately)
+# ---------------------------------------
+# python3-tk                   # Required for PyAutoGUI (install via apt)
+# python3-dev                  # Python development headers
 
-# Development and testing (minimal runtime deps)
-pytest>=7.0.0
-black>=22.0.0
-isort>=5.10.0
-ruff>=0.1.0
-flake8>=6.0.0
+# Development Dependencies (optional)
+# -----------------------------------
+pytest>=7.0.0                 # Testing framework
+black>=22.0.0                  # Code formatting
+isort>=5.10.0                  # Import sorting
+ruff>=0.1.0                    # Fast linting
+
+# Unused Dependencies (removed)
+# -----------------------------
+# pydantic>=2.0.0              # Not used in current codebase
+# pydantic-settings>=2.0.0     # Not used in current codebase
+# click>=8.0.0                 # Available but not used
+# pathlib2>=2.3.7              # Python 3.4+ has pathlib built-in
+# flake8>=6.0.0                # Replaced by ruff
+
+# Notes
+# -----
+# 1. PyAutoGUI requires tkinter which must be installed via system package manager
+# 2. On Ubuntu/Debian: sudo apt-get install python3-tk python3-dev
+# 3. Consider migrating to pynput in future to eliminate tkinter dependency
+# 4. All dependencies tested and verified working with Discord bot

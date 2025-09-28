@@ -8,6 +8,11 @@ Messaging-related slash commands for Discord bot.
 
 import discord
 from discord import app_commands
+import logging
+from src.services.discord_bot.commands.basic_commands import safe_command
+
+
+logger = logging.getLogger(__name__)
 
 
 def setup_messaging_commands(bot):
@@ -36,6 +41,7 @@ def setup_messaging_commands(bot):
             await interaction.response.send_message(f"❌ Error sending message: {e}")
 
     @bot.tree.command(name="msg-status", description="Get messaging system status")
+    @safe_command
     async def messaging_status(interaction: discord.Interaction):
         """Get messaging system status."""
         try:

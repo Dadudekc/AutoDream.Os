@@ -16,8 +16,9 @@ from typing import Dict, Any
 class CoordinateLoader:
     """Loads and manages agent coordinates for messaging system"""
     
-    def __init__(self, config_path: str = "config/coordinates.json"):
+    def __init__(self, config_path: str = "config/canonical_coordinates.json"):
         self.config_path = config_path
+        self.canonical_path = "config/canonical_coordinates.json"
         self.coordinates = {}
     
     def load(self):
@@ -25,14 +26,41 @@ class CoordinateLoader:
         self.coordinates = self._load_coordinates()
     
     def _load_coordinates(self) -> Dict[str, Any]:
-        """Load coordinates from configuration file"""
+        """Load coordinates preferring canonical SSOT; fallback to provided or defaults."""
         try:
-            if os.path.exists(self.config_path):
-                with open(self.config_path, 'r', encoding='utf-8') as f:
-                    return json.load(f)
+            # Prefer canonical SSOT
+            if os.path.exists(self.canonical_path):
+                with open(self.canonical_path, 'r', encoding='utf-8') as f:
+                    canonical = json.load(f)
             else:
-                print(f"Warning: {self.config_path} not found, using default coordinates")
-                return self._get_default_coordinates()
+                canonical = None
+
+            # Load provided path if not canonical or for compatibility
+            provided = None
+            if self.config_path and os.path.exists(self.config_path) and self.config_path != self.canonical_path:
+                with open(self.config_path, 'r', encoding='utf-8') as f:
+                    provided = json.load(f)
+
+            # Choose canonical if available; otherwise provided; otherwise defaults
+            data = canonical if canonical is not None else (provided if provided is not None else self._get_default_coordinates())
+
+            # If both exist, ensure no drift for agents present in canonical
+            if canonical is not None and provided is not None:
+                try:
+                    for agent_key, coords in canonical.items():
+                        if agent_key in provided and provided[agent_key] != coords:
+                            print(f"Warning: coordinate drift detected for agent {agent_key}; using canonical value")
+                            provided[agent_key] = coords
+                    data = provided
+                except Exception:
+                    # If any issue, stick to canonical
+                    data = canonical
+
+            return {
+                "agents": {
+                    f"Agent-{k}": {"chat_input_coordinates": v} for k, v in data.items()
+                }
+            } if "agents" not in data else data
         except Exception as e:
             print(f"Error loading coordinates: {e}")
             return self._get_default_coordinates()
@@ -83,7 +111,39 @@ class CoordinateLoader:
     
     def validate_all(self):
         """Validate all coordinates (compatible with messaging service)"""
+        issues = []
+        try:
+            # Basic shape and bounds validation
+            for agent_id, data in self.coordinates.get("agents", {}).items():
+                coords = data.get("chat_input_coordinates")
+                if not isinstance(coords, list) or len(coords) < 2:
+                    issues.append(f"Invalid format for {agent_id}")
+                    continue
+                x, y = coords[0], coords[1]
+                if not isinstance(x, (int, float)) or not isinstance(y, (int, float)):
+                    issues.append(f"Non-numeric coordinates for {agent_id}")
+                    continue
+        except Exception as e:
+            issues.append(f"Validation error: {e}")
+
         return type('ValidationReport', (), {
-            'is_all_ok': lambda self: True,
-            'issues': []
+            'is_all_ok': lambda self: len(issues) == 0,
+            'issues': issues
         })()
+
+    def assert_canonical_consistency(self) -> None:
+        """Raise if loaded coordinates drift from canonical SSOT where applicable."""
+        try:
+            if os.path.exists(self.canonical_path):
+                with open(self.canonical_path, 'r', encoding='utf-8') as f:
+                    canonical = json.load(f)
+                for k, v in canonical.items():
+                    agent_id = f"Agent-{k}"
+                    cur = self.coordinates.get("agents", {}).get(agent_id, {})
+                    if cur.get("chat_input_coordinates") != v:
+                        raise AssertionError(f"Coordinate drift for {agent_id}: {cur.get('chat_input_coordinates')} != {v}")
+        except AssertionError:
+            raise
+        except Exception:
+            # Do not raise for missing canon or parsing issues, loader already warns
+            pass

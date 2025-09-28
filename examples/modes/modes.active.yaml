@@ -1,0 +1,12 @@
+mode: "A4"
+captain: "Agent-1"
+projection:
+  - {canonical: "Agent-1", role: "Captain", active_index: 1}
+  - {canonical: "Agent-2", role: "Builder", active_index: 2}
+  - {canonical: "Agent-5", role: "Navigator", active_index: 3}
+  - {canonical: "Agent-7", role: "Reviewer", active_index: 4}
+guards:
+  require_clean_mailboxes: true
+  require_zero_running_tasks: true
+  require_signed_intent: true
+coordinates: "config/canonical_coordinates.json"

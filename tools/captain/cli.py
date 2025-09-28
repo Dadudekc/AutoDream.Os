@@ -56,25 +56,55 @@ def show_agent_status():
     print(report)
 
 
+def _parse_mode_to_int(value: str) -> int:
+    if isinstance(value, int):
+        return value
+    s = str(value).strip().upper()
+    if s.startswith('A'):
+        s = s[1:]
+    try:
+        return int(s)
+    except ValueError:
+        return 8
+
+
 def manage_modes(args):
     """Manage swarm modes."""
     mode_manager = ModeManager()
     
-    if args.list:
+    if getattr(args, 'list', False):
         current_mode = mode_manager.get_current_mode()
         print(f"Current Mode: {current_mode}")
         print("Available Modes: 2, 4, 5, 6, 8")
         
-    elif args.switch:
+    elif getattr(args, 'mode_action', None) == 'plan':
+        target_mode = _parse_mode_to_int(args.to)
+        plan = mode_manager.plan_mode(target_mode)
+        current_mode = mode_manager.get_current_mode()
+        print(f"Planning switch. Current mode: A{current_mode} -> A{target_mode}")
+        print(f"OK: {plan.get('ok', False)}")
+        print(f"Issues: {plan.get('issues', [])}")
+        print(f"Diff: {plan.get('diff', {})}")
+        return 0
+    
+    elif getattr(args, 'mode_action', None) == 'switch':
+        target_mode = _parse_mode_to_int(args.to)
         if args.owner not in ["captain", "co_captain"]:
             print("❌ DENIED: Only captain/co_captain may switch modes")
             return 1
             
-        success = mode_manager.switch_mode(args.switch, args.owner, force=args.force)
+        success = mode_manager.switch_mode(target_mode, args.owner, force=args.force, signature_path=args.sign)
         if success:
-            print(f"✅ Mode switched to {args.switch}-agent mode")
+            print(f"✅ Mode switched to {target_mode}-agent mode")
         else:
             print(f"❌ Mode switch blocked or failed")
+            return 1
+    elif getattr(args, 'mode_action', None) == 'rollback':
+        ok = mode_manager.rollback_mode()
+        if ok:
+            print("✅ Rolled back to previous validated state")
+        else:
+            print("❌ Rollback failed or no snapshots available")
             return 1
 
 
@@ -103,6 +133,26 @@ def manage_roles(args):
     elif args.unassign:
         role_manager.unassign_role(int(args.unassign))
         print(f"✅ Agent-{args.unassign} unassigned")
+    elif getattr(args, 'set', None):
+        import json, yaml  # type: ignore
+        file_path = Path(args.set)
+        if not file_path.exists():
+            print(f"❌ Roles file not found: {file_path}")
+            return 1
+        content = file_path.read_text(encoding='utf-8')
+        try:
+            data = yaml.safe_load(content) if file_path.suffix in {'.yml', '.yaml'} else json.loads(content)
+        except Exception as e:
+            print(f"❌ Failed to parse roles file: {e}")
+            return 1
+        if args.dry_run:
+            print("📝 DRY-RUN: Would set roles to:")
+            print(data)
+            return 0
+        active_path = Path('runtime/active_roles.json')
+        active_path.parent.mkdir(parents=True, exist_ok=True)
+        active_path.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding='utf-8')
+        print("✅ Roles updated")
 
 
 def run_oversight_loop():
@@ -191,10 +241,14 @@ def main():
     mode_parser = subparsers.add_parser('mode', help='Manage swarm modes')
     mode_subparsers = mode_parser.add_subparsers(dest='mode_action')
     mode_subparsers.add_parser('list', help='List current mode')
+    plan_parser = mode_subparsers.add_parser('plan', help='Plan a mode switch and show validation/diff')
+    plan_parser.add_argument('--to', required=True, help='Target mode (e.g., A4)')
     switch_parser = mode_subparsers.add_parser('switch', help='Switch mode')
-    switch_parser.add_argument('switch', type=int, choices=[2,4,5,6,8], help='Target mode')
+    switch_parser.add_argument('--to', required=True, help='Target mode (e.g., A4)')
     switch_parser.add_argument('--owner', default='captain', choices=['captain','co_captain'], help='Switch authority')
+    switch_parser.add_argument('--sign', dest='sign', help='Path to captain signature file')
     switch_parser.add_argument('--force', action='store_true', help='Force switch even if unsafe')
+    mode_subparsers.add_parser('rollback', help='Rollback to previous validated state')
     
     # Role management
     role_parser = subparsers.add_parser('role', help='Manage agent roles')
@@ -204,12 +258,20 @@ def main():
     assign_parser.add_argument('assign', nargs=2, metavar=('AGENT','ROLE'), help='Agent ID and role name')
     unassign_parser = role_subparsers.add_parser('unassign', help='Unassign agent role')
     unassign_parser.add_argument('unassign', type=int, help='Agent ID to unassign')
+    set_parser = role_subparsers.add_parser('set', help='Set roles from file (YAML/JSON)')
+    set_parser.add_argument('--file', dest='set', required=True, help='Roles file path')
+    set_parser.add_argument('--dry-run', action='store_true', help='Show changes without applying')
     
     # Oversight
     subparsers.add_parser('oversight', help='Run Captain oversight loop')
     
     # Coordinate management
     coord_parser = subparsers.add_parser('coords', help='Manage coordinates')
+    # Audit
+    audit_parser = subparsers.add_parser('audit', help='Audit utilities')
+    audit_sub = audit_parser.add_subparsers(dest='audit_action')
+    history_parser = audit_sub.add_parser('history', help='Show recent mode switch history')
+    history_parser.add_argument('--last', type=int, default=20, help='Number of records to show')
     coord_subparsers = coord_parser.add_subparsers(dest='coord_action')
     coord_subparsers.add_parser('validate', help='Validate coordinates')
     coord_subparsers.add_parser('show', help='Show active coordinates')
@@ -239,6 +301,16 @@ def main():
             run_oversight_loop()
         elif args.command == 'coords':
             return manage_coordinates(args)
+        elif args.command == 'audit':
+            last = getattr(args, 'last', 20)
+            hist_path = Path('runtime/governance/mode_switch.jsonl')
+            if not hist_path.exists():
+                print('No audit history found')
+                return 0
+            lines = hist_path.read_text(encoding='utf-8').strip().splitlines()[-last:]
+            for line in lines:
+                print(line)
+            return 0
         elif args.command == 'onboard':
             return onboard_agent(args.agent_id)
         elif args.command == 'inactive':

@@ -1,0 +1,13 @@
+mode: 4
+include: [1,2,3,4]
+mapping: {"1": 1, "2": 2, "3": 3, "4": 4}
+roles:
+  captain: { description: "Strategic oversight" }
+  builder: { description: "Implements tasks" }
+  navigator: { description: "Plans work" }
+  reviewer: { description: "Reviews changes" }
+assignments:
+  "1": captain
+  "2": builder
+  "3": navigator
+  "4": reviewer

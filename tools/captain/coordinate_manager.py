@@ -33,7 +33,7 @@ class CoordinateManager:
     def __init__(self, base: Path = BASE):
         """Initialize coordinate manager."""
         self.base = base
-        self.canonical_path = self.base / "config" / "coordinates" / "coords-8.json"
+        self.canonical_path = self.base / "config" / "canonical_coordinates.json"
         self.active_path = self.base / "runtime" / "active_coordinates.json"
         self.legacy_path = self.base / "config" / "coordinates.json"
     

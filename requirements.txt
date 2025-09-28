@@ -7,6 +7,7 @@ discord.py>=2.3.0              # Discord bot framework
 PyAutoGUI>=0.9.54              # GUI automation (requires tkinter)
 pyperclip>=1.8.0               # Clipboard operations
 pyyaml>=6.0                    # YAML configuration files
+prometheus_client>=0.16.0      # Metrics (optional)
 
 # System Dependencies (install separately)
 # ---------------------------------------

@@ -42,8 +42,8 @@ const AgentStatus = () => {
                 <div className="efficiency-bar">
                   <span>Efficiency: {agent.efficiency}/10</span>
                   <div className="efficiency-progress">
-                    <div 
-                      className="efficiency-fill" 
+                    <div
+                      className="efficiency-fill"
                       style={{width: `${(agent.efficiency / 10) * 100}%`}}
                     ></div>
                   </div>

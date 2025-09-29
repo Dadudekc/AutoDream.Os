@@ -6,10 +6,10 @@ V3-001: Cloud Infrastructure Data Services
 Data services configuration for cloud infrastructure.
 """
 
-import sys
 import logging
+import sys
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any
 
 # Add project root to path
 project_root = Path(__file__).parent.parent.parent
@@ -22,16 +22,16 @@ logger = logging.getLogger(__name__)
 
 class CloudInfrastructureData:
     """Data services configuration for cloud infrastructure."""
-    
+
     def __init__(self, config: InfrastructureConfig):
         """Initialize data services."""
         self.config = config
-    
-    def create_rds_config(self) -> Dict[str, Any]:
+
+    def create_rds_config(self) -> dict[str, Any]:
         """Create RDS database configuration."""
         try:
             logger.info("Creating RDS configuration...")
-            
+
             rds_config = {
                 "identifier": f"{self.config.project_name}-rds",
                 "engine": "postgres",
@@ -52,68 +52,57 @@ class CloudInfrastructureData:
                 "monitoring_interval": 60,
                 "monitoring_role_arn": f"arn:aws:iam::ACCOUNT_ID:role/{self.config.project_name}-rds-monitoring-role",
                 "db_subnet_group_name": f"{self.config.project_name}-db-subnet-group",
-                "vpc_security_group_ids": [
-                    f"{self.config.project_name}-rds-sg"
-                ],
+                "vpc_security_group_ids": [f"{self.config.project_name}-rds-sg"],
                 "parameter_group_name": f"{self.config.project_name}-postgres-params",
                 "option_group_name": f"{self.config.project_name}-postgres-options",
                 "tags": {
                     "Name": f"{self.config.project_name}-rds",
                     "Environment": self.config.environment,
-                    "Project": self.config.project_name
-                }
+                    "Project": self.config.project_name,
+                },
             }
-            
+
             # Add database subnet group
             rds_config["db_subnet_group"] = {
                 "name": f"{self.config.project_name}-db-subnet-group",
                 "subnet_ids": [
-                    f"{self.config.project_name}-database-{az}" 
+                    f"{self.config.project_name}-database-{az}"
                     for az in self.config.availability_zones
                 ],
                 "tags": {
                     "Name": f"{self.config.project_name}-db-subnet-group",
-                    "Environment": self.config.environment
-                }
+                    "Environment": self.config.environment,
+                },
             }
-            
+
             # Add parameter group
             rds_config["parameter_group"] = {
                 "name": f"{self.config.project_name}-postgres-params",
                 "family": "postgres15",
                 "description": f"Parameter group for {self.config.project_name}",
                 "parameters": [
-                    {
-                        "name": "shared_preload_libraries",
-                        "value": "pg_stat_statements"
-                    },
-                    {
-                        "name": "log_statement",
-                        "value": "all"
-                    },
-                    {
-                        "name": "log_min_duration_statement",
-                        "value": "1000"
-                    }
+                    {"name": "shared_preload_libraries", "value": "pg_stat_statements"},
+                    {"name": "log_statement", "value": "all"},
+                    {"name": "log_min_duration_statement", "value": "1000"},
                 ],
                 "tags": {
                     "Name": f"{self.config.project_name}-postgres-params",
-                    "Environment": self.config.environment
-                }
+                    "Environment": self.config.environment,
+                },
             }
-            
+
             logger.info("RDS configuration created successfully")
             return rds_config
-            
+
         except Exception as e:
             logger.error(f"Error creating RDS configuration: {e}")
             return {}
-    
-    def create_redis_config(self) -> Dict[str, Any]:
+
+    def create_redis_config(self) -> dict[str, Any]:
         """Create Redis cache configuration."""
         try:
             logger.info("Creating Redis configuration...")
-            
+
             redis_config = {
                 "cluster_id": f"{self.config.project_name}-redis",
                 "node_type": self.config.redis_node_type,
@@ -122,9 +111,7 @@ class CloudInfrastructureData:
                 "port": 6379,
                 "parameter_group_name": f"{self.config.project_name}-redis-params",
                 "subnet_group_name": f"{self.config.project_name}-redis-subnet-group",
-                "security_group_ids": [
-                    f"{self.config.project_name}-redis-sg"
-                ],
+                "security_group_ids": [f"{self.config.project_name}-redis-sg"],
                 "snapshot_retention_limit": 5,
                 "snapshot_window": "03:00-05:00",
                 "maintenance_window": "sun:05:00-sun:07:00",
@@ -135,51 +122,42 @@ class CloudInfrastructureData:
                 "tags": {
                     "Name": f"{self.config.project_name}-redis",
                     "Environment": self.config.environment,
-                    "Project": self.config.project_name
-                }
+                    "Project": self.config.project_name,
+                },
             }
-            
+
             # Add subnet group
             redis_config["subnet_group"] = {
                 "name": f"{self.config.project_name}-redis-subnet-group",
                 "description": f"Subnet group for {self.config.project_name} Redis",
                 "subnet_ids": [
-                    f"{self.config.project_name}-private-{az}" 
+                    f"{self.config.project_name}-private-{az}"
                     for az in self.config.availability_zones
                 ],
                 "tags": {
                     "Name": f"{self.config.project_name}-redis-subnet-group",
-                    "Environment": self.config.environment
-                }
+                    "Environment": self.config.environment,
+                },
             }
-            
+
             # Add parameter group
             redis_config["parameter_group"] = {
                 "name": f"{self.config.project_name}-redis-params",
                 "family": "redis7.x",
                 "description": f"Parameter group for {self.config.project_name} Redis",
                 "parameters": [
-                    {
-                        "name": "maxmemory-policy",
-                        "value": "allkeys-lru"
-                    },
-                    {
-                        "name": "timeout",
-                        "value": "300"
-                    }
+                    {"name": "maxmemory-policy", "value": "allkeys-lru"},
+                    {"name": "timeout", "value": "300"},
                 ],
                 "tags": {
                     "Name": f"{self.config.project_name}-redis-params",
-                    "Environment": self.config.environment
-                }
+                    "Environment": self.config.environment,
+                },
             }
-            
+
             logger.info("Redis configuration created successfully")
             return redis_config
-            
+
         except Exception as e:
             logger.error(f"Error creating Redis configuration: {e}")
             return {}
-
-
-

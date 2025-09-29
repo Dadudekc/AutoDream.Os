@@ -5,18 +5,20 @@ Post single-line events to per-agent Discord webhooks (no discord.py dependency)
 """
 
 import asyncio
-from typing import Optional, Mapping
+from collections.abc import Mapping
+
 import aiohttp
+
 from src.services.secret_store import SecretStore
 
 
 class DiscordLineEmitter:
     """Post single-line events to per-agent Discord webhooks (no discord.py)."""
-    
+
     def __init__(self, timeout: int = 10):
         self.timeout = timeout
 
-    def _get_webhook(self, agent_id: str) -> Optional[str]:
+    def _get_webhook(self, agent_id: str) -> str | None:
         """Get webhook URL for agent from secure storage."""
         return SecretStore.get_webhook_url(agent_id)
 
@@ -24,14 +26,14 @@ class DiscordLineEmitter:
         self,
         agent_id: str,
         line: str,
-        username: Optional[str] = None,
-        avatar_url: Optional[str] = None,
-        extra_embeds: Optional[list] = None,
+        username: str | None = None,
+        avatar_url: str | None = None,
+        extra_embeds: list | None = None,
         max_retries: int = 5,
     ) -> bool:
         """
         Emit a single-line event to Discord webhook.
-        
+
         Args:
             agent_id: Agent identifier (e.g., "Agent-1")
             line: Single-line message content
@@ -39,7 +41,7 @@ class DiscordLineEmitter:
             avatar_url: Optional custom avatar
             extra_embeds: Optional Discord embeds
             max_retries: Maximum retry attempts
-            
+
         Returns:
             True if successful, False otherwise
         """
@@ -77,5 +79,5 @@ class DiscordLineEmitter:
                 # Network error - exponential backoff
                 await asyncio.sleep(backoff)
                 backoff = min(backoff * 2, 8.0)
-        
+
         return False

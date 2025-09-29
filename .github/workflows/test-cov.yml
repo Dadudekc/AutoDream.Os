@@ -53,32 +53,32 @@ jobs:
           script: |
             const fs = require('fs');
             const { execSync } = require('child_process');
-            
+
             try {
               // Get coverage summary
               const coverageOutput = execSync('coverage report --show-missing', { encoding: 'utf8' });
               const lines = coverageOutput.split('\n');
               const totalLine = lines.find(line => line.includes('TOTAL'));
-              
+
               if (totalLine) {
                 const match = totalLine.match(/(\d+)%\s*$/);
                 const coverage = match ? match[1] : 'unknown';
-                
+
                 const comment = `## 📊 Coverage Report
-                
+
                 **Global Coverage:** ${coverage}%
-                
+
                 <details>
                 <summary>Full Coverage Report</summary>
-                
+
                 \`\`\`
                 ${coverageOutput}
                 \`\`\`
-                
+
                 </details>
-                
+
                 Coverage reports available in [artifacts](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}).`;
-                
+
                 github.rest.issues.createComment({
                   issue_number: context.issue.number,
                   owner: context.repo.owner,
@@ -89,6 +89,3 @@ jobs:
             } catch (error) {
               console.log('Could not generate coverage comment:', error.message);
             }
-
-
-

@@ -7,7 +7,6 @@ Factory functions for creating Thea authentication components.
 """
 
 from .login_handler import TheaLoginHandler
-from .cookie_manager import TheaCookieManager
 
 
 def create_thea_login_handler(username=None, password=None):
@@ -21,14 +20,20 @@ def check_thea_login_status(driver=None):
         try:
             # Check for login indicators
             page_source = driver.page_source.lower()
-            login_indicators = ["sign in", "log in", "login", "continue with google", "continue with microsoft"]
-            
+            login_indicators = [
+                "sign in",
+                "log in",
+                "login",
+                "continue with google",
+                "continue with microsoft",
+            ]
+
             for indicator in login_indicators:
                 if indicator in page_source:
                     return False
-            
+
             return True
         except Exception:
             return False
-    
+
     return False

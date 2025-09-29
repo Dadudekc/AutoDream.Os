@@ -1,14 +1,11 @@
 # AUTO-GENERATED __init__.py
 # DO NOT EDIT MANUALLY - changes may be overwritten
 
-from . import agent_registry
-from . import commandresult
-from . import coordinate_agent_registry
-from . import core
+from . import agent_registry, commandresult, coordinate_agent_registry, core
 
 __all__ = [
-    'agent_registry',
-    'commandresult',
-    'coordinate_agent_registry',
-    'core',
+    "agent_registry",
+    "commandresult",
+    "coordinate_agent_registry",
+    "core",
 ]

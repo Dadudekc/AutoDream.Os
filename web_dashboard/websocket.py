@@ -1,4 +1,3 @@
-
 """
 Enhanced WebSocket Server for Real-time Dashboard Updates
 =======================================================
@@ -11,17 +10,16 @@ Provides real-time updates for the Dream.OS Captain Dashboard including:
 """
 
 import asyncio
-import websockets
-import json
 import datetime
-from typing import Dict, List, Set
+import json
 import logging
-from pathlib import Path
-import os
+
+import websockets
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
 
 class DashboardWebSocketServer:
     """Enhanced WebSocket server for real-time dashboard updates."""
@@ -30,7 +28,7 @@ class DashboardWebSocketServer:
         """Initialize the WebSocket server."""
         self.host = host
         self.port = port
-        self.connected_clients: Set = set()
+        self.connected_clients: set = set()
         self.devlogs_cache = []
         self.last_devlog_update = datetime.datetime.now()
 
@@ -60,7 +58,7 @@ class DashboardWebSocketServer:
                     if message == "ping":
                         await websocket.send(json.dumps({"type": "pong"}))
 
-                except asyncio.TimeoutError:
+                except TimeoutError:
                     # No message from client, continue
                     pass
                 except websockets.exceptions.ConnectionClosed:
@@ -87,9 +85,9 @@ class DashboardWebSocketServer:
                     "system_uptime": self._get_uptime(),
                     "cpu_usage": 45,
                     "memory_usage": 67,
-                    "disk_usage": 23
+                    "disk_usage": 23,
                 },
-                "timestamp": datetime.datetime.now().isoformat()
+                "timestamp": datetime.datetime.now().isoformat(),
             }
             await websocket.send(json.dumps(system_metrics))
 
@@ -102,7 +100,7 @@ class DashboardWebSocketServer:
             agent_status = {
                 "type": "agent_status",
                 "data": await self._get_agent_status(),
-                "timestamp": datetime.datetime.now().isoformat()
+                "timestamp": datetime.datetime.now().isoformat(),
             }
             await websocket.send(json.dumps(agent_status))
 
@@ -117,12 +115,13 @@ class DashboardWebSocketServer:
                 system_metrics = {
                     "type": "system_metrics",
                     "data": {
-                        "cpu_usage": 40 + (datetime.datetime.now().second % 20),  # Simulated variation
+                        "cpu_usage": 40
+                        + (datetime.datetime.now().second % 20),  # Simulated variation
                         "memory_usage": 60 + (datetime.datetime.now().second % 15),
                         "disk_usage": 20 + (datetime.datetime.now().second % 10),
-                        "active_connections": len(self.connected_clients)
+                        "active_connections": len(self.connected_clients),
                     },
-                    "timestamp": datetime.datetime.now().isoformat()
+                    "timestamp": datetime.datetime.now().isoformat(),
                 }
                 await websocket.send(json.dumps(system_metrics))
 
@@ -140,8 +139,8 @@ class DashboardWebSocketServer:
                         "timestamp": datetime.datetime.now().isoformat(),
                         "level": "INFO",
                         "message": f"Dashboard update - {len(self.connected_clients)} active connections",
-                        "source": "websocket_server"
-                    }
+                        "source": "websocket_server",
+                    },
                 }
                 await websocket.send(json.dumps(log_message))
 
@@ -150,7 +149,7 @@ class DashboardWebSocketServer:
         except Exception as e:
             logger.error(f"Error sending periodic updates: {e}")
 
-    async def _get_devlog_summary(self) -> Dict:
+    async def _get_devlog_summary(self) -> dict:
         """Get summary of recent devlog activity."""
         try:
             # This would normally query the vector database
@@ -168,23 +167,25 @@ class DashboardWebSocketServer:
                             "agent": "Agent-4",
                             "action": "Enhanced Devlog System Implementation",
                             "status": "completed",
-                            "timestamp": datetime.datetime.now().isoformat()
+                            "timestamp": datetime.datetime.now().isoformat(),
                         },
                         {
                             "agent": "Agent-2",
                             "action": "Architecture review completed",
                             "status": "completed",
-                            "timestamp": (datetime.datetime.now() - datetime.timedelta(minutes=5)).isoformat()
-                        }
-                    ]
+                            "timestamp": (
+                                datetime.datetime.now() - datetime.timedelta(minutes=5)
+                            ).isoformat(),
+                        },
+                    ],
                 },
-                "timestamp": datetime.datetime.now().isoformat()
+                "timestamp": datetime.datetime.now().isoformat(),
             }
         except Exception as e:
             logger.error(f"Error getting devlog summary: {e}")
             return None
 
-    async def _get_agent_status(self) -> List[Dict]:
+    async def _get_agent_status(self) -> list[dict]:
         """Get current status of all agents."""
         try:
             # Simulated agent status data
@@ -194,57 +195,69 @@ class DashboardWebSocketServer:
                     "status": "ACTIVE",
                     "current_task": "V3-010",
                     "efficiency": 9.5,
-                    "last_activity": datetime.datetime.now().isoformat()
+                    "last_activity": datetime.datetime.now().isoformat(),
                 },
                 {
                     "id": "Agent-2",
                     "status": "ACTIVE",
                     "current_task": "V3-008",
                     "efficiency": 8.8,
-                    "last_activity": (datetime.datetime.now() - datetime.timedelta(minutes=2)).isoformat()
+                    "last_activity": (
+                        datetime.datetime.now() - datetime.timedelta(minutes=2)
+                    ).isoformat(),
                 },
                 {
                     "id": "Agent-3",
                     "status": "ACTIVE",
                     "current_task": "V3-003",
                     "efficiency": 8.2,
-                    "last_activity": (datetime.datetime.now() - datetime.timedelta(minutes=1)).isoformat()
+                    "last_activity": (
+                        datetime.datetime.now() - datetime.timedelta(minutes=1)
+                    ).isoformat(),
                 },
                 {
                     "id": "Agent-4",
                     "status": "ACTIVE",
                     "current_task": "V3-COORDINATION-001",
                     "efficiency": 9.8,
-                    "last_activity": datetime.datetime.now().isoformat()
+                    "last_activity": datetime.datetime.now().isoformat(),
                 },
                 {
                     "id": "Agent-5",
                     "status": "ACTIVE",
                     "current_task": "AUTONOMOUS_OPERATION",
                     "efficiency": 8.0,
-                    "last_activity": (datetime.datetime.now() - datetime.timedelta(minutes=3)).isoformat()
+                    "last_activity": (
+                        datetime.datetime.now() - datetime.timedelta(minutes=3)
+                    ).isoformat(),
                 },
                 {
                     "id": "Agent-6",
                     "status": "ACTIVE",
                     "current_task": "AUTONOMOUS_OPERATION",
                     "efficiency": 8.3,
-                    "last_activity": (datetime.datetime.now() - datetime.timedelta(minutes=1)).isoformat()
+                    "last_activity": (
+                        datetime.datetime.now() - datetime.timedelta(minutes=1)
+                    ).isoformat(),
                 },
                 {
                     "id": "Agent-7",
                     "status": "ACTIVE",
                     "current_task": "AUTONOMOUS_OPERATION",
                     "efficiency": 7.9,
-                    "last_activity": (datetime.datetime.now() - datetime.timedelta(minutes=4)).isoformat()
+                    "last_activity": (
+                        datetime.datetime.now() - datetime.timedelta(minutes=4)
+                    ).isoformat(),
                 },
                 {
                     "id": "Agent-8",
                     "status": "ACTIVE",
                     "current_task": "AUTONOMOUS_OPERATION",
                     "efficiency": 8.1,
-                    "last_activity": (datetime.datetime.now() - datetime.timedelta(minutes=2)).isoformat()
-                }
+                    "last_activity": (
+                        datetime.datetime.now() - datetime.timedelta(minutes=2)
+                    ).isoformat(),
+                },
             ]
             return agents
         except Exception as e:
@@ -255,14 +268,16 @@ class DashboardWebSocketServer:
         """Get system uptime as formatted string."""
         try:
             # Calculate uptime since server start
-            uptime_seconds = int((datetime.datetime.now() - self._server_start_time).total_seconds())
+            uptime_seconds = int(
+                (datetime.datetime.now() - self._server_start_time).total_seconds()
+            )
             hours, remainder = divmod(uptime_seconds, 3600)
             minutes, seconds = divmod(remainder, 60)
             return f"{hours}h {minutes}m {seconds}s"
         except:
             return "Unknown"
 
-    async def broadcast_message(self, message: Dict):
+    async def broadcast_message(self, message: dict):
         """Broadcast a message to all connected clients."""
         if not self.connected_clients:
             return
@@ -306,6 +321,7 @@ class DashboardWebSocketServer:
 # Global server instance
 websocket_server = DashboardWebSocketServer()
 
+
 async def main():
     """Main function to run the WebSocket server."""
     try:
@@ -313,6 +329,7 @@ async def main():
     except KeyboardInterrupt:
         logger.info("Received keyboard interrupt, shutting down...")
         await websocket_server.stop()
+
 
 if __name__ == "__main__":
     asyncio.run(main())

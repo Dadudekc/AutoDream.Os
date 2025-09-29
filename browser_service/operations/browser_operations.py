@@ -6,9 +6,9 @@ Browser Operations
 Browser operation components for page interactions.
 """
 
-import time
 import logging
-from typing import Optional, Dict, Any
+import time
+from typing import Any
 
 from ..adapters.chrome_adapter import BrowserAdapter
 from ..config.browser_config import TheaConfig
@@ -24,31 +24,33 @@ class BrowserOperations:
         self.browser_adapter = browser_adapter
         self.config = config
 
-    def navigate_to_conversation(self, url: Optional[str] = None) -> bool:
+    def navigate_to_conversation(self, url: str | None = None) -> bool:
         """Navigate to Thea conversation page."""
         try:
             target_url = url or self.config.base_url
-            
+
             if not self.browser_adapter.navigate(target_url):
                 logger.error(f"Failed to navigate to {target_url}")
                 return False
-            
+
             # Wait for page to load
             time.sleep(3)
-            
+
             # Verify page loaded correctly
             if not self._verify_page_loaded():
                 logger.error("Page did not load correctly")
                 return False
-            
+
             logger.info(f"Successfully navigated to {target_url}")
             return True
-            
+
         except Exception as e:
             logger.error(f"Error navigating to conversation: {e}")
             return False
 
-    def send_message(self, message: str, input_selector: str = "textarea", send_selector: str = "button") -> bool:
+    def send_message(
+        self, message: str, input_selector: str = "textarea", send_selector: str = "button"
+    ) -> bool:
         """Send a message to Thea."""
         try:
             # Find input field
@@ -56,41 +58,43 @@ class BrowserOperations:
             if not input_element:
                 logger.error(f"Could not find input element: {input_selector}")
                 return False
-            
+
             # Clear and type message
             input_element.clear()
-# SECURITY: Key placeholder - replace with environment variable
-            
+            # SECURITY: Key placeholder - replace with environment variable
+
             # Find and click send button
             send_button = self.browser_adapter.find_element(send_selector)
             if not send_button:
                 logger.error(f"Could not find send button: {send_selector}")
                 return False
-            
+
             send_button.click()
-            
+
             logger.info("Message sent successfully")
             return True
-            
+
         except Exception as e:
             logger.error(f"Error sending message: {e}")
             return False
 
-    def wait_for_response_ready(self, timeout: float = 30.0, input_selector: str = "textarea") -> bool:
+    def wait_for_response_ready(
+        self, timeout: float = 30.0, input_selector: str = "textarea"
+    ) -> bool:
         """Wait for response to be ready."""
         try:
             start_time = time.time()
-            
+
             while time.time() - start_time < timeout:
                 if self._is_input_available(input_selector):
                     logger.info("Response ready - input field available")
                     return True
-                
+
                 time.sleep(1)
-            
+
             logger.warning(f"Timeout waiting for response after {timeout} seconds")
             return False
-            
+
         except Exception as e:
             logger.error(f"Error waiting for response: {e}")
             return False
@@ -108,29 +112,29 @@ class BrowserOperations:
         try:
             current_url = self.browser_adapter.get_current_url()
             title = self.browser_adapter.get_title()
-            
+
             # Basic checks
             if not current_url or not title:
                 return False
-            
+
             # Check if we're on the right domain
             if "chatgpt.com" not in current_url:
                 return False
-            
+
             return True
-            
+
         except Exception as e:
             logger.error(f"Error verifying page load: {e}")
             return False
 
-    def get_page_status(self, input_selector: str = "textarea") -> Dict[str, Any]:
+    def get_page_status(self, input_selector: str = "textarea") -> dict[str, Any]:
         """Get current page status."""
         try:
             return {
                 "url": self.browser_adapter.get_current_url(),
                 "title": self.browser_adapter.get_title(),
                 "input_available": self._is_input_available(input_selector),
-                "page_loaded": self._verify_page_loaded()
+                "page_loaded": self._verify_page_loaded(),
             }
         except Exception as e:
             logger.error(f"Error getting page status: {e}")
@@ -139,7 +143,5 @@ class BrowserOperations:
                 "title": "",
                 "input_available": False,
                 "page_loaded": False,
-                "error": str(e)
+                "error": str(e),
             }
-
-

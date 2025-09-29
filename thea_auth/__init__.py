@@ -6,14 +6,12 @@ Modular authentication system for Thea communication.
 """
 
 from .cookie_manager import TheaCookieManager
+from .factory import check_thea_login_status, create_thea_login_handler
 from .login_handler import TheaLoginHandler
-from .factory import create_thea_login_handler, check_thea_login_status
 
 __all__ = [
     "TheaCookieManager",
-    "TheaLoginHandler", 
+    "TheaLoginHandler",
     "create_thea_login_handler",
-    "check_thea_login_status"
+    "check_thea_login_status",
 ]
-
-

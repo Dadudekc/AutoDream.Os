@@ -26,24 +26,23 @@ logger = logging.getLogger(__name__)
 
 class DocumentationArchitectCLI:
     """Command-line interface for documentation architecture tools."""
-    
+
     def __init__(self):
         """Initialize the CLI."""
         self.setup_logging()
-    
+
     def setup_logging(self):
         """Setup logging for the CLI."""
         logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+            level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
         )
-    
+
     def generate_documentation(self, target_path: str) -> bool:
         """Generate living documentation for target path."""
         try:
             print(f"📚 Generating documentation for: {target_path}")
             print("🏗️ Documentation Architect analysis starting...")
-            
+
             # Simulate documentation generation
             doc_result = {
                 "status": "success",
@@ -52,36 +51,44 @@ class DocumentationArchitectCLI:
                     "api_documentation": 15,
                     "code_documentation": 45,
                     "architecture_docs": 8,
-                    "knowledge_base_entries": 23
+                    "knowledge_base_entries": 23,
                 },
                 "coverage": {
                     "api_coverage": "85%",
                     "code_coverage": "72%",
                     "architecture_coverage": "90%",
-                    "knowledge_completeness": "78%"
-                }
+                    "knowledge_completeness": "78%",
+                },
             }
-            
-            print(f"✅ Documentation generation completed!")
+
+            print("✅ Documentation generation completed!")
             print(f"📖 API documentation: {doc_result['generated_docs']['api_documentation']} files")
-            print(f"💻 Code documentation: {doc_result['generated_docs']['code_documentation']} files")
-            print(f"🏗️ Architecture docs: {doc_result['generated_docs']['architecture_docs']} files")
-            print(f"🧠 Knowledge base entries: {doc_result['generated_docs']['knowledge_base_entries']} entries")
-            
+            print(
+                f"💻 Code documentation: {doc_result['generated_docs']['code_documentation']} files"
+            )
+            print(
+                f"🏗️ Architecture docs: {doc_result['generated_docs']['architecture_docs']} files"
+            )
+            print(
+                f"🧠 Knowledge base entries: {doc_result['generated_docs']['knowledge_base_entries']} entries"
+            )
+
             # Save documentation report
-            report_path = f"documentation_reports/{Path(target_path).name}_documentation_report.json"
+            report_path = (
+                f"documentation_reports/{Path(target_path).name}_documentation_report.json"
+            )
             Path("documentation_reports").mkdir(exist_ok=True)
-            
-            with open(report_path, 'w') as f:
+
+            with open(report_path, "w") as f:
                 json.dump(doc_result, f, indent=2)
-            
+
             print(f"📄 Documentation report saved to: {report_path}")
             return True
-            
+
         except Exception as e:
             print(f"❌ Documentation generation failed: {e}")
             return False
-    
+
     def build_knowledge_graph(self, target_path: str) -> None:
         """Build knowledge graph from codebase."""
         print(f"🕸️ Building knowledge graph for: {target_path}")
@@ -89,7 +96,7 @@ class DocumentationArchitectCLI:
         print("  • 156 entities identified")
         print("  • 342 relationships mapped")
         print("  • 89 concepts categorized")
-    
+
     def synchronize_docs(self, target_path: str) -> None:
         """Synchronize documentation with codebase."""
         print(f"🔄 Synchronizing documentation for: {target_path}")
@@ -97,7 +104,7 @@ class DocumentationArchitectCLI:
         print("  • 12 outdated docs updated")
         print("  • 5 new docs created")
         print("  • 3 deprecated docs archived")
-    
+
     def show_tools(self) -> None:
         """Show available documentation architect tools."""
         print("📚 Available Documentation Architect Tools:")
@@ -120,11 +127,11 @@ def main():
     parser.add_argument("--build-knowledge-graph", metavar="PATH", help="Build knowledge graph")
     parser.add_argument("--synchronize", metavar="PATH", help="Synchronize documentation")
     parser.add_argument("--show-tools", action="store_true", help="Show available tools")
-    
+
     args = parser.parse_args()
-    
+
     cli = DocumentationArchitectCLI()
-    
+
     if args.generate:
         success = cli.generate_documentation(args.generate)
         sys.exit(0 if success else 1)

@@ -4,27 +4,29 @@ Temporary Message Sender for Discord Commander Success Confirmation
 """
 
 import json
+import logging
 import time
+
 import pyautogui
 import pyperclip
-import logging
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 def send_message_to_agent(agent_id: str, message: str):
     """Send message to specific agent using coordinates."""
 
     # Load coordinates
-    with open('config/coordinates.json', 'r') as f:
+    with open("config/coordinates.json") as f:
         coords_data = json.load(f)
 
-    if agent_id not in coords_data['agents']:
+    if agent_id not in coords_data["agents"]:
         logger.error(f"Agent {agent_id} not found in coordinates")
         return False
 
-    agent_coords = coords_data['agents'][agent_id]['chat_input_coordinates']
+    agent_coords = coords_data["agents"][agent_id]["chat_input_coordinates"]
     x, y = agent_coords[0], agent_coords[1]
 
     # Format A2A message
@@ -83,11 +85,11 @@ Tags: GENERAL
         time.sleep(0.5)
 
         # Paste message
-        pyautogui.hotkey('ctrl', 'v')
+        pyautogui.hotkey("ctrl", "v")
         time.sleep(0.5)
 
         # Send message
-        pyautogui.press('enter')
+        pyautogui.press("enter")
 
         logger.info(f"Message sent to {agent_id} at coordinates ({x}, {y})")
         return True
@@ -95,6 +97,7 @@ Tags: GENERAL
     except Exception as e:
         logger.error(f"Error sending message to {agent_id}: {e}")
         return False
+
 
 def main():
     """Main function to send Discord Commander success confirmation."""
@@ -143,6 +146,7 @@ def main():
         print("📊 Ready for production deployment")
     else:
         print("❌ Failed to send Discord Commander confirmation")
+
 
 if __name__ == "__main__":
     main()

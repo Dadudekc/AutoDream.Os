@@ -1,7 +1,6 @@
-import os
+import argparse
 import subprocess
 from pathlib import Path
-import argparse
 
 # -----------------------------
 # CONFIGURABLE PROJECT SETTINGS
@@ -25,7 +24,7 @@ FOLDERS = [
     "tests",
     "docs",
     "logs",
-    "backups"
+    "backups",
 ]
 
 # -----------------------------
@@ -36,101 +35,101 @@ FILES = {
     ".gitignore": "# Dependencies\n*.pyc\n__pycache__/\n*.pyo\n*.pyd\n.Python\nbuild/\ndevelop-eggs/\nlib/\nlib64/\nparts/\nsdist/\nvar/\nwheels/\n*.egg-info/\n.installed.cfg\n*.egg\n\n# Environment variables\n.env\n.env.local\n.env.development.local\n.env.test.local\n.env.production.local\n\n# IDE\n.vscode/\n.idea/\n*.swp\n*.swo\n*~\n\n# OS\n.DS_Store\n.DS_Store?\n._*\n.Spotlight-V100\n.Trashes\nehthumbs.db\nThumbs.db\n\n# Logs\nlogs/\n*.log\nnpm-debug.log*\nyarn-debug.log*\nyarn-error.log*\n\n# Runtime data\npids\n*.pid\n*.seed\n*.pid.lock\n\n# Coverage directory used by tools like istanbul\ncoverage/\n*.lcov\n\n# nyc test coverage\n.nyc_output\n\n# Dependency directories\nnode_modules/\njspm_packages/\n\n# TypeScript v1 declaration files\ntypelib/\n\n# Optional npm cache directory\n.npm\n\n# Optional eslint cache\n.eslintcache\n\n# Microbundle cache\n.rpt2_cache/\n.rts2_cache_cjs/\n.rts2_cache_es/\n.rts2_cache_umd/\n\n# Optional REPL history\n.node_repl_history\n\n# Output of 'npm pack'\n*.tgz\n\n# Yarn Integrity file\n.yarn-integrity\n\n# dotenv environment variables file\n.env\n\n# parcel-bundler cache (https://parceljs.org/)\n.cache\n.parcel-cache\n\n# Next.js build output\n.next\n\n# Nuxt.js build / generate output\n.nuxt\ndist\n\n# Gatsby files\n.cache/\npublic\n\n# Storybook build outputs\n.out\n.storybook-out\nstorybook-static\n\n# Temporary folders\ntmp/\ntemp/\n\n# Editor directories and files\n.vscode/*\n!.vscode/extensions.json\n.idea\n.DS_Store\n*.suo\n*.ntvs*\n*.njsproj\n*.sln\n*.sw?\n\n# Database\n*.sqlite\n*.sqlite3\n*.db\n\n# Memory files\nmemory/\n\n# Backup files\nbackups/\n\n# Test files\ntest_*.py\n*_test.py\n\n# Coverage reports\nhtmlcov/\n.coverage\n.coverage.*\n.cache\nnosetests.xml\ncoverage.xml\n*.cover\n*.py,cover\n.hypothesis/\n.pytest_cache/\n\n# Translations\n*.mo\n*.pot\n\n# Django stuff:\n*.log\nlocal_settings.py\ndb.sqlite3\n\n# Flask stuff:\ninstance/\n.webassets-cache\n\n# Scrapy stuff:\n.scrapy\n\n# Sphinx documentation\ndocs/_build/\n\n# PyBuilder\ntarget/\n\n# Jupyter Notebook\n.ipynb_checkpoints\n\n# IPython\nprofile_default/\nipython_config.py\n\n# pyenv\n.python-version\n\n# pipenv\nPipfile.lock\n\n# PEP 582\n__pypackages__/\n\n# Celery stuff\ncelerybeat-schedule\ncelerybeat.pid\n\n# SageMath parsed files\n*.sage.py\n\n# Environments\n.env\n.venv\nenv/\nvenv/\nENV/\nenv.bak/\nvenv.bak/\n\n# Spyder project settings\n.spyderproject\n.spyproject\n\n# Rope project settings\n.ropeproject\n\n# mkdocs documentation\n/site\n\n# mypy\n.mypy_cache/\n.dmypy.json\ndmypy.json\n\n# Pyre type checker\n.pyre/\n\n# pytype static type analyzer\n.pytype/\n\n# Cython debug symbols\ncython_debug/\n",
     "main.py": (
         "#!/usr/bin/env python3\n"
-        "\"\"\"\n"
+        '"""\n'
         "Agent Cellphone V2 - Main Entry Point\n"
         "=====================================\n"
         "\n"
         "Multi-Agent Swarm System for Autonomous Development\n"
-        "\"\"\"\n\n"
+        '"""\n\n'
         "import asyncio\n"
         "from src.services.consolidated_messaging_service import ConsolidatedMessagingService\n"
         "from src.services.autonomous.mailbox.mailbox_manager import MailboxManager\n"
         "from src.core.unified_coordinate_loader import UnifiedCoordinateLoader\n"
         "\n"
         "class AgentSwarmSystem:\n"
-        "    \"\"\"Main swarm coordination system.\"\"\"\n"
+        '    """Main swarm coordination system."""\n'
         "\n"
         "    def __init__(self):\n"
         "        self.messaging_service = ConsolidatedMessagingService()\n"
         "        self.coordinate_loader = UnifiedCoordinateLoader()\n"
-        "        self.mailbox_manager = MailboxManager(\"Agent-5\")\n"
-        "        print(\"🐝 Agent Cellphone V2 Swarm System Initialized\")\n"
+        '        self.mailbox_manager = MailboxManager("Agent-5")\n'
+        '        print("🐝 Agent Cellphone V2 Swarm System Initialized")\n'
         "\n"
         "    async def run(self):\n"
-        "        \"\"\"Run the swarm system.\"\"\"\n"
-        "        print(\"🚀 Starting Agent Swarm...\")\n"
-        "        print(\"📍 Agents positioned at:\")\n"
+        '        """Run the swarm system."""\n'
+        '        print("🚀 Starting Agent Swarm...")\n'
+        '        print("📍 Agents positioned at:")\n'
         "        for agent_id, coords in self.coordinate_loader.get_coordinates().items():\n"
-        "            print(f\"  {agent_id}: {coords}\")\n"
+        '            print(f"  {agent_id}: {coords}")\n'
         "\n"
-        "        print(\"📬 Mailbox system active\")\n"
-        "        print(\"💬 Messaging service operational\")\n"
-        "        print(\"🎯 Ready for autonomous operations\")\n"
+        '        print("📬 Mailbox system active")\n'
+        '        print("💬 Messaging service operational")\n'
+        '        print("🎯 Ready for autonomous operations")\n'
         "\n"
         "        # Main swarm loop would go here\n"
         "        while True:\n"
         "            await asyncio.sleep(1)\n"
         "\n"
         "async def main():\n"
-        "    \"\"\"Main entry point.\"\"\"\n"
+        '    """Main entry point."""\n'
         "    swarm = AgentSwarmSystem()\n"
         "    await swarm.run()\n"
         "\n"
         "if __name__ == '__main__':\n"
-        "    print(f\"🧬 {PROJECT_NAME} - Multi-Agent Swarm System\")\n"
-        "    print(f\"👨‍💻 Built by: {AUTHOR}\")\n"
-        "    print(\"=\" * 60)\n"
+        '    print(f"🧬 {PROJECT_NAME} - Multi-Agent Swarm System")\n'
+        '    print(f"👨‍💻 Built by: {AUTHOR}")\n'
+        '    print("=" * 60)\n'
         "    asyncio.run(main())\n"
     ),
     "config/coordinates.json": (
         "{\n"
-        "  \"agents\": {\n"
-        "    \"Agent-1\": [-1269, 481],\n"
-        "    \"Agent-2\": [-308, 480],\n"
-        "    \"Agent-3\": [-1269, 1001],\n"
-        "    \"Agent-4\": [-308, 1000],\n"
-        "    \"Agent-5\": [652, 421],\n"
-        "    \"Agent-6\": [1612, 419],\n"
-        "    \"Agent-7\": [920, 851],\n"
-        "    \"Agent-8\": [1611, 941]\n"
+        '  "agents": {\n'
+        '    "Agent-1": [-1269, 481],\n'
+        '    "Agent-2": [-308, 480],\n'
+        '    "Agent-3": [-1269, 1001],\n'
+        '    "Agent-4": [-308, 1000],\n'
+        '    "Agent-5": [652, 421],\n'
+        '    "Agent-6": [1612, 419],\n'
+        '    "Agent-7": [920, 851],\n'
+        '    "Agent-8": [1611, 941]\n'
         "  },\n"
-        "  \"monitor_layout\": {\n"
-        "    \"primary\": [0, 0, 1920, 1080],\n"
-        "    \"secondary\": [-1920, 0, 1920, 1080]\n"
+        '  "monitor_layout": {\n'
+        '    "primary": [0, 0, 1920, 1080],\n'
+        '    "secondary": [-1920, 0, 1920, 1080]\n'
         "  }\n"
         "}"
     ),
     "config/swarm_config.json": (
         "{\n"
-        "  \"system\": {\n"
-        "    \"name\": \"AgentCellphoneV2\",\n"
-        "    \"version\": \"2.0.0\",\n"
-        "    \"author\": \"Agent Swarm\",\n"
-        "    \"description\": \"Multi-Agent Swarm System for Autonomous Development\"\n"
+        '  "system": {\n'
+        '    "name": "AgentCellphoneV2",\n'
+        '    "version": "2.0.0",\n'
+        '    "author": "Agent Swarm",\n'
+        '    "description": "Multi-Agent Swarm System for Autonomous Development"\n'
         "  },\n"
-        "  \"agents\": {\n"
-        "    \"count\": 8,\n"
-        "    \"coordination\": {\n"
-        "      \"method\": \"pyautogui\",\n"
-        "      \"protocol\": \"mailbox_based\",\n"
-        "      \"cycle_time\": \"2-5 minutes\"\n"
+        '  "agents": {\n'
+        '    "count": 8,\n'
+        '    "coordination": {\n'
+        '      "method": "pyautogui",\n'
+        '      "protocol": "mailbox_based",\n'
+        '      "cycle_time": "2-5 minutes"\n'
         "    },\n"
-        "    \"autonomy\": {\n"
-        "      \"level\": \"high\",\n"
-        "      \"task_claiming\": \"enabled\",\n"
-        "      \"coordination\": \"enabled\"\n"
+        '    "autonomy": {\n'
+        '      "level": "high",\n'
+        '      "task_claiming": "enabled",\n'
+        '      "coordination": "enabled"\n'
         "    }\n"
         "  },\n"
-        "  \"messaging\": {\n"
-        "    \"service\": \"consolidated_messaging_service\",\n"
-        "    \"delivery_method\": \"pyautogui\",\n"
-        "    \"backup_method\": \"file_based\"\n"
+        '  "messaging": {\n'
+        '    "service": "consolidated_messaging_service",\n'
+        '    "delivery_method": "pyautogui",\n'
+        '    "backup_method": "file_based"\n'
         "  },\n"
-        "  \"development\": {\n"
-        "    \"v2_compliance\": \"enforced\",\n"
-        "    \"line_limit\": 400,\n"
-        "    \"testing\": \"comprehensive\",\n"
-        "    \"documentation\": \"required\"\n"
+        '  "development": {\n'
+        '    "v2_compliance": "enforced",\n'
+        '    "line_limit": 400,\n'
+        '    "testing": "comprehensive",\n'
+        '    "documentation": "required"\n'
         "  }\n"
         "}"
     ),
@@ -164,7 +163,7 @@ FILES = {
     ),
     "src/services/__init__.py": (
         "# Services Package\n"
-        "\"\"\"\n"
+        '"""\n'
         "Core services for the Agent Cellphone V2 system.\n"
         "\n"
         "Services provide the backbone functionality for:\n"
@@ -172,11 +171,11 @@ FILES = {
         "- Autonomous task management\n"
         "- System monitoring and alerting\n"
         "- Integration with external systems\n"
-        "\"\"\"\n"
+        '"""\n'
     ),
     "src/core/__init__.py": (
         "# Core Package\n"
-        "\"\"\"\n"
+        '"""\n'
         "Core functionality for the Agent Cellphone V2 system.\n"
         "\n"
         "Core modules provide:\n"
@@ -184,11 +183,11 @@ FILES = {
         "- Configuration management\n"
         "- Memory and storage systems\n"
         "- Security and validation\n"
-        "\"\"\"\n"
+        '"""\n'
     ),
     "src/ml/__init__.py": (
         "# Machine Learning Package\n"
-        "\"\"\"\n"
+        '"""\n'
         "ML pipeline and model management for Agent Cellphone V2.\n"
         "\n"
         "Provides:\n"
@@ -196,11 +195,11 @@ FILES = {
         "  - Model training and deployment\n"
         "  - Performance monitoring\n"
         "  - Vector database integration\n"
-        "\"\"\"\n"
+        '"""\n'
     ),
     "src/infrastructure/__init__.py": (
         "# Infrastructure Package\n"
-        "\"\"\"\n"
+        '"""\n'
         "Infrastructure management for Agent Cellphone V2.\n"
         "\n"
         "Handles:\n"
@@ -208,11 +207,11 @@ FILES = {
         "  - Database setup and management\n"
         "  - Monitoring and logging\n"
         "  - System orchestration\n"
-        "\"\"\"\n"
+        '"""\n'
     ),
     "src/integration/__init__.py": (
         "# Integration Package\n"
-        "\"\"\"\n"
+        '"""\n'
         "Integration modules for Agent Cellphone V2.\n"
         "\n"
         "Manages:\n"
@@ -220,7 +219,7 @@ FILES = {
         "  - API integrations\n"
         "  - Webhook handling\n"
         "  - Cross-system coordination\n"
-        "\"\"\"\n"
+        '"""\n'
     ),
     "tools/README.md": (
         "# Development Tools\n\n"
@@ -242,7 +241,7 @@ FILES = {
     ),
     "tests/__init__.py": (
         "# Tests Package\n"
-        "\"\"\"\n"
+        '"""\n'
         "Comprehensive test suite for Agent Cellphone V2.\n"
         "\n"
         "Includes:\n"
@@ -250,7 +249,7 @@ FILES = {
         "- Integration tests for system components\n"
         "- Performance tests for critical paths\n"
         "- End-to-end tests for user workflows\n"
-        "\"\"\"\n"
+        '"""\n'
     ),
     "docs/README.md": (
         "# Documentation\n\n"
@@ -264,8 +263,9 @@ FILES = {
         "## Format\n\n"
         "Documentation is written in Markdown and follows standard conventions.\n"
         "Diagrams are created using PlantUML or Mermaid syntax.\n"
-    )
+    ),
 }
+
 
 # -----------------------------
 # SCRIPT EXECUTION
@@ -276,13 +276,15 @@ def create_folder_structure(base_path: Path):
         path.mkdir(parents=True, exist_ok=True)
         print(f"[+] Folder created: {path}")
 
+
 def create_files(base_path: Path):
     for file, content in FILES.items():
         path = base_path / file
         if not path.exists():
-            with open(path, 'w', encoding='utf-8') as f:
+            with open(path, "w", encoding="utf-8") as f:
                 f.write(content)
             print(f"[+] File created: {path}")
+
 
 def init_git_repo(base_path: Path):
     try:
@@ -292,6 +294,7 @@ def init_git_repo(base_path: Path):
         print("[✅] Git repository initialized and initial commit done.")
     except Exception as e:
         print(f"[❌] Git initialization failed: {e}")
+
 
 def create_folder_structure(base_path: Path):
     """Create the folder structure for the project."""
@@ -306,7 +309,7 @@ def create_files(base_path: Path):
     for file, content in FILES.items():
         path = base_path / file
         if not path.exists():
-            with open(path, 'w', encoding='utf-8') as f:
+            with open(path, "w", encoding="utf-8") as f:
                 f.write(content)
             print(f"[+] File created: {path}")
 
@@ -333,26 +336,24 @@ Examples:
   python {Path(__file__).name} --path ./myproject # Setup in custom directory
   python {Path(__file__).name} --skip-git        # Setup without git init
   python {Path(__file__).name} --help             # Show this help message
-        """
+        """,
     )
 
     parser.add_argument(
         "--path",
         type=str,
         default=str(Path.cwd() / PROJECT_NAME),
-        help=f"Directory to create the project (default: {Path.cwd() / PROJECT_NAME})"
+        help=f"Directory to create the project (default: {Path.cwd() / PROJECT_NAME})",
     )
 
     parser.add_argument(
-        "--skip-git",
-        action="store_true",
-        help="Skip git repository initialization"
+        "--skip-git", action="store_true", help="Skip git repository initialization"
     )
 
     parser.add_argument(
         "--dry-run",
         action="store_true",
-        help="Show what would be created without actually creating files"
+        help="Show what would be created without actually creating files",
     )
 
     args = parser.parse_args()
@@ -374,7 +375,7 @@ Examples:
                 path = base_path / file
                 print(f"  [+] {path}")
 
-            print(f"\n✅ Dry run complete! Run without --dry-run to create files.")
+            print("\n✅ Dry run complete! Run without --dry-run to create files.")
             return
 
         # Create project structure

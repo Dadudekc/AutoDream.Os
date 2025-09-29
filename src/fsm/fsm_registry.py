@@ -10,11 +10,11 @@ Author: Agent-4 (Captain & Operations Coordinator)
 License: MIT
 """
 
+import enum
+import json
 from dataclasses import dataclass
 from pathlib import Path
-import json
-import enum
-from typing import Optional, Dict, Any, List
+from typing import Any
 
 # V2 Compliance: File under 400 lines, functions under 30 lines
 SPEC_PATH = Path("runtime/fsm/fsm_spec.yaml")
@@ -22,6 +22,7 @@ SPEC_PATH = Path("runtime/fsm/fsm_spec.yaml")
 
 class AgentState(str, enum.Enum):
     """Canonical agent states from FSM specification."""
+
     ONBOARDING = "ONBOARDING"
     ACTIVE = "ACTIVE"
     CONTRACT_EXECUTION_ACTIVE = "CONTRACT_EXECUTION_ACTIVE"
@@ -34,6 +35,7 @@ class AgentState(str, enum.Enum):
 
 class SwarmState(str, enum.Enum):
     """Canonical swarm states from FSM specification."""
+
     IDLE = "IDLE"
     COORDINATING = "COORDINATING"
     BROADCAST = "BROADCAST"
@@ -44,6 +46,7 @@ class SwarmState(str, enum.Enum):
 @dataclass
 class StatePointer:
     """Pointer to status file and key for state reading."""
+
     file: Path
     key: str
 
@@ -55,7 +58,7 @@ STATUS_POINTERS = [
 ]
 
 
-def load_json(file_path: Path) -> Dict[str, Any]:
+def load_json(file_path: Path) -> dict[str, Any]:
     """Load JSON file safely with error handling."""
     try:
         return json.loads(file_path.read_text(encoding="utf-8"))
@@ -63,24 +66,24 @@ def load_json(file_path: Path) -> Dict[str, Any]:
         return {}
 
 
-def read_agent_state(agent_id: str) -> Optional[str]:
+def read_agent_state(agent_id: str) -> str | None:
     """Read agent state from status files with fallback priority."""
     # Priority 1: Workspace status file
     ws_path = Path(f"agent_workspaces/{agent_id}/status.json")
     if ws_path.exists():
         data = load_json(ws_path)
         return data.get("fsm_state")
-    
+
     # Priority 2: Semantic seed status file
     ss_path = Path(f"data/semantic_seed/status/{agent_id}.json")
     if ss_path.exists():
         data = load_json(ss_path)
         return data.get("fsm_state")
-    
+
     return None
 
 
-def read_swarm_state() -> Optional[str]:
+def read_swarm_state() -> str | None:
     """Read swarm state from coordination file."""
     swarm_path = Path("swarm_coordination/swarm_state.json")
     if swarm_path.exists():
@@ -89,10 +92,10 @@ def read_swarm_state() -> Optional[str]:
     return None
 
 
-def get_all_agent_states() -> Dict[str, Optional[str]]:
+def get_all_agent_states() -> dict[str, str | None]:
     """Get states for all agents."""
     agent_states = {}
-    
+
     # Check workspace agents
     workspace_path = Path("agent_workspaces")
     if workspace_path.exists():
@@ -100,7 +103,7 @@ def get_all_agent_states() -> Dict[str, Optional[str]]:
             if agent_dir.is_dir() and agent_dir.name.startswith("Agent-"):
                 agent_id = agent_dir.name
                 agent_states[agent_id] = read_agent_state(agent_id)
-    
+
     # Check semantic seed agents
     semantic_path = Path("data/semantic_seed/status")
     if semantic_path.exists():
@@ -108,7 +111,7 @@ def get_all_agent_states() -> Dict[str, Optional[str]]:
             agent_id = status_file.stem
             if agent_id not in agent_states:
                 agent_states[agent_id] = read_agent_state(agent_id)
-    
+
     return agent_states
 
 
@@ -130,12 +133,12 @@ def validate_swarm_state(state: str) -> bool:
         return False
 
 
-def get_valid_agent_states() -> List[str]:
+def get_valid_agent_states() -> list[str]:
     """Get list of all valid agent states."""
     return [state.value for state in AgentState]
 
 
-def get_valid_swarm_states() -> List[str]:
+def get_valid_swarm_states() -> list[str]:
     """Get list of all valid swarm states."""
     return [state.value for state in SwarmState]
 
@@ -144,7 +147,7 @@ def update_agent_state(agent_id: str, new_state: str) -> bool:
     """Update agent state in status file."""
     if not validate_agent_state(new_state):
         return False
-    
+
     # Try workspace status file first
     ws_path = Path(f"agent_workspaces/{agent_id}/status.json")
     if ws_path.exists():
@@ -156,7 +159,7 @@ def update_agent_state(agent_id: str, new_state: str) -> bool:
             return True
         except Exception:
             pass
-    
+
     # Fallback to semantic seed
     ss_path = Path(f"data/semantic_seed/status/{agent_id}.json")
     try:
@@ -173,7 +176,7 @@ def update_swarm_state(new_state: str) -> bool:
     """Update swarm state in coordination file."""
     if not validate_swarm_state(new_state):
         return False
-    
+
     swarm_path = Path("swarm_coordination/swarm_state.json")
     try:
         data = load_json(swarm_path) if swarm_path.exists() else {}
@@ -186,23 +189,25 @@ def update_swarm_state(new_state: str) -> bool:
         return False
 
 
-def get_state_summary() -> Dict[str, Any]:
+def get_state_summary() -> dict[str, Any]:
     """Get comprehensive state summary for all agents and swarm."""
     agent_states = get_all_agent_states()
     swarm_state = read_swarm_state()
-    
+
     # Count states
     state_counts = {}
     for state in agent_states.values():
         if state:
             state_counts[state] = state_counts.get(state, 0) + 1
-    
+
     return {
         "agent_states": agent_states,
         "swarm_state": swarm_state,
         "state_counts": state_counts,
         "total_agents": len(agent_states),
-        "active_agents": sum(1 for state in agent_states.values() 
-                           if state in [AgentState.ACTIVE.value, 
-                                       AgentState.CONTRACT_EXECUTION_ACTIVE.value])
+        "active_agents": sum(
+            1
+            for state in agent_states.values()
+            if state in [AgentState.ACTIVE.value, AgentState.CONTRACT_EXECUTION_ACTIVE.value]
+        ),
     }

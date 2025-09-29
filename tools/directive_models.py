@@ -11,11 +11,11 @@ License: MIT
 
 from datetime import datetime
 from enum import Enum
-from typing import List
 
 
 class DirectiveType(Enum):
     """Directive type enumeration."""
+
     STRATEGIC = "strategic"
     TACTICAL = "tactical"
     OPERATIONAL = "operational"
@@ -24,6 +24,7 @@ class DirectiveType(Enum):
 
 class DirectiveStatus(Enum):
     """Directive status enumeration."""
+
     PLANNING = "planning"
     ACTIVE = "active"
     ON_HOLD = "on_hold"
@@ -33,6 +34,7 @@ class DirectiveStatus(Enum):
 
 class InitiativeStatus(Enum):
     """Initiative status enumeration."""
+
     CONCEPTION = "conception"
     PLANNING = "planning"
     EXECUTION = "execution"
@@ -43,9 +45,15 @@ class InitiativeStatus(Enum):
 
 class Directive:
     """Directive data class."""
-    
-    def __init__(self, name: str, directive_type: DirectiveType, 
-                 description: str, priority: int, timeline: str):
+
+    def __init__(
+        self,
+        name: str,
+        directive_type: DirectiveType,
+        description: str,
+        priority: int,
+        timeline: str,
+    ):
         """Initialize directive."""
         self.name = name
         self.type = directive_type
@@ -63,9 +71,8 @@ class Directive:
 
 class Initiative:
     """Initiative data class."""
-    
-    def __init__(self, name: str, description: str, category: str,
-                 priority: int, timeline: str):
+
+    def __init__(self, name: str, description: str, category: str, priority: int, timeline: str):
         """Initialize initiative."""
         self.name = name
         self.description = description
@@ -80,4 +87,3 @@ class Initiative:
         self.resources = []
         self.milestones = []
         self.notes = []
-

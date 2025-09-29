@@ -14,7 +14,7 @@ Features:
 
 Usage:
     from src.services.thea.thea_communication_core import TheaCommunicationCore
-    
+
     core = TheaCommunicationCore()
     success = core.send_message("Hello Thea!")
 """
@@ -26,7 +26,6 @@ from pathlib import Path
 
 import pyautogui
 import pyperclip
-
 from response_detector import ResponseDetector, ResponseWaitResult
 
 
@@ -43,14 +42,14 @@ class TheaCommunicationCore:
         """Prepare and save message for sending."""
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         message_path = self.responses_dir / f"sent_message_{timestamp}.txt"
-        
+
         with open(message_path, "w", encoding="utf-8") as f:
             f.write(message)
-        
+
         pyperclip.copy(message)
         print(f"💾 Message saved: {message_path}")
         print(f"📤 Message prepared: {len(message)} characters")
-        
+
         return message_path
 
     def send_message_selenium(self, driver, message: str) -> bool:
@@ -60,7 +59,8 @@ class TheaCommunicationCore:
             print("-" * 30)
 
             from selenium.webdriver.common.by import By
-# SECURITY: Key placeholder - replace with environment variable
+
+            # SECURITY: Key placeholder - replace with environment variable
             from selenium.webdriver.support import expected_conditions as EC
             from selenium.webdriver.support.ui import WebDriverWait
 
@@ -77,9 +77,9 @@ class TheaCommunicationCore:
 
             # Try multiple selectors for the input field (updated for current ChatGPT)
             input_selectors = [
-                "#prompt-textarea > p", # Primary selector - contenteditable paragraph
-                "p[data-placeholder='Ask anything']", # Alternative selector
-                "p[class*='placeholder']", # Another alternative
+                "#prompt-textarea > p",  # Primary selector - contenteditable paragraph
+                "p[data-placeholder='Ask anything']",  # Alternative selector
+                "p[class*='placeholder']",  # Another alternative
                 "textarea[data-testid*='prompt']",
                 "textarea[placeholder*='Message']",
                 "#prompt-textarea",
@@ -116,13 +116,16 @@ class TheaCommunicationCore:
             input_field.clear()
 
             # Check if this is a contenteditable element (like the paragraph)
-            is_contenteditable = input_field.get_attribute('contenteditable') == 'true' or input_field.tag_name == 'p'
-            
+            is_contenteditable = (
+                input_field.get_attribute("contenteditable") == "true"
+                or input_field.tag_name == "p"
+            )
+
             if is_contenteditable:
                 # For contenteditable elements, use Selenium's send_keys with proper line breaks
                 print("Using Selenium send_keys for contenteditable element")
                 from selenium.webdriver.common.keys import Keys
-                
+
                 # Send message line by line to respect Shift+Enter for line breaks
                 lines = message.split("\n")
                 for i, line in enumerate(lines):
@@ -130,7 +133,7 @@ class TheaCommunicationCore:
                         # Send Shift+Enter for line break
                         input_field.send_keys(Keys.SHIFT + Keys.ENTER)
                         time.sleep(0.1)
-                    
+
                     # Type the line
                     input_field.send_keys(line)
                     time.sleep(0.1)
@@ -142,26 +145,27 @@ class TheaCommunicationCore:
                 for i, line in enumerate(lines):
                     if i > 0:  # Not the first line
                         # Send Shift+Enter for line break
-                        pyautogui.hotkey('shift', 'enter')
+                        pyautogui.hotkey("shift", "enter")
                         time.sleep(0.5)
-                    
+
                     # Type the line
                     pyautogui.typewrite(line)
                     time.sleep(0.1)
 
             # Wait a moment then send the message
             time.sleep(1)
-            
+
             if is_contenteditable:
                 # For contenteditable elements, use Selenium ActionChains
                 from selenium.webdriver.common.action_chains import ActionChains
                 from selenium.webdriver.common.keys import Keys
+
                 print("Using Selenium ActionChains to send message")
                 ActionChains(driver).send_keys(Keys.ENTER).perform()
             else:
                 # For regular textareas, use PyAutoGUI
                 print("Using PyAutoGUI to send message")
-                pyautogui.press('enter')
+                pyautogui.press("enter")
 
             print("✅ Message sent via Selenium!")
             return True
@@ -237,8 +241,9 @@ class TheaCommunicationCore:
             print(f"❌ Screenshot failed: {e}")
             return None
 
-    def save_metadata(self, screenshot_path: Path, sent_message_path: Path, 
-                     extracted_response: str) -> Path:
+    def save_metadata(
+        self, screenshot_path: Path, sent_message_path: Path, extracted_response: str
+    ) -> Path:
         """Save comprehensive metadata about the conversation."""
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
@@ -271,11 +276,16 @@ class TheaCommunicationCore:
         with open(json_path, "w") as f:
             json.dump(metadata, f, indent=2)
         print(f"✅ Metadata saved: {json_path}")
-        
+
         return json_path
 
-    def create_conversation_log(self, sent_message: str, sent_message_path: Path,
-                               screenshot_path: Path, extracted_response: str) -> Path:
+    def create_conversation_log(
+        self,
+        sent_message: str,
+        sent_message_path: Path,
+        screenshot_path: Path,
+        extracted_response: str,
+    ) -> Path:
         """Create a comprehensive conversation log."""
         try:
             timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -385,4 +395,3 @@ class TheaCommunicationCore:
         print(f"✅ Analysis template created: {template_path}")
 
         return template_path
-

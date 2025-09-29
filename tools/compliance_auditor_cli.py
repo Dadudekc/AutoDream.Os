@@ -26,25 +26,24 @@ logger = logging.getLogger(__name__)
 
 class ComplianceAuditorCLI:
     """Command-line interface for compliance auditing tools."""
-    
+
     def __init__(self):
         """Initialize the CLI."""
         self.setup_logging()
-    
+
     def setup_logging(self):
         """Setup logging for the CLI."""
         logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+            level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
         )
-    
+
     def audit_compliance(self, audit_scope: str, audit_type: str = "comprehensive") -> bool:
         """Conduct compliance audit."""
         try:
             print(f"📋 Auditing compliance: {audit_scope}")
             print(f"🔍 Audit type: {audit_type}")
             print("🛡️ Compliance Auditor analysis starting...")
-            
+
             # Simulate compliance audit
             audit_result = {
                 "status": "success",
@@ -55,49 +54,59 @@ class ComplianceAuditorCLI:
                     "trading_compliance": 96.2,
                     "reporting_compliance": 92.8,
                     "risk_compliance": 95.1,
-                    "regulatory_compliance": 93.7
+                    "regulatory_compliance": 93.7,
                 },
                 "findings": {
                     "critical_violations": 0,
                     "major_violations": 2,
                     "minor_violations": 5,
-                    "observations": 8
+                    "observations": 8,
                 },
                 "recommendations": [
                     "Update position limit monitoring system",
                     "Enhance audit trail documentation",
                     "Implement additional compliance checks",
-                    "Review regulatory reporting procedures"
-                ]
+                    "Review regulatory reporting procedures",
+                ],
             }
-            
-            print(f"✅ Compliance audit completed!")
-            print(f"📊 Overall Compliance: {audit_result['compliance_status']['overall_compliance']:.1f}%")
-            print(f"📈 Trading Compliance: {audit_result['compliance_status']['trading_compliance']:.1f}%")
-            print(f"📋 Reporting Compliance: {audit_result['compliance_status']['reporting_compliance']:.1f}%")
-            print(f"🛡️ Risk Compliance: {audit_result['compliance_status']['risk_compliance']:.1f}%")
-            print(f"📊 Regulatory Compliance: {audit_result['compliance_status']['regulatory_compliance']:.1f}%")
-            
-            print(f"\n🚨 Audit Findings:")
+
+            print("✅ Compliance audit completed!")
+            print(
+                f"📊 Overall Compliance: {audit_result['compliance_status']['overall_compliance']:.1f}%"
+            )
+            print(
+                f"📈 Trading Compliance: {audit_result['compliance_status']['trading_compliance']:.1f}%"
+            )
+            print(
+                f"📋 Reporting Compliance: {audit_result['compliance_status']['reporting_compliance']:.1f}%"
+            )
+            print(
+                f"🛡️ Risk Compliance: {audit_result['compliance_status']['risk_compliance']:.1f}%"
+            )
+            print(
+                f"📊 Regulatory Compliance: {audit_result['compliance_status']['regulatory_compliance']:.1f}%"
+            )
+
+            print("\n🚨 Audit Findings:")
             print(f"  🚨 Critical Violations: {audit_result['findings']['critical_violations']}")
             print(f"  ⚠️ Major Violations: {audit_result['findings']['major_violations']}")
             print(f"  ℹ️ Minor Violations: {audit_result['findings']['minor_violations']}")
             print(f"  👁️ Observations: {audit_result['findings']['observations']}")
-            
+
             # Save audit report
             report_path = f"compliance_reports/{audit_scope}_{audit_type}_audit.json"
             Path("compliance_reports").mkdir(exist_ok=True)
-            
-            with open(report_path, 'w') as f:
+
+            with open(report_path, "w") as f:
                 json.dump(audit_result, f, indent=2)
-            
+
             print(f"📄 Audit report saved to: {report_path}")
             return True
-            
+
         except Exception as e:
             print(f"❌ Compliance audit failed: {e}")
             return False
-    
+
     def monitor_transactions(self, scope: str) -> None:
         """Monitor transaction compliance."""
         print(f"🔍 Monitoring transactions: {scope}")
@@ -106,7 +115,7 @@ class ComplianceAuditorCLI:
         print("  • Compliant transactions: 1,235 (99.0%)")
         print("  • Flagged transactions: 12 (1.0%)")
         print("  • Violations detected: 0")
-    
+
     def check_regulatory(self, scope: str) -> None:
         """Check regulatory compliance."""
         print(f"📊 Checking regulatory compliance: {scope}")
@@ -115,7 +124,7 @@ class ComplianceAuditorCLI:
         print("  • FINRA compliance: 97.8%")
         print("  • CFTC compliance: 92.1%")
         print("  • Overall regulatory score: 95.0%")
-    
+
     def show_tools(self) -> None:
         """Show available compliance auditor tools."""
         print("📋 Available Compliance Auditor Tools:")
@@ -135,15 +144,22 @@ def main():
     """Main CLI entry point."""
     parser = argparse.ArgumentParser(description="Compliance Auditor CLI Tool")
     parser.add_argument("--audit", metavar="SCOPE", help="Conduct compliance audit")
-    parser.add_argument("--audit-type", choices=["comprehensive", "trading", "reporting", "risk"], default="comprehensive", help="Audit type")
-    parser.add_argument("--monitor-transactions", metavar="SCOPE", help="Monitor transaction compliance")
+    parser.add_argument(
+        "--audit-type",
+        choices=["comprehensive", "trading", "reporting", "risk"],
+        default="comprehensive",
+        help="Audit type",
+    )
+    parser.add_argument(
+        "--monitor-transactions", metavar="SCOPE", help="Monitor transaction compliance"
+    )
     parser.add_argument("--check-regulatory", metavar="SCOPE", help="Check regulatory compliance")
     parser.add_argument("--show-tools", action="store_true", help="Show available tools")
-    
+
     args = parser.parse_args()
-    
+
     cli = ComplianceAuditorCLI()
-    
+
     if args.audit:
         success = cli.audit_compliance(args.audit, args.audit_type)
         sys.exit(0 if success else 1)

@@ -4,8 +4,9 @@ Safe Response Utilities
 Shared utilities for safe Discord interaction handling.
 """
 
-import discord
 import logging
+
+import discord
 
 logger = logging.getLogger(__name__)
 
@@ -13,10 +14,10 @@ logger = logging.getLogger(__name__)
 async def safe_send(interaction: discord.Interaction, *, ephemeral: bool = False, **kwargs):
     """
     Send a response without risking 'already acknowledged' errors.
-    
+
     This function handles race conditions where decorators or error handlers
     might have already responded to the interaction.
-    
+
     Args:
         interaction: Discord interaction object
         ephemeral: Whether the response should be ephemeral
@@ -42,7 +43,7 @@ async def safe_send(interaction: discord.Interaction, *, ephemeral: bool = False
 def safe_log_info(message: str, user_id: str = None, channel_id: str = None, **kwargs):
     """
     Log info message with safe formatting to avoid cp1252 console issues.
-    
+
     Args:
         message: Base log message (ASCII-only recommended)
         user_id: User ID to include in log
@@ -54,9 +55,9 @@ def safe_log_info(message: str, user_id: str = None, channel_id: str = None, **k
         parts.append(f"user_id={user_id}")
     if channel_id:
         parts.append(f"channel_id={channel_id}")
-    
+
     # Add any additional kwargs
     for key, value in kwargs.items():
         parts.append(f"{key}={value}")
-    
+
     logger.info(" ".join(parts))

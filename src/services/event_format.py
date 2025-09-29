@@ -4,23 +4,23 @@ Event Format Utilities
 Single-line event formatters for structured Discord logging.
 """
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 
 def iso_now() -> str:
     """Get current UTC timestamp in ISO format."""
-    return datetime.now(timezone.utc).isoformat(timespec="seconds")
+    return datetime.now(UTC).isoformat(timespec="seconds")
 
 
 def cycle_done(agent: str, summary: str, next_intent: str) -> str:
     """
     Format cycle completion event.
-    
+
     Args:
         agent: Agent identifier
         summary: What was accomplished
         next_intent: What will be done next
-        
+
     Returns:
         Formatted event line
     """
@@ -30,13 +30,13 @@ def cycle_done(agent: str, summary: str, next_intent: str) -> str:
 def blocker(agent: str, reason: str, need: str, severity: str = "med") -> str:
     """
     Format blocker event.
-    
+
     Args:
         agent: Agent identifier
         reason: Why blocked
         need: What is needed
         severity: Severity level (low/med/high)
-        
+
     Returns:
         Formatted event line
     """
@@ -46,13 +46,13 @@ def blocker(agent: str, reason: str, need: str, severity: str = "med") -> str:
 def ssot_validation(agent: str, scope: str, passed: bool, notes: str = "") -> str:
     """
     Format SSOT validation event.
-    
+
     Args:
         agent: Agent identifier
         scope: What was validated
         passed: Whether validation passed
         notes: Additional notes
-        
+
     Returns:
         Formatted event line
     """
@@ -64,14 +64,16 @@ def ssot_validation(agent: str, scope: str, passed: bool, notes: str = "") -> st
 def integration_scan(agent: str, systems: str, depth: int, result: str) -> str:
     """
     Format integration scan event.
-    
+
     Args:
         agent: Agent identifier
         systems: Systems scanned
         depth: Scan depth
         result: Scan result
-        
+
     Returns:
         Formatted event line
     """
-    return f"INTEGRATION_SCAN|{agent}|systems={systems}|depth={depth}|result={result}|ts={iso_now()}"
+    return (
+        f"INTEGRATION_SCAN|{agent}|systems={systems}|depth={depth}|result={result}|ts={iso_now()}"
+    )

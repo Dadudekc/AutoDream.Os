@@ -222,7 +222,7 @@ Click "🔧 System Status" button
 
 The Discord Commander is now **fully functional** with:
 - ✅ **Beautiful UI** with clickable buttons
-- ✅ **Working messaging system** 
+- ✅ **Working messaging system**
 - ✅ **All commands functional**
 - ✅ **Real-time status monitoring**
 - ✅ **8-agent swarm support**

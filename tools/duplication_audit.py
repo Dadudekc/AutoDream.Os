@@ -10,18 +10,17 @@ Author: Agent 5 (Quality Assurance Specialist)
 License: MIT
 """
 
-import json
-import sys
-from pathlib import Path
-from typing import Dict, List, Any, Set
 import argparse
+import sys
 from datetime import datetime
+from pathlib import Path
+from typing import Any
 
 # Add project root to path
 project_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(project_root))
 
-logger = __import__('logging').getLogger(__name__)
+logger = __import__("logging").getLogger(__name__)
 
 
 class CodeDuplicationAnalyzer:
@@ -33,7 +32,7 @@ class CodeDuplicationAnalyzer:
         self.integration_issues = []
         self.redundant_systems = []
 
-    def analyze_v3_duplication(self) -> Dict[str, Any]:
+    def analyze_v3_duplication(self) -> dict[str, Any]:
         """Analyze V3 system for duplication with V2."""
         results = {
             "total_files": 0,
@@ -42,7 +41,7 @@ class CodeDuplicationAnalyzer:
             "redundant_systems": [],
             "consolidation_opportunities": [],
             "files_to_keep": [],
-            "files_to_delete": []
+            "files_to_delete": [],
         }
 
         # Get all V3 files
@@ -70,18 +69,18 @@ class CodeDuplicationAnalyzer:
 
         return results
 
-    def _analyze_single_file(self, v3_file: Path) -> Dict[str, Any]:
+    def _analyze_single_file(self, v3_file: Path) -> dict[str, Any]:
         """Analyze a single V3 file for duplication."""
         result = {
             "file": str(v3_file),
             "is_duplicate": False,
             "has_value": False,
             "integration_issues": [],
-            "similar_files": []
+            "similar_files": [],
         }
 
         try:
-            with open(v3_file, 'r') as f:
+            with open(v3_file) as f:
                 content = f.read()
 
             # Check for V2 equivalent patterns
@@ -127,15 +126,25 @@ class CodeDuplicationAnalyzer:
         """Check if file has unique value beyond duplication."""
         # Check for production-ready features
         production_indicators = [
-            "deploy", "production", "aws", "azure", "kubernetes",
-            "docker", "terraform", "monitoring", "metrics",
-            "app store", "mobile app", "real-time", "dashboard"
+            "deploy",
+            "production",
+            "aws",
+            "azure",
+            "kubernetes",
+            "docker",
+            "terraform",
+            "monitoring",
+            "metrics",
+            "app store",
+            "mobile app",
+            "real-time",
+            "dashboard",
         ]
 
         content_lower = content.lower()
         return any(indicator in content_lower for indicator in production_indicators)
 
-    def _check_integration_issues(self, v3_file: Path, content: str) -> List[str]:
+    def _check_integration_issues(self, v3_file: Path, content: str) -> list[str]:
         """Check for integration issues with existing systems."""
         issues = []
 
@@ -161,43 +170,43 @@ class IntegrationHealthChecker:
         """Initialize health checker."""
         self.systems = self._load_systems()
 
-    def _load_systems(self) -> Dict[str, Dict[str, Any]]:
+    def _load_systems(self) -> dict[str, dict[str, Any]]:
         """Load system definitions."""
         return {
             "messaging": {
                 "files": ["src/services/consolidated_messaging_service.py"],
                 "dependencies": ["coordinate_manager"],
-                "status": "operational"
+                "status": "operational",
             },
             "ml_pipeline": {
                 "files": ["src/ml/ml_pipeline_system.py"],
                 "dependencies": ["tensorflow", "pytorch"],
-                "status": "operational"
+                "status": "operational",
             },
             "tracing": {
                 "files": ["src/tracing/distributed_tracing_system.py"],
                 "dependencies": ["opentelemetry", "jaeger"],
-                "status": "operational"
+                "status": "operational",
             },
             "dashboard": {
                 "files": ["src/services/dashboard/"],
                 "dependencies": ["web_interface"],
-                "status": "operational"
+                "status": "operational",
             },
             "mobile": {
                 "files": ["src/mobile/"],
                 "dependencies": ["react_native"],
-                "status": "built"
-            }
+                "status": "built",
+            },
         }
 
-    def check_system_health(self) -> Dict[str, Any]:
+    def check_system_health(self) -> dict[str, Any]:
         """Check health of all systems."""
         health = {
             "overall_status": "healthy",
             "systems": {},
             "integration_issues": [],
-            "recommendations": []
+            "recommendations": [],
         }
 
         for system_name, system_info in self.systems.items():
@@ -210,14 +219,9 @@ class IntegrationHealthChecker:
 
         return health
 
-    def _check_single_system(self, system_name: str, system_info: Dict[str, Any]) -> Dict[str, Any]:
+    def _check_single_system(self, system_name: str, system_info: dict[str, Any]) -> dict[str, Any]:
         """Check health of single system."""
-        health = {
-            "status": "healthy",
-            "files_exist": True,
-            "issues": [],
-            "recommendations": []
-        }
+        health = {"status": "healthy", "files_exist": True, "issues": [], "recommendations": []}
 
         # Check if files exist
         for file_path in system_info["files"]:
@@ -234,7 +238,7 @@ class IntegrationHealthChecker:
 
         return health
 
-    def _find_v3_duplicates(self, system_name: str) -> List[str]:
+    def _find_v3_duplicates(self, system_name: str) -> list[str]:
         """Find V3 files that duplicate this system."""
         duplicates = []
 
@@ -249,7 +253,7 @@ class IntegrationHealthChecker:
             "tracing": ["tracing", "v3_004"],
             "dashboard": ["web_dashboard", "v3_010"],
             "mobile": ["mobile_app", "ui_components", "v3_012"],
-            "api_gateway": ["api_gateway", "v3_011"]
+            "api_gateway": ["api_gateway", "v3_011"],
         }
 
         if system_name in v3_patterns:
@@ -277,8 +281,8 @@ def main():
         analyzer = CodeDuplicationAnalyzer()
         results = analyzer.analyze_v3_duplication()
 
-        print("
-📊 V3 DUPLICATION ANALYSIS"        print(f"Total V3 Files: {results['total_files']}")
+        print("📊 V3 DUPLICATION ANALYSIS")
+        print(f"Total V3 Files: {results['total_files']}")
         print(f"Duplicate Files: {results['duplicate_files']}")
         print(f"Integration Issues: {results['integration_issues']}")
 
@@ -296,8 +300,8 @@ def main():
         health_checker = IntegrationHealthChecker()
         health = health_checker.check_system_health()
 
-        print("
-🏥 SYSTEM HEALTH CHECK"        print(f"Overall Status: {health['overall_status'].upper()}")
+        print("🏥 SYSTEM HEALTH CHECK")
+        print(f"Overall Status: {health['overall_status'].upper()}")
 
         for system_name, system_health in health["systems"].items():
             status_emoji = "✅" if system_health["status"] == "healthy" else "⚠️"
@@ -308,13 +312,13 @@ def main():
                     print(f"    • {issue}")
 
         if health["integration_issues"]:
-            print("
-❌ INTEGRATION ISSUES:"            for issue in health["integration_issues"]:
+            print("❌ INTEGRATION ISSUES:")
+            for issue in health["integration_issues"]:
                 print(f"  • {issue}")
 
     if args.week_summary:
-        print("
-📅 WEEKLY AUDIT SUMMARY"        print("Date: " + str(datetime.now().date()))
+        print("📅 WEEKLY AUDIT SUMMARY")
+        print("Date: " + str(datetime.now().date()))
         print("Status: CONSOLIDATION IN PROGRESS")
 
         # Generate summary statistics
@@ -324,14 +328,14 @@ def main():
         health_checker = IntegrationHealthChecker()
         health = health_checker.check_system_health()
 
-        print("
-📊 CONSOLIDATION PROGRESS:"        print(f"  • V3 Files Analyzed: {v3_results['total_files']}")
+        print("📊 CONSOLIDATION PROGRESS:")
+        print(f"  • V3 Files Analyzed: {v3_results['total_files']}")
         print(f"  • Duplicates Identified: {v3_results['duplicate_files']}")
         print(f"  • Files Ready for Integration: {len(v3_results['files_to_keep'])}")
         print(f"  • System Health: {health['overall_status']}")
 
-        print("
-🎯 NEXT WEEK PRIORITIES:"        print("  1. Complete Phase 1: Critical Infrastructure")
+        print("🎯 NEXT WEEK PRIORITIES:")
+        print("  1. Complete Phase 1: Critical Infrastructure")
         print("  2. Deploy ML pipeline to production")
         print("  3. Deploy API gateway with enhanced features")
         print("  4. Begin Phase 2: Monitoring & Tracing")
@@ -341,4 +345,3 @@ def main():
 
 if __name__ == "__main__":
     exit(main())
-

@@ -1,5 +1,5 @@
 import re
-from typing import List, Dict
+
 
 class PreprocessorAgent:
     """
@@ -11,7 +11,7 @@ class PreprocessorAgent:
         self.chunk_size = chunk_size
         self.chunk_overlap = chunk_overlap
 
-    def preprocess_documents(self, documents: List[Dict[str, str]]) -> List[Dict[str, str]]:
+    def preprocess_documents(self, documents: list[dict[str, str]]) -> list[dict[str, str]]:
         """
         Full preprocessing pipeline for a list of raw documents.
 
@@ -35,15 +35,14 @@ class PreprocessorAgent:
             for idx, chunk in enumerate(chunks):
                 if not chunk.strip():
                     continue  # Skip empty chunks
-                preprocessed_docs.append({
-                    "file_name": file_name,
-                    "chunk_index": idx,
-                    "content": chunk,
-                    "metadata": {
-                        "chunk_size": len(chunk.split()),
-                        "total_chunks": len(chunks)
+                preprocessed_docs.append(
+                    {
+                        "file_name": file_name,
+                        "chunk_index": idx,
+                        "content": chunk,
+                        "metadata": {"chunk_size": len(chunk.split()), "total_chunks": len(chunks)},
                     }
-                })
+                )
 
         return preprocessed_docs
 
@@ -61,12 +60,12 @@ class PreprocessorAgent:
         if not text:
             return ""
 
-        text = re.sub(r'\s+', ' ', text)  # Collapse multiple whitespaces
-        text = text.replace('\x00', '')   # Remove null bytes
-        text = re.sub(r'[^\x00-\x7F]+', ' ', text)  # Remove non-ASCII chars (optional)
+        text = re.sub(r"\s+", " ", text)  # Collapse multiple whitespaces
+        text = text.replace("\x00", "")  # Remove null bytes
+        text = re.sub(r"[^\x00-\x7F]+", " ", text)  # Remove non-ASCII chars (optional)
         return text.strip()
 
-    def chunk_text(self, text: str) -> List[str]:
+    def chunk_text(self, text: str) -> list[str]:
         """
         Chunk text into segments with overlap for embeddings or analysis.
 

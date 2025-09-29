@@ -14,7 +14,7 @@ Features:
 
 Usage:
     from src.services.thea.thea_cookie_manager import TheaCookieManager
-    
+
     manager = TheaCookieManager("thea_cookies.json")
     success = manager.save_cookies(driver)
 """
@@ -27,6 +27,7 @@ from pathlib import Path
 # Selenium imports
 try:
     from selenium import webdriver
+
     SELENIUM_AVAILABLE = True
 except ImportError:
     SELENIUM_AVAILABLE = False
@@ -73,7 +74,7 @@ class TheaCookieManager:
                 domain = cookie.get("domain", "")
                 expiry = cookie.get("expiry")
                 print(f"🔍 Cookie: {cookie_name} | Domain: {domain} | Expiry: {expiry}")
-                
+
                 # Skip obviously unimportant cookies
                 cookie_name = cookie.get("name", "").lower()
 
@@ -226,4 +227,3 @@ if __name__ == "__main__":
     print("📝 To use:")
     print("   manager = create_cookie_manager('my_cookies.json')")
     print("   success = manager.save_cookies(driver)")
-

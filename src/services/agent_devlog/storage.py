@@ -7,13 +7,13 @@ Storage management for Agent Devlog Posting Service
 V2 Compliant: ≤400 lines, focused storage logic
 """
 
-import json
-import os
 import gzip
+import json
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Any, Optional
-from .models import DevlogEntry, DevlogStatus, DevlogType, DevlogStats
+from typing import Any
+
+from .models import DevlogEntry, DevlogStats
 
 
 class DevlogStorage:
@@ -41,7 +41,7 @@ class DevlogStorage:
                 "details": devlog_entry.details,
                 "timestamp": devlog_entry.timestamp,
                 "devlog_type": devlog_entry.devlog_type.value,
-                "metadata": devlog_entry.metadata
+                "metadata": devlog_entry.metadata,
             }
 
             # Load existing devlogs
@@ -59,27 +59,32 @@ class DevlogStorage:
             print(f"❌ Failed to save devlog: {e}")
             return False
 
-    def _load_devlogs(self) -> List[Dict[str, Any]]:
+    def _load_devlogs(self) -> list[dict[str, Any]]:
         """Load devlogs from file"""
         try:
             if self.current_file.exists():
-                with open(self.current_file, 'r', encoding='utf-8') as f:
+                with open(self.current_file, encoding="utf-8") as f:
                     return json.load(f)
             return []
         except Exception as e:
             print(f"❌ Failed to load devlogs: {e}")
             return []
 
-    def _save_devlogs(self, devlogs: List[Dict[str, Any]]) -> None:
+    def _save_devlogs(self, devlogs: list[dict[str, Any]]) -> None:
         """Save devlogs to file"""
         try:
-            with open(self.current_file, 'w', encoding='utf-8') as f:
+            with open(self.current_file, "w", encoding="utf-8") as f:
                 json.dump(devlogs, f, indent=2, ensure_ascii=False)
         except Exception as e:
             print(f"❌ Failed to save devlogs: {e}")
 
-    def search_devlogs(self, query: str, agent_id: Optional[str] = None, 
-                      status: Optional[str] = None, limit: int = 50) -> List[Dict[str, Any]]:
+    def search_devlogs(
+        self,
+        query: str,
+        agent_id: str | None = None,
+        status: str | None = None,
+        limit: int = 50,
+    ) -> list[dict[str, Any]]:
         """Search devlogs by query"""
         try:
             devlogs = self._load_devlogs()
@@ -135,7 +140,7 @@ class DevlogStorage:
                 agent_counts=agent_counts,
                 status_counts=status_counts,
                 type_counts=type_counts,
-                recent_activity=recent_activity
+                recent_activity=recent_activity,
             )
 
         except Exception as e:
@@ -162,10 +167,10 @@ class DevlogStorage:
     def compress_file(self, file_path: Path) -> bool:
         """Compress devlog file"""
         try:
-            compressed_path = file_path.with_suffix('.json.gz')
-            
-            with open(file_path, 'rb') as f_in:
-                with gzip.open(compressed_path, 'wb') as f_out:
+            compressed_path = file_path.with_suffix(".json.gz")
+
+            with open(file_path, "rb") as f_in:
+                with gzip.open(compressed_path, "wb") as f_out:
                     f_out.writelines(f_in)
 
             # Remove original file
@@ -176,7 +181,7 @@ class DevlogStorage:
             print(f"❌ Failed to compress file: {e}")
             return False
 
-    def get_file_info(self) -> Dict[str, Any]:
+    def get_file_info(self) -> dict[str, Any]:
         """Get current file information"""
         try:
             if self.current_file.exists():
@@ -185,18 +190,14 @@ class DevlogStorage:
                     "file_path": str(self.current_file),
                     "file_size": stat.st_size,
                     "last_modified": datetime.fromtimestamp(stat.st_mtime).isoformat(),
-                    "exists": True
+                    "exists": True,
                 }
             else:
                 return {
                     "file_path": str(self.current_file),
                     "file_size": 0,
                     "last_modified": None,
-                    "exists": False
+                    "exists": False,
                 }
         except Exception as e:
-            return {
-                "file_path": str(self.current_file),
-                "error": str(e),
-                "exists": False
-            }
+            return {"file_path": str(self.current_file), "error": str(e), "exists": False}

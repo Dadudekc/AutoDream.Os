@@ -17,7 +17,7 @@ from pathlib import Path
 project_root = Path(__file__).parent
 sys.path.insert(0, str(project_root))
 
-from src.services.service_manager import start_all_services, get_service_status, stop_all_services
+from src.services.service_manager import get_service_status, start_all_services, stop_all_services
 from src.services.social_media_integration import get_social_media_service
 
 
@@ -50,7 +50,7 @@ async def test_full_integration():
 
             # Test platform initialization
             print("🔌 Testing platform connections...")
-            if hasattr(social_service, 'enabled_platforms'):
+            if hasattr(social_service, "enabled_platforms"):
                 platforms = social_service.enabled_platforms
                 print(f"📱 Platforms enabled: {len(platforms)}")
                 for platform in platforms:
@@ -61,13 +61,15 @@ async def test_full_integration():
             test_texts = [
                 "The Discord integration is working perfectly!",
                 "I'm having issues with the social media features.",
-                "This is an amazing addition to the system!"
+                "This is an amazing addition to the system!",
             ]
 
             for text in test_texts:
                 try:
                     sentiment = await social_service.analyze_sentiment(text, "integration_test")
-                    print(f"   ✅ '{text[:30]}...': {sentiment['sentiment_label']} ({sentiment['sentiment_score']:.2f})")
+                    print(
+                        f"   ✅ '{text[:30]}...': {sentiment['sentiment_label']} ({sentiment['sentiment_score']:.2f})"
+                    )
                 except Exception as e:
                     print(f"   ❌ Sentiment analysis failed: {e}")
 
@@ -75,18 +77,22 @@ async def test_full_integration():
             print("\n📊 Testing community dashboard...")
             try:
                 dashboard = await social_service.get_community_dashboard_data()
-                integration_status = dashboard.get('integration_status', {})
+                integration_status = dashboard.get("integration_status", {})
 
                 if integration_status:
-                    print(f"   ✅ Integration active: {integration_status.get('integration_active', False)}")
-                    print(f"   📱 Connected platforms: {len(integration_status.get('enabled_platforms', []))}")
+                    print(
+                        f"   ✅ Integration active: {integration_status.get('integration_active', False)}"
+                    )
+                    print(
+                        f"   📱 Connected platforms: {len(integration_status.get('enabled_platforms', []))}"
+                    )
 
-                    if 'cross_platform_insights' in dashboard:
-                        insights = dashboard['cross_platform_insights']
+                    if "cross_platform_insights" in dashboard:
+                        insights = dashboard["cross_platform_insights"]
                         print(f"   💡 Generated insights: {len(insights)}")
 
-                    if 'recommendations' in dashboard:
-                        recommendations = dashboard['recommendations']
+                    if "recommendations" in dashboard:
+                        recommendations = dashboard["recommendations"]
                         print(f"   🎯 Generated recommendations: {len(recommendations)}")
                 else:
                     print("   ⚠️ No integration status available")
@@ -120,20 +126,20 @@ async def test_full_integration():
         # Test service manager functionality
         print("\n⚙️ Step 4: Testing service manager...")
         try:
-            services_status = status['services']
+            services_status = status["services"]
 
             # Count active services
-            active_services = sum(1 for s in services_status.values() if s in ['active', 'ready'])
+            active_services = sum(1 for s in services_status.values() if s in ["active", "ready"])
             total_services = len(services_status)
 
-            print(f"✅ Service manager operational")
+            print("✅ Service manager operational")
             print(f"📊 Active services: {active_services}/{total_services}")
 
             # Check for ChatMate specifically
-            chatmate_status = services_status.get('social_media', 'unknown')
+            chatmate_status = services_status.get("social_media", "unknown")
             print(f"🌐 ChatMate status: {chatmate_status}")
 
-            if chatmate_status in ['active', 'inactive']:
+            if chatmate_status in ["active", "inactive"]:
                 print("✅ ChatMate integration status: SUCCESS")
             else:
                 print("⚠️ ChatMate integration status: PARTIAL")
@@ -144,9 +150,9 @@ async def test_full_integration():
         # Overall integration assessment
         print("\n🎯 Integration Assessment:")
 
-        chatmate_active = status['services'].get('social_media') in ['active', 'inactive']
-        discord_ready = 'discord_bot' in status['services']
-        services_running = status['is_running']
+        chatmate_active = status["services"].get("social_media") in ["active", "inactive"]
+        discord_ready = "discord_bot" in status["services"]
+        services_running = status["is_running"]
 
         if chatmate_active and discord_ready and services_running:
             print("✅ FULL INTEGRATION SUCCESSFUL!")
@@ -184,6 +190,7 @@ async def test_full_integration():
     except Exception as e:
         print(f"❌ Integration test failed: {e}")
         import traceback
+
         traceback.print_exc()
         return False
 
@@ -199,8 +206,8 @@ async def test_discord_commands_directly():
     print("====================================")
 
     try:
-        from src.services.discord_bot.commands.social_media_commands import SocialMediaCommands
         from src.services import EnhancedDiscordAgentBot
+        from src.services.discord_bot.commands.social_media_commands import SocialMediaCommands
 
         # Create a mock bot for testing
         bot = EnhancedDiscordAgentBot(command_prefix="!")
@@ -259,9 +266,9 @@ async def main():
     except Exception as e:
         print(f"\n❌ Test failed with error: {e}")
         import traceback
+
         traceback.print_exc()
 
 
 if __name__ == "__main__":
     asyncio.run(main())
-

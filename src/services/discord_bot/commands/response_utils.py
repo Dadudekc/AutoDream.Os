@@ -4,8 +4,9 @@ Response Utilities Module
 Common utilities for handling Discord responses safely.
 """
 
-import discord
 import logging
+
+import discord
 
 logger = logging.getLogger(__name__)
 
@@ -15,7 +16,7 @@ async def send_discord_response(interaction, **kwargs):
     try:
         # Filter out None values to prevent Discord errors
         filtered_kwargs = {k: v for k, v in kwargs.items() if v is not None}
-        
+
         if interaction.response.is_done():
             await interaction.followup.send(**filtered_kwargs)
         else:

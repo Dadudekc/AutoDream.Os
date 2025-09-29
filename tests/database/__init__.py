@@ -18,7 +18,7 @@ TEST_CATEGORIES = [
     "migration_scripts",
     "schema_implementation",
     "database_operations",
-    "database_performance"
+    "database_performance",
 ]
 
 # Test coverage targets
@@ -26,9 +26,5 @@ COVERAGE_TARGETS = {
     "migration_scripts": 90,
     "schema_implementation": 95,
     "database_operations": 85,
-    "database_performance": 80
+    "database_performance": 80,
 }
-
-
-
-

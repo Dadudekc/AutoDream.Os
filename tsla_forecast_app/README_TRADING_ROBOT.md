@@ -307,7 +307,7 @@ tsla_forecast_app/
 class MyCustomStrategy(TradingStrategy):
     def __init__(self):
         super().__init__("My Strategy", "Description")
-    
+
     def analyze(self, data):
         # Your strategy logic here
         return {'action': 'BUY', 'confidence': 0.8, 'reason': 'Custom signal'}
@@ -324,6 +324,3 @@ This advanced trading robot was developed by Agent-1 as part of the Agent Cellph
 ---
 
 **Ready to automate your Tesla trading!** 🤖📈💰
-
-
-

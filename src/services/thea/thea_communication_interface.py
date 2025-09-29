@@ -21,19 +21,26 @@ import time
 import webbrowser
 from datetime import datetime
 
+from src.services.thea.thea_browser_manager import TheaBrowserManager
+
 # Import our modular components
 from src.services.thea.thea_communication_core import TheaCommunicationCore
-from src.services.thea.thea_browser_manager import TheaBrowserManager
 from src.services.thea.thea_login_handler_refactored import create_thea_login_handler
 
 
 class TheaCommunicationInterface:
     """Simplified interface for Thea communication system."""
 
-    def __init__(self, username: str = None, password: str = None, use_selenium: bool = True, headless: bool = True):
+    def __init__(
+        self,
+        username: str = None,
+        password: str = None,
+        use_selenium: bool = True,
+        headless: bool = True,
+    ):
         """Initialize the communication interface."""
         self.thea_url = "https://chatgpt.com/g/g-67f437d96d7c81918b2dbc12f0423867-thea-manager"
-        
+
         # Configuration
         self.username = username
         self.password = password
@@ -44,7 +51,7 @@ class TheaCommunicationInterface:
         self.core = TheaCommunicationCore()
         self.browser_manager = TheaBrowserManager(headless=headless)
         self.login_handler = create_thea_login_handler(
-# SECURITY: Password placeholder - replace with environment variable
+            # SECURITY: Password placeholder - replace with environment variable
         )
 
         # Selenium driver (initialized when needed)
@@ -198,7 +205,9 @@ class TheaCommunicationInterface:
             except Exception as e:
                 print(f"⚠️  Could not load sent message: {e}")
 
-        self.core.create_conversation_log(sent_message, sent_message_path, screenshot_path, extracted_response)
+        self.core.create_conversation_log(
+            sent_message, sent_message_path, screenshot_path, extracted_response
+        )
 
         print("\n🔍 RESPONSE ANALYSIS")
         print("-" * 25)
@@ -278,7 +287,7 @@ def main():
     """Main entry point."""
     parser = argparse.ArgumentParser(description="Thea Communication System - V2 Compliant")
     parser.add_argument("--username", help="ChatGPT username/email for automated login")
-# SECURITY: Password placeholder - replace with environment variable
+    # SECURITY: Password placeholder - replace with environment variable
     parser.add_argument("--no-selenium", action="store_true", help="Disable Selenium automation")
     parser.add_argument("--headless", action="store_true", help="Run browser in headless mode")
     parser.add_argument("--message", help="Custom message to send to Thea")
@@ -289,7 +298,7 @@ def main():
         # Create communication instance
         comm = TheaCommunicationInterface(
             username=args.username,
-# SECURITY: Password placeholder - replace with environment variable
+            # SECURITY: Password placeholder - replace with environment variable
             use_selenium=not args.no_selenium,
             headless=args.headless,
         )
@@ -320,7 +329,7 @@ URGENT - AGENT ESCALATION"""
         else:
             print("❌ Query failed - try --no-selenium for manual mode")
 
-# SECURITY: Key placeholder - replace with environment variable
+        # SECURITY: Key placeholder - replace with environment variable
         print("\n⏹️  Operation cancelled by user")
     except Exception as e:
         print(f"\n💥 ERROR: {e}")
@@ -332,4 +341,3 @@ URGENT - AGENT ESCALATION"""
 
 if __name__ == "__main__":
     main()
-

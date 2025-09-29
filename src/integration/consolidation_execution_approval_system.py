@@ -4,51 +4,58 @@ Manages consolidation execution approval and Team Beta coordination tasks
 V2 Compliant: ≤400 lines, simple data classes, direct method calls
 """
 
-from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
-from enum import Enum
-import time
-import os
-import sys
 from datetime import datetime
+from enum import Enum
+from typing import Any
+
 
 class ApprovalStatus(Enum):
     """Approval status enumeration"""
+
     PENDING = "pending"
     APPROVED = "approved"
     REJECTED = "rejected"
     IN_REVIEW = "in_review"
 
+
 class TaskPriority(Enum):
     """Task priority enumeration"""
+
     CRITICAL = "critical"
     HIGH = "high"
     MEDIUM = "medium"
     LOW = "low"
 
+
 class TaskStatus(Enum):
     """Task status enumeration"""
+
     PENDING = "pending"
     IN_PROGRESS = "in_progress"
     COMPLETED = "completed"
     BLOCKED = "blocked"
 
+
 @dataclass
 class ConsolidationTask:
     """Consolidation task structure"""
+
     task_id: str
     name: str
     description: str
     priority: TaskPriority
     status: TaskStatus
     assigned_agent: str
-    dependencies: List[str]
+    dependencies: list[str]
     estimated_hours: int
     approval_required: bool
+
 
 @dataclass
 class ApprovalRequest:
     """Approval request structure"""
+
     request_id: str
     task_id: str
     requester: str
@@ -57,19 +64,20 @@ class ApprovalRequest:
     justification: str
     timestamp: str
 
+
 class ConsolidationExecutionApprovalSystem:
     """Consolidation Execution Approval System"""
-    
+
     def __init__(self):
-        self.consolidation_tasks: List[ConsolidationTask] = []
-        self.approval_requests: List[ApprovalRequest] = []
-        self.team_beta_coordination: Dict[str, Any] = {}
+        self.consolidation_tasks: list[ConsolidationTask] = []
+        self.approval_requests: list[ApprovalRequest] = []
+        self.team_beta_coordination: dict[str, Any] = {}
         self.approval_status = "INITIALIZED"
-        
-    def initialize_consolidation_tasks(self) -> List[ConsolidationTask]:
+
+    def initialize_consolidation_tasks(self) -> list[ConsolidationTask]:
         """Initialize consolidation execution tasks"""
         print("📋 Initializing consolidation execution tasks...")
-        
+
         tasks = [
             ConsolidationTask(
                 task_id="CONS-EXEC-001",
@@ -80,7 +88,7 @@ class ConsolidationExecutionApprovalSystem:
                 assigned_agent="Agent-8",
                 dependencies=[],
                 estimated_hours=0,
-                approval_required=True
+                approval_required=True,
             ),
             ConsolidationTask(
                 task_id="CONS-EXEC-002",
@@ -91,7 +99,7 @@ class ConsolidationExecutionApprovalSystem:
                 assigned_agent="Agent-8",
                 dependencies=["CONS-EXEC-001"],
                 estimated_hours=2,
-                approval_required=False
+                approval_required=False,
             ),
             ConsolidationTask(
                 task_id="CONS-EXEC-003",
@@ -102,7 +110,7 @@ class ConsolidationExecutionApprovalSystem:
                 assigned_agent="Agent-8",
                 dependencies=["CONS-EXEC-002"],
                 estimated_hours=4,
-                approval_required=False
+                approval_required=False,
             ),
             ConsolidationTask(
                 task_id="CONS-EXEC-004",
@@ -113,7 +121,7 @@ class ConsolidationExecutionApprovalSystem:
                 assigned_agent="Agent-8",
                 dependencies=["CONS-EXEC-003"],
                 estimated_hours=6,
-                approval_required=False
+                approval_required=False,
             ),
             ConsolidationTask(
                 task_id="CONS-EXEC-005",
@@ -124,7 +132,7 @@ class ConsolidationExecutionApprovalSystem:
                 assigned_agent="Agent-7",
                 dependencies=["CONS-EXEC-004"],
                 estimated_hours=3,
-                approval_required=False
+                approval_required=False,
             ),
             ConsolidationTask(
                 task_id="CONS-EXEC-006",
@@ -135,7 +143,7 @@ class ConsolidationExecutionApprovalSystem:
                 assigned_agent="Agent-8",
                 dependencies=["CONS-EXEC-005"],
                 estimated_hours=4,
-                approval_required=False
+                approval_required=False,
             ),
             ConsolidationTask(
                 task_id="CONS-EXEC-007",
@@ -146,7 +154,7 @@ class ConsolidationExecutionApprovalSystem:
                 assigned_agent="Agent-6",
                 dependencies=["CONS-EXEC-006"],
                 estimated_hours=5,
-                approval_required=False
+                approval_required=False,
             ),
             ConsolidationTask(
                 task_id="CONS-EXEC-008",
@@ -157,7 +165,7 @@ class ConsolidationExecutionApprovalSystem:
                 assigned_agent="Agent-8",
                 dependencies=["CONS-EXEC-007"],
                 estimated_hours=3,
-                approval_required=False
+                approval_required=False,
             ),
             ConsolidationTask(
                 task_id="CONS-EXEC-009",
@@ -168,7 +176,7 @@ class ConsolidationExecutionApprovalSystem:
                 assigned_agent="Agent-8",
                 dependencies=["CONS-EXEC-008"],
                 estimated_hours=6,
-                approval_required=False
+                approval_required=False,
             ),
             ConsolidationTask(
                 task_id="CONS-EXEC-010",
@@ -179,17 +187,17 @@ class ConsolidationExecutionApprovalSystem:
                 assigned_agent="Agent-6",
                 dependencies=["CONS-EXEC-009"],
                 estimated_hours=8,
-                approval_required=False
-            )
+                approval_required=False,
+            ),
         ]
-        
+
         self.consolidation_tasks = tasks
         return tasks
-    
-    def create_approval_requests(self) -> List[ApprovalRequest]:
+
+    def create_approval_requests(self) -> list[ApprovalRequest]:
         """Create approval requests for tasks requiring approval"""
         print("📝 Creating approval requests...")
-        
+
         approval_requests = []
         for task in self.consolidation_tasks:
             if task.approval_required:
@@ -200,17 +208,17 @@ class ConsolidationExecutionApprovalSystem:
                     approver="Team Leaders",
                     status=ApprovalStatus.PENDING,
                     justification=f"Consolidation execution approval required for {task.name}",
-                    timestamp=datetime.now().isoformat()
+                    timestamp=datetime.now().isoformat(),
                 )
                 approval_requests.append(request)
-        
+
         self.approval_requests = approval_requests
         return approval_requests
-    
-    def initialize_team_beta_coordination(self) -> Dict[str, Any]:
+
+    def initialize_team_beta_coordination(self) -> dict[str, Any]:
         """Initialize Team Beta coordination structure"""
         print("👥 Initializing Team Beta coordination...")
-        
+
         team_beta_coordination = {
             "team_leader": "Agent-5",
             "team_members": ["Agent-5", "Agent-6", "Agent-7", "Agent-8"],
@@ -220,56 +228,64 @@ class ConsolidationExecutionApprovalSystem:
                 "Repository cloning automation",
                 "Cross-platform compatibility",
                 "Performance optimization",
-                "Integration testing"
+                "Integration testing",
             ],
             "coordination_tasks": [
                 "Seamless integration across all Team Beta components",
                 "Quality assurance coordination with Agent-6",
                 "Repository management coordination with Agent-7",
                 "VSCode forking coordination with Agent-6",
-                "Testing and documentation coordination with Agent-8"
+                "Testing and documentation coordination with Agent-8",
             ],
             "success_metrics": {
                 "integration_completeness": 0.0,
                 "cross_platform_compatibility": 0.0,
                 "performance_optimization": 0.0,
                 "testing_coverage": 0.0,
-                "user_friendliness": 0.0
-            }
+                "user_friendliness": 0.0,
+            },
         }
-        
+
         self.team_beta_coordination = team_beta_coordination
         return team_beta_coordination
-    
-    def generate_consolidation_execution_plan(self) -> Dict[str, Any]:
+
+    def generate_consolidation_execution_plan(self) -> dict[str, Any]:
         """Generate comprehensive consolidation execution plan"""
         print("📊 Generating consolidation execution plan...")
-        
+
         # Initialize tasks, approvals, and coordination
         self.initialize_consolidation_tasks()
         self.create_approval_requests()
         self.initialize_team_beta_coordination()
-        
+
         # Calculate execution metrics
         total_tasks = len(self.consolidation_tasks)
-        pending_tasks = sum(1 for task in self.consolidation_tasks if task.status == TaskStatus.PENDING)
-        critical_tasks = sum(1 for task in self.consolidation_tasks if task.priority == TaskPriority.CRITICAL)
-        high_priority_tasks = sum(1 for task in self.consolidation_tasks if task.priority == TaskPriority.HIGH)
+        pending_tasks = sum(
+            1 for task in self.consolidation_tasks if task.status == TaskStatus.PENDING
+        )
+        critical_tasks = sum(
+            1 for task in self.consolidation_tasks if task.priority == TaskPriority.CRITICAL
+        )
+        high_priority_tasks = sum(
+            1 for task in self.consolidation_tasks if task.priority == TaskPriority.HIGH
+        )
         total_estimated_hours = sum(task.estimated_hours for task in self.consolidation_tasks)
-        
+
         # Calculate approval metrics
         total_approval_requests = len(self.approval_requests)
-        pending_approvals = sum(1 for req in self.approval_requests if req.status == ApprovalStatus.PENDING)
-        
+        pending_approvals = sum(
+            1 for req in self.approval_requests if req.status == ApprovalStatus.PENDING
+        )
+
         # Generate execution strategy
         execution_strategy = {
             "approval_first": "Await team leaders approval before beginning consolidation execution",
             "team_coordination": "Coordinate with all Team Beta members for seamless integration",
             "priority_execution": "Execute critical and high priority tasks first",
             "quality_integration": "Integrate quality assurance throughout execution",
-            "progress_monitoring": "Monitor progress and adjust execution as needed"
+            "progress_monitoring": "Monitor progress and adjust execution as needed",
         }
-        
+
         # Generate implementation recommendations
         implementation_recommendations = [
             "Submit consolidation execution approval request to team leaders",
@@ -280,9 +296,9 @@ class ConsolidationExecutionApprovalSystem:
             "Validate VSCode customization support with quality assurance",
             "Execute HIGH priority recommendations for comprehensive testing",
             "Complete VSCode repository forking implementation",
-            "Monitor progress and adjust execution timeline as needed"
+            "Monitor progress and adjust execution timeline as needed",
         ]
-        
+
         execution_plan = {
             "timestamp": datetime.now().isoformat(),
             "approval_status": "PENDING_TEAM_LEADERS_APPROVAL",
@@ -301,10 +317,10 @@ class ConsolidationExecutionApprovalSystem:
                         "status": task.status.value,
                         "assigned_agent": task.assigned_agent,
                         "estimated_hours": task.estimated_hours,
-                        "approval_required": task.approval_required
+                        "approval_required": task.approval_required,
                     }
                     for task in self.consolidation_tasks
-                ]
+                ],
             },
             "approval_requests": {
                 "total_requests": total_approval_requests,
@@ -315,10 +331,10 @@ class ConsolidationExecutionApprovalSystem:
                         "task_id": req.task_id,
                         "requester": req.requester,
                         "approver": req.approver,
-                        "status": req.status.value
+                        "status": req.status.value,
                     }
                     for req in self.approval_requests
-                ]
+                ],
             },
             "team_beta_coordination": self.team_beta_coordination,
             "execution_strategy": execution_strategy,
@@ -329,69 +345,76 @@ class ConsolidationExecutionApprovalSystem:
                 "Performance optimization for enhanced system efficiency",
                 "Comprehensive testing suite for quality assurance",
                 "Cross-platform compatibility for universal deployment",
-                "VSCode customization and forking for specialized development"
-            ]
+                "VSCode customization and forking for specialized development",
+            ],
         }
-        
+
         self.approval_status = "PENDING_TEAM_LEADERS_APPROVAL"
         return execution_plan
-    
-    def get_execution_summary(self) -> Dict[str, Any]:
+
+    def get_execution_summary(self) -> dict[str, Any]:
         """Get consolidation execution summary"""
         return {
             "total_tasks": len(self.consolidation_tasks),
-            "pending_tasks": len([t for t in self.consolidation_tasks if t.status == TaskStatus.PENDING]),
-            "critical_tasks": len([t for t in self.consolidation_tasks if t.priority == TaskPriority.CRITICAL]),
+            "pending_tasks": len(
+                [t for t in self.consolidation_tasks if t.status == TaskStatus.PENDING]
+            ),
+            "critical_tasks": len(
+                [t for t in self.consolidation_tasks if t.priority == TaskPriority.CRITICAL]
+            ),
             "approval_requests": len(self.approval_requests),
             "approval_status": self.approval_status,
-            "team_beta_ready": self.team_beta_coordination.get("coordination_status") == "PENDING_APPROVAL"
+            "team_beta_ready": self.team_beta_coordination.get("coordination_status")
+            == "PENDING_APPROVAL",
         }
 
-def run_consolidation_execution_approval_system() -> Dict[str, Any]:
+
+def run_consolidation_execution_approval_system() -> dict[str, Any]:
     """Run consolidation execution approval system"""
     approval_system = ConsolidationExecutionApprovalSystem()
     execution_plan = approval_system.generate_consolidation_execution_plan()
     summary = approval_system.get_execution_summary()
-    
-    return {
-        "execution_summary": summary,
-        "execution_plan": execution_plan
-    }
+
+    return {"execution_summary": summary, "execution_plan": execution_plan}
+
 
 if __name__ == "__main__":
     # Run consolidation execution approval system
     print("📋 Consolidation Execution Approval System")
     print("=" * 60)
-    
+
     execution_results = run_consolidation_execution_approval_system()
-    
+
     summary = execution_results["execution_summary"]
-    print(f"\n📊 Consolidation Execution Summary:")
+    print("\n📊 Consolidation Execution Summary:")
     print(f"Total Tasks: {summary['total_tasks']}")
     print(f"Pending Tasks: {summary['pending_tasks']}")
     print(f"Critical Tasks: {summary['critical_tasks']}")
     print(f"Approval Requests: {summary['approval_requests']}")
     print(f"Approval Status: {summary['approval_status']}")
     print(f"Team Beta Ready: {summary['team_beta_ready']}")
-    
+
     plan = execution_results["execution_plan"]
-    print(f"\n📋 Consolidation Tasks:")
+    print("\n📋 Consolidation Tasks:")
     for task in plan["consolidation_tasks"]["task_details"]:
-        priority_icon = "🚨" if task['priority'] == "critical" else "⚠️" if task['priority'] == "high" else "📋"
-        print(f"  {priority_icon} {task['task_id']}: {task['name']} ({task['priority']} priority, {task['estimated_hours']} hours)")
-    
-    print(f"\n📝 Approval Requests:")
+        priority_icon = (
+            "🚨" if task["priority"] == "critical" else "⚠️" if task["priority"] == "high" else "📋"
+        )
+        print(
+            f"  {priority_icon} {task['task_id']}: {task['name']} ({task['priority']} priority, {task['estimated_hours']} hours)"
+        )
+
+    print("\n📝 Approval Requests:")
     for req in plan["approval_requests"]["request_details"]:
         print(f"  {req['request_id']}: {req['task_id']} - {req['status'].upper()}")
-    
-    print(f"\n👥 Team Beta Coordination:")
+
+    print("\n👥 Team Beta Coordination:")
     print(f"Team Leader: {plan['team_beta_coordination']['team_leader']}")
     print(f"Team Members: {', '.join(plan['team_beta_coordination']['team_members'])}")
     print(f"Coordination Status: {plan['team_beta_coordination']['coordination_status']}")
-    
-    print(f"\n🎯 Execution Strategy:")
+
+    print("\n🎯 Execution Strategy:")
     for key, value in plan["execution_strategy"].items():
         print(f"  {key.replace('_', ' ').title()}: {value}")
-    
-    print(f"\n✅ Consolidation Execution Approval System Complete!")
 
+    print("\n✅ Consolidation Execution Approval System Complete!")

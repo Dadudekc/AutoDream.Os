@@ -1,14 +1,15 @@
+import logging
 import os
 import shutil
 import time
-import logging
 
 from IngestManager import IngestManager
-from PreprocessorAgent import PreprocessorAgent
 from LocalEmbeddingsGeneratorAgent import LocalEmbeddingsGeneratorAgent
+from PreprocessorAgent import PreprocessorAgent
 from VectorStoreAgent import VectorStoreAgent
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+
 
 class OrchestratorAgent:
     """
@@ -16,11 +17,12 @@ class OrchestratorAgent:
     Supports batch and real-time execution.
     """
 
-    def __init__(self,
-                 folder_to_watch: str = "./data/uploads",
-                 embedding_model: str = "mistral",
-                 vector_collection: str = "sos_collection"):
-
+    def __init__(
+        self,
+        folder_to_watch: str = "./data/uploads",
+        embedding_model: str = "mistral",
+        vector_collection: str = "sos_collection",
+    ):
         logging.info("Initializing OrchestratorAgent...")
 
         # Initialize all core agents
@@ -73,11 +75,9 @@ class OrchestratorAgent:
 
             # Add chunks for embedding
             for idx, chunk in enumerate(chunks):
-                preprocessed_chunks.append({
-                    "file_name": file_name,
-                    "chunk_index": idx,
-                    "content": chunk
-                })
+                preprocessed_chunks.append(
+                    {"file_name": file_name, "chunk_index": idx, "content": chunk}
+                )
 
         # Step 3: Generate embeddings
         embeddings = self.embedding_agent.generate_embeddings(preprocessed_chunks)
@@ -132,11 +132,9 @@ class OrchestratorAgent:
 
                         # Add chunks for embedding
                         for idx, chunk in enumerate(chunks):
-                            preprocessed_chunks.append({
-                                "file_name": file_name,
-                                "chunk_index": idx,
-                                "content": chunk
-                            })
+                            preprocessed_chunks.append(
+                                {"file_name": file_name, "chunk_index": idx, "content": chunk}
+                            )
 
                     # Step 3: Generate embeddings
                     embeddings = self.embedding_agent.generate_embeddings(preprocessed_chunks)
@@ -175,7 +173,7 @@ class OrchestratorAgent:
         """
         try:
             processed_file_path = os.path.join(self.processed_folder, file_name)
-            with open(processed_file_path, 'w', encoding='utf-8') as f:
+            with open(processed_file_path, "w", encoding="utf-8") as f:
                 f.write(cleaned_text)
             logging.info(f"Saved cleaned file to: {processed_file_path}")
         except Exception as e:

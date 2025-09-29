@@ -1,7 +1,7 @@
 """Shared agent registry for system-wide constants."""
 
 from __future__ import annotations
- 
+
 import json
 from pathlib import Path
 from typing import Any

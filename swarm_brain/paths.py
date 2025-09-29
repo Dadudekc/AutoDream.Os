@@ -9,6 +9,7 @@ V2 Compliance: ≤400 lines, focused path functionality.
 
 import logging
 from pathlib import Path
+
 from .config import CONFIG
 
 logger = logging.getLogger(__name__)
@@ -48,9 +49,10 @@ def cleanup_old_files(max_age_days: int = 30) -> int:
     """Clean up old files in the brain directory."""
     try:
         import time
+
         current_time = time.time()
         max_age_seconds = max_age_days * 24 * 60 * 60
-        
+
         cleaned_count = 0
         for file_path in CONFIG.root.rglob("*"):
             if file_path.is_file():
@@ -58,10 +60,10 @@ def cleanup_old_files(max_age_days: int = 30) -> int:
                 if file_age > max_age_seconds:
                     file_path.unlink()
                     cleaned_count += 1
-        
+
         logger.info(f"Cleaned up {cleaned_count} old files")
         return cleaned_count
-        
+
     except Exception as e:
         logger.error(f"Failed to cleanup old files: {e}")
         return 0
@@ -69,7 +71,3 @@ def cleanup_old_files(max_age_days: int = 30) -> int:
 
 # Ensure directories exist on import
 ensure_directories()
-
-
-
-

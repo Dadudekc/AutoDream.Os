@@ -14,16 +14,16 @@ Agent-7 Repository Cloning Specialist - Comprehensive Testing Integration
 
 # Import all functionality from the modular package
 from .testing_validation_modules import (
-    TestingValidationSystem,
+    PlatformInfo,
     TestCase,
+    TestCategory,
+    TestExecutor,
+    TestingValidationSystem,
+    TestMetrics,
     TestResult,
     TestStatus,
-    TestCategory,
-    PlatformInfo,
-    TestMetrics,
     ValidationReport,
-    TestExecutor,
-    main
+    main,
 )
 
 # Re-export for backward compatibility
@@ -37,7 +37,7 @@ __all__ = [
     "TestMetrics",
     "ValidationReport",
     "TestExecutor",
-    "main"
+    "main",
 ]
 
 # Main execution function for backward compatibility

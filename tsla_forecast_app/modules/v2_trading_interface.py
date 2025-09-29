@@ -8,31 +8,25 @@ Integrates all modular UI components
 V2 Compliant: ≤200 lines, focused interface integration
 """
 
-from PyQt5.QtWidgets import (
-    QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, 
-    QTabWidget, QStatusBar, QMenuBar, QAction
-)
-from PyQt5.QtCore import Qt, QTimer, pyqtSignal
-from PyQt5.QtGui import QFont, QIcon, QPalette, QColor
-from typing import Dict, Any, List
+from typing import Any
+
+from PyQt5.QtCore import QTimer, pyqtSignal
+from PyQt5.QtWidgets import QAction, QMainWindow, QStatusBar, QTabWidget
+
+from .ui.chart_widget import ChartWidget
+from .ui.mobile_responsive import MobileResponsiveWidget, MobileTradingCard, ResponsiveScrollArea
 
 # Import V2 compliant UI components
 from .ui.trading_dashboard import TradingDashboard
-from .ui.chart_widget import ChartWidget
-from .ui.mobile_responsive import (
-    MobileResponsiveWidget, 
-    MobileTradingCard, 
-    ResponsiveScrollArea
-)
 
 
 class V2TradingInterface(QMainWindow):
     """V2-compliant trading robot frontend interface"""
-    
+
     # Signals
     trading_action = pyqtSignal(str, dict)  # action, data
     chart_update_requested = pyqtSignal(dict)
-    
+
     def __init__(self):
         super().__init__()
         self.screen_size = "desktop"
@@ -45,22 +39,23 @@ class V2TradingInterface(QMainWindow):
         """Initialize V2-compliant UI"""
         self.setWindowTitle("🚀 Tesla Trading Robot V2")
         self.setGeometry(100, 100, 1200, 800)
-        
+
         # Setup dark theme
         self.setup_dark_theme()
-        
+
         # Create menu bar
         self.create_menu_bar()
-        
+
         # Create central widget
         self.create_central_widget()
-        
+
         # Create status bar
         self.create_status_bar()
 
     def setup_dark_theme(self):
         """Setup professional dark theme"""
-        self.setStyleSheet("""
+        self.setStyleSheet(
+            """
             QMainWindow {
                 background-color: #1e1e1e;
                 color: #ffffff;
@@ -104,43 +99,44 @@ class V2TradingInterface(QMainWindow):
                 color: #ffffff;
                 border-top: 1px solid #444444;
             }
-        """)
+        """
+        )
 
     def create_menu_bar(self):
         """Create application menu bar"""
         menubar = self.menuBar()
-        
+
         # File menu
         file_menu = menubar.addMenu("File")
-        
+
         new_action = QAction("New Session", self)
         new_action.triggered.connect(self.new_session)
         file_menu.addAction(new_action)
-        
+
         save_action = QAction("Save Data", self)
         save_action.triggered.connect(self.save_data)
         file_menu.addAction(save_action)
-        
+
         file_menu.addSeparator()
-        
+
         exit_action = QAction("Exit", self)
         exit_action.triggered.connect(self.close)
         file_menu.addAction(exit_action)
-        
+
         # View menu
         view_menu = menubar.addMenu("View")
-        
+
         dashboard_action = QAction("Dashboard", self)
         dashboard_action.triggered.connect(self.show_dashboard)
         view_menu.addAction(dashboard_action)
-        
+
         charts_action = QAction("Charts", self)
         charts_action.triggered.connect(self.show_charts)
         view_menu.addAction(charts_action)
-        
+
         # Settings menu
         settings_menu = menubar.addMenu("Settings")
-        
+
         preferences_action = QAction("Preferences", self)
         preferences_action.triggered.connect(self.show_preferences)
         settings_menu.addAction(preferences_action)
@@ -149,15 +145,15 @@ class V2TradingInterface(QMainWindow):
         """Create central widget with tabs"""
         self.central_widget = QTabWidget()
         self.setCentralWidget(self.central_widget)
-        
+
         # Create main trading dashboard
         self.trading_dashboard = TradingDashboard()
         self.central_widget.addTab(self.trading_dashboard, "📊 Trading Dashboard")
-        
+
         # Create chart widget
         self.chart_widget = ChartWidget()
         self.central_widget.addTab(self.chart_widget, "📈 Charts")
-        
+
         # Create mobile responsive view
         self.mobile_view = self.create_mobile_view()
         self.central_widget.addTab(self.mobile_view, "📱 Mobile View")
@@ -165,14 +161,14 @@ class V2TradingInterface(QMainWindow):
     def create_mobile_view(self):
         """Create mobile-responsive view"""
         mobile_widget = MobileResponsiveWidget()
-        
+
         # Create scroll area for mobile
         scroll_area = ResponsiveScrollArea()
-        
+
         # Create mobile trading cards
         self.mobile_card = MobileTradingCard("Tesla Trading")
         scroll_area.add_responsive_widget(self.mobile_card)
-        
+
         mobile_widget.main_layout.addWidget(scroll_area)
         return mobile_widget
 
@@ -180,7 +176,7 @@ class V2TradingInterface(QMainWindow):
         """Create status bar"""
         self.status_bar = QStatusBar()
         self.setStatusBar(self.status_bar)
-        
+
         # Status labels
         self.connection_status = self.status_bar.addWidget("● Disconnected")
         self.data_status = self.status_bar.addWidget("Data: None")
@@ -198,7 +194,7 @@ class V2TradingInterface(QMainWindow):
         self.trading_dashboard.hold_button.clicked.connect(
             lambda: self.trading_action.emit("hold", self.trading_data)
         )
-        
+
         # Connect chart widget signals
         self.chart_widget.chart_updated.connect(self.chart_update_requested.emit)
 
@@ -208,24 +204,24 @@ class V2TradingInterface(QMainWindow):
         self.update_timer.timeout.connect(self.update_interface)
         self.update_timer.start(1000)  # Update every second
 
-    def update_trading_data(self, data: Dict[str, Any]):
+    def update_trading_data(self, data: dict[str, Any]):
         """Update trading data across all components"""
         self.trading_data = data
-        
+
         # Update trading dashboard
         self.trading_dashboard.update_trading_data(data)
-        
+
         # Update mobile card
         self.mobile_card.update_data(data)
-        
+
         # Update status bar
         self.update_status_bar(data)
 
-    def update_chart_data(self, chart_data: List[Dict[str, Any]]):
+    def update_chart_data(self, chart_data: list[dict[str, Any]]):
         """Update chart data"""
         self.chart_widget.update_chart_data(chart_data)
 
-    def update_status_bar(self, data: Dict[str, Any]):
+    def update_status_bar(self, data: dict[str, Any]):
         """Update status bar information"""
         if data:
             self.connection_status.setText("● Connected")
@@ -239,7 +235,7 @@ class V2TradingInterface(QMainWindow):
         """Update interface elements"""
         # Update dashboard
         self.trading_dashboard.update_display()
-        
+
         # Update status
         current_time = datetime.now().strftime("%H:%M:%S")
         self.status_bar.showMessage(f"Trading Robot V2 - {current_time}")
@@ -268,11 +264,5 @@ class V2TradingInterface(QMainWindow):
     def set_screen_size(self, size: str):
         """Set responsive screen size"""
         self.screen_size = size
-        if hasattr(self, 'mobile_view'):
+        if hasattr(self, "mobile_view"):
             self.mobile_view.update_screen_size(size)
-
-
-
-
-
-

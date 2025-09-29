@@ -40,7 +40,7 @@ class DiscordCommanderTester:
             success = self.messaging_service.send_message(
                 agent_id="Agent-5",
                 message="[Test] Discord Commander test message",
-                from_agent="Discord-Commander-Test"
+                from_agent="Discord-Commander-Test",
             )
 
             if success:
@@ -60,12 +60,12 @@ class DiscordCommanderTester:
             logger.info("🧪 Testing bot setup...")
 
             # Check if bot is properly initialized
-            if not hasattr(self.bot, 'is_ready'):
+            if not hasattr(self.bot, "is_ready"):
                 logger.error("❌ Bot not properly initialized")
                 return False
 
             # Check if slash commands are set up
-            if not hasattr(self.bot, 'tree') or not self.bot.tree:
+            if not hasattr(self.bot, "tree") or not self.bot.tree:
                 logger.error("❌ Slash commands not set up")
                 return False
 
@@ -83,7 +83,13 @@ class DiscordCommanderTester:
 
             # Check if commands are registered
             commands = self.bot.tree.get_commands()
-            expected_commands = ['swarm_status', 'send_to_agent', 'broadcast', 'agent_list', 'system_check']
+            expected_commands = [
+                "swarm_status",
+                "send_to_agent",
+                "broadcast",
+                "agent_list",
+                "system_check",
+            ]
 
             found_commands = [cmd.name for cmd in commands]
             missing_commands = []
@@ -120,7 +126,7 @@ class DiscordCommanderTester:
                 success = self.messaging_service.send_message(
                     agent_id=agent,
                     message="[Test] 5-agent mode test",
-                    from_agent="Discord-Commander-Test"
+                    from_agent="Discord-Commander-Test",
                 )
                 test_results.append((agent, success))
 
@@ -149,7 +155,7 @@ class DiscordCommanderTester:
             ("Messaging Service", self.test_messaging_service),
             ("Bot Setup", self.test_bot_setup),
             ("Slash Commands", self.test_slash_commands),
-            ("5-Agent Mode", self.test_5_agent_mode)
+            ("5-Agent Mode", self.test_5_agent_mode),
         ]
 
         results = []
@@ -190,8 +196,7 @@ async def main():
     """Main test function."""
     # Setup logging
     logging.basicConfig(
-        level=logging.INFO,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     )
 
     logger.info("🤖 Discord Commander Test Suite")
@@ -218,4 +223,3 @@ async def main():
 
 if __name__ == "__main__":
     sys.exit(asyncio.run(main()))
-

@@ -15,17 +15,17 @@ Features:
 
 Usage:
     from src.services.thea.thea_analytics_reporter import TheaAnalyticsReporter
-    
+
     reporter = TheaAnalyticsReporter()
     reporter.send_analytics_report()
 """
 
 import json
 import logging
+from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, Any, Optional, List
-from dataclasses import dataclass
+from typing import Any
 
 from .thea_autonomous_system import TheaAutonomousSystem
 from .thea_conversation_manager import TheaConversationManager
@@ -36,11 +36,12 @@ logger = logging.getLogger(__name__)
 @dataclass
 class ProjectAnalytics:
     """Project analytics data structure."""
+
     total_files: int
     python_files: int
     v2_compliance_percentage: float
     v2_violations: int
-    violation_files: List[str]
+    violation_files: list[str]
     agent_workspaces: int
     test_files: int
     analytics_system_status: str
@@ -49,13 +50,13 @@ class ProjectAnalytics:
 
 class TheaAnalyticsReporter:
     """Automated analytics reporter for Commander Thea strategic consultation."""
-    
-    def __init__(self, 
-                 project_analysis_file: str = "project_analysis.json",
-                 analytics_dir: str = "analytics"):
+
+    def __init__(
+        self, project_analysis_file: str = "project_analysis.json", analytics_dir: str = "analytics"
+    ):
         """
         Initialize the analytics reporter.
-        
+
         Args:
             project_analysis_file: Path to project analysis JSON file
             analytics_dir: Directory containing analytics data
@@ -63,11 +64,11 @@ class TheaAnalyticsReporter:
         self.project_analysis_file = Path(project_analysis_file)
         self.analytics_dir = Path(analytics_dir)
         self.conversation_manager = TheaConversationManager()
-    
-    def load_project_analytics(self) -> Optional[ProjectAnalytics]:
+
+    def load_project_analytics(self) -> ProjectAnalytics | None:
         """
         Load project analytics from the latest scan.
-        
+
         Returns:
             ProjectAnalytics object or None if not available
         """
@@ -75,42 +76,44 @@ class TheaAnalyticsReporter:
             if not self.project_analysis_file.exists():
                 logger.warning(f"Project analysis file not found: {self.project_analysis_file}")
                 return None
-            
-            with open(self.project_analysis_file, 'r', encoding='utf-8') as f:
+
+            with open(self.project_analysis_file, encoding="utf-8") as f:
                 data = json.load(f)
-            
+
             # Extract analytics data
-            structure = data.get('structure', {})
-            v2_compliance = data.get('v2_compliance', {})
-            violations = data.get('v2_violations', [])
-            
+            structure = data.get("structure", {})
+            v2_compliance = data.get("v2_compliance", {})
+            violations = data.get("v2_violations", [])
+
             # Count test files from the files list
-            all_files = data.get('files', [])
-            test_files = len([f for f in all_files if 'test' in f.lower() and f.endswith('.py')])
-            
+            all_files = data.get("files", [])
+            test_files = len([f for f in all_files if "test" in f.lower() and f.endswith(".py")])
+
             return ProjectAnalytics(
-                total_files=structure.get('total_files', 0),
-                python_files=structure.get('python_files', 0),
-                v2_compliance_percentage=v2_compliance.get('compliance_percentage', 0.0),
-                v2_violations=v2_compliance.get('violations', 0),
-                violation_files=[v.get('file', '') for v in violations],
-                agent_workspaces=len(data.get('agent_workspaces', {})),
+                total_files=structure.get("total_files", 0),
+                python_files=structure.get("python_files", 0),
+                v2_compliance_percentage=v2_compliance.get("compliance_percentage", 0.0),
+                v2_violations=v2_compliance.get("violations", 0),
+                violation_files=[v.get("file", "") for v in violations],
+                agent_workspaces=len(data.get("agent_workspaces", {})),
                 test_files=test_files,
-                analytics_system_status="OPERATIONAL" if self.analytics_dir.exists() else "NOT_DETECTED",
-                scan_timestamp=data.get('scan_timestamp', datetime.now().isoformat())
+                analytics_system_status="OPERATIONAL"
+                if self.analytics_dir.exists()
+                else "NOT_DETECTED",
+                scan_timestamp=data.get("scan_timestamp", datetime.now().isoformat()),
             )
-            
+
         except Exception as e:
             logger.error(f"Failed to load project analytics: {e}")
             return None
-    
+
     def generate_strategic_report(self, analytics: ProjectAnalytics) -> str:
         """
         Generate a strategic report for Commander Thea.
-        
+
         Args:
             analytics: Project analytics data
-            
+
         Returns:
             Formatted strategic report
         """
@@ -143,14 +146,14 @@ class TheaAnalyticsReporter:
 
 **Priority Violations** (Top 3):
 """
-        
+
         # Add top 3 violations
         for i, violation_file in enumerate(analytics.violation_files[:3], 1):
             report += f"{i}. `{violation_file}`\n"
-        
+
         if analytics.v2_violations > 3:
             report += f"... and {analytics.v2_violations - 3} additional violations\n"
-        
+
         report += f"""
 ## **STRATEGIC RECOMMENDATIONS**
 
@@ -177,17 +180,19 @@ Based on current analytics:
 ---
 *Report generated by Dream.OS V2 Analytics System*
 *Automated delivery via conversation persistence*"""
-        
+
         return report
-    
-    def send_analytics_report(self, force_new_conversation: bool = False, visible: bool = False) -> bool:
+
+    def send_analytics_report(
+        self, force_new_conversation: bool = False, visible: bool = False
+    ) -> bool:
         """
         Send analytics report to Commander Thea.
-        
+
         Args:
             force_new_conversation: Force creation of new conversation
             visible: Run browser in visible mode
-            
+
         Returns:
             True if report sent successfully, False otherwise
         """
@@ -197,41 +202,45 @@ Based on current analytics:
             if not analytics:
                 logger.error("Failed to load project analytics")
                 return False
-            
+
             # Generate strategic report
             report = self.generate_strategic_report(analytics)
-            
+
             logger.info(f"Generated analytics report: {len(report)} characters")
-            
+
             # Send to Thea
-            with TheaAutonomousSystem(conversation_manager=self.conversation_manager, headless=not visible) as thea:
+            with TheaAutonomousSystem(
+                conversation_manager=self.conversation_manager, headless=not visible
+            ) as thea:
                 if force_new_conversation:
                     # Clear active conversation to start new one
                     self.conversation_manager.active_conversation_id = None
                     self.conversation_manager._save_conversations()
-                
+
                 response = thea.send_message_autonomous(report)
-                
+
                 if response:
-                    logger.info(f"Analytics report sent successfully. Thea response: {len(response)} characters")
+                    logger.info(
+                        f"Analytics report sent successfully. Thea response: {len(response)} characters"
+                    )
                     logger.info(f"Thea response preview: {response[:200]}...")
                     return True
                 else:
                     logger.error("Failed to get response from Thea")
                     return False
-                    
+
         except Exception as e:
             logger.error(f"Failed to send analytics report: {e}")
             return False
-    
-    def send_violation_alert(self, violation_file: str, violation_details: Dict[str, Any]) -> bool:
+
+    def send_violation_alert(self, violation_file: str, violation_details: dict[str, Any]) -> bool:
         """
         Send immediate violation alert to Commander Thea.
-        
+
         Args:
             violation_file: File with V2 violation
             violation_details: Details about the violation
-            
+
         Returns:
             True if alert sent successfully, False otherwise
         """
@@ -249,38 +258,38 @@ Based on current analytics:
 
 ---
 *Automated alert from Dream.OS V2 Analytics System*"""
-            
+
             with TheaAutonomousSystem(conversation_manager=self.conversation_manager) as thea:
                 response = thea.send_message_autonomous(alert_message)
-                
+
                 if response:
                     logger.info(f"Violation alert sent for {violation_file}")
                     return True
                 else:
                     logger.error(f"Failed to send violation alert for {violation_file}")
                     return False
-                    
+
         except Exception as e:
             logger.error(f"Failed to send violation alert: {e}")
             return False
-    
-    def get_report_status(self) -> Dict[str, Any]:
+
+    def get_report_status(self) -> dict[str, Any]:
         """
         Get the current status of the analytics reporter.
-        
+
         Returns:
             Status dictionary
         """
         analytics = self.load_project_analytics()
         conversation_status = self.conversation_manager.get_status()
-        
+
         return {
             "analytics_available": analytics is not None,
             "last_scan_timestamp": analytics.scan_timestamp if analytics else None,
             "v2_compliance": analytics.v2_compliance_percentage if analytics else 0.0,
             "violations_count": analytics.v2_violations if analytics else 0,
             "conversation_status": conversation_status,
-            "reporter_ready": self.project_analysis_file.exists() and self.analytics_dir.exists()
+            "reporter_ready": self.project_analysis_file.exists() and self.analytics_dir.exists(),
         }
 
 
@@ -291,7 +300,7 @@ def send_analytics_report(force_new_conversation: bool = False) -> bool:
     return reporter.send_analytics_report(force_new_conversation)
 
 
-def send_violation_alert(violation_file: str, violation_details: Dict[str, Any]) -> bool:
+def send_violation_alert(violation_file: str, violation_details: dict[str, Any]) -> bool:
     """Send violation alert to Commander Thea."""
     reporter = TheaAnalyticsReporter()
     return reporter.send_violation_alert(violation_file, violation_details)
@@ -301,12 +310,12 @@ if __name__ == "__main__":
     # Test the analytics reporter
     print("🤖 Thea Analytics Reporter Test")
     print("=" * 50)
-    
+
     reporter = TheaAnalyticsReporter()
     status = reporter.get_report_status()
-    
+
     print(f"📊 Status: {json.dumps(status, indent=2)}")
-    
+
     if status["reporter_ready"]:
         print("✅ Ready to send analytics report to Commander Thea")
         # Uncomment to send report:

@@ -12,7 +12,4 @@ from .core import AutonomousOperationsCore
 # Legacy compatibility - maintain original class name
 AutonomousOperations = AutonomousOperationsCore
 
-__all__ = [
-    "AutonomousOperationsCore",
-    "AutonomousOperations"
-]
+__all__ = ["AutonomousOperationsCore", "AutonomousOperations"]

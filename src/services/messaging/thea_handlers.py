@@ -39,7 +39,7 @@ def send_to_thea(
     message: str,
     *,
     username: str | None = None,
-# SECURITY: Password placeholder - replace with environment variable
+    # SECURITY: Password placeholder - replace with environment variable
     headless: bool = True,
     thread_url: str | None = None,
     resume_last: bool = False,
@@ -50,7 +50,7 @@ def send_to_thea(
 
     thea = SimpleTheaCommunication(
         username=username,
-# SECURITY: Password placeholder - replace with environment variable
+        # SECURITY: Password placeholder - replace with environment variable
         use_selenium=True,
         headless=headless,
         thread_url=thread_url,

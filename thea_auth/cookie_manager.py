@@ -189,5 +189,3 @@ class TheaCookieManager:
         except Exception as e:
             logger.error(f"Failed to clear cookies: {e}")
             return False
-
-

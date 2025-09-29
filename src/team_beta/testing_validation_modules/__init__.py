@@ -9,13 +9,13 @@ V2 Compliant: Modular design with focused components
 
 from .core_validation import TestingValidationSystem, main
 from .models import (
+    PlatformInfo,
     TestCase,
+    TestCategory,
+    TestMetrics,
     TestResult,
     TestStatus,
-    TestCategory,
-    PlatformInfo,
-    TestMetrics,
-    ValidationReport
+    ValidationReport,
 )
 from .test_execution import TestExecutor
 
@@ -23,7 +23,6 @@ __all__ = [
     # Core validation
     "TestingValidationSystem",
     "main",
-    
     # Models
     "TestCase",
     "TestResult",
@@ -32,7 +31,6 @@ __all__ = [
     "PlatformInfo",
     "TestMetrics",
     "ValidationReport",
-    
     # Test execution
-    "TestExecutor"
+    "TestExecutor",
 ]

@@ -12,7 +12,4 @@ from .core import AgentCoordinationCore
 # Legacy compatibility - maintain original class name
 AgentCoordination = AgentCoordinationCore
 
-__all__ = [
-    "AgentCoordinationCore",
-    "AgentCoordination"
-]
+__all__ = ["AgentCoordinationCore", "AgentCoordination"]

@@ -7,7 +7,8 @@ Agent validation and role management for Agent Devlog Posting Service
 V2 Compliant: ≤400 lines, focused validation logic
 """
 
-from typing import Dict, List, Any, Optional
+from typing import Any
+
 from .models import AgentInfo, DevlogStatus, DevlogType
 
 
@@ -19,70 +20,65 @@ class AgentValidator:
         self.agent_roles = self._initialize_agent_roles()
         self.agent_capabilities = self._initialize_agent_capabilities()
 
-    def _initialize_agent_roles(self) -> Dict[str, str]:
+    def _initialize_agent_roles(self) -> dict[str, str]:
         """Initialize agent role mapping"""
         return {
             "Agent-1": "Integration & Core Systems Specialist",
-            "Agent-2": "Architecture & Design Specialist", 
+            "Agent-2": "Architecture & Design Specialist",
             "Agent-3": "Infrastructure & DevOps Specialist",
             "Agent-4": "Quality Assurance Specialist (CAPTAIN)",
             "Agent-5": "Business Intelligence Specialist",
             "Agent-6": "Coordination & Communication Specialist",
             "Agent-7": "Web Development Specialist",
-            "Agent-8": "Operations & Support Specialist"
+            "Agent-8": "Operations & Support Specialist",
         }
 
-    def _initialize_agent_capabilities(self) -> Dict[str, List[str]]:
+    def _initialize_agent_capabilities(self) -> dict[str, list[str]]:
         """Initialize agent capabilities"""
         return {
             "Agent-1": [
                 "Core system integration",
                 "API development",
                 "Database management",
-                "System architecture"
+                "System architecture",
             ],
             "Agent-2": [
                 "System design",
                 "Architecture planning",
                 "Technical documentation",
-                "Design patterns"
+                "Design patterns",
             ],
             "Agent-3": [
                 "Infrastructure management",
                 "DevOps automation",
                 "Deployment pipelines",
-                "Monitoring systems"
+                "Monitoring systems",
             ],
             "Agent-4": [
                 "Quality assurance",
                 "Testing frameworks",
                 "Code review",
-                "Quality metrics"
+                "Quality metrics",
             ],
-            "Agent-5": [
-                "Business intelligence",
-                "Data analysis",
-                "Reporting systems",
-                "Analytics"
-            ],
+            "Agent-5": ["Business intelligence", "Data analysis", "Reporting systems", "Analytics"],
             "Agent-6": [
                 "Team coordination",
                 "Communication protocols",
                 "Project management",
-                "Workflow optimization"
+                "Workflow optimization",
             ],
             "Agent-7": [
                 "Web development",
                 "Frontend frameworks",
                 "User interface design",
-                "Web technologies"
+                "Web technologies",
             ],
             "Agent-8": [
                 "Operations support",
                 "System maintenance",
                 "Troubleshooting",
-                "Performance optimization"
-            ]
+                "Performance optimization",
+            ],
         }
 
     def validate_agent_flag(self, agent_flag: str) -> bool:
@@ -96,7 +92,7 @@ class AgentValidator:
         except ValueError:
             return False
 
-    def get_agent_info(self, agent_id: str) -> Optional[AgentInfo]:
+    def get_agent_info(self, agent_id: str) -> AgentInfo | None:
         """Get agent information"""
         if not self.validate_agent_flag(agent_id):
             return None
@@ -106,14 +102,14 @@ class AgentValidator:
             role=self.agent_roles.get(agent_id, "Specialist"),
             status="active",
             capabilities=self.agent_capabilities.get(agent_id, []),
-            last_active="unknown"
+            last_active="unknown",
         )
 
     def get_agent_role(self, agent_id: str) -> str:
         """Get agent role"""
         return self.agent_roles.get(agent_id, "Specialist")
 
-    def get_agent_capabilities(self, agent_id: str) -> List[str]:
+    def get_agent_capabilities(self, agent_id: str) -> list[str]:
         """Get agent capabilities"""
         return self.agent_capabilities.get(agent_id, [])
 
@@ -121,11 +117,11 @@ class AgentValidator:
         """Check if agent is a captain"""
         return agent_id in ["Agent-4"]  # Agent-4 is the CAPTAIN
 
-    def get_all_agents(self) -> List[str]:
+    def get_all_agents(self) -> list[str]:
         """Get all valid agent IDs"""
         return list(self.agent_roles.keys())
 
-    def get_agent_by_role(self, role_keyword: str) -> List[str]:
+    def get_agent_by_role(self, role_keyword: str) -> list[str]:
         """Get agents by role keyword"""
         matching_agents = []
         for agent_id, role in self.agent_roles.items():
@@ -137,15 +133,15 @@ class AgentValidator:
         """Validate action string"""
         if not action or not isinstance(action, str):
             return False
-        
+
         # Check for minimum length
         if len(action.strip()) < 3:
             return False
-        
+
         # Check for maximum length
         if len(action) > 500:
             return False
-        
+
         return True
 
     def validate_status(self, status: str) -> bool:
@@ -157,11 +153,11 @@ class AgentValidator:
         """Validate details string"""
         if not details:
             return True  # Details are optional
-        
+
         # Check for maximum length
         if len(details) > 2000:
             return False
-        
+
         return True
 
     def suggest_devlog_type(self, action: str, status: str) -> DevlogType:
@@ -180,14 +176,15 @@ class AgentValidator:
         else:
             return DevlogType.ACTION
 
-    def get_agent_statistics(self) -> Dict[str, Any]:
+    def get_agent_statistics(self) -> dict[str, Any]:
         """Get agent statistics"""
         return {
             "total_agents": len(self.agent_roles),
             "captain_agents": len([a for a in self.agent_roles.keys() if self.is_captain_agent(a)]),
-            "specialist_agents": len(self.agent_roles) - len([a for a in self.agent_roles.keys() if self.is_captain_agent(a)]),
+            "specialist_agents": len(self.agent_roles)
+            - len([a for a in self.agent_roles.keys() if self.is_captain_agent(a)]),
             "agent_roles": self.agent_roles,
             "capabilities_summary": {
                 agent_id: len(caps) for agent_id, caps in self.agent_capabilities.items()
-            }
+            },
         }

@@ -13,7 +13,6 @@ License: MIT
 import json
 import logging
 from pathlib import Path
-from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
@@ -56,14 +55,16 @@ class Agent5InboxChecker:
         processed_messages = []
         for message_file in message_files:
             try:
-                with open(message_file, 'r') as f:
+                with open(message_file) as f:
                     message = json.load(f)
 
-                print(f"\n📝 Processing: {message.get('type', 'unknown')} - {message.get('thread_id', 'unknown')}")
+                print(
+                    f"\n📝 Processing: {message.get('type', 'unknown')} - {message.get('thread_id', 'unknown')}"
+                )
                 print(f"   From: {message.get('from', 'unknown')}")
                 print(f"   Timestamp: {message.get('timestamp', 'unknown')}")
 
-                if message.get('type') == 'TEAM_CHAT_COMBINED':
+                if message.get("type") == "TEAM_CHAT_COMBINED":
                     self._process_team_chat_result(message)
                 else:
                     print(f"   Content: {str(message.get('message', message))[:200]}...")
@@ -74,7 +75,7 @@ class Agent5InboxChecker:
 
                 processed_messages.append(message)
 
-                print("   ✅ Processed and moved to processed folder"
+                print("   ✅ Processed and moved to processed folder")
             except Exception as e:
                 print(f"   ❌ Error processing {message_file}: {e}")
 
@@ -86,12 +87,12 @@ class Agent5InboxChecker:
         print("   🎯 TEAM COORDINATION RESULTS:")
 
         # Extract key information
-        thread_id = message.get('thread_id', 'unknown')
-        correlation_id = message.get('correlation_id', 'unknown')
-        targets = message.get('targets', [])
-        received = message.get('received', {})
-        missing = message.get('missing', [])
-        status = message.get('status', 'unknown')
+        thread_id = message.get("thread_id", "unknown")
+        correlation_id = message.get("correlation_id", "unknown")
+        targets = message.get("targets", [])
+        received = message.get("received", {})
+        missing = message.get("missing", [])
+        status = message.get("status", "unknown")
 
         print(f"   Thread ID: {thread_id}")
         print(f"   Correlation ID: {correlation_id}")
@@ -102,8 +103,8 @@ class Agent5InboxChecker:
 
         print("   📥 AGENT RESPONSES:")
         for agent_id, response in received.items():
-            response_status = response.get('status', 'unknown')
-            response_message = response.get('message', 'No message')
+            response_status = response.get("status", "unknown")
+            response_message = response.get("message", "No message")
             print(f"     ✅ {agent_id}: {response_message} ({response_status})")
 
         if missing:
@@ -128,30 +129,27 @@ def main():
     # Check inbox
     result = checker.check_inbox()
 
-    print("
-🎯 AGENT 5 STATUS:"    print(f"• Inbox Checked: ✅")
+    print("🎯 AGENT 5 STATUS:")
+    print("• Inbox Checked: ✅")
     print(f"• Messages Processed: {result['messages']}")
     print(f"• Status: {result['status']}")
 
-    if result['messages'] > 0:
+    if result["messages"] > 0:
         print("• Team Coordination: ✅ SYNCED")
         print("• Ready for Operations: ✅")
     else:
         print("• Team Coordination: ⚠️ NO RESULTS")
         print("• Ready for Operations: ❌")
 
-    print("
-✅ Agent 5 inbox check simulation completed!"
+    print("✅ Agent 5 inbox check simulation completed!")
     print("📡 In a real system, this would be triggered by the messaging system notification.")
 
 
 if __name__ == "__main__":
     # Set up logging
     logging.basicConfig(
-        level=logging.INFO,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     )
 
     # Run inbox check
     main()
-

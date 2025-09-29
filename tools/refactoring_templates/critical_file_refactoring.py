@@ -9,22 +9,19 @@ Author: Agent-8 (System Architecture & Refactoring Specialist)
 License: MIT
 """
 
-from typing import Dict, List, Any, Optional
-from pathlib import Path
-
 
 class RefactoringTemplates:
     """Templates for refactoring critical files."""
-    
+
     @staticmethod
-    def trading_robot_refactoring() -> Dict[str, str]:
+    def trading_robot_refactoring() -> dict[str, str]:
         """Template for refactoring trading_robot.py (940 lines)."""
         return {
             "original_file": "tsla_forecast_app/trading_robot.py",
             "target_files": [
                 "tsla_forecast_app/trading_robot_core.py",
-                "tsla_forecast_app/trading_robot_strategies.py", 
-                "tsla_forecast_app/trading_robot_interface.py"
+                "tsla_forecast_app/trading_robot_strategies.py",
+                "tsla_forecast_app/trading_robot_interface.py",
             ],
             "strategy": """
 # REFACTORING STRATEGY: Trading Robot (940 → 3 files ≤400 lines)
@@ -52,18 +49,18 @@ class RefactoringTemplates:
                 "Extract interface code to interface.py",
                 "Keep core logic in core.py",
                 "Maintain single responsibility per file",
-                "Use dependency injection for loose coupling"
-            ]
+                "Use dependency injection for loose coupling",
+            ],
         }
-    
+
     @staticmethod
-    def captain_autonomous_manager_refactoring() -> Dict[str, str]:
+    def captain_autonomous_manager_refactoring() -> dict[str, str]:
         """Template for refactoring captain_autonomous_manager.py (584 lines)."""
         return {
             "original_file": "tools/captain_autonomous_manager.py",
             "target_files": [
                 "tools/captain_autonomous_core.py",
-                "tools/captain_autonomous_coordination.py"
+                "tools/captain_autonomous_coordination.py",
             ],
             "strategy": """
 # REFACTORING STRATEGY: Captain Autonomous Manager (584 → 2 files ≤400 lines)
@@ -85,18 +82,18 @@ class RefactoringTemplates:
                 "Keep core management in core.py",
                 "Separate concerns clearly",
                 "Maintain KISS principle",
-                "Use simple data structures"
-            ]
+                "Use simple data structures",
+            ],
         }
-    
+
     @staticmethod
-    def knowledge_base_refactoring() -> Dict[str, str]:
+    def knowledge_base_refactoring() -> dict[str, str]:
         """Template for refactoring knowledge_base.py (581 lines)."""
         return {
             "original_file": "src/core/knowledge_base.py",
             "target_files": [
                 "src/core/knowledge_base_core.py",
-                "src/core/knowledge_base_queries.py"
+                "src/core/knowledge_base_queries.py",
             ],
             "strategy": """
 # REFACTORING STRATEGY: Knowledge Base (581 → 2 files ≤400 lines)
@@ -118,18 +115,18 @@ class RefactoringTemplates:
                 "Keep core operations in core.py",
                 "Separate data access from query processing",
                 "Use simple query interfaces",
-                "Maintain clear boundaries"
-            ]
+                "Maintain clear boundaries",
+            ],
         }
-    
+
     @staticmethod
-    def dashboard_web_interface_refactoring() -> Dict[str, str]:
+    def dashboard_web_interface_refactoring() -> dict[str, str]:
         """Template for refactoring dashboard_web_interface.py (582 lines)."""
         return {
             "original_file": "src/services/dashboard/dashboard_web_interface.py",
             "target_files": [
                 "src/services/dashboard/dashboard_core.py",
-                "src/services/dashboard/dashboard_ui.py"
+                "src/services/dashboard/dashboard_ui.py",
             ],
             "strategy": """
 # REFACTORING STRATEGY: Dashboard Web Interface (582 → 2 files ≤400 lines)
@@ -151,19 +148,16 @@ class RefactoringTemplates:
                 "Keep business logic in core.py",
                 "Separate presentation from logic",
                 "Use simple UI patterns",
-                "Maintain clear separation of concerns"
-            ]
+                "Maintain clear separation of concerns",
+            ],
         }
-    
+
     @staticmethod
-    def ml_training_infrastructure_refactoring() -> Dict[str, str]:
+    def ml_training_infrastructure_refactoring() -> dict[str, str]:
         """Template for refactoring ml_training_infrastructure_tool.py (589 lines)."""
         return {
             "original_file": "tools/ml_training_infrastructure_tool.py",
-            "target_files": [
-                "tools/ml_training_core.py",
-                "tools/ml_training_infrastructure.py"
-            ],
+            "target_files": ["tools/ml_training_core.py", "tools/ml_training_infrastructure.py"],
             "strategy": """
 # REFACTORING STRATEGY: ML Training Infrastructure (589 → 2 files ≤400 lines)
 
@@ -184,18 +178,18 @@ class RefactoringTemplates:
                 "Keep training logic in core.py",
                 "Separate concerns clearly",
                 "Use simple configuration patterns",
-                "Maintain modular design"
-            ]
+                "Maintain modular design",
+            ],
         }
 
 
 class RefactoringExamples:
     """Examples of refactoring techniques."""
-    
+
     @staticmethod
     def extract_class_example() -> str:
         """Example of extracting a class."""
-        return '''
+        return """
 # BEFORE: Large monolithic class
 class TradingRobot:
     def __init__(self):
@@ -204,7 +198,7 @@ class TradingRobot:
         self.portfolio = {}
         self.risk_manager = {}
         # ... 20+ fields
-    
+
     def execute_trade(self): pass  # 100+ lines
     def analyze_market(self): pass  # 100+ lines
     def manage_risk(self): pass  # 100+ lines
@@ -223,12 +217,12 @@ class TradingStrategies:
 
 class MarketDataManager:
     def analyze_market(self): pass  # ≤50 lines
-        '''
-    
+        """
+
     @staticmethod
     def extract_method_example() -> str:
         """Example of extracting methods."""
-        return '''
+        return """
 # BEFORE: Large method
 def process_trading_data(self, data):
     # Validate data (20 lines)
@@ -256,12 +250,12 @@ def process_trading_data(self, data):
 def _validate_data(self, data): pass  # ≤20 lines
 def _clean_data(self, data): pass  # ≤20 lines
 def _transform_data(self, data): pass  # ≤20 lines
-        '''
-    
+        """
+
     @staticmethod
     def extract_module_example() -> str:
         """Example of extracting modules."""
-        return '''
+        return """
 # BEFORE: Single large file
 # trading_robot.py (940 lines)
 class TradingRobot: pass  # 300 lines
@@ -285,14 +279,14 @@ class PortfolioManager: pass
 
 # notification_service.py (≤90 lines)
 class NotificationService: pass
-        '''
+        """
 
 
 class RefactoringChecklist:
     """Checklist for refactoring process."""
-    
+
     @staticmethod
-    def get_pre_refactoring_checklist() -> List[str]:
+    def get_pre_refactoring_checklist() -> list[str]:
         """Get pre-refactoring checklist."""
         return [
             "✅ Backup original file",
@@ -301,11 +295,11 @@ class RefactoringChecklist:
             "✅ Identify single responsibility violations",
             "✅ Plan module decomposition",
             "✅ Identify dependencies",
-            "✅ Create test cases for current behavior"
+            "✅ Create test cases for current behavior",
         ]
-    
+
     @staticmethod
-    def get_during_refactoring_checklist() -> List[str]:
+    def get_during_refactoring_checklist() -> list[str]:
         """Get during-refactoring checklist."""
         return [
             "✅ Maintain functionality (no breaking changes)",
@@ -315,11 +309,11 @@ class RefactoringChecklist:
             "✅ Use simple data structures",
             "✅ Avoid complex inheritance (>2 levels)",
             "✅ Follow KISS principle",
-            "✅ Maintain single responsibility"
+            "✅ Maintain single responsibility",
         ]
-    
+
     @staticmethod
-    def get_post_refactoring_checklist() -> List[str]:
+    def get_post_refactoring_checklist() -> list[str]:
         """Get post-refactoring checklist."""
         return [
             "✅ Run quality gates check",
@@ -329,7 +323,7 @@ class RefactoringChecklist:
             "✅ Update documentation",
             "✅ Run tests",
             "✅ Verify functionality",
-            "✅ Commit with descriptive message"
+            "✅ Commit with descriptive message",
         ]
 
 
@@ -338,50 +332,44 @@ def main():
     templates = RefactoringTemplates()
     examples = RefactoringExamples()
     checklist = RefactoringChecklist()
-    
+
     print("🛠️ V2 Refactoring Templates and Examples")
     print("=" * 50)
-    
+
     # Show critical file templates
     critical_files = [
         templates.trading_robot_refactoring(),
         templates.captain_autonomous_manager_refactoring(),
         templates.knowledge_base_refactoring(),
         templates.dashboard_web_interface_refactoring(),
-        templates.ml_training_infrastructure_refactoring()
+        templates.ml_training_infrastructure_refactoring(),
     ]
-    
+
     for template in critical_files:
         print(f"\n📄 {template['original_file']}")
         print(f"Target: {', '.join(template['target_files'])}")
-        print(template['strategy'])
-    
+        print(template["strategy"])
+
     # Show examples
-    print(f"\n🔧 Refactoring Examples:")
+    print("\n🔧 Refactoring Examples:")
     print(examples.extract_class_example())
     print(examples.extract_method_example())
     print(examples.extract_module_example())
-    
+
     # Show checklist
-    print(f"\n📋 Refactoring Checklist:")
+    print("\n📋 Refactoring Checklist:")
     print("Pre-refactoring:")
     for item in checklist.get_pre_refactoring_checklist():
         print(f"  {item}")
-    
+
     print("\nDuring refactoring:")
     for item in checklist.get_during_refactoring_checklist():
         print(f"  {item}")
-    
+
     print("\nPost-refactoring:")
     for item in checklist.get_post_refactoring_checklist():
         print(f"  {item}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
-
-
-
-
-
-

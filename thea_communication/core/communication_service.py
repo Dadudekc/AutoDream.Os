@@ -6,15 +6,14 @@ Thea Communication Service
 Core communication service for Thea interaction.
 """
 
-import time
 from datetime import datetime
 from pathlib import Path
-from typing import Optional
+
+from thea_login_handler import create_thea_login_handler
 
 from ..automation.selenium_handler import SeleniumHandler
 from ..automation.simple_manual import SimpleManualHandler
 from ..response.response_handler import ResponseHandler
-from thea_login_handler import create_thea_login_handler
 
 
 class TheaCommunicationService:
@@ -33,9 +32,9 @@ class TheaCommunicationService:
 
         # Initialize components
         self.login_handler = create_thea_login_handler(
-# SECURITY: Password placeholder - replace with environment variable
+            # SECURITY: Password placeholder - replace with environment variable
         )
-        
+
         self.selenium_handler = SeleniumHandler(headless=headless)
         self.manual_handler = SimpleManualHandler()
         self.response_handler = ResponseHandler()
@@ -65,7 +64,7 @@ class TheaCommunicationService:
         else:
             return self.manual_handler.wait_for_response()
 
-    def capture_thea_response(self) -> Optional[str]:
+    def capture_thea_response(self) -> str | None:
         """Capture Thea's response."""
         driver = self.selenium_handler.driver if self.use_selenium else None
         return self.response_handler.capture_response(self.use_selenium, driver)
@@ -133,5 +132,3 @@ Thank you!
 
         print("✅ Communication cycle completed successfully!")
         return True
-
-

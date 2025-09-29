@@ -17,25 +17,23 @@ Usage:
     scanner.scan_project()
 """
 
-from .core import ProjectScanner
 from .analyzers import LanguageAnalyzer
-from .workers import BotWorker, MultibotManager, FileProcessor
-from .reporters import ReportGenerator, ModularReportGenerator
 from .cli import main
+from .core import ProjectScanner
+from .reporters import ModularReportGenerator, ReportGenerator
+from .workers import BotWorker, FileProcessor, MultibotManager
 
 __all__ = [
     "ProjectScanner",
     "LanguageAnalyzer",
     "BotWorker",
-    "MultibotManager", 
+    "MultibotManager",
     "FileProcessor",
     "ReportGenerator",
     "ModularReportGenerator",
-    "main"
+    "main",
 ]
 
 __version__ = "2.0.0"
 __author__ = "V2_SWARM Agent-4 (Captain)"
 __description__ = "V2 Compliant Project Scanner Package"
-
-

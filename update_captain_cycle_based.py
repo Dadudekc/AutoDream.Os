@@ -12,25 +12,23 @@ V2 Compliance: ≤400 lines, focused documentation update
 
 import sys
 from pathlib import Path
-from typing import Dict, List, Any
-from datetime import datetime
 
 # Add project root to Python path
 project_root = Path(__file__).parent
 sys.path.insert(0, str(project_root))
 
-from swarm_brain import SwarmBrain, Ingestor
+from swarm_brain import Ingestor, SwarmBrain
 
 
 class CaptainCycleBasedUpdater:
     """Update Captain documentation to cycle-based operations."""
-    
+
     def __init__(self):
         """Initialize the cycle-based updater."""
         self.brain = SwarmBrain()
         self.ingestor = Ingestor(self.brain)
         print("🔄 Captain Cycle-Based Documentation Updater initialized")
-    
+
     def create_cycle_based_handbook(self) -> str:
         """Create updated Captain Handbook with cycle-based timelines."""
         handbook_content = """# Captain's Handbook - Agent Cellphone V2 (Cycle-Based Operations)
@@ -203,20 +201,20 @@ class CaptainCycleBasedUpdater:
 
 ---
 
-**Captain's Signature**: Agent-4 (Captain & Operations Coordinator)  
-**Last Updated**: 2025-01-19  
-**Version**: 2.0 (Cycle-Based Operations)  
+**Captain's Signature**: Agent-4 (Captain & Operations Coordinator)
+**Last Updated**: 2025-01-19
+**Version**: 2.0 (Cycle-Based Operations)
 **Classification**: Internal Operations Manual - Cycle-Based Framework
 """
-        
+
         # Save updated handbook
         handbook_path = Path("docs/CAPTAIN_HANDBOOK.md")
         handbook_path.parent.mkdir(exist_ok=True)
-        handbook_path.write_text(handbook_content, encoding='utf-8')
-        
+        handbook_path.write_text(handbook_content, encoding="utf-8")
+
         print(f"✅ Updated Captain's Handbook created: {handbook_path}")
         return str(handbook_path)
-    
+
     def create_cycle_based_cheatsheet(self) -> str:
         """Create updated Captain's Cheatsheet with cycle-based timelines."""
         cheatsheet_content = """# Captain's Cheatsheet - Quick Reference (Cycle-Based Operations)
@@ -291,7 +289,7 @@ patterns = retriever.how_do_agents_do("V2 compliance refactoring across cycles")
 
 ### 🚨 **Emergency Contacts (Cycle-Based)**
 
-**Critical Issues**: 
+**Critical Issues**:
 - Escalate immediately to General (Human Commander) within cycle
 - Use P0 priority level
 - Document in Captain's Log (per cycle)
@@ -348,22 +346,22 @@ patterns = retriever.how_do_agents_do("V2 compliance refactoring across cycles")
 **Last Updated**: 2025-01-19
 **Version**: 2.0 (Cycle-Based Operations)
 """
-        
+
         # Save updated cheatsheet
         cheatsheet_path = Path("docs/CAPTAIN_CHEATSHEET.md")
         cheatsheet_path.parent.mkdir(exist_ok=True)
-        cheatsheet_path.write_text(cheatsheet_content, encoding='utf-8')
-        
+        cheatsheet_path.write_text(cheatsheet_content, encoding="utf-8")
+
         print(f"✅ Updated Captain's Cheatsheet created: {cheatsheet_path}")
         return str(cheatsheet_path)
-    
-    def ingest_updated_documentation(self) -> List[int]:
+
+    def ingest_updated_documentation(self) -> list[int]:
         """Ingest updated cycle-based documentation into vector database."""
         print("\n🔄 Ingesting Updated Cycle-Based Documentation")
         print("-" * 50)
-        
+
         doc_ids = []
-        
+
         # Ingest updated handbook
         handbook_path = self.create_cycle_based_handbook()
         try:
@@ -379,25 +377,32 @@ patterns = retriever.how_do_agents_do("V2 compliance refactoring across cycles")
                     "Cycle-Based Crisis Management",
                     "Multi-Cycle Continuous Learning",
                     "Cycle-Based Knowledge Management",
-                    "Cycle Management Framework"
+                    "Cycle Management Framework",
                 ],
                 effectiveness=0.98,
                 improvements={
                     "automation_potential": "Automate cycle-based operations and monitoring",
                     "integration_opportunities": "Link with vector database for cycle-based intelligence",
-                    "scalability_notes": "Template-based approach for different cycle durations"
+                    "scalability_notes": "Template-based approach for different cycle durations",
                 },
                 project="Agent_Cellphone_V2",
                 agent_id="Agent-4",
-                tags=["captain", "handbook", "cycle_based", "operations_manual", "leadership", "coordination"],
+                tags=[
+                    "captain",
+                    "handbook",
+                    "cycle_based",
+                    "operations_manual",
+                    "leadership",
+                    "coordination",
+                ],
                 summary="Updated Captain's operations manual using cycle-based timelines for optimal swarm coordination",
-                ref_id="captain_handbook_v2_cycle_based"
+                ref_id="captain_handbook_v2_cycle_based",
             )
             doc_ids.append(doc_id)
             print(f"✅ Updated Captain's Handbook ingested: Document ID {doc_id}")
         except Exception as e:
             print(f"❌ Failed to ingest updated handbook: {e}")
-        
+
         # Ingest updated cheatsheet
         cheatsheet_path = self.create_cycle_based_cheatsheet()
         try:
@@ -405,54 +410,66 @@ patterns = retriever.how_do_agents_do("V2 compliance refactoring across cycles")
                 title="Captain's Cheatsheet - Cycle-Based Quick Reference",
                 execution_pattern="cycle_based_quick_reference",
                 coordination="captain_cycle_operations",
-                outcomes=["rapid_cycle_decision_making", "efficient_cycle_operations", "consistent_cycle_procedures"],
+                outcomes=[
+                    "rapid_cycle_decision_making",
+                    "efficient_cycle_operations",
+                    "consistent_cycle_procedures",
+                ],
                 optimization={
                     "speed": "Quick access to cycle-based essential information",
                     "accuracy": "Standardized cycle-based procedures and commands",
-                    "efficiency": "Streamlined cycle-based operations workflow"
+                    "efficiency": "Streamlined cycle-based operations workflow",
                 },
                 project="Agent_Cellphone_V2",
                 agent_id="Agent-4",
-                tags=["captain", "cheatsheet", "cycle_based", "quick_reference", "workflow", "operations"],
+                tags=[
+                    "captain",
+                    "cheatsheet",
+                    "cycle_based",
+                    "quick_reference",
+                    "workflow",
+                    "operations",
+                ],
                 summary="Updated quick reference guide for Captain's cycle-based operations and emergency procedures",
-                ref_id="captain_cheatsheet_v2_cycle_based"
+                ref_id="captain_cheatsheet_v2_cycle_based",
             )
             doc_ids.append(doc_id)
             print(f"✅ Updated Captain's Cheatsheet ingested: Document ID {doc_id}")
         except Exception as e:
             print(f"❌ Failed to ingest updated cheatsheet: {e}")
-        
+
         return doc_ids
-    
+
     def validate_cycle_based_integration(self) -> bool:
         """Validate that cycle-based documentation is properly integrated."""
         print("\n🔍 Validating Cycle-Based Documentation Integration")
         print("-" * 50)
-        
+
         try:
             from swarm_brain import Retriever
+
             retriever = Retriever(self.brain)
-            
+
             # Test queries for cycle-based documentation
             test_queries = [
                 "cycle-based operations protocol",
                 "multi-cycle strategic planning",
                 "per-cycle performance metrics",
                 "cycle management framework",
-                "cycle-based agent coordination"
+                "cycle-based agent coordination",
             ]
-            
+
             print("🔍 Testing cycle-based documentation integration...")
-            
+
             for query in test_queries:
                 results = retriever.search(query, k=3)
                 if results:
                     print(f"✅ Query '{query}' returned {len(results)} results")
                 else:
                     print(f"❌ Query '{query}' returned no results")
-            
+
             return True
-            
+
         except Exception as e:
             print(f"❌ Validation failed: {e}")
             return False
@@ -462,15 +479,15 @@ def main():
     """Main execution function."""
     print("🔄 Updating Captain Documentation to Cycle-Based Timelines")
     print("=" * 60)
-    
+
     updater = CaptainCycleBasedUpdater()
-    
+
     # Ingest updated documentation
     doc_ids = updater.ingest_updated_documentation()
-    
+
     # Validate integration
     validation_success = updater.validate_cycle_based_integration()
-    
+
     # Summary
     print("\n" + "=" * 60)
     print("📊 CYCLE-BASED UPDATE SUMMARY")
@@ -479,7 +496,7 @@ def main():
     print(f"Updated Cheatsheet: {'✅ Ingested' if len(doc_ids) >= 2 else '❌ Failed'}")
     print(f"Total Documents Updated: {len(doc_ids)}")
     print(f"Vector Integration: {'✅ Validated' if validation_success else '❌ Validation Failed'}")
-    
+
     if validation_success and doc_ids:
         print("\n🎉 Captain documentation successfully updated to cycle-based operations!")
         print("🔄 All timelines now use cycles instead of daily schedules.")
@@ -492,4 +509,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

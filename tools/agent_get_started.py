@@ -30,34 +30,30 @@ Examples:
   python tools/agent_get_started.py --agent Agent-4 --focus "V3 system coordination"
   python tools/agent_get_started.py --agent Agent-2 --focus "Architecture review"
   python tools/agent_get_started.py --agent Agent-6 --focus "Communication protocols"
-        """
+        """,
     )
-    
+
     parser.add_argument(
         "--agent",
         required=True,
         choices=[f"Agent-{i}" for i in range(1, 9)],
-        help="Your agent ID (Agent-1 through Agent-8)"
+        help="Your agent ID (Agent-1 through Agent-8)",
     )
-    
-    parser.add_argument(
-        "--focus",
-        required=True,
-        help="Your focus area for this cycle"
-    )
-    
+
+    parser.add_argument("--focus", required=True, help="Your focus area for this cycle")
+
     args = parser.parse_args()
-    
+
     print(f"🚀 Starting cycle for {args.agent}...")
     print(f"🎯 Focus: {args.focus}")
     print()
-    
+
     try:
         # Create cycle start devlog
         filepath, success = await auto_create_cycle_start(args.agent, args.focus)
-        
+
         if success:
-            print(f"✅ Cycle started successfully!")
+            print("✅ Cycle started successfully!")
             print(f"📄 Devlog created: {Path(filepath).name}")
             print(f"📢 Posted to {args.agent}'s Discord channel")
             print()
@@ -67,7 +63,7 @@ Examples:
         else:
             print("❌ Failed to start cycle")
             return 1
-            
+
     except Exception as e:
         print(f"❌ Error: {e}")
         return 1
@@ -75,5 +71,3 @@ Examples:
 
 if __name__ == "__main__":
     sys.exit(asyncio.run(main()))
-
-

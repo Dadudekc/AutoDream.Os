@@ -97,12 +97,12 @@ await emitter.emit_event(self.agent_id, line)
 
 ## 🚀 **Status**
 
-✅ DiscordLineEmitter created  
-✅ Event formatters implemented  
-✅ CLI tool functional  
-✅ UTF-8 environment configured  
-✅ SecretStore for secure webhook storage  
-✅ DiscordWebhookProvisioner for webhook management  
-✅ Admin slash commands for webhook setup  
-✅ Bot integration complete  
+✅ DiscordLineEmitter created
+✅ Event formatters implemented
+✅ CLI tool functional
+✅ UTF-8 environment configured
+✅ SecretStore for secure webhook storage
+✅ DiscordWebhookProvisioner for webhook management
+✅ Admin slash commands for webhook setup
+✅ Bot integration complete
 ✅ Ready for production use

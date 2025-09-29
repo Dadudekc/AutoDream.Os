@@ -7,11 +7,10 @@ Testing framework integration with quality assurance for comprehensive validatio
 V2 Compliant: ≤400 lines, focused testing integration logic
 """
 
-from typing import Dict, List, Any
 import os
 import subprocess
 import sys
-from pathlib import Path
+from typing import Any
 
 
 class TestingFrameworkIntegration:
@@ -26,9 +25,14 @@ class TestingFrameworkIntegration:
         self.qa_integration_tests = []
         self.coverage_threshold = 85.0
 
-    def create_qa_integration_test(self, name: str, description: str,
-                                 test_type: str, qa_component: str,
-                                 success_criteria: Dict[str, Any]) -> Dict[str, Any]:
+    def create_qa_integration_test(
+        self,
+        name: str,
+        description: str,
+        test_type: str,
+        qa_component: str,
+        success_criteria: dict[str, Any],
+    ) -> dict[str, Any]:
         """Create a QA integration test"""
         test = {
             "name": name,
@@ -37,13 +41,13 @@ class TestingFrameworkIntegration:
             "qa_component": qa_component,
             "success_criteria": success_criteria,
             "status": "pending",
-            "created_date": "2025-01-19"
+            "created_date": "2025-01-19",
         }
 
         self.qa_integration_tests.append(test)
         return test
 
-    def run_qa_integration_tests(self) -> Dict[str, Any]:
+    def run_qa_integration_tests(self) -> dict[str, Any]:
         """Run QA integration tests"""
         print("🧪 Running QA integration tests...")
 
@@ -51,7 +55,7 @@ class TestingFrameworkIntegration:
             "total_tests": len(self.qa_integration_tests),
             "passed_tests": 0,
             "failed_tests": 0,
-            "test_details": []
+            "test_details": [],
         }
 
         # Test 1: Quality Gates Integration
@@ -88,14 +92,16 @@ class TestingFrameworkIntegration:
 
         # Overall results
         test_results["overall_success"] = test_results["failed_tests"] == 0
-        test_results["success_rate"] = (test_results["passed_tests"] / test_results["total_tests"]) * 100
+        test_results["success_rate"] = (
+            test_results["passed_tests"] / test_results["total_tests"]
+        ) * 100
 
         return test_results
 
-    def _test_quality_gates_integration(self) -> Dict[str, Any]:
+    def _test_quality_gates_integration(self) -> dict[str, Any]:
         """Test quality gates integration"""
         try:
-            from quality_gates import check_project_quality, generate_quality_report, QualityGateChecker
+            from quality_gates import QualityGateChecker
 
             # Test quality gates checker directly
             checker = QualityGateChecker()
@@ -109,14 +115,14 @@ class TestingFrameworkIntegration:
                     "name": "Quality Gates Integration Test",
                     "passed": passed,
                     "details": f"Quality gates operational, score: {metrics.score if metrics else 'N/A'}",
-                    "quality_score": metrics.score if metrics else 0
+                    "quality_score": metrics.score if metrics else 0,
                 }
             else:
                 return {
                     "name": "Quality Gates Integration Test",
                     "passed": False,
                     "details": "Test file not found",
-                    "error": "File not found"
+                    "error": "File not found",
                 }
 
         except Exception as e:
@@ -124,10 +130,10 @@ class TestingFrameworkIntegration:
                 "name": "Quality Gates Integration Test",
                 "passed": False,
                 "details": f"Test failed: {e}",
-                "error": str(e)
+                "error": str(e),
             }
 
-    def _test_validation_protocols_integration(self) -> Dict[str, Any]:
+    def _test_validation_protocols_integration(self) -> dict[str, Any]:
         """Test validation protocols integration"""
         try:
             from .validation_protocols import create_advanced_validation_protocols
@@ -139,7 +145,7 @@ class TestingFrameworkIntegration:
                 "name": "Validation Protocols Integration Test",
                 "passed": passed,
                 "details": f"Created {len(protocols.validation_protocols)} validation protocols",
-                "protocol_count": len(protocols.validation_protocols)
+                "protocol_count": len(protocols.validation_protocols),
             }
 
         except Exception as e:
@@ -147,13 +153,13 @@ class TestingFrameworkIntegration:
                 "name": "Validation Protocols Integration Test",
                 "passed": False,
                 "details": f"Test failed: {e}",
-                "error": str(e)
+                "error": str(e),
             }
 
-    def _test_vector_database_integration(self) -> Dict[str, Any]:
+    def _test_vector_database_integration(self) -> dict[str, Any]:
         """Test vector database integration"""
         try:
-            from tools.simple_vector_search import search_message_history, search_devlogs
+            from tools.simple_vector_search import search_message_history
 
             # Test basic search functionality
             results = search_message_history("quality assurance", limit=1)
@@ -163,7 +169,7 @@ class TestingFrameworkIntegration:
                 "name": "Vector Database Integration Test",
                 "passed": passed,
                 "details": f"Vector search returned {len(results)} results",
-                "search_functional": True
+                "search_functional": True,
             }
 
         except Exception as e:
@@ -171,23 +177,23 @@ class TestingFrameworkIntegration:
                 "name": "Vector Database Integration Test",
                 "passed": False,
                 "details": f"Test failed: {e}",
-                "error": str(e)
+                "error": str(e),
             }
 
-    def _test_coverage_integration(self) -> Dict[str, Any]:
+    def _test_coverage_integration(self) -> dict[str, Any]:
         """Test coverage integration"""
         try:
             # Check if pytest is available and tests exist
-            result = subprocess.run([
-                sys.executable, "-m", "pytest", "--version"
-            ], capture_output=True, text=True)
+            result = subprocess.run(
+                [sys.executable, "-m", "pytest", "--version"], capture_output=True, text=True
+            )
 
             passed = result.returncode == 0
             return {
                 "name": "Coverage Integration Test",
                 "passed": passed,
                 "details": "Pytest available" if passed else "Pytest not available",
-                "pytest_available": passed
+                "pytest_available": passed,
             }
 
         except Exception as e:
@@ -195,10 +201,10 @@ class TestingFrameworkIntegration:
                 "name": "Coverage Integration Test",
                 "passed": False,
                 "details": f"Test failed: {e}",
-                "error": str(e)
+                "error": str(e),
             }
 
-    def run_pytest_suite(self, test_directory: str = "tests") -> Dict[str, Any]:
+    def run_pytest_suite(self, test_directory: str = "tests") -> dict[str, Any]:
         """Run pytest test suite"""
         print(f"🧪 Running pytest suite in {test_directory}...")
 
@@ -210,13 +216,15 @@ class TestingFrameworkIntegration:
                     "error": f"Test directory {test_directory} not found",
                     "tests_run": 0,
                     "tests_passed": 0,
-                    "tests_failed": 0
+                    "tests_failed": 0,
                 }
 
             # Run pytest
-            result = subprocess.run([
-                sys.executable, "-m", "pytest", test_directory, "-v", "--tb=short"
-            ], capture_output=True, text=True)
+            result = subprocess.run(
+                [sys.executable, "-m", "pytest", test_directory, "-v", "--tb=short"],
+                capture_output=True,
+                text=True,
+            )
 
             # Parse results
             output_lines = result.stdout.splitlines()
@@ -239,7 +247,7 @@ class TestingFrameworkIntegration:
                 "tests_failed": tests_failed,
                 "success_rate": (tests_passed / tests_run * 100) if tests_run > 0 else 0,
                 "output": result.stdout,
-                "errors": result.stderr
+                "errors": result.stderr,
             }
 
         except Exception as e:
@@ -248,10 +256,10 @@ class TestingFrameworkIntegration:
                 "error": str(e),
                 "tests_run": 0,
                 "tests_passed": 0,
-                "tests_failed": 0
+                "tests_failed": 0,
             }
 
-    def generate_integration_report(self) -> Dict[str, Any]:
+    def generate_integration_report(self) -> dict[str, Any]:
         """Generate comprehensive integration test report"""
         test_results = self.run_qa_integration_tests()
 
@@ -260,45 +268,47 @@ class TestingFrameworkIntegration:
             "testing_coverage": test_results["success_rate"],
             "integration_tests": test_results,
             "qa_components_tested": len(test_results["test_details"]),
-            "integration_status": "OPERATIONAL" if test_results["overall_success"] else "NEEDS_ATTENTION"
+            "integration_status": "OPERATIONAL"
+            if test_results["overall_success"]
+            else "NEEDS_ATTENTION",
         }
 
 
 def create_testing_framework_integration() -> TestingFrameworkIntegration:
     """Create testing framework integration system"""
     integration = TestingFrameworkIntegration()
-    
+
     # Create core QA integration tests
     integration.create_qa_integration_test(
         "Quality Gates Integration",
         "Test quality gates integration with QA framework",
         "integration",
         "quality_gates",
-        {"min_score": 80.0, "max_violations": 5}
+        {"min_score": 80.0, "max_violations": 5},
     )
-    
+
     integration.create_qa_integration_test(
         "Validation Protocols Integration",
         "Test validation protocols integration",
         "integration",
         "validation_protocols",
-        {"min_protocols": 3, "all_active": True}
+        {"min_protocols": 3, "all_active": True},
     )
-    
+
     integration.create_qa_integration_test(
         "Vector Database Integration",
         "Test vector database integration with QA",
         "integration",
         "vector_database",
-        {"search_functional": True, "min_results": 0}
+        {"search_functional": True, "min_results": 0},
     )
-    
+
     integration.create_qa_integration_test(
         "Coverage Integration",
         "Test coverage integration with testing framework",
         "integration",
         "coverage",
-        {"pytest_available": True, "min_coverage": 85.0}
+        {"pytest_available": True, "min_coverage": 85.0},
     )
-    
+
     return integration

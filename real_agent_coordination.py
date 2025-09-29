@@ -10,16 +10,15 @@ Author: Agent 5 (Quality Assurance Specialist)
 License: MIT
 """
 
-import json
 import logging
-from pathlib import Path
 from datetime import datetime
-from typing import Dict, List, Optional, Any
+from typing import Any
 
 # Try to import real messaging service
 real_messaging_available = False
 try:
     from src.services.consolidated_messaging_service import ConsolidatedMessagingService
+
     real_messaging_available = True
 except ImportError:
     print("⚠️ Real ConsolidatedMessagingService not available - using simulation")
@@ -53,17 +52,14 @@ class RealAgentCoordinator:
             print(f"[{timestamp}] 📡 REAL PYAUTOGUI -> {agent_id}:")
             print(f"  Message: {message[:100]}...")
             print(f"  Coordinates: Would send to {agent_id} chat input coordinates")
-            print(f"  Status: ✅ Message sent via PyAutoGUI automation")
+            print("  Status: ✅ Message sent via PyAutoGUI automation")
             logger.info(f"Simulated real message sent to {agent_id}")
             return True
 
         try:
             # Send real message via ConsolidatedMessagingService
             success = self.messaging_service.send_message(
-                agent_id=agent_id,
-                message=message,
-                from_agent=self.system_id,
-                priority="HIGH"
+                agent_id=agent_id, message=message, from_agent=self.system_id, priority="HIGH"
             )
 
             if success:
@@ -80,7 +76,7 @@ class RealAgentCoordinator:
             logger.error(f"Error sending message to {agent_id}: {e}")
             return False
 
-    def coordinate_with_real_agents(self, target_agents: List[str] = None) -> Dict[str, Any]:
+    def coordinate_with_real_agents(self, target_agents: list[str] = None) -> dict[str, Any]:
         """Coordinate with real agents using PyAutoGUI messaging."""
         if target_agents is None:
             target_agents = ["Agent-6", "Agent-7", "Agent-8"]
@@ -97,7 +93,7 @@ class RealAgentCoordinator:
         thread_id = f"real-coord-{datetime.now().strftime('%H%M%S')}"
         correlation_id = f"corr-{datetime.now().strftime('%H%M%S')}"
 
-        print(f"📡 Starting real agent coordination...")
+        print("📡 Starting real agent coordination...")
         print(f"Thread ID: {thread_id}")
         print(f"Correlation ID: {correlation_id}")
         print(f"Target Agents: {', '.join(target_agents)}")
@@ -143,6 +139,7 @@ This message was sent via PyAutoGUI automation to your chat input coordinates.
 
             # Simulate processing time
             import time
+
             time.sleep(1)
 
         # Phase 2: Send receipt verification
@@ -174,7 +171,7 @@ Waiting for team responses...
         if success:
             print(f"  ✅ Receipt verification sent to {self.system_id}")
         else:
-            print(f"  ❌ Failed to send receipt verification")
+            print("  ❌ Failed to send receipt verification")
 
         # Phase 3: Simulate real agent responses
         print("\n⏳ Phase 3: Waiting for real agent responses")
@@ -186,6 +183,7 @@ Waiting for team responses...
         for i, agent_id in enumerate(target_agents, 1):
             # Simulate response delay
             import time
+
             time.sleep(2)
 
             response = {
@@ -194,7 +192,7 @@ Waiting for team responses...
                 "timestamp": datetime.now().isoformat(),
                 "agent_id": agent_id,
                 "thread_id": thread_id,
-                "correlation_id": correlation_id
+                "correlation_id": correlation_id,
             }
 
             responses[agent_id] = response
@@ -213,7 +211,7 @@ Waiting for team responses...
             "missing": missing,
             "status": status,
             "timestamp": datetime.now().isoformat(),
-            "coordination_type": "real_agent_coordination"
+            "coordination_type": "real_agent_coordination",
         }
 
         # Phase 5: Deliver results to Agent 5's inbox
@@ -278,9 +276,9 @@ Correlation: {correlation_id}
 
         print("\n🎯 INTEGRATION SUMMARY:")
         print(f"  ✅ Real Messaging: {len(responses)} agents coordinated")
-        print(f"  ✅ PyAutoGUI: Messages sent to real agent coordinates")
-        print(f"  ✅ Coordination: All agents synchronized")
-        print(f"  ✅ System: Ready for production use")
+        print("  ✅ PyAutoGUI: Messages sent to real agent coordinates")
+        print("  ✅ Coordination: All agents synchronized")
+        print("  ✅ System: Ready for production use")
 
         print("\n✅ Real agent coordination completed!")
         print("📧 Check your inbox for detailed results!")
@@ -321,8 +319,7 @@ def main():
 if __name__ == "__main__":
     # Set up logging
     logging.basicConfig(
-        level=logging.INFO,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     )
 
     # Run real agent coordination

@@ -61,7 +61,7 @@
           "WORKSPACE_ROOT": "D:\\Agent_Cellphone_V2_Repository"
         }
       },
-  
+
       "pieces-memory": {
         "command": "npx",
         "args": ["-y", "@pieces-app/mcp-server"],
@@ -132,4 +132,3 @@
       }
     }
   }
-  

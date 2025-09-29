@@ -1,0 +1,25 @@
+{
+  "status": "success",
+  "strategy_name": "Momentum_Strategy_AAPL",
+  "strategy_type": "momentum",
+  "parameters": {
+    "lookback_period": 20,
+    "entry_threshold": 0.02,
+    "exit_threshold": 0.01,
+    "position_size": 0.1,
+    "stop_loss": 0.05
+  },
+  "performance_metrics": {
+    "sharpe_ratio": 1.85,
+    "max_drawdown": 0.12,
+    "win_rate": 0.68,
+    "profit_factor": 2.34,
+    "total_return": 0.45
+  },
+  "recommendations": [
+    "Strategy shows strong risk-adjusted returns",
+    "Consider reducing position size in volatile markets",
+    "Implement dynamic stop-loss based on volatility",
+    "Monitor correlation with market indices"
+  ]
+}

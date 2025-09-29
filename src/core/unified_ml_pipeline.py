@@ -6,23 +6,23 @@ V2 Compliance: ≤400 lines, type hints, KISS principle
 SSOT Implementation: Consolidated ML Pipeline Core with Dream.OS Integration
 """
 
-from typing import Dict, List, Optional, Tuple, Any
+import hashlib
+import json
+import os
+import pickle
+import time
 from dataclasses import dataclass
 from enum import Enum
-import json
-import pickle
-import os
-import sys
 from pathlib import Path
-import time
-import hashlib
+from typing import Any
+
 import numpy as np
-import logging
 
 
 @dataclass
 class ModelConfig:
     """ML Model configuration data structure."""
+
     framework: str = "tensorflow"
     model_type: str = "classification"
     input_shape: tuple = (224, 224, 3)
@@ -33,8 +33,8 @@ class ModelConfig:
     validation_split: float = 0.2
     optimizer: str = "adam"
     loss_function: str = "categorical_crossentropy"
-    metrics: List[str] = None
-    callbacks: List[str] = None
+    metrics: list[str] = None
+    callbacks: list[str] = None
     early_stopping_patience: int = 10
     model_checkpoint: bool = True
     reduce_lr_on_plateau: bool = True
@@ -51,12 +51,13 @@ class ModelConfig:
 @dataclass
 class TrainingData:
     """Training data container."""
+
     features: np.ndarray
     labels: np.ndarray
-    validation_features: Optional[np.ndarray] = None
-    validation_labels: Optional[np.ndarray] = None
-    test_features: Optional[np.ndarray] = None
-    test_labels: Optional[np.ndarray] = None
+    validation_features: np.ndarray | None = None
+    validation_labels: np.ndarray | None = None
+    test_features: np.ndarray | None = None
+    test_labels: np.ndarray | None = None
 
     def __post_init__(self):
         """Validate training data."""
@@ -78,6 +79,7 @@ class TrainingData:
 @dataclass
 class ModelMetrics:
     """Model performance metrics."""
+
     accuracy: float
     precision: float
     recall: float
@@ -88,7 +90,7 @@ class ModelMetrics:
     model_size: float
     parameters_count: int
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert metrics to dictionary."""
         return {
             "accuracy": self.accuracy,
@@ -99,33 +101,31 @@ class ModelMetrics:
             "training_time": self.training_time,
             "inference_time": self.inference_time,
             "model_size": self.model_size,
-            "parameters_count": self.parameters_count
+            "parameters_count": self.parameters_count,
         }
 
 
 @dataclass
 class DeploymentConfig:
     """Configuration for model deployment."""
+
     deployment_type: str = "rest_api"
     scaling: str = "auto"
     health_checks: bool = True
     monitoring: bool = True
     version: str = "1.0.0"
     environment: str = "production"
-    resources: Dict[str, Any] = None
+    resources: dict[str, Any] = None
 
     def __post_init__(self):
         """Set default values after initialization."""
         if self.resources is None:
-            self.resources = {
-                "cpu": "100m",
-                "memory": "256Mi",
-                "gpu": None
-            }
+            self.resources = {"cpu": "100m", "memory": "256Mi", "gpu": None}
 
 
 class PipelineStatus(Enum):
     """ML Pipeline status enumeration."""
+
     IDLE = "idle"
     TRAINING = "training"
     INFERENCE = "inference"
@@ -135,6 +135,7 @@ class PipelineStatus(Enum):
 
 class ModelType(Enum):
     """ML Model type enumeration."""
+
     CLASSIFICATION = "classification"
     REGRESSION = "regression"
     CLUSTERING = "clustering"
@@ -144,11 +145,12 @@ class ModelType(Enum):
 @dataclass
 class ModelConfig:
     """ML Model configuration data structure."""
+
     model_type: ModelType
     name: str
     version: str
-    parameters: Dict[str, Any]
-    features: List[str]
+    parameters: dict[str, Any]
+    features: list[str]
     target: str
     created_at: str
     accuracy: float = 0.0
@@ -158,9 +160,10 @@ class ModelConfig:
 @dataclass
 class TrainingData:
     """Training data structure."""
-    features: List[List[float]]
-    targets: List[float]
-    feature_names: List[str]
+
+    features: list[list[float]]
+    targets: list[float]
+    feature_names: list[str]
     validation_split: float = 0.2
     test_split: float = 0.1
 
@@ -168,6 +171,7 @@ class TrainingData:
 @dataclass
 class PipelineMetrics:
     """ML Pipeline metrics data structure."""
+
     accuracy: float = 0.0
     precision: float = 0.0
     recall: float = 0.0
@@ -188,7 +192,7 @@ class UnifiedMLPipeline:
     def __init__(self, model_storage_path: str = "./models"):
         """Initialize unified ML pipeline."""
         self.model_storage_path = Path(model_storage_path)
-        self.current_model: Optional[ModelConfig] = None
+        self.current_model: ModelConfig | None = None
         self.pipeline_status = PipelineStatus.IDLE
         self.metrics = PipelineMetrics()
         self._ensure_storage_path()
@@ -197,9 +201,14 @@ class UnifiedMLPipeline:
         """Ensure model storage path exists."""
         self.model_storage_path.mkdir(parents=True, exist_ok=True)
 
-    def create_model(self, model_type: ModelType, name: str,
-                    parameters: Dict[str, Any], features: List[str],
-                    target: str) -> ModelConfig:
+    def create_model(
+        self,
+        model_type: ModelType,
+        name: str,
+        parameters: dict[str, Any],
+        features: list[str],
+        target: str,
+    ) -> ModelConfig:
         """Create a new ML model configuration."""
         self.pipeline_status = PipelineStatus.IDLE
 
@@ -210,13 +219,13 @@ class UnifiedMLPipeline:
             parameters=parameters,
             features=features,
             target=target,
-            created_at=time.strftime("%Y-%m-%d %H:%M:%S")
+            created_at=time.strftime("%Y-%m-%d %H:%M:%S"),
         )
 
         self.current_model = model
         return model
 
-    def prepare_training_data(self, data: Dict[str, Any]) -> TrainingData:
+    def prepare_training_data(self, data: dict[str, Any]) -> TrainingData:
         """Prepare training data for ML model."""
         if not self.current_model:
             raise ValueError("No model configuration available")
@@ -228,11 +237,7 @@ class UnifiedMLPipeline:
         if len(features) != len(targets):
             raise ValueError("Features and targets must have same length")
 
-        return TrainingData(
-            features=features,
-            targets=targets,
-            feature_names=feature_names
-        )
+        return TrainingData(features=features, targets=targets, feature_names=feature_names)
 
     def train_model(self, training_data: TrainingData) -> bool:
         """Train the ML model with provided data."""
@@ -244,7 +249,9 @@ class UnifiedMLPipeline:
             start_time = time.time()
 
             # Simple training simulation (replace with actual ML training)
-            model_hash = hashlib.md5(f"{self.current_model.name}-{self.current_model.version}".encode()).hexdigest()
+            model_hash = hashlib.md5(
+                f"{self.current_model.name}-{self.current_model.version}".encode()
+            ).hexdigest()
 
             # Simulate training process
             time.sleep(1)  # Simulate training time
@@ -258,11 +265,11 @@ class UnifiedMLPipeline:
             self.pipeline_status = PipelineStatus.COMPLETED
             return True
 
-        except Exception as e:
+        except Exception:
             self.pipeline_status = PipelineStatus.ERROR
             return False
 
-    def make_prediction(self, input_data: List[float]) -> Optional[float]:
+    def make_prediction(self, input_data: list[float]) -> float | None:
         """Make prediction using trained model."""
         if not self.current_model or self.pipeline_status != PipelineStatus.COMPLETED:
             return None
@@ -281,30 +288,33 @@ class UnifiedMLPipeline:
             self.metrics.inference_time = 0.001  # Simulate fast inference
             return prediction
 
-        except Exception as e:
+        except Exception:
             return None
 
-    def save_model(self, filepath: Optional[str] = None) -> bool:
+    def save_model(self, filepath: str | None = None) -> bool:
         """Save trained model to file."""
         if not self.current_model or self.pipeline_status != PipelineStatus.COMPLETED:
             return False
 
         try:
             if filepath is None:
-                filepath = str(self.model_storage_path / f"{self.current_model.name}_v{self.current_model.version}.pkl")
+                filepath = str(
+                    self.model_storage_path
+                    / f"{self.current_model.name}_v{self.current_model.version}.pkl"
+                )
 
             model_data = {
                 "config": self.current_model.__dict__,
                 "metrics": self.metrics.__dict__,
-                "saved_at": time.strftime("%Y-%m-%d %H:%M:%S")
+                "saved_at": time.strftime("%Y-%m-%d %H:%M:%S"),
             }
 
-            with open(filepath, 'wb') as f:
+            with open(filepath, "wb") as f:
                 pickle.dump(model_data, f)
 
             return True
 
-        except Exception as e:
+        except Exception:
             return False
 
     def load_model(self, filepath: str) -> bool:
@@ -313,7 +323,7 @@ class UnifiedMLPipeline:
             if not os.path.exists(filepath):
                 return False
 
-            with open(filepath, 'rb') as f:
+            with open(filepath, "rb") as f:
                 model_data = pickle.load(f)
 
             config_data = model_data.get("config", {})
@@ -323,10 +333,10 @@ class UnifiedMLPipeline:
 
             return True
 
-        except Exception as e:
+        except Exception:
             return False
 
-    def get_model_info(self) -> Optional[Dict[str, Any]]:
+    def get_model_info(self) -> dict[str, Any] | None:
         """Get current model information."""
         if not self.current_model:
             return None
@@ -339,19 +349,19 @@ class UnifiedMLPipeline:
             "training_time": self.current_model.training_time,
             "features": len(self.current_model.features),
             "parameters": self.current_model.parameters,
-            "status": self.pipeline_status.value
+            "status": self.pipeline_status.value,
         }
 
-    def get_pipeline_metrics(self) -> Dict[str, float]:
+    def get_pipeline_metrics(self) -> dict[str, float]:
         """Get pipeline performance metrics."""
         return {
             "accuracy": self.metrics.accuracy,
             "training_time": self.metrics.training_time,
             "inference_time": self.metrics.inference_time,
-            "memory_usage": self.metrics.memory_usage
+            "memory_usage": self.metrics.memory_usage,
         }
 
-    def validate_model_config(self) -> List[str]:
+    def validate_model_config(self) -> list[str]:
         """Validate model configuration and return issues."""
         issues = []
 
@@ -390,17 +400,17 @@ class UnifiedMLPipeline:
                     "target": self.current_model.target,
                     "created_at": self.current_model.created_at,
                     "accuracy": self.current_model.accuracy,
-                    "training_time": self.current_model.training_time
+                    "training_time": self.current_model.training_time,
                 },
                 "pipeline_metrics": self.get_pipeline_metrics(),
-                "export_timestamp": time.strftime("%Y-%m-%d %H:%M:%S")
+                "export_timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
             }
 
-            with open(filepath, 'w') as f:
+            with open(filepath, "w") as f:
                 json.dump(config_data, f, indent=2)
             return True
 
-        except Exception as e:
+        except Exception:
             return False
 
     def reset_pipeline(self):
@@ -425,7 +435,7 @@ if __name__ == "__main__":
         name="dream_os_predictor",
         parameters={"learning_rate": 0.01, "epochs": 100},
         features=["feature1", "feature2", "feature3"],
-        target="prediction"
+        target="prediction",
     )
 
     print(f"✅ Created model: {model.name} v{model.version}")
@@ -433,11 +443,13 @@ if __name__ == "__main__":
     print(f"🎯 Features: {len(model.features)}")
 
     # Prepare training data
-    training_data = pipeline.prepare_training_data({
-        "features": [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]],
-        "targets": [1.5, 2.5, 3.5],
-        "feature_names": ["feature1", "feature2", "feature3"]
-    })
+    training_data = pipeline.prepare_training_data(
+        {
+            "features": [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]],
+            "targets": [1.5, 2.5, 3.5],
+            "feature_names": ["feature1", "feature2", "feature3"],
+        }
+    )
 
     print(f"📈 Training data prepared: {len(training_data.features)} samples")
 
@@ -468,4 +480,3 @@ if __name__ == "__main__":
         print(f"📋 Model info: {info['model_name']} v{info['version']}")
     else:
         print("❌ Failed to get model info")
-

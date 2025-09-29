@@ -26,24 +26,23 @@ logger = logging.getLogger(__name__)
 
 class RiskManagerCLI:
     """Command-line interface for risk management tools."""
-    
+
     def __init__(self):
         """Initialize the CLI."""
         self.setup_logging()
-    
+
     def setup_logging(self):
         """Setup logging for the CLI."""
         logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+            level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
         )
-    
+
     def assess_portfolio_risk(self, portfolio_id: str) -> bool:
         """Assess portfolio risk."""
         try:
             print(f"🛡️ Assessing portfolio risk: {portfolio_id}")
             print("🚨 Risk Manager analysis starting...")
-            
+
             # Simulate risk assessment
             risk_result = {
                 "status": "success",
@@ -53,49 +52,49 @@ class RiskManagerCLI:
                     "expected_shortfall": 0.035,
                     "max_drawdown": 0.15,
                     "sharpe_ratio": 1.42,
-                    "volatility": 0.18
+                    "volatility": 0.18,
                 },
                 "risk_alerts": {
                     "high_risk_positions": 2,
                     "correlation_risks": 1,
                     "liquidity_concerns": 0,
-                    "concentration_risks": 1
+                    "concentration_risks": 1,
                 },
                 "recommendations": [
                     "Reduce position size in high-volatility assets",
                     "Implement hedging for correlated positions",
                     "Monitor liquidity in emerging market positions",
-                    "Consider diversification for concentrated holdings"
-                ]
+                    "Consider diversification for concentrated holdings",
+                ],
             }
-            
-            print(f"✅ Portfolio risk assessment completed!")
+
+            print("✅ Portfolio risk assessment completed!")
             print(f"📊 VaR (95%): {risk_result['risk_metrics']['var_95']:.1%}")
             print(f"📉 Expected Shortfall: {risk_result['risk_metrics']['expected_shortfall']:.1%}")
             print(f"📊 Max Drawdown: {risk_result['risk_metrics']['max_drawdown']:.1%}")
             print(f"📈 Sharpe Ratio: {risk_result['risk_metrics']['sharpe_ratio']}")
             print(f"📊 Volatility: {risk_result['risk_metrics']['volatility']:.1%}")
-            
-            print(f"\n🚨 Risk Alerts:")
+
+            print("\n🚨 Risk Alerts:")
             print(f"  ⚠️ High Risk Positions: {risk_result['risk_alerts']['high_risk_positions']}")
             print(f"  🔗 Correlation Risks: {risk_result['risk_alerts']['correlation_risks']}")
             print(f"  💧 Liquidity Concerns: {risk_result['risk_alerts']['liquidity_concerns']}")
             print(f"  📊 Concentration Risks: {risk_result['risk_alerts']['concentration_risks']}")
-            
+
             # Save risk report
             report_path = f"risk_reports/{portfolio_id}_risk_assessment.json"
             Path("risk_reports").mkdir(exist_ok=True)
-            
-            with open(report_path, 'w') as f:
+
+            with open(report_path, "w") as f:
                 json.dump(risk_result, f, indent=2)
-            
+
             print(f"📄 Risk report saved to: {report_path}")
             return True
-            
+
         except Exception as e:
             print(f"❌ Risk assessment failed: {e}")
             return False
-    
+
     def stress_test(self, portfolio_id: str) -> None:
         """Conduct stress test on portfolio."""
         print(f"🧪 Stress testing portfolio: {portfolio_id}")
@@ -104,7 +103,7 @@ class RiskManagerCLI:
         print("  • Interest rate shock: -8.7% portfolio impact")
         print("  • Currency crisis: -12.1% portfolio impact")
         print("  • Liquidity crisis: -6.3% portfolio impact")
-    
+
     def monitor_limits(self, portfolio_id: str) -> None:
         """Monitor risk limits."""
         print(f"📊 Monitoring risk limits for: {portfolio_id}")
@@ -113,7 +112,7 @@ class RiskManagerCLI:
         print("  • VaR limits: 78% utilized")
         print("  • Correlation limits: 45% utilized")
         print("  • Liquidity limits: 23% utilized")
-    
+
     def show_tools(self) -> None:
         """Show available risk manager tools."""
         print("🛡️ Available Risk Manager Tools:")
@@ -136,11 +135,11 @@ def main():
     parser.add_argument("--stress-test", metavar="PORTFOLIO_ID", help="Conduct stress test")
     parser.add_argument("--monitor-limits", metavar="PORTFOLIO_ID", help="Monitor risk limits")
     parser.add_argument("--show-tools", action="store_true", help="Show available tools")
-    
+
     args = parser.parse_args()
-    
+
     cli = RiskManagerCLI()
-    
+
     if args.assess_risk:
         success = cli.assess_portfolio_risk(args.assess_risk)
         sys.exit(0 if success else 1)

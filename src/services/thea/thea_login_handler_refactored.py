@@ -14,7 +14,7 @@ Features:
 
 Usage:
     from src.services.thea.thea_login_handler_refactored import TheaLoginHandler
-    
+
 # SECURITY: Password placeholder - replace with environment variable
     if handler.ensure_login(driver):
         print("Logged in successfully!")
@@ -30,6 +30,7 @@ try:
     from selenium.webdriver.common.by import By
     from selenium.webdriver.support import expected_conditions as EC
     from selenium.webdriver.support.ui import WebDriverWait
+
     SELENIUM_AVAILABLE = True
 except ImportError:
     SELENIUM_AVAILABLE = False
@@ -45,30 +46,30 @@ logger = logging.getLogger(__name__)
 class TheaLoginHandler:
     """
     Handles Thea/ChatGPT login with automated detection and cookie persistence.
-    
+
     Refactored to use modular components for V2 compliance.
     """
 
     def __init__(
         self,
         username: str | None = None,
-# SECURITY: Password placeholder - replace with environment variable
+        # SECURITY: Password placeholder - replace with environment variable
         cookie_file: str = "thea_cookies.json",
         timeout: int = 30,
     ):
         """
-        Initialize the Thea login handler.
+                Initialize the Thea login handler.
 
-        Args:
-            username: ChatGPT username/email
-# SECURITY: Password placeholder - replace with environment variable
-            cookie_file: Path to cookie file for persistence
-            timeout: Timeout for login operations
+                Args:
+                    username: ChatGPT username/email
+        # SECURITY: Password placeholder - replace with environment variable
+                    cookie_file: Path to cookie file for persistence
+                    timeout: Timeout for login operations
         """
         self.username = username
-# SECURITY: Password placeholder - replace with environment variable
+        # SECURITY: Password placeholder - replace with environment variable
         self.timeout = timeout
-        
+
         # Initialize modular components
         self.cookie_manager = TheaCookieManager(cookie_file)
         self.login_detector = TheaLoginDetector()
@@ -97,7 +98,9 @@ class TheaLoginHandler:
             time.sleep(3)
 
             # Check if already logged in and on Thea page
-            if self.login_detector.is_logged_in(driver) and self.login_detector.is_on_thea_page(driver):
+            if self.login_detector.is_logged_in(driver) and self.login_detector.is_on_thea_page(
+                driver
+            ):
                 logger.info("✅ Already logged in to Thea")
                 return True
 
@@ -130,8 +133,8 @@ class TheaLoginHandler:
                         if self._navigate_to_thea(driver):
                             return True
 
-            # Try automated login if credentials provided
-# SECURITY: Password placeholder - replace with environment variable
+                # Try automated login if credentials provided
+                # SECURITY: Password placeholder - replace with environment variable
                 if self._automated_login(driver):
                     # Save cookies after successful login
                     self.cookie_manager.save_cookies(driver)
@@ -173,7 +176,7 @@ class TheaLoginHandler:
             try:
                 username_field = wait.until(EC.presence_of_element_located((By.NAME, "username")))
                 username_field.clear()
-# SECURITY: Key placeholder - replace with environment variable
+                # SECURITY: Key placeholder - replace with environment variable
 
                 # Click continue
                 continue_button = driver.find_element(By.XPATH, "//button[@type='submit']")
@@ -297,9 +300,8 @@ class TheaLoginHandler:
             logger.error(f"Logout error: {e}")
             return False
 
-
-# Convenience functions for easy integration
-# SECURITY: Password placeholder - replace with environment variable
+    # Convenience functions for easy integration
+    # SECURITY: Password placeholder - replace with environment variable
     """
     Create a Thea login handler with default settings.
 
@@ -311,6 +313,8 @@ class TheaLoginHandler:
     Returns:
         TheaLoginHandler instance
     """
+
+
 # SECURITY: Password placeholder - replace with environment variable
 
 
@@ -339,7 +343,7 @@ if __name__ == "__main__":
     print("✅ Thea Login Handler created")
     print("📝 To use with credentials:")
     print(
-# SECURITY: Password placeholder - replace with environment variable
+        # SECURITY: Password placeholder - replace with environment variable
     )
     print("   success = handler.ensure_login(driver)")
 

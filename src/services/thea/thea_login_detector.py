@@ -14,7 +14,7 @@ Features:
 
 Usage:
     from src.services.thea.thea_login_detector import TheaLoginDetector
-    
+
     detector = TheaLoginDetector()
     is_logged_in = detector.is_logged_in(driver)
 """
@@ -26,6 +26,7 @@ try:
     from selenium import webdriver
     from selenium.common.exceptions import NoSuchElementException
     from selenium.webdriver.common.by import By
+
     SELENIUM_AVAILABLE = True
 except ImportError:
     SELENIUM_AVAILABLE = False
@@ -37,7 +38,7 @@ logger = logging.getLogger(__name__)
 class TheaLoginDetector:
     """
     Handles login status detection for Thea/ChatGPT.
-    
+
     Uses multiple indicators to detect login status:
     - Send button presence
     - Conversation elements
@@ -120,7 +121,7 @@ class TheaLoginDetector:
                 "//a[contains(text(), 'Log in')]",
                 "//a[contains(text(), 'Sign up')]",
                 "//input[@name='username']",
-# SECURITY: Password placeholder - replace with environment variable
+                # SECURITY: Password placeholder - replace with environment variable
                 "//input[@type='email']",
                 "//div[contains(text(), 'Welcome to ChatGPT')]",
                 "//div[contains(text(), 'Log in to ChatGPT')]",
@@ -275,8 +276,8 @@ class TheaLoginDetector:
                             # Check if it's likely a message input (not search, etc.)
                             placeholder = element.get_attribute("placeholder") or ""
                             if any(
-# SECURITY: Key placeholder - replace with environment variable
-# SECURITY: Key placeholder - replace with environment variable
+                                # SECURITY: Key placeholder - replace with environment variable
+                                # SECURITY: Key placeholder - replace with environment variable
                             ):
                                 logger.debug(
                                     f"✅ Found message input: {selector} with placeholder '{placeholder}'"
@@ -370,4 +371,3 @@ if __name__ == "__main__":
     print("📝 To use:")
     print("   detector = create_login_detector()")
     print("   is_logged_in = detector.is_logged_in(driver)")
-

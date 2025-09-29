@@ -7,15 +7,19 @@ Core coordination system for Agent-6 & Agent-8 Enhanced QA Coordination
 V2 Compliant: ≤400 lines, focused coordination logic
 """
 
-from typing import Dict, List, Any
-import os
-import time
-from pathlib import Path
-from .models import QAEnhancement, QAEnhancementArea, EnhancementPriority, Phase3ConsolidationStatus, QAStatus
-from .vector_database_integration import integrate_vector_database_with_qa
-from .validation_protocols import create_advanced_validation_protocols
-from .testing_framework_integration import create_testing_framework_integration
+from typing import Any
+
+from .models import (
+    EnhancementPriority,
+    Phase3ConsolidationStatus,
+    QAEnhancement,
+    QAEnhancementArea,
+    QAStatus,
+)
 from .performance_validation import create_performance_validation_enhancement
+from .testing_framework_integration import create_testing_framework_integration
+from .validation_protocols import create_advanced_validation_protocols
+from .vector_database_integration import integrate_vector_database_with_qa
 
 
 class Agent6Agent8EnhancedQACoordination:
@@ -26,9 +30,9 @@ class Agent6Agent8EnhancedQACoordination:
 
     def __init__(self):
         """Initialize enhanced QA coordination system"""
-        self.qa_enhancements: List[QAEnhancement] = []
+        self.qa_enhancements: list[QAEnhancement] = []
         self.phase3_status = self._initialize_phase3_status()
-        self.coordination_plan: Dict[str, Any] = {}
+        self.coordination_plan: dict[str, Any] = {}
         self.agent_expertise = self._define_agent_expertise()
 
     def _initialize_phase3_status(self) -> Phase3ConsolidationStatus:
@@ -38,10 +42,10 @@ class Agent6Agent8EnhancedQACoordination:
             ml_pipeline_core=QAStatus.EXCELLENT,
             quality_assurance=QAStatus.EXCELLENT,
             production_ready=True,
-            vector_database_ready=True
+            vector_database_ready=True,
         )
 
-    def _define_agent_expertise(self) -> Dict[str, List[str]]:
+    def _define_agent_expertise(self) -> dict[str, list[str]]:
         """Define agent expertise areas"""
         return {
             "Agent-6": [
@@ -51,7 +55,7 @@ class Agent6Agent8EnhancedQACoordination:
                 "Architecture review",
                 "SSOT validation",
                 "Production readiness assessment",
-                "Quality metrics analysis"
+                "Quality metrics analysis",
             ],
             "Agent-8": [
                 "Integration testing coordination",
@@ -60,14 +64,21 @@ class Agent6Agent8EnhancedQACoordination:
                 "Vector database integration",
                 "Testing framework development",
                 "System validation oversight",
-                "Quality assurance automation"
-            ]
+                "Quality assurance automation",
+            ],
         }
 
-    def create_qa_enhancement(self, area: QAEnhancementArea, name: str, 
-                            description: str, priority: EnhancementPriority,
-                            agent_responsible: str, estimated_effort: int,
-                            dependencies: List[str], success_criteria: Dict[str, Any]) -> QAEnhancement:
+    def create_qa_enhancement(
+        self,
+        area: QAEnhancementArea,
+        name: str,
+        description: str,
+        priority: EnhancementPriority,
+        agent_responsible: str,
+        estimated_effort: int,
+        dependencies: list[str],
+        success_criteria: dict[str, Any],
+    ) -> QAEnhancement:
         """Create a QA enhancement"""
         enhancement = QAEnhancement(
             area=area,
@@ -77,13 +88,13 @@ class Agent6Agent8EnhancedQACoordination:
             agent_responsible=agent_responsible,
             estimated_effort=estimated_effort,
             dependencies=dependencies,
-            success_criteria=success_criteria
+            success_criteria=success_criteria,
         )
 
         self.qa_enhancements.append(enhancement)
         return enhancement
 
-    def create_coordination_plan(self) -> Dict[str, Any]:
+    def create_coordination_plan(self) -> dict[str, Any]:
         """Create comprehensive coordination plan"""
         print("📋 Creating Agent-6 & Agent-8 coordination plan...")
 
@@ -107,13 +118,13 @@ class Agent6Agent8EnhancedQACoordination:
                     "agent_responsible": enhancement.agent_responsible,
                     "estimated_effort": enhancement.estimated_effort,
                     "dependencies": enhancement.dependencies,
-                    "success_criteria": enhancement.success_criteria
+                    "success_criteria": enhancement.success_criteria,
                 }
                 for enhancement in self.qa_enhancements
             ],
             "total_effort_hours": total_effort,
             "coordination_phases": self._define_coordination_phases(),
-            "integration_ready": True
+            "integration_ready": True,
         }
 
         return self.coordination_plan
@@ -129,7 +140,7 @@ class Agent6Agent8EnhancedQACoordination:
             agent_responsible="Agent-8",
             estimated_effort=8,
             dependencies=["vector_database_ready"],
-            success_criteria={"integration_complete": True, "search_functional": True}
+            success_criteria={"integration_complete": True, "search_functional": True},
         )
 
         # Quality Gates Enhancement
@@ -141,7 +152,7 @@ class Agent6Agent8EnhancedQACoordination:
             agent_responsible="Agent-6",
             estimated_effort=6,
             dependencies=["quality_gates_ready"],
-            success_criteria={"v2_compliant": True, "quality_score": 90.0}
+            success_criteria={"v2_compliant": True, "quality_score": 90.0},
         )
 
         # Validation Protocols Enhancement
@@ -153,7 +164,7 @@ class Agent6Agent8EnhancedQACoordination:
             agent_responsible="Agent-6",
             estimated_effort=10,
             dependencies=["validation_framework_ready"],
-            success_criteria={"protocols_active": True, "coverage": 90.0}
+            success_criteria={"protocols_active": True, "coverage": 90.0},
         )
 
         # Testing Framework Enhancement
@@ -165,7 +176,7 @@ class Agent6Agent8EnhancedQACoordination:
             agent_responsible="Agent-8",
             estimated_effort=12,
             dependencies=["testing_framework_ready"],
-            success_criteria={"integration_tests": True, "coverage": 85.0}
+            success_criteria={"integration_tests": True, "coverage": 85.0},
         )
 
         # Performance Validation Enhancement
@@ -177,10 +188,10 @@ class Agent6Agent8EnhancedQACoordination:
             agent_responsible="Agent-8",
             estimated_effort=8,
             dependencies=["performance_framework_ready"],
-            success_criteria={"performance_tests": True, "load_tests": True}
+            success_criteria={"performance_tests": True, "load_tests": True},
         )
 
-    def _define_coordination_phases(self) -> List[Dict[str, Any]]:
+    def _define_coordination_phases(self) -> list[dict[str, Any]]:
         """Define coordination phases"""
         return [
             {
@@ -189,7 +200,7 @@ class Agent6Agent8EnhancedQACoordination:
                 "description": "Set up core QA coordination infrastructure",
                 "duration_hours": 4,
                 "agents_involved": ["Agent-6", "Agent-8"],
-                "deliverables": ["coordination_plan", "agent_expertise_mapping"]
+                "deliverables": ["coordination_plan", "agent_expertise_mapping"],
             },
             {
                 "phase": 2,
@@ -197,7 +208,7 @@ class Agent6Agent8EnhancedQACoordination:
                 "description": "Implement QA enhancements",
                 "duration_hours": 20,
                 "agents_involved": ["Agent-6", "Agent-8"],
-                "deliverables": ["vector_integration", "quality_gates", "validation_protocols"]
+                "deliverables": ["vector_integration", "quality_gates", "validation_protocols"],
             },
             {
                 "phase": 3,
@@ -205,7 +216,7 @@ class Agent6Agent8EnhancedQACoordination:
                 "description": "Test and validate all enhancements",
                 "duration_hours": 12,
                 "agents_involved": ["Agent-6", "Agent-8"],
-                "deliverables": ["integration_tests", "performance_tests", "validation_report"]
+                "deliverables": ["integration_tests", "performance_tests", "validation_report"],
             },
             {
                 "phase": 4,
@@ -213,11 +224,11 @@ class Agent6Agent8EnhancedQACoordination:
                 "description": "Deploy enhanced QA system to production",
                 "duration_hours": 8,
                 "agents_involved": ["Agent-6", "Agent-8"],
-                "deliverables": ["production_deployment", "monitoring_setup", "documentation"]
-            }
+                "deliverables": ["production_deployment", "monitoring_setup", "documentation"],
+            },
         ]
 
-    def generate_enhanced_qa_report(self) -> Dict[str, Any]:
+    def generate_enhanced_qa_report(self) -> dict[str, Any]:
         """Generate comprehensive enhanced QA report"""
         print("📊 Generating enhanced QA report...")
 
@@ -243,7 +254,7 @@ class Agent6Agent8EnhancedQACoordination:
                 "ml_pipeline_core": self.phase3_status.ml_pipeline_core.value,
                 "quality_assurance": self.phase3_status.quality_assurance.value,
                 "production_ready": self.phase3_status.production_ready,
-                "vector_database_ready": self.phase3_status.vector_database_ready
+                "vector_database_ready": self.phase3_status.vector_database_ready,
             },
             "qa_enhancements": [
                 {
@@ -251,7 +262,7 @@ class Agent6Agent8EnhancedQACoordination:
                     "name": enhancement.enhancement_name,
                     "priority": enhancement.priority.value,
                     "agent_responsible": enhancement.agent_responsible,
-                    "estimated_effort": enhancement.estimated_effort
+                    "estimated_effort": enhancement.estimated_effort,
                 }
                 for enhancement in self.qa_enhancements
             ],
@@ -260,10 +271,10 @@ class Agent6Agent8EnhancedQACoordination:
             "validation_protocols": validation_protocols.generate_validation_report(),
             "testing_framework": testing_integration.generate_integration_report(),
             "performance_validation": performance_validation.generate_performance_report(),
-            "enhancement_ready": True
+            "enhancement_ready": True,
         }
 
-    def get_coordination_status(self) -> Dict[str, Any]:
+    def get_coordination_status(self) -> dict[str, Any]:
         """Get current coordination status"""
         return {
             "coordination_active": True,
@@ -275,9 +286,9 @@ class Agent6Agent8EnhancedQACoordination:
                 "ml_pipeline_core": self.phase3_status.ml_pipeline_core.value,
                 "quality_assurance": self.phase3_status.quality_assurance.value,
                 "production_ready": self.phase3_status.production_ready,
-                "vector_database_ready": self.phase3_status.vector_database_ready
+                "vector_database_ready": self.phase3_status.vector_database_ready,
             },
-            "coordination_ready": True
+            "coordination_ready": True,
         }
 
 
@@ -289,6 +300,8 @@ def create_agent6_agent8_enhanced_qa_coordination() -> Agent6Agent8EnhancedQACoo
 
     # Create coordination plan
     coordination_plan = coordination.create_coordination_plan()
-    print(f"📋 Coordination plan ready: {coordination_plan['total_effort_hours']} hours total effort")
+    print(
+        f"📋 Coordination plan ready: {coordination_plan['total_effort_hours']} hours total effort"
+    )
 
     return coordination

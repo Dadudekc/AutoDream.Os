@@ -11,23 +11,24 @@ License: MIT
 V2 Compliance: Modular design, comprehensive error handling
 """
 
+from .indexing import IndexEntry, IndexStats, IndexStatus, IndexType
+from .status_indexer import StatusIndexer
+from .vector_database_integration import VectorDatabaseIntegration
 from .vector_database_models import (
     VectorDatabaseConnection,
-    VectorRecord,
+    VectorDatabaseError,
+    VectorDatabaseMetrics,
+    VectorIndex,
     VectorMetadata,
     VectorQuery,
-    VectorType,
+    VectorRecord,
     VectorStatus,
-    VectorIndex,
-    VectorDatabaseError,
-    VectorDatabaseMetrics
+    VectorType,
 )
-
+from .vector_database_monitoring import Alert, AlertLevel, PerformanceMetric
+from .vector_database_monitoring import VectorDatabaseMonitoring as VectorDatabaseMonitor
 from .vector_database_orchestrator import VectorDatabaseOrchestrator
-from .status_indexer import StatusIndexer
-from .indexing import IndexEntry, IndexStats, IndexStatus, IndexType
-from .vector_database_integration import VectorDatabaseIntegration
-from .vector_database_monitoring import VectorDatabaseMonitoring as VectorDatabaseMonitor, Alert, AlertLevel, PerformanceMetric
+
 # Temporarily commented out problematic imports to fix core functionality
 # from .architecture_integration import ArchitectureIntegration
 # from .record_time_migration import RecordTimeMigration
@@ -50,7 +51,7 @@ __author__ = "Agent-3 (Database Specialist)"
 __all__ = [
     # Core models
     "VectorDatabaseConnection",
-    "VectorRecord", 
+    "VectorRecord",
     "VectorMetadata",
     "VectorQuery",
     "VectorType",
@@ -58,21 +59,18 @@ __all__ = [
     "VectorIndex",
     "VectorDatabaseError",
     "VectorDatabaseMetrics",
-    
     # Core services
     "VectorDatabaseOrchestrator",
     "StatusIndexer",
     "VectorDatabaseIntegration",
     "VectorDatabaseMonitor",
-    
     # Index models
     "IndexEntry",
-    "IndexStats", 
+    "IndexStats",
     "IndexStatus",
     "IndexType",
-    
     # Monitoring models
     "Alert",
     "AlertLevel",
-    "PerformanceMetric"
+    "PerformanceMetric",
 ]

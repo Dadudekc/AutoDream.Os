@@ -7,19 +7,20 @@ Core ML pipeline functionality.
 V2 Compliance: Optimized for quality gates.
 """
 
-import sys
 import logging
+import sys
 import time
-import numpy as np
 from pathlib import Path
-from typing import Dict, Any, Optional
+from typing import Any
+
+import numpy as np
 
 # Add project root to path
 project_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(project_root))
 
-from .ml_pipeline_models import ModelConfig, TrainingData, ModelMetrics
 from .ml_pipeline_fallback import FallbackMLModel
+from .ml_pipeline_models import ModelConfig, ModelMetrics, TrainingData
 
 logger = logging.getLogger(__name__)
 
@@ -27,20 +28,22 @@ logger = logging.getLogger(__name__)
 class MLPipelineCore:
     """Core ML pipeline functionality."""
 
-    def __init__(self, config: Optional[ModelConfig] = None):
+    def __init__(self, config: ModelConfig | None = None):
         """Initialize ML pipeline core."""
         self.config = config or ModelConfig()
-        self.models: Dict[str, Any] = {}
-        self.training_data: Dict[str, TrainingData] = {}
-        self.model_metrics: Dict[str, ModelMetrics] = {}
+        self.models: dict[str, Any] = {}
+        self.training_data: dict[str, TrainingData] = {}
+        self.model_metrics: dict[str, ModelMetrics] = {}
         self.fallback_model = FallbackMLModel(self.config)
         logger.info("ML Pipeline Core initialized")
 
-    def create_training_data(self,
-                           num_samples: int = 1000,
-                           num_features: int = 10,
-                           num_classes: int = 3,
-                           data_type: str = "classification") -> TrainingData:
+    def create_training_data(
+        self,
+        num_samples: int = 1000,
+        num_features: int = 10,
+        num_classes: int = 3,
+        data_type: str = "classification",
+    ) -> TrainingData:
         """Create synthetic training data."""
         try:
             logger.info("Creating training data")
@@ -69,10 +72,10 @@ class MLPipelineCore:
         return TrainingData(
             features=features[:train_size],
             labels=labels[:train_size],
-            validation_features=features[train_size:train_size + val_size],
-            validation_labels=labels[train_size:train_size + val_size],
-            test_features=features[train_size + val_size:],
-            test_labels=labels[train_size + val_size:]
+            validation_features=features[train_size : train_size + val_size],
+            validation_labels=labels[train_size : train_size + val_size],
+            test_features=features[train_size + val_size :],
+            test_labels=labels[train_size + val_size :],
         )
 
     def create_model(self, model_name: str, model_type: str = "neural_network"):
@@ -109,27 +112,26 @@ class MLPipelineCore:
         """Create TensorFlow model."""
         import tensorflow as tf
 
-        model = tf.keras.Sequential([
-            tf.keras.layers.Dense(128, activation='relu',
-                                input_shape=self.config.input_shape),
-            tf.keras.layers.Dropout(0.2),
-            tf.keras.layers.Dense(64, activation='relu'),
-            tf.keras.layers.Dropout(0.2),
-            tf.keras.layers.Dense(self.config.num_classes,
-                               activation='softmax')
-        ])
+        model = tf.keras.Sequential(
+            [
+                tf.keras.layers.Dense(128, activation="relu", input_shape=self.config.input_shape),
+                tf.keras.layers.Dropout(0.2),
+                tf.keras.layers.Dense(64, activation="relu"),
+                tf.keras.layers.Dropout(0.2),
+                tf.keras.layers.Dense(self.config.num_classes, activation="softmax"),
+            ]
+        )
 
         model.compile(
             optimizer=self.config.optimizer,
             loss=self.config.loss_function,
-            metrics=self.config.metrics
+            metrics=self.config.metrics,
         )
 
         return model
 
     def _create_torch_model(self):
         """Create PyTorch model."""
-        import torch
         import torch.nn as nn
 
         class PyTorchModel(nn.Module):
@@ -151,15 +153,16 @@ class MLPipelineCore:
                 return self.softmax(x)
 
         return PyTorchModel(
-            input_size=np.prod(self.config.input_shape),
-            num_classes=self.config.num_classes
+            input_size=np.prod(self.config.input_shape), num_classes=self.config.num_classes
         )
 
-    def train_model(self,
-                   model_name: str,
-                   training_data: TrainingData,
-                   epochs: Optional[int] = None,
-                   batch_size: Optional[int] = None):
+    def train_model(
+        self,
+        model_name: str,
+        training_data: TrainingData,
+        epochs: int | None = None,
+        batch_size: int | None = None,
+    ):
         """Train ML model."""
         try:
             logger.info(f"Training {model_name}")
@@ -173,7 +176,7 @@ class MLPipelineCore:
             start_time = time.time()
 
             # Train based on model type
-            if hasattr(model, 'fit'):
+            if hasattr(model, "fit"):
                 results = self._train_tf_model(model, training_data, epochs, batch_size)
             else:
                 results = model.train(training_data)
@@ -198,28 +201,27 @@ class MLPipelineCore:
             epochs=epochs,
             batch_size=batch_size,
             validation_data=validation_data,
-            verbose=1
+            verbose=1,
         )
 
         return {
             "status": "completed",
             "epochs": epochs,
-            "final_loss": float(history.history['loss'][-1]),
+            "final_loss": float(history.history["loss"][-1]),
             "final_accuracy": self._get_accuracy(history),
-            "model_type": "tensorflow"
+            "model_type": "tensorflow",
         }
 
     def _get_val_data(self, training_data):
         """Get validation data tuple."""
         if training_data.validation_features is not None:
-            return (training_data.validation_features,
-                   training_data.validation_labels)
+            return (training_data.validation_features, training_data.validation_labels)
         return None
 
     def _get_accuracy(self, history):
         """Get accuracy from training history."""
-        if 'accuracy' in history.history:
-            return float(history.history['accuracy'][-1])
+        if "accuracy" in history.history:
+            return float(history.history["accuracy"][-1])
         return None
 
     def evaluate_model(self, model_name: str, test_data: TrainingData):
@@ -241,7 +243,7 @@ class MLPipelineCore:
             return {
                 "status": "completed",
                 "metrics": metrics.to_dict(),
-                "inference_time": inference_time
+                "inference_time": inference_time,
             }
 
         except Exception as e:
@@ -259,12 +261,11 @@ class MLPipelineCore:
         """Calculate classification metrics."""
         accuracy = np.mean(predictions == test_data.labels)
 
-        from sklearn.metrics import precision_score, recall_score, f1_score
-        precision = precision_score(test_data.labels, predictions,
-                                 average='weighted')
-        recall = recall_score(test_data.labels, predictions,
-                            average='weighted')
-        f1 = f1_score(test_data.labels, predictions, average='weighted')
+        from sklearn.metrics import f1_score, precision_score, recall_score
+
+        precision = precision_score(test_data.labels, predictions, average="weighted")
+        recall = recall_score(test_data.labels, predictions, average="weighted")
+        f1 = f1_score(test_data.labels, predictions, average="weighted")
 
         return ModelMetrics(
             accuracy=float(accuracy),
@@ -275,7 +276,7 @@ class MLPipelineCore:
             training_time=0.0,
             inference_time=0.0,
             model_size=0.0,
-            parameters_count=0
+            parameters_count=0,
         )
 
     def _calc_regression_metrics(self, predictions, test_data):
@@ -292,5 +293,5 @@ class MLPipelineCore:
             training_time=0.0,
             inference_time=0.0,
             model_size=0.0,
-            parameters_count=0
+            parameters_count=0,
         )

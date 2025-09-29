@@ -12,23 +12,23 @@ data:
   PYTHONPATH: "/app/src"
   PYTHONUNBUFFERED: "1"
   PYTHONDONTWRITEBYTECODE: "1"
-  
+
   # Logging configuration
   LOG_LEVEL: "INFO"
   LOG_FORMAT: "json"
-  
+
   # Agent configuration
   AGENT_COUNT: "8"
   SWARM_MODE: "8-agent"
-  
+
   # Database configuration
   DATABASE_URL: "postgresql://swarm_user:swarm123@swarm-postgres:5432/swarm_db"
   REDIS_URL: "redis://swarm-redis:6379"
-  
+
   # Monitoring configuration
   METRICS_ENABLED: "true"
   HEALTH_CHECK_INTERVAL: "30"
-  
+
   # Coordinate configuration
   COORDINATE_MODE: "8-agent"
   MONITOR_1_AGENTS: "Agent-1,Agent-2,Agent-3,Agent-4"

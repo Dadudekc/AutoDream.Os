@@ -9,15 +9,17 @@ Author: Agent-2 (Architecture & Design Specialist)
 License: MIT
 """
 
-import sys
-import pytest
-import tempfile
 import json
+import sys
+import tempfile
 from pathlib import Path
 from unittest.mock import Mock, patch
 
+import pytest
+
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
+
 
 @pytest.fixture
 def test_coordinates():
@@ -30,87 +32,92 @@ def test_coordinates():
                 "active": True,
                 "chat_input_coordinates": [-1269, 481],
                 "onboarding_coordinates": [-1265, 171],
-                "description": "Infrastructure Specialist"
+                "description": "Infrastructure Specialist",
             },
             "Agent-2": {
                 "active": True,
                 "chat_input_coordinates": [-308, 480],
                 "onboarding_coordinates": [-304, 170],
-                "description": "Data Processing Expert"
+                "description": "Data Processing Expert",
             },
             "Agent-3": {
                 "active": True,
                 "chat_input_coordinates": [-1269, 1001],
                 "onboarding_coordinates": [-1265, 691],
-                "description": "Quality Assurance Lead"
+                "description": "Quality Assurance Lead",
             },
             "Agent-4": {
                 "active": True,
                 "chat_input_coordinates": [-308, 1000],
                 "onboarding_coordinates": [-304, 690],
-                "description": "Project Coordinator"
+                "description": "Project Coordinator",
             },
             "Agent-5": {
                 "active": True,
                 "chat_input_coordinates": [652, 421],
                 "onboarding_coordinates": [656, 111],
-                "description": "Business Intelligence"
+                "description": "Business Intelligence",
             },
             "Agent-6": {
                 "active": True,
                 "chat_input_coordinates": [1612, 419],
                 "onboarding_coordinates": [1616, 109],
-                "description": "Code Quality Specialist"
+                "description": "Code Quality Specialist",
             },
             "Agent-7": {
                 "active": True,
                 "chat_input_coordinates": [920, 851],
                 "onboarding_coordinates": [924, 541],
-                "description": "Web Development Expert"
+                "description": "Web Development Expert",
             },
             "Agent-8": {
                 "active": True,
                 "chat_input_coordinates": [1611, 941],
                 "onboarding_coordinates": [1615, 631],
-                "description": "Integration Specialist"
-            }
-        }
+                "description": "Integration Specialist",
+            },
+        },
     }
+
 
 @pytest.fixture
 def temp_coordinates_file(test_coordinates):
     """Fixture providing temporary coordinates file."""
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
+    with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
         json.dump(test_coordinates, f)
         temp_path = f.name
-    
+
     yield temp_path
-    
+
     # Cleanup
     Path(temp_path).unlink()
+
 
 @pytest.fixture
 def mock_pyautogui():
     """Fixture providing mocked PyAutoGUI."""
-    with patch('services.messaging.core.messaging_service.pyautogui') as mock:
+    with patch("services.messaging.core.messaging_service.pyautogui") as mock:
         mock.click.return_value = None
         mock.typewrite.return_value = None
         mock.hotkey.return_value = None
         yield mock
 
+
 @pytest.fixture
 def mock_discord():
     """Fixture providing mocked Discord library."""
-    with patch('discord') as mock:
+    with patch("discord") as mock:
         mock.Intents.default.return_value = Mock()
         mock.Interaction = Mock()
         mock.Embed = Mock()
         yield mock
 
+
 @pytest.fixture
 def test_agents():
     """Fixture providing test agent IDs."""
     return ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
+
 
 @pytest.fixture
 def expected_coordinates():
@@ -123,59 +130,43 @@ def expected_coordinates():
         "Agent-5": (652, 421),
         "Agent-6": (1612, 419),
         "Agent-7": (920, 851),
-        "Agent-8": (1611, 941)
+        "Agent-8": (1611, 941),
     }
+
 
 @pytest.fixture
 def messaging_service(temp_coordinates_file):
     """Fixture providing messaging service instance."""
     from services.messaging.core.messaging_service import MessagingService
+
     return MessagingService(temp_coordinates_file)
+
 
 @pytest.fixture
 def coordinate_loader(temp_coordinates_file):
     """Fixture providing coordinate loader instance."""
     from core.coordinate_loader import CoordinateLoader
+
     loader = CoordinateLoader(temp_coordinates_file)
     loader.load()
     return loader
 
+
 # Pytest configuration
 def pytest_configure(config):
     """Configure pytest."""
-    config.addinivalue_line(
-        "markers", "integration: mark test as integration test"
-    )
-    config.addinivalue_line(
-        "markers", "unit: mark test as unit test"
-    )
-    config.addinivalue_line(
-        "markers", "slow: mark test as slow running"
-    )
-    config.addinivalue_line(
-        "markers", "performance: mark test as performance test"
-    )
-    config.addinivalue_line(
-        "markers", "messaging: mark test as messaging test"
-    )
-    config.addinivalue_line(
-        "markers", "discord: mark test as discord test"
-    )
-    config.addinivalue_line(
-        "markers", "database: mark test as database test"
-    )
-    config.addinivalue_line(
-        "markers", "migration: mark test as migration test"
-    )
-    config.addinivalue_line(
-        "markers", "schema: mark test as schema test"
-    )
-    config.addinivalue_line(
-        "markers", "agent3: mark test as Agent-3 test"
-    )
-    config.addinivalue_line(
-        "markers", "agent2: mark test as Agent-2 test"
-    )
+    config.addinivalue_line("markers", "integration: mark test as integration test")
+    config.addinivalue_line("markers", "unit: mark test as unit test")
+    config.addinivalue_line("markers", "slow: mark test as slow running")
+    config.addinivalue_line("markers", "performance: mark test as performance test")
+    config.addinivalue_line("markers", "messaging: mark test as messaging test")
+    config.addinivalue_line("markers", "discord: mark test as discord test")
+    config.addinivalue_line("markers", "database: mark test as database test")
+    config.addinivalue_line("markers", "migration: mark test as migration test")
+    config.addinivalue_line("markers", "schema: mark test as schema test")
+    config.addinivalue_line("markers", "agent3: mark test as Agent-3 test")
+    config.addinivalue_line("markers", "agent2: mark test as Agent-2 test")
+
 
 def pytest_collection_modifyitems(config, items):
     """Modify test collection."""
@@ -183,7 +174,7 @@ def pytest_collection_modifyitems(config, items):
         # Add markers based on test names and paths
         test_path = str(item.fspath)
         test_name = item.name.lower()
-        
+
         # Path-based markers
         if "/messaging/" in test_path:
             item.add_marker(pytest.mark.messaging)
@@ -191,7 +182,7 @@ def pytest_collection_modifyitems(config, items):
             item.add_marker(pytest.mark.discord)
         elif "/database/" in test_path:
             item.add_marker(pytest.mark.database)
-        
+
         # Name-based markers
         if "integration" in test_name:
             item.add_marker(pytest.mark.integration)
@@ -205,7 +196,7 @@ def pytest_collection_modifyitems(config, items):
             item.add_marker(pytest.mark.migration)
         elif "schema" in test_name:
             item.add_marker(pytest.mark.schema)
-        
+
         # Agent-specific markers
         if "agent3" in test_path or "agent-3" in test_path:
             item.add_marker(pytest.mark.agent3)

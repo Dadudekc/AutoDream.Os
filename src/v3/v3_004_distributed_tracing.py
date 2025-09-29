@@ -34,8 +34,3 @@ V3_004_DistributedTracing = TracingCoordinator
 
 if __name__ == "__main__":
     sys.exit(main())
-
-
-
-
-

@@ -30,7 +30,11 @@ sys.path.insert(0, str(project_root))
 
 try:
     from src.services.discord_commander.bot import DiscordCommanderBot
-    from src.services.discord_commander.web_controller import DiscordCommanderController, create_default_templates
+    from src.services.discord_commander.web_controller import (
+        DiscordCommanderController,
+        create_default_templates,
+    )
+
     BOT_AVAILABLE = True
 except ImportError as e:
     print(f"❌ Error importing Discord Commander: {e}")
@@ -38,11 +42,11 @@ except ImportError as e:
 
 # Set up logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 
 logger = logging.getLogger(__name__)
+
 
 class DiscordCommanderLauncher:
     """Launcher for the Discord Commander system."""
@@ -79,9 +83,11 @@ class DiscordCommanderLauncher:
 
         # Check for required packages
         try:
-            import discord
             import flask
             import flask_socketio
+
+            import discord
+
             print("✅ Required packages installed")
         except ImportError as e:
             issues.append(f"Missing packages: {e}")
@@ -182,13 +188,15 @@ class DiscordCommanderLauncher:
 
     def show_status(self):
         """Show current system status."""
-        print("\n" + "="*50)
+        print("\n" + "=" * 50)
         print("🐝 DISCORD COMMANDER STATUS")
-        print("="*50)
+        print("=" * 50)
 
         if self.bot:
             status = self.bot.get_status()
-            print(f"🤖 Bot Status: {'🟢 Connected' if status.get('status') == 'healthy' else '🔴 Disconnected'}")
+            print(
+                f"🤖 Bot Status: {'🟢 Connected' if status.get('status') == 'healthy' else '🔴 Disconnected'}"
+            )
             print(f"⏱️ Uptime: {status.get('uptime_formatted', 'Unknown')}")
             print(f"📊 Commands Available: {status.get('command_count', 0)}")
             print(f"📈 Messages Received: {status.get('messages_received', 0)}")
@@ -217,12 +225,12 @@ class DiscordCommanderLauncher:
         print("• System health monitoring")
         print("• Live activity logs")
 
-        print("\n" + "="*50)
+        print("\n" + "=" * 50)
 
     def run(self):
         """Run the Discord Commander system."""
         print("🚀 Starting Discord Commander System...")
-        print("="*50)
+        print("=" * 50)
 
         # Validate environment
         if not self.validate_environment():
@@ -258,6 +266,7 @@ class DiscordCommanderLauncher:
 
             while self.running:
                 import time
+
                 time.sleep(1)
 
         except KeyboardInterrupt:

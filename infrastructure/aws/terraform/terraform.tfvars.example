@@ -1,6 +1,6 @@
 # V3-001: Cloud Infrastructure Setup - Terraform Variables Example
 # Agent-1: Architecture Foundation Specialist
-# 
+#
 # Copy this file to terraform.tfvars and update with your values
 
 aws_region = "us-west-2"
@@ -24,6 +24,3 @@ db_max_allocated_storage = 100
 # Redis configuration
 redis_node_type = "cache.t3.micro"
 redis_num_cache_nodes = 1
-
-
-

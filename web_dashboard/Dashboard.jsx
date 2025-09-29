@@ -18,7 +18,7 @@ const Dashboard = () => {
           <span>System Online</span>
         </div>
       </header>
-      
+
       <main className="dashboard-main">
         <div className="dashboard-grid">
           <div className="dashboard-section">

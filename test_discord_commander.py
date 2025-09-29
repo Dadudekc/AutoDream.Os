@@ -6,14 +6,15 @@ Test Discord Commander System
 Simple test script to verify Discord Commander functionality.
 """
 
+import asyncio
 import os
 import sys
-import asyncio
 from pathlib import Path
 
 # Add project root to path
 project_root = Path(__file__).parent
 sys.path.insert(0, str(project_root))
+
 
 async def test_discord_commander():
     """Test Discord Commander system."""
@@ -30,6 +31,7 @@ async def test_discord_commander():
     # Check if we can import the components
     try:
         from src.services.discord_commander.bot import DiscordCommanderBot
+
         print("✅ Discord Commander Bot import successful")
     except Exception as e:
         print(f"❌ Discord Commander Bot import failed: {e}")
@@ -37,6 +39,7 @@ async def test_discord_commander():
 
     try:
         from src.services.discord_commander.web_controller import DiscordCommanderController
+
         print("✅ Web Controller import successful")
     except Exception as e:
         print(f"❌ Web Controller import failed: {e}")
@@ -72,6 +75,7 @@ async def test_discord_commander():
     print("4. Use Discord commands: !help")
 
     return True
+
 
 if __name__ == "__main__":
     success = asyncio.run(test_discord_commander())

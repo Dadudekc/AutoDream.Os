@@ -9,12 +9,12 @@ Enables Discord Commander to send messages through the messaging system.
 V2 Compliance: ≤400 lines, 2 classes, 8 functions
 """
 
+import logging
+from datetime import datetime
+from typing import Any
+
 import discord
 from discord.ext import commands
-import logging
-import asyncio
-from typing import Dict, List, Optional, Any
-from datetime import datetime
 
 try:
     from ..core.messaging_service import MessagingService
@@ -36,22 +36,22 @@ class DiscordMessagingProvider:
         self.messaging_service = MessagingService("config/coordinates.json")
 
         # Track Discord channels for agents
-        self.agent_channels: Dict[str, discord.TextChannel] = {}
+        self.agent_channels: dict[str, discord.TextChannel] = {}
 
-    async def send_message_to_agent(self, agent_id: str, message: str,
-                                  from_agent: str = None) -> bool:
+    async def send_message_to_agent(
+        self, agent_id: str, message: str, from_agent: str = None
+    ) -> bool:
         """Send message to specific agent via Discord."""
         try:
             # Auto-detect sender if not provided
             if from_agent is None:
                 from ..agent_context import get_current_agent
+
                 from_agent = get_current_agent()
-            
+
             # First try to send through the messaging system
             success = self.messaging_service.send_message(
-                agent_id=agent_id,
-                message=f"[Discord] {message}",
-                from_agent=from_agent
+                agent_id=agent_id, message=f"[Discord] {message}", from_agent=from_agent
             )
 
             if success:
@@ -72,15 +72,17 @@ class DiscordMessagingProvider:
             self.logger.error(f"Error sending message to {agent_id}: {e}")
             return False
 
-    async def broadcast_to_swarm(self, message: str, agent_ids: List[str] = None,
-                               from_agent: str = None) -> Dict[str, bool]:
+    async def broadcast_to_swarm(
+        self, message: str, agent_ids: list[str] = None, from_agent: str = None
+    ) -> dict[str, bool]:
         """Broadcast message to multiple agents."""
         try:
             # Auto-detect sender if not provided
             if from_agent is None:
                 from ..agent_context import get_current_agent
+
                 from_agent = get_current_agent()
-            
+
             results = {}
 
             if agent_ids is None:
@@ -92,7 +94,7 @@ class DiscordMessagingProvider:
                 results[agent_id] = self.messaging_service.send_message(
                     agent_id=agent_id,
                     message=f"[Discord Broadcast] {message}",
-                    from_agent=from_agent
+                    from_agent=from_agent,
                 )
 
             # Also broadcast via Discord channels
@@ -105,7 +107,7 @@ class DiscordMessagingProvider:
             self.logger.error(f"Error broadcasting to swarm: {e}")
             return {"error": str(e)}
 
-    async def _get_agent_channel(self, agent_id: str) -> Optional[discord.TextChannel]:
+    async def _get_agent_channel(self, agent_id: str) -> discord.TextChannel | None:
         """Get Discord channel for specific agent."""
         try:
             # Check if we already have the channel cached
@@ -138,14 +140,14 @@ class DiscordMessagingProvider:
             self.logger.error(f"Error getting channel for {agent_id}: {e}")
             return None
 
-    async def _broadcast_discord_message(self, message: str, agent_ids: List[str]):
+    async def _broadcast_discord_message(self, message: str, agent_ids: list[str]):
         """Broadcast message to Discord channels."""
         try:
             embed = discord.Embed(
                 title="🐝 Swarm Broadcast",
                 description=message,
-                color=0x0099ff,
-                timestamp=datetime.utcnow()
+                color=0x0099FF,
+                timestamp=datetime.utcnow(),
             )
             embed.set_footer(text="WE ARE SWARM - Discord Commander")
 
@@ -157,7 +159,7 @@ class DiscordMessagingProvider:
         except Exception as e:
             self.logger.error(f"Error broadcasting Discord message: {e}")
 
-    async def get_swarm_status(self) -> Dict[str, Any]:
+    async def get_swarm_status(self) -> dict[str, Any]:
         """Get current swarm status from messaging system."""
         try:
             # Get status from messaging service
@@ -166,15 +168,19 @@ class DiscordMessagingProvider:
                 "connected_agents": 8,
                 "active_deliveries": 0,
                 "message_queue_length": 0,
-                "last_activity": datetime.utcnow().isoformat()
+                "last_activity": datetime.utcnow().isoformat(),
             }
 
             # Add Discord bot status
-            status.update({
-                "discord_bot": "online" if self.bot.is_ready else "offline",
-                "discord_guilds": len(self.bot.guilds),
-                "discord_latency": f"{round(self.bot.latency * 1000)}ms" if self.bot.latency else "unknown"
-            })
+            status.update(
+                {
+                    "discord_bot": "online" if self.bot.is_ready else "offline",
+                    "discord_guilds": len(self.bot.guilds),
+                    "discord_latency": f"{round(self.bot.latency * 1000)}ms"
+                    if self.bot.latency
+                    else "unknown",
+                }
+            )
 
             return status
 
@@ -202,39 +208,27 @@ class DiscordCommandHandler:
                 status = await self.messaging_provider.get_swarm_status()
 
                 embed = discord.Embed(
-                    title="🐝 Swarm Status Report",
-                    color=0x00ff00,
-                    timestamp=datetime.utcnow()
+                    title="🐝 Swarm Status Report", color=0x00FF00, timestamp=datetime.utcnow()
                 )
 
                 embed.add_field(
                     name="Messaging System",
                     value=status.get("messaging_system", "unknown"),
-                    inline=True
+                    inline=True,
                 )
 
                 embed.add_field(
-                    name="Connected Agents",
-                    value=status.get("connected_agents", 0),
-                    inline=True
+                    name="Connected Agents", value=status.get("connected_agents", 0), inline=True
                 )
 
                 embed.add_field(
-                    name="Discord Bot",
-                    value=status.get("discord_bot", "unknown"),
-                    inline=True
+                    name="Discord Bot", value=status.get("discord_bot", "unknown"), inline=True
                 )
 
-                embed.add_field(
-                    name="Guilds",
-                    value=status.get("discord_guilds", 0),
-                    inline=True
-                )
+                embed.add_field(name="Guilds", value=status.get("discord_guilds", 0), inline=True)
 
                 embed.add_field(
-                    name="Latency",
-                    value=status.get("discord_latency", "unknown"),
-                    inline=True
+                    name="Latency", value=status.get("discord_latency", "unknown"), inline=True
                 )
 
                 embed.set_footer(text="WE ARE SWARM - Status Update")
@@ -246,27 +240,29 @@ class DiscordCommandHandler:
                 await interaction.response.send_message("❌ Error getting swarm status")
 
         @self.bot.tree.command(name="send_to_agent", description="Send message to specific agent")
-        async def send_to_agent(interaction: discord.Interaction, agent_id: str, message: str, priority: str = "NORMAL"):
+        async def send_to_agent(
+            interaction: discord.Interaction, agent_id: str, message: str, priority: str = "NORMAL"
+        ):
             """Send message to specific agent with priority."""
             try:
                 success = await self.messaging_provider.send_message_to_agent(
                     agent_id=agent_id,
                     message=message,
-                    from_agent=f"Discord-{interaction.user.name}"
+                    from_agent=f"Discord-{interaction.user.name}",
                 )
 
                 if success:
                     embed = discord.Embed(
                         title="✅ Message Sent",
                         description=f"Sent to {agent_id}: {message}",
-                        color=0x00ff00
+                        color=0x00FF00,
                     )
                     embed.add_field(name="Priority", value=priority, inline=True)
                 else:
                     embed = discord.Embed(
                         title="❌ Message Failed",
                         description=f"Could not send message to {agent_id}",
-                        color=0xff0000
+                        color=0xFF0000,
                     )
 
                 embed.set_footer(text="WE ARE SWARM - Agent Communication")
@@ -277,7 +273,12 @@ class DiscordCommandHandler:
                 await interaction.response.send_message("❌ Error sending message")
 
         @self.bot.tree.command(name="broadcast", description="Broadcast message to all agents")
-        async def broadcast(interaction: discord.Interaction, message: str, priority: str = "NORMAL", agent_ids: str = None):
+        async def broadcast(
+            interaction: discord.Interaction,
+            message: str,
+            priority: str = "NORMAL",
+            agent_ids: str = None,
+        ):
             """Broadcast message to all agents with priority and optional agent filtering."""
             try:
                 # Parse agent_ids if provided
@@ -288,41 +289,27 @@ class DiscordCommandHandler:
                 results = await self.messaging_provider.broadcast_to_swarm(
                     message=message,
                     agent_ids=target_agents,
-                    from_agent=f"Discord-{interaction.user.name}"
+                    from_agent=f"Discord-{interaction.user.name}",
                 )
 
                 successful = sum(1 for result in results.values() if result)
                 total = len(results)
 
                 embed = discord.Embed(
-                    title="📡 Broadcast Results",
-                    description=f"Message: {message}",
-                    color=0x0099ff
+                    title="📡 Broadcast Results", description=f"Message: {message}", color=0x0099FF
                 )
 
-                embed.add_field(
-                    name="Priority",
-                    value=priority,
-                    inline=True
-                )
+                embed.add_field(name="Priority", value=priority, inline=True)
 
                 embed.add_field(
                     name="Target Agents",
                     value=len(target_agents) if target_agents else "All Agents",
-                    inline=True
+                    inline=True,
                 )
 
-                embed.add_field(
-                    name="Successful",
-                    value=f"{successful}/{total}",
-                    inline=True
-                )
+                embed.add_field(name="Successful", value=f"{successful}/{total}", inline=True)
 
-                embed.add_field(
-                    name="Failed",
-                    value=f"{total - successful}/{total}",
-                    inline=True
-                )
+                embed.add_field(name="Failed", value=f"{total - successful}/{total}", inline=True)
 
                 embed.set_footer(text="WE ARE SWARM - Swarm Communication")
                 await interaction.response.send_message(embed=embed)
@@ -331,8 +318,12 @@ class DiscordCommandHandler:
                 self.logger.error(f"Error broadcasting message: {e}")
                 await interaction.response.send_message("❌ Error broadcasting message")
 
-        @self.bot.tree.command(name="send_message", description="Send message using messaging system")
-        async def send_message_cmd(interaction: discord.Interaction, agent_id: str, message: str, priority: str = "NORMAL"):
+        @self.bot.tree.command(
+            name="send_message", description="Send message using messaging system"
+        )
+        async def send_message_cmd(
+            interaction: discord.Interaction, agent_id: str, message: str, priority: str = "NORMAL"
+        ):
             """Send message using the core messaging system."""
             try:
                 # Use the core messaging service directly
@@ -344,14 +335,14 @@ class DiscordCommandHandler:
                     agent_id=agent_id,
                     message=message,
                     from_agent=f"Discord-{interaction.user.name}",
-                    priority=priority
+                    priority=priority,
                 )
 
                 if success:
                     embed = discord.Embed(
                         title="✅ Message Sent",
                         description=f"Sent to {agent_id}: {message}",
-                        color=0x00ff00
+                        color=0x00FF00,
                     )
                     embed.add_field(name="Priority", value=priority, inline=True)
                     embed.add_field(name="Method", value="Core Messaging Service", inline=True)
@@ -359,7 +350,7 @@ class DiscordCommandHandler:
                     embed = discord.Embed(
                         title="❌ Message Failed",
                         description=f"Could not send message to {agent_id}",
-                        color=0xff0000
+                        color=0xFF0000,
                     )
 
                 embed.set_footer(text="WE ARE SWARM - Core Messaging System")
@@ -369,8 +360,14 @@ class DiscordCommandHandler:
                 self.logger.error(f"Error sending message via core service: {e}")
                 await interaction.response.send_message("❌ Error sending message via core service")
 
-        @self.bot.tree.command(name="agent_list", description="List all available agents with status")
-        async def agent_list(interaction: discord.Interaction, include_status: bool = True, filter_mode: str = "5-agent"):
+        @self.bot.tree.command(
+            name="agent_list", description="List all available agents with status"
+        )
+        async def agent_list(
+            interaction: discord.Interaction,
+            include_status: bool = True,
+            filter_mode: str = "5-agent",
+        ):
             """List all available agents with optional status information."""
             try:
                 # Get agents from messaging service
@@ -382,37 +379,33 @@ class DiscordCommandHandler:
                 # Filter based on mode
                 if filter_mode == "5-agent":
                     five_agent_mode_agents = ["Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
-                    agents_status = {k: v for k, v in agents_status.items() if k in five_agent_mode_agents}
+                    agents_status = {
+                        k: v for k, v in agents_status.items() if k in five_agent_mode_agents
+                    }
 
                 embed = discord.Embed(
                     title="🤖 Available Agents",
                     description=f"Total: {len(agents_status)} agents ({filter_mode.title()} Mode)",
-                    color=0x0099ff
+                    color=0x0099FF,
                 )
 
                 embed.add_field(
-                    name="Mode",
-                    value=f"{filter_mode.title()} Configuration",
-                    inline=True
+                    name="Mode", value=f"{filter_mode.title()} Configuration", inline=True
                 )
 
                 embed.add_field(
                     name="Status Integration",
                     value="Messaging System" if include_status else "Basic List",
-                    inline=True
+                    inline=True,
                 )
 
                 embed.add_field(
                     name="Active Agents",
                     value=sum(1 for status in agents_status.values() if status),
-                    inline=True
+                    inline=True,
                 )
 
-                embed.add_field(
-                    name="Total Agents",
-                    value=len(agents_status),
-                    inline=True
-                )
+                embed.add_field(name="Total Agents", value=len(agents_status), inline=True)
 
                 for i, (agent, is_active) in enumerate(agents_status.items(), 1):
                     status_icon = "🟢" if is_active else "🔴"
@@ -420,7 +413,7 @@ class DiscordCommandHandler:
                     embed.add_field(
                         name=f"{status_icon} Agent {i}",
                         value=f"{agent} ({status_text})",
-                        inline=True
+                        inline=True,
                     )
 
                 embed.set_footer(text="WE ARE SWARM - Agent Network")

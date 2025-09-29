@@ -3,11 +3,11 @@
 
 ### 🎯 **REFACTORING TARGET**
 
-**File**: `tools/captain_autonomous_manager.py`  
-**Current**: 584 lines (184 over V2 limit)  
-**Target**: 3 focused modules ≤400 lines each  
-**Agent**: Agent-4 (Captain & Operations Coordinator)  
-**Timeline**: 12 agent cycles  
+**File**: `tools/captain_autonomous_manager.py`
+**Current**: 584 lines (184 over V2 limit)
+**Target**: 3 focused modules ≤400 lines each
+**Agent**: Agent-4 (Captain & Operations Coordinator)
+**Timeline**: 12 agent cycles
 
 ---
 
@@ -51,27 +51,27 @@ from typing import Dict, List, Optional, Any, Tuple
 # Main class
 class CaptainAutonomousManager:
     """Core autonomous captain management functionality."""
-    
+
     def __init__(self):
         """Initialize captain autonomous manager."""
         # Core initialization
-        
+
     def analyze_bottlenecks(self, data: Dict[str, Any]) -> List[Bottleneck]:
         """Analyze bottlenecks in the system."""
         # Core bottleneck analysis
-        
+
     def detect_flaws(self, data: Dict[str, Any]) -> List[Flaw]:
         """Detect flaws in the system."""
         # Core flaw detection
-        
+
     def provide_guidance(self, bottlenecks: List[Bottleneck], flaws: List[Flaw]) -> Dict[str, Any]:
         """Provide proactive agent guidance."""
         # Core guidance logic
-        
+
     def run_autonomous_cycle(self) -> Dict[str, Any]:
         """Run autonomous captain cycle."""
         # Core autonomous cycle
-        
+
     def get_status(self) -> Dict[str, Any]:
         """Get current status."""
         # Core status reporting
@@ -93,23 +93,23 @@ from captain_autonomous_utility import BottleneckType, FlawSeverity, StoppingCon
 
 class CaptainAutonomousCLI:
     """CLI interface for captain autonomous manager."""
-    
+
     def __init__(self):
         """Initialize CLI interface."""
         self.manager = CaptainAutonomousManager()
-        
+
     def create_parser(self) -> argparse.ArgumentParser:
         """Create command line argument parser."""
         # CLI parser setup
-        
+
     def run_analysis(self, args) -> None:
         """Run analysis command."""
         # Analysis command handling
-        
+
     def run_guidance(self, args) -> None:
         """Run guidance command."""
         # Guidance command handling
-        
+
     def run_status(self, args) -> None:
         """Run status command."""
         # Status command handling

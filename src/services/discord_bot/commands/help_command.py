@@ -4,10 +4,12 @@ Help Command Module
 Simple, focused help command implementation (hardened).
 """
 
-import discord
 import logging
-from src.services.discord_bot.core.command_logger import command_logger_decorator, command_logger
-from .safe_response_utils import safe_send, safe_log_info
+
+import discord
+from src.services.discord_bot.core.command_logger import command_logger, command_logger_decorator
+
+from .safe_response_utils import safe_log_info, safe_send
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +35,7 @@ def setup_help_command(bot, security_manager):
         embed = discord.Embed(
             title="🎉 Vibe-Coder Control Center",
             description="**V2_SWARM Main Interface** — All controls in one place!",
-            color=0xFF6B35
+            color=0xFF6B35,
         )
         embed.add_field(
             name="🎯 **Available Controls:**",
@@ -44,17 +46,18 @@ def setup_help_command(bot, security_manager):
                 "• **🔄 Restart Bot** — Restart the Discord Commander (admin)\n"
                 "• **⏹️ Shutdown Bot** — Gracefully shutdown the bot (admin)"
             ),
-            inline=False
+            inline=False,
         )
         embed.add_field(
             name="💫 **How to Use:**",
             value="Click a button. No complex commands. Real-time visual feedback.",
-            inline=False
+            inline=False,
         )
         embed.set_footer(text="🎉 Vibe coding made simple — just click and control!")
 
         # Import here to avoid circulars if your UI module imports commands
         from .button_handlers import create_main_interface_view
+
         view = create_main_interface_view(bot, security_manager)
 
         # Safe send (avoids 40060 if decorators or error paths already responded)

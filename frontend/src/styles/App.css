@@ -160,15 +160,15 @@ body {
     margin: 8px;
     border-radius: 12px;
   }
-  
+
   .chart-container {
     height: 300px !important;
   }
-  
+
   .MuiTypography-h1 {
     font-size: 2rem !important;
   }
-  
+
   .MuiTypography-h2 {
     font-size: 1.5rem !important;
   }
@@ -179,15 +179,15 @@ body {
     margin: 4px;
     border-radius: 8px;
   }
-  
+
   .chart-container {
     height: 250px !important;
   }
-  
+
   .MuiTypography-h1 {
     font-size: 1.5rem !important;
   }
-  
+
   .MuiTypography-h2 {
     font-size: 1.25rem !important;
   }
@@ -273,5 +273,3 @@ body {
   background: rgba(0, 255, 136, 0.3) !important;
   color: #ffffff !important;
 }
-
-

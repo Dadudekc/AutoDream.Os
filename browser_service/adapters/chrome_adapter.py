@@ -6,17 +6,14 @@ Chrome Browser Adapter
 Chrome-specific browser adapter implementation.
 """
 
-import time
 import logging
+import time
 from abc import ABC, abstractmethod
-from typing import Optional, Dict, List, Any
+from typing import Any
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException, WebDriverException
 
 from ..config.browser_config import BrowserConfig
 
@@ -57,7 +54,7 @@ class BrowserAdapter(ABC):
         pass
 
     @abstractmethod
-    def find_elements(self, selector: str) -> List[Any]:
+    def find_elements(self, selector: str) -> list[Any]:
         """Find elements by selector."""
         pass
 
@@ -77,33 +74,35 @@ class ChromeBrowserAdapter(BrowserAdapter):
 
     def __init__(self):
         """Initialize Chrome adapter."""
-        self.driver: Optional[webdriver.Chrome] = None
-        self.config: Optional[BrowserConfig] = None
+        self.driver: webdriver.Chrome | None = None
+        self.config: BrowserConfig | None = None
 
     def start(self, config: BrowserConfig) -> bool:
         """Start Chrome browser."""
         try:
             self.config = config
-            
+
             chrome_options = Options()
             if config.headless:
                 chrome_options.add_argument("--headless")
-            
+
             if config.user_data_dir:
                 chrome_options.add_argument(f"--user-data-dir={config.user_data_dir}")
-            
+
             chrome_options.add_argument("--no-sandbox")
             chrome_options.add_argument("--disable-dev-shm-usage")
             chrome_options.add_argument("--disable-gpu")
-            chrome_options.add_argument(f"--window-size={config.window_size[0]},{config.window_size[1]}")
-            
+            chrome_options.add_argument(
+                f"--window-size={config.window_size[0]},{config.window_size[1]}"
+            )
+
             self.driver = webdriver.Chrome(options=chrome_options)
             self.driver.implicitly_wait(config.implicit_wait)
             self.driver.set_page_load_timeout(config.page_load_timeout)
-            
+
             logger.info("Chrome browser started successfully")
             return True
-            
+
         except Exception as e:
             logger.error(f"Failed to start Chrome browser: {e}")
             return False
@@ -123,7 +122,7 @@ class ChromeBrowserAdapter(BrowserAdapter):
         """Navigate to URL."""
         if not self.driver:
             return False
-        
+
         try:
             self.driver.get(url)
             time.sleep(2)  # Allow page to load
@@ -144,18 +143,18 @@ class ChromeBrowserAdapter(BrowserAdapter):
         """Find element by selector."""
         if not self.driver:
             return None
-        
+
         try:
             return self.driver.find_element(By.CSS_SELECTOR, selector)
         except Exception as e:
             logger.error(f"Failed to find element {selector}: {e}")
             return None
 
-    def find_elements(self, selector: str) -> List[Any]:
+    def find_elements(self, selector: str) -> list[Any]:
         """Find elements by selector."""
         if not self.driver:
             return []
-        
+
         try:
             return self.driver.find_elements(By.CSS_SELECTOR, selector)
         except Exception as e:
@@ -166,7 +165,7 @@ class ChromeBrowserAdapter(BrowserAdapter):
         """Execute JavaScript."""
         if not self.driver:
             return None
-        
+
         try:
             return self.driver.execute_script(script, *args)
         except Exception as e:
@@ -177,26 +176,24 @@ class ChromeBrowserAdapter(BrowserAdapter):
         """Check if browser is running."""
         return self.driver is not None
 
-    def get_cookies(self) -> List[Dict]:
+    def get_cookies(self) -> list[dict]:
         """Get browser cookies."""
         if not self.driver:
             return []
-        
+
         try:
             return self.driver.get_cookies()
         except Exception as e:
             logger.error(f"Failed to get cookies: {e}")
             return []
 
-    def add_cookies(self, cookies: List[Dict]) -> None:
+    def add_cookies(self, cookies: list[dict]) -> None:
         """Add cookies to browser."""
         if not self.driver:
             return
-        
+
         try:
             for cookie in cookies:
                 self.driver.add_cookie(cookie)
         except Exception as e:
             logger.error(f"Failed to add cookies: {e}")
-
-

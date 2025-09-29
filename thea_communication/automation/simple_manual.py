@@ -8,8 +8,8 @@ and focusing on essential clipboard-based manual interaction.
 """
 
 import time
+
 import pyperclip
-from typing import Optional
 
 
 class SimpleManualHandler:
@@ -30,14 +30,14 @@ class SimpleManualHandler:
     def send_message(self, message: str) -> bool:
         """Send message using clipboard."""
         print("📤 Sending message via clipboard...")
-        
+
         try:
             # Copy message to clipboard
             pyperclip.copy(message)
             print("📋 Message copied to clipboard")
             print("💡 Please paste (Ctrl+V) and send manually")
             return True
-            
+
         except Exception as e:
             print(f"❌ Error copying message: {e}")
             return False

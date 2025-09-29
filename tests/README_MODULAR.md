@@ -176,10 +176,10 @@ def test_example__happy_path__returns_expected():
     # Arrange
     input_data = {"key": "value"}
     expected = {"processed": True}
-    
+
     # Act
     result = process_data(input_data)
-    
+
     # Assert
     assert result == expected
     assert result["processed"] is True
@@ -189,7 +189,7 @@ def test_example__happy_path__returns_expected():
 ```python
 class TestMessagingService(MessagingServiceTestBase):
     """Test messaging service functionality."""
-    
+
     def test_send_message_success(self, messaging_service):
         """Test successful message sending."""
         result = messaging_service.send_message("Agent-1", "Test", "Discord-Commander")
@@ -237,7 +237,7 @@ def test_message_formatting_performance(self, messaging_service):
         return messaging_service._format_a2a_message(
             "Discord-Commander", "Agent-1", "Test", "NORMAL"
         )
-    
+
     # Should be fast (less than 1 second for 1000 messages)
     self.assert_performance_threshold(format_message, 'message_formatting', 1000)
 ```

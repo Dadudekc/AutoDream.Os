@@ -45,11 +45,12 @@ except ImportError:
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
-from discord_bot_config import config as discord_config
-
 # Import Discord bot components
 import sys
 from pathlib import Path
+
+from discord_bot_config import config as discord_config
+
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
 try:
@@ -63,8 +64,7 @@ except ImportError:
 
 # Setup logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -136,10 +136,14 @@ class DiscordCommander:
         bot = EnhancedDiscordAgentBot(command_prefix="!", intents=intents)
 
         # Add agent interface and swarm coordinator
-        from services.discord_bot.core.discord_bot import DiscordAgentInterface, DiscordSwarmCoordinator
+        from services.discord_bot.core.discord_bot import (
+            DiscordAgentInterface,
+            DiscordSwarmCoordinator,
+        )
+
         bot.agent_interface = DiscordAgentInterface(bot)
         bot.swarm_coordinator = DiscordSwarmCoordinator(bot)
-        
+
         # Setup slash commands
         bot.setup_slash_commands()
 
@@ -149,19 +153,19 @@ class DiscordCommander:
             """Called when bot is ready and connected."""
             self.logger.info(f"🤖 Discord Commander {bot.user} is online!")
             self.logger.info(f"📊 Connected to {len(bot.guilds)} servers")
-            
+
             # Sync slash commands
             try:
                 synced = await bot.tree.sync()
                 self.logger.info(f"✅ Synced {len(synced)} slash commands")
             except Exception as e:
                 self.logger.warning(f"⚠️  Failed to sync slash commands: {e}")
-            
+
             # Update presence
             await bot.change_presence(
                 activity=discord.Activity(
                     type=discord.ActivityType.watching,
-                    name="🐝 WE ARE SWARM - Agent Coordination Active"
+                    name="🐝 WE ARE SWARM - Agent Coordination Active",
                 )
             )
 
@@ -172,8 +176,8 @@ class DiscordCommander:
             print(f"🤖 Bot: {bot.user}")
             print(f"📊 Servers: {len(bot.guilds)}")
             print(f"👥 Users: {len(bot.users)}")
-            print(f"📡 Status: Online and Ready!")
-            print(f"🎯 5-Agent Mode: Agent-4, Agent-5, Agent-6, Agent-7, Agent-8")
+            print("📡 Status: Online and Ready!")
+            print("🎯 5-Agent Mode: Agent-4, Agent-5, Agent-6, Agent-7, Agent-8")
             print("=" * 60)
             print("✅ All systems operational!")
             print("🚀 Ready for agent coordination!")
@@ -190,48 +194,32 @@ class DiscordCommander:
             # Add only new commands that aren't already registered by the bot
             # The bot already has: agent_status, message_agent, swarm_status
             # So we only add: ping and help
-            
+
             from discord import app_commands
-            
+
             @app_commands.command(name="ping", description="Check bot latency")
             async def ping(interaction: discord.Interaction):
                 latency = round(self.bot.latency * 1000)
-                await interaction.response.send_message(
-                    f"🏓 Pong! Latency: {latency}ms"
-                )
+                await interaction.response.send_message(f"🏓 Pong! Latency: {latency}ms")
 
             @app_commands.command(name="help", description="Show available commands")
             async def help_command(interaction: discord.Interaction):
                 embed = discord.Embed(
                     title="🐝 Discord Commander Help",
                     description="Available Commands:",
-                    color=0x0099ff
+                    color=0x0099FF,
+                )
+                embed.add_field(name="/ping", value="Check bot latency", inline=False)
+                embed.add_field(
+                    name="/agent_status", value="Get status of a specific agent", inline=False
                 )
                 embed.add_field(
-                    name="/ping",
-                    value="Check bot latency",
-                    inline=False
+                    name="/message_agent", value="Send a message to a specific agent", inline=False
                 )
                 embed.add_field(
-                    name="/agent_status",
-                    value="Get status of a specific agent",
-                    inline=False
+                    name="/swarm_status", value="Get current swarm status", inline=False
                 )
-                embed.add_field(
-                    name="/message_agent",
-                    value="Send a message to a specific agent",
-                    inline=False
-                )
-                embed.add_field(
-                    name="/swarm_status",
-                    value="Get current swarm status",
-                    inline=False
-                )
-                embed.add_field(
-                    name="/help",
-                    value="Show this help message",
-                    inline=False
-                )
+                embed.add_field(name="/help", value="Show this help message", inline=False)
                 await interaction.response.send_message(embed=embed)
 
             # Register commands with the bot using the same method as the bot
@@ -353,7 +341,7 @@ async def main():
         # Keep running until interrupted
         logger.info("🐝 WE ARE SWARM - Discord Commander Operational!")
         logger.info("Press Ctrl+C to stop...")
-        
+
         # Wait for bot to run
         while not commander.bot.is_closed():
             await asyncio.sleep(1)
@@ -363,6 +351,7 @@ async def main():
     except Exception as e:
         logger.error(f"❌ Discord Commander error: {e}")
         import traceback
+
         logger.error(f"Traceback: {traceback.format_exc()}")
         return 1
     finally:

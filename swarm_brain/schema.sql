@@ -1,6 +1,6 @@
 -- Swarm Brain Database Schema
 -- ==========================
--- 
+--
 -- This schema supports the swarm intelligence system with:
 -- - Normalized document storage with specialized lenses
 -- - Embedding tracking for semantic search
@@ -125,7 +125,7 @@ CREATE INDEX IF NOT EXISTS idx_coordination_effectiveness ON coordination(effect
 
 -- Views for common queries
 CREATE VIEW IF NOT EXISTS agent_activity AS
-SELECT 
+SELECT
   d.id,
   d.kind,
   d.project,
@@ -142,7 +142,7 @@ LEFT JOIN actions a ON d.id = a.doc_id
 WHERE d.kind = 'action';
 
 CREATE VIEW IF NOT EXISTS tool_effectiveness AS
-SELECT 
+SELECT
   a.tool,
   COUNT(*) as total_uses,
   SUM(CASE WHEN a.outcome = 'success' THEN 1 ELSE 0 END) as successful_uses,
@@ -153,7 +153,7 @@ JOIN documents d ON a.doc_id = d.id
 GROUP BY a.tool;
 
 CREATE VIEW IF NOT EXISTS agent_coordination AS
-SELECT 
+SELECT
   d.agent_id,
   c.coordination_type,
   COUNT(*) as coordination_count,
@@ -161,7 +161,3 @@ SELECT
 FROM documents d
 JOIN coordination c ON d.id = c.doc_id
 GROUP BY d.agent_id, c.coordination_type;
-
-
-
-

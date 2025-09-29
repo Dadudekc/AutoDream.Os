@@ -8,9 +8,8 @@ V2 Compliant: ≤400 lines, focused CLI logic
 """
 
 import asyncio
-import sys
 from argparse import ArgumentParser
-from typing import Dict, Any
+
 from .devlog_poster import AgentDevlogPoster
 
 
@@ -25,92 +24,55 @@ class AgentDevlogCLI:
         """Create argument parser"""
         parser = ArgumentParser(
             description="Agent Devlog Posting Service - Local File Storage Only",
-            epilog="🐝 WE ARE SWARM - Agent Devlog Posting System (LOCAL ONLY)"
+            epilog="🐝 WE ARE SWARM - Agent Devlog Posting System (LOCAL ONLY)",
         )
 
         # Main action group
         action_group = parser.add_mutually_exclusive_group(required=True)
-        
+
         # Post devlog
-        action_group.add_argument(
-            "--agent", "-a",
-            help="Agent ID (Agent-1 through Agent-8)"
-        )
-        
+        action_group.add_argument("--agent", "-a", help="Agent ID (Agent-1 through Agent-8)")
+
         # Search devlogs
-        action_group.add_argument(
-            "--search", "-s",
-            help="Search devlogs by query"
-        )
-        
+        action_group.add_argument("--search", "-s", help="Search devlogs by query")
+
         # Show stats
-        action_group.add_argument(
-            "--stats",
-            action="store_true",
-            help="Show devlog statistics"
-        )
-        
+        action_group.add_argument("--stats", action="store_true", help="Show devlog statistics")
+
         # Show help
-        action_group.add_argument(
-            "--show-help",
-            action="store_true",
-            help="Show detailed help"
-        )
+        action_group.add_argument("--show-help", action="store_true", help="Show detailed help")
 
         # Devlog posting options
-        parser.add_argument(
-            "--action",
-            help="Action description"
-        )
-        
+        parser.add_argument("--action", help="Action description")
+
         parser.add_argument(
             "--status",
             default="completed",
             choices=["completed", "in_progress", "failed", "pending"],
-            help="Status (default: completed)"
-        )
-        
-        parser.add_argument(
-            "--details",
-            help="Additional details"
-        )
-        
-        parser.add_argument(
-            "--dry-run",
-            action="store_true",
-            help="Perform dry run without saving"
+            help="Status (default: completed)",
         )
 
+        parser.add_argument("--details", help="Additional details")
+
+        parser.add_argument("--dry-run", action="store_true", help="Perform dry run without saving")
+
         # Search options
+        parser.add_argument("--agent-filter", help="Filter search results by agent ID")
+
+        parser.add_argument("--status-filter", help="Filter search results by status")
+
         parser.add_argument(
-            "--agent-filter",
-            help="Filter search results by agent ID"
-        )
-        
-        parser.add_argument(
-            "--status-filter",
-            help="Filter search results by status"
-        )
-        
-        parser.add_argument(
-            "--limit",
-            type=int,
-            default=50,
-            help="Limit search results (default: 50)"
+            "--limit", type=int, default=50, help="Limit search results (default: 50)"
         )
 
         # Utility options
-        parser.add_argument(
-            "--cleanup",
-            action="store_true",
-            help="Cleanup old devlog files"
-        )
-        
+        parser.add_argument("--cleanup", action="store_true", help="Cleanup old devlog files")
+
         parser.add_argument(
             "--days-to-keep",
             type=int,
             default=30,
-            help="Days to keep when cleaning up (default: 30)"
+            help="Days to keep when cleaning up (default: 30)",
         )
 
         return parser
@@ -127,7 +89,7 @@ NO Discord dependency - completely independent system.
 
 AGENT FLAGS:
 - Agent-1: Integration & Core Systems Specialist
-- Agent-2: Architecture & Design Specialist  
+- Agent-2: Architecture & Design Specialist
 - Agent-3: Infrastructure & DevOps Specialist
 - Agent-4: Quality Assurance Specialist (CAPTAIN)
 - Agent-5: Business Intelligence Specialist
@@ -167,13 +129,13 @@ USAGE EXAMPLES:
             action=args.action,
             status=args.status,
             details=args.details or "",
-            dry_run=args.dry_run
+            dry_run=args.dry_run,
         )
 
         if result["success"]:
             print(f"✅ {result['message']}")
             if args.dry_run:
-                print(f"📋 Devlog Entry Preview:")
+                print("📋 Devlog Entry Preview:")
                 print(f"   Agent: {result['devlog_entry']['agent_id']}")
                 print(f"   Action: {result['devlog_entry']['action']}")
                 print(f"   Status: {result['devlog_entry']['status']}")
@@ -187,19 +149,19 @@ USAGE EXAMPLES:
             query=args.search,
             agent_id=args.agent_filter,
             status=args.status_filter,
-            limit=args.limit
+            limit=args.limit,
         )
 
         if result["success"]:
             print(f"🔍 Search Results for: '{args.search}'")
             print(f"📊 Found {result['total_matches']} matches")
-            
+
             if result["results"]:
                 for i, devlog in enumerate(result["results"][:10], 1):  # Show first 10
                     print(f"\n{i}. {devlog.get('agent_id')} - {devlog.get('action')}")
                     print(f"   Status: {devlog.get('status')}")
                     print(f"   Time: {devlog.get('timestamp')}")
-                    if devlog.get('details'):
+                    if devlog.get("details"):
                         print(f"   Details: {devlog.get('details')[:100]}...")
             else:
                 print("No results found.")
@@ -213,26 +175,26 @@ USAGE EXAMPLES:
         if result["success"]:
             stats = result["stats"]
             file_info = result["file_info"]
-            
+
             print("📊 Agent Devlog Statistics")
             print("=" * 40)
             print(f"Total Devlogs: {stats['total_devlogs']}")
             print(f"Current File: {file_info['file_path']}")
             print(f"File Size: {file_info['file_size']} bytes")
-            
-            if stats['agent_counts']:
-                print(f"\n📈 Agent Activity:")
-                for agent, count in sorted(stats['agent_counts'].items()):
+
+            if stats["agent_counts"]:
+                print("\n📈 Agent Activity:")
+                for agent, count in sorted(stats["agent_counts"].items()):
                     print(f"  {agent}: {count} devlogs")
-            
-            if stats['status_counts']:
-                print(f"\n📋 Status Distribution:")
-                for status, count in stats['status_counts'].items():
+
+            if stats["status_counts"]:
+                print("\n📋 Status Distribution:")
+                for status, count in stats["status_counts"].items():
                     print(f"  {status}: {count}")
-            
-            if stats['recent_activity']:
-                print(f"\n🕒 Recent Activity:")
-                for activity in stats['recent_activity'][-5:]:
+
+            if stats["recent_activity"]:
+                print("\n🕒 Recent Activity:")
+                for activity in stats["recent_activity"][-5:]:
                     print(f"  {activity}")
         else:
             print(f"❌ Failed to get stats: {result['error']}")
@@ -240,7 +202,7 @@ USAGE EXAMPLES:
     async def handle_cleanup(self, args) -> None:
         """Handle cleanup operation"""
         result = self.poster.cleanup_old_devlogs(args.days_to_keep)
-        
+
         if result["success"]:
             print(f"✅ {result['message']}")
         else:
@@ -269,7 +231,7 @@ async def main():
     cli = AgentDevlogCLI()
     parser = cli.create_parser()
     args = parser.parse_args()
-    
+
     await cli.run(args)
 
 

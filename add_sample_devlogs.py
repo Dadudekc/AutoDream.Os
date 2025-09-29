@@ -7,9 +7,8 @@ This script adds sample devlog data to the vector database for testing the
 analytics system. It creates realistic devlog entries for each agent.
 """
 
-import sys
 import asyncio
-import os
+import sys
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -17,6 +16,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
 from services.vector_database.vector_database_integration import VectorDatabaseIntegration
+
 
 async def add_sample_devlogs():
     """Add sample devlog data to the database."""
@@ -34,74 +34,74 @@ async def add_sample_devlogs():
             "agent_id": "Agent-1",
             "action": "Infrastructure setup completed",
             "status": "completed",
-            "details": "Successfully set up cloud infrastructure with monitoring and logging"
+            "details": "Successfully set up cloud infrastructure with monitoring and logging",
         },
         {
             "agent_id": "Agent-2",
             "action": "Architecture review completed",
             "status": "completed",
-            "details": "Reviewed and approved system architecture design patterns"
+            "details": "Reviewed and approved system architecture design patterns",
         },
         {
             "agent_id": "Agent-3",
             "action": "Database optimization completed",
             "status": "completed",
-            "details": "Optimized database queries and implemented connection pooling"
+            "details": "Optimized database queries and implemented connection pooling",
         },
         {
             "agent_id": "Agent-4",
             "action": "Quality assurance testing completed",
             "status": "completed",
-            "details": "Conducted comprehensive testing and validation of all components"
+            "details": "Conducted comprehensive testing and validation of all components",
         },
         {
             "agent_id": "Agent-5",
             "action": "Business intelligence analysis completed",
             "status": "completed",
-            "details": "Analyzed performance metrics and generated business insights"
+            "details": "Analyzed performance metrics and generated business insights",
         },
         {
             "agent_id": "Agent-6",
             "action": "System integration completed",
             "status": "completed",
-            "details": "Successfully integrated all system components and APIs"
+            "details": "Successfully integrated all system components and APIs",
         },
         {
             "agent_id": "Agent-7",
             "action": "Frontend development completed",
             "status": "completed",
-            "details": "Built responsive web interface with modern UI components"
+            "details": "Built responsive web interface with modern UI components",
         },
         {
             "agent_id": "Agent-8",
             "action": "Documentation completed",
             "status": "completed",
-            "details": "Created comprehensive documentation and user guides"
+            "details": "Created comprehensive documentation and user guides",
         },
         {
             "agent_id": "Agent-1",
             "action": "Security audit completed",
             "status": "completed",
-            "details": "Performed security assessment and implemented fixes"
+            "details": "Performed security assessment and implemented fixes",
         },
         {
             "agent_id": "Agent-2",
             "action": "Performance optimization completed",
             "status": "completed",
-            "details": "Optimized system performance and reduced response times"
+            "details": "Optimized system performance and reduced response times",
         },
         {
             "agent_id": "Agent-3",
             "action": "Backup system implemented",
             "status": "completed",
-            "details": "Set up automated backup and disaster recovery procedures"
+            "details": "Set up automated backup and disaster recovery procedures",
         },
         {
             "agent_id": "Agent-4",
             "action": "Code review completed",
             "status": "completed",
-            "details": "Reviewed codebase and ensured V2 compliance standards"
-        }
+            "details": "Reviewed codebase and ensured V2 compliance standards",
+        },
     ]
 
     # Add devlogs with timestamps spread over the last few days
@@ -130,15 +130,15 @@ async def add_sample_devlogs():
 
         # Add to vector database
         vector_id = await db.integrate_agent_status(
-            agent_id=devlog_data['agent_id'],
+            agent_id=devlog_data["agent_id"],
             status_data={
-                'agent_id': devlog_data['agent_id'],
-                'action': devlog_data['action'],
-                'status': devlog_data['status'],
-                'details': devlog_data['details'],
-                'timestamp': devlog_time.isoformat(),
-                'type': 'devlog'
-            }
+                "agent_id": devlog_data["agent_id"],
+                "action": devlog_data["action"],
+                "status": devlog_data["status"],
+                "details": devlog_data["details"],
+                "timestamp": devlog_time.isoformat(),
+                "type": "devlog",
+            },
         )
 
         if vector_id:
@@ -152,6 +152,7 @@ async def add_sample_devlogs():
     print("🌐 Or open the dashboard at: http://localhost:3000")
 
     return added_count
+
 
 if __name__ == "__main__":
     try:

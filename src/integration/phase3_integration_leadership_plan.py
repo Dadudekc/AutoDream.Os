@@ -3,15 +3,15 @@ Phase 3 System Integration Leadership Plan
 V2 Compliant integration leadership for Agent-8 Integration Specialist
 """
 
-from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
+from datetime import datetime
 from enum import Enum
-import asyncio
-import time
-from datetime import datetime, timedelta
+from typing import Any
+
 
 class IntegrationPhase(Enum):
     """Integration phase enumeration"""
+
     INITIALIZATION = "initialization"
     DEPENDENCY_RESOLUTION = "dependency_resolution"
     COMPONENT_INTEGRATION = "component_integration"
@@ -19,45 +19,52 @@ class IntegrationPhase(Enum):
     DEPLOYMENT = "deployment"
     MONITORING = "monitoring"
 
+
 class Priority(Enum):
     """Priority levels"""
+
     CRITICAL = "critical"
     HIGH = "high"
     MEDIUM = "medium"
     LOW = "low"
 
+
 @dataclass
 class IntegrationTask:
     """Integration task structure"""
+
     task_id: str
     name: str
     description: str
     phase: IntegrationPhase
     priority: Priority
-    dependencies: List[str]
+    dependencies: list[str]
     estimated_cycles: int
     status: str = "pending"
-    assigned_agent: Optional[str] = None
+    assigned_agent: str | None = None
     created_at: datetime = None
-    
+
     def __post_init__(self):
         if self.created_at is None:
             self.created_at = datetime.now()
 
+
 @dataclass
 class Phase3Milestone:
     """Phase 3 milestone structure"""
+
     milestone_id: str
     name: str
     description: str
     target_cycles: int
-    success_criteria: List[str]
+    success_criteria: list[str]
     status: str = "pending"
     completion_percentage: float = 0.0
 
+
 class Phase3IntegrationLeader:
     """Phase 3 System Integration Leader - Agent-8"""
-    
+
     def __init__(self):
         self.leadership_status = "active"
         self.timeline_cycles = 720  # Target: 720-900 cycles
@@ -65,8 +72,8 @@ class Phase3IntegrationLeader:
         self.integration_tasks = self._initialize_integration_tasks()
         self.milestones = self._initialize_milestones()
         self.agent_coordination = self._initialize_agent_coordination()
-        
-    def _initialize_integration_tasks(self) -> List[IntegrationTask]:
+
+    def _initialize_integration_tasks(self) -> list[IntegrationTask]:
         """Initialize Phase 3 integration tasks"""
         return [
             # CRITICAL Priority Tasks
@@ -77,7 +84,7 @@ class Phase3IntegrationLeader:
                 phase=IntegrationPhase.INITIALIZATION,
                 priority=Priority.CRITICAL,
                 dependencies=[],
-                estimated_cycles=60
+                estimated_cycles=60,
             ),
             IntegrationTask(
                 task_id="v3_component_integration",
@@ -86,7 +93,7 @@ class Phase3IntegrationLeader:
                 phase=IntegrationPhase.COMPONENT_INTEGRATION,
                 priority=Priority.CRITICAL,
                 dependencies=["phase3_init"],
-                estimated_cycles=180
+                estimated_cycles=180,
             ),
             IntegrationTask(
                 task_id="dream_os_native_integration",
@@ -95,9 +102,8 @@ class Phase3IntegrationLeader:
                 phase=IntegrationPhase.COMPONENT_INTEGRATION,
                 priority=Priority.CRITICAL,
                 dependencies=["v3_component_integration"],
-                estimated_cycles=200
+                estimated_cycles=200,
             ),
-            
             # HIGH Priority Tasks
             IntegrationTask(
                 task_id="performance_optimization",
@@ -106,7 +112,7 @@ class Phase3IntegrationLeader:
                 phase=IntegrationPhase.VALIDATION,
                 priority=Priority.HIGH,
                 dependencies=["dream_os_native_integration"],
-                estimated_cycles=120
+                estimated_cycles=120,
             ),
             IntegrationTask(
                 task_id="quality_integration",
@@ -115,9 +121,8 @@ class Phase3IntegrationLeader:
                 phase=IntegrationPhase.VALIDATION,
                 priority=Priority.HIGH,
                 dependencies=["performance_optimization"],
-                estimated_cycles=100
+                estimated_cycles=100,
             ),
-            
             # MEDIUM Priority Tasks
             IntegrationTask(
                 task_id="monitoring_deployment",
@@ -126,11 +131,11 @@ class Phase3IntegrationLeader:
                 phase=IntegrationPhase.DEPLOYMENT,
                 priority=Priority.MEDIUM,
                 dependencies=["quality_integration"],
-                estimated_cycles=60
-            )
+                estimated_cycles=60,
+            ),
         ]
-    
-    def _initialize_milestones(self) -> List[Phase3Milestone]:
+
+    def _initialize_milestones(self) -> list[Phase3Milestone]:
         """Initialize Phase 3 milestones"""
         return [
             Phase3Milestone(
@@ -141,8 +146,8 @@ class Phase3IntegrationLeader:
                 success_criteria=[
                     "All V3 components integrated",
                     "System initialization complete",
-                    "Dependencies resolved"
-                ]
+                    "Dependencies resolved",
+                ],
             ),
             Phase3Milestone(
                 milestone_id="milestone_2",
@@ -152,8 +157,8 @@ class Phase3IntegrationLeader:
                 success_criteria=[
                     "Dream.OS native integration active",
                     "All components communicating",
-                    "Integration tests passing"
-                ]
+                    "Integration tests passing",
+                ],
             ),
             Phase3Milestone(
                 milestone_id="milestone_3",
@@ -164,37 +169,39 @@ class Phase3IntegrationLeader:
                     "Performance optimization complete",
                     "Quality assurance implemented",
                     "Monitoring systems deployed",
-                    "Production readiness validated"
-                ]
-            )
+                    "Production readiness validated",
+                ],
+            ),
         ]
-    
-    def _initialize_agent_coordination(self) -> Dict[str, Any]:
+
+    def _initialize_agent_coordination(self) -> dict[str, Any]:
         """Initialize agent coordination plan"""
         return {
             "leadership": "Agent-8 (Integration Specialist)",
             "coordination_agents": {
                 "Agent-1": "Architecture Foundation Specialist",
-                "Agent-2": "Architecture & Design Specialist", 
+                "Agent-2": "Architecture & Design Specialist",
                 "Agent-3": "Infrastructure & DevOps Specialist",
-                "Agent-4": "Captain & Operations Coordinator"
+                "Agent-4": "Captain & Operations Coordinator",
             },
             "specialized_tasks": {
                 "Agent-1": ["V3-003 Database Architecture", "System Integration Core"],
                 "Agent-2": ["V3-006 Performance Analytics", "Architecture Design"],
                 "Agent-3": ["V3-009 NLP System", "Infrastructure Support"],
-                "Agent-4": ["V3-012 Mobile Application", "Quality Coordination"]
+                "Agent-4": ["V3-012 Mobile Application", "Quality Coordination"],
             },
             "communication_protocol": "PyAutoGUI messaging system",
-            "coordination_frequency": "Every 10 cycles"
+            "coordination_frequency": "Every 10 cycles",
         }
-    
-    def get_leadership_status(self) -> Dict[str, Any]:
+
+    def get_leadership_status(self) -> dict[str, Any]:
         """Get current leadership status"""
         total_tasks = len(self.integration_tasks)
         completed_tasks = sum(1 for task in self.integration_tasks if task.status == "completed")
-        in_progress_tasks = sum(1 for task in self.integration_tasks if task.status == "in_progress")
-        
+        in_progress_tasks = sum(
+            1 for task in self.integration_tasks if task.status == "in_progress"
+        )
+
         return {
             "leader": "Agent-8 (Integration Specialist)",
             "status": self.leadership_status,
@@ -205,114 +212,116 @@ class Phase3IntegrationLeader:
                 "total": total_tasks,
                 "completed": completed_tasks,
                 "in_progress": in_progress_tasks,
-                "pending": total_tasks - completed_tasks - in_progress_tasks
+                "pending": total_tasks - completed_tasks - in_progress_tasks,
             },
             "milestones": {
                 "total": len(self.milestones),
                 "completed": sum(1 for m in self.milestones if m.status == "completed"),
-                "current": self._get_current_milestone()
-            }
+                "current": self._get_current_milestone(),
+            },
         }
-    
-    def _get_current_milestone(self) -> Optional[str]:
+
+    def _get_current_milestone(self) -> str | None:
         """Get current milestone based on cycle progress"""
         for milestone in self.milestones:
             if self.current_cycle <= milestone.target_cycles and milestone.status != "completed":
                 return milestone.milestone_id
         return None
-    
-    def get_critical_tasks(self) -> List[IntegrationTask]:
+
+    def get_critical_tasks(self) -> list[IntegrationTask]:
         """Get critical priority tasks"""
         return [task for task in self.integration_tasks if task.priority == Priority.CRITICAL]
-    
-    def get_next_actions(self) -> List[str]:
+
+    def get_next_actions(self) -> list[str]:
         """Get next actions for Phase 3 integration"""
         critical_tasks = self.get_critical_tasks()
         pending_critical = [task for task in critical_tasks if task.status == "pending"]
-        
+
         if not pending_critical:
             return ["All critical tasks complete - proceed to high priority tasks"]
-        
+
         next_task = pending_critical[0]
         return [
             f"Execute: {next_task.name}",
             f"Estimated cycles: {next_task.estimated_cycles}",
             f"Dependencies: {next_task.dependencies}",
-            f"Agent coordination: {self.agent_coordination['communication_protocol']}"
+            f"Agent coordination: {self.agent_coordination['communication_protocol']}",
         ]
-    
-    def get_integration_roadmap(self) -> Dict[str, Any]:
+
+    def get_integration_roadmap(self) -> dict[str, Any]:
         """Get complete integration roadmap"""
         return {
             "leadership": {
                 "leader": "Agent-8 (Integration Specialist)",
                 "status": self.leadership_status,
-                "timeline": f"{self.timeline_cycles} cycles (720-900 target)"
+                "timeline": f"{self.timeline_cycles} cycles (720-900 target)",
             },
             "phases": {
                 "initialization": {
                     "cycles": "0-60",
                     "tasks": ["Phase 3 System Initialization"],
-                    "agents": ["Agent-8", "Agent-4"]
+                    "agents": ["Agent-8", "Agent-4"],
                 },
                 "component_integration": {
-                    "cycles": "60-440", 
+                    "cycles": "60-440",
                     "tasks": ["V3 Component Integration", "Dream.OS Native Integration"],
-                    "agents": ["Agent-1", "Agent-2", "Agent-3", "Agent-8"]
+                    "agents": ["Agent-1", "Agent-2", "Agent-3", "Agent-8"],
                 },
                 "validation": {
                     "cycles": "440-640",
                     "tasks": ["Performance Optimization", "Quality Integration"],
-                    "agents": ["Agent-2", "Agent-4", "Agent-8"]
+                    "agents": ["Agent-2", "Agent-4", "Agent-8"],
                 },
                 "deployment": {
                     "cycles": "640-720",
                     "tasks": ["Monitoring System Deployment"],
-                    "agents": ["Agent-3", "Agent-8"]
-                }
+                    "agents": ["Agent-3", "Agent-8"],
+                },
             },
             "success_criteria": [
                 "All V3 components integrated",
                 "Dream.OS native integration complete",
                 "Performance optimized",
                 "Quality assurance implemented",
-                "Production ready"
-            ]
+                "Production ready",
+            ],
         }
 
-def get_phase3_leadership_plan() -> Dict[str, Any]:
+
+def get_phase3_leadership_plan() -> dict[str, Any]:
     """Get Phase 3 integration leadership plan"""
     leader = Phase3IntegrationLeader()
     return leader.get_integration_roadmap()
 
-def get_phase3_status() -> Dict[str, Any]:
+
+def get_phase3_status() -> dict[str, Any]:
     """Get current Phase 3 integration status"""
     leader = Phase3IntegrationLeader()
     return leader.get_leadership_status()
 
+
 if __name__ == "__main__":
     # Test Phase 3 integration leadership
     leader = Phase3IntegrationLeader()
-    
+
     print("🎯 Phase 3 System Integration Leadership Status:")
     status = leader.get_leadership_status()
     print(f"Leader: {status['leader']}")
     print(f"Status: {status['status']}")
     print(f"Progress: {status['progress_percentage']:.1f}%")
     print(f"Tasks: {status['tasks']['completed']}/{status['tasks']['total']} completed")
-    
-    print(f"\n📋 Critical Tasks:")
+
+    print("\n📋 Critical Tasks:")
     critical_tasks = leader.get_critical_tasks()
     for task in critical_tasks:
         print(f"  - {task.name} ({task.estimated_cycles} cycles)")
-    
-    print(f"\n🚀 Next Actions:")
+
+    print("\n🚀 Next Actions:")
     next_actions = leader.get_next_actions()
     for action in next_actions:
         print(f"  - {action}")
-    
-    print(f"\n📊 Integration Roadmap:")
+
+    print("\n📊 Integration Roadmap:")
     roadmap = leader.get_integration_roadmap()
     print(f"Timeline: {roadmap['leadership']['timeline']}")
     print(f"Phases: {len(roadmap['phases'])} integration phases")
-

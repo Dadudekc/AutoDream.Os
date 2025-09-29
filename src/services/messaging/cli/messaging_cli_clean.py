@@ -12,10 +12,9 @@ License: MIT
 
 import argparse
 import logging
-from typing import List, Optional
 
-from ..models.messaging_models import UnifiedMessage
 from ..models.messaging_enums import UnifiedMessagePriority, UnifiedMessageType
+from ..models.messaging_models import UnifiedMessage
 
 logger = logging.getLogger(__name__)
 
@@ -36,7 +35,7 @@ Examples:
   python -m messaging.cli send --message "Hello" --recipient Agent-1
   python -m messaging.cli broadcast --message "System update" --priority high
   python -m messaging.cli history --agent Agent-1
-            """
+            """,
         )
 
         subparsers = parser.add_subparsers(dest="command", help="Available commands")
@@ -45,38 +44,59 @@ Examples:
         send_parser = subparsers.add_parser("send", help="Send message to agent")
         send_parser.add_argument("--message", "-m", required=True, help="Message content")
         send_parser.add_argument("--recipient", "-r", required=True, help="Recipient agent")
-        send_parser.add_argument("--priority", "-p", choices=["low", "normal", "high", "urgent"],
-                                default="normal", help="Message priority")
-        send_parser.add_argument("--type", "-t", choices=["direct", "broadcast", "system"],
-                                default="direct", help="Message type")
+        send_parser.add_argument(
+            "--priority",
+            "-p",
+            choices=["low", "normal", "high", "urgent"],
+            default="normal",
+            help="Message priority",
+        )
+        send_parser.add_argument(
+            "--type",
+            "-t",
+            choices=["direct", "broadcast", "system"],
+            default="direct",
+            help="Message type",
+        )
 
         # Broadcast command
-        broadcast_parser = subparsers.add_parser("broadcast", help="Broadcast message to all agents")
+        broadcast_parser = subparsers.add_parser(
+            "broadcast", help="Broadcast message to all agents"
+        )
         broadcast_parser.add_argument("--message", "-m", required=True, help="Message content")
-        broadcast_parser.add_argument("--priority", "-p", choices=["low", "normal", "high", "urgent"],
-                                     default="normal", help="Message priority")
+        broadcast_parser.add_argument(
+            "--priority",
+            "-p",
+            choices=["low", "normal", "high", "urgent"],
+            default="normal",
+            help="Message priority",
+        )
 
         # History command
         history_parser = subparsers.add_parser("history", help="Show message history")
         history_parser.add_argument("--agent", "-a", help="Agent to show history for")
-        history_parser.add_argument("--limit", "-l", type=int, default=10, help="Number of messages to show")
+        history_parser.add_argument(
+            "--limit", "-l", type=int, default=10, help="Number of messages to show"
+        )
 
         return parser
 
-    def send_message(self, message: str, recipient: str, priority: str = "normal", msg_type: str = "direct") -> bool:
+    def send_message(
+        self, message: str, recipient: str, priority: str = "normal", msg_type: str = "direct"
+    ) -> bool:
         """Send a message to an agent."""
         try:
             priority_map = {
                 "low": UnifiedMessagePriority.LOW,
                 "normal": UnifiedMessagePriority.NORMAL,
                 "high": UnifiedMessagePriority.HIGH,
-                "urgent": UnifiedMessagePriority.URGENT
+                "urgent": UnifiedMessagePriority.URGENT,
             }
 
             type_map = {
                 "direct": UnifiedMessageType.DIRECT,
                 "broadcast": UnifiedMessageType.BROADCAST,
-                "system": UnifiedMessageType.SYSTEM
+                "system": UnifiedMessageType.SYSTEM,
             }
 
             unified_message = UnifiedMessage(
@@ -84,7 +104,7 @@ Examples:
                 recipient=recipient,
                 sender="CLI",
                 message_type=type_map.get(msg_type, UnifiedMessageType.DIRECT),
-                priority=priority_map.get(priority, UnifiedMessagePriority.NORMAL)
+                priority=priority_map.get(priority, UnifiedMessagePriority.NORMAL),
             )
 
             return self.messaging_service.send_message(unified_message)
@@ -101,7 +121,7 @@ Examples:
             logger.error(f"Error broadcasting message: {e}")
             return {}
 
-    def show_history(self, agent: Optional[str] = None, limit: int = 10) -> None:
+    def show_history(self, agent: str | None = None, limit: int = 10) -> None:
         """Show message history."""
         try:
             history = self.messaging_service.show_message_history(agent)

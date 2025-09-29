@@ -6,10 +6,13 @@ Test Canonical Text Builders
 Tests for canonical text generation functions.
 """
 
-import pytest
+
 from swarm_brain.canon import (
-    canonical_action, canonical_protocol, canonical_workflow,
-    canonical_performance, canonical_conversation
+    canonical_action,
+    canonical_conversation,
+    canonical_performance,
+    canonical_protocol,
+    canonical_workflow,
 )
 
 
@@ -17,13 +20,13 @@ def test_canonical_action_simple():
     """Test basic action canonical text generation."""
     text = canonical_action(
         title="Run Scanner",
-        outcome="success", 
+        outcome="success",
         tool="scanner",
         context={"files": 100, "violations": 5},
         summary="Scanned 100 files, found 5 violations",
-        tags=["scanner", "compliance"]
+        tags=["scanner", "compliance"],
     )
-    
+
     assert "[ACTION] Run Scanner" in text
     assert "Tool: scanner" in text
     assert "Outcome: success" in text
@@ -40,9 +43,9 @@ def test_canonical_protocol():
         effectiveness=0.85,
         improvements={"success_rate": 0.9},
         summary="Protocol for V2 compliance refactoring",
-        tags=["protocol", "refactor"]
+        tags=["protocol", "refactor"],
     )
-    
+
     assert "[PROTOCOL] V2 Refactor Protocol" in text
     assert "Effectiveness: 0.850" in text
     assert "Split large files" in text
@@ -59,9 +62,9 @@ def test_canonical_workflow():
         outcomes={"success_rate": 0.95},
         optimization={"caching": True},
         summary="Workflow for agent coordination",
-        tags=["workflow", "coordination"]
+        tags=["workflow", "coordination"],
     )
-    
+
     assert "[WORKFLOW] Agent Coordination Workflow" in text
     assert "Execution Pattern:" in text
     assert "coordination" in text
@@ -78,9 +81,9 @@ def test_canonical_performance():
         optimizations={"cache_size": 1000},
         trends={"improving": True},
         summary="System performance metrics",
-        tags=["performance", "monitoring"]
+        tags=["performance", "monitoring"],
     )
-    
+
     assert "[PERFORMANCE] System Performance" in text
     assert "cpu" in text
     assert "memory" in text
@@ -96,9 +99,9 @@ def test_canonical_conversation():
         role="agent",
         content="Let's coordinate on the next task",
         summary="Discord coordination message",
-        tags=["discord", "coordination"]
+        tags=["discord", "coordination"],
     )
-    
+
     assert "[CONVERSATION] Discord Discussion" in text
     assert "Channel: discord" in text
     assert "Role: agent" in text
@@ -110,16 +113,16 @@ def test_canonical_conversation():
 def test_canonical_text_truncation():
     """Test that long content is properly truncated."""
     long_content = "A" * 2000  # Very long content
-    
+
     text = canonical_conversation(
         title="Long Message",
         channel="discord",
-        role="agent", 
+        role="agent",
         content=long_content,
         summary="Long message test",
-        tags=["test"]
+        tags=["test"],
     )
-    
+
     # Should be truncated
     assert len(text) < len(long_content) + 500  # Some overhead for other fields
     assert "..." in text  # Truncation indicator

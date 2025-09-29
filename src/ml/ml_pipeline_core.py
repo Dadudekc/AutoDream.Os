@@ -6,27 +6,31 @@ ML Pipeline Core - Enhanced with Data Ingestion System
 Core ML pipeline functionality enhanced with the SOS data ingestion system.
 """
 
-import sys
 import logging
+import sys
 import time
-import numpy as np
 from pathlib import Path
-from typing import Dict, Any, Optional, List, Union
+from typing import Any
+
+import numpy as np
 
 # Add project root to path
 project_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(project_root))
 
-from .ml_pipeline_models import ModelConfig, TrainingData, ModelMetrics, DeploymentConfig
 from .ml_pipeline_fallback import FallbackMLModel
+from .ml_pipeline_models import ModelConfig, ModelMetrics, TrainingData
 
 # Import SOS data ingestion components
 try:
     from .data_ingestion_system.data_ingestion.IngestManager import IngestManager
-    from .data_ingestion_system.data_ingestion.PreprocessorAgent import PreprocessorAgent
-    from .data_ingestion_system.data_ingestion.LocalEmbeddingsGeneratorAgent import LocalEmbeddingsGeneratorAgent
-    from .data_ingestion_system.data_ingestion.VectorStoreAgent import VectorStoreAgent
+    from .data_ingestion_system.data_ingestion.LocalEmbeddingsGeneratorAgent import (
+        LocalEmbeddingsGeneratorAgent,
+    )
     from .data_ingestion_system.data_ingestion.OrchestratorAgent import OrchestratorAgent
+    from .data_ingestion_system.data_ingestion.PreprocessorAgent import PreprocessorAgent
+    from .data_ingestion_system.data_ingestion.VectorStoreAgent import VectorStoreAgent
+
     SOS_AVAILABLE = True
 except ImportError as e:
     logger.warning(f"SOS data ingestion system not available: {e}")
@@ -38,12 +42,12 @@ logger = logging.getLogger(__name__)
 class MLPipelineCore:
     """Core ML pipeline functionality with enhanced data ingestion."""
 
-    def __init__(self, config: Optional[ModelConfig] = None):
+    def __init__(self, config: ModelConfig | None = None):
         """Initialize ML pipeline core with data ingestion capabilities."""
         self.config = config or ModelConfig()
-        self.models: Dict[str, Any] = {}
-        self.training_data: Dict[str, TrainingData] = {}
-        self.model_metrics: Dict[str, ModelMetrics] = {}
+        self.models: dict[str, Any] = {}
+        self.training_data: dict[str, TrainingData] = {}
+        self.model_metrics: dict[str, ModelMetrics] = {}
 
         # Initialize fallback model
         self.fallback_model = FallbackMLModel(self.config)
@@ -69,83 +73,87 @@ class MLPipelineCore:
             self.orchestrator = OrchestratorAgent(
                 folder_to_watch=self.data_folder,
                 embedding_model="mistral",
-                vector_collection="ml_pipeline_collection"
+                vector_collection="ml_pipeline_collection",
             )
             self.ingestion_available = True
             logger.info("SOS data ingestion system initialized successfully")
         except Exception as e:
             logger.error(f"Failed to initialize SOS data ingestion: {e}")
             self.ingestion_available = False
-    
-    def create_training_data(self, 
-                           num_samples: int = 1000,
-                           num_features: int = 10,
-                           num_classes: int = 3,
-                           data_type: str = "classification") -> TrainingData:
+
+    def create_training_data(
+        self,
+        num_samples: int = 1000,
+        num_features: int = 10,
+        num_classes: int = 3,
+        data_type: str = "classification",
+    ) -> TrainingData:
         """Create synthetic training data."""
         try:
-            logger.info(f"Creating synthetic training data: {num_samples} samples, {num_features} features")
-            
+            logger.info(
+                f"Creating synthetic training data: {num_samples} samples, {num_features} features"
+            )
+
             # Generate random features
             features = np.random.randn(num_samples, num_features)
-            
+
             if data_type == "classification":
                 # Generate random labels for classification
                 labels = np.random.randint(0, num_classes, num_samples)
             else:
                 # Generate continuous labels for regression
                 labels = np.random.randn(num_samples)
-            
+
             # Split data
             train_size = int(0.7 * num_samples)
             val_size = int(0.15 * num_samples)
-            
+
             train_features = features[:train_size]
             train_labels = labels[:train_size]
-            
-            val_features = features[train_size:train_size + val_size]
-            val_labels = labels[train_size:train_size + val_size]
-            
-            test_features = features[train_size + val_size:]
-            test_labels = labels[train_size + val_size:]
-            
+
+            val_features = features[train_size : train_size + val_size]
+            val_labels = labels[train_size : train_size + val_size]
+
+            test_features = features[train_size + val_size :]
+            test_labels = labels[train_size + val_size :]
+
             training_data = TrainingData(
                 features=train_features,
                 labels=train_labels,
                 validation_features=val_features,
                 validation_labels=val_labels,
                 test_features=test_features,
-                test_labels=test_labels
+                test_labels=test_labels,
             )
-            
+
             logger.info("Synthetic training data created successfully")
             return training_data
-            
+
         except Exception as e:
             logger.error(f"Error creating training data: {e}")
             raise
-    
+
     def create_model(self, model_name: str, model_type: str = "neural_network") -> Any:
         """Create a new ML model."""
         try:
             logger.info(f"Creating model: {model_name} ({model_type})")
-            
+
             if model_type == "neural_network":
                 model = self._create_neural_network_model()
             elif model_type == "fallback":
                 model = self.fallback_model
             else:
                 raise ValueError(f"Unsupported model type: {model_type}")
-            
+
             self.models[model_name] = model
-            
+
             logger.info(f"Model {model_name} created successfully")
             return model
-            
+
         except Exception as e:
             logger.error(f"Error creating model {model_name}: {e}")
             raise
-    
+
     def _create_neural_network_model(self):
         """Create a neural network model."""
         try:
@@ -159,42 +167,46 @@ class MLPipelineCore:
                 except ImportError:
                     logger.warning("PyTorch not available, using fallback model")
                     return self.fallback_model
-                    
+
         except Exception as e:
             logger.error(f"Error creating neural network model: {e}")
             return self.fallback_model
-    
+
     def _create_tensorflow_model(self):
         """Create TensorFlow model."""
         try:
             import tensorflow as tf
-            
-            model = tf.keras.Sequential([
-                tf.keras.layers.Dense(128, activation='relu', input_shape=self.config.input_shape),
-                tf.keras.layers.Dropout(0.2),
-                tf.keras.layers.Dense(64, activation='relu'),
-                tf.keras.layers.Dropout(0.2),
-                tf.keras.layers.Dense(self.config.num_classes, activation='softmax')
-            ])
-            
+
+            model = tf.keras.Sequential(
+                [
+                    tf.keras.layers.Dense(
+                        128, activation="relu", input_shape=self.config.input_shape
+                    ),
+                    tf.keras.layers.Dropout(0.2),
+                    tf.keras.layers.Dense(64, activation="relu"),
+                    tf.keras.layers.Dropout(0.2),
+                    tf.keras.layers.Dense(self.config.num_classes, activation="softmax"),
+                ]
+            )
+
             model.compile(
                 optimizer=self.config.optimizer,
                 loss=self.config.loss_function,
-                metrics=self.config.metrics
+                metrics=self.config.metrics,
             )
-            
+
             logger.info("TensorFlow model created successfully")
             return model
-            
+
         except ImportError:
             raise ImportError("TensorFlow not available")
-    
+
     def _create_pytorch_model(self):
         """Create PyTorch model."""
         try:
             import torch
             import torch.nn as nn
-            
+
             class PyTorchModel(nn.Module):
                 def __init__(self, input_size, num_classes):
                     super().__init__()
@@ -204,7 +216,7 @@ class MLPipelineCore:
                     self.dropout = nn.Dropout(0.2)
                     self.relu = nn.ReLU()
                     self.softmax = nn.Softmax(dim=1)
-                
+
                 def forward(self, x):
                     x = self.relu(self.fc1(x))
                     x = self.dropout(x)
@@ -212,99 +224,108 @@ class MLPipelineCore:
                     x = self.dropout(x)
                     x = self.fc3(x)
                     return self.softmax(x)
-            
+
             model = PyTorchModel(
-                input_size=np.prod(self.config.input_shape),
-                num_classes=self.config.num_classes
+                input_size=np.prod(self.config.input_shape), num_classes=self.config.num_classes
             )
-            
+
             logger.info("PyTorch model created successfully")
             return model
-            
+
         except ImportError:
             raise ImportError("PyTorch not available")
-    
-    def train_model(self, 
-                   model_name: str,
-                   training_data: TrainingData,
-                   epochs: Optional[int] = None,
-                   batch_size: Optional[int] = None) -> Dict[str, Any]:
+
+    def train_model(
+        self,
+        model_name: str,
+        training_data: TrainingData,
+        epochs: int | None = None,
+        batch_size: int | None = None,
+    ) -> dict[str, Any]:
         """Train a model."""
         try:
             logger.info(f"Training model: {model_name}")
-            
+
             if model_name not in self.models:
                 raise ValueError(f"Model {model_name} not found")
-            
+
             model = self.models[model_name]
             epochs = epochs or self.config.epochs
             batch_size = batch_size or self.config.batch_size
-            
+
             start_time = time.time()
-            
+
             # Train the model
-            if hasattr(model, 'fit'):  # TensorFlow/Keras model
+            if hasattr(model, "fit"):  # TensorFlow/Keras model
                 history = model.fit(
                     training_data.features,
                     training_data.labels,
                     epochs=epochs,
                     batch_size=batch_size,
-                    validation_data=(training_data.validation_features, training_data.validation_labels) if training_data.validation_features is not None else None,
-                    verbose=1
+                    validation_data=(
+                        training_data.validation_features,
+                        training_data.validation_labels,
+                    )
+                    if training_data.validation_features is not None
+                    else None,
+                    verbose=1,
                 )
                 training_results = {
                     "status": "completed",
                     "epochs": epochs,
-                    "final_loss": float(history.history['loss'][-1]),
-                    "final_accuracy": float(history.history['accuracy'][-1]) if 'accuracy' in history.history else None,
-                    "model_type": "tensorflow"
+                    "final_loss": float(history.history["loss"][-1]),
+                    "final_accuracy": float(history.history["accuracy"][-1])
+                    if "accuracy" in history.history
+                    else None,
+                    "model_type": "tensorflow",
                 }
             else:  # Fallback or PyTorch model
                 training_results = model.train(training_data)
-            
+
             training_time = time.time() - start_time
             training_results["training_time"] = training_time
-            
+
             # Store training data
             self.training_data[model_name] = training_data
-            
+
             logger.info(f"Model {model_name} training completed in {training_time:.2f} seconds")
             return training_results
-            
+
         except Exception as e:
             logger.error(f"Error training model {model_name}: {e}")
             return {"status": "failed", "error": str(e)}
-    
-    def evaluate_model(self, model_name: str, test_data: TrainingData) -> Dict[str, Any]:
+
+    def evaluate_model(self, model_name: str, test_data: TrainingData) -> dict[str, Any]:
         """Evaluate a model."""
         try:
             logger.info(f"Evaluating model: {model_name}")
-            
+
             if model_name not in self.models:
                 raise ValueError(f"Model {model_name} not found")
-            
+
             model = self.models[model_name]
-            
+
             # Make predictions
             start_time = time.time()
             predictions = model.predict(test_data.features)
             inference_time = time.time() - start_time
-            
+
             # Calculate metrics
             if self.config.model_type == "classification":
                 accuracy = np.mean(predictions == test_data.labels)
-                
+
                 # Calculate precision, recall, F1-score
-                from sklearn.metrics import precision_score, recall_score, f1_score
-                precision = precision_score(test_data.labels, predictions, average='weighted')
-                recall = recall_score(test_data.labels, predictions, average='weighted')
-                f1 = f1_score(test_data.labels, predictions, average='weighted')
+                from sklearn.metrics import f1_score, precision_score, recall_score
+
+                precision = precision_score(test_data.labels, predictions, average="weighted")
+                recall = recall_score(test_data.labels, predictions, average="weighted")
+                f1 = f1_score(test_data.labels, predictions, average="weighted")
             else:
                 # Regression metrics
                 mse = np.mean((predictions - test_data.labels) ** 2)
                 accuracy = 1.0 / (1.0 + mse)  # Convert MSE to accuracy-like metric
                 precision = recall = f1 = None
-            
+
             # Create metrics object
             metrics = ModelMetrics(
                 accuracy=float(accuracy),
@@ -315,20 +336,20 @@ class MLPipelineCore:
                 training_time=0.0,  # Will be updated from training results
                 inference_time=float(inference_time),
                 model_size=0.0,  # Would need model serialization to calculate
-                parameters_count=0  # Would need model introspection to calculate
+                parameters_count=0,  # Would need model introspection to calculate
             )
-            
+
             self.model_metrics[model_name] = metrics
-            
+
             evaluation_results = {
                 "status": "completed",
                 "metrics": metrics.to_dict(),
-                "inference_time": inference_time
+                "inference_time": inference_time,
             }
-            
+
             logger.info(f"Model {model_name} evaluation completed")
             return evaluation_results
-            
+
         except Exception as e:
             logger.error(f"Error evaluating model {model_name}: {e}")
             return {"status": "failed", "error": str(e)}
@@ -337,7 +358,7 @@ class MLPipelineCore:
     # ENHANCED DATA INGESTION METHODS
     # -------------------------
 
-    def ingest_data_from_files(self, folder_path: Optional[str] = None) -> List[Dict[str, str]]:
+    def ingest_data_from_files(self, folder_path: str | None = None) -> list[dict[str, str]]:
         """Ingest data from files using SOS system."""
         if not self.ingestion_available:
             logger.error("Data ingestion system not available")
@@ -357,7 +378,7 @@ class MLPipelineCore:
             logger.error(f"Error ingesting data: {e}")
             return []
 
-    def process_text_data(self, text_data: Union[str, List[str]], chunk_size: int = 500) -> List[str]:
+    def process_text_data(self, text_data: str | list[str], chunk_size: int = 500) -> list[str]:
         """Process text data with enhanced preprocessing."""
         if not self.ingestion_available:
             logger.error("Data ingestion system not available")
@@ -384,7 +405,9 @@ class MLPipelineCore:
             logger.error(f"Error processing text data: {e}")
             return []
 
-    def generate_embeddings_from_data(self, data: Union[str, List[str], List[Dict[str, str]]]) -> Optional[List[Dict[str, Any]]]:
+    def generate_embeddings_from_data(
+        self, data: str | list[str] | list[dict[str, str]]
+    ) -> list[dict[str, Any]] | None:
         """Generate embeddings from various data formats."""
         if not self.ingestion_available:
             logger.error("Data ingestion system not available")
@@ -411,7 +434,7 @@ class MLPipelineCore:
             logger.error(f"Error generating embeddings: {e}")
             return None
 
-    def store_embeddings_in_vector_db(self, embeddings: List[Dict[str, Any]]) -> bool:
+    def store_embeddings_in_vector_db(self, embeddings: list[dict[str, Any]]) -> bool:
         """Store embeddings in vector database."""
         if not self.ingestion_available:
             logger.error("Data ingestion system not available")
@@ -427,7 +450,7 @@ class MLPipelineCore:
             logger.error(f"Error storing embeddings: {e}")
             return False
 
-    def run_full_data_pipeline(self, input_data: Optional[str] = None) -> Dict[str, Any]:
+    def run_full_data_pipeline(self, input_data: str | None = None) -> dict[str, Any]:
         """Run the complete data ingestion to vector storage pipeline."""
         if not self.ingestion_available:
             return {"status": "failed", "error": "Data ingestion system not available"}
@@ -450,7 +473,9 @@ class MLPipelineCore:
             processed_chunks = []
             for doc in documents:
                 chunks = self.process_text_data(doc["content"])
-                processed_chunks.extend([{"content": chunk, "file_name": doc["file_name"]} for chunk in chunks])
+                processed_chunks.extend(
+                    [{"content": chunk, "file_name": doc["file_name"]} for chunk in chunks]
+                )
 
             # Step 3: Generate embeddings
             embeddings = self.generate_embeddings_from_data(processed_chunks)
@@ -467,18 +492,21 @@ class MLPipelineCore:
                     "documents_processed": len(documents),
                     "chunks_created": len(processed_chunks),
                     "embeddings_generated": len(embeddings),
-                    "stored_in_vector_db": True
+                    "stored_in_vector_db": True,
                 }
                 logger.info("Full data pipeline completed successfully")
                 return result
             else:
-                return {"status": "failed", "error": "Failed to store embeddings in vector database"}
+                return {
+                    "status": "failed",
+                    "error": "Failed to store embeddings in vector database",
+                }
 
         except Exception as e:
             logger.error(f"Error in full data pipeline: {e}")
             return {"status": "failed", "error": str(e)}
 
-    def search_vector_database(self, query: str, top_k: int = 5) -> List[Dict[str, Any]]:
+    def search_vector_database(self, query: str, top_k: int = 5) -> list[dict[str, Any]]:
         """Search the vector database with a query."""
         if not self.ingestion_available:
             logger.error("Data ingestion system not available")
@@ -502,7 +530,7 @@ class MLPipelineCore:
             logger.error(f"Error searching vector database: {e}")
             return []
 
-    def get_data_ingestion_stats(self) -> Dict[str, Any]:
+    def get_data_ingestion_stats(self) -> dict[str, Any]:
         """Get statistics about the data ingestion system."""
         if not self.ingestion_available:
             return {"available": False, "error": "System not available"}
@@ -516,7 +544,7 @@ class MLPipelineCore:
                 "data_folder": self.data_folder,
                 "embedding_model": "mistral",
                 "vector_collection": "ml_pipeline_collection",
-                "collection_stats": collection_stats
+                "collection_stats": collection_stats,
             }
 
         except Exception as e:
@@ -528,6 +556,7 @@ class MLPipelineCore:
 # INTEGRATION TEST FUNCTION
 # -------------------------
 
+
 def test_data_ingestion_integration():
     """Test the integrated data ingestion system."""
     logger.info("Testing data ingestion integration...")
@@ -536,7 +565,7 @@ def test_data_ingestion_integration():
     test_data = [
         "This is a test document for the ML pipeline integration.",
         "The system should be able to process multiple text documents efficiently.",
-        "Vector embeddings will help with semantic search capabilities."
+        "Vector embeddings will help with semantic search capabilities.",
     ]
 
     try:
@@ -575,5 +604,3 @@ def test_data_ingestion_integration():
 if __name__ == "__main__":
     # Run integration test
     test_data_ingestion_integration()
-
-

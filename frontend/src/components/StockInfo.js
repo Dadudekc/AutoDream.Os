@@ -26,10 +26,10 @@ const StockInfo = ({ stockData }) => {
 
   const latestData = stockData[stockData.length - 1];
   const previousData = stockData[stockData.length - 2];
-  
+
   const priceChange = latestData.close - previousData.close;
   const priceChangePercent = (priceChange / previousData.close) * 100;
-  
+
   const dayHigh = Math.max(...stockData.map(d => d.high));
   const dayLow = Math.min(...stockData.map(d => d.low));
   const avgVolume = stockData.reduce((sum, d) => sum + d.volume, 0) / stockData.length;
@@ -69,7 +69,7 @@ const StockInfo = ({ stockData }) => {
       <Typography variant="h4" gutterBottom color="primary">
         Tesla Inc. (TSLA)
       </Typography>
-      
+
       <Grid container spacing={3}>
         {metrics.map((metric, index) => (
           <Grid item xs={12} sm={6} md={2.4} key={index}>
@@ -88,11 +88,11 @@ const StockInfo = ({ stockData }) => {
                     {metric.title}
                   </Typography>
                 </Box>
-                
+
                 <Typography variant="h6" fontWeight="bold" mb={1}>
                   {metric.value}
                 </Typography>
-                
+
                 {metric.change !== undefined && (
                   <Box display="flex" alignItems="center">
                     <Chip
@@ -154,5 +154,3 @@ const StockInfo = ({ stockData }) => {
 };
 
 export default StockInfo;
-
-

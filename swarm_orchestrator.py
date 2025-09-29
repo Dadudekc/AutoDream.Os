@@ -12,9 +12,9 @@ Usage:
     python swarm_orchestrator.py status v2-robot
 """
 
-import sys
 import subprocess
-from pathlib import Path
+import sys
+
 
 def main():
     """Quick access to swarm orchestration commands."""
@@ -35,52 +35,59 @@ def main():
         print("  python swarm_orchestrator.py execute-v2-robot")
         print("  python swarm_orchestrator.py status v2-robot")
         return
-    
+
     command = sys.argv[1]
-    
+
     if command == "create-v2-robot":
         print("🚀 Creating V2 Trading Robot workflow...")
-        subprocess.run([
-            sys.executable, 
-            "src/tools/swarm_workflow_orchestrator.py",
-            "create",
-            "--name", "V2 Trading Robot",
-            "--description", "Transform Tesla Trading Robot into V2-compliant masterpiece",
-            "--template", "v2_trading_robot"
-        ])
-    
+        subprocess.run(
+            [
+                sys.executable,
+                "src/tools/swarm_workflow_orchestrator.py",
+                "create",
+                "--name",
+                "V2 Trading Robot",
+                "--description",
+                "Transform Tesla Trading Robot into V2-compliant masterpiece",
+                "--template",
+                "v2_trading_robot",
+            ]
+        )
+
     elif command == "execute-v2-robot":
         print("🤖 Executing V2 Trading Robot workflow...")
-        subprocess.run([
-            sys.executable,
-            "src/tools/swarm_workflow_orchestrator.py",
-            "execute",
-            "--workflow", "V2 Trading Robot"
-        ])
-    
+        subprocess.run(
+            [
+                sys.executable,
+                "src/tools/swarm_workflow_orchestrator.py",
+                "execute",
+                "--workflow",
+                "V2 Trading Robot",
+            ]
+        )
+
     elif command == "list":
         print("📋 Listing workflows...")
-        subprocess.run([
-            sys.executable,
-            "src/tools/swarm_workflow_orchestrator.py",
-            "list"
-        ])
-    
+        subprocess.run([sys.executable, "src/tools/swarm_workflow_orchestrator.py", "list"])
+
     elif command == "status":
         if len(sys.argv) < 3:
             print("❌ Please specify workflow name")
             print("Usage: python swarm_orchestrator.py status <workflow-name>")
             return
-        
+
         workflow_name = sys.argv[2]
         print(f"📊 Getting status for {workflow_name}...")
-        subprocess.run([
-            sys.executable,
-            "src/tools/swarm_workflow_orchestrator.py",
-            "status",
-            "--workflow", workflow_name
-        ])
-    
+        subprocess.run(
+            [
+                sys.executable,
+                "src/tools/swarm_workflow_orchestrator.py",
+                "status",
+                "--workflow",
+                workflow_name,
+            ]
+        )
+
     elif command == "help":
         print("🐝 SWARM WORKFLOW ORCHESTRATOR HELP")
         print("=" * 50)
@@ -98,13 +105,11 @@ def main():
         print("  • custom - Create your own workflow")
         print("")
         print("🐝 WE. ARE. SWARM. - Orchestrate with intelligence!")
-    
+
     else:
         print(f"❌ Unknown command: {command}")
         print("Run 'python swarm_orchestrator.py help' for usage information")
 
+
 if __name__ == "__main__":
     main()
-
-
-

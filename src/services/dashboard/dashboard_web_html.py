@@ -7,7 +7,8 @@ Provides the frontend HTML, CSS, and JavaScript for the dashboard.
 Author: Agent-8 (Documentation Specialist)
 License: MIT
 """
-from typing import Dict, List, Any
+
+
 def generate_dashboard_html() -> str:
     """Generate dashboard HTML"""
     return """

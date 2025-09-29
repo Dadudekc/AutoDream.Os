@@ -1,6 +1,6 @@
 # V3-001: Cloud Infrastructure Setup - Security Configuration
 # Agent-1: Architecture Foundation Specialist
-# 
+#
 # Security groups, IAM roles, and policies for the V2_SWARM system
 
 # Security Group for EKS Cluster
@@ -188,6 +188,3 @@ resource "aws_kms_alias" "swarm_kms_alias" {
   name          = "alias/${var.project_name}-key"
   target_key_id = aws_kms_key.swarm_kms_key.key_id
 }
-
-
-

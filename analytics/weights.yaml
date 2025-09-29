@@ -6,6 +6,3 @@ test_pass: 0.10
 coverage: 0.10
 complexity_inv: 0.05
 review_findings_inv: 0.05
-
-
-

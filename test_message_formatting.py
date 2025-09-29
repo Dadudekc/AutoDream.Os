@@ -13,6 +13,7 @@ from pathlib import Path
 project_root = Path(__file__).parent
 sys.path.insert(0, str(project_root))
 
+
 def test_message_formatting():
     """Test A2A message formatting."""
     print("🧪 Testing Discord Commander Message Formatting...")
@@ -21,6 +22,7 @@ def test_message_formatting():
     try:
         # Import the messaging service
         from src.services.consolidated_messaging_service import ConsolidatedMessagingService
+
         print("✅ Messaging service imported successfully")
 
         # Create service instance
@@ -33,7 +35,9 @@ def test_message_formatting():
         test_to = "Agent-4"
         test_priority = "NORMAL"
 
-        formatted_message = service._format_a2a_message(test_from, test_to, test_content, test_priority)
+        formatted_message = service._format_a2a_message(
+            test_from, test_to, test_content, test_priority
+        )
 
         print("📋 Formatted Message:")
         print("-" * 40)
@@ -51,7 +55,7 @@ def test_message_formatting():
             "TO: Agent-4",
             "Priority: NORMAL",
             "we need to ensure the discord commander pastes the right messages",
-            "QUALITY GATES REMINDER"
+            "QUALITY GATES REMINDER",
         ]
 
         missing_sections = []
@@ -71,7 +75,7 @@ def test_message_formatting():
             print(f"✅ Message length is reasonable: {len(formatted_message)} characters")
 
         # Check for proper formatting
-        lines = formatted_message.split('\n')
+        lines = formatted_message.split("\n")
         if len(lines) < 10:
             print("❌ Message seems too short")
         else:
@@ -104,6 +108,7 @@ def test_message_formatting():
     except Exception as e:
         print(f"❌ Message formatting test failed: {e}")
         return False
+
 
 if __name__ == "__main__":
     success = test_message_formatting()

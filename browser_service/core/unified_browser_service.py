@@ -7,13 +7,13 @@ Main unified browser service for V2 compliance.
 """
 
 import logging
-from typing import Optional, Dict, List, Any, Tuple
+from typing import Any
 
 from ..adapters.chrome_adapter import ChromeBrowserAdapter
+from ..config.browser_config import BrowserConfig, TheaConfig
 from ..managers.cookie_manager import CookieManager
 from ..managers.session_manager import SessionManager
 from ..operations.browser_operations import BrowserOperations
-from ..config.browser_config import BrowserConfig, TheaConfig
 
 logger = logging.getLogger(__name__)
 
@@ -21,11 +21,15 @@ logger = logging.getLogger(__name__)
 class UnifiedBrowserService:
     """Unified browser service for Thea interactions."""
 
-    def __init__(self, browser_config: Optional[BrowserConfig] = None, thea_config: Optional[TheaConfig] = None):
+    def __init__(
+        self,
+        browser_config: BrowserConfig | None = None,
+        thea_config: TheaConfig | None = None,
+    ):
         """Initialize unified browser service."""
         self.browser_config = browser_config or BrowserConfig()
         self.thea_config = thea_config or TheaConfig()
-        
+
         # Initialize components
         self.browser_adapter = ChromeBrowserAdapter()
         self.cookie_manager = CookieManager()
@@ -40,11 +44,11 @@ class UnifiedBrowserService:
         """Stop the browser."""
         self.browser_adapter.stop()
 
-    def create_session(self, service_name: str) -> Optional[str]:
+    def create_session(self, service_name: str) -> str | None:
         """Create a new session."""
         return self.session_manager.create_session(service_name)
 
-    def navigate_to_conversation(self, url: Optional[str] = None) -> bool:
+    def navigate_to_conversation(self, url: str | None = None) -> bool:
         """Navigate to conversation page."""
         return self.browser_operations.navigate_to_conversation(url)
 
@@ -64,7 +68,7 @@ class UnifiedBrowserService:
         """Load cookies."""
         return self.cookie_manager.load_cookies(self.browser_adapter, service_name)
 
-    def can_make_request(self, service_name: str, session_id: str) -> Tuple[bool, str]:
+    def can_make_request(self, service_name: str, session_id: str) -> tuple[bool, str]:
         """Check if request can be made."""
         return self.session_manager.can_make_request(service_name, session_id)
 
@@ -72,15 +76,15 @@ class UnifiedBrowserService:
         """Record a request."""
         self.session_manager.record_request(service_name, session_id, success)
 
-    def get_session_info(self, session_id: str) -> Dict[str, Any]:
+    def get_session_info(self, session_id: str) -> dict[str, Any]:
         """Get session information."""
         return self.session_manager.get_session_info(session_id)
 
-    def get_rate_limit_status(self, service_name: str) -> Dict[str, Any]:
+    def get_rate_limit_status(self, service_name: str) -> dict[str, Any]:
         """Get rate limit status."""
         return self.session_manager.get_rate_limit_status(service_name)
 
-    def get_page_status(self) -> Dict[str, Any]:
+    def get_page_status(self) -> dict[str, Any]:
         """Get page status."""
         return self.browser_operations.get_page_status()
 
@@ -92,7 +96,7 @@ class UnifiedBrowserService:
         """Check if service has valid session."""
         return self.cookie_manager.has_valid_session(service_name)
 
-    def get_browser_info(self) -> Dict[str, Any]:
+    def get_browser_info(self) -> dict[str, Any]:
         """Get browser information."""
         return {
             "browser_running": self.is_browser_running(),
@@ -101,23 +105,19 @@ class UnifiedBrowserService:
             "config": {
                 "headless": self.browser_config.headless,
                 "window_size": self.browser_config.window_size,
-                "timeout": self.browser_config.timeout
-            }
+                "timeout": self.browser_config.timeout,
+            },
         }
 
 
 def create_browser_service(
     headless: bool = False,
-    user_data_dir: Optional[str] = None,
-    window_size: Tuple[int, int] = (1920, 1080)
+    user_data_dir: str | None = None,
+    window_size: tuple[int, int] = (1920, 1080),
 ) -> UnifiedBrowserService:
     """Create a browser service with specified configuration."""
     browser_config = BrowserConfig(
-        headless=headless,
-        user_data_dir=user_data_dir,
-        window_size=window_size
+        headless=headless, user_data_dir=user_data_dir, window_size=window_size
     )
-    
+
     return UnifiedBrowserService(browser_config=browser_config)
-
-

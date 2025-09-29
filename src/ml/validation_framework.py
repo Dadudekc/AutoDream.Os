@@ -1,52 +1,58 @@
-import os
 import json
 import logging
-import asyncio
-import numpy as np
-from typing import Dict, Any, Optional, List, Tuple, Callable
+import os
+from collections.abc import Callable
+from dataclasses import asdict, dataclass
 from datetime import datetime
-from dataclasses import dataclass, asdict
 from enum import Enum
-import unittest
-from unittest.mock import Mock, patch
+from typing import Any
+
 
 class ValidationStatus(Enum):
     """Enumeration for validation status."""
+
     PASSED = "passed"
     FAILED = "failed"
     WARNING = "warning"
     SKIPPED = "skipped"
 
+
 class TestType(Enum):
     """Enumeration for test types."""
+
     UNIT = "unit"
     INTEGRATION = "integration"
     PERFORMANCE = "performance"
     ACCURACY = "accuracy"
     DATA_QUALITY = "data_quality"
 
+
 @dataclass
 class ValidationResult:
     """Data class for validation results."""
+
     test_name: str
     test_type: TestType
     status: ValidationStatus
     message: str
     timestamp: datetime
     duration: float
-    metrics: Optional[Dict[str, Any]] = None
-    model_name: Optional[str] = None
-    version: Optional[str] = None
+    metrics: dict[str, Any] | None = None
+    model_name: str | None = None
+    version: str | None = None
+
 
 @dataclass
 class TestSuite:
     """Data class for test suite information."""
+
     suite_name: str
     description: str
-    tests: List[str]
+    tests: list[str]
     created_at: datetime
-    last_run: Optional[datetime] = None
-    status: Optional[ValidationStatus] = None
+    last_run: datetime | None = None
+    status: ValidationStatus | None = None
+
 
 class MLValidationFramework:
     """
@@ -70,11 +76,11 @@ class MLValidationFramework:
         self.test_path = test_path
         self.results_path = results_path
         self.logger = logging.getLogger(__name__)
-        
+
         # Test management
-        self.test_suites: Dict[str, TestSuite] = {}
-        self.test_results: List[ValidationResult] = []
-        self.test_functions: Dict[str, Callable] = {}
+        self.test_suites: dict[str, TestSuite] = {}
+        self.test_results: list[ValidationResult] = []
+        self.test_functions: dict[str, Callable] = {}
 
         # Ensure directories exist
         os.makedirs(test_path, exist_ok=True)
@@ -92,17 +98,17 @@ class MLValidationFramework:
         suites_file = os.path.join(self.test_path, "test_suites.json")
         if os.path.exists(suites_file):
             try:
-                with open(suites_file, 'r') as f:
+                with open(suites_file) as f:
                     data = json.load(f)
-                
+
                 for suite_name, suite_data in data.items():
-                    suite_data['created_at'] = datetime.fromisoformat(suite_data['created_at'])
-                    if suite_data.get('last_run'):
-                        suite_data['last_run'] = datetime.fromisoformat(suite_data['last_run'])
-                    if suite_data.get('status'):
-                        suite_data['status'] = ValidationStatus(suite_data['status'])
+                    suite_data["created_at"] = datetime.fromisoformat(suite_data["created_at"])
+                    if suite_data.get("last_run"):
+                        suite_data["last_run"] = datetime.fromisoformat(suite_data["last_run"])
+                    if suite_data.get("status"):
+                        suite_data["status"] = ValidationStatus(suite_data["status"])
                     self.test_suites[suite_name] = TestSuite(**suite_data)
-                
+
                 self.logger.info(f"Loaded {len(self.test_suites)} test suites")
             except Exception as e:
                 self.logger.error(f"Failed to load test suites: {e}")
@@ -112,19 +118,19 @@ class MLValidationFramework:
         try:
             suites_file = os.path.join(self.test_path, "test_suites.json")
             data = {}
-            
+
             for suite_name, suite in self.test_suites.items():
                 suite_dict = asdict(suite)
-                suite_dict['created_at'] = suite.created_at.isoformat()
+                suite_dict["created_at"] = suite.created_at.isoformat()
                 if suite.last_run:
-                    suite_dict['last_run'] = suite.last_run.isoformat()
+                    suite_dict["last_run"] = suite.last_run.isoformat()
                 if suite.status:
-                    suite_dict['status'] = suite.status.value
+                    suite_dict["status"] = suite.status.value
                 data[suite_name] = suite_dict
-            
-            with open(suites_file, 'w') as f:
+
+            with open(suites_file, "w") as f:
                 json.dump(data, f, indent=2)
-            
+
             self.logger.info("Test suites saved successfully")
         except Exception as e:
             self.logger.error(f"Failed to save test suites: {e}")
@@ -134,15 +140,15 @@ class MLValidationFramework:
         results_file = os.path.join(self.results_path, "test_results.json")
         if os.path.exists(results_file):
             try:
-                with open(results_file, 'r') as f:
+                with open(results_file) as f:
                     data = json.load(f)
-                
+
                 for result_data in data:
-                    result_data['timestamp'] = datetime.fromisoformat(result_data['timestamp'])
-                    result_data['test_type'] = TestType(result_data['test_type'])
-                    result_data['status'] = ValidationStatus(result_data['status'])
+                    result_data["timestamp"] = datetime.fromisoformat(result_data["timestamp"])
+                    result_data["test_type"] = TestType(result_data["test_type"])
+                    result_data["status"] = ValidationStatus(result_data["status"])
                     self.test_results.append(ValidationResult(**result_data))
-                
+
                 self.logger.info(f"Loaded {len(self.test_results)} test results")
             except Exception as e:
                 self.logger.error(f"Failed to load test results: {e}")
@@ -152,17 +158,17 @@ class MLValidationFramework:
         try:
             results_file = os.path.join(self.results_path, "test_results.json")
             data = []
-            
+
             for result in self.test_results:
                 result_dict = asdict(result)
-                result_dict['timestamp'] = result.timestamp.isoformat()
-                result_dict['test_type'] = result.test_type.value
-                result_dict['status'] = result.status.value
+                result_dict["timestamp"] = result.timestamp.isoformat()
+                result_dict["test_type"] = result.test_type.value
+                result_dict["status"] = result.status.value
                 data.append(result_dict)
-            
-            with open(results_file, 'w') as f:
+
+            with open(results_file, "w") as f:
                 json.dump(data, f, indent=2)
-            
+
             self.logger.info("Test results saved successfully")
         except Exception as e:
             self.logger.error(f"Failed to save test results: {e}")
@@ -173,8 +179,12 @@ class MLValidationFramework:
         self.register_test("test_prediction_format", self._test_prediction_format, TestType.UNIT)
         self.register_test("test_input_validation", self._test_input_validation, TestType.UNIT)
         self.register_test("test_output_validation", self._test_output_validation, TestType.UNIT)
-        self.register_test("test_performance_benchmark", self._test_performance_benchmark, TestType.PERFORMANCE)
-        self.register_test("test_accuracy_threshold", self._test_accuracy_threshold, TestType.ACCURACY)
+        self.register_test(
+            "test_performance_benchmark", self._test_performance_benchmark, TestType.PERFORMANCE
+        )
+        self.register_test(
+            "test_accuracy_threshold", self._test_accuracy_threshold, TestType.ACCURACY
+        )
         self.register_test("test_data_quality", self._test_data_quality, TestType.DATA_QUALITY)
 
     def register_test(self, test_name: str, test_function: Callable, test_type: TestType) -> None:
@@ -194,7 +204,9 @@ class MLValidationFramework:
         self.test_functions[test_name] = test_function
         self.logger.info(f"Registered test: {test_name} ({test_type.value})")
 
-    def create_test_suite(self, suite_name: str, description: str, test_names: List[str]) -> TestSuite:
+    def create_test_suite(
+        self, suite_name: str, description: str, test_names: list[str]
+    ) -> TestSuite:
         """
         Creates a new test suite.
 
@@ -222,17 +234,22 @@ class MLValidationFramework:
             suite_name=suite_name,
             description=description,
             tests=test_names,
-            created_at=datetime.utcnow()
+            created_at=datetime.utcnow(),
         )
 
         self.test_suites[suite_name] = suite
         self._save_test_suites()
-        
+
         self.logger.info(f"Created test suite: {suite_name}")
         return suite
 
-    async def run_test(self, test_name: str, model_name: Optional[str] = None,
-                      version: Optional[str] = None, **kwargs) -> ValidationResult:
+    async def run_test(
+        self,
+        test_name: str,
+        model_name: str | None = None,
+        version: str | None = None,
+        **kwargs,
+    ) -> ValidationResult:
         """
         Runs a single test.
 
@@ -250,13 +267,13 @@ class MLValidationFramework:
 
         start_time = datetime.utcnow()
         test_function = self.test_functions[test_name]
-        
+
         try:
             self.logger.info(f"Running test: {test_name}")
-            
+
             # Run the test
             result = await test_function(model_name=model_name, version=version, **kwargs)
-            
+
             end_time = datetime.utcnow()
             duration = (end_time - start_time).total_seconds()
 
@@ -269,19 +286,19 @@ class MLValidationFramework:
                 timestamp=end_time,
                 duration=duration,
                 model_name=model_name,
-                version=version
+                version=version,
             )
 
             self.test_results.append(validation_result)
             self._save_test_results()
-            
+
             self.logger.info(f"Test completed: {test_name} - {validation_result.status.value}")
             return validation_result
 
         except Exception as e:
             end_time = datetime.utcnow()
             duration = (end_time - start_time).total_seconds()
-            
+
             validation_result = ValidationResult(
                 test_name=test_name,
                 test_type=TestType.UNIT,
@@ -290,17 +307,18 @@ class MLValidationFramework:
                 timestamp=end_time,
                 duration=duration,
                 model_name=model_name,
-                version=version
+                version=version,
             )
 
             self.test_results.append(validation_result)
             self._save_test_results()
-            
+
             self.logger.error(f"Test failed: {test_name} - {e}")
             return validation_result
 
-    async def run_test_suite(self, suite_name: str, model_name: Optional[str] = None,
-                           version: Optional[str] = None) -> List[ValidationResult]:
+    async def run_test_suite(
+        self, suite_name: str, model_name: str | None = None, version: str | None = None
+    ) -> list[ValidationResult]:
         """
         Runs a complete test suite.
 
@@ -319,21 +337,25 @@ class MLValidationFramework:
         results = []
 
         self.logger.info(f"Running test suite: {suite_name}")
-        
+
         for test_name in suite.tests:
             result = await self.run_test(test_name, model_name, version)
             results.append(result)
 
         # Update suite status
         suite.last_run = datetime.utcnow()
-        suite.status = ValidationStatus.PASSED if all(r.status == ValidationStatus.PASSED for r in results) else ValidationStatus.FAILED
+        suite.status = (
+            ValidationStatus.PASSED
+            if all(r.status == ValidationStatus.PASSED for r in results)
+            else ValidationStatus.FAILED
+        )
         self._save_test_suites()
 
         self.logger.info(f"Test suite completed: {suite_name} - {suite.status.value}")
         return results
 
     # Default test implementations
-    async def _test_model_loading(self, model_name: Optional[str] = None, **kwargs) -> bool:
+    async def _test_model_loading(self, model_name: str | None = None, **kwargs) -> bool:
         """Tests model loading functionality."""
         try:
             # This would test actual model loading in a real implementation
@@ -342,7 +364,7 @@ class MLValidationFramework:
         except Exception:
             return False
 
-    async def _test_prediction_format(self, model_name: Optional[str] = None, **kwargs) -> bool:
+    async def _test_prediction_format(self, model_name: str | None = None, **kwargs) -> bool:
         """Tests prediction output format."""
         try:
             # Test that predictions have the expected format
@@ -351,7 +373,7 @@ class MLValidationFramework:
         except Exception:
             return False
 
-    async def _test_input_validation(self, model_name: Optional[str] = None, **kwargs) -> bool:
+    async def _test_input_validation(self, model_name: str | None = None, **kwargs) -> bool:
         """Tests input validation."""
         try:
             # Test input validation logic
@@ -360,7 +382,7 @@ class MLValidationFramework:
         except Exception:
             return False
 
-    async def _test_output_validation(self, model_name: Optional[str] = None, **kwargs) -> bool:
+    async def _test_output_validation(self, model_name: str | None = None, **kwargs) -> bool:
         """Tests output validation."""
         try:
             # Test output validation logic
@@ -369,7 +391,7 @@ class MLValidationFramework:
         except Exception:
             return False
 
-    async def _test_performance_benchmark(self, model_name: Optional[str] = None, **kwargs) -> bool:
+    async def _test_performance_benchmark(self, model_name: str | None = None, **kwargs) -> bool:
         """Tests performance benchmarks."""
         try:
             # Test performance benchmarks
@@ -378,7 +400,7 @@ class MLValidationFramework:
         except Exception:
             return False
 
-    async def _test_accuracy_threshold(self, model_name: Optional[str] = None, **kwargs) -> bool:
+    async def _test_accuracy_threshold(self, model_name: str | None = None, **kwargs) -> bool:
         """Tests accuracy thresholds."""
         try:
             # Test accuracy thresholds
@@ -387,7 +409,7 @@ class MLValidationFramework:
         except Exception:
             return False
 
-    async def _test_data_quality(self, model_name: Optional[str] = None, **kwargs) -> bool:
+    async def _test_data_quality(self, model_name: str | None = None, **kwargs) -> bool:
         """Tests data quality."""
         try:
             # Test data quality checks
@@ -396,9 +418,12 @@ class MLValidationFramework:
         except Exception:
             return False
 
-    def get_test_results(self, test_name: Optional[str] = None, 
-                        model_name: Optional[str] = None,
-                        status_filter: Optional[ValidationStatus] = None) -> List[ValidationResult]:
+    def get_test_results(
+        self,
+        test_name: str | None = None,
+        model_name: str | None = None,
+        status_filter: ValidationStatus | None = None,
+    ) -> list[ValidationResult]:
         """
         Gets test results with optional filtering.
 
@@ -421,7 +446,7 @@ class MLValidationFramework:
 
         return results
 
-    def get_test_summary(self) -> Dict[str, Any]:
+    def get_test_summary(self) -> dict[str, Any]:
         """
         Gets a summary of test results.
 
@@ -440,8 +465,11 @@ class MLValidationFramework:
             test_type_counts[test_type] = test_type_counts.get(test_type, 0) + 1
 
         # Recent test activity
-        recent_tests = [r for r in self.test_results 
-                       if r.timestamp >= datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)]
+        recent_tests = [
+            r
+            for r in self.test_results
+            if r.timestamp >= datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
+        ]
 
         return {
             "total_tests": total_tests,
@@ -453,8 +481,5 @@ class MLValidationFramework:
             "recent_tests_today": len(recent_tests),
             "total_test_suites": len(self.test_suites),
             "registered_tests": len(self.test_functions),
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.utcnow().isoformat(),
         }
-
-
-

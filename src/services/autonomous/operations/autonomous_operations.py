@@ -9,81 +9,79 @@ Manages autonomous operations for agents.
 import json
 import logging
 from pathlib import Path
-from typing import Dict, Any, List, Optional
-
-from ...agent_devlog_automation import auto_create_cycle_devlog
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
 
 class AutonomousOperations:
     """Manages autonomous operations for agents."""
-    
+
     def __init__(self, agent_id: str, workspace_dir: Path):
         """Initialize autonomous operations."""
         self.agent_id = agent_id
         self.workspace_dir = workspace_dir
         self.operations_file = workspace_dir / "autonomous_operations.json"
-    
-    async def run_autonomous_operations(self) -> Dict[str, Any]:
+
+    async def run_autonomous_operations(self) -> dict[str, Any]:
         """Run autonomous operations when no urgent tasks are pending."""
         try:
             operations_results = {
                 "operations_run": 0,
                 "operations_successful": 0,
                 "operations_failed": 0,
-                "details": []
+                "details": [],
             }
-            
+
             # Get available operations
             available_operations = await self._get_available_operations()
-            
+
             if not available_operations:
                 logger.info(f"{self.agent_id}: No autonomous operations available")
                 return operations_results
-            
+
             # Run operations
             for operation in available_operations:
                 operations_results["operations_run"] += 1
-                
+
                 try:
                     result = await self._execute_operation(operation)
                     if result.get("success", False):
                         operations_results["operations_successful"] += 1
                     else:
                         operations_results["operations_failed"] += 1
-                    
+
                     operations_results["details"].append(result)
-                    
+
                     # Create devlog for operation
                     await auto_create_devlog(
                         self.agent_id,
                         f"Autonomous operation: {operation.get('name', 'Unknown')}",
                         "completed" if result.get("success") else "failed",
-                        {"operation": operation.get('name'), "result": result}
+                        {"operation": operation.get("name"), "result": result},
                     )
-                    
+
                 except Exception as e:
-                    logger.error(f"{self.agent_id}: Error executing operation {operation.get('name')}: {e}")
+                    logger.error(
+                        f"{self.agent_id}: Error executing operation {operation.get('name')}: {e}"
+                    )
                     operations_results["operations_failed"] += 1
-                    operations_results["details"].append({
-                        "operation": operation.get('name'),
-                        "success": False,
-                        "error": str(e)
-                    })
-            
+                    operations_results["details"].append(
+                        {"operation": operation.get("name"), "success": False, "error": str(e)}
+                    )
+
             return operations_results
-            
+
         except Exception as e:
             logger.error(f"{self.agent_id}: Error running autonomous operations: {e}")
             return {
                 "operations_run": 0,
                 "operations_successful": 0,
                 "operations_failed": 1,
-                "error": str(e)
+                "error": str(e),
             }
-    
-    async def _get_available_operations(self) -> List[Dict[str, Any]]:
+
+    async def _get_available_operations(self) -> list[dict[str, Any]]:
         """Get list of available autonomous operations."""
         try:
             if not self.operations_file.exists():
@@ -91,17 +89,17 @@ class AutonomousOperations:
                 default_operations = await self._create_default_operations()
                 await self._save_operations(default_operations)
                 return default_operations
-            
-            with open(self.operations_file, 'r') as f:
+
+            with open(self.operations_file) as f:
                 operations_data = json.load(f)
-            
+
             return operations_data.get("operations", [])
-            
+
         except Exception as e:
             logger.error(f"{self.agent_id}: Error getting available operations: {e}")
             return []
-    
-    async def _create_default_operations(self) -> List[Dict[str, Any]]:
+
+    async def _create_default_operations(self) -> list[dict[str, Any]]:
         """Create default autonomous operations."""
         return [
             {
@@ -111,7 +109,7 @@ class AutonomousOperations:
                 "type": "maintenance",
                 "priority": "medium",
                 "frequency": "daily",
-                "enabled": True
+                "enabled": True,
             },
             {
                 "id": "performance_analysis",
@@ -120,7 +118,7 @@ class AutonomousOperations:
                 "type": "monitoring",
                 "priority": "medium",
                 "frequency": "daily",
-                "enabled": True
+                "enabled": True,
             },
             {
                 "id": "documentation_update",
@@ -129,7 +127,7 @@ class AutonomousOperations:
                 "type": "maintenance",
                 "priority": "low",
                 "frequency": "weekly",
-                "enabled": True
+                "enabled": True,
             },
             {
                 "id": "test_optimization",
@@ -138,7 +136,7 @@ class AutonomousOperations:
                 "type": "quality",
                 "priority": "medium",
                 "frequency": "daily",
-                "enabled": True
+                "enabled": True,
             },
             {
                 "id": "security_scan",
@@ -147,32 +145,29 @@ class AutonomousOperations:
                 "type": "security",
                 "priority": "high",
                 "frequency": "daily",
-                "enabled": True
-            }
+                "enabled": True,
+            },
         ]
-    
-    async def _save_operations(self, operations: List[Dict[str, Any]]) -> None:
+
+    async def _save_operations(self, operations: list[dict[str, Any]]) -> None:
         """Save operations to file."""
         try:
-            operations_data = {
-                "operations": operations,
-                "last_updated": "2025-01-16T00:00:00Z"
-            }
-            
-            with open(self.operations_file, 'w') as f:
+            operations_data = {"operations": operations, "last_updated": "2025-01-16T00:00:00Z"}
+
+            with open(self.operations_file, "w") as f:
                 json.dump(operations_data, f, indent=2)
-                
+
         except Exception as e:
             logger.error(f"{self.agent_id}: Error saving operations: {e}")
-    
-    async def _execute_operation(self, operation: Dict[str, Any]) -> Dict[str, Any]:
+
+    async def _execute_operation(self, operation: dict[str, Any]) -> dict[str, Any]:
         """Execute a specific autonomous operation."""
         try:
-            operation_id = operation.get('id')
-            operation_name = operation.get('name', 'Unknown')
-            
+            operation_id = operation.get("id")
+            operation_name = operation.get("name", "Unknown")
+
             logger.info(f"{self.agent_id}: Executing operation: {operation_name}")
-            
+
             # Execute based on operation type
             if operation_id == "code_review":
                 return await self._execute_code_review(operation)
@@ -188,18 +183,18 @@ class AutonomousOperations:
                 return {
                     "operation": operation_name,
                     "success": False,
-                    "error": "Unknown operation type"
+                    "error": "Unknown operation type",
                 }
-                
+
         except Exception as e:
             logger.error(f"{self.agent_id}: Error executing operation {operation.get('name')}: {e}")
             return {
-                "operation": operation.get('name', 'Unknown'),
+                "operation": operation.get("name", "Unknown"),
                 "success": False,
-                "error": str(e)
+                "error": str(e),
             }
-    
-    async def _execute_code_review(self, operation: Dict[str, Any]) -> Dict[str, Any]:
+
+    async def _execute_code_review(self, operation: dict[str, Any]) -> dict[str, Any]:
         """Execute code review operation."""
         try:
             # Simplified code review
@@ -207,23 +202,15 @@ class AutonomousOperations:
                 "files_reviewed": 10,
                 "issues_found": 2,
                 "optimizations_suggested": 5,
-                "quality_score": 0.85
+                "quality_score": 0.85,
             }
-            
-            return {
-                "operation": operation.get('name'),
-                "success": True,
-                "results": review_results
-            }
-            
+
+            return {"operation": operation.get("name"), "success": True, "results": review_results}
+
         except Exception as e:
-            return {
-                "operation": operation.get('name'),
-                "success": False,
-                "error": str(e)
-            }
-    
-    async def _execute_performance_analysis(self, operation: Dict[str, Any]) -> Dict[str, Any]:
+            return {"operation": operation.get("name"), "success": False, "error": str(e)}
+
+    async def _execute_performance_analysis(self, operation: dict[str, Any]) -> dict[str, Any]:
         """Execute performance analysis operation."""
         try:
             # Simplified performance analysis
@@ -231,89 +218,59 @@ class AutonomousOperations:
                 "response_time": "120ms",
                 "throughput": "1000 req/s",
                 "memory_usage": "512MB",
-                "cpu_usage": "45%"
+                "cpu_usage": "45%",
             }
-            
+
             return {
-                "operation": operation.get('name'),
+                "operation": operation.get("name"),
                 "success": True,
-                "results": performance_results
+                "results": performance_results,
             }
-            
+
         except Exception as e:
-            return {
-                "operation": operation.get('name'),
-                "success": False,
-                "error": str(e)
-            }
-    
-    async def _execute_documentation_update(self, operation: Dict[str, Any]) -> Dict[str, Any]:
+            return {"operation": operation.get("name"), "success": False, "error": str(e)}
+
+    async def _execute_documentation_update(self, operation: dict[str, Any]) -> dict[str, Any]:
         """Execute documentation update operation."""
         try:
             # Simplified documentation update
-            doc_results = {
-                "files_updated": 3,
-                "new_sections": 2,
-                "outdated_sections": 1
-            }
-            
-            return {
-                "operation": operation.get('name'),
-                "success": True,
-                "results": doc_results
-            }
-            
+            doc_results = {"files_updated": 3, "new_sections": 2, "outdated_sections": 1}
+
+            return {"operation": operation.get("name"), "success": True, "results": doc_results}
+
         except Exception as e:
-            return {
-                "operation": operation.get('name'),
-                "success": False,
-                "error": str(e)
-            }
-    
-    async def _execute_test_optimization(self, operation: Dict[str, Any]) -> Dict[str, Any]:
+            return {"operation": operation.get("name"), "success": False, "error": str(e)}
+
+    async def _execute_test_optimization(self, operation: dict[str, Any]) -> dict[str, Any]:
         """Execute test optimization operation."""
         try:
             # Simplified test optimization
             test_results = {
                 "tests_optimized": 15,
                 "execution_time_reduced": "30%",
-                "coverage_improved": "5%"
+                "coverage_improved": "5%",
             }
-            
-            return {
-                "operation": operation.get('name'),
-                "success": True,
-                "results": test_results
-            }
-            
+
+            return {"operation": operation.get("name"), "success": True, "results": test_results}
+
         except Exception as e:
-            return {
-                "operation": operation.get('name'),
-                "success": False,
-                "error": str(e)
-            }
-    
-    async def _execute_security_scan(self, operation: Dict[str, Any]) -> Dict[str, Any]:
+            return {"operation": operation.get("name"), "success": False, "error": str(e)}
+
+    async def _execute_security_scan(self, operation: dict[str, Any]) -> dict[str, Any]:
         """Execute security scan operation."""
         try:
             # Simplified security scan
             security_results = {
                 "vulnerabilities_found": 0,
                 "security_score": 0.95,
-                "recommendations": 2
+                "recommendations": 2,
             }
-            
+
             return {
-                "operation": operation.get('name'),
+                "operation": operation.get("name"),
                 "success": True,
-                "results": security_results
+                "results": security_results,
             }
-            
+
         except Exception as e:
-            return {
-                "operation": operation.get('name'),
-                "success": False,
-                "error": str(e)
-            }
-
-
+            return {"operation": operation.get("name"), "success": False, "error": str(e)}

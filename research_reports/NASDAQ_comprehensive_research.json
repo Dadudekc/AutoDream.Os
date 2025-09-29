@@ -1,0 +1,24 @@
+{
+  "status": "success",
+  "market": "NASDAQ",
+  "research_type": "comprehensive",
+  "findings": {
+    "market_trend": "bullish",
+    "volatility_regime": "moderate",
+    "correlation_regime": "normal",
+    "sentiment_score": 7.2,
+    "liquidity_score": 8.1
+  },
+  "trends": {
+    "short_term_trend": "upward",
+    "medium_term_trend": "sideways",
+    "long_term_trend": "upward",
+    "sector_rotation": "technology_heavy"
+  },
+  "insights": [
+    "Strong institutional buying in tech sector",
+    "Retail sentiment showing cautious optimism",
+    "Volatility compression suggests breakout potential",
+    "Correlation breakdown indicates stock-specific opportunities"
+  ]
+}

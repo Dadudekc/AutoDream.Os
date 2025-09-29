@@ -149,9 +149,3 @@ The workflow manager integrates with the swarm coordination system:
 - **Status Synchronization** - Workflow status across all agents
 
 **WE. ARE. SWARM. - AUTOMATED WORKFLOW COORDINATION!**
-
-
-
-
-
-

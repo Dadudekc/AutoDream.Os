@@ -19,16 +19,16 @@ if str(tools_dir) not in sys.path:
 # Import and run the main scanner
 from projectscanner.core import ProjectScanner
 
+
 def main():
     """Main entry point for backward compatibility."""
     scanner = ProjectScanner(project_root=".")
     result = scanner.scan_project()
     return result
 
+
 if __name__ == "__main__":
     result = main()
     print(f"Scan result: {result}")
     print()  # Add line break for agent coordination
     print("🐝 WE. ARE. SWARM. ⚡️🔥")  # Completion indicator
-
-

@@ -5,7 +5,7 @@ param(
     [Parameter(Position=0)]
     [ValidateSet("deploy", "cleanup", "status", "help")]
     [string]$Command = "deploy",
-    
+
     [string]$Registry = "localhost:5000",
     [string]$ImageTag = "latest"
 )
@@ -38,19 +38,19 @@ function Write-Error {
 # Check prerequisites
 function Test-Prerequisites {
     Write-Info "Checking prerequisites..."
-    
+
     # Check if kubectl is installed
     if (-not (Get-Command kubectl -ErrorAction SilentlyContinue)) {
         Write-Error "kubectl is not installed. Please install kubectl first."
         exit 1
     }
-    
+
     # Check if docker is installed
     if (-not (Get-Command docker -ErrorAction SilentlyContinue)) {
         Write-Error "Docker is not installed. Please install Docker first."
         exit 1
     }
-    
+
     # Check kubectl connection
     try {
         kubectl cluster-info | Out-Null
@@ -59,16 +59,16 @@ function Test-Prerequisites {
         Write-Error "Cannot connect to Kubernetes cluster. Please check your kubeconfig."
         exit 1
     }
-    
+
     Write-Success "Prerequisites check passed"
 }
 
 # Build Docker image
 function Build-Image {
     Write-Info "Building Docker image..."
-    
+
     docker build -t "${IMAGE_NAME}:${ImageTag}" .
-    
+
     if ($LASTEXITCODE -eq 0) {
         Write-Success "Docker image built successfully"
     }
@@ -82,10 +82,10 @@ function Build-Image {
 function Push-Image {
     if ($Registry -ne "localhost:5000") {
         Write-Info "Pushing image to registry..."
-        
+
         docker tag "${IMAGE_NAME}:${ImageTag}" "${Registry}/${IMAGE_NAME}:${ImageTag}"
         docker push "${Registry}/${IMAGE_NAME}:${ImageTag}"
-        
+
         if ($LASTEXITCODE -eq 0) {
             Write-Success "Image pushed to registry successfully"
         }
@@ -102,9 +102,9 @@ function Push-Image {
 # Create namespace
 function New-Namespace {
     Write-Info "Creating namespace..."
-    
+
     kubectl apply -f k8s/namespace.yaml
-    
+
     if ($LASTEXITCODE -eq 0) {
         Write-Success "Namespace created successfully"
     }
@@ -117,10 +117,10 @@ function New-Namespace {
 # Deploy configuration
 function Deploy-Config {
     Write-Info "Deploying secrets and configmaps..."
-    
+
     kubectl apply -f k8s/secret.yaml
     kubectl apply -f k8s/configmap.yaml
-    
+
     if ($LASTEXITCODE -eq 0) {
         Write-Success "Secrets and configmaps deployed successfully"
     }
@@ -133,9 +133,9 @@ function Deploy-Config {
 # Deploy storage
 function Deploy-Storage {
     Write-Info "Deploying persistent volumes..."
-    
+
     kubectl apply -f k8s/pvc.yaml
-    
+
     if ($LASTEXITCODE -eq 0) {
         Write-Success "Persistent volumes deployed successfully"
     }
@@ -148,9 +148,9 @@ function Deploy-Storage {
 # Deploy services
 function Deploy-Services {
     Write-Info "Deploying services..."
-    
+
     kubectl apply -f k8s/service.yaml
-    
+
     if ($LASTEXITCODE -eq 0) {
         Write-Success "Services deployed successfully"
     }
@@ -163,9 +163,9 @@ function Deploy-Services {
 # Deploy application
 function Deploy-Application {
     Write-Info "Deploying main application..."
-    
+
     kubectl apply -f k8s/deployment.yaml
-    
+
     if ($LASTEXITCODE -eq 0) {
         Write-Success "Application deployed successfully"
     }
@@ -178,9 +178,9 @@ function Deploy-Application {
 # Deploy auto-scaling
 function Deploy-Autoscaling {
     Write-Info "Deploying auto-scaling configuration..."
-    
+
     kubectl apply -f k8s/hpa.yaml
-    
+
     if ($LASTEXITCODE -eq 0) {
         Write-Success "Auto-scaling deployed successfully"
     }
@@ -193,9 +193,9 @@ function Deploy-Autoscaling {
 # Deploy monitoring
 function Deploy-Monitoring {
     Write-Info "Deploying monitoring configuration..."
-    
+
     kubectl apply -f k8s/monitoring.yaml
-    
+
     if ($LASTEXITCODE -eq 0) {
         Write-Success "Monitoring deployed successfully"
     }
@@ -208,12 +208,12 @@ function Deploy-Monitoring {
 # Deploy service mesh
 function Deploy-ServiceMesh {
     Write-Info "Deploying service mesh configuration..."
-    
+
     # Check if Istio is installed
     try {
         kubectl get namespace istio-system | Out-Null
         kubectl apply -f k8s/istio-gateway.yaml
-        
+
         if ($LASTEXITCODE -eq 0) {
             Write-Success "Service mesh deployed successfully"
         }
@@ -230,9 +230,9 @@ function Deploy-ServiceMesh {
 # Wait for deployment
 function Wait-ForDeployment {
     Write-Info "Waiting for deployment to be ready..."
-    
+
     kubectl wait --for=condition=available --timeout=300s deployment/swarm-app -n $NAMESPACE
-    
+
     if ($LASTEXITCODE -eq 0) {
         Write-Success "Deployment is ready"
     }
@@ -245,19 +245,19 @@ function Wait-ForDeployment {
 # Show status
 function Show-Status {
     Write-Info "Deployment status:"
-    
+
     Write-Host "`n=== Pods ===" -ForegroundColor Cyan
     kubectl get pods -n $NAMESPACE
-    
+
     Write-Host "`n=== Services ===" -ForegroundColor Cyan
     kubectl get services -n $NAMESPACE
-    
+
     Write-Host "`n=== Deployments ===" -ForegroundColor Cyan
     kubectl get deployments -n $NAMESPACE
-    
+
     Write-Host "`n=== HPA ===" -ForegroundColor Cyan
     kubectl get hpa -n $NAMESPACE
-    
+
     Write-Host "`n=== PVCs ===" -ForegroundColor Cyan
     kubectl get pvc -n $NAMESPACE
 }
@@ -265,7 +265,7 @@ function Show-Status {
 # Main deployment function
 function Deploy {
     Write-Info "Starting V2_SWARM container orchestration deployment..."
-    
+
     Test-Prerequisites
     Build-Image
     Push-Image
@@ -279,14 +279,14 @@ function Deploy {
     Deploy-ServiceMesh
     Wait-ForDeployment
     Show-Status
-    
+
     Write-Success "V2_SWARM container orchestration deployment completed successfully!"
-    
+
     Write-Host "`n=== Access Information ===" -ForegroundColor Cyan
     Write-Host "Application: http://swarm.agent-cellphone.local"
     Write-Host "Grafana: http://swarm.agent-cellphone.local/grafana"
     Write-Host "Prometheus: http://swarm.agent-cellphone.local/metrics"
-    
+
     Write-Host "`n=== Useful Commands ===" -ForegroundColor Cyan
     Write-Host "View logs: kubectl logs -f deployment/swarm-app -n $NAMESPACE"
     Write-Host "Scale deployment: kubectl scale deployment swarm-app --replicas=5 -n $NAMESPACE"
@@ -296,9 +296,9 @@ function Deploy {
 # Cleanup function
 function Remove-Deployment {
     Write-Info "Cleaning up V2_SWARM deployment..."
-    
+
     kubectl delete namespace $NAMESPACE --ignore-not-found=true
-    
+
     Write-Success "Cleanup completed"
 }
 

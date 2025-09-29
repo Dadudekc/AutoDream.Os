@@ -1,9 +1,10 @@
-import tensorflow as tf
-import numpy as np
-from typing import Dict, Any, Optional, List
-import os
-import json
 import logging
+import os
+from typing import Any
+
+import numpy as np
+import tensorflow as tf
+
 
 class TensorFlowInfrastructure:
     """
@@ -26,7 +27,7 @@ class TensorFlowInfrastructure:
 
         self.model_path = model_path
         self.data_path = data_path
-        self.loaded_models: Dict[str, tf.keras.Model] = {}
+        self.loaded_models: dict[str, tf.keras.Model] = {}
         self.logger = logging.getLogger(__name__)
 
         # Ensure directories exist
@@ -39,10 +40,10 @@ class TensorFlowInfrastructure:
     def _configure_tensorflow(self) -> None:
         """Configures TensorFlow for optimal performance."""
         # Enable mixed precision for better performance
-        tf.keras.mixed_precision.set_global_policy('mixed_float16')
-        
+        tf.keras.mixed_precision.set_global_policy("mixed_float16")
+
         # Configure GPU memory growth
-        gpus = tf.config.experimental.list_physical_devices('GPU')
+        gpus = tf.config.experimental.list_physical_devices("GPU")
         if gpus:
             try:
                 for gpu in gpus:
@@ -53,7 +54,9 @@ class TensorFlowInfrastructure:
         else:
             self.logger.info("No GPU devices found, using CPU")
 
-    def create_sample_model(self, model_name: str, input_shape: tuple = (28, 28, 1)) -> tf.keras.Model:
+    def create_sample_model(
+        self, model_name: str, input_shape: tuple = (28, 28, 1)
+    ) -> tf.keras.Model:
         """
         Creates a sample neural network model for demonstration.
 
@@ -69,21 +72,21 @@ class TensorFlowInfrastructure:
         if not isinstance(input_shape, tuple) or len(input_shape) != 3:
             raise ValueError("Input shape must be a 3-tuple (height, width, channels).")
 
-        model = tf.keras.Sequential([
-            tf.keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=input_shape),
-            tf.keras.layers.MaxPooling2D((2, 2)),
-            tf.keras.layers.Conv2D(64, (3, 3), activation='relu'),
-            tf.keras.layers.MaxPooling2D((2, 2)),
-            tf.keras.layers.Conv2D(64, (3, 3), activation='relu'),
-            tf.keras.layers.Flatten(),
-            tf.keras.layers.Dense(64, activation='relu'),
-            tf.keras.layers.Dense(10, activation='softmax')
-        ])
+        model = tf.keras.Sequential(
+            [
+                tf.keras.layers.Conv2D(32, (3, 3), activation="relu", input_shape=input_shape),
+                tf.keras.layers.MaxPooling2D((2, 2)),
+                tf.keras.layers.Conv2D(64, (3, 3), activation="relu"),
+                tf.keras.layers.MaxPooling2D((2, 2)),
+                tf.keras.layers.Conv2D(64, (3, 3), activation="relu"),
+                tf.keras.layers.Flatten(),
+                tf.keras.layers.Dense(64, activation="relu"),
+                tf.keras.layers.Dense(10, activation="softmax"),
+            ]
+        )
 
         model.compile(
-            optimizer='adam',
-            loss='sparse_categorical_crossentropy',
-            metrics=['accuracy']
+            optimizer="adam", loss="sparse_categorical_crossentropy", metrics=["accuracy"]
         )
 
         self.loaded_models[model_name] = model
@@ -160,9 +163,16 @@ class TensorFlowInfrastructure:
         self.logger.info(f"Predictions made using model: {model_name}")
         return predictions
 
-    def train_model(self, model: tf.keras.Model, x_train: np.ndarray, y_train: np.ndarray, 
-                   x_val: Optional[np.ndarray] = None, y_val: Optional[np.ndarray] = None,
-                   epochs: int = 10, batch_size: int = 32) -> Dict[str, List[float]]:
+    def train_model(
+        self,
+        model: tf.keras.Model,
+        x_train: np.ndarray,
+        y_train: np.ndarray,
+        x_val: np.ndarray | None = None,
+        y_val: np.ndarray | None = None,
+        epochs: int = 10,
+        batch_size: int = 32,
+    ) -> dict[str, list[float]]:
         """
         Trains a model with the provided data.
 
@@ -188,17 +198,18 @@ class TensorFlowInfrastructure:
             validation_data = (x_val, y_val)
 
         history = model.fit(
-            x_train, y_train,
+            x_train,
+            y_train,
             validation_data=validation_data,
             epochs=epochs,
             batch_size=batch_size,
-            verbose=1
+            verbose=1,
         )
 
         self.logger.info(f"Model training completed: {epochs} epochs")
         return history.history
 
-    def get_model_info(self, model_name: str) -> Dict[str, Any]:
+    def get_model_info(self, model_name: str) -> dict[str, Any]:
         """
         Gets information about a loaded model.
 
@@ -219,8 +230,7 @@ class TensorFlowInfrastructure:
             "input_shape": model.input_shape,
             "output_shape": model.output_shape,
             "total_params": model.count_params(),
-            "trainable_params": sum([tf.keras.backend.count_params(w) for w in model.trainable_weights])
+            "trainable_params": sum(
+                [tf.keras.backend.count_params(w) for w in model.trainable_weights]
+            ),
         }
-
-
-

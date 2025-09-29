@@ -38,39 +38,39 @@ log_error() {
 # Check prerequisites
 check_prerequisites() {
     log_info "Checking prerequisites..."
-    
+
     # Check if kubectl is installed
     if ! command -v kubectl &> /dev/null; then
         log_error "kubectl is not installed. Please install kubectl first."
         exit 1
     fi
-    
+
     # Check if docker is installed
     if ! command -v docker &> /dev/null; then
         log_error "Docker is not installed. Please install Docker first."
         exit 1
     fi
-    
+
     # Check if helm is installed (optional)
     if ! command -v helm &> /dev/null; then
         log_warning "Helm is not installed. Some features may not be available."
     fi
-    
+
     # Check kubectl connection
     if ! kubectl cluster-info &> /dev/null; then
         log_error "Cannot connect to Kubernetes cluster. Please check your kubeconfig."
         exit 1
     fi
-    
+
     log_success "Prerequisites check passed"
 }
 
 # Build Docker image
 build_image() {
     log_info "Building Docker image..."
-    
+
     docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
-    
+
     if [ $? -eq 0 ]; then
         log_success "Docker image built successfully"
     else
@@ -83,10 +83,10 @@ build_image() {
 push_image() {
     if [ "$REGISTRY" != "localhost:5000" ]; then
         log_info "Pushing image to registry..."
-        
+
         docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}
         docker push ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}
-        
+
         if [ $? -eq 0 ]; then
             log_success "Image pushed to registry successfully"
         else
@@ -101,9 +101,9 @@ push_image() {
 # Create namespace
 create_namespace() {
     log_info "Creating namespace..."
-    
+
     kubectl apply -f k8s/namespace.yaml
-    
+
     if [ $? -eq 0 ]; then
         log_success "Namespace created successfully"
     else
@@ -115,10 +115,10 @@ create_namespace() {
 # Deploy secrets and configmaps
 deploy_config() {
     log_info "Deploying secrets and configmaps..."
-    
+
     kubectl apply -f k8s/secret.yaml
     kubectl apply -f k8s/configmap.yaml
-    
+
     if [ $? -eq 0 ]; then
         log_success "Secrets and configmaps deployed successfully"
     else
@@ -130,9 +130,9 @@ deploy_config() {
 # Deploy persistent volumes
 deploy_storage() {
     log_info "Deploying persistent volumes..."
-    
+
     kubectl apply -f k8s/pvc.yaml
-    
+
     if [ $? -eq 0 ]; then
         log_success "Persistent volumes deployed successfully"
     else
@@ -144,9 +144,9 @@ deploy_storage() {
 # Deploy services
 deploy_services() {
     log_info "Deploying services..."
-    
+
     kubectl apply -f k8s/service.yaml
-    
+
     if [ $? -eq 0 ]; then
         log_success "Services deployed successfully"
     else
@@ -158,9 +158,9 @@ deploy_services() {
 # Deploy main application
 deploy_application() {
     log_info "Deploying main application..."
-    
+
     kubectl apply -f k8s/deployment.yaml
-    
+
     if [ $? -eq 0 ]; then
         log_success "Application deployed successfully"
     else
@@ -172,9 +172,9 @@ deploy_application() {
 # Deploy auto-scaling
 deploy_autoscaling() {
     log_info "Deploying auto-scaling configuration..."
-    
+
     kubectl apply -f k8s/hpa.yaml
-    
+
     if [ $? -eq 0 ]; then
         log_success "Auto-scaling deployed successfully"
     else
@@ -186,9 +186,9 @@ deploy_autoscaling() {
 # Deploy monitoring
 deploy_monitoring() {
     log_info "Deploying monitoring configuration..."
-    
+
     kubectl apply -f k8s/monitoring.yaml
-    
+
     if [ $? -eq 0 ]; then
         log_success "Monitoring deployed successfully"
     else
@@ -200,11 +200,11 @@ deploy_monitoring() {
 # Deploy service mesh (Istio)
 deploy_service_mesh() {
     log_info "Deploying service mesh configuration..."
-    
+
     # Check if Istio is installed
     if kubectl get namespace istio-system &> /dev/null; then
         kubectl apply -f k8s/istio-gateway.yaml
-        
+
         if [ $? -eq 0 ]; then
             log_success "Service mesh deployed successfully"
         else
@@ -219,9 +219,9 @@ deploy_service_mesh() {
 # Wait for deployment to be ready
 wait_for_deployment() {
     log_info "Waiting for deployment to be ready..."
-    
+
     kubectl wait --for=condition=available --timeout=300s deployment/swarm-app -n ${NAMESPACE}
-    
+
     if [ $? -eq 0 ]; then
         log_success "Deployment is ready"
     else
@@ -233,23 +233,23 @@ wait_for_deployment() {
 # Show deployment status
 show_status() {
     log_info "Deployment status:"
-    
+
     echo ""
     echo "=== Pods ==="
     kubectl get pods -n ${NAMESPACE}
-    
+
     echo ""
     echo "=== Services ==="
     kubectl get services -n ${NAMESPACE}
-    
+
     echo ""
     echo "=== Deployments ==="
     kubectl get deployments -n ${NAMESPACE}
-    
+
     echo ""
     echo "=== HPA ==="
     kubectl get hpa -n ${NAMESPACE}
-    
+
     echo ""
     echo "=== PVCs ==="
     kubectl get pvc -n ${NAMESPACE}
@@ -258,7 +258,7 @@ show_status() {
 # Main deployment function
 deploy() {
     log_info "Starting V2_SWARM container orchestration deployment..."
-    
+
     check_prerequisites
     build_image
     push_image
@@ -272,9 +272,9 @@ deploy() {
     deploy_service_mesh
     wait_for_deployment
     show_status
-    
+
     log_success "V2_SWARM container orchestration deployment completed successfully!"
-    
+
     echo ""
     echo "=== Access Information ==="
     echo "Application: http://swarm.agent-cellphone.local"
@@ -290,9 +290,9 @@ deploy() {
 # Cleanup function
 cleanup() {
     log_info "Cleaning up V2_SWARM deployment..."
-    
+
     kubectl delete namespace ${NAMESPACE} --ignore-not-found=true
-    
+
     log_success "Cleanup completed"
 }
 

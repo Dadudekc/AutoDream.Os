@@ -18,7 +18,7 @@ TEST_CATEGORIES = [
     "discord_bot_core",
     "discord_bot_integration",
     "discord_command_handling",
-    "discord_message_validation"
+    "discord_message_validation",
 ]
 
 # Test coverage targets
@@ -26,9 +26,5 @@ COVERAGE_TARGETS = {
     "discord_bot_core": 90,
     "discord_bot_integration": 85,
     "discord_command_handling": 80,
-    "discord_message_validation": 95
+    "discord_message_validation": 95,
 }
-
-
-
-

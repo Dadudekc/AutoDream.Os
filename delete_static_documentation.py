@@ -7,10 +7,9 @@ This script deletes static documentation files that have been ingested
 into the Swarm Brain database and can now be replaced with database queries.
 """
 
-import os
 import logging
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
@@ -21,10 +20,10 @@ def create_backup():
     """Create a backup of files before deletion."""
     backup_dir = Path("documentation_backup")
     backup_dir.mkdir(exist_ok=True)
-    
+
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     backup_file = backup_dir / f"deleted_files_{timestamp}.txt"
-    
+
     logger.info(f"📦 Backup will be created at: {backup_file}")
     return backup_file
 
@@ -32,29 +31,29 @@ def create_backup():
 def delete_devlog_files():
     """Delete devlog files that have been ingested."""
     logger.info("=== DELETING DEVLOG FILES ===")
-    
+
     devlog_dir = Path("devlogs")
     if not devlog_dir.exists():
         logger.warning("No devlogs directory found")
         return []
-    
+
     deleted_files = []
-    
+
     # Files to delete (all devlog files)
     for devlog_file in devlog_dir.rglob("*.md"):
         try:
             # Skip archive directory for now
             if "archive" in str(devlog_file):
                 continue
-                
+
             file_size = devlog_file.stat().st_size
             devlog_file.unlink()
             deleted_files.append(str(devlog_file))
             logger.info(f"🗑️ Deleted: {devlog_file.name} ({file_size} bytes)")
-            
+
         except Exception as e:
             logger.error(f"❌ Failed to delete {devlog_file.name}: {e}")
-    
+
     logger.info(f"📊 Deleted {len(deleted_files)} devlog files")
     return deleted_files
 
@@ -62,16 +61,16 @@ def delete_devlog_files():
 def delete_protocol_files():
     """Delete protocol documentation files."""
     logger.info("=== DELETING PROTOCOL FILES ===")
-    
+
     protocol_files = [
         "AGENT_COMMUNICATION_PROTOCOLS.md",
         "AGENT_DEVLOG_SYSTEM_PROTOCOLS.md",
         "COHERENT_COLLABORATION_GUIDE.md",
-        "DUPLICATION_PREVENTION_PROTOCOL.md"
+        "DUPLICATION_PREVENTION_PROTOCOL.md",
     ]
-    
+
     deleted_files = []
-    
+
     for protocol_file in protocol_files:
         file_path = Path(protocol_file)
         if file_path.exists():
@@ -82,7 +81,7 @@ def delete_protocol_files():
                 logger.info(f"🗑️ Deleted: {protocol_file} ({file_size} bytes)")
             except Exception as e:
                 logger.error(f"❌ Failed to delete {protocol_file}: {e}")
-    
+
     logger.info(f"📊 Deleted {len(deleted_files)} protocol files")
     return deleted_files
 
@@ -90,15 +89,15 @@ def delete_protocol_files():
 def delete_compliance_files():
     """Delete compliance documentation files."""
     logger.info("=== DELETING COMPLIANCE FILES ===")
-    
+
     compliance_files = [
         "V2_REFACTORING_COORDINATION_PLAN.md",
         "V2_VIOLATIONS_ACTION_PLAN.md",
-        "V2_COMPLIANCE_REPORT.md"
+        "V2_COMPLIANCE_REPORT.md",
     ]
-    
+
     deleted_files = []
-    
+
     for compliance_file in compliance_files:
         file_path = Path(compliance_file)
         if file_path.exists():
@@ -109,7 +108,7 @@ def delete_compliance_files():
                 logger.info(f"🗑️ Deleted: {compliance_file} ({file_size} bytes)")
             except Exception as e:
                 logger.error(f"❌ Failed to delete {compliance_file}: {e}")
-    
+
     logger.info(f"📊 Deleted {len(deleted_files)} compliance files")
     return deleted_files
 
@@ -117,16 +116,16 @@ def delete_compliance_files():
 def delete_security_files():
     """Delete security documentation files."""
     logger.info("=== DELETING SECURITY FILES ===")
-    
+
     security_files = [
         "SECURITY_CONSOLIDATION_SUMMARY.md",
         "SECURITY_BEST_PRACTICES.md",
         "SECURITY_IMPLEMENTATION_SUMMARY.md",
-        "PHASE4_SECURITY_VALIDATION_REPORT.md"
+        "PHASE4_SECURITY_VALIDATION_REPORT.md",
     ]
-    
+
     deleted_files = []
-    
+
     for security_file in security_files:
         file_path = Path(security_file)
         if file_path.exists():
@@ -137,7 +136,7 @@ def delete_security_files():
                 logger.info(f"🗑️ Deleted: {security_file} ({file_size} bytes)")
             except Exception as e:
                 logger.error(f"❌ Failed to delete {security_file}: {e}")
-    
+
     logger.info(f"📊 Deleted {len(deleted_files)} security files")
     return deleted_files
 
@@ -145,7 +144,7 @@ def delete_security_files():
 def delete_agent_guideline_files():
     """Delete agent guideline files."""
     logger.info("=== DELETING AGENT GUIDELINE FILES ===")
-    
+
     guideline_files = [
         "AGENT_WORK_GUIDELINES.md",
         "AGENTS.md",
@@ -153,11 +152,11 @@ def delete_agent_guideline_files():
         "V3_V2_CONSOLIDATION_PLAN.md",
         "V3_UPGRADE_ROADMAP.md",
         "V3_CYCLE_BASED_CONTRACTS.md",
-        "V3_TEAM_ALPHA_ONBOARDING_PROTOCOL.md"
+        "V3_TEAM_ALPHA_ONBOARDING_PROTOCOL.md",
     ]
-    
+
     deleted_files = []
-    
+
     for guideline_file in guideline_files:
         file_path = Path(guideline_file)
         if file_path.exists():
@@ -168,7 +167,7 @@ def delete_agent_guideline_files():
                 logger.info(f"🗑️ Deleted: {guideline_file} ({file_size} bytes)")
             except Exception as e:
                 logger.error(f"❌ Failed to delete {guideline_file}: {e}")
-    
+
     logger.info(f"📊 Deleted {len(deleted_files)} guideline files")
     return deleted_files
 
@@ -176,15 +175,15 @@ def delete_agent_guideline_files():
 def delete_coordination_files():
     """Delete coordination documentation files."""
     logger.info("=== DELETING COORDINATION FILES ===")
-    
+
     coordination_files = [
         "AGENT_8_COORDINATION_RESPONSE.md",
         "AGENT_8_V2_REFACTORING_COORDINATION_SUMMARY.md",
-        "COHERENT_COLLABORATION_IMPLEMENTATION_SUMMARY.md"
+        "COHERENT_COLLABORATION_IMPLEMENTATION_SUMMARY.md",
     ]
-    
+
     deleted_files = []
-    
+
     for coordination_file in coordination_files:
         file_path = Path(coordination_file)
         if file_path.exists():
@@ -195,7 +194,7 @@ def delete_coordination_files():
                 logger.info(f"🗑️ Deleted: {coordination_file} ({file_size} bytes)")
             except Exception as e:
                 logger.error(f"❌ Failed to delete {coordination_file}: {e}")
-    
+
     logger.info(f"📊 Deleted {len(deleted_files)} coordination files")
     return deleted_files
 
@@ -203,7 +202,7 @@ def delete_coordination_files():
 def create_query_replacement_guide():
     """Create a guide showing how to replace deleted files with database queries."""
     logger.info("=== CREATING QUERY REPLACEMENT GUIDE ===")
-    
+
     guide_content = """# Database Query Replacement Guide
 
 ## 🎯 **REPLACED STATIC DOCUMENTATION WITH DATABASE QUERIES**
@@ -300,9 +299,9 @@ All static documentation has been replaced with living, queryable data from the 
 
 Generated on: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 """
-    
+
     guide_path = Path("DATABASE_QUERY_REPLACEMENT_GUIDE.md")
-    guide_path.write_text(guide_content, encoding='utf-8')
+    guide_path.write_text(guide_content, encoding="utf-8")
     logger.info(f"📝 Created replacement guide: {guide_path}")
 
 
@@ -310,39 +309,39 @@ def main():
     """Main deletion process."""
     logger.info("🗑️ Starting Static Documentation Deletion Process")
     logger.info("=" * 60)
-    
+
     try:
         # Create backup
         backup_file = create_backup()
-        
+
         # Delete files by category
         all_deleted_files = []
-        
+
         all_deleted_files.extend(delete_devlog_files())
         all_deleted_files.extend(delete_protocol_files())
         all_deleted_files.extend(delete_compliance_files())
         all_deleted_files.extend(delete_security_files())
         all_deleted_files.extend(delete_agent_guideline_files())
         all_deleted_files.extend(delete_coordination_files())
-        
+
         # Write backup file
-        with open(backup_file, 'w') as f:
+        with open(backup_file, "w") as f:
             f.write("Deleted Files Backup\\n")
             f.write("=" * 50 + "\\n")
             f.write(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\\n\\n")
             for file_path in all_deleted_files:
                 f.write(f"{file_path}\\n")
-        
+
         # Create replacement guide
         create_query_replacement_guide()
-        
+
         logger.info("=" * 60)
-        logger.info(f"🎉 Deletion completed successfully!")
+        logger.info("🎉 Deletion completed successfully!")
         logger.info(f"📊 Total files deleted: {len(all_deleted_files)}")
         logger.info(f"📦 Backup created: {backup_file}")
         logger.info("📝 Query replacement guide created")
         logger.info("🚀 Static documentation replaced with database queries!")
-        
+
     except Exception as e:
         logger.error(f"❌ Deletion process failed: {e}")
         raise

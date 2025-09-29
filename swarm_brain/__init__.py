@@ -11,12 +11,12 @@ The central nervous system for agent coordination, providing:
 Usage:
     from swarm_brain import SwarmBrain, Ingestor, Retriever
     from swarm_brain.decorators import vectorized_action
-    
+
     # Initialize
     brain = SwarmBrain()
     ingestor = Ingestor(brain)
     retriever = Retriever(brain)
-    
+
     # Record agent actions
     ingestor.action(
         title="Project Analysis",
@@ -27,12 +27,12 @@ Usage:
         agent_id="Agent-2",
         tags=["analysis", "compliance", "scanner"]
     )
-    
+
     # Query collective intelligence
     patterns = retriever.how_do_agents_do("V2 compliance refactoring")
-    
+
     # Use decorators for automatic recording
-    @vectorized_action(tool="discord_commander", project="Agent_Cellphone_V2", 
+    @vectorized_action(tool="discord_commander", project="Agent_Cellphone_V2",
                       agent_id="Agent-6", tags=["discord", "coordination"])
     def send_coordination_message(message: str):
         # Agent action automatically recorded
@@ -40,13 +40,16 @@ Usage:
 """
 
 from .db import SwarmBrain
+from .decorators import vectorized_action, vectorized_protocol, vectorized_workflow
 from .ingest import Ingestor
 from .retriever import Retriever
-from .decorators import vectorized_action, vectorized_protocol, vectorized_workflow
 
 __version__ = "1.0.0"
-__all__ = ["SwarmBrain", "Ingestor", "Retriever", "vectorized_action", "vectorized_protocol", "vectorized_workflow"]
-
-
-
-
+__all__ = [
+    "SwarmBrain",
+    "Ingestor",
+    "Retriever",
+    "vectorized_action",
+    "vectorized_protocol",
+    "vectorized_workflow",
+]

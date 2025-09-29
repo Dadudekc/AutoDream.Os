@@ -12,9 +12,15 @@ License: MIT
 
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from .messaging_enums import MessageStatus, RecipientType, UnifiedMessagePriority, UnifiedMessageTag, UnifiedMessageType
+from .messaging_enums import (
+    MessageStatus,
+    RecipientType,
+    UnifiedMessagePriority,
+    UnifiedMessageTag,
+    UnifiedMessageType,
+)
 
 
 @dataclass
@@ -26,15 +32,15 @@ class UnifiedMessage:
     sender: str = "System"
     message_type: UnifiedMessageType = UnifiedMessageType.TEXT
     priority: UnifiedMessagePriority = UnifiedMessagePriority.REGULAR
-    tags: List[UnifiedMessageTag] = field(default_factory=list)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    tags: list[UnifiedMessageTag] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
     timestamp: datetime = field(default_factory=datetime.now)
     message_id: str = field(default_factory=lambda: f"msg_{datetime.now().timestamp()}")
     delivery_method: str = "inbox"
     status: MessageStatus = MessageStatus.PENDING
     recipient_type: RecipientType = RecipientType.AGENT
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert message to dictionary for serialization."""
         return {
             "content": self.content,
@@ -52,7 +58,7 @@ class UnifiedMessage:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "UnifiedMessage":
+    def from_dict(cls, data: dict[str, Any]) -> "UnifiedMessage":
         """Create message from dictionary."""
         return cls(
             content=data["content"],
@@ -106,7 +112,7 @@ class MessageHistory:
     status: MessageStatus
     delivery_method: str
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "message_id": self.message_id,
@@ -127,9 +133,9 @@ class MessagingMetrics:
     successful_deliveries: int = 0
     failed_deliveries: int = 0
     average_delivery_time: float = 0.0
-    last_activity: Optional[datetime] = None
+    last_activity: datetime | None = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "total_messages_sent": self.total_messages_sent,
@@ -146,12 +152,11 @@ class MessagingMetrics:
             self.successful_deliveries += 1
         else:
             self.failed_deliveries += 1
-        
+
         # Update average delivery time
         if self.total_messages_sent > 0:
             self.average_delivery_time = (
-                (self.average_delivery_time * (self.total_messages_sent - 1) + delivery_time) 
-                / self.total_messages_sent
-            )
-        
+                self.average_delivery_time * (self.total_messages_sent - 1) + delivery_time
+            ) / self.total_messages_sent
+
         self.last_activity = datetime.now()

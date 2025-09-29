@@ -28,10 +28,10 @@ cmd = ["python", "tools/agent_onboarding.py", "--agent", agent, "--mode", mode]
 **After**:
 ```python
 cmd = [
-    "python", 
-    "src/services/consolidated_messaging_service.py", 
+    "python",
+    "src/services/consolidated_messaging_service.py",
     "--coords", "config/coordinates.json",
-    "hard-onboard", 
+    "hard-onboard",
     "--agent", agent
 ]
 ```
@@ -81,8 +81,8 @@ python src/services/consolidated_messaging_service.py --coords config/coordinate
 
 ### **Technical Implementation:**
 ```
-Discord Button → OnboardModal → kickoff_onboarding() → 
-Consolidated Messaging Service → OnboardingService → 
+Discord Button → OnboardModal → kickoff_onboarding() →
+Consolidated Messaging Service → OnboardingService →
 PyAutoGUI Automation → Agent Receives Onboarding Message
 ```
 

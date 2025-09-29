@@ -7,19 +7,20 @@ Core ML pipeline functionality.
 V2 Compliance: 288 lines, optimized for quality gates.
 """
 
-import sys
 import logging
+import sys
 import time
-import numpy as np
 from pathlib import Path
-from typing import Dict, Any, Optional, List
+from typing import Any
+
+import numpy as np
 
 # Add project root to path
 project_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(project_root))
 
-from .ml_pipeline_models import ModelConfig, TrainingData, ModelMetrics, DeploymentConfig
 from .ml_pipeline_fallback import FallbackMLModel
+from .ml_pipeline_models import ModelConfig, ModelMetrics, TrainingData
 
 logger = logging.getLogger(__name__)
 
@@ -27,23 +28,25 @@ logger = logging.getLogger(__name__)
 class MLPipelineCore:
     """Core ML pipeline functionality."""
 
-    def __init__(self, config: Optional[ModelConfig] = None):
+    def __init__(self, config: ModelConfig | None = None):
         """Initialize ML pipeline core."""
         self.config = config or ModelConfig()
-        self.models: Dict[str, Any] = {}
-        self.training_data: Dict[str, TrainingData] = {}
-        self.model_metrics: Dict[str, ModelMetrics] = {}
+        self.models: dict[str, Any] = {}
+        self.training_data: dict[str, TrainingData] = {}
+        self.model_metrics: dict[str, ModelMetrics] = {}
 
         # Initialize fallback model
         self.fallback_model = FallbackMLModel(self.config)
 
         logger.info("ML Pipeline Core initialized")
 
-    def create_training_data(self,
-                           num_samples: int = 1000,
-                           num_features: int = 10,
-                           num_classes: int = 3,
-                           data_type: str = "classification") -> TrainingData:
+    def create_training_data(
+        self,
+        num_samples: int = 1000,
+        num_features: int = 10,
+        num_classes: int = 3,
+        data_type: str = "classification",
+    ) -> TrainingData:
         """Create synthetic training data."""
         try:
             # Log training data creation (shortened for V2 compliance)
@@ -61,9 +64,7 @@ class MLPipelineCore:
                 labels = np.random.randn(num_samples)
 
             # Split data into train/validation/test
-            training_data = self._split_training_data(
-                features, labels, num_samples
-            )
+            training_data = self._split_training_data(features, labels, num_samples)
 
             logger.info("Training data created successfully")
             return training_data
@@ -80,11 +81,11 @@ class MLPipelineCore:
         train_features = features[:train_size]
         train_labels = labels[:train_size]
 
-        val_features = features[train_size:train_size + val_size]
-        val_labels = labels[train_size:train_size + val_size]
+        val_features = features[train_size : train_size + val_size]
+        val_labels = labels[train_size : train_size + val_size]
 
-        test_features = features[train_size + val_size:]
-        test_labels = labels[train_size + val_size:]
+        test_features = features[train_size + val_size :]
+        test_labels = labels[train_size + val_size :]
 
         return TrainingData(
             features=train_features,
@@ -92,7 +93,7 @@ class MLPipelineCore:
             validation_features=val_features,
             validation_labels=val_labels,
             test_features=test_features,
-            test_labels=test_labels
+            test_labels=test_labels,
         )
 
     def create_model(self, model_name: str, model_type: str = "neural_network") -> Any:
@@ -139,20 +140,22 @@ class MLPipelineCore:
         try:
             import tensorflow as tf
 
-            model = tf.keras.Sequential([
-                tf.keras.layers.Dense(128, activation='relu',
-                                    input_shape=self.config.input_shape),
-                tf.keras.layers.Dropout(0.2),
-                tf.keras.layers.Dense(64, activation='relu'),
-                tf.keras.layers.Dropout(0.2),
-                tf.keras.layers.Dense(self.config.num_classes,
-                                   activation='softmax')
-            ])
+            model = tf.keras.Sequential(
+                [
+                    tf.keras.layers.Dense(
+                        128, activation="relu", input_shape=self.config.input_shape
+                    ),
+                    tf.keras.layers.Dropout(0.2),
+                    tf.keras.layers.Dense(64, activation="relu"),
+                    tf.keras.layers.Dropout(0.2),
+                    tf.keras.layers.Dense(self.config.num_classes, activation="softmax"),
+                ]
+            )
 
             model.compile(
                 optimizer=self.config.optimizer,
                 loss=self.config.loss_function,
-                metrics=self.config.metrics
+                metrics=self.config.metrics,
             )
 
             logger.info("TensorFlow model created successfully")
@@ -186,8 +189,7 @@ class MLPipelineCore:
                     return self.softmax(x)
 
             model = PyTorchModel(
-                input_size=np.prod(self.config.input_shape),
-                num_classes=self.config.num_classes
+                input_size=np.prod(self.config.input_shape), num_classes=self.config.num_classes
             )
 
             logger.info("PyTorch model created successfully")
@@ -196,11 +198,13 @@ class MLPipelineCore:
         except ImportError:
             raise ImportError("PyTorch not available")
 
-    def train_model(self,
-                   model_name: str,
-                   training_data: TrainingData,
-                   epochs: Optional[int] = None,
-                   batch_size: Optional[int] = None) -> Dict[str, Any]:
+    def train_model(
+        self,
+        model_name: str,
+        training_data: TrainingData,
+        epochs: int | None = None,
+        batch_size: int | None = None,
+    ) -> dict[str, Any]:
         """Train a model."""
         try:
             logger.info(f"Training model: {model_name}")
@@ -216,9 +220,7 @@ class MLPipelineCore:
             start_time = time.time()
 
             # Train based on model type
-            training_results = self._train_model_by_type(
-                model, training_data, epochs, batch_size
-            )
+            training_results = self._train_model_by_type(model, training_data, epochs, batch_size)
 
             training_time = time.time() - start_time
             training_results["training_time"] = training_time
@@ -235,10 +237,8 @@ class MLPipelineCore:
 
     def _train_model_by_type(self, model, training_data, epochs, batch_size):
         """Train model based on its type."""
-        if hasattr(model, 'fit'):  # TensorFlow/Keras model
-            return self._train_tensorflow_model(
-                model, training_data, epochs, batch_size
-            )
+        if hasattr(model, "fit"):  # TensorFlow/Keras model
+            return self._train_tensorflow_model(model, training_data, epochs, batch_size)
         else:  # Fallback or PyTorch model
             return model.train(training_data)
 
@@ -252,7 +252,7 @@ class MLPipelineCore:
             epochs=epochs,
             batch_size=batch_size,
             validation_data=validation_data,
-            verbose=1
+            verbose=1,
         )
 
         return self._create_tensorflow_training_results(history, epochs)
@@ -260,8 +260,7 @@ class MLPipelineCore:
     def _get_validation_data(self, training_data):
         """Get validation data tuple for TensorFlow training."""
         if training_data.validation_features is not None:
-            return (training_data.validation_features,
-                   training_data.validation_labels)
+            return (training_data.validation_features, training_data.validation_labels)
         return None
 
     def _create_tensorflow_training_results(self, history, epochs):
@@ -269,17 +268,17 @@ class MLPipelineCore:
         results = {
             "status": "completed",
             "epochs": epochs,
-            "final_loss": float(history.history['loss'][-1]),
-            "model_type": "tensorflow"
+            "final_loss": float(history.history["loss"][-1]),
+            "model_type": "tensorflow",
         }
 
         # Add accuracy if available
-        if 'accuracy' in history.history:
-            results["final_accuracy"] = float(history.history['accuracy'][-1])
+        if "accuracy" in history.history:
+            results["final_accuracy"] = float(history.history["accuracy"][-1])
 
         return results
 
-    def evaluate_model(self, model_name: str, test_data: TrainingData) -> Dict[str, Any]:
+    def evaluate_model(self, model_name: str, test_data: TrainingData) -> dict[str, Any]:
         """Evaluate a model."""
         try:
             logger.info(f"Evaluating model: {model_name}")
@@ -295,16 +294,14 @@ class MLPipelineCore:
             inference_time = time.time() - start_time
 
             # Calculate metrics
-            metrics = self._calculate_model_metrics(
-                predictions, test_data, inference_time
-            )
+            metrics = self._calculate_model_metrics(predictions, test_data, inference_time)
 
             self.model_metrics[model_name] = metrics
 
             evaluation_results = {
                 "status": "completed",
                 "metrics": metrics.to_dict(),
-                "inference_time": inference_time
+                "inference_time": inference_time,
             }
 
             logger.info(f"Model {model_name} evaluation completed")
@@ -317,25 +314,20 @@ class MLPipelineCore:
     def _calculate_model_metrics(self, predictions, test_data, inference_time):
         """Calculate comprehensive model metrics."""
         if self.config.model_type == "classification":
-            return self._calculate_classification_metrics(
-                predictions, test_data, inference_time
-            )
+            return self._calculate_classification_metrics(predictions, test_data, inference_time)
         else:
-            return self._calculate_regression_metrics(
-                predictions, test_data, inference_time
-            )
+            return self._calculate_regression_metrics(predictions, test_data, inference_time)
 
     def _calculate_classification_metrics(self, predictions, test_data, inference_time):
         """Calculate classification-specific metrics."""
         accuracy = np.mean(predictions == test_data.labels)
 
         # Calculate precision, recall, F1-score
-        from sklearn.metrics import precision_score, recall_score, f1_score
-        precision = precision_score(test_data.labels, predictions,
-                                 average='weighted')
-        recall = recall_score(test_data.labels, predictions,
-                            average='weighted')
-        f1 = f1_score(test_data.labels, predictions, average='weighted')
+        from sklearn.metrics import f1_score, precision_score, recall_score
+
+        precision = precision_score(test_data.labels, predictions, average="weighted")
+        recall = recall_score(test_data.labels, predictions, average="weighted")
+        f1 = f1_score(test_data.labels, predictions, average="weighted")
 
         return ModelMetrics(
             accuracy=float(accuracy),
@@ -346,7 +338,7 @@ class MLPipelineCore:
             training_time=0.0,
             inference_time=float(inference_time),
             model_size=0.0,
-            parameters_count=0
+            parameters_count=0,
         )
 
     def _calculate_regression_metrics(self, predictions, test_data, inference_time):
@@ -363,5 +355,5 @@ class MLPipelineCore:
             training_time=0.0,
             inference_time=float(inference_time),
             model_size=0.0,
-            parameters_count=0
+            parameters_count=0,
         )

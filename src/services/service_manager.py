@@ -13,19 +13,16 @@ import asyncio
 import logging
 import signal
 import sys
-from typing import Dict, Any, Optional, List
-from pathlib import Path
 from datetime import datetime
+from typing import Any
 
 # Import all services
 from . import (
+    AgentDevlogAutomation,
     ConsolidatedMessagingService,
-    IntegratedDiscordBotService,
+    EnhancedDiscordAgentBot,
     get_social_media_service,
     initialize_social_media_integration,
-    EnhancedDiscordAgentBot,
-    AgentDevlogAutomation,
-    AgentDevlogPoster
 )
 
 logger = logging.getLogger(__name__)
@@ -50,11 +47,11 @@ class ServiceManager:
         self.logger = logging.getLogger(f"{__name__}.ServiceManager")
 
         # Service instances
-        self.messaging_service: Optional[ConsolidatedMessagingService] = None
-        self.discord_bot: Optional[EnhancedDiscordAgentBot] = None
+        self.messaging_service: ConsolidatedMessagingService | None = None
+        self.discord_bot: EnhancedDiscordAgentBot | None = None
         self.social_media_service = None
-        self.devlog_automation: Optional[AgentDevlogAutomation] = None
-        self.devlog_posting: Optional[AgentDevlogPosting] = None
+        self.devlog_automation: AgentDevlogAutomation | None = None
+        self.devlog_posting: AgentDevlogPosting | None = None
 
         # Service status
         self.services_status = {}
@@ -63,10 +60,10 @@ class ServiceManager:
 
         # Configuration
         self.config = {
-            'auto_start_discord': True,
-            'auto_start_social_media': True,
-            'health_check_interval': 30,  # seconds
-            'max_retries': 3
+            "auto_start_discord": True,
+            "auto_start_social_media": True,
+            "health_check_interval": 30,  # seconds
+            "max_retries": 3,
         }
 
         self.logger.info("Service Manager initialized")
@@ -115,11 +112,11 @@ class ServiceManager:
         try:
             self.logger.info("📨 Starting messaging service...")
             self.messaging_service = ConsolidatedMessagingService()
-            self.services_status['messaging'] = 'active'
+            self.services_status["messaging"] = "active"
             self.logger.info("✅ Messaging service started")
         except Exception as e:
             self.logger.error(f"❌ Failed to start messaging service: {e}")
-            self.services_status['messaging'] = 'failed'
+            self.services_status["messaging"] = "failed"
             raise
 
     async def _start_social_media_service(self):
@@ -129,22 +126,22 @@ class ServiceManager:
             success = await initialize_social_media_integration()
             if success:
                 self.social_media_service = get_social_media_service()
-                self.services_status['social_media'] = 'active'
+                self.services_status["social_media"] = "active"
                 self.logger.info("✅ ChatMate social media integration started")
             else:
-                self.services_status['social_media'] = 'inactive'
+                self.services_status["social_media"] = "inactive"
                 self.logger.warning("⚠️ ChatMate social media integration not available")
         except Exception as e:
             self.logger.error(f"❌ Failed to start social media service: {e}")
-            self.services_status['social_media'] = 'failed'
+            self.services_status["social_media"] = "failed"
             raise
 
     async def _start_discord_bot(self):
         """Start the Discord bot with social media integration."""
         try:
-            if not self.config['auto_start_discord']:
+            if not self.config["auto_start_discord"]:
                 self.logger.info("🤖 Discord bot startup disabled in config")
-                self.services_status['discord_bot'] = 'disabled'
+                self.services_status["discord_bot"] = "disabled"
                 return
 
             self.logger.info("🤖 Starting Discord bot with ChatMate integration...")
@@ -157,12 +154,12 @@ class ServiceManager:
             self.discord_bot.social_media_service = self.social_media_service
 
             # Note: Discord bot will only connect when run() is called with a valid token
-            self.services_status['discord_bot'] = 'ready'
+            self.services_status["discord_bot"] = "ready"
             self.logger.info("✅ Discord bot initialized with ChatMate integration")
 
         except Exception as e:
             self.logger.error(f"❌ Failed to start Discord bot: {e}")
-            self.services_status['discord_bot'] = 'failed'
+            self.services_status["discord_bot"] = "failed"
             raise
 
     async def _start_devlog_services(self):
@@ -172,18 +169,18 @@ class ServiceManager:
 
             # Initialize devlog automation
             self.devlog_automation = AgentDevlogAutomation()
-            self.services_status['devlog_automation'] = 'active'
+            self.services_status["devlog_automation"] = "active"
 
             # Initialize devlog posting
             self.devlog_posting = AgentDevlogPosting()
-            self.services_status['devlog_posting'] = 'active'
+            self.services_status["devlog_posting"] = "active"
 
             self.logger.info("✅ Devlog services started")
 
         except Exception as e:
             self.logger.error(f"❌ Failed to start devlog services: {e}")
-            self.services_status['devlog_automation'] = 'failed'
-            self.services_status['devlog_posting'] = 'failed'
+            self.services_status["devlog_automation"] = "failed"
+            self.services_status["devlog_posting"] = "failed"
             raise
 
     async def _health_monitoring_loop(self):
@@ -193,50 +190,49 @@ class ServiceManager:
         while self.is_running:
             try:
                 await self._perform_health_checks()
-                await asyncio.sleep(self.config['health_check_interval'])
+                await asyncio.sleep(self.config["health_check_interval"])
             except Exception as e:
                 self.logger.error(f"❌ Health monitoring error: {e}")
                 await asyncio.sleep(5)  # Brief pause on error
 
     async def _perform_health_checks(self):
         """Perform health checks on all services."""
-        health_report = {
-            'timestamp': datetime.utcnow().isoformat(),
-            'services': {}
-        }
+        health_report = {"timestamp": datetime.utcnow().isoformat(), "services": {}}
 
         # Check messaging service
         if self.messaging_service:
-            health_report['services']['messaging'] = 'healthy'
+            health_report["services"]["messaging"] = "healthy"
 
         # Check social media service
         if self.social_media_service and self.social_media_service.is_integrated:
-            health_report['services']['social_media'] = 'healthy'
+            health_report["services"]["social_media"] = "healthy"
         elif self.social_media_service:
-            health_report['services']['social_media'] = 'partial'
+            health_report["services"]["social_media"] = "partial"
 
         # Check Discord bot
         if self.discord_bot and self.discord_bot.is_ready():
-            health_report['services']['discord_bot'] = 'healthy'
+            health_report["services"]["discord_bot"] = "healthy"
         elif self.discord_bot:
-            health_report['services']['discord_bot'] = 'ready'
+            health_report["services"]["discord_bot"] = "ready"
 
         # Check devlog services
         if self.devlog_automation:
-            health_report['services']['devlog_automation'] = 'healthy'
+            health_report["services"]["devlog_automation"] = "healthy"
         if self.devlog_posting:
-            health_report['services']['devlog_posting'] = 'healthy'
+            health_report["services"]["devlog_posting"] = "healthy"
 
         # Log health status
-        healthy_count = sum(1 for status in health_report['services'].values() if status == 'healthy')
-        total_count = len(health_report['services'])
+        healthy_count = sum(
+            1 for status in health_report["services"].values() if status == "healthy"
+        )
+        total_count = len(health_report["services"])
 
         self.logger.info(f"💓 Health check: {healthy_count}/{total_count} services healthy")
 
         # Store health report (could be used for monitoring/alerting)
         self._store_health_report(health_report)
 
-    def _store_health_report(self, report: Dict[str, Any]):
+    def _store_health_report(self, report: dict[str, Any]):
         """Store health report for monitoring purposes."""
         # In a real system, this would be stored in a database or sent to monitoring
         pass
@@ -246,12 +242,12 @@ class ServiceManager:
         self.logger.info("📊 Current Service Status:")
         for service, status in self.services_status.items():
             emoji = {
-                'active': '✅',
-                'ready': '🟡',
-                'inactive': '⚫',
-                'disabled': '🚫',
-                'failed': '❌'
-            }.get(status, '❓')
+                "active": "✅",
+                "ready": "🟡",
+                "inactive": "⚫",
+                "disabled": "🚫",
+                "failed": "❌",
+            }.get(status, "❓")
 
             self.logger.info(f"   {emoji} {service}: {status}")
 
@@ -267,19 +263,19 @@ class ServiceManager:
                 self.logger.info("✅ Discord bot stopped")
 
             # Stop other services
-            self.services_status = {k: 'stopped' for k in self.services_status.keys()}
+            self.services_status = {k: "stopped" for k in self.services_status.keys()}
             self.logger.info("✅ All services stopped")
 
         except Exception as e:
             self.logger.error(f"❌ Error stopping services: {e}")
 
-    def get_service_status(self) -> Dict[str, Any]:
+    def get_service_status(self) -> dict[str, Any]:
         """Get current status of all services."""
         return {
-            'is_running': self.is_running,
-            'startup_complete': self.startup_complete,
-            'services': self.services_status.copy(),
-            'health': 'healthy' if self.is_running else 'stopped'
+            "is_running": self.is_running,
+            "startup_complete": self.startup_complete,
+            "services": self.services_status.copy(),
+            "health": "healthy" if self.is_running else "stopped",
         }
 
     async def run_discord_bot(self, token: str):
@@ -301,6 +297,7 @@ class ServiceManager:
 # Global service manager instance
 _service_manager = None
 
+
 def get_service_manager() -> ServiceManager:
     """Get or create the global service manager instance."""
     global _service_manager
@@ -308,17 +305,20 @@ def get_service_manager() -> ServiceManager:
         _service_manager = ServiceManager()
     return _service_manager
 
+
 async def start_all_services() -> bool:
     """Start all services using the global service manager."""
     manager = get_service_manager()
     return await manager.start_all_services()
+
 
 async def stop_all_services():
     """Stop all services using the global service manager."""
     manager = get_service_manager()
     await manager.stop_all_services()
 
-def get_service_status() -> Dict[str, Any]:
+
+def get_service_status() -> dict[str, Any]:
     """Get service status from the global service manager."""
     manager = get_service_manager()
     return manager.get_service_status()
@@ -329,6 +329,7 @@ def signal_handler(signum, frame):
     """Handle shutdown signals."""
     logger.info(f"Received signal {signum}, shutting down...")
     asyncio.create_task(stop_all_services())
+
 
 async def setup_signal_handlers():
     """Setup signal handlers for graceful shutdown."""
@@ -356,7 +357,9 @@ async def main():
             status = manager.get_service_status()
             print(f"📊 Services: {len(status['services'])} total")
             print(f"💓 Health: {status['health']}")
-            print(f"🔗 ChatMate Integration: {'✅ Active' if status['services'].get('social_media') == 'active' else '⚠️ Limited'}")
+            print(
+                f"🔗 ChatMate Integration: {'✅ Active' if status['services'].get('social_media') == 'active' else '⚠️ Limited'}"
+            )
 
             # Keep the main task running
             while manager.is_running:

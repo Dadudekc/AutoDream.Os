@@ -5,18 +5,17 @@ Agent-7 Repository Cloning Specialist - VSCode Forking Integration
 V2 Compliance: ≤400 lines, type hints, KISS principle
 """
 
-from typing import Dict, List, Optional, Tuple, Any
+import json
+import time
 from dataclasses import dataclass
 from enum import Enum
-import json
-import subprocess
-import os
 from pathlib import Path
-import time
+from typing import Any
 
 
 class IntegrationStatus(Enum):
     """Integration status enumeration."""
+
     PENDING = "pending"
     IN_PROGRESS = "in_progress"
     COMPLETED = "completed"
@@ -26,6 +25,7 @@ class IntegrationStatus(Enum):
 
 class VSCodeComponent(Enum):
     """VSCode component types."""
+
     CORE = "core"
     EXTENSIONS = "extensions"
     THEMES = "themes"
@@ -36,42 +36,44 @@ class VSCodeComponent(Enum):
 @dataclass
 class VSCodeForkTask:
     """VSCode forking task structure."""
+
     component: VSCodeComponent
     source_repo: str
     target_repo: str
     local_path: str
     status: IntegrationStatus
     progress: float
-    dependencies: List[str]
-    errors: List[str]
+    dependencies: list[str]
+    errors: list[str]
 
 
 @dataclass
 class IntegrationResult:
     """Integration operation result."""
+
     task: VSCodeForkTask
     success: bool
     duration: float
     files_processed: int
-    errors: List[str]
-    warnings: List[str]
+    errors: list[str]
+    warnings: list[str]
 
 
 class VSCodeIntegrationInterface:
     """
     VSCode integration interface for Team Beta mission.
-    
+
     Integrates Repository Management Interface with VSCode forking
     capabilities for seamless Team Beta coordination.
     """
-    
+
     def __init__(self, base_path: str = "./vscode_fork"):
         """Initialize VSCode integration interface."""
         self.base_path = Path(base_path)
-        self.fork_tasks: List[VSCodeForkTask] = []
-        self.integration_results: List[IntegrationResult] = []
+        self.fork_tasks: list[VSCodeForkTask] = []
+        self.integration_results: list[IntegrationResult] = []
         self._initialize_fork_tasks()
-    
+
     def _initialize_fork_tasks(self):
         """Initialize VSCode forking tasks."""
         self.fork_tasks = [
@@ -83,7 +85,7 @@ class VSCodeIntegrationInterface:
                 status=IntegrationStatus.PENDING,
                 progress=0.0,
                 dependencies=["nodejs", "npm", "typescript"],
-                errors=[]
+                errors=[],
             ),
             VSCodeForkTask(
                 component=VSCodeComponent.EXTENSIONS,
@@ -93,7 +95,7 @@ class VSCodeIntegrationInterface:
                 status=IntegrationStatus.PENDING,
                 progress=0.0,
                 dependencies=["nodejs", "npm"],
-                errors=[]
+                errors=[],
             ),
             VSCodeForkTask(
                 component=VSCodeComponent.THEMES,
@@ -103,11 +105,11 @@ class VSCodeIntegrationInterface:
                 status=IntegrationStatus.PENDING,
                 progress=0.0,
                 dependencies=["nodejs", "npm"],
-                errors=[]
-            )
+                errors=[],
+            ),
         ]
-    
-    def integrate_with_repository_manager(self, repo_manager) -> Dict[str, Any]:
+
+    def integrate_with_repository_manager(self, repo_manager) -> dict[str, Any]:
         """Integrate with Repository Management Interface."""
         integration_data = {
             "integration_timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
@@ -119,26 +121,28 @@ class VSCodeIntegrationInterface:
                 "error_resolution": True,
                 "progress_tracking": True,
                 "user_friendly_interface": True,
-                "agent_friendly_interface": True
+                "agent_friendly_interface": True,
             },
-            "coordination_ready": True
+            "coordination_ready": True,
         }
-        
+
         # Integrate repository cloning with VSCode forking
         for task in self.fork_tasks:
             if task.component == VSCodeComponent.CORE:
                 # Use repository manager to clone VSCode core
-                clone_result = repo_manager.clone_repository_by_url(task.source_repo, task.local_path)
+                clone_result = repo_manager.clone_repository_by_url(
+                    task.source_repo, task.local_path
+                )
                 if clone_result:
                     task.status = IntegrationStatus.COMPLETED
                     task.progress = 100.0
                 else:
                     task.status = IntegrationStatus.FAILED
                     task.errors.append("Repository cloning failed")
-        
+
         return integration_data
-    
-    def create_vscode_fork_workflow(self) -> Dict[str, Any]:
+
+    def create_vscode_fork_workflow(self) -> dict[str, Any]:
         """Create VSCode forking workflow for Team Beta."""
         workflow = {
             "workflow_name": "Team Beta VSCode Forking Workflow",
@@ -151,10 +155,10 @@ class VSCodeIntegrationInterface:
                         "Clone VSCode core repository",
                         "Clone VSCode extensions repository",
                         "Clone VSCode themes repository",
-                        "Validate repository integrity"
+                        "Validate repository integrity",
                     ],
                     "dependencies": ["nodejs", "npm", "typescript", "git"],
-                    "estimated_duration": "30 minutes"
+                    "estimated_duration": "30 minutes",
                 },
                 {
                     "phase": 2,
@@ -164,10 +168,10 @@ class VSCodeIntegrationInterface:
                         "Install development dependencies",
                         "Configure build environment",
                         "Set up testing framework",
-                        "Initialize customization tools"
+                        "Initialize customization tools",
                     ],
                     "dependencies": ["nodejs", "npm", "typescript"],
-                    "estimated_duration": "45 minutes"
+                    "estimated_duration": "45 minutes",
                 },
                 {
                     "phase": 3,
@@ -177,10 +181,10 @@ class VSCodeIntegrationInterface:
                         "Add agent-specific extensions",
                         "Customize UI for agent workflows",
                         "Implement repository management integration",
-                        "Add Team Beta branding"
+                        "Add Team Beta branding",
                     ],
                     "dependencies": ["vscode-core", "custom-extensions"],
-                    "estimated_duration": "60 minutes"
+                    "estimated_duration": "60 minutes",
                 },
                 {
                     "phase": 4,
@@ -190,23 +194,23 @@ class VSCodeIntegrationInterface:
                         "Run automated tests",
                         "Validate agent workflows",
                         "Test repository management features",
-                        "Performance validation"
+                        "Performance validation",
                     ],
                     "dependencies": ["vscode-fork", "test-suite"],
-                    "estimated_duration": "30 minutes"
-                }
+                    "estimated_duration": "30 minutes",
+                },
             ],
             "total_estimated_duration": "2.75 hours",
             "team_coordination": {
                 "Agent-6": "VSCode Forking Specialist",
                 "Agent-7": "Repository Cloning Specialist",
-                "Agent-8": "Testing & Documentation Specialist"
-            }
+                "Agent-8": "Testing & Documentation Specialist",
+            },
         }
-        
+
         return workflow
-    
-    def get_integration_status(self) -> Dict[str, Any]:
+
+    def get_integration_status(self) -> dict[str, Any]:
         """Get current integration status."""
         return {
             "total_tasks": len(self.fork_tasks),
@@ -218,15 +222,17 @@ class VSCodeIntegrationInterface:
                 component.value: len([t for t in self.fork_tasks if t.component == component])
                 for component in VSCodeComponent
             },
-            "integration_ready": all(t.status == IntegrationStatus.COMPLETED for t in self.fork_tasks),
+            "integration_ready": all(
+                t.status == IntegrationStatus.COMPLETED for t in self.fork_tasks
+            ),
             "coordination_status": {
                 "Agent-6": "VSCode forking integration ready",
                 "Agent-7": "Repository management integration active",
-                "Agent-8": "Testing coordination ready"
-            }
+                "Agent-8": "Testing coordination ready",
+            },
         }
-    
-    def create_team_coordination_interface(self) -> Dict[str, Any]:
+
+    def create_team_coordination_interface(self) -> dict[str, Any]:
         """Create team coordination interface for Team Beta."""
         return {
             "coordination_interface": {
@@ -238,13 +244,13 @@ class VSCodeIntegrationInterface:
                             "VSCode core forking",
                             "Extension development",
                             "Customization implementation",
-                            "Build system configuration"
+                            "Build system configuration",
                         ],
                         "integration_points": [
                             "Repository Management Interface",
                             "Testing Framework",
-                            "Documentation System"
-                        ]
+                            "Documentation System",
+                        ],
                     },
                     "Agent-7": {
                         "role": "Repository Cloning Specialist",
@@ -252,13 +258,13 @@ class VSCodeIntegrationInterface:
                             "Repository cloning automation",
                             "Error resolution systems",
                             "Progress tracking",
-                            "User-friendly interfaces"
+                            "User-friendly interfaces",
                         ],
                         "integration_points": [
                             "VSCode Forking Workflow",
                             "Testing Integration",
-                            "Documentation Coordination"
-                        ]
+                            "Documentation Coordination",
+                        ],
                     },
                     "Agent-8": {
                         "role": "Testing & Documentation Specialist",
@@ -266,24 +272,24 @@ class VSCodeIntegrationInterface:
                             "Test suite development",
                             "Quality assurance",
                             "Documentation creation",
-                            "Integration validation"
+                            "Integration validation",
                         ],
                         "integration_points": [
                             "VSCode Fork Testing",
                             "Repository Management Testing",
-                            "User Guide Development"
-                        ]
-                    }
+                            "User Guide Development",
+                        ],
+                    },
                 },
                 "coordination_protocols": {
                     "communication": "PyAutoGUI messaging system",
                     "progress_reporting": "Every cycle",
                     "error_escalation": "Immediate notification",
-                    "success_validation": "Comprehensive testing"
-                }
+                    "success_validation": "Comprehensive testing",
+                },
             }
         }
-    
+
     def export_integration_report(self, filepath: str) -> bool:
         """Export integration report to JSON file."""
         try:
@@ -291,10 +297,10 @@ class VSCodeIntegrationInterface:
                 "integration_status": self.get_integration_status(),
                 "vscode_fork_workflow": self.create_vscode_fork_workflow(),
                 "team_coordination": self.create_team_coordination_interface(),
-                "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")
+                "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
             }
-            
-            with open(filepath, 'w') as f:
+
+            with open(filepath, "w") as f:
                 json.dump(report, f, indent=2)
             return True
         except Exception as e:
@@ -310,19 +316,18 @@ def create_vscode_integration() -> VSCodeIntegrationInterface:
 if __name__ == "__main__":
     # Example usage
     integration = create_vscode_integration()
-    
+
     # Create integration report
     status = integration.get_integration_status()
     print(f"✅ VSCode integration ready: {status['total_tasks']} tasks configured")
-    
+
     # Export integration report
     success = integration.export_integration_report("vscode_integration_report.json")
     if success:
         print("✅ Integration report exported to vscode_integration_report.json")
     else:
         print("❌ Failed to export integration report")
-    
+
     # Show team coordination
     coordination = integration.create_team_coordination_interface()
     print("🤝 Team Beta coordination interface ready")
-

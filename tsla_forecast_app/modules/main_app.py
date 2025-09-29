@@ -9,30 +9,41 @@ V2 Compliant: ≤400 lines, focused main application logic
 
 import sys
 from datetime import datetime
-from PyQt5.QtWidgets import QApplication, QMainWindow, QTabWidget, QStatusBar
+
 from PyQt5.QtCore import QTimer
-from PyQt5.QtGui import QFont, QPalette, QColor
+from PyQt5.QtGui import QFont
+from PyQt5.QtWidgets import QApplication, QMainWindow, QStatusBar, QTabWidget
+
 try:
     from .data_worker import StockDataWorker
-    from .ui_components import (
-        StockDisplayWidget, ForecastDisplayWidget, LogDisplayWidget, 
-        SettingsDisplayWidget, ChartDisplayWidget, ProfessionalTheme
-    )
     from .flag_display import TradingFlagsDisplay
+    from .ui_components import (
+        ChartDisplayWidget,
+        ForecastDisplayWidget,
+        LogDisplayWidget,
+        ProfessionalTheme,
+        SettingsDisplayWidget,
+        StockDisplayWidget,
+    )
 except ImportError:
     # Handle direct execution
     import os
     import sys
+
     # Add the project root to Python path
     project_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
     if project_root not in sys.path:
         sys.path.insert(0, project_root)
     from tsla_forecast_app.modules.data_worker import StockDataWorker
-    from tsla_forecast_app.modules.ui_components import (
-        StockDisplayWidget, ForecastDisplayWidget, LogDisplayWidget, 
-        SettingsDisplayWidget, ChartDisplayWidget, ProfessionalTheme
-    )
     from tsla_forecast_app.modules.flag_display import TradingFlagsDisplay
+    from tsla_forecast_app.modules.ui_components import (
+        ChartDisplayWidget,
+        ForecastDisplayWidget,
+        LogDisplayWidget,
+        ProfessionalTheme,
+        SettingsDisplayWidget,
+        StockDisplayWidget,
+    )
 
 
 class TeslaStockApp(QMainWindow):
@@ -50,10 +61,10 @@ class TeslaStockApp(QMainWindow):
         """Initialize the user interface"""
         self.setWindowTitle("🚀 Tesla Stock Forecast App - Professional Trading Interface")
         self.setGeometry(100, 100, 1400, 900)
-        
+
         # Apply professional theme
-        self.theme_manager.apply_theme(QApplication.instance(), 'professional')
-        
+        self.theme_manager.apply_theme(QApplication.instance(), "professional")
+
         # Professional theme is applied above
 
         # Create central widget with tabs
@@ -91,7 +102,7 @@ class TeslaStockApp(QMainWindow):
         self.data_worker = StockDataWorker()
         self.data_worker.data_updated.connect(self.update_stock_data)
         self.data_worker.start()
-        
+
         self.log_message("Data worker started")
 
     def setup_timers(self):
@@ -111,15 +122,17 @@ class TeslaStockApp(QMainWindow):
         if data:
             self.stock_widget.update_stock_data(data)
             self.log_message(f"Stock data updated: ${data.get('price', 0):.2f}")
-            
+
             # Update trading flags with new data
             self.flags_widget.update_stock_data(data)
-            
+
             # Update status bar
-            price = data.get('price', 0)
-            change = data.get('change', 0)
-            self.status_bar.showMessage(f"TSLA: ${price:.2f} ({change:+.2f}) - {data.get('source', 'Unknown')}")
-            
+            price = data.get("price", 0)
+            change = data.get("change", 0)
+            self.status_bar.showMessage(
+                f"TSLA: ${price:.2f} ({change:+.2f}) - {data.get('source', 'Unknown')}"
+            )
+
             # Hide progress bar
             self.stock_widget.hide_progress()
 
@@ -147,9 +160,11 @@ class TeslaStockApp(QMainWindow):
             status = f"Data worker active - {current_time}"
         else:
             status = f"Data worker inactive - {current_time}"
-        
+
         # Update settings widget
-        self.settings_widget.update_api_status("Active" if self.data_worker and self.data_worker.isRunning() else "Inactive")
+        self.settings_widget.update_api_status(
+            "Active" if self.data_worker and self.data_worker.isRunning() else "Inactive"
+        )
 
     def log_message(self, message):
         """Add message to log"""
@@ -169,18 +184,18 @@ class TeslaStockApp(QMainWindow):
     def closeEvent(self, event):
         """Handle application close event"""
         self.log_message("Application closing...")
-        
+
         # Stop data worker
         if self.data_worker and self.data_worker.isRunning():
             self.data_worker.stop()
             self.log_message("Data worker stopped")
-        
+
         # Stop timers
-        if hasattr(self, 'status_timer'):
+        if hasattr(self, "status_timer"):
             self.status_timer.stop()
-        if hasattr(self, 'refresh_timer'):
+        if hasattr(self, "refresh_timer"):
             self.refresh_timer.stop()
-        
+
         self.log_message("Application closed")
         event.accept()
 
@@ -188,37 +203,37 @@ class TeslaStockApp(QMainWindow):
 def create_app():
     """Create and configure the application"""
     app = QApplication(sys.argv)
-    
+
     # Set application properties
     app.setApplicationName("Tesla Stock Forecast App")
     app.setApplicationVersion("1.0")
     app.setOrganizationName("Agent-1 Development")
-    
+
     # Set application font
     font = QFont("Segoe UI", 9)
     app.setFont(font)
-    
+
     # Create main window
     window = TeslaStockApp()
     window.show()
-    
+
     return app, window
 
 
 def main():
     """Main application entry point"""
     print("🚀 Starting Tesla Stock Forecast App...")
-    
+
     try:
         app, window = create_app()
-        
+
         # Show initial message
         window.log_message("Application started successfully")
         window.log_message("Loading stock data...")
-        
+
         # Run application
         sys.exit(app.exec_())
-        
+
     except Exception as e:
         print(f"❌ Application error: {e}")
         sys.exit(1)

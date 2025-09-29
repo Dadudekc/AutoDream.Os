@@ -16,7 +16,7 @@ const V3Pipeline = () => {
       const response = await fetch('/api/v3-contracts');
       const data = await response.json();
       setContracts(data);
-      
+
       // Calculate overall progress
       const totalProgress = data.reduce((sum, contract) => sum + contract.progress, 0);
       setProgress(totalProgress / data.length);

@@ -10,17 +10,17 @@ Author: Agent 5 (Quality Assurance Specialist)
 License: MIT
 """
 
+import argparse
 import json
 import sys
 from pathlib import Path
-from typing import Dict, List, Any, Optional
-import argparse
+from typing import Any
 
 # Add project root to path
 project_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(project_root))
 
-logger = __import__('logging').getLogger(__name__)
+logger = __import__("logging").getLogger(__name__)
 
 
 class FeatureRegistry:
@@ -31,14 +31,14 @@ class FeatureRegistry:
         self.registry_file = Path(registry_file)
         self.registry = self._load_registry()
 
-    def _load_registry(self) -> Dict[str, Any]:
+    def _load_registry(self) -> dict[str, Any]:
         """Load feature registry from file."""
         if self.registry_file.exists():
-            with open(self.registry_file, 'r') as f:
+            with open(self.registry_file) as f:
                 return json.load(f)
         return self._create_default_registry()
 
-    def _create_default_registry(self) -> Dict[str, Any]:
+    def _create_default_registry(self) -> dict[str, Any]:
         """Create default feature registry."""
         return {
             "features": {
@@ -48,7 +48,7 @@ class FeatureRegistry:
                     "status": "operational",
                     "files": ["src/services/consolidated_messaging_service.py"],
                     "description": "PyAutoGUI-based agent coordination system",
-                    "last_updated": "2025-09-21"
+                    "last_updated": "2025-09-21",
                 },
                 "ml_pipeline": {
                     "name": "ML Pipeline System",
@@ -56,7 +56,7 @@ class FeatureRegistry:
                     "status": "operational",
                     "files": ["src/ml/ml_pipeline_system.py"],
                     "description": "TensorFlow/PyTorch ML pipeline with deployment",
-                    "last_updated": "2025-09-21"
+                    "last_updated": "2025-09-21",
                 },
                 "tracing": {
                     "name": "Distributed Tracing System",
@@ -64,7 +64,7 @@ class FeatureRegistry:
                     "status": "operational",
                     "files": ["src/tracing/distributed_tracing_system.py"],
                     "description": "OpenTelemetry + Jaeger tracing system",
-                    "last_updated": "2025-09-21"
+                    "last_updated": "2025-09-21",
                 },
                 "web_dashboard": {
                     "name": "Swarm Coordination Dashboard",
@@ -72,7 +72,7 @@ class FeatureRegistry:
                     "status": "operational",
                     "files": ["src/services/dashboard/"],
                     "description": "Real-time monitoring and coordination dashboard",
-                    "last_updated": "2025-09-21"
+                    "last_updated": "2025-09-21",
                 },
                 "mobile_framework": {
                     "name": "Mobile App Framework",
@@ -80,7 +80,7 @@ class FeatureRegistry:
                     "status": "built",
                     "files": ["src/mobile/"],
                     "description": "React Native mobile application framework",
-                    "last_updated": "2025-09-21"
+                    "last_updated": "2025-09-21",
                 },
                 "api_gateway": {
                     "name": "API Gateway Core",
@@ -88,7 +88,7 @@ class FeatureRegistry:
                     "status": "operational",
                     "files": ["src/services/api_gateway/"],
                     "description": "Authentication and rate limiting gateway",
-                    "last_updated": "2025-09-21"
+                    "last_updated": "2025-09-21",
                 },
                 "nlp_system": {
                     "name": "Command Understanding",
@@ -96,7 +96,7 @@ class FeatureRegistry:
                     "status": "basic",
                     "files": ["src/services/messaging/"],
                     "description": "Pattern-based command parsing system",
-                    "last_updated": "2025-09-21"
+                    "last_updated": "2025-09-21",
                 },
                 "cloud_infrastructure": {
                     "name": "Cloud Configuration System",
@@ -104,25 +104,25 @@ class FeatureRegistry:
                     "status": "basic",
                     "files": ["src/infrastructure/cloud/"],
                     "description": "AWS/Azure configuration management",
-                    "last_updated": "2025-09-21"
-                }
+                    "last_updated": "2025-09-21",
+                },
             },
-            "last_updated": "2025-09-21"
+            "last_updated": "2025-09-21",
         }
 
     def save_registry(self):
         """Save registry to file."""
-        with open(self.registry_file, 'w') as f:
+        with open(self.registry_file, "w") as f:
             json.dump(self.registry, f, indent=2)
 
-    def check_feature_duplication(self, feature_name: str, description: str = "") -> Dict[str, Any]:
+    def check_feature_duplication(self, feature_name: str, description: str = "") -> dict[str, Any]:
         """Check if feature already exists or duplicates existing functionality."""
         result = {
             "feature_exists": False,
             "similar_features": [],
             "duplication_risk": "low",
             "recommendation": "proceed",
-            "details": []
+            "details": [],
         }
 
         # Check for exact matches
@@ -142,12 +142,14 @@ class FeatureRegistry:
             if overlap > 0:
                 similarity = overlap / len(feature_keywords)
                 if similarity > 0.5:
-                    result["similar_features"].append({
-                        "feature_id": feature_id,
-                        "name": feature["name"],
-                        "similarity": similarity,
-                        "description": feature["description"]
-                    })
+                    result["similar_features"].append(
+                        {
+                            "feature_id": feature_id,
+                            "name": feature["name"],
+                            "similarity": similarity,
+                            "description": feature["description"],
+                        }
+                    )
 
         # Assess duplication risk
         if result["similar_features"]:
@@ -161,8 +163,14 @@ class FeatureRegistry:
 
         return result
 
-    def register_new_feature(self, feature_name: str, owner: str, description: str,
-                           files: List[str], status: str = "planned") -> bool:
+    def register_new_feature(
+        self,
+        feature_name: str,
+        owner: str,
+        description: str,
+        files: list[str],
+        status: str = "planned",
+    ) -> bool:
         """Register a new feature in the registry."""
         feature_id = feature_name.lower().replace(" ", "_")
 
@@ -172,7 +180,7 @@ class FeatureRegistry:
             "status": status,
             "files": files,
             "description": description,
-            "last_updated": str(__import__('datetime').date.today())
+            "last_updated": str(__import__("datetime").date.today()),
         }
 
         self.save_registry()
@@ -208,15 +216,14 @@ def main():
         print(f"Recommendation: {result['recommendation'].replace('_', ' ').upper()}")
 
         if result["details"]:
-            print("
-Details:")
+            print("Details:")
             for detail in result["details"]:
                 print(f"  • {detail}")
 
         # Exit with error code if high duplication risk
         if result["duplication_risk"] == "high":
-            print("
-❌ HIGH DUPLICATION RISK - Review existing features first!"            return 1
+            print("❌ HIGH DUPLICATION RISK - Review existing features first!")
+            return 1
 
     if args.register:
         print(f"\n📝 REGISTERING NEW FEATURE: {args.feature}")
@@ -224,7 +231,7 @@ Details:")
             feature_name=args.feature,
             owner="Agent-X",  # TODO: Get from environment
             description=args.description,
-            files=[]  # TODO: Get from command line
+            files=[],  # TODO: Get from command line
         )
 
         if success:
@@ -238,4 +245,3 @@ Details:")
 
 if __name__ == "__main__":
     exit(main())
-

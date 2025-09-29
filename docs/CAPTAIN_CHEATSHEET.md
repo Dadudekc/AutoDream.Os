@@ -70,7 +70,7 @@ patterns = retriever.how_do_agents_do("V2 compliance refactoring across cycles")
 
 ### 🚨 **Emergency Contacts (Cycle-Based)**
 
-**Critical Issues**: 
+**Critical Issues**:
 - Escalate immediately to General (Human Commander) within cycle
 - Use P0 priority level
 - Document in Captain's Log (per cycle)

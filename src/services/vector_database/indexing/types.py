@@ -6,16 +6,15 @@ Index Types and Data Structures
 Data types and structures for vector database indexing.
 """
 
-import json
 import time
-from datetime import datetime, timezone, timedelta
-from typing import Dict, List, Optional, Tuple, Any, Set
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 from enum import Enum
+from typing import Any
 
 
 class IndexStatus(Enum):
     """Status of an index entry."""
+
     PENDING = "pending"
     INDEXING = "indexing"
     COMPLETED = "completed"
@@ -25,6 +24,7 @@ class IndexStatus(Enum):
 
 class IndexType(Enum):
     """Type of index operation."""
+
     FULL = "full"
     INCREMENTAL = "incremental"
     REBUILD = "rebuild"
@@ -34,26 +34,27 @@ class IndexType(Enum):
 @dataclass
 class IndexEntry:
     """Represents an index entry."""
+
     id: str
     timestamp: float
     status: IndexStatus
     index_type: IndexType
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
     vector_count: int = 0
     processing_time: float = 0.0
-    error_message: Optional[str] = None
-    
-    def to_dict(self) -> Dict[str, Any]:
+    error_message: str | None = None
+
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return asdict(self)
-    
+
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'IndexEntry':
+    def from_dict(cls, data: dict[str, Any]) -> "IndexEntry":
         """Create from dictionary."""
-        data['status'] = IndexStatus(data['status'])
-        data['index_type'] = IndexType(data['index_type'])
+        data["status"] = IndexStatus(data["status"])
+        data["index_type"] = IndexType(data["index_type"])
         return cls(**data)
-    
+
     def is_stale(self, max_age_seconds: int = 3600) -> bool:
         """Check if entry is stale."""
         age = time.time() - self.timestamp
@@ -63,19 +64,20 @@ class IndexEntry:
 @dataclass
 class IndexStats:
     """Statistics for index operations."""
+
     total_entries: int = 0
     completed_entries: int = 0
     failed_entries: int = 0
     pending_entries: int = 0
     average_processing_time: float = 0.0
-    last_index_time: Optional[float] = None
-    
+    last_index_time: float | None = None
+
     def success_rate(self) -> float:
         """Calculate success rate."""
         if self.total_entries == 0:
             return 0.0
         return self.completed_entries / self.total_entries
-    
-    def to_dict(self) -> Dict[str, Any]:
+
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return asdict(self)

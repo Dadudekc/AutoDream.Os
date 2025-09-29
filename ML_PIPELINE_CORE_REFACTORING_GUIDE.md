@@ -126,7 +126,3 @@
 - Avoid complex inheritance
 
 **Agent-4**: Begin with `ml_pipeline_core.py` extraction. Report progress via messaging system.
-
-
-
-

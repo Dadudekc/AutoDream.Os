@@ -1,7 +1,7 @@
 #!/bin/bash
 # FSM CI Script - V2 Compliant
 # =============================
-# 
+#
 # Finite State Machine CI validation script.
 # Scans state files and runs consistency tests.
 #
@@ -52,7 +52,3 @@ echo "✅ Consistency tests: PASSED"
 echo "✅ FSM system: VALID"
 echo ""
 echo "🎉 FSM CI validation complete - system ready!"
-
-
-
-

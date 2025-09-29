@@ -1,11 +1,9 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 Runs the ProjectScanner from repo root and stages snapshot artifacts.
 - Safe to call from pre-commit.
 - If files change, pre-commit will halt; commit again to include updates.
 """
+
 import subprocess
 import sys
 from pathlib import Path

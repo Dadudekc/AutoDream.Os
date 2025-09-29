@@ -1,0 +1,24 @@
+{
+  "status": "success",
+  "audit_scope": "Trading_System",
+  "audit_type": "comprehensive",
+  "compliance_status": {
+    "overall_compliance": 94.5,
+    "trading_compliance": 96.2,
+    "reporting_compliance": 92.8,
+    "risk_compliance": 95.1,
+    "regulatory_compliance": 93.7
+  },
+  "findings": {
+    "critical_violations": 0,
+    "major_violations": 2,
+    "minor_violations": 5,
+    "observations": 8
+  },
+  "recommendations": [
+    "Update position limit monitoring system",
+    "Enhance audit trail documentation",
+    "Implement additional compliance checks",
+    "Review regulatory reporting procedures"
+  ]
+}

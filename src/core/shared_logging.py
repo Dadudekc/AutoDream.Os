@@ -13,64 +13,61 @@ License: MIT
 
 import logging
 import sys
-from typing import Optional, Dict, Any
 from pathlib import Path
-from datetime import datetime
+from typing import Any
 
 
 class SharedLogger:
     """Shared logging configuration and utilities."""
-    
+
     _configured = False
-    _loggers: Dict[str, logging.Logger] = {}
-    
+    _loggers: dict[str, logging.Logger] = {}
+
     @classmethod
     def configure_logging(
         cls,
         level: str = "INFO",
-        log_file: Optional[Path] = None,
-        format_string: Optional[str] = None
+        log_file: Path | None = None,
+        format_string: str | None = None,
     ) -> None:
         """Configure logging for the entire application."""
         if cls._configured:
             return
-            
+
         # Default format
         if format_string is None:
             format_string = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-        
+
         # Configure root logger
         logging.basicConfig(
             level=getattr(logging, level.upper()),
             format=format_string,
-            handlers=[
-                logging.StreamHandler(sys.stdout)
-            ]
+            handlers=[logging.StreamHandler(sys.stdout)],
         )
-        
+
         # Add file handler if specified
         if log_file:
             log_file.parent.mkdir(parents=True, exist_ok=True)
             file_handler = logging.FileHandler(log_file)
             file_handler.setFormatter(logging.Formatter(format_string))
             logging.getLogger().addHandler(file_handler)
-        
+
         cls._configured = True
-    
+
     @classmethod
     def get_logger(cls, name: str) -> logging.Logger:
         """Get a logger instance for a module."""
         if name not in cls._loggers:
             cls._loggers[name] = logging.getLogger(name)
         return cls._loggers[name]
-    
+
     @classmethod
     def log_function_call(
         cls,
         logger: logging.Logger,
         function_name: str,
-        args: Optional[Dict[str, Any]] = None,
-        level: str = "DEBUG"
+        args: dict[str, Any] | None = None,
+        level: str = "DEBUG",
     ) -> None:
         """Log function call with arguments."""
         log_level = getattr(logging, level.upper())
@@ -78,28 +75,28 @@ class SharedLogger:
             logger.log(log_level, f"Calling {function_name} with args: {args}")
         else:
             logger.log(log_level, f"Calling {function_name}")
-    
+
     @classmethod
     def log_error_with_context(
         cls,
         logger: logging.Logger,
         error: Exception,
         context: str,
-        additional_info: Optional[Dict[str, Any]] = None
+        additional_info: dict[str, Any] | None = None,
     ) -> None:
         """Log error with context and additional information."""
         error_msg = f"Error in {context}: {str(error)}"
         if additional_info:
             error_msg += f" | Additional info: {additional_info}"
         logger.error(error_msg, exc_info=True)
-    
+
     @classmethod
     def log_performance(
         cls,
         logger: logging.Logger,
         operation: str,
         duration: float,
-        additional_metrics: Optional[Dict[str, Any]] = None
+        additional_metrics: dict[str, Any] | None = None,
     ) -> None:
         """Log performance metrics."""
         perf_msg = f"Performance: {operation} took {duration:.3f}s"
@@ -138,5 +135,3 @@ def log_performance(logger: logging.Logger, operation: str, duration: float, **k
 
 # Initialize logging for the application
 SharedLogger.configure_logging()
-
-

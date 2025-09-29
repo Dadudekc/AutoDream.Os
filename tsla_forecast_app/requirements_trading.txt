@@ -41,6 +41,3 @@ pytest-qt==4.2.0
 # alpaca-trade-api==3.0.0  # For live trading
 # ibapi==10.19.1           # Interactive Brokers API
 # ccxt==4.0.0              # Cryptocurrency exchanges
-
-
-

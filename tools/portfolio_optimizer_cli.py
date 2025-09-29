@@ -26,25 +26,26 @@ logger = logging.getLogger(__name__)
 
 class PortfolioOptimizerCLI:
     """Command-line interface for portfolio optimization tools."""
-    
+
     def __init__(self):
         """Initialize the CLI."""
         self.setup_logging()
-    
+
     def setup_logging(self):
         """Setup logging for the CLI."""
         logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+            level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
         )
-    
-    def optimize_portfolio(self, portfolio_id: str, optimization_method: str = "mean_variance") -> bool:
+
+    def optimize_portfolio(
+        self, portfolio_id: str, optimization_method: str = "mean_variance"
+    ) -> bool:
         """Optimize portfolio allocation."""
         try:
             print(f"⚖️ Optimizing portfolio: {portfolio_id}")
             print(f"🎯 Optimization method: {optimization_method}")
             print("🚀 Portfolio Optimizer analysis starting...")
-            
+
             # Simulate portfolio optimization
             optimization_result = {
                 "status": "success",
@@ -54,52 +55,60 @@ class PortfolioOptimizerCLI:
                     "stocks": 0.60,
                     "bonds": 0.25,
                     "commodities": 0.10,
-                    "cash": 0.05
+                    "cash": 0.05,
                 },
                 "optimized_allocation": {
                     "stocks": 0.55,
                     "bonds": 0.30,
                     "commodities": 0.12,
-                    "cash": 0.03
+                    "cash": 0.03,
                 },
                 "performance_improvement": {
                     "expected_return": 0.12,
                     "volatility": 0.15,
                     "sharpe_ratio": 1.67,
-                    "max_drawdown": 0.08
+                    "max_drawdown": 0.08,
                 },
                 "rebalancing_actions": [
                     "Reduce stock allocation by 5%",
                     "Increase bond allocation by 5%",
                     "Increase commodity allocation by 2%",
-                    "Reduce cash allocation by 2%"
-                ]
+                    "Reduce cash allocation by 2%",
+                ],
             }
-            
-            print(f"✅ Portfolio optimization completed!")
-            print(f"📊 Expected Return: {optimization_result['performance_improvement']['expected_return']:.1%}")
-            print(f"📈 Volatility: {optimization_result['performance_improvement']['volatility']:.1%}")
-            print(f"📊 Sharpe Ratio: {optimization_result['performance_improvement']['sharpe_ratio']}")
-            print(f"📉 Max Drawdown: {optimization_result['performance_improvement']['max_drawdown']:.1%}")
-            
-            print(f"\n🔄 Rebalancing Actions:")
-            for action in optimization_result['rebalancing_actions']:
+
+            print("✅ Portfolio optimization completed!")
+            print(
+                f"📊 Expected Return: {optimization_result['performance_improvement']['expected_return']:.1%}"
+            )
+            print(
+                f"📈 Volatility: {optimization_result['performance_improvement']['volatility']:.1%}"
+            )
+            print(
+                f"📊 Sharpe Ratio: {optimization_result['performance_improvement']['sharpe_ratio']}"
+            )
+            print(
+                f"📉 Max Drawdown: {optimization_result['performance_improvement']['max_drawdown']:.1%}"
+            )
+
+            print("\n🔄 Rebalancing Actions:")
+            for action in optimization_result["rebalancing_actions"]:
                 print(f"  • {action}")
-            
+
             # Save optimization report
             report_path = f"optimization_reports/{portfolio_id}_optimization.json"
             Path("optimization_reports").mkdir(exist_ok=True)
-            
-            with open(report_path, 'w') as f:
+
+            with open(report_path, "w") as f:
                 json.dump(optimization_result, f, indent=2)
-            
+
             print(f"📄 Optimization report saved to: {report_path}")
             return True
-            
+
         except Exception as e:
             print(f"❌ Portfolio optimization failed: {e}")
             return False
-    
+
     def rebalance_portfolio(self, portfolio_id: str) -> None:
         """Rebalance portfolio."""
         print(f"🔄 Rebalancing portfolio: {portfolio_id}")
@@ -108,7 +117,7 @@ class PortfolioOptimizerCLI:
         print("  • Bonds: 25% → 30% (+5%)")
         print("  • Commodities: 10% → 12% (+2%)")
         print("  • Cash: 5% → 3% (-2%)")
-    
+
     def analyze_performance(self, portfolio_id: str) -> None:
         """Analyze portfolio performance."""
         print(f"📊 Analyzing performance for: {portfolio_id}")
@@ -117,7 +126,7 @@ class PortfolioOptimizerCLI:
         print("  • Volatility: 15.2%")
         print("  • Sharpe Ratio: 1.42")
         print("  • Max Drawdown: 8.7%")
-    
+
     def show_tools(self) -> None:
         """Show available portfolio optimizer tools."""
         print("⚖️ Available Portfolio Optimizer Tools:")
@@ -137,15 +146,22 @@ def main():
     """Main CLI entry point."""
     parser = argparse.ArgumentParser(description="Portfolio Optimizer CLI Tool")
     parser.add_argument("--optimize", metavar="PORTFOLIO_ID", help="Optimize portfolio")
-    parser.add_argument("--method", choices=["mean_variance", "black_litterman", "risk_parity", "equal_weight"], default="mean_variance", help="Optimization method")
+    parser.add_argument(
+        "--method",
+        choices=["mean_variance", "black_litterman", "risk_parity", "equal_weight"],
+        default="mean_variance",
+        help="Optimization method",
+    )
     parser.add_argument("--rebalance", metavar="PORTFOLIO_ID", help="Rebalance portfolio")
-    parser.add_argument("--analyze-performance", metavar="PORTFOLIO_ID", help="Analyze portfolio performance")
+    parser.add_argument(
+        "--analyze-performance", metavar="PORTFOLIO_ID", help="Analyze portfolio performance"
+    )
     parser.add_argument("--show-tools", action="store_true", help="Show available tools")
-    
+
     args = parser.parse_args()
-    
+
     cli = PortfolioOptimizerCLI()
-    
+
     if args.optimize:
         success = cli.optimize_portfolio(args.optimize, args.method)
         sys.exit(0 if success else 1)

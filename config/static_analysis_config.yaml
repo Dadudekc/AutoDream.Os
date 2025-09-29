@@ -15,13 +15,13 @@ security:
       - "B101"  # Skip assert_used test
       - "B601"  # Skip shell_injection_subprocess test
     severity_level: "medium"
-    
+
   safety:
     enabled: true
     config_file: ".safety"
     check_live: true
     short_report: true
-    
+
   semgrep:
     enabled: true
     config: "auto"
@@ -49,7 +49,7 @@ quality:
       - "W505"   # docstring line length
     exclude:
       - "tests/**/data/**"
-    
+
   pylint:
     enabled: true
     config_file: "pyproject.toml"
@@ -76,7 +76,7 @@ quality:
     max_statements: 60
     max_module_lines: 400  # V2 compliance
     max_class_lines: 100   # V2 compliance
-    
+
   mypy:
     enabled: true
     config_file: "pyproject.toml"
@@ -86,7 +86,7 @@ quality:
     warn_unused_configs: true
     disallow_untyped_defs: true
     disallow_incomplete_defs: true
-    
+
   flake8:
     enabled: true
     config_file: "pyproject.toml"
@@ -114,16 +114,16 @@ dependencies:
     enabled: true
     check_live: true
     short_report: true
-    
+
   pip_audit:
     enabled: true
     format: "json"
     desc: true
-    
+
   osv_scanner:
     enabled: true
     config: "auto"
-    
+
   manual_check:
     enabled: true
     vulnerable_packages:
@@ -167,7 +167,7 @@ complexity:
       - "tests/"
       - "test_*/"
       - "*/test_*"
-      
+
   mccabe:
     enabled: true
     max_complexity: 10
@@ -183,17 +183,17 @@ reporting:
     - "json"
     - "html"
     - "markdown"
-  
+
   html_dashboard:
     enabled: true
     include_charts: true
     theme: "default"
-    
+
   json_report:
     enabled: true
     pretty_print: true
     include_raw_data: false
-    
+
   markdown_report:
     enabled: true
     include_recommendations: true
@@ -209,16 +209,16 @@ ci:
     - "analysis_reports/"
     - "bandit-report.json"
     - "safety-report.json"
-  
+
   github_actions:
     enabled: true
     upload_artifacts: true
     comment_on_pr: true
-    
+
   gitlab_ci:
     enabled: false
     upload_artifacts: true
-    
+
   jenkins:
     enabled: false
     publish_html_report: true
@@ -229,19 +229,19 @@ thresholds:
     max_high_severity: 0
     max_medium_severity: 5
     max_low_severity: 20
-    
+
   quality:
     min_overall_score: 70
     min_code_style_score: 80
     min_type_safety_score: 80
     max_critical_violations: 10
     max_warning_violations: 50
-    
+
   dependencies:
     max_high_severity: 0
     max_medium_severity: 5
     max_low_severity: 20
-    
+
   complexity:
     max_cyclomatic_complexity: 10
     max_cognitive_complexity: 15
@@ -266,7 +266,7 @@ exclusions:
     - ".vscode"
     - "tests/data"
     - "test_data"
-    
+
   files:
     - "*.pyc"
     - "*.pyo"
@@ -280,7 +280,7 @@ exclusions:
     - "*.whl"
     - "*.tar.gz"
     - "*.zip"
-    
+
   patterns:
     - "**/migrations/**"
     - "**/test_*/**"
@@ -297,21 +297,21 @@ notifications:
     smtp_port: 587
     smtp_username: ""
     smtp_password: ""
-    
+
   slack:
     enabled: false
     webhook_url: ""
     channel: "#security-alerts"
-    
+
   discord:
     enabled: false
     webhook_url: ""
     channel: "security-alerts"
-    
+
   teams:
     enabled: false
     webhook_url: ""
-    
+
   github:
     enabled: true
     comment_on_pr: true
@@ -323,19 +323,13 @@ performance:
   max_workers: 4
   timeout_seconds: 300
   memory_limit_mb: 1024
-  
+
   caching:
     enabled: true
     cache_dir: ".analysis_cache"
     ttl_hours: 24
-    
+
   incremental_analysis:
     enabled: true
     track_changes: true
     only_changed_files: false
-
-
-
-
-
-

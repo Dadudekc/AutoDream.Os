@@ -49,7 +49,7 @@ tests/
 ## 🔄 **File Migration Map**
 
 ### **Messaging Tests**
-- `test_messaging_service.py` (406 lines) → 
+- `test_messaging_service.py` (406 lines) →
   - `tests/messaging/test_messaging_service_core.py` (200 lines)
   - `tests/messaging/test_messaging_service_operations.py` (250 lines)
 

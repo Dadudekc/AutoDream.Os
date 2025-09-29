@@ -8,8 +8,8 @@ V2 Compliant: ≤200 lines, focused platform compatibility testing
 """
 
 import platform
-from typing import Dict
-from .models import TestCase, TestResult, TestStatus, TestCategory
+
+from .models import TestCase, TestCategory, TestResult, TestStatus
 
 
 class PlatformTestExecutor:
@@ -19,7 +19,7 @@ class PlatformTestExecutor:
         """Initialize platform test executor"""
         self.platform_info = self._get_platform_info()
 
-    def _get_platform_info(self) -> Dict[str, str]:
+    def _get_platform_info(self) -> dict[str, str]:
         """Get platform information for compatibility testing"""
         return {
             "system": platform.system(),
@@ -27,10 +27,10 @@ class PlatformTestExecutor:
             "version": platform.version(),
             "machine": platform.machine(),
             "processor": platform.processor(),
-            "python_version": platform.python_version()
+            "python_version": platform.python_version(),
         }
 
-    def get_platform_info(self) -> Dict[str, str]:
+    def get_platform_info(self) -> dict[str, str]:
         """Get current platform information"""
         return self.platform_info
 
@@ -54,7 +54,7 @@ class PlatformTestExecutor:
             else:
                 test_output = f"Windows compatibility test skipped (running on {self.platform_info['system']})"
                 success = True
-                
+
             return TestResult(
                 test_case=TestCase(
                     name="windows_compatibility",
@@ -64,12 +64,12 @@ class PlatformTestExecutor:
                     duration=0.1,
                     errors=[],
                     warnings=[],
-                    platform=self.platform_info["system"]
+                    platform=self.platform_info["system"],
                 ),
                 success=success,
                 output=test_output,
                 metrics={"platform": self.platform_info["system"]},
-                recommendations=[]
+                recommendations=[],
             )
         except Exception as e:
             return TestResult(
@@ -81,12 +81,12 @@ class PlatformTestExecutor:
                     duration=0.1,
                     errors=[str(e)],
                     warnings=[],
-                    platform=self.platform_info["system"]
+                    platform=self.platform_info["system"],
                 ),
                 success=False,
                 output=f"Windows compatibility test failed: {str(e)}",
                 metrics={},
-                recommendations=["Check Windows-specific implementation"]
+                recommendations=["Check Windows-specific implementation"],
             )
 
     def _test_linux_compatibility(self) -> TestResult:
@@ -96,9 +96,11 @@ class PlatformTestExecutor:
                 test_output = "Linux compatibility test completed successfully"
                 success = True
             else:
-                test_output = f"Linux compatibility test skipped (running on {self.platform_info['system']})"
+                test_output = (
+                    f"Linux compatibility test skipped (running on {self.platform_info['system']})"
+                )
                 success = True
-                
+
             return TestResult(
                 test_case=TestCase(
                     name="linux_compatibility",
@@ -108,12 +110,12 @@ class PlatformTestExecutor:
                     duration=0.1,
                     errors=[],
                     warnings=[],
-                    platform=self.platform_info["system"]
+                    platform=self.platform_info["system"],
                 ),
                 success=success,
                 output=test_output,
                 metrics={"platform": self.platform_info["system"]},
-                recommendations=[]
+                recommendations=[],
             )
         except Exception as e:
             return TestResult(
@@ -125,12 +127,12 @@ class PlatformTestExecutor:
                     duration=0.1,
                     errors=[str(e)],
                     warnings=[],
-                    platform=self.platform_info["system"]
+                    platform=self.platform_info["system"],
                 ),
                 success=False,
                 output=f"Linux compatibility test failed: {str(e)}",
                 metrics={},
-                recommendations=["Check Linux-specific implementation"]
+                recommendations=["Check Linux-specific implementation"],
             )
 
     def _test_macos_compatibility(self) -> TestResult:
@@ -140,9 +142,11 @@ class PlatformTestExecutor:
                 test_output = "macOS compatibility test completed successfully"
                 success = True
             else:
-                test_output = f"macOS compatibility test skipped (running on {self.platform_info['system']})"
+                test_output = (
+                    f"macOS compatibility test skipped (running on {self.platform_info['system']})"
+                )
                 success = True
-                
+
             return TestResult(
                 test_case=TestCase(
                     name="macos_compatibility",
@@ -152,12 +156,12 @@ class PlatformTestExecutor:
                     duration=0.1,
                     errors=[],
                     warnings=[],
-                    platform=self.platform_info["system"]
+                    platform=self.platform_info["system"],
                 ),
                 success=success,
                 output=test_output,
                 metrics={"platform": self.platform_info["system"]},
-                recommendations=[]
+                recommendations=[],
             )
         except Exception as e:
             return TestResult(
@@ -169,12 +173,12 @@ class PlatformTestExecutor:
                     duration=0.1,
                     errors=[str(e)],
                     warnings=[],
-                    platform=self.platform_info["system"]
+                    platform=self.platform_info["system"],
                 ),
                 success=False,
                 output=f"macOS compatibility test failed: {str(e)}",
                 metrics={},
-                recommendations=["Check macOS-specific implementation"]
+                recommendations=["Check macOS-specific implementation"],
             )
 
     def _execute_generic_compatibility_test(self, test_case: TestCase) -> TestResult:
@@ -184,7 +188,5 @@ class PlatformTestExecutor:
             success=True,
             output=f"Generic compatibility test execution for {test_case.name}",
             metrics={"platform": self.platform_info["system"]},
-            recommendations=[]
+            recommendations=[],
         )
-
-

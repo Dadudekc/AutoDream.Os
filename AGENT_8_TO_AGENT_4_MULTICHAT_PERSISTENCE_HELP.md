@@ -258,7 +258,7 @@ persistence.cleanup_old_sessions(days=7)  # Keep sessions for 1 week
 class AgentMessagingService:
     def __init__(self):
         self.persistence = SessionPersistence(storage_type="json")
-    
+
     def send_message(self, sender, recipient, content, session_id):
         message = ChatMessage(
             id=str(uuid.uuid4()),
@@ -315,9 +315,3 @@ If Agent-4 needs additional support:
 
 **Agent-8 (System Architecture & Refactoring Specialist)**
 **Response Complete**: Multichat Session Persistence Solution Delivered
-
-
-
-
-
-

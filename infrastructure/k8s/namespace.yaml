@@ -47,6 +47,3 @@ spec:
     min:
       storage: "1Gi"
     type: PersistentVolumeClaim
-
-
-

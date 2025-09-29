@@ -17,7 +17,7 @@ import logging
 import os
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 import discord
 from discord.ext import commands
@@ -25,6 +25,7 @@ from discord.ext import commands
 # Load environment variables from .env file if it exists
 try:
     from dotenv import load_dotenv
+
     load_dotenv()
 except ImportError:
     # dotenv not available, use system environment variables
@@ -35,30 +36,30 @@ logger = logging.getLogger(__name__)
 
 class DiscordDevlogService:
     """Service for managing Discord devlog functionality with agent-specific channels."""
-    
-    def __init__(self, bot_token: Optional[str] = None, channel_id: Optional[int] = None):
+
+    def __init__(self, bot_token: str | None = None, channel_id: int | None = None):
         """Initialize Discord devlog service."""
         self.bot_token = bot_token or os.getenv("DISCORD_BOT_TOKEN")
         self.channel_id = channel_id or int(os.getenv("DISCORD_CHANNEL_ID", "0"))
         self.bot = None
         self.devlogs_dir = Path("devlogs")
         self.devlogs_dir.mkdir(exist_ok=True)
-        
+
         # Load agent-specific channel IDs
         self.agent_channels = self._load_agent_channels()
-        
+
         logger.info(f"Initialized DiscordDevlogService with main channel ID: {self.channel_id}")
         logger.info(f"Loaded {len(self.agent_channels)} agent-specific channels")
-    
+
     def _load_agent_channels(self) -> dict[str, int]:
         """Load agent-specific Discord channel IDs from environment variables."""
         agent_channels = {}
-        
+
         for i in range(1, 9):  # Agent-1 through Agent-8
             agent_id = f"Agent-{i}"
             env_var = f"DISCORD_CHANNEL_{agent_id.replace('-', '_')}"
             channel_id = os.getenv(env_var)
-            
+
             if channel_id:
                 try:
                     agent_channels[agent_id] = int(channel_id)
@@ -67,72 +68,72 @@ class DiscordDevlogService:
                     logger.warning(f"Invalid channel ID for {agent_id}: {channel_id}")
             else:
                 logger.debug(f"No channel ID found for {agent_id} (env var: {env_var})")
-        
+
         return agent_channels
-    
-    def get_agent_channel_id(self, agent_id: str) -> Optional[int]:
+
+    def get_agent_channel_id(self, agent_id: str) -> int | None:
         """Get the Discord channel ID for a specific agent."""
         return self.agent_channels.get(agent_id)
-    
+
     async def initialize_bot(self) -> bool:
         """Initialize Discord bot connection."""
         if not self.bot_token:
             logger.error("Discord bot token not provided")
             return False
-        
+
         try:
             intents = discord.Intents.default()
             intents.message_content = True
             self.bot = commands.Bot(command_prefix="!", intents=intents)
-            
+
             @self.bot.event
             async def on_ready():
                 logger.info(f"Discord bot ready: {self.bot.user}")
-            
+
             # Start bot in background
             await self.bot.start(self.bot_token)
-            
+
             # Wait for bot to be ready
             await asyncio.sleep(2)
             return True
-            
+
         except Exception as e:
             logger.error(f"Failed to initialize Discord bot: {e}")
             return False
-    
-    def create_devlog(self, 
-                     agent_id: str,
-                     action: str,
-                     status: str = "completed",
-                     details: Optional[dict[str, Any]] = None) -> str:
+
+    def create_devlog(
+        self,
+        agent_id: str,
+        action: str,
+        status: str = "completed",
+        details: dict[str, Any] | None = None,
+    ) -> str:
         """Create a devlog entry and save to file."""
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         filename = f"{timestamp}_{agent_id}_{action.replace(' ', '_')}.md"
         filepath = self.devlogs_dir / filename
-        
+
         # Create devlog content
         devlog_content = self._format_devlog_content(agent_id, action, status, details)
-        
+
         # Save to file
         with open(filepath, "w", encoding="utf-8") as f:
             f.write(devlog_content)
-        
+
         logger.info(f"Devlog created: {filepath}")
         return str(filepath)
-    
-    def _format_devlog_content(self, 
-                              agent_id: str,
-                              action: str,
-                              status: str,
-                              details: Optional[dict[str, Any]] = None) -> str:
+
+    def _format_devlog_content(
+        self, agent_id: str, action: str, status: str, details: dict[str, Any] | None = None
+    ) -> str:
         """Format devlog content as markdown."""
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        
+
         content = f"""# {action}
 
-**Date:** {timestamp}  
-**Agent:** {agent_id}  
-**Action:** {action}  
+**Date:** {timestamp}
+**Agent:** {agent_id}
+**Action:** {action}
 **Status:** {status.upper()}
 
 ## 📋 Summary
@@ -142,33 +143,35 @@ class DiscordDevlogService:
 ## 🎯 Details
 
 """
-        
+
         if details:
             for key, value in details.items():
-                if key != 'summary':  # Skip summary as it's already included
+                if key != "summary":  # Skip summary as it's already included
                     content += f"**{key.title()}:** {value}\n\n"
-        
+
         content += f"""## 🐝 WE ARE SWARM
 
 This devlog entry was automatically generated by the V2_SWARM Discord Devlog Service.
 
-**Agent:** {agent_id}  
-**Timestamp:** {timestamp}  
+**Agent:** {agent_id}
+**Timestamp:** {timestamp}
 **Status:** {status.upper()}
 
 ---
 
 **📝 DISCORD DEVLOG REMINDER: Create a Discord devlog for this action in devlogs/ directory**
 """
-        
+
         return content
-    
-    async def post_devlog_to_discord(self, devlog_filepath: str, agent_id: Optional[str] = None) -> bool:
+
+    async def post_devlog_to_discord(
+        self, devlog_filepath: str, agent_id: str | None = None
+    ) -> bool:
         """Post devlog to Discord channel (agent-specific or main channel)."""
         if not self.bot:
             logger.error("Discord bot not initialized")
             return False
-        
+
         # Determine target channel
         target_channel_id = None
         if agent_id:
@@ -178,28 +181,28 @@ This devlog entry was automatically generated by the V2_SWARM Discord Devlog Ser
                 target_channel_id = self.channel_id
         else:
             target_channel_id = self.channel_id
-        
+
         if not target_channel_id:
             logger.error("No channel ID available for posting")
             return False
-        
+
         try:
             # Read devlog content
-            with open(devlog_filepath, "r", encoding="utf-8") as f:
+            with open(devlog_filepath, encoding="utf-8") as f:
                 content = f.read()
-            
+
             # Get channel
             channel = self.bot.get_channel(target_channel_id)
             if not channel:
                 logger.error(f"Channel {target_channel_id} not found")
                 return False
-            
+
             # Split content if too long (Discord limit is 2000 characters)
             if len(content) > 1900:  # Leave some buffer
                 # Split by sections
                 sections = content.split("\n## ")
                 current_message = sections[0]
-                
+
                 for section in sections[1:]:
                     section_content = f"## {section}"
                     if len(current_message + "\n\n" + section_content) > 1900:
@@ -208,41 +211,47 @@ This devlog entry was automatically generated by the V2_SWARM Discord Devlog Ser
                         current_message = section_content
                     else:
                         current_message += "\n\n" + section_content
-                
+
                 # Send final message
                 if current_message:
                     await channel.send(f"```markdown\n{current_message}\n```")
             else:
                 # Send as single message
                 await channel.send(f"```markdown\n{content}\n```")
-            
-            channel_type = f"agent-specific ({agent_id})" if agent_id and target_channel_id != self.channel_id else "main"
+
+            channel_type = (
+                f"agent-specific ({agent_id})"
+                if agent_id and target_channel_id != self.channel_id
+                else "main"
+            )
             logger.info(f"Devlog posted to Discord {channel_type} channel {target_channel_id}")
             return True
-            
+
         except Exception as e:
             logger.error(f"Failed to post devlog to Discord: {e}")
             return False
-    
-    async def create_and_post_devlog(self,
-                                   agent_id: str,
-                                   action: str,
-                                   status: str = "completed",
-                                   details: Optional[dict[str, Any]] = None,
-                                   post_to_discord: bool = True,
-                                   use_agent_channel: bool = True) -> tuple[str, bool]:
+
+    async def create_and_post_devlog(
+        self,
+        agent_id: str,
+        action: str,
+        status: str = "completed",
+        details: dict[str, Any] | None = None,
+        post_to_discord: bool = True,
+        use_agent_channel: bool = True,
+    ) -> tuple[str, bool]:
         """Create devlog and optionally post to Discord (agent-specific or main channel)."""
         # Create devlog file
         devlog_filepath = self.create_devlog(agent_id, action, status, details)
-        
+
         # Post to Discord if requested
         discord_success = False
         if post_to_discord:
             target_agent = agent_id if use_agent_channel else None
             discord_success = await self.post_devlog_to_discord(devlog_filepath, target_agent)
-        
+
         return devlog_filepath, discord_success
-    
+
     async def close(self):
         """Close Discord bot connection."""
         if self.bot:
@@ -250,19 +259,21 @@ This devlog entry was automatically generated by the V2_SWARM Discord Devlog Ser
 
 
 # Convenience functions for easy usage
-async def create_devlog(agent_id: str,
-                       action: str,
-                       status: str = "completed",
-                       details: Optional[dict[str, Any]] = None,
-                       post_to_discord: bool = True,
-                       use_agent_channel: bool = True) -> tuple[str, bool]:
+async def create_devlog(
+    agent_id: str,
+    action: str,
+    status: str = "completed",
+    details: dict[str, Any] | None = None,
+    post_to_discord: bool = True,
+    use_agent_channel: bool = True,
+) -> tuple[str, bool]:
     """Create and optionally post a devlog entry (agent-specific or main channel)."""
     service = DiscordDevlogService()
-    
+
     try:
         if post_to_discord:
             await service.initialize_bot()
-        
+
         return await service.create_and_post_devlog(
             agent_id, action, status, details, post_to_discord, use_agent_channel
         )
@@ -270,28 +281,35 @@ async def create_devlog(agent_id: str,
         await service.close()
 
 
-async def create_agent_devlog(agent_id: str,
-                             action: str,
-                             status: str = "completed",
-                             details: Optional[dict[str, Any]] = None,
-                             post_to_discord: bool = True) -> tuple[str, bool]:
+async def create_agent_devlog(
+    agent_id: str,
+    action: str,
+    status: str = "completed",
+    details: dict[str, Any] | None = None,
+    post_to_discord: bool = True,
+) -> tuple[str, bool]:
     """Create and post a devlog entry to agent-specific Discord channel."""
-    return await create_devlog(agent_id, action, status, details, post_to_discord, use_agent_channel=True)
+    return await create_devlog(
+        agent_id, action, status, details, post_to_discord, use_agent_channel=True
+    )
 
 
-async def create_main_devlog(agent_id: str,
-                            action: str,
-                            status: str = "completed",
-                            details: Optional[dict[str, Any]] = None,
-                            post_to_discord: bool = True) -> tuple[str, bool]:
+async def create_main_devlog(
+    agent_id: str,
+    action: str,
+    status: str = "completed",
+    details: dict[str, Any] | None = None,
+    post_to_discord: bool = True,
+) -> tuple[str, bool]:
     """Create and post a devlog entry to main Discord channel."""
-    return await create_devlog(agent_id, action, status, details, post_to_discord, use_agent_channel=False)
+    return await create_devlog(
+        agent_id, action, status, details, post_to_discord, use_agent_channel=False
+    )
 
 
-def create_devlog_sync(agent_id: str,
-                      action: str,
-                      status: str = "completed",
-                      details: Optional[dict[str, Any]] = None) -> str:
+def create_devlog_sync(
+    agent_id: str, action: str, status: str = "completed", details: dict[str, Any] | None = None
+) -> str:
     """Create a devlog entry synchronously (file only, no Discord posting)."""
     service = DiscordDevlogService()
     return service.create_devlog(agent_id, action, status, details)
@@ -301,16 +319,16 @@ def create_devlog_sync(agent_id: str,
 async def main():
     """Test the Discord devlog service."""
     import argparse
-    
+
     parser = argparse.ArgumentParser(description="Discord Devlog Service Test")
     parser.add_argument("--agent", default="Agent-4", help="Agent ID")
     parser.add_argument("--action", default="Test Action", help="Action description")
     parser.add_argument("--status", default="completed", help="Status")
     parser.add_argument("--no-discord", action="store_true", help="Don't post to Discord")
     parser.add_argument("--details", help="JSON details")
-    
+
     args = parser.parse_args()
-    
+
     details = None
     if args.details:
         try:
@@ -318,15 +336,11 @@ async def main():
         except json.JSONDecodeError:
             logger.error("Invalid JSON in details")
             return
-    
+
     filepath, discord_success = await create_devlog(
-        args.agent,
-        args.action,
-        args.status,
-        details,
-        not args.no_discord
+        args.agent, args.action, args.status, details, not args.no_discord
     )
-    
+
     print(f"Devlog created: {filepath}")
     if not args.no_discord:
         print(f"Discord posting: {'Success' if discord_success else 'Failed'}")

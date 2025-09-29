@@ -1,16 +1,18 @@
-import os
 import glob
-import re
-import logging
 import json
-from typing import List, Dict, Callable
-from pypdf import PdfReader
+import logging
+import os
+import re
+from collections.abc import Callable
+
 import markdown
-from watchdog.observers import Observer
+from pypdf import PdfReader
 from watchdog.events import FileSystemEventHandler
+from watchdog.observers import Observer
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+
 
 class IngestManager(FileSystemEventHandler):
     """
@@ -19,19 +21,19 @@ class IngestManager(FileSystemEventHandler):
     Handles TXT, MD, PDF, and JSON formats.
     """
 
-    SUPPORTED_FORMATS = ['*.txt', '*.md', '*.pdf', '*.json']
-    SUPPORTED_EXTENSIONS = ['.txt', '.md', '.pdf', '.json']
+    SUPPORTED_FORMATS = ["*.txt", "*.md", "*.pdf", "*.json"]
+    SUPPORTED_EXTENSIONS = [".txt", ".md", ".pdf", ".json"]
 
-    def __init__(self, folder_path: str, queue: List[str] = None):
+    def __init__(self, folder_path: str, queue: list[str] = None):
         self.folder_path = folder_path
         self.queue = queue if queue is not None else []
-        self.documents: List[Dict[str, str]] = []
+        self.documents: list[dict[str, str]] = []
 
     # -------------------------------
     # Batch Ingestion Process
     # -------------------------------
 
-    def ingest(self) -> List[Dict[str, str]]:
+    def ingest(self) -> list[dict[str, str]]:
         """
         Run the full ingestion pipeline for batch processing.
         Returns a list of documents with file_name and content.
@@ -45,7 +47,7 @@ class IngestManager(FileSystemEventHandler):
         logging.info(f"Ingested {len(self.documents)} documents successfully.")
         return self.documents
 
-    def _load_files(self) -> List[str]:
+    def _load_files(self) -> list[str]:
         """
         Scans the target folder for supported files.
         Returns a list of file paths.
@@ -58,7 +60,7 @@ class IngestManager(FileSystemEventHandler):
         logging.info(f"Found {len(all_files)} files in {self.folder_path}.")
         return all_files
 
-    def _process_files(self, files: List[str]) -> List[Dict[str, str]]:
+    def _process_files(self, files: list[str]) -> list[dict[str, str]]:
         """
         Processes a list of files and returns structured document objects.
         """
@@ -71,10 +73,7 @@ class IngestManager(FileSystemEventHandler):
                 try:
                     raw_text = handler(file_path)
                     clean_text = self._clean_text(raw_text)
-                    doc = {
-                        "file_name": os.path.basename(file_path),
-                        "content": clean_text
-                    }
+                    doc = {"file_name": os.path.basename(file_path), "content": clean_text}
                     docs.append(doc)
                     logging.info(f"Processed file: {file_path}")
                 except Exception as e:
@@ -122,26 +121,26 @@ class IngestManager(FileSystemEventHandler):
         Returns the appropriate handler function for the given file extension.
         """
         return {
-            '.txt': self._read_txt,
-            '.md': self._read_md,
-            '.pdf': self._read_pdf,
-            '.json': self._read_json
+            ".txt": self._read_txt,
+            ".md": self._read_md,
+            ".pdf": self._read_pdf,
+            ".json": self._read_json,
         }.get(extension)
 
     @staticmethod
     def _read_txt(file_path: str) -> str:
         """Reads and returns the content of a TXT file."""
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding="utf-8") as f:
             return f.read()
 
     @staticmethod
     def _read_md(file_path: str) -> str:
         """Reads and converts Markdown to plain text."""
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding="utf-8") as f:
             md_content = f.read()
         # Convert Markdown to HTML, then strip tags for plain text
         raw_text = markdown.markdown(md_content)
-        clean_text = re.sub('<[^<]+?>', '', raw_text)
+        clean_text = re.sub("<[^<]+?>", "", raw_text)
         return clean_text
 
     @staticmethod
@@ -160,7 +159,7 @@ class IngestManager(FileSystemEventHandler):
     @staticmethod
     def _read_json(file_path: str) -> str:
         """Reads and returns JSON data as a formatted string."""
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding="utf-8") as f:
             data = json.load(f)
         # Convert JSON to a flat string representation (or customize as needed)
         return json.dumps(data, indent=2)
@@ -172,8 +171,9 @@ class IngestManager(FileSystemEventHandler):
         """
         if not text:
             return ""
-        text = re.sub(r'\s+', ' ', text)
+        text = re.sub(r"\s+", " ", text)
         return text.strip()
+
 
 # -------------------------------
 # Example Usage

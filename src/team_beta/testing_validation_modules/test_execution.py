@@ -12,4 +12,4 @@ from .test_execution_core import TestExecutor
 # Main interface - TestExecutor is now provided by test_execution_core module
 # This file serves as the main entry point for backward compatibility
 
-__all__ = ['TestExecutor']
+__all__ = ["TestExecutor"]

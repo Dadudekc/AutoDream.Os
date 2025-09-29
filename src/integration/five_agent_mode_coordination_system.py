@@ -4,47 +4,54 @@ Five Agent Mode Coordination System
 Agent-8 Integration Specialist - 5-Agent Mode Coordination
 """
 
-from typing import Dict, List, Any
 from dataclasses import dataclass
 from enum import Enum
+from typing import Any
+
 
 class AgentRole(Enum):
     """Agent roles in 5-agent mode"""
-    CAPTAIN = "captain"           # Agent-4
-    COORDINATOR = "coordinator"   # Agent-5
+
+    CAPTAIN = "captain"  # Agent-4
+    COORDINATOR = "coordinator"  # Agent-5
     QUALITY_SPECIALIST = "quality_specialist"  # Agent-6
     IMPLEMENTATION_SPECIALIST = "implementation_specialist"  # Agent-7
     INTEGRATION_SPECIALIST = "integration_specialist"  # Agent-8
 
+
 class CoordinationMode(Enum):
     """Coordination modes"""
+
     FIVE_AGENT = "five_agent"
     EIGHT_AGENT = "eight_agent"
     TESTING = "testing"
 
+
 @dataclass
 class AgentConfiguration:
     """Agent configuration for 5-agent mode"""
+
     agent_id: str
     role: AgentRole
     status: str
     coordinates: tuple
-    responsibilities: List[str]
+    responsibilities: list[str]
     active: bool
+
 
 class FiveAgentModeCoordinationSystem:
     """
     Five Agent Mode Coordination System
     Manages coordination between Agent-4, Agent-5, Agent-6, Agent-7, Agent-8
     """
-    
+
     def __init__(self):
         """Initialize 5-agent coordination system"""
         self.mode = CoordinationMode.FIVE_AGENT
         self.active_agents = self._initialize_agent_configurations()
         self.coordination_protocols = self._setup_coordination_protocols()
-        
-    def _initialize_agent_configurations(self) -> Dict[str, AgentConfiguration]:
+
+    def _initialize_agent_configurations(self) -> dict[str, AgentConfiguration]:
         """Initialize agent configurations for 5-agent mode"""
         return {
             "Agent-4": AgentConfiguration(
@@ -57,9 +64,9 @@ class FiveAgentModeCoordinationSystem:
                     "Strategic decision making",
                     "Agent coordination oversight",
                     "Quality standards enforcement",
-                    "Final approval authority"
+                    "Final approval authority",
                 ],
-                active=True
+                active=True,
             ),
             "Agent-5": AgentConfiguration(
                 agent_id="Agent-5",
@@ -71,9 +78,9 @@ class FiveAgentModeCoordinationSystem:
                     "Agent communication management",
                     "Workflow optimization",
                     "Resource allocation",
-                    "Progress tracking"
+                    "Progress tracking",
                 ],
-                active=True
+                active=True,
             ),
             "Agent-6": AgentConfiguration(
                 agent_id="Agent-6",
@@ -85,9 +92,9 @@ class FiveAgentModeCoordinationSystem:
                     "Code quality validation",
                     "Quality gates implementation",
                     "Architecture review",
-                    "Testing standards"
+                    "Testing standards",
                 ],
-                active=True
+                active=True,
             ),
             "Agent-7": AgentConfiguration(
                 agent_id="Agent-7",
@@ -99,9 +106,9 @@ class FiveAgentModeCoordinationSystem:
                     "Repository management",
                     "VSCode forking",
                     "Technical execution",
-                    "System integration"
+                    "System integration",
                 ],
-                active=True
+                active=True,
             ),
             "Agent-8": AgentConfiguration(
                 agent_id="Agent-8",
@@ -113,41 +120,41 @@ class FiveAgentModeCoordinationSystem:
                     "Cross-platform compatibility",
                     "Performance optimization",
                     "Documentation management",
-                    "Quality assurance coordination"
+                    "Quality assurance coordination",
                 ],
-                active=True
-            )
+                active=True,
+            ),
         }
-    
-    def _setup_coordination_protocols(self) -> Dict[str, Any]:
+
+    def _setup_coordination_protocols(self) -> dict[str, Any]:
         """Setup coordination protocols for 5-agent mode"""
         return {
             "communication_hierarchy": {
                 "primary": "Agent-4 (Captain)",
                 "secondary": "Agent-5 (Coordinator)",
-                "specialists": ["Agent-6", "Agent-7", "Agent-8"]
+                "specialists": ["Agent-6", "Agent-7", "Agent-8"],
             },
             "decision_making": {
                 "strategic": "Agent-4 approval required",
                 "operational": "Agent-5 coordination",
                 "technical": "Specialist agents (6, 7, 8)",
-                "quality": "Agent-6 validation required"
+                "quality": "Agent-6 validation required",
             },
             "coordination_flow": [
                 "Agent-4: Strategic direction and approval",
                 "Agent-5: Task coordination and distribution",
                 "Agent-6: Quality validation and compliance",
                 "Agent-7: Implementation and execution",
-                "Agent-8: Integration and testing"
+                "Agent-8: Integration and testing",
             ],
             "communication_channels": {
                 "primary": "PyAutoGUI messaging system",
                 "secondary": "File-based coordination",
-                "tertiary": "Direct agent communication"
-            }
+                "tertiary": "Direct agent communication",
+            },
         }
-    
-    def get_agent_status(self) -> Dict[str, Any]:
+
+    def get_agent_status(self) -> dict[str, Any]:
         """Get current status of all 5 agents"""
         return {
             "coordination_mode": self.mode.value,
@@ -159,33 +166,33 @@ class FiveAgentModeCoordinationSystem:
                     "status": agent.status,
                     "coordinates": agent.coordinates,
                     "responsibilities": agent.responsibilities,
-                    "active": agent.active
+                    "active": agent.active,
                 }
                 for agent_id, agent in self.active_agents.items()
             },
-            "coordination_ready": True
+            "coordination_ready": True,
         }
-    
-    def get_coordination_protocols(self) -> Dict[str, Any]:
+
+    def get_coordination_protocols(self) -> dict[str, Any]:
         """Get coordination protocols for 5-agent mode"""
         return {
             "five_agent_mode": "ACTIVE",
             "coordination_protocols": self.coordination_protocols,
             "agent_roles": {
                 "Agent-4": "Captain - Strategic Leadership",
-                "Agent-5": "Coordinator - Task Management", 
+                "Agent-5": "Coordinator - Task Management",
                 "Agent-6": "Quality Specialist - V2 Compliance",
                 "Agent-7": "Implementation Specialist - Core Systems",
-                "Agent-8": "Integration Specialist - Testing & Validation"
+                "Agent-8": "Integration Specialist - Testing & Validation",
             },
             "coordination_flow": "Agent-4 → Agent-5 → Specialists (6,7,8)",
-            "testing_mode": "ACTIVE"
+            "testing_mode": "ACTIVE",
         }
-    
-    def validate_agent_coordination(self) -> Dict[str, Any]:
+
+    def validate_agent_coordination(self) -> dict[str, Any]:
         """Validate 5-agent coordination system"""
         active_count = len([a for a in self.active_agents.values() if a.active])
-        
+
         return {
             "coordination_validation": "PASSED" if active_count == 5 else "FAILED",
             "active_agents": active_count,
@@ -195,15 +202,15 @@ class FiveAgentModeCoordinationSystem:
                 for agent_id, agent in self.active_agents.items()
             },
             "coordination_ready": active_count == 5,
-            "testing_mode": "ACTIVE"
+            "testing_mode": "ACTIVE",
         }
-    
-    def generate_coordination_report(self) -> Dict[str, Any]:
+
+    def generate_coordination_report(self) -> dict[str, Any]:
         """Generate comprehensive coordination report"""
         status = self.get_agent_status()
         protocols = self.get_coordination_protocols()
         validation = self.validate_agent_coordination()
-        
+
         return {
             "five_agent_mode_coordination_system": "OPERATIONAL",
             "coordination_mode": self.mode.value,
@@ -211,37 +218,39 @@ class FiveAgentModeCoordinationSystem:
             "agent_status": status,
             "coordination_protocols": protocols,
             "validation_results": validation,
-            "coordination_ready": True
+            "coordination_ready": True,
         }
+
 
 def create_five_agent_coordination_system() -> FiveAgentModeCoordinationSystem:
     """Create 5-agent coordination system"""
     system = FiveAgentModeCoordinationSystem()
-    
+
     # Validate coordination
     validation = system.validate_agent_coordination()
     print(f"🔍 5-Agent Mode Validation: {validation['coordination_validation']}")
     print(f"📊 Active Agents: {validation['active_agents']}/5")
-    
+
     return system
+
 
 if __name__ == "__main__":
     print("🤖 FIVE AGENT MODE COORDINATION SYSTEM")
     print("=" * 60)
-    
+
     # Create coordination system
     coordination_system = create_five_agent_coordination_system()
-    
+
     # Generate report
     report = coordination_system.generate_coordination_report()
-    
-    print(f"\n📊 5-AGENT MODE STATUS:")
+
+    print("\n📊 5-AGENT MODE STATUS:")
     print(f"Coordination Mode: {report['coordination_mode']}")
     print(f"Testing Mode: {report['testing_mode']}")
     print(f"Active Agents: {report['agent_status']['active_agents']}")
-    
-    print(f"\n🎯 AGENT ROLES:")
-    for agent_id, role_info in report['coordination_protocols']['agent_roles'].items():
+
+    print("\n🎯 AGENT ROLES:")
+    for agent_id, role_info in report["coordination_protocols"]["agent_roles"].items():
         print(f"  {agent_id}: {role_info}")
-    
+
     print(f"\n✅ 5-Agent Mode Coordination System: {report['five_agent_mode_coordination_system']}")

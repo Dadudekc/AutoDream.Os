@@ -14,7 +14,7 @@ Features:
 
 Usage:
     from src.services.thea.thea_browser_manager import TheaBrowserManager
-    
+
     manager = TheaBrowserManager(headless=True)
     driver = manager.initialize_driver()
 """
@@ -25,9 +25,10 @@ import logging
 try:
     import undetected_chromedriver as uc
     from selenium import webdriver
-    from selenium.webdriver.chrome.service import Service
     from selenium.webdriver.chrome.options import Options
+    from selenium.webdriver.chrome.service import Service
     from webdriver_manager.chrome import ChromeDriverManager
+
     SELENIUM_AVAILABLE = True
 except ImportError:
     SELENIUM_AVAILABLE = False
@@ -76,7 +77,9 @@ class TheaBrowserManager:
             except Exception as e:
                 print(f"⚠️  Undetected Chrome failed: {e}")
                 print("🔄 Falling back to standard Chrome driver...")
-                driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+                driver = webdriver.Chrome(
+                    service=Service(ChromeDriverManager().install()), options=options
+                )
                 print("✅ Standard Chrome driver initialized")
                 return driver
 
@@ -87,7 +90,7 @@ class TheaBrowserManager:
     def _configure_chrome_options(self):
         """Configure Chrome options based on headless mode."""
         options = Options()
-        
+
         if self.headless:
             print("🫥 HEADLESS MODE: Configuring browser to run invisibly...")
             options.add_argument("--headless=new")
@@ -126,7 +129,9 @@ class TheaBrowserManager:
 
 
 # Convenience functions for easy integration
-def create_browser_manager(headless: bool = False, use_undetected: bool = True) -> TheaBrowserManager:
+def create_browser_manager(
+    headless: bool = False, use_undetected: bool = True
+) -> TheaBrowserManager:
     """
     Create a Thea browser manager with default settings.
 
@@ -152,4 +157,3 @@ if __name__ == "__main__":
     print("📝 To use:")
     print("   manager = create_browser_manager(headless=True)")
     print("   driver = manager.initialize_driver()")
-

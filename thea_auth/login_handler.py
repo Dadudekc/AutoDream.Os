@@ -8,7 +8,6 @@ Handles Thea/ChatGPT login with automated detection and cookie persistence.
 
 import logging
 import time
-from typing import Optional
 
 from .cookie_manager import TheaCookieManager
 
@@ -35,22 +34,22 @@ class TheaLoginHandler:
 
     def __init__(
         self,
-        username: Optional[str] = None,
-# SECURITY: Password placeholder - replace with environment variable
+        username: str | None = None,
+        # SECURITY: Password placeholder - replace with environment variable
         cookie_file: str = "thea_cookies.json",
         timeout: int = 30,
     ):
         """
-        Initialize the Thea login handler.
+                Initialize the Thea login handler.
 
-        Args:
-            username: ChatGPT username/email
-# SECURITY: Password placeholder - replace with environment variable
-            cookie_file: Path to cookie file for persistence
-            timeout: Timeout for login operations
+                Args:
+                    username: ChatGPT username/email
+        # SECURITY: Password placeholder - replace with environment variable
+                    cookie_file: Path to cookie file for persistence
+                    timeout: Timeout for login operations
         """
         self.username = username
-# SECURITY: Password placeholder - replace with environment variable
+        # SECURITY: Password placeholder - replace with environment variable
         self.timeout = timeout
         self.cookie_manager = TheaCookieManager(cookie_file)
 
@@ -111,8 +110,8 @@ class TheaLoginHandler:
                         if self._navigate_to_thea(driver):
                             return True
 
-            # Try automated login if credentials provided
-# SECURITY: Password placeholder - replace with environment variable
+                # Try automated login if credentials provided
+                # SECURITY: Password placeholder - replace with environment variable
                 if self._automated_login(driver):
                     # Save cookies after successful login
                     self.cookie_manager.save_cookies(driver)
@@ -184,7 +183,7 @@ class TheaLoginHandler:
                 "//a[contains(text(), 'Log in')]",
                 "//a[contains(text(), 'Sign up')]",
                 "//input[@name='username']",
-# SECURITY: Password placeholder - replace with environment variable
+                # SECURITY: Password placeholder - replace with environment variable
                 "//input[@type='email']",
                 "//div[contains(text(), 'Welcome to ChatGPT')]",
                 "//div[contains(text(), 'Log in to ChatGPT')]",
@@ -212,7 +211,9 @@ class TheaLoginHandler:
 
             # If we found logged-in indicators, we're likely logged in
             if len(found_indicators) > 0:
-                logger.info(f"✅ Found {len(found_indicators)} logged-in indicators - user IS logged in")
+                logger.info(
+                    f"✅ Found {len(found_indicators)} logged-in indicators - user IS logged in"
+                )
                 return True
 
             # If no clear indicators, assume not logged in
@@ -231,7 +232,7 @@ class TheaLoginHandler:
 
         try:
             logger.info("🤖 Attempting automated login...")
-            
+
             # Navigate to login page
             driver.get("https://chat.openai.com/auth/login")
             time.sleep(3)
@@ -241,7 +242,7 @@ class TheaLoginHandler:
                 EC.presence_of_element_located((By.NAME, "username"))
             )
             username_field.clear()
-# SECURITY: Key placeholder - replace with environment variable
+            # SECURITY: Key placeholder - replace with environment variable
             time.sleep(1)
 
             # Click continue button
@@ -250,8 +251,8 @@ class TheaLoginHandler:
             time.sleep(3)
 
             # Find and fill password field
-# SECURITY: Password placeholder - replace with environment variable
-# SECURITY: Key placeholder - replace with environment variable
+            # SECURITY: Password placeholder - replace with environment variable
+            # SECURITY: Key placeholder - replace with environment variable
             time.sleep(1)
 
             # Click login button
@@ -275,14 +276,14 @@ class TheaLoginHandler:
         """Allow manual login with timeout."""
         logger.info(f"👤 Manual login required - waiting {timeout} seconds...")
         logger.info("Please log in manually in the browser window")
-        
+
         start_time = time.time()
         while time.time() - start_time < timeout:
             if self._is_logged_in(driver):
                 logger.info("✅ Manual login successful")
                 return True
             time.sleep(2)
-        
+
         logger.error("❌ Manual login timeout")
         return False
 
@@ -290,7 +291,9 @@ class TheaLoginHandler:
         """Check if currently on Thea page."""
         try:
             current_url = driver.current_url
-            return "thea-manager" in current_url or "g-67f437d96d7c81918b2dbc12f0423867" in current_url
+            return (
+                "thea-manager" in current_url or "g-67f437d96d7c81918b2dbc12f0423867" in current_url
+            )
         except Exception:
             return False
 
@@ -309,21 +312,21 @@ class TheaLoginHandler:
         """Force logout and clear cookies."""
         try:
             logger.info("🚪 Forcing logout...")
-            
+
             # Clear cookies
             self.cookie_manager.clear_cookies()
-            
+
             # Clear browser cookies
             if SELENIUM_AVAILABLE:
                 driver.delete_all_cookies()
-            
+
             # Navigate to logout URL
             driver.get("https://chat.openai.com/auth/logout")
             time.sleep(3)
-            
+
             logger.info("✅ Logout completed")
             return True
-            
+
         except Exception as e:
             logger.error(f"Error during logout: {e}")
             return False
@@ -339,5 +342,3 @@ def check_thea_login_status(driver):
     """Quick check of Thea login status."""
     handler = TheaLoginHandler()
     return handler._is_logged_in(driver)
-
-

@@ -20,8 +20,8 @@ const Header = () => {
   const changePercent = 2.16;
 
   return (
-    <AppBar 
-      position="static" 
+    <AppBar
+      position="static"
       elevation={0}
       sx={{
         background: 'rgba(0, 0, 0, 0.3)',
@@ -72,5 +72,3 @@ const Header = () => {
 };
 
 export default Header;
-
-

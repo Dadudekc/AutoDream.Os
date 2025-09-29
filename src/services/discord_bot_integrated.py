@@ -27,7 +27,7 @@ try:
     from .consolidated_messaging_service import ConsolidatedMessagingService
 except ImportError:
     # Fallback for direct execution
-    from consolidated_messaging_service import ConsolidatedMessagingService
+    pass
 
 # Import integrated components - discord_commands was removed during consolidation
 # These components are now integrated into the main Discord bot service
@@ -36,7 +36,6 @@ except ImportError:
 # from .discord_ui import DiscordUIComponents, ui_components  # Removed
 
 # Import the separate Discord devlog service for devlog functionality
-from .discord_devlog_service import DiscordDevlogService
 
 logger = logging.getLogger(__name__)
 
@@ -128,7 +127,7 @@ class IntegratedDiscordBotService:
             intents.guilds = True
 
             # Use default command prefix
-            command_prefix = os.getenv('DISCORD_COMMAND_PREFIX', '!')
+            command_prefix = os.getenv("DISCORD_COMMAND_PREFIX", "!")
 
             self.bot = commands.Bot(command_prefix=command_prefix, intents=intents)
 
@@ -139,9 +138,11 @@ class IntegratedDiscordBotService:
             self.bot.messaging_service = self.messaging_service
 
             # Setup bot settings
-            bot_name = os.getenv('DISCORD_BOT_NAME', 'UnifiedDiscordBot')
-            bot_status = os.getenv('DISCORD_BOT_STATUS', '🐝 WE ARE SWARM - Agent Coordination Active')
-            activity_type = os.getenv('DISCORD_BOT_ACTIVITY_TYPE', 'watching')
+            bot_name = os.getenv("DISCORD_BOT_NAME", "UnifiedDiscordBot")
+            bot_status = os.getenv(
+                "DISCORD_BOT_STATUS", "🐝 WE ARE SWARM - Agent Coordination Active"
+            )
+            activity_type = os.getenv("DISCORD_BOT_ACTIVITY_TYPE", "watching")
 
             self.bot.bot_name = bot_name
             self.bot.bot_status = bot_status
@@ -149,6 +150,7 @@ class IntegratedDiscordBotService:
 
             # Setup basic commands
             from discord_bot.commands.basic_commands import setup_basic_commands
+
             setup_basic_commands(self.bot)
 
             self.logger.info("✅ Discord bot initialized with configuration and commands")
@@ -168,8 +170,7 @@ class IntegratedDiscordBotService:
             # Update presence for 5-agent mode
             await self.bot.change_presence(
                 activity=discord.Activity(
-                    type=discord.ActivityType.watching,
-                    name="🐝 5-Agent Mode - WE ARE SWARM"
+                    type=discord.ActivityType.watching, name="🐝 5-Agent Mode - WE ARE SWARM"
                 )
             )
 
@@ -191,13 +192,9 @@ class IntegratedDiscordBotService:
 
         self.logger.info("✅ Basic commands setup complete")
 
-
-
-
-    
     # System integration is handled through messaging service
     # No additional integration needed for basic functionality
-    
+
     async def start(self) -> None:
         """Start the Discord bot service."""
         try:
@@ -227,7 +224,7 @@ class IntegratedDiscordBotService:
         except Exception as e:
             self.logger.error(f"❌ Failed to start Discord Commander: {e}")
             raise
-    
+
     async def stop(self) -> None:
         """Stop the Discord bot service."""
         try:
@@ -246,7 +243,7 @@ class IntegratedDiscordBotService:
             "service_initialized": self.is_initialized,
             "bot_ready": self.bot.user is not None if self.bot else False,
             "guild_count": len(self.bot.guilds) if self.bot and self.bot.guilds else 0,
-            "messaging_service_connected": self.messaging_service is not None
+            "messaging_service_connected": self.messaging_service is not None,
         }
 
 
@@ -254,24 +251,23 @@ async def main():
     """Main function to run the integrated Discord bot service."""
     # Setup logging
     logging.basicConfig(
-        level=logging.INFO,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     )
-    
+
     # Create and initialize service
     service = IntegratedDiscordBotService()
-    
+
     try:
         # Initialize service
         success = await service.initialize()
         if not success:
             logger.error("❌ Failed to initialize service")
             return
-        
+
         # Start service
         await service.start()
-        
-# Start the bot with proper token handling
+
+    # Start the bot with proper token handling
     except Exception as e:
         logger.error(f"❌ Service error: {e}")
     finally:

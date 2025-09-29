@@ -3,30 +3,34 @@ Team Beta Integration Support System
 V2 Compliant integration support for Team Beta VSCode forking mission
 """
 
-from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
 from enum import Enum
-import time
-from datetime import datetime
+from typing import Any
+
 
 class TeamBetaRole(Enum):
     """Team Beta role enumeration"""
+
     LEADER = "leader"
     VSC_FORKING = "vsc_forking"
     REPO_CLONING = "repo_cloning"
     TESTING = "testing"
     DOCUMENTATION = "documentation"
 
+
 class MissionPhase(Enum):
     """Mission phase enumeration"""
+
     VSC_FORKING = "vsc_forking"
     REPO_CLONING = "repo_cloning"
     TESTING_VALIDATION = "testing_validation"
     DOCUMENTATION = "documentation"
 
+
 @dataclass
 class TeamBetaMember:
     """Team Beta member structure"""
+
     agent_id: str
     role: TeamBetaRole
     specialization: str
@@ -34,9 +38,11 @@ class TeamBetaMember:
     status: str = "ready"
     progress: float = 0.0
 
+
 @dataclass
 class MissionTask:
     """Mission task structure"""
+
     task_id: str
     name: str
     description: str
@@ -44,48 +50,49 @@ class MissionTask:
     phase: MissionPhase
     priority: str
     estimated_cycles: int
-    dependencies: List[str]
+    dependencies: list[str]
     status: str = "pending"
+
 
 class TeamBetaIntegrationSupport:
     """Team Beta Integration Support - Agent-8"""
-    
+
     def __init__(self):
         self.team_beta_members = self._initialize_team_beta()
         self.mission_phases = self._initialize_mission_phases()
         self.documentation_plan = self._initialize_documentation_plan()
         self.integration_support = self._initialize_integration_support()
-        
-    def _initialize_team_beta(self) -> List[TeamBetaMember]:
+
+    def _initialize_team_beta(self) -> list[TeamBetaMember]:
         """Initialize Team Beta members"""
         return [
             TeamBetaMember(
                 agent_id="Agent-5",
                 role=TeamBetaRole.LEADER,
                 specialization="Quality Assurance Specialist",
-                current_mission="VSCode Forking and Customization"
+                current_mission="VSCode Forking and Customization",
             ),
             TeamBetaMember(
                 agent_id="Agent-6",
                 role=TeamBetaRole.VSC_FORKING,
                 specialization="Integration Specialist",
-                current_mission="Repository Cloning and Error-Free Operation"
+                current_mission="Repository Cloning and Error-Free Operation",
             ),
             TeamBetaMember(
                 agent_id="Agent-7",
                 role=TeamBetaRole.REPO_CLONING,
                 specialization="Testing Specialist",
-                current_mission="Testing and Validation of Cloned Repositories"
+                current_mission="Testing and Validation of Cloned Repositories",
             ),
             TeamBetaMember(
                 agent_id="Agent-8",
                 role=TeamBetaRole.DOCUMENTATION,
                 specialization="Integration Specialist",
-                current_mission="Documentation for VSCode Fork and Repository Cloning"
-            )
+                current_mission="Documentation for VSCode Fork and Repository Cloning",
+            ),
         ]
-    
-    def _initialize_mission_phases(self) -> List[MissionTask]:
+
+    def _initialize_mission_phases(self) -> list[MissionTask]:
         """Initialize mission phases and tasks"""
         return [
             # Agent-5 VSCode Forking Tasks
@@ -97,7 +104,7 @@ class TeamBetaIntegrationSupport:
                 phase=MissionPhase.VSC_FORKING,
                 priority="CRITICAL",
                 estimated_cycles=120,
-                dependencies=[]
+                dependencies=[],
             ),
             MissionTask(
                 task_id="vsc_dream_os_integration",
@@ -107,9 +114,8 @@ class TeamBetaIntegrationSupport:
                 phase=MissionPhase.VSC_FORKING,
                 priority="CRITICAL",
                 estimated_cycles=180,
-                dependencies=["vsc_fork_creation"]
+                dependencies=["vsc_fork_creation"],
             ),
-            
             # Agent-6 Repository Cloning Tasks
             MissionTask(
                 task_id="repo_inventory",
@@ -119,7 +125,7 @@ class TeamBetaIntegrationSupport:
                 phase=MissionPhase.REPO_CLONING,
                 priority="HIGH",
                 estimated_cycles=60,
-                dependencies=[]
+                dependencies=[],
             ),
             MissionTask(
                 task_id="repo_cloning",
@@ -129,9 +135,8 @@ class TeamBetaIntegrationSupport:
                 phase=MissionPhase.REPO_CLONING,
                 priority="HIGH",
                 estimated_cycles=120,
-                dependencies=["repo_inventory"]
+                dependencies=["repo_inventory"],
             ),
-            
             # Agent-7 Testing Tasks
             MissionTask(
                 task_id="testing_framework",
@@ -141,7 +146,7 @@ class TeamBetaIntegrationSupport:
                 phase=MissionPhase.TESTING_VALIDATION,
                 priority="HIGH",
                 estimated_cycles=100,
-                dependencies=["repo_cloning"]
+                dependencies=["repo_cloning"],
             ),
             MissionTask(
                 task_id="validation_testing",
@@ -151,9 +156,8 @@ class TeamBetaIntegrationSupport:
                 phase=MissionPhase.TESTING_VALIDATION,
                 priority="HIGH",
                 estimated_cycles=140,
-                dependencies=["testing_framework"]
+                dependencies=["testing_framework"],
             ),
-            
             # Agent-8 Documentation Tasks
             MissionTask(
                 task_id="vsc_documentation",
@@ -163,7 +167,7 @@ class TeamBetaIntegrationSupport:
                 phase=MissionPhase.DOCUMENTATION,
                 priority="MEDIUM",
                 estimated_cycles=80,
-                dependencies=["vsc_dream_os_integration"]
+                dependencies=["vsc_dream_os_integration"],
             ),
             MissionTask(
                 task_id="repo_documentation",
@@ -173,7 +177,7 @@ class TeamBetaIntegrationSupport:
                 phase=MissionPhase.DOCUMENTATION,
                 priority="MEDIUM",
                 estimated_cycles=100,
-                dependencies=["validation_testing"]
+                dependencies=["validation_testing"],
             ),
             MissionTask(
                 task_id="user_agent_guides",
@@ -183,11 +187,11 @@ class TeamBetaIntegrationSupport:
                 phase=MissionPhase.DOCUMENTATION,
                 priority="MEDIUM",
                 estimated_cycles=120,
-                dependencies=["vsc_documentation", "repo_documentation"]
-            )
+                dependencies=["vsc_documentation", "repo_documentation"],
+            ),
         ]
-    
-    def _initialize_documentation_plan(self) -> Dict[str, Any]:
+
+    def _initialize_documentation_plan(self) -> dict[str, Any]:
         """Initialize documentation plan for Agent-8"""
         return {
             "documentation_structure": {
@@ -195,42 +199,42 @@ class TeamBetaIntegrationSupport:
                     "installation_guide": "How to install and setup Dream.OS Code",
                     "feature_documentation": "Complete feature documentation",
                     "extension_guide": "How to use Dream.OS extensions",
-                    "development_guide": "How to develop with Dream.OS Code"
+                    "development_guide": "How to develop with Dream.OS Code",
                 },
                 "repository_cloning_docs": {
                     "quick_start_guide": "Get up and running quickly",
                     "detailed_setup_guide": "Complete setup instructions",
                     "troubleshooting_guide": "Common issues and solutions",
-                    "maintenance_guide": "How to keep repositories updated"
+                    "maintenance_guide": "How to keep repositories updated",
                 },
                 "user_friendly_guides": {
                     "beginners_guide": "For new users",
                     "advanced_guide": "For experienced users",
                     "best_practices": "Recommended practices",
-                    "faq": "Frequently asked questions"
+                    "faq": "Frequently asked questions",
                 },
                 "agent_friendly_guides": {
                     "agent_development_guide": "How to develop as an agent",
                     "swarm_integration_guide": "How to integrate with swarm",
                     "action_protocol_guide": "How to follow action protocol",
-                    "v3_infrastructure_guide": "How to work with V3 infrastructure"
-                }
+                    "v3_infrastructure_guide": "How to work with V3 infrastructure",
+                },
             },
             "documentation_standards": {
                 "format": "Markdown",
                 "structure": "Clear headings and sections",
                 "examples": "Code examples and screenshots",
-                "validation": "Test all instructions"
+                "validation": "Test all instructions",
             },
             "delivery_timeline": {
                 "week_1": "VSCode fork documentation",
                 "week_2": "Repository cloning documentation",
                 "week_3": "User-friendly and agent-friendly guides",
-                "week_4": "Final documentation review and updates"
-            }
+                "week_4": "Final documentation review and updates",
+            },
         }
-    
-    def _initialize_integration_support(self) -> Dict[str, Any]:
+
+    def _initialize_integration_support(self) -> dict[str, Any]:
         """Initialize integration support capabilities"""
         return {
             "integration_specialist_capabilities": [
@@ -239,23 +243,23 @@ class TeamBetaIntegrationSupport:
                 "Cross-platform compatibility",
                 "Performance optimization",
                 "Quality assurance validation",
-                "V2 compliance enforcement"
+                "V2 compliance enforcement",
             ],
             "support_areas": {
                 "vscode_integration": "Dream.OS integration with VSCode fork",
                 "repository_integration": "Repository cloning and dependency resolution",
                 "testing_integration": "Testing framework integration",
-                "documentation_integration": "Documentation system integration"
+                "documentation_integration": "Documentation system integration",
             },
             "coordination_protocols": {
                 "agent_5_coordination": "Support VSCode forking and customization",
                 "agent_6_coordination": "Support repository cloning operations",
                 "agent_7_coordination": "Support testing and validation",
-                "team_beta_coordination": "Overall Team Beta mission coordination"
-            }
+                "team_beta_coordination": "Overall Team Beta mission coordination",
+            },
         }
-    
-    def get_team_beta_status(self) -> Dict[str, Any]:
+
+    def get_team_beta_status(self) -> dict[str, Any]:
         """Get Team Beta status"""
         return {
             "team_leader": "Agent-5 (Quality Assurance Specialist)",
@@ -264,17 +268,17 @@ class TeamBetaIntegrationSupport:
             "total_tasks": len(self.mission_phases),
             "agent_8_role": "Documentation Specialist",
             "agent_8_mission": "Document VSCode fork and repository cloning processes",
-            "integration_support": "Available for all Team Beta operations"
+            "integration_support": "Available for all Team Beta operations",
         }
-    
-    def get_agent_8_tasks(self) -> List[MissionTask]:
+
+    def get_agent_8_tasks(self) -> list[MissionTask]:
         """Get Agent-8 specific tasks"""
         return [task for task in self.mission_phases if task.assigned_agent == "Agent-8"]
-    
-    def get_documentation_roadmap(self) -> Dict[str, Any]:
+
+    def get_documentation_roadmap(self) -> dict[str, Any]:
         """Get documentation roadmap for Agent-8"""
         agent_8_tasks = self.get_agent_8_tasks()
-        
+
         return {
             "documentation_specialist": "Agent-8 (Integration Specialist)",
             "total_documentation_tasks": len(agent_8_tasks),
@@ -284,28 +288,28 @@ class TeamBetaIntegrationSupport:
                     "task": task.name,
                     "description": task.description,
                     "estimated_cycles": task.estimated_cycles,
-                    "dependencies": task.dependencies
+                    "dependencies": task.dependencies,
                 }
                 for task in agent_8_tasks
             ],
             "documentation_plan": self.documentation_plan,
-            "integration_support": self.integration_support
+            "integration_support": self.integration_support,
         }
-    
-    def get_team_coordination_plan(self) -> Dict[str, Any]:
+
+    def get_team_coordination_plan(self) -> dict[str, Any]:
         """Get team coordination plan"""
         return {
             "coordination_structure": {
                 "leader": "Agent-5",
                 "team_members": [member.agent_id for member in self.team_beta_members],
                 "communication": "PyAutoGUI messaging system",
-                "coordination_frequency": "Daily status updates"
+                "coordination_frequency": "Daily status updates",
             },
             "mission_coordination": {
                 "vsc_forking_phase": "Agent-5 leads, Agent-8 supports with integration",
                 "repo_cloning_phase": "Agent-6 leads, Agent-8 supports with integration",
                 "testing_phase": "Agent-7 leads, Agent-8 supports with integration",
-                "documentation_phase": "Agent-8 leads, all agents support"
+                "documentation_phase": "Agent-8 leads, all agents support",
             },
             "integration_support_areas": [
                 "VSCode fork integration with Dream.OS",
@@ -313,24 +317,26 @@ class TeamBetaIntegrationSupport:
                 "Testing framework integration",
                 "Documentation system integration",
                 "Cross-platform compatibility",
-                "Performance optimization"
-            ]
+                "Performance optimization",
+            ],
         }
 
-def get_team_beta_integration_support() -> Dict[str, Any]:
+
+def get_team_beta_integration_support() -> dict[str, Any]:
     """Get Team Beta integration support information"""
     support_system = TeamBetaIntegrationSupport()
     return {
         "team_status": support_system.get_team_beta_status(),
         "agent_8_roadmap": support_system.get_documentation_roadmap(),
-        "coordination_plan": support_system.get_team_coordination_plan()
+        "coordination_plan": support_system.get_team_coordination_plan(),
     }
 
-def get_agent_8_team_beta_tasks() -> List[Dict[str, Any]]:
+
+def get_agent_8_team_beta_tasks() -> list[dict[str, Any]]:
     """Get Agent-8 Team Beta tasks"""
     support_system = TeamBetaIntegrationSupport()
     tasks = support_system.get_agent_8_tasks()
-    
+
     return [
         {
             "task_id": task.task_id,
@@ -339,34 +345,34 @@ def get_agent_8_team_beta_tasks() -> List[Dict[str, Any]]:
             "phase": task.phase.value,
             "priority": task.priority,
             "estimated_cycles": task.estimated_cycles,
-            "dependencies": task.dependencies
+            "dependencies": task.dependencies,
         }
         for task in tasks
     ]
 
+
 if __name__ == "__main__":
     # Test Team Beta integration support
     support_system = TeamBetaIntegrationSupport()
-    
+
     print("🎯 Team Beta Integration Support System:")
     status = support_system.get_team_beta_status()
     print(f"Team Leader: {status['team_leader']}")
     print(f"Team Members: {status['team_members']}")
     print(f"Agent-8 Role: {status['agent_8_role']}")
     print(f"Agent-8 Mission: {status['agent_8_mission']}")
-    
-    print(f"\n📋 Agent-8 Documentation Tasks:")
+
+    print("\n📋 Agent-8 Documentation Tasks:")
     agent_8_tasks = support_system.get_agent_8_tasks()
     for task in agent_8_tasks:
         print(f"  - {task.name} ({task.estimated_cycles} cycles)")
-    
-    print(f"\n📊 Documentation Roadmap:")
+
+    print("\n📊 Documentation Roadmap:")
     roadmap = support_system.get_documentation_roadmap()
     print(f"Total Tasks: {roadmap['total_documentation_tasks']}")
     print(f"Total Cycles: {roadmap['estimated_total_cycles']}")
-    
-    print(f"\n🤝 Team Coordination Plan:")
+
+    print("\n🤝 Team Coordination Plan:")
     coordination = support_system.get_team_coordination_plan()
     print(f"Leader: {coordination['coordination_structure']['leader']}")
     print(f"Communication: {coordination['coordination_structure']['communication']}")
-

@@ -3,7 +3,7 @@
   "description": "Chronological devlog analyzer and MMORPG isekai storyteller specialist",
   "capabilities": [
     "devlog_analysis",
-    "chronological_sequencing", 
+    "chronological_sequencing",
     "story_compilation",
     "mmorpg_narrative_creation",
     "isekai_storytelling",
@@ -49,7 +49,7 @@
       "focus": "story_requests, devlog_updates, character_development_tasks"
     },
     "evaluate_tasks": {
-      "priority": "HIGH", 
+      "priority": "HIGH",
       "focus": "story_compilation_tasks, narrative_development, devlog_analysis"
     },
     "execute_role": {

@@ -16,8 +16,9 @@ Author: Agent-1 (Backend API & Data Integration)
 License: MIT
 """
 
-import sys
+
 from dotenv import load_dotenv
+
 from .modules import main
 
 # Load environment variables from .env file

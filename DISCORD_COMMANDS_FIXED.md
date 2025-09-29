@@ -123,7 +123,7 @@ The Discord Commander is now **fully functional** with:
 
 - ✅ **All 5 commands working** in Discord
 - ✅ **Beautiful interactive UI** with clickable buttons
-- ✅ **Real-time status monitoring** 
+- ✅ **Real-time status monitoring**
 - ✅ **Easy agent management** through Discord
 - ✅ **8-agent swarm coordination**
 - ✅ **Quality error handling**

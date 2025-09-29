@@ -1,35 +1,40 @@
-import os
-import json
-import logging
 import asyncio
-from typing import Dict, Any, Optional, List, Callable
-from datetime import datetime
-import numpy as np
+import logging
+import os
 from dataclasses import dataclass
+from datetime import datetime
 from enum import Enum
+from typing import Any
+
+import numpy as np
+
 
 class PipelineStatus(Enum):
     """Status enumeration for training pipeline stages."""
+
     PENDING = "pending"
     RUNNING = "running"
     COMPLETED = "completed"
     FAILED = "failed"
     CANCELLED = "cancelled"
 
+
 @dataclass
 class TrainingJob:
     """Data class for training job information."""
+
     job_id: str
     model_name: str
     framework: str
     dataset_path: str
-    config: Dict[str, Any]
+    config: dict[str, Any]
     status: PipelineStatus
     created_at: datetime
-    started_at: Optional[datetime] = None
-    completed_at: Optional[datetime] = None
-    error_message: Optional[str] = None
-    metrics: Optional[Dict[str, Any]] = None
+    started_at: datetime | None = None
+    completed_at: datetime | None = None
+    error_message: str | None = None
+    metrics: dict[str, Any] | None = None
+
 
 class TrainingPipeline:
     """
@@ -53,19 +58,20 @@ class TrainingPipeline:
         self.data_path = data_path
         self.model_path = model_path
         self.logger = logging.getLogger(__name__)
-        
+
         # Job management
-        self.training_jobs: Dict[str, TrainingJob] = {}
-        self.job_queue: List[str] = []
-        self.active_jobs: List[str] = []
+        self.training_jobs: dict[str, TrainingJob] = {}
+        self.job_queue: list[str] = []
+        self.active_jobs: list[str] = []
         self.max_concurrent_jobs = 2
 
         # Ensure directories exist
         os.makedirs(data_path, exist_ok=True)
         os.makedirs(model_path, exist_ok=True)
 
-    def create_training_job(self, model_name: str, framework: str, dataset_path: str,
-                          config: Dict[str, Any]) -> str:
+    def create_training_job(
+        self, model_name: str, framework: str, dataset_path: str, config: dict[str, Any]
+    ) -> str:
         """
         Creates a new training job.
 
@@ -80,7 +86,7 @@ class TrainingPipeline:
         """
         if not model_name:
             raise ValueError("Model name cannot be empty.")
-        if framework not in ['tensorflow', 'pytorch']:
+        if framework not in ["tensorflow", "pytorch"]:
             raise ValueError("Framework must be 'tensorflow' or 'pytorch'.")
         if not dataset_path:
             raise ValueError("Dataset path cannot be empty.")
@@ -88,7 +94,7 @@ class TrainingPipeline:
             raise FileNotFoundError(f"Dataset not found: {dataset_path}")
 
         job_id = f"{model_name}_{framework}_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}"
-        
+
         job = TrainingJob(
             job_id=job_id,
             model_name=model_name,
@@ -96,16 +102,16 @@ class TrainingPipeline:
             dataset_path=dataset_path,
             config=config,
             status=PipelineStatus.PENDING,
-            created_at=datetime.utcnow()
+            created_at=datetime.utcnow(),
         )
 
         self.training_jobs[job_id] = job
         self.job_queue.append(job_id)
-        
+
         self.logger.info(f"Training job created: {job_id}")
         return job_id
 
-    def get_job_status(self, job_id: str) -> Optional[TrainingJob]:
+    def get_job_status(self, job_id: str) -> TrainingJob | None:
         """
         Gets the status of a training job.
 
@@ -119,7 +125,7 @@ class TrainingPipeline:
             raise ValueError("Job ID cannot be empty.")
         return self.training_jobs.get(job_id)
 
-    def list_jobs(self, status_filter: Optional[PipelineStatus] = None) -> List[TrainingJob]:
+    def list_jobs(self, status_filter: PipelineStatus | None = None) -> list[TrainingJob]:
         """
         Lists training jobs with optional status filtering.
 
@@ -150,12 +156,16 @@ class TrainingPipeline:
             return False
 
         job = self.training_jobs[job_id]
-        if job.status in [PipelineStatus.COMPLETED, PipelineStatus.FAILED, PipelineStatus.CANCELLED]:
+        if job.status in [
+            PipelineStatus.COMPLETED,
+            PipelineStatus.FAILED,
+            PipelineStatus.CANCELLED,
+        ]:
             return False
 
         job.status = PipelineStatus.CANCELLED
         job.completed_at = datetime.utcnow()
-        
+
         # Remove from active jobs and queue
         if job_id in self.active_jobs:
             self.active_jobs.remove(job_id)
@@ -178,22 +188,23 @@ class TrainingPipeline:
 
         try:
             self.logger.info(f"Starting training job: {job_id}")
-            
+
             # Load dataset
             dataset = self._load_dataset(job.dataset_path)
-            
+
             # Create and train model based on framework
-            if job.framework == 'tensorflow':
+            if job.framework == "tensorflow":
                 model, metrics = await self._train_tensorflow_model(job, dataset)
             else:  # pytorch
                 model, metrics = await self._train_pytorch_model(job, dataset)
-            
+
             # Save trained model
             model_path = os.path.join(self.model_path, f"{job.model_name}_{job.job_id}")
-            if job.framework == 'tensorflow':
+            if job.framework == "tensorflow":
                 model.save(model_path)
             else:  # pytorch
                 import torch
+
                 torch.save(model.state_dict(), f"{model_path}.pth")
 
             # Update job status
@@ -214,7 +225,7 @@ class TrainingPipeline:
             if job_id in self.active_jobs:
                 self.active_jobs.remove(job_id)
 
-    def _load_dataset(self, dataset_path: str) -> Dict[str, np.ndarray]:
+    def _load_dataset(self, dataset_path: str) -> dict[str, np.ndarray]:
         """
         Loads a dataset from the specified path.
 
@@ -235,14 +246,11 @@ class TrainingPipeline:
         x_val = np.random.rand(200, 784).astype(np.float32)
         y_val = np.random.randint(0, 10, 200)
 
-        return {
-            'x_train': x_train,
-            'y_train': y_train,
-            'x_val': x_val,
-            'y_val': y_val
-        }
+        return {"x_train": x_train, "y_train": y_train, "x_val": x_val, "y_val": y_val}
 
-    async def _train_tensorflow_model(self, job: TrainingJob, dataset: Dict[str, np.ndarray]) -> tuple:
+    async def _train_tensorflow_model(
+        self, job: TrainingJob, dataset: dict[str, np.ndarray]
+    ) -> tuple:
         """
         Trains a TensorFlow model.
 
@@ -254,26 +262,26 @@ class TrainingPipeline:
             Tuple of (trained_model, metrics).
         """
         from src.ml.tensorflow_infrastructure import TensorFlowInfrastructure
-        
+
         tf_infra = TensorFlowInfrastructure(self.model_path, self.data_path)
-        
+
         # Create model
         model = tf_infra.create_sample_model(job.model_name)
-        
+
         # Train model
         history = tf_infra.train_model(
             model,
-            dataset['x_train'].reshape(-1, 28, 28, 1),
-            dataset['y_train'],
-            dataset['x_val'].reshape(-1, 28, 28, 1),
-            dataset['y_val'],
-            epochs=job.config.get('epochs', 10),
-            batch_size=job.config.get('batch_size', 32)
+            dataset["x_train"].reshape(-1, 28, 28, 1),
+            dataset["y_train"],
+            dataset["x_val"].reshape(-1, 28, 28, 1),
+            dataset["y_val"],
+            epochs=job.config.get("epochs", 10),
+            batch_size=job.config.get("batch_size", 32),
         )
 
         return model, history
 
-    async def _train_pytorch_model(self, job: TrainingJob, dataset: Dict[str, np.ndarray]) -> tuple:
+    async def _train_pytorch_model(self, job: TrainingJob, dataset: dict[str, np.ndarray]) -> tuple:
         """
         Trains a PyTorch model.
 
@@ -285,22 +293,22 @@ class TrainingPipeline:
             Tuple of (trained_model, metrics).
         """
         from src.ml.pytorch_infrastructure import PyTorchInfrastructure
-        
+
         pytorch_infra = PyTorchInfrastructure(self.model_path, self.data_path)
-        
+
         # Create model
         model = pytorch_infra.create_sample_model(job.model_name)
-        
+
         # Train model
         history = pytorch_infra.train_model(
             model,
-            dataset['x_train'],
-            dataset['y_train'],
-            dataset['x_val'],
-            dataset['y_val'],
-            epochs=job.config.get('epochs', 10),
-            batch_size=job.config.get('batch_size', 32),
-            learning_rate=job.config.get('learning_rate', 0.001)
+            dataset["x_train"],
+            dataset["y_train"],
+            dataset["x_val"],
+            dataset["y_val"],
+            epochs=job.config.get("epochs", 10),
+            batch_size=job.config.get("batch_size", 32),
+            learning_rate=job.config.get("learning_rate", 0.001),
         )
 
         return model, history
@@ -311,9 +319,7 @@ class TrainingPipeline:
         """
         while True:
             # Start new jobs if we have capacity
-            while (len(self.active_jobs) < self.max_concurrent_jobs and 
-                   len(self.job_queue) > 0):
-                
+            while len(self.active_jobs) < self.max_concurrent_jobs and len(self.job_queue) > 0:
                 job_id = self.job_queue.pop(0)
                 if job_id in self.training_jobs:
                     job = self.training_jobs[job_id]
@@ -324,7 +330,7 @@ class TrainingPipeline:
             # Wait before checking again
             await asyncio.sleep(5)
 
-    def get_pipeline_status(self) -> Dict[str, Any]:
+    def get_pipeline_status(self) -> dict[str, Any]:
         """
         Gets the overall pipeline status.
 
@@ -332,13 +338,16 @@ class TrainingPipeline:
             Pipeline status dictionary.
         """
         total_jobs = len(self.training_jobs)
-        pending_jobs = len([j for j in self.training_jobs.values() 
-                           if j.status == PipelineStatus.PENDING])
+        pending_jobs = len(
+            [j for j in self.training_jobs.values() if j.status == PipelineStatus.PENDING]
+        )
         running_jobs = len(self.active_jobs)
-        completed_jobs = len([j for j in self.training_jobs.values() 
-                             if j.status == PipelineStatus.COMPLETED])
-        failed_jobs = len([j for j in self.training_jobs.values() 
-                          if j.status == PipelineStatus.FAILED])
+        completed_jobs = len(
+            [j for j in self.training_jobs.values() if j.status == PipelineStatus.COMPLETED]
+        )
+        failed_jobs = len(
+            [j for j in self.training_jobs.values() if j.status == PipelineStatus.FAILED]
+        )
 
         return {
             "total_jobs": total_jobs,
@@ -348,8 +357,5 @@ class TrainingPipeline:
             "failed_jobs": failed_jobs,
             "queue_size": len(self.job_queue),
             "max_concurrent_jobs": self.max_concurrent_jobs,
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.utcnow().isoformat(),
         }
-
-
-

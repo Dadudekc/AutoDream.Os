@@ -89,7 +89,7 @@ class AgentControlView(ui.View):
     @ui.button(label="📊 Agent Status", style=discord.ButtonStyle.primary)
     async def agent_status_button(self, interaction: discord.Interaction, button: ui.Button):
         # Beautiful interactive button implementation
-        
+
 class MessageAgentModal(ui.Modal, title="📨 Send Message to Agent"):
     # Easy input form for messages
 ```

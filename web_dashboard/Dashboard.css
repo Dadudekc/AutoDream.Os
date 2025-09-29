@@ -361,20 +361,20 @@
     gap: 1rem;
     text-align: center;
   }
-  
+
   .dashboard-main {
     padding: 1rem;
   }
-  
+
   .dashboard-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-  
+
   .agents-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .metrics-grid {
     grid-template-columns: 1fr;
   }
@@ -404,6 +404,3 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
-
-
-

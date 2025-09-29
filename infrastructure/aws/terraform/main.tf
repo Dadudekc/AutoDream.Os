@@ -1,6 +1,6 @@
 # V3-001: Cloud Infrastructure Setup - AWS Terraform Configuration
 # Agent-1: Architecture Foundation Specialist
-# 
+#
 # This file deploys the core AWS infrastructure for the V2_SWARM system
 # including EKS cluster, RDS database, and security foundations
 
@@ -12,7 +12,7 @@ terraform {
       version = "~> 5.0"
     }
   }
-  
+
   backend "s3" {
     bucket = "swarm-terraform-state"
     key    = "v3-infrastructure/terraform.tfstate"
@@ -23,7 +23,7 @@ terraform {
 # Configure AWS Provider
 provider "aws" {
   region = var.aws_region
-  
+
   default_tags {
     tags = {
       Project     = "V2_SWARM"
@@ -229,6 +229,3 @@ resource "aws_elasticache_replication_group" "swarm_redis" {
     Name = "${var.project_name}-redis"
   }
 }
-
-
-

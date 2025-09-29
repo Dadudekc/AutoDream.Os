@@ -9,10 +9,11 @@ V2 Compliant: ≤400 lines, focused posting logic
 
 import logging
 from datetime import datetime
-from typing import Dict, List, Any, Optional
-from .models import DevlogEntry, DevlogStatus, DevlogType, DevlogStats
-from .storage import DevlogStorage
+from typing import Any
+
 from .agent_validation import AgentValidator
+from .models import DevlogEntry, DevlogStatus
+from .storage import DevlogStorage
 
 
 class AgentDevlogPoster:
@@ -22,22 +23,22 @@ class AgentDevlogPoster:
         """Initialize agent devlog poster"""
         self.storage = DevlogStorage(devlogs_dir)
         self.validator = AgentValidator()
-        
+
         # Configure logging
         logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+            level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
         )
         self.logger = logging.getLogger(__name__)
-        
+
         self.logger.info("AgentDevlogPoster initialized - Local file storage only (NO Discord)")
 
-    def create_devlog_content(self, agent_flag: str, action: str, status: str = "completed", 
-                            details: str = "") -> str:
+    def create_devlog_content(
+        self, agent_flag: str, action: str, status: str = "completed", details: str = ""
+    ) -> str:
         """Create formatted devlog content for local file storage"""
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S UTC")
         agent_info = self.validator.get_agent_info(agent_flag)
-        
+
         content = f"""# 🤖 Agent Devlog - {agent_flag}
 
 ## 📅 Timestamp
@@ -72,41 +73,41 @@ class AgentDevlogPoster:
 
         return content
 
-    def post_devlog(self, agent_flag: str, action: str, status: str = "completed", 
-                   details: str = "", dry_run: bool = False) -> Dict[str, Any]:
+    def post_devlog(
+        self,
+        agent_flag: str,
+        action: str,
+        status: str = "completed",
+        details: str = "",
+        dry_run: bool = False,
+    ) -> dict[str, Any]:
         """Post devlog entry"""
         # Validate agent flag
         if not self.validator.validate_agent_flag(agent_flag):
             return {
                 "success": False,
-                "error": f"Invalid agent flag: {agent_flag}. Must be Agent-1 through Agent-8"
+                "error": f"Invalid agent flag: {agent_flag}. Must be Agent-1 through Agent-8",
             }
 
         # Validate action
         if not self.validator.validate_action(action):
-            return {
-                "success": False,
-                "error": "Invalid action. Must be 3-500 characters long"
-            }
+            return {"success": False, "error": "Invalid action. Must be 3-500 characters long"}
 
         # Validate status
         if not self.validator.validate_status(status):
             return {
                 "success": False,
-                "error": f"Invalid status: {status}. Must be one of: completed, in_progress, failed, pending"
+                "error": f"Invalid status: {status}. Must be one of: completed, in_progress, failed, pending",
             }
 
         # Validate details
         if not self.validator.validate_details(details):
-            return {
-                "success": False,
-                "error": "Details too long. Maximum 2000 characters allowed"
-            }
+            return {"success": False, "error": "Details too long. Maximum 2000 characters allowed"}
 
         # Create devlog entry
         timestamp = datetime.now().isoformat()
         devlog_type = self.validator.suggest_devlog_type(action, status)
-        
+
         devlog_entry = DevlogEntry(
             agent_id=agent_flag,
             action=action,
@@ -114,11 +115,7 @@ class AgentDevlogPoster:
             details=details,
             timestamp=timestamp,
             devlog_type=devlog_type,
-            metadata={
-                "posting_method": "local_file",
-                "storage_type": "json",
-                "dry_run": dry_run
-            }
+            metadata={"posting_method": "local_file", "storage_type": "json", "dry_run": dry_run},
         )
 
         if dry_run:
@@ -131,13 +128,13 @@ class AgentDevlogPoster:
                     "status": devlog_entry.status.value,
                     "details": devlog_entry.details,
                     "timestamp": devlog_entry.timestamp,
-                    "devlog_type": devlog_entry.devlog_type.value
-                }
+                    "devlog_type": devlog_entry.devlog_type.value,
+                },
             }
 
         # Save devlog
         success = self.storage.save_devlog(devlog_entry)
-        
+
         if success:
             self.logger.info(f"✅ Devlog posted successfully for {agent_flag}")
             return {
@@ -146,44 +143,38 @@ class AgentDevlogPoster:
                 "agent_id": agent_flag,
                 "action": action,
                 "status": status,
-                "timestamp": timestamp
+                "timestamp": timestamp,
             }
         else:
-            return {
-                "success": False,
-                "error": "Failed to save devlog to file"
-            }
+            return {"success": False, "error": "Failed to save devlog to file"}
 
-    def search_devlogs(self, query: str, agent_id: Optional[str] = None, 
-                      status: Optional[str] = None, limit: int = 50) -> Dict[str, Any]:
+    def search_devlogs(
+        self,
+        query: str,
+        agent_id: str | None = None,
+        status: str | None = None,
+        limit: int = 50,
+    ) -> dict[str, Any]:
         """Search devlogs"""
         try:
             results = self.storage.search_devlogs(query, agent_id, status, limit)
-            
+
             return {
                 "success": True,
                 "query": query,
                 "results": results,
                 "total_matches": len(results),
-                "filters": {
-                    "agent_id": agent_id,
-                    "status": status,
-                    "limit": limit
-                }
+                "filters": {"agent_id": agent_id, "status": status, "limit": limit},
             }
         except Exception as e:
-            return {
-                "success": False,
-                "error": str(e),
-                "query": query
-            }
+            return {"success": False, "error": str(e), "query": query}
 
-    def get_devlog_stats(self) -> Dict[str, Any]:
+    def get_devlog_stats(self) -> dict[str, Any]:
         """Get devlog statistics"""
         try:
             stats = self.storage.get_devlog_stats()
             file_info = self.storage.get_file_info()
-            
+
             return {
                 "success": True,
                 "stats": {
@@ -191,37 +182,31 @@ class AgentDevlogPoster:
                     "agent_counts": stats.agent_counts,
                     "status_counts": stats.status_counts,
                     "type_counts": stats.type_counts,
-                    "recent_activity": stats.recent_activity
+                    "recent_activity": stats.recent_activity,
                 },
-                "file_info": file_info
+                "file_info": file_info,
             }
         except Exception as e:
-            return {
-                "success": False,
-                "error": str(e)
-            }
+            return {"success": False, "error": str(e)}
 
-    def cleanup_old_devlogs(self, days_to_keep: int = 30) -> Dict[str, Any]:
+    def cleanup_old_devlogs(self, days_to_keep: int = 30) -> dict[str, Any]:
         """Cleanup old devlog files"""
         try:
             deleted_count = self.storage.cleanup_old_files(days_to_keep)
-            
+
             return {
                 "success": True,
                 "message": f"Cleaned up {deleted_count} old devlog files",
                 "deleted_files": deleted_count,
-                "days_kept": days_to_keep
+                "days_kept": days_to_keep,
             }
         except Exception as e:
-            return {
-                "success": False,
-                "error": str(e)
-            }
+            return {"success": False, "error": str(e)}
 
-    def get_agent_info(self, agent_id: str) -> Dict[str, Any]:
+    def get_agent_info(self, agent_id: str) -> dict[str, Any]:
         """Get agent information"""
         agent_info = self.validator.get_agent_info(agent_id)
-        
+
         if agent_info:
             return {
                 "success": True,
@@ -230,23 +215,20 @@ class AgentDevlogPoster:
                     "role": agent_info.role,
                     "status": agent_info.status,
                     "capabilities": agent_info.capabilities,
-                    "is_captain": self.validator.is_captain_agent(agent_id)
-                }
+                    "is_captain": self.validator.is_captain_agent(agent_id),
+                },
             }
         else:
-            return {
-                "success": False,
-                "error": f"Invalid agent ID: {agent_id}"
-            }
+            return {"success": False, "error": f"Invalid agent ID: {agent_id}"}
 
-    def get_all_agents(self) -> Dict[str, Any]:
+    def get_all_agents(self) -> dict[str, Any]:
         """Get all agents information"""
         agents = self.validator.get_all_agents()
         agent_stats = self.validator.get_agent_statistics()
-        
+
         return {
             "success": True,
             "agents": agents,
             "agent_stats": agent_stats,
-            "total_agents": len(agents)
+            "total_agents": len(agents),
         }

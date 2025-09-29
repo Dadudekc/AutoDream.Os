@@ -17,21 +17,23 @@ Components:
 - React Dashboard: Web interface for visualization
 """
 
+import os
 import subprocess
 import sys
-import time
 import threading
-import os
+import time
 from pathlib import Path
+
 
 # Colors for console output
 class Colors:
-    GREEN = '\033[92m'
-    YELLOW = '\033[93m'
-    RED = '\033[91m'
-    BLUE = '\033[94m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
+    GREEN = "\033[92m"
+    YELLOW = "\033[93m"
+    RED = "\033[91m"
+    BLUE = "\033[94m"
+    ENDC = "\033[0m"
+    BOLD = "\033[1m"
+
 
 def print_header():
     """Print startup header."""
@@ -39,8 +41,10 @@ def print_header():
     print("=" * 50)
     print()
 
+
 def run_service(name: str, command: list, port: int, delay: float = 0):
     """Run a service in a separate thread."""
+
     def _run():
         if delay > 0:
             print(f"{Colors.YELLOW}⏳ Starting {name} in {delay}s...{Colors.ENDC}")
@@ -57,6 +61,7 @@ def run_service(name: str, command: list, port: int, delay: float = 0):
     thread = threading.Thread(target=_run, daemon=True)
     thread.start()
     return thread
+
 
 def check_requirements():
     """Check if all required dependencies are installed."""
@@ -86,6 +91,7 @@ def check_requirements():
     print(f"{Colors.GREEN}✅ All Python requirements met{Colors.ENDC}")
     return True
 
+
 def check_node_modules():
     """Check if React dependencies are installed."""
     dashboard_dir = Path(__file__).parent / "web_dashboard"
@@ -103,6 +109,7 @@ def check_node_modules():
 
     print(f"{Colors.GREEN}✅ React dependencies installed{Colors.ENDC}")
     return True
+
 
 def main():
     """Main startup function."""
@@ -123,53 +130,51 @@ def main():
     services = []
 
     # 1. Start WebSocket Server (port 8001)
-    services.append(run_service(
-        "WebSocket Server",
-        [sys.executable, "web_dashboard/websocket.py"],
-        8001,
-        delay=0
-    ))
+    services.append(
+        run_service(
+            "WebSocket Server", [sys.executable, "web_dashboard/websocket.py"], 8001, delay=0
+        )
+    )
 
     # 2. Start Devlog Analytics API (port 8002)
-    services.append(run_service(
-        "Devlog Analytics API",
-        [sys.executable, "src/services/devlog_analytics_api.py"],
-        8002,
-        delay=1
-    ))
+    services.append(
+        run_service(
+            "Devlog Analytics API",
+            [sys.executable, "src/services/devlog_analytics_api.py"],
+            8002,
+            delay=1,
+        )
+    )
 
     # 3. Start React Dashboard (port 3000)
     dashboard_dir = Path(__file__).parent / "web_dashboard"
     if (dashboard_dir / "node_modules").exists():
-        services.append(run_service(
-            "React Dashboard",
-            ["npm", "start"],
-            3000,
-            delay=2
-        ))
+        services.append(run_service("React Dashboard", ["npm", "start"], 3000, delay=2))
 
     print()
     print(f"{Colors.BOLD}{Colors.GREEN}✅ Devlog Analytics System Started!{Colors.ENDC}")
     print("=" * 50)
     print(f"{Colors.BLUE}📊 Available Services:{Colors.ENDC}")
-    print(f"  • WebSocket Server:   http://localhost:8001")
-    print(f"  • Analytics API:      http://localhost:8002")
-    print(f"  • React Dashboard:    http://localhost:3000")
+    print("  • WebSocket Server:   http://localhost:8001")
+    print("  • Analytics API:      http://localhost:8002")
+    print("  • React Dashboard:    http://localhost:3000")
     print()
     print(f"{Colors.BLUE}📋 API Endpoints:{Colors.ENDC}")
-    print(f"  • /api/devlogs - Get devlogs with filtering")
-    print(f"  • /api/devlogs/analytics - Get analytics data")
-    print(f"  • /api/devlogs/export/<format> - Export devlogs")
-    print(f"  • /api/devlogs/agents - Get agent statistics")
-    print(f"  • /api/devlogs/trends - Get trend data")
+    print("  • /api/devlogs - Get devlogs with filtering")
+    print("  • /api/devlogs/analytics - Get analytics data")
+    print("  • /api/devlogs/export/<format> - Export devlogs")
+    print("  • /api/devlogs/agents - Get agent statistics")
+    print("  • /api/devlogs/trends - Get trend data")
     print()
     print(f"{Colors.YELLOW}🛠️  Development Notes:{Colors.ENDC}")
-    print(f"  • Use Ctrl+C to stop all services")
-    print(f"  • Check console output for service logs")
-    print(f"  • WebSocket provides real-time updates")
-    print(f"  • API supports JSON, CSV, and Excel export")
+    print("  • Use Ctrl+C to stop all services")
+    print("  • Check console output for service logs")
+    print("  • WebSocket provides real-time updates")
+    print("  • API supports JSON, CSV, and Excel export")
     print()
-    print(f"{Colors.GREEN}🎯 Ready to use! Open http://localhost:3000 for the dashboard{Colors.ENDC}")
+    print(
+        f"{Colors.GREEN}🎯 Ready to use! Open http://localhost:3000 for the dashboard{Colors.ENDC}"
+    )
 
     try:
         # Keep main thread alive
@@ -180,6 +185,6 @@ def main():
         print(f"{Colors.YELLOW}🛑 Shutting down services...{Colors.ENDC}")
         # Services will stop when main thread exits (daemon threads)
 
+
 if __name__ == "__main__":
     main()
-

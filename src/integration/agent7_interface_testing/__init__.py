@@ -7,27 +7,23 @@ Agent-7 Repository Management Interface Testing & Validation Package
 V2 Compliant: Modular design with focused components
 """
 
-from .core_testing import (
-    Agent7InterfaceTestingValidation,
-    run_agent7_interface_testing_validation
-)
-from .models import (
-    TestCategory,
-    TestStatus,
-    TestResult,
-    InterfaceAnalysis,
-    ValidationReport,
-    RepositoryTestData,
-    InterfaceMetrics
-)
+from .core_testing import Agent7InterfaceTestingValidation, run_agent7_interface_testing_validation
 from .functionality_tests import Agent7FunctionalityTests
 from .integration_tests import Agent7IntegrationTests
+from .models import (
+    InterfaceAnalysis,
+    InterfaceMetrics,
+    RepositoryTestData,
+    TestCategory,
+    TestResult,
+    TestStatus,
+    ValidationReport,
+)
 
 __all__ = [
     # Core testing
     "Agent7InterfaceTestingValidation",
     "run_agent7_interface_testing_validation",
-    
     # Models
     "TestCategory",
     "TestStatus",
@@ -36,8 +32,7 @@ __all__ = [
     "ValidationReport",
     "RepositoryTestData",
     "InterfaceMetrics",
-    
     # Test modules
     "Agent7FunctionalityTests",
-    "Agent7IntegrationTests"
+    "Agent7IntegrationTests",
 ]

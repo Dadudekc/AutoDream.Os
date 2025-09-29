@@ -21,11 +21,11 @@ import argparse
 import json
 import logging
 import sys
-from datetime import datetime, timedelta
-from pathlib import Path
-from typing import Dict, List, Optional, Any
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
+from datetime import datetime
 from enum import Enum
+from pathlib import Path
+from typing import Any
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
@@ -35,6 +35,7 @@ logger = logging.getLogger(__name__)
 
 class MetricType(Enum):
     """Types of operational metrics."""
+
     QUALITY_GATE = "quality_gate"
     AGENT_PERFORMANCE = "agent_performance"
     PROJECT_PROGRESS = "project_progress"
@@ -44,6 +45,7 @@ class MetricType(Enum):
 
 class AlertLevel(Enum):
     """Alert levels for operational issues."""
+
     INFO = "info"
     WARNING = "warning"
     CRITICAL = "critical"
@@ -53,6 +55,7 @@ class AlertLevel(Enum):
 @dataclass
 class QualityGateResult:
     """Quality gate result data."""
+
     total_files: int
     excellent_files: int
     good_files: int
@@ -66,9 +69,10 @@ class QualityGateResult:
 @dataclass
 class AgentPerformance:
     """Agent performance metrics."""
+
     agent_id: str
     specialization: str
-    current_task: Optional[str]
+    current_task: str | None
     task_completion_rate: float
     coordination_efficiency: float
     v2_compliance: float
@@ -79,6 +83,7 @@ class AgentPerformance:
 @dataclass
 class ProjectProgress:
     """Project progress tracking."""
+
     project_id: str
     project_name: str
     overall_progress: float
@@ -92,46 +97,47 @@ class ProjectProgress:
 @dataclass
 class OperationalAlert:
     """Operational alert."""
+
     alert_id: str
     alert_type: str
     level: AlertLevel
     message: str
     timestamp: str
-    agent_id: Optional[str]
-    project_id: Optional[str]
+    agent_id: str | None
+    project_id: str | None
     resolved: bool = False
 
 
 class OperationalDashboard:
     """Operational dashboard and analytics system."""
-    
+
     def __init__(self):
         self.dashboard_dir = Path("operational_dashboard")
         self.dashboard_dir.mkdir(exist_ok=True)
-        self.metrics_history: List[Dict[str, Any]] = []
-        self.alerts: List[OperationalAlert] = []
-        
-    def load_v3_coordination_data(self) -> Dict[str, Any]:
+        self.metrics_history: list[dict[str, Any]] = []
+        self.alerts: list[OperationalAlert] = []
+
+    def load_v3_coordination_data(self) -> dict[str, Any]:
         """Load V3 coordination data from Agent-4."""
         try:
             # Load Agent-4 working tasks
             agent4_file = Path("agent_workspaces/Agent-4/working_tasks.json")
             if agent4_file.exists():
-                with open(agent4_file, 'r') as f:
+                with open(agent4_file) as f:
                     agent4_data = json.load(f)
                     return agent4_data
             return {}
         except Exception as e:
             logger.error(f"Error loading V3 coordination data: {e}")
             return {}
-    
+
     def load_quality_gate_data(self) -> QualityGateResult:
         """Load quality gate results."""
         try:
             # Parse the quality gate data from Agent-4's notes
             agent4_data = self.load_v3_coordination_data()
-            if agent4_data and 'current_task' in agent4_data:
-                notes = agent4_data['current_task'].get('notes', '')
+            if agent4_data and "current_task" in agent4_data:
+                notes = agent4_data["current_task"].get("notes", "")
                 # Extract quality gate data from notes
                 # "339 files checked: 243 Excellent, 49 Good, 24 Acceptable, 18 Poor, 5 Critical"
                 if "files checked:" in notes:
@@ -146,9 +152,9 @@ class OperationalDashboard:
                             poor_files=numbers[3],
                             critical_files=numbers[4],
                             timestamp=datetime.now().isoformat(),
-                            overall_score=self._calculate_quality_score(numbers)
+                            overall_score=self._calculate_quality_score(numbers),
                         )
-            
+
             # Default data if parsing fails
             return QualityGateResult(
                 total_files=339,
@@ -158,91 +164,106 @@ class OperationalDashboard:
                 poor_files=18,
                 critical_files=5,
                 timestamp=datetime.now().isoformat(),
-                overall_score=85.2
+                overall_score=85.2,
             )
-            
+
         except Exception as e:
             logger.error(f"Error loading quality gate data: {e}")
             return QualityGateResult(
-                total_files=0, excellent_files=0, good_files=0,
-                acceptable_files=0, poor_files=0, critical_files=0,
-                timestamp=datetime.now().isoformat(), overall_score=0.0
+                total_files=0,
+                excellent_files=0,
+                good_files=0,
+                acceptable_files=0,
+                poor_files=0,
+                critical_files=0,
+                timestamp=datetime.now().isoformat(),
+                overall_score=0.0,
             )
-    
-    def load_agent_performance_data(self) -> List[AgentPerformance]:
+
+    def load_agent_performance_data(self) -> list[AgentPerformance]:
         """Load agent performance data."""
         agents = []
         try:
-            for agent_id in ['Agent-1', 'Agent-2', 'Agent-3', 'Agent-4']:
+            for agent_id in ["Agent-1", "Agent-2", "Agent-3", "Agent-4"]:
                 status_file = Path(f"agent_workspaces/{agent_id}/status.json")
                 working_file = Path(f"agent_workspaces/{agent_id}/working_tasks.json")
-                
+
                 if status_file.exists():
-                    with open(status_file, 'r') as f:
+                    with open(status_file) as f:
                         status_data = json.load(f)
-                    
+
                     current_task = None
                     if working_file.exists():
-                        with open(working_file, 'r') as f:
+                        with open(working_file) as f:
                             working_data = json.load(f)
-                            if 'current_task' in working_data and working_data['current_task']:
-                                current_task = working_data['current_task'].get('title', 'Unknown')
-                    
+                            if "current_task" in working_data and working_data["current_task"]:
+                                current_task = working_data["current_task"].get("title", "Unknown")
+
                     agent = AgentPerformance(
                         agent_id=agent_id,
-                        specialization=status_data.get('specialization', 'Unknown'),
+                        specialization=status_data.get("specialization", "Unknown"),
                         current_task=current_task,
-                        task_completion_rate=self._extract_metric(status_data, 'task_completion_rate', 0.0),
-                        coordination_efficiency=self._extract_metric(status_data, 'coordination_efficiency', 0.0),
-                        v2_compliance=self._extract_metric(status_data, 'v2_compliance', 0.0),
-                        last_updated=status_data.get('last_updated', 'Unknown'),
-                        status=status_data.get('status', 'Unknown')
+                        task_completion_rate=self._extract_metric(
+                            status_data, "task_completion_rate", 0.0
+                        ),
+                        coordination_efficiency=self._extract_metric(
+                            status_data, "coordination_efficiency", 0.0
+                        ),
+                        v2_compliance=self._extract_metric(status_data, "v2_compliance", 0.0),
+                        last_updated=status_data.get("last_updated", "Unknown"),
+                        status=status_data.get("status", "Unknown"),
                     )
                     agents.append(agent)
-                    
+
         except Exception as e:
             logger.error(f"Error loading agent performance data: {e}")
-        
+
         return agents
-    
-    def load_project_progress_data(self) -> List[ProjectProgress]:
+
+    def load_project_progress_data(self) -> list[ProjectProgress]:
         """Load project progress data."""
         projects = []
         try:
             # V3 Project from Agent-4 data
             agent4_data = self.load_v3_coordination_data()
-            if agent4_data and 'current_task' in agent4_data:
-                task = agent4_data['current_task']
+            if agent4_data and "current_task" in agent4_data:
+                task = agent4_data["current_task"]
                 v3_progress = ProjectProgress(
                     project_id="V3-COORDINATION-001",
                     project_name="V3 Project Coordination",
-                    overall_progress=float(task.get('progress', '50%').replace('%', '')),
+                    overall_progress=float(task.get("progress", "50%").replace("%", "")),
                     completed_tasks=self._count_completed_tasks(),
                     total_tasks=self._count_total_tasks(),
-                    critical_path_progress=float(task.get('progress', '50%').replace('%', '')),
-                    last_updated=task.get('started_at', datetime.now().isoformat()),
-                    status=task.get('status', 'in_progress')
+                    critical_path_progress=float(task.get("progress", "50%").replace("%", "")),
+                    last_updated=task.get("started_at", datetime.now().isoformat()),
+                    status=task.get("status", "in_progress"),
                 )
                 projects.append(v3_progress)
-                
+
         except Exception as e:
             logger.error(f"Error loading project progress data: {e}")
-        
+
         return projects
-    
-    def generate_operational_report(self) -> Dict[str, Any]:
+
+    def generate_operational_report(self) -> dict[str, Any]:
         """Generate comprehensive operational report."""
         try:
             quality_data = self.load_quality_gate_data()
             agent_data = self.load_agent_performance_data()
             project_data = self.load_project_progress_data()
-            
+
             # Calculate key metrics
             total_agents = len(agent_data)
-            active_agents = len([a for a in agent_data if a.status == 'ACTIVE'])
-            avg_coordination = sum(a.coordination_efficiency for a in agent_data) / total_agents if total_agents > 0 else 0
-            avg_v2_compliance = sum(a.v2_compliance for a in agent_data) / total_agents if total_agents > 0 else 0
-            
+            active_agents = len([a for a in agent_data if a.status == "ACTIVE"])
+            avg_coordination = (
+                sum(a.coordination_efficiency for a in agent_data) / total_agents
+                if total_agents > 0
+                else 0
+            )
+            avg_v2_compliance = (
+                sum(a.v2_compliance for a in agent_data) / total_agents if total_agents > 0 else 0
+            )
+
             report = {
                 "timestamp": datetime.now().isoformat(),
                 "dashboard_version": "1.0",
@@ -256,25 +277,36 @@ class OperationalDashboard:
                     "average_v2_compliance": round(avg_v2_compliance, 2),
                     "quality_score": quality_data.overall_score,
                     "total_projects": len(project_data),
-                    "active_projects": len([p for p in project_data if p.status == 'in_progress'])
+                    "active_projects": len([p for p in project_data if p.status == "in_progress"]),
                 },
                 "alerts": [asdict(alert) for alert in self.alerts[-10:]],  # Last 10 alerts
-                "recommendations": self._generate_recommendations(agent_data, project_data, quality_data)
+                "recommendations": self._generate_recommendations(
+                    agent_data, project_data, quality_data
+                ),
             }
-            
+
             # Save report
-            report_file = self.dashboard_dir / f"operational_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-            with open(report_file, 'w') as f:
+            report_file = (
+                self.dashboard_dir
+                / f"operational_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+            )
+            with open(report_file, "w") as f:
                 json.dump(report, f, indent=2)
-            
+
             return report
-            
+
         except Exception as e:
             logger.error(f"Error generating operational report: {e}")
             return {}
-    
-    def create_operational_alert(self, alert_type: str, level: AlertLevel, 
-                               message: str, agent_id: str = None, project_id: str = None) -> str:
+
+    def create_operational_alert(
+        self,
+        alert_type: str,
+        level: AlertLevel,
+        message: str,
+        agent_id: str = None,
+        project_id: str = None,
+    ) -> str:
         """Create an operational alert."""
         alert_id = f"ALERT_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         alert = OperationalAlert(
@@ -284,24 +316,24 @@ class OperationalDashboard:
             message=message,
             timestamp=datetime.now().isoformat(),
             agent_id=agent_id,
-            project_id=project_id
+            project_id=project_id,
         )
         self.alerts.append(alert)
-        
+
         # Save alert
         alert_file = self.dashboard_dir / f"alert_{alert_id}.json"
-        with open(alert_file, 'w') as f:
+        with open(alert_file, "w") as f:
             json.dump(asdict(alert), f, indent=2)
-        
+
         logger.info(f"Created alert: {alert_id} - {message}")
         return alert_id
-    
+
     def generate_dashboard_html(self) -> str:
         """Generate HTML dashboard."""
         report = self.generate_operational_report()
         if not report:
             return "<html><body><h1>Error generating dashboard</h1></body></html>"
-        
+
         html = f"""
 <!DOCTYPE html>
 <html>
@@ -324,7 +356,7 @@ class OperationalDashboard:
     <div class="dashboard">
         <h1>🐝 Team Alpha Operational Dashboard</h1>
         <p>Generated: {report['timestamp']}</p>
-        
+
         <h2>📊 Summary Metrics</h2>
         <div class="summary">
             <div class="metric-card">
@@ -343,7 +375,7 @@ class OperationalDashboard:
                 <p>Avg V2 Compliance: <strong>{report['summary_metrics']['average_v2_compliance']}%</strong></p>
             </div>
         </div>
-        
+
         <h2>🔍 Quality Gate Results</h2>
         <div class="metric-card quality-good">
             <h3>File Quality Distribution</h3>
@@ -353,7 +385,7 @@ class OperationalDashboard:
             <p>❌ Poor: {report['quality_gates']['poor_files']} files</p>
             <p>🚨 Critical: {report['quality_gates']['critical_files']} files</p>
         </div>
-        
+
         <h2>👥 Agent Performance</h2>
         {"".join([f'''
         <div class="agent-card">
@@ -363,7 +395,7 @@ class OperationalDashboard:
             <p>Status: {agent['status']} | Last Updated: {agent['last_updated']}</p>
         </div>
         ''' for agent in report['agent_performance']])}
-        
+
         <h2>🚀 Project Progress</h2>
         {"".join([f'''
         <div class="project-card">
@@ -373,7 +405,7 @@ class OperationalDashboard:
             <p>Critical Path: {project['critical_path_progress']}%</p>
         </div>
         ''' for project in report['project_progress']])}
-        
+
         <h2>💡 Recommendations</h2>
         <div class="metric-card">
             {"<br>".join([f"• {rec}" for rec in report['recommendations']])}
@@ -382,98 +414,107 @@ class OperationalDashboard:
 </body>
 </html>
 """
-        
+
         # Save HTML dashboard
         html_file = self.dashboard_dir / "dashboard.html"
-        with open(html_file, 'w', encoding='utf-8') as f:
+        with open(html_file, "w", encoding="utf-8") as f:
             f.write(html)
-        
+
         return html
-    
+
     # Helper methods
-    def _calculate_quality_score(self, numbers: List[int]) -> float:
+    def _calculate_quality_score(self, numbers: list[int]) -> float:
         """Calculate overall quality score."""
         if not numbers or len(numbers) < 5:
             return 0.0
-        
+
         total = sum(numbers)
         if total == 0:
             return 0.0
-        
+
         # Weight: Excellent=5, Good=4, Acceptable=3, Poor=2, Critical=1
-        weighted_score = (numbers[0] * 5 + numbers[1] * 4 + numbers[2] * 3 + numbers[3] * 2 + numbers[4] * 1)
+        weighted_score = (
+            numbers[0] * 5 + numbers[1] * 4 + numbers[2] * 3 + numbers[3] * 2 + numbers[4] * 1
+        )
         return round((weighted_score / (total * 5)) * 100, 1)
-    
-    def _extract_metric(self, data: Dict, key: str, default: float) -> float:
+
+    def _extract_metric(self, data: dict, key: str, default: float) -> float:
         """Extract metric value from nested data."""
         try:
             if key in data:
                 value = data[key]
-                if isinstance(value, str) and '%' in value:
-                    return float(value.replace('%', ''))
+                if isinstance(value, str) and "%" in value:
+                    return float(value.replace("%", ""))
                 return float(value)
-            
+
             # Check nested structures
-            if 'success_metrics' in data and key in data['success_metrics']:
-                value = data['success_metrics'][key]
-                if isinstance(value, str) and '%' in value:
-                    return float(value.replace('%', ''))
+            if "success_metrics" in data and key in data["success_metrics"]:
+                value = data["success_metrics"][key]
+                if isinstance(value, str) and "%" in value:
+                    return float(value.replace("%", ""))
                 return float(value)
-                
+
         except (ValueError, TypeError):
             pass
-        
+
         return default
-    
+
     def _count_completed_tasks(self) -> int:
         """Count completed tasks across all agents."""
         total = 0
         try:
-            for agent_id in ['Agent-1', 'Agent-2', 'Agent-3', 'Agent-4']:
+            for agent_id in ["Agent-1", "Agent-2", "Agent-3", "Agent-4"]:
                 working_file = Path(f"agent_workspaces/{agent_id}/working_tasks.json")
                 if working_file.exists():
-                    with open(working_file, 'r') as f:
+                    with open(working_file) as f:
                         data = json.load(f)
-                        if 'completed_tasks' in data:
-                            total += len(data['completed_tasks'])
+                        if "completed_tasks" in data:
+                            total += len(data["completed_tasks"])
         except Exception:
             pass
         return total
-    
+
     def _count_total_tasks(self) -> int:
         """Count total tasks across all agents."""
         # This is a simplified count - in reality, would need to track all tasks
         return self._count_completed_tasks() + 10  # Estimate
-    
-    def _generate_recommendations(self, agents: List[AgentPerformance], 
-                                projects: List[ProjectProgress], 
-                                quality: QualityGateResult) -> List[str]:
+
+    def _generate_recommendations(
+        self,
+        agents: list[AgentPerformance],
+        projects: list[ProjectProgress],
+        quality: QualityGateResult,
+    ) -> list[str]:
         """Generate operational recommendations."""
         recommendations = []
-        
+
         # Quality recommendations
         if quality.critical_files > 0:
             recommendations.append(f"Address {quality.critical_files} critical files immediately")
         if quality.poor_files > 5:
             recommendations.append(f"Refactor {quality.poor_files} poor quality files")
-        
+
         # Agent performance recommendations
         low_coordination = [a for a in agents if a.coordination_efficiency < 50]
         if low_coordination:
             recommendations.append(f"Improve coordination for {len(low_coordination)} agents")
-        
+
         low_v2_compliance = [a for a in agents if a.v2_compliance < 80]
         if low_v2_compliance:
             recommendations.append(f"Improve V2 compliance for {len(low_v2_compliance)} agents")
-        
+
         # Project recommendations
-        stalled_projects = [p for p in projects if p.overall_progress < 25 and p.status == 'in_progress']
+        stalled_projects = [
+            p for p in projects if p.overall_progress < 25 and p.status == "in_progress"
+        ]
         if stalled_projects:
-            recommendations.append(f"Address stalled projects: {', '.join([p.project_name for p in stalled_projects])}")
-        
+            recommendations.append(
+                f"Address stalled projects: {', '.join([p.project_name for p in stalled_projects])}"
+            )
+
         if not recommendations:
             recommendations.append("All systems operating optimally - maintain current performance")
-        
+
         return recommendations
 
 
@@ -481,44 +522,46 @@ def main():
     """Main function for operational dashboard."""
     parser = argparse.ArgumentParser(description="Operational Dashboard & Analytics Tool")
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
-    
+
     # Generate report command
     report_parser = subparsers.add_parser("report", help="Generate operational report")
-    
+
     # Generate dashboard command
     dashboard_parser = subparsers.add_parser("dashboard", help="Generate HTML dashboard")
-    
+
     # Create alert command
     alert_parser = subparsers.add_parser("alert", help="Create operational alert")
     alert_parser.add_argument("--type", required=True, help="Alert type")
-    alert_parser.add_argument("--level", choices=["info", "warning", "critical", "success"], required=True)
+    alert_parser.add_argument(
+        "--level", choices=["info", "warning", "critical", "success"], required=True
+    )
     alert_parser.add_argument("--message", required=True, help="Alert message")
     alert_parser.add_argument("--agent", help="Related agent ID")
     alert_parser.add_argument("--project", help="Related project ID")
-    
+
     args = parser.parse_args()
-    
+
     dashboard = OperationalDashboard()
-    
+
     if args.command == "report":
         report = dashboard.generate_operational_report()
         print(json.dumps(report, indent=2))
-    
+
     elif args.command == "dashboard":
         html = dashboard.generate_dashboard_html()
         print("HTML dashboard generated: operational_dashboard/dashboard.html")
         print(f"Dashboard size: {len(html)} characters")
-    
+
     elif args.command == "alert":
         alert_id = dashboard.create_operational_alert(
             alert_type=args.type,
             level=AlertLevel(args.level),
             message=args.message,
             agent_id=args.agent,
-            project_id=args.project
+            project_id=args.project,
         )
         print(f"Alert created: {alert_id}")
-    
+
     else:
         parser.print_help()
 

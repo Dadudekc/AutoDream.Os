@@ -7,12 +7,12 @@ Integration testing for Agent-7 Repository Management Interface
 V2 Compliant: ≤400 lines, focused integration testing logic
 """
 
-from typing import Dict, List, Any
-import time
 import os
 import platform
-from pathlib import Path
-from .models import TestResult, TestCategory, TestStatus
+import time
+from typing import Any
+
+from .models import TestCategory, TestResult, TestStatus
 
 
 class Agent7IntegrationTests:
@@ -20,10 +20,10 @@ class Agent7IntegrationTests:
 
     def __init__(self):
         """Initialize integration tests"""
-        self.test_results: List[TestResult] = []
+        self.test_results: list[TestResult] = []
         self.platform_info = self._get_platform_info()
 
-    def _get_platform_info(self) -> Dict[str, Any]:
+    def _get_platform_info(self) -> dict[str, Any]:
         """Get platform information for testing"""
         return {
             "system": platform.system(),
@@ -31,10 +31,10 @@ class Agent7IntegrationTests:
             "architecture": platform.architecture(),
             "python_version": platform.python_version(),
             "machine": platform.machine(),
-            "processor": platform.processor()
+            "processor": platform.processor(),
         }
 
-    def test_vscode_customization_integration(self) -> Dict[str, Any]:
+    def test_vscode_customization_integration(self) -> dict[str, Any]:
         """Test VSCode customization integration"""
         print("🔍 Testing VSCode customization integration...")
 
@@ -44,7 +44,7 @@ class Agent7IntegrationTests:
                 ".vscode/settings.json",
                 ".vscode/extensions.json",
                 ".vscode/launch.json",
-                ".vscode/tasks.json"
+                ".vscode/tasks.json",
             ]
 
             config_found = 0
@@ -64,7 +64,7 @@ class Agent7IntegrationTests:
                 "issues": issues,
                 "recommendations": recommendations,
                 "configs_found": config_found,
-                "total_configs": len(vscode_configs)
+                "total_configs": len(vscode_configs),
             }
 
         except Exception as e:
@@ -73,10 +73,10 @@ class Agent7IntegrationTests:
                 "score": 0.0,
                 "issues": [f"Test failed: {str(e)}"],
                 "recommendations": ["Check VSCode integration"],
-                "error": str(e)
+                "error": str(e),
             }
 
-    def test_cross_platform_compatibility(self) -> Dict[str, Any]:
+    def test_cross_platform_compatibility(self) -> dict[str, Any]:
         """Test cross-platform compatibility"""
         print("🔍 Testing cross-platform compatibility...")
 
@@ -85,7 +85,7 @@ class Agent7IntegrationTests:
             platform_tests = {
                 "windows": self._test_windows_compatibility(),
                 "linux": self._test_linux_compatibility(),
-                "macos": self._test_macos_compatibility()
+                "macos": self._test_macos_compatibility(),
             }
 
             current_platform = self.platform_info["system"].lower()
@@ -103,7 +103,7 @@ class Agent7IntegrationTests:
                 "issues": issues,
                 "recommendations": recommendations,
                 "platform": current_platform,
-                "platform_info": self.platform_info
+                "platform_info": self.platform_info,
             }
 
         except Exception as e:
@@ -112,67 +112,43 @@ class Agent7IntegrationTests:
                 "score": 0.0,
                 "issues": [f"Test failed: {str(e)}"],
                 "recommendations": ["Check platform compatibility"],
-                "error": str(e)
+                "error": str(e),
             }
 
-    def _test_windows_compatibility(self) -> Dict[str, Any]:
+    def _test_windows_compatibility(self) -> dict[str, Any]:
         """Test Windows compatibility"""
         try:
             # Test Windows-specific paths and commands
             windows_path = "C:\\test\\path"
             path_exists = os.path.exists(windows_path) or True  # Just test path handling
 
-            return {
-                "passed": True,
-                "path_handling": "OK",
-                "platform": "Windows"
-            }
+            return {"passed": True, "path_handling": "OK", "platform": "Windows"}
         except Exception as e:
-            return {
-                "passed": False,
-                "error": str(e),
-                "platform": "Windows"
-            }
+            return {"passed": False, "error": str(e), "platform": "Windows"}
 
-    def _test_linux_compatibility(self) -> Dict[str, Any]:
+    def _test_linux_compatibility(self) -> dict[str, Any]:
         """Test Linux compatibility"""
         try:
             # Test Linux-specific paths and commands
             linux_path = "/tmp/test/path"
             path_exists = os.path.exists(linux_path) or True  # Just test path handling
 
-            return {
-                "passed": True,
-                "path_handling": "OK",
-                "platform": "Linux"
-            }
+            return {"passed": True, "path_handling": "OK", "platform": "Linux"}
         except Exception as e:
-            return {
-                "passed": False,
-                "error": str(e),
-                "platform": "Linux"
-            }
+            return {"passed": False, "error": str(e), "platform": "Linux"}
 
-    def _test_macos_compatibility(self) -> Dict[str, Any]:
+    def _test_macos_compatibility(self) -> dict[str, Any]:
         """Test macOS compatibility"""
         try:
             # Test macOS-specific paths and commands
             macos_path = "/Users/test/path"
             path_exists = os.path.exists(macos_path) or True  # Just test path handling
 
-            return {
-                "passed": True,
-                "path_handling": "OK",
-                "platform": "macOS"
-            }
+            return {"passed": True, "path_handling": "OK", "platform": "macOS"}
         except Exception as e:
-            return {
-                "passed": False,
-                "error": str(e),
-                "platform": "macOS"
-            }
+            return {"passed": False, "error": str(e), "platform": "macOS"}
 
-    def test_interface_integration(self) -> Dict[str, Any]:
+    def test_interface_integration(self) -> dict[str, Any]:
         """Test interface integration with other components"""
         print("🔍 Testing interface integration...")
 
@@ -186,7 +162,7 @@ class Agent7IntegrationTests:
             integration_tests = [
                 self._test_database_integration(interface),
                 self._test_api_integration(interface),
-                self._test_file_system_integration(interface)
+                self._test_file_system_integration(interface),
             ]
 
             passed_tests = sum(1 for test in integration_tests if test["passed"])
@@ -204,7 +180,7 @@ class Agent7IntegrationTests:
                 "recommendations": recommendations,
                 "integration_tests": integration_tests,
                 "passed_tests": passed_tests,
-                "total_tests": total_tests
+                "total_tests": total_tests,
             }
 
         except Exception as e:
@@ -213,10 +189,10 @@ class Agent7IntegrationTests:
                 "score": 0.0,
                 "issues": [f"Test failed: {str(e)}"],
                 "recommendations": ["Check interface integration"],
-                "error": str(e)
+                "error": str(e),
             }
 
-    def _test_database_integration(self, interface) -> Dict[str, Any]:
+    def _test_database_integration(self, interface) -> dict[str, Any]:
         """Test database integration"""
         try:
             # Test database connectivity (mock test)
@@ -224,16 +200,12 @@ class Agent7IntegrationTests:
             return {
                 "passed": database_available,
                 "component": "database",
-                "status": "connected" if database_available else "disconnected"
+                "status": "connected" if database_available else "disconnected",
             }
         except Exception as e:
-            return {
-                "passed": False,
-                "component": "database",
-                "error": str(e)
-            }
+            return {"passed": False, "component": "database", "error": str(e)}
 
-    def _test_api_integration(self, interface) -> Dict[str, Any]:
+    def _test_api_integration(self, interface) -> dict[str, Any]:
         """Test API integration"""
         try:
             # Test API connectivity (mock test)
@@ -241,16 +213,12 @@ class Agent7IntegrationTests:
             return {
                 "passed": api_available,
                 "component": "api",
-                "status": "connected" if api_available else "disconnected"
+                "status": "connected" if api_available else "disconnected",
             }
         except Exception as e:
-            return {
-                "passed": False,
-                "component": "api",
-                "error": str(e)
-            }
+            return {"passed": False, "component": "api", "error": str(e)}
 
-    def _test_file_system_integration(self, interface) -> Dict[str, Any]:
+    def _test_file_system_integration(self, interface) -> dict[str, Any]:
         """Test file system integration"""
         try:
             # Test file system access
@@ -259,23 +227,23 @@ class Agent7IntegrationTests:
             return {
                 "passed": fs_accessible,
                 "component": "file_system",
-                "status": "accessible" if fs_accessible else "inaccessible"
+                "status": "accessible" if fs_accessible else "inaccessible",
             }
         except Exception as e:
-            return {
-                "passed": False,
-                "component": "file_system",
-                "error": str(e)
-            }
+            return {"passed": False, "component": "file_system", "error": str(e)}
 
-    def run_all_integration_tests(self) -> List[TestResult]:
+    def run_all_integration_tests(self) -> list[TestResult]:
         """Run all integration tests"""
         print("🧪 Running all integration tests...")
 
         integration_tests = [
-            ("TC007", "VSCode Customization Integration", self.test_vscode_customization_integration),
+            (
+                "TC007",
+                "VSCode Customization Integration",
+                self.test_vscode_customization_integration,
+            ),
             ("TC008", "Cross-Platform Compatibility", self.test_cross_platform_compatibility),
-            ("TC009", "Interface Integration", self.test_interface_integration)
+            ("TC009", "Interface Integration", self.test_interface_integration),
         ]
 
         test_results = []
@@ -294,11 +262,13 @@ class Agent7IntegrationTests:
                     score=result["score"],
                     issues=result["issues"],
                     recommendations=result["recommendations"],
-                    execution_time=execution_time
+                    execution_time=execution_time,
                 )
 
                 test_results.append(test_result)
-                print(f"✅ {test_name}: {'PASSED' if result['passed'] else 'FAILED'} ({result['score']:.1f}%)")
+                print(
+                    f"✅ {test_name}: {'PASSED' if result['passed'] else 'FAILED'} ({result['score']:.1f}%)"
+                )
 
             except Exception as e:
                 execution_time = time.time() - start_time
@@ -310,7 +280,7 @@ class Agent7IntegrationTests:
                     score=0.0,
                     issues=[f"Test execution failed: {str(e)}"],
                     recommendations=["Fix test implementation"],
-                    execution_time=execution_time
+                    execution_time=execution_time,
                 )
 
                 test_results.append(test_result)

@@ -6,24 +6,26 @@ V2 Compliance: ≤400 lines, type hints, KISS principle
 SSOT Implementation: Consolidates cursor_agent_coords.json and config/coordinates.json
 """
 
-from typing import Dict, List, Optional, Tuple, Any
-from dataclasses import dataclass
-from enum import Enum
 import json
 import os
-from pathlib import Path
 import time
+from dataclasses import dataclass
+from enum import Enum
+from pathlib import Path
+from typing import Any
 
 
 class CoordinateSource(Enum):
     """Coordinate source enumeration."""
-    PRIMARY = "primary"      # config/coordinates.json
-    BACKUP = "backup"        # cursor_agent_coords.json
+
+    PRIMARY = "primary"  # config/coordinates.json
+    BACKUP = "backup"  # cursor_agent_coords.json
     ENVIRONMENT = "environment"
 
 
 class AgentStatus(Enum):
     """Agent status enumeration."""
+
     ACTIVE = "active"
     INACTIVE = "inactive"
     ONBOARDING = "onboarding"
@@ -33,6 +35,7 @@ class AgentStatus(Enum):
 @dataclass
 class AgentCoordinates:
     """Agent coordinates data structure."""
+
     x: int
     y: int
     monitor: str
@@ -42,10 +45,11 @@ class AgentCoordinates:
 @dataclass
 class CoordinateConfig:
     """Coordinate configuration data structure."""
+
     version: str
     last_updated: str
-    agents: Dict[str, Dict[str, Any]]
-    metadata: Dict[str, Any]
+    agents: dict[str, dict[str, Any]]
+    metadata: dict[str, Any]
 
 
 class UnifiedCoordinateLoader:
@@ -56,16 +60,19 @@ class UnifiedCoordinateLoader:
     reliable, and maintainable solution with V2 compliance.
     """
 
-    def __init__(self, primary_config_path: str = "config/coordinates.json",
-                 backup_config_path: str = "cursor_agent_coords.json"):
+    def __init__(
+        self,
+        primary_config_path: str = "config/coordinates.json",
+        backup_config_path: str = "cursor_agent_coords.json",
+    ):
         """Initialize unified coordinate loader."""
         self.primary_config_path = Path(primary_config_path)
         self.backup_config_path = Path(backup_config_path)
-        self.current_config: Optional[CoordinateConfig] = None
+        self.current_config: CoordinateConfig | None = None
         self.load_priority = [
             CoordinateSource.PRIMARY,
             CoordinateSource.BACKUP,
-            CoordinateSource.ENVIRONMENT
+            CoordinateSource.ENVIRONMENT,
         ]
 
     def load_coordinates(self) -> bool:
@@ -95,14 +102,14 @@ class UnifiedCoordinateLoader:
             if not self.primary_config_path.exists():
                 return False
 
-            with open(self.primary_config_path, 'r') as f:
+            with open(self.primary_config_path) as f:
                 data = json.load(f)
 
             self.current_config = CoordinateConfig(
                 version=data.get("version", "1.0"),
                 last_updated=data.get("last_updated", ""),
                 agents=data.get("agents", {}),
-                metadata=data.get("metadata", {})
+                metadata=data.get("metadata", {}),
             )
             return True
         except Exception as e:
@@ -115,7 +122,7 @@ class UnifiedCoordinateLoader:
             if not self.backup_config_path.exists():
                 return False
 
-            with open(self.backup_config_path, 'r') as f:
+            with open(self.backup_config_path) as f:
                 data = json.load(f)
 
             # Convert backup format to standard format
@@ -125,14 +132,14 @@ class UnifiedCoordinateLoader:
                     "active": agent_data.get("active", True),
                     "chat_input_coordinates": agent_data.get("chat_input_coordinates", [0, 0]),
                     "onboarding_coordinates": agent_data.get("onboarding_coordinates", [0, 0]),
-                    "description": agent_data.get("description", "")
+                    "description": agent_data.get("description", ""),
                 }
 
             self.current_config = CoordinateConfig(
                 version=data.get("version", "1.0"),
                 last_updated=data.get("last_updated", ""),
                 agents=agents,
-                metadata={"source": "backup", "conversion": "automatic"}
+                metadata={"source": "backup", "conversion": "automatic"},
             )
             return True
         except Exception as e:
@@ -152,7 +159,7 @@ class UnifiedCoordinateLoader:
                 version=data.get("version", "1.0"),
                 last_updated=data.get("last_updated", ""),
                 agents=data.get("agents", {}),
-                metadata={"source": "environment"}
+                metadata={"source": "environment"},
             )
             return True
         except Exception as e:
@@ -166,50 +173,50 @@ class UnifiedCoordinateLoader:
                 "active": True,
                 "chat_input_coordinates": [-1269, 481],
                 "onboarding_coordinates": [-1265, 171],
-                "description": "Infrastructure Specialist"
+                "description": "Infrastructure Specialist",
             },
             "Agent-2": {
                 "active": True,
                 "chat_input_coordinates": [-308, 480],
                 "onboarding_coordinates": [-304, 170],
-                "description": "Data Processing Expert"
+                "description": "Data Processing Expert",
             },
             "Agent-3": {
                 "active": True,
                 "chat_input_coordinates": [-1269, 1001],
                 "onboarding_coordinates": [-1265, 691],
-                "description": "Quality Assurance Lead"
+                "description": "Quality Assurance Lead",
             },
             "Agent-4": {
                 "active": True,
                 "chat_input_coordinates": [-308, 1000],
                 "onboarding_coordinates": [-304, 690],
-                "description": "Project Coordinator"
+                "description": "Project Coordinator",
             },
             "Agent-5": {
                 "active": True,
                 "chat_input_coordinates": [652, 421],
                 "onboarding_coordinates": [656, 111],
-                "description": "Business Intelligence"
+                "description": "Business Intelligence",
             },
             "Agent-6": {
                 "active": True,
                 "chat_input_coordinates": [1612, 419],
                 "onboarding_coordinates": [1616, 109],
-                "description": "Code Quality Specialist"
+                "description": "Code Quality Specialist",
             },
             "Agent-7": {
                 "active": True,
                 "chat_input_coordinates": [920, 851],
                 "onboarding_coordinates": [924, 541],
-                "description": "Web Development Expert"
+                "description": "Web Development Expert",
             },
             "Agent-8": {
                 "active": True,
                 "chat_input_coordinates": [1611, 941],
                 "onboarding_coordinates": [1615, 631],
-                "description": "Integration Specialist"
-            }
+                "description": "Integration Specialist",
+            },
         }
 
         self.current_config = CoordinateConfig(
@@ -220,11 +227,11 @@ class UnifiedCoordinateLoader:
                 "source": "default",
                 "created_by": "Agent-7",
                 "team_beta_mission": True,
-                "ssot_compliant": True
-            }
+                "ssot_compliant": True,
+            },
         )
 
-    def get_agent_coordinates(self, agent_name: str) -> Optional[AgentCoordinates]:
+    def get_agent_coordinates(self, agent_name: str) -> AgentCoordinates | None:
         """Get coordinates for a specific agent."""
         if not self.current_config:
             return None
@@ -239,10 +246,10 @@ class UnifiedCoordinateLoader:
             x=coords[0],
             y=coords[1],
             monitor="primary",
-            description=agent_data.get("description", "")
+            description=agent_data.get("description", ""),
         )
 
-    def get_all_agents(self) -> Dict[str, AgentCoordinates]:
+    def get_all_agents(self) -> dict[str, AgentCoordinates]:
         """Get coordinates for all agents."""
         if not self.current_config:
             return {}
@@ -254,12 +261,12 @@ class UnifiedCoordinateLoader:
                 x=coords[0],
                 y=coords[1],
                 monitor="primary",
-                description=agent_data.get("description", "")
+                description=agent_data.get("description", ""),
             )
 
         return agents
 
-    def get_active_agents(self) -> Dict[str, AgentCoordinates]:
+    def get_active_agents(self) -> dict[str, AgentCoordinates]:
         """Get coordinates for active agents only."""
         if not self.current_config:
             return {}
@@ -272,13 +279,14 @@ class UnifiedCoordinateLoader:
                     x=coords[0],
                     y=coords[1],
                     monitor="primary",
-                    description=agent_data.get("description", "")
+                    description=agent_data.get("description", ""),
                 )
 
         return agents
 
-    def update_agent_coordinates(self, agent_name: str, x: int, y: int,
-                               description: str = "") -> bool:
+    def update_agent_coordinates(
+        self, agent_name: str, x: int, y: int, description: str = ""
+    ) -> bool:
         """Update coordinates for a specific agent."""
         if not self.current_config:
             return False
@@ -286,10 +294,9 @@ class UnifiedCoordinateLoader:
         if agent_name not in self.current_config.agents:
             return False
 
-        self.current_config.agents[agent_name].update({
-            "chat_input_coordinates": [x, y],
-            "last_updated": time.strftime("%Y-%m-%dT%H:%M:%SZ")
-        })
+        self.current_config.agents[agent_name].update(
+            {"chat_input_coordinates": [x, y], "last_updated": time.strftime("%Y-%m-%dT%H:%M:%SZ")}
+        )
 
         if description:
             self.current_config.agents[agent_name]["description"] = description
@@ -307,10 +314,10 @@ class UnifiedCoordinateLoader:
                 "version": self.current_config.version,
                 "last_updated": self.current_config.last_updated,
                 "agents": self.current_config.agents,
-                "metadata": self.current_config.metadata
+                "metadata": self.current_config.metadata,
             }
 
-            with open(self.primary_config_path, 'w') as f:
+            with open(self.primary_config_path, "w") as f:
                 json.dump(config_data, f, indent=2)
 
             return True
@@ -318,7 +325,7 @@ class UnifiedCoordinateLoader:
             print(f"Error saving config: {e}")
             return False
 
-    def validate_coordinates(self) -> List[str]:
+    def validate_coordinates(self) -> list[str]:
         """Validate coordinate configuration and return issues."""
         issues = []
 
@@ -331,18 +338,26 @@ class UnifiedCoordinateLoader:
         for agent_name, agent_data in self.current_config.agents.items():
             coords = tuple(agent_data.get("chat_input_coordinates", [0, 0]))
             if coords in coordinates:
-                issues.append(f"Duplicate coordinates {coords} for {agent_name} and {coordinates[coords]}")
+                issues.append(
+                    f"Duplicate coordinates {coords} for {agent_name} and {coordinates[coords]}"
+                )
             coordinates[coords] = agent_name
 
         # Check for inactive agents
-        inactive_agents = [name for name, data in self.current_config.agents.items()
-                          if not data.get("active", True)]
+        inactive_agents = [
+            name
+            for name, data in self.current_config.agents.items()
+            if not data.get("active", True)
+        ]
         if inactive_agents:
             issues.append(f"Inactive agents found: {', '.join(inactive_agents)}")
 
         # Check for missing descriptions
-        missing_descriptions = [name for name, data in self.current_config.agents.items()
-                               if not data.get("description", "").strip()]
+        missing_descriptions = [
+            name
+            for name, data in self.current_config.agents.items()
+            if not data.get("description", "").strip()
+        ]
         if missing_descriptions:
             issues.append(f"Missing descriptions for: {', '.join(missing_descriptions)}")
 
@@ -354,7 +369,9 @@ class UnifiedCoordinateLoader:
             report = {
                 "coordinate_report": {
                     "report_timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
-                    "configuration_source": self.current_config.metadata.get("source", "unknown") if self.current_config else "none",
+                    "configuration_source": self.current_config.metadata.get("source", "unknown")
+                    if self.current_config
+                    else "none",
                     "total_agents": len(self.current_config.agents) if self.current_config else 0,
                     "active_agents": len(self.get_active_agents()),
                     "validation_issues": self.validate_coordinates(),
@@ -363,14 +380,14 @@ class UnifiedCoordinateLoader:
                             "name": name,
                             "coordinates": {"x": coords.x, "y": coords.y},
                             "description": coords.description,
-                            "active": name in self.get_active_agents()
+                            "active": name in self.get_active_agents(),
                         }
                         for name, coords in self.get_all_agents().items()
-                    ]
+                    ],
                 }
             }
 
-            with open(filepath, 'w') as f:
+            with open(filepath, "w") as f:
                 json.dump(report, f, indent=2)
             return True
         except Exception as e:
@@ -409,4 +426,3 @@ if __name__ == "__main__":
         print("📊 Coordinate report exported to unified_coordinate_report.json")
     else:
         print("❌ Failed to load coordinates")
-

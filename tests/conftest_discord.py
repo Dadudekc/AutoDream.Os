@@ -6,12 +6,13 @@ Pytest configuration for Discord Bot tests
 Shared fixtures and configuration for Discord bot testing.
 """
 
-import pytest
 import asyncio
 import os
 import sys
-from unittest.mock import Mock, AsyncMock, patch
 from pathlib import Path
+from unittest.mock import AsyncMock, Mock, patch
+
+import pytest
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
@@ -99,18 +100,12 @@ def mock_messaging_service():
     """Create a mock messaging service."""
     service = Mock()
     service.send_message = Mock(return_value=True)
-    service.broadcast_message = Mock(return_value={
-        f"Agent-{i}": True for i in range(1, 9)
-    })
-    service.get_status = Mock(return_value={
-        "total_agents": 8,
-        "active_agents": 8,
-        "status": "active"
-    })
+    service.broadcast_message = Mock(return_value={f"Agent-{i}": True for i in range(1, 9)})
+    service.get_status = Mock(
+        return_value={"total_agents": 8, "active_agents": 8, "status": "active"}
+    )
     service.hard_onboard_agent = Mock(return_value=True)
-    service.hard_onboard_all_agents = Mock(return_value={
-        f"Agent-{i}": True for i in range(1, 9)
-    })
+    service.hard_onboard_all_agents = Mock(return_value={f"Agent-{i}": True for i in range(1, 9)})
     return service
 
 
@@ -119,18 +114,12 @@ def mock_consolidated_messaging_service():
     """Create a mock consolidated messaging service."""
     service = Mock()
     service.send_message = Mock(return_value=True)
-    service.broadcast_message = Mock(return_value={
-        f"Agent-{i}": True for i in range(1, 9)
-    })
-    service.get_status = Mock(return_value={
-        "total_agents": 8,
-        "active_agents": 8,
-        "status": "active"
-    })
+    service.broadcast_message = Mock(return_value={f"Agent-{i}": True for i in range(1, 9)})
+    service.get_status = Mock(
+        return_value={"total_agents": 8, "active_agents": 8, "status": "active"}
+    )
     service.hard_onboard_agent = Mock(return_value=True)
-    service.hard_onboard_all_agents = Mock(return_value={
-        f"Agent-{i}": True for i in range(1, 9)
-    })
+    service.hard_onboard_all_agents = Mock(return_value={f"Agent-{i}": True for i in range(1, 9)})
     return service
 
 
@@ -149,17 +138,20 @@ def mock_coordinate_loader():
 @pytest.fixture(autouse=True)
 def mock_environment():
     """Mock environment variables for testing."""
-    with patch.dict(os.environ, {
-# SECURITY: Token placeholder - replace with environment variable
-        'APP_ENV': 'test'
-    }):
+    with patch.dict(
+        os.environ,
+        {
+            # SECURITY: Token placeholder - replace with environment variable
+            "APP_ENV": "test"
+        },
+    ):
         yield
 
 
 @pytest.fixture
 def mock_dotenv_load():
     """Mock dotenv load function."""
-    with patch('run_discord_agent_bot.load_dotenv') as mock_load:
+    with patch("run_discord_agent_bot.load_dotenv") as mock_load:
         mock_load.return_value = True
         yield mock_load
 
@@ -167,22 +159,22 @@ def mock_dotenv_load():
 @pytest.fixture
 def mock_discord_imports():
     """Mock Discord imports for testing."""
-    with patch('run_discord_agent_bot.discord') as mock_discord:
+    with patch("run_discord_agent_bot.discord") as mock_discord:
         # Mock discord.Intents
         mock_discord.Intents.default.return_value = Mock()
         mock_discord.Intents.default.return_value.message_content = True
         mock_discord.Intents.default.return_value.members = False
-        
+
         # Mock discord.__version__
         mock_discord.__version__ = "2.5.2"
-        
+
         yield mock_discord
 
 
 @pytest.fixture
 def mock_messaging_imports():
     """Mock messaging system imports."""
-    with patch('run_discord_agent_bot.ConsolidatedMessagingService') as mock_service:
+    with patch("run_discord_agent_bot.ConsolidatedMessagingService") as mock_service:
         mock_service.return_value = Mock()
         yield mock_service
 
@@ -202,22 +194,23 @@ def mock_json_load():
             for i in range(1, 9)
         }
     }
-    
-    with patch('builtins.open', mock_open()) as mock_file:
-        with patch('json.load', return_value=mock_data):
+
+    with patch("builtins.open", mock_open()) as mock_file:
+        with patch("json.load", return_value=mock_data):
             yield mock_file
 
 
 def mock_open():
     """Create a mock open function."""
     from unittest.mock import mock_open
+
     return mock_open()
 
 
 @pytest.fixture
 def mock_logging():
     """Mock logging for tests."""
-    with patch('run_discord_agent_bot.logger') as mock_logger:
+    with patch("run_discord_agent_bot.logger") as mock_logger:
         mock_logger.info = Mock()
         mock_logger.warning = Mock()
         mock_logger.error = Mock()
@@ -227,7 +220,7 @@ def mock_logging():
 @pytest.fixture
 def mock_asyncio():
     """Mock asyncio for testing."""
-    with patch('asyncio.run') as mock_run:
+    with patch("asyncio.run") as mock_run:
         mock_run.return_value = None
         yield mock_run
 
@@ -235,7 +228,7 @@ def mock_asyncio():
 @pytest.fixture
 def mock_sys_exit():
     """Mock sys.exit for testing."""
-    with patch('sys.exit') as mock_exit:
+    with patch("sys.exit") as mock_exit:
         mock_exit.return_value = None
         yield mock_exit
 
@@ -243,20 +236,8 @@ def mock_sys_exit():
 # Test markers
 def pytest_configure(config):
     """Configure pytest markers."""
-    config.addinivalue_line(
-        "markers", "asyncio: mark test as async"
-    )
-    config.addinivalue_line(
-        "markers", "discord: mark test as Discord-related"
-    )
-    config.addinivalue_line(
-        "markers", "messaging: mark test as messaging-related"
-    )
-    config.addinivalue_line(
-        "markers", "integration: mark test as integration test"
-    )
-    config.addinivalue_line(
-        "markers", "unit: mark test as unit test"
-    )
-
-
+    config.addinivalue_line("markers", "asyncio: mark test as async")
+    config.addinivalue_line("markers", "discord: mark test as Discord-related")
+    config.addinivalue_line("markers", "messaging: mark test as messaging-related")
+    config.addinivalue_line("markers", "integration: mark test as integration test")
+    config.addinivalue_line("markers", "unit: mark test as unit test")

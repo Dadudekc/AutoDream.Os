@@ -110,8 +110,3 @@ actions:
   shed_load: scripts/fsm/actions/shed_load.py
   rebalance: scripts/fsm/actions/rebalance.py
   stop_all: scripts/fsm/actions/stop_all.py
-
-
-
-
-

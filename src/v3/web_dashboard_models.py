@@ -6,13 +6,13 @@ V3-010: Web Dashboard Models
 Data models for web dashboard system.
 """
 
-from enum import Enum
 from dataclasses import dataclass
-from typing import Dict, Any, Optional, List
+from enum import Enum
 
 
 class DashboardComponent(Enum):
     """Dashboard components for V3-010."""
+
     AGENT_STATUS = "agent_status"
     V3_PIPELINE = "v3_pipeline"
     SYSTEM_HEALTH = "system_health"
@@ -25,6 +25,7 @@ class DashboardComponent(Enum):
 @dataclass
 class DashboardConfig:
     """Configuration for web dashboard."""
+
     title: str = "Dream.OS V3 Dashboard"
     theme: str = "dark"
     refresh_interval: int = 5000
@@ -32,12 +33,12 @@ class DashboardConfig:
     enable_real_time: bool = True
     api_base_url: str = "/api/v1"
     websocket_url: str = "/ws"
-    components: List[DashboardComponent] = None
+    components: list[DashboardComponent] = None
     layout: str = "grid"
     responsive: bool = True
     enable_export: bool = True
     enable_notifications: bool = True
-    
+
     def __post_init__(self):
         """Set default values after initialization."""
         if self.components is None:
@@ -46,8 +47,5 @@ class DashboardConfig:
                 DashboardComponent.V3_PIPELINE,
                 DashboardComponent.SYSTEM_HEALTH,
                 DashboardComponent.REAL_TIME,
-                DashboardComponent.CONFIGURATION
+                DashboardComponent.CONFIGURATION,
             ]
-
-
-

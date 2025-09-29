@@ -10,14 +10,15 @@ Author: Agent-2 (Architecture & Design Specialist)
 License: MIT
 """
 
-import sys
-import pytest
-import tempfile
 import json
 import sqlite3
+import sys
+import tempfile
 from pathlib import Path
-from unittest.mock import Mock, patch, MagicMock
-from typing import Dict, List, Any, Optional
+from typing import Any
+from unittest.mock import MagicMock, patch
+
+import pytest
 
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
@@ -25,9 +26,9 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
 class TestDataFactory:
     """Factory for creating test data."""
-    
+
     @staticmethod
-    def create_coordinates_data() -> Dict[str, Any]:
+    def create_coordinates_data() -> dict[str, Any]:
         """Create test coordinates data."""
         return {
             "version": "2.0",
@@ -37,55 +38,55 @@ class TestDataFactory:
                     "active": True,
                     "chat_input_coordinates": [-1269, 481],
                     "onboarding_coordinates": [-1265, 171],
-                    "description": "Infrastructure Specialist"
+                    "description": "Infrastructure Specialist",
                 },
                 "Agent-2": {
                     "active": True,
                     "chat_input_coordinates": [-308, 480],
                     "onboarding_coordinates": [-304, 170],
-                    "description": "Data Processing Expert"
+                    "description": "Data Processing Expert",
                 },
                 "Agent-3": {
                     "active": False,
                     "chat_input_coordinates": [-1269, 1001],
                     "onboarding_coordinates": [-1265, 691],
-                    "description": "Quality Assurance Lead"
+                    "description": "Quality Assurance Lead",
                 },
                 "Agent-4": {
                     "active": True,
                     "chat_input_coordinates": [-308, 1000],
                     "onboarding_coordinates": [-304, 690],
-                    "description": "Project Coordinator"
+                    "description": "Project Coordinator",
                 },
                 "Agent-5": {
                     "active": True,
                     "chat_input_coordinates": [652, 421],
                     "onboarding_coordinates": [656, 111],
-                    "description": "Business Intelligence"
+                    "description": "Business Intelligence",
                 },
                 "Agent-6": {
                     "active": True,
                     "chat_input_coordinates": [1612, 419],
                     "onboarding_coordinates": [1616, 109],
-                    "description": "Code Quality Specialist"
+                    "description": "Code Quality Specialist",
                 },
                 "Agent-7": {
                     "active": True,
                     "chat_input_coordinates": [920, 851],
                     "onboarding_coordinates": [924, 541],
-                    "description": "Web Development Expert"
+                    "description": "Web Development Expert",
                 },
                 "Agent-8": {
                     "active": True,
                     "chat_input_coordinates": [1611, 941],
                     "onboarding_coordinates": [1615, 631],
-                    "description": "Integration Specialist"
-                }
-            }
+                    "description": "Integration Specialist",
+                },
+            },
         }
-    
+
     @staticmethod
-    def create_agent_status_data(agent_id: str = "Agent-1") -> Dict[str, Any]:
+    def create_agent_status_data(agent_id: str = "Agent-1") -> dict[str, Any]:
         """Create test agent status data."""
         return {
             "agent_id": agent_id,
@@ -96,11 +97,11 @@ class TestDataFactory:
             "cycle_count": 5,
             "tasks_completed": 7,
             "coordination_efficiency": 98.0,
-            "v2_compliance": 90.0
+            "v2_compliance": 90.0,
         }
-    
+
     @staticmethod
-    def create_working_tasks_data() -> Dict[str, Any]:
+    def create_working_tasks_data() -> dict[str, Any]:
         """Create test working tasks data."""
         return {
             "current_task": {
@@ -110,20 +111,20 @@ class TestDataFactory:
                 "priority": "HIGH",
                 "assigned_to": "Agent-3",
                 "created_at": "2025-09-17T10:00:00Z",
-                "deadline": "2025-09-18T18:00:00Z"
+                "deadline": "2025-09-18T18:00:00Z",
             },
             "task_history": [
                 {
                     "id": "DB_010",
                     "title": "Schema Migration",
                     "status": "completed",
-                    "completed_at": "2025-09-17T09:30:00Z"
+                    "completed_at": "2025-09-17T09:30:00Z",
                 }
-            ]
+            ],
         }
-    
+
     @staticmethod
-    def create_future_tasks_data() -> Dict[str, Any]:
+    def create_future_tasks_data() -> dict[str, Any]:
         """Create test future tasks data."""
         return {
             "available_tasks": [
@@ -132,39 +133,32 @@ class TestDataFactory:
                     "title": "Performance Tuning",
                     "priority": "MEDIUM",
                     "estimated_duration": "2h",
-                    "dependencies": ["DB_011"]
+                    "dependencies": ["DB_011"],
                 },
                 {
                     "id": "DB_013",
                     "title": "Backup Strategy",
                     "priority": "LOW",
                     "estimated_duration": "1h",
-                    "dependencies": []
-                }
+                    "dependencies": [],
+                },
             ]
         }
-    
+
     @staticmethod
-    def create_discord_message_data() -> Dict[str, Any]:
+    def create_discord_message_data() -> dict[str, Any]:
         """Create test Discord message data."""
         return {
             "content": "Test message from Discord",
-            "author": {
-                "id": "123456789",
-                "username": "testuser",
-                "display_name": "Test User"
-            },
-            "channel": {
-                "id": "987654321",
-                "name": "general"
-            },
-            "timestamp": "2025-09-17T12:00:00Z"
+            "author": {"id": "123456789", "username": "testuser", "display_name": "Test User"},
+            "channel": {"id": "987654321", "name": "general"},
+            "timestamp": "2025-09-17T12:00:00Z",
         }
 
 
 class MockFactory:
     """Factory for creating test mocks."""
-    
+
     @staticmethod
     def create_pyautogui_mock():
         """Create PyAutoGUI mock."""
@@ -177,7 +171,7 @@ class MockFactory:
         mock.position.return_value = (0, 0)
         mock.size.return_value = (1920, 1080)
         return mock
-    
+
     @staticmethod
     def create_pyperclip_mock():
         """Create Pyperclip mock."""
@@ -185,38 +179,38 @@ class MockFactory:
         mock.copy.return_value = None
         mock.paste.return_value = "test clipboard content"
         return mock
-    
+
     @staticmethod
     def create_discord_mock():
         """Create Discord library mock."""
         mock = MagicMock()
-        
+
         # Mock Intents
         mock.Intents.default.return_value = MagicMock()
         mock.Intents.default.return_value.message_content = True
         mock.Intents.default.return_value.guilds = True
         mock.Intents.default.return_value.messages = True
-        
+
         # Mock Bot
         mock.Bot = MagicMock()
-        mock.Bot.return_value.command_prefix = '!'
+        mock.Bot.return_value.command_prefix = "!"
         mock.Bot.return_value.intents = mock.Intents.default.return_value
-        
+
         # Mock Interaction
         mock.Interaction = MagicMock()
         mock.Interaction.response = MagicMock()
         mock.Interaction.response.send_message = MagicMock()
-        
+
         # Mock Embed
         mock.Embed = MagicMock()
         mock.Embed.return_value.title = "Test Embed"
         mock.Embed.return_value.description = "Test Description"
         mock.Embed.return_value.color = MagicMock()
-        mock.Embed.return_value.color.value = 0x00ff00
+        mock.Embed.return_value.color.value = 0x00FF00
         mock.Embed.return_value.fields = []
-        
+
         return mock
-    
+
     @staticmethod
     def create_database_mock():
         """Create database mock."""
@@ -232,27 +226,27 @@ class MockFactory:
 
 class TestFileManager:
     """Manager for test file operations."""
-    
+
     @staticmethod
-    def create_temp_file(content: str, suffix: str = '.json') -> str:
+    def create_temp_file(content: str, suffix: str = ".json") -> str:
         """Create temporary file with content."""
-        with tempfile.NamedTemporaryFile(mode='w', suffix=suffix, delete=False) as f:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=suffix, delete=False) as f:
             f.write(content)
             return f.name
-    
+
     @staticmethod
-    def create_temp_json_file(data: Dict[str, Any]) -> str:
+    def create_temp_json_file(data: dict[str, Any]) -> str:
         """Create temporary JSON file with data."""
         return TestFileManager.create_temp_file(json.dumps(data, indent=2))
-    
+
     @staticmethod
     def create_temp_sqlite_db() -> str:
         """Create temporary SQLite database."""
-        db_path = tempfile.mktemp(suffix='.db')
+        db_path = tempfile.mktemp(suffix=".db")
         conn = sqlite3.connect(db_path)
         conn.close()
         return db_path
-    
+
     @staticmethod
     def cleanup_file(file_path: str):
         """Clean up temporary file."""
@@ -280,21 +274,21 @@ def temp_coordinates_file(test_coordinates):
 @pytest.fixture
 def mock_pyautogui():
     """Fixture providing mocked PyAutoGUI."""
-    with patch('services.messaging.core.messaging_service.pyautogui') as mock:
+    with patch("services.messaging.core.messaging_service.pyautogui") as mock:
         yield MockFactory.create_pyautogui_mock()
 
 
 @pytest.fixture
 def mock_pyperclip():
     """Fixture providing mocked Pyperclip."""
-    with patch('services.messaging.core.messaging_service.pyperclip') as mock:
+    with patch("services.messaging.core.messaging_service.pyperclip") as mock:
         yield MockFactory.create_pyperclip_mock()
 
 
 @pytest.fixture
 def mock_discord():
     """Fixture providing mocked Discord library."""
-    with patch('discord') as mock:
+    with patch("discord") as mock:
         yield MockFactory.create_discord_mock()
 
 
@@ -315,7 +309,7 @@ def expected_coordinates():
         "Agent-5": (652, 421),
         "Agent-6": (1612, 419),
         "Agent-7": (920, 851),
-        "Agent-8": (1611, 941)
+        "Agent-8": (1611, 941),
     }
 
 
@@ -323,6 +317,7 @@ def expected_coordinates():
 def messaging_service(temp_coordinates_file):
     """Fixture providing messaging service instance."""
     from services.messaging.core.messaging_service import MessagingService
+
     return MessagingService(temp_coordinates_file)
 
 
@@ -330,6 +325,7 @@ def messaging_service(temp_coordinates_file):
 def coordinate_loader(temp_coordinates_file):
     """Fixture providing coordinate loader instance."""
     from core.coordinate_loader import CoordinateLoader
+
     loader = CoordinateLoader(temp_coordinates_file)
     loader.load()
     return loader
@@ -341,6 +337,7 @@ def temp_dir():
     temp_dir = tempfile.mkdtemp()
     yield temp_dir
     import shutil
+
     shutil.rmtree(temp_dir)
 
 
@@ -379,8 +376,9 @@ def discord_message_data():
 
 
 # Test Helper Functions
-def assert_message_formatting(formatted_message: str, sender: str, recipient: str, 
-                            content: str, priority: str = "NORMAL"):
+def assert_message_formatting(
+    formatted_message: str, sender: str, recipient: str, content: str, priority: str = "NORMAL"
+):
     """Assert message formatting is correct."""
     assert f"FROM: {sender}" in formatted_message
     assert f"TO: {recipient}" in formatted_message
@@ -406,22 +404,20 @@ def create_test_workspace_structure(temp_dir: str, agent_id: str = "Agent-3"):
     """Create test workspace structure."""
     workspace_dir = Path(temp_dir) / "agent_workspaces" / agent_id
     workspace_dir.mkdir(parents=True, exist_ok=True)
-    
+
     # Create status.json
     status_data = TestDataFactory.create_agent_status_data(agent_id)
-    with open(workspace_dir / "status.json", 'w') as f:
+    with open(workspace_dir / "status.json", "w") as f:
         json.dump(status_data, f)
-    
+
     # Create working_tasks.json
     working_tasks_data = TestDataFactory.create_working_tasks_data()
-    with open(workspace_dir / "working_tasks.json", 'w') as f:
+    with open(workspace_dir / "working_tasks.json", "w") as f:
         json.dump(working_tasks_data, f)
-    
+
     # Create future_tasks.json
     future_tasks_data = TestDataFactory.create_future_tasks_data()
-    with open(workspace_dir / "future_tasks.json", 'w') as f:
+    with open(workspace_dir / "future_tasks.json", "w") as f:
         json.dump(future_tasks_data, f)
-    
+
     return workspace_dir
-
-

@@ -18,14 +18,14 @@ Edit
     margin: 50px auto;
     padding: 20px;
   }
-  
+
   /* Phase Cards Container: 4 Cards Side-by-Side */
   .phase-cards {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
   }
-  
+
   /* Each Phase Card */
   .phase-card {
     background: #1a1a1a;
@@ -38,13 +38,13 @@ Edit
     transform: translateY(-3px);
     box-shadow: 0 0 10px rgba(255,255,255,0.1);
   }
-  
+
   /* Color Coded Side Borders */
   .phase-1 { border-left-color: #6afc6a; }
   .phase-2 { border-left-color: #ffbe33; }
   .phase-3 { border-left-color: #4287f5; }
   .phase-4 { border-left-color: #ff4b4b; }
-  
+
   /* Card Typography */
   .phase-card h2 {
     margin-top: 0;
@@ -56,7 +56,7 @@ Edit
     line-height: 1.5;
     color: #ccc;
   }
-  
+
   /* Responsive: Stack Cards on Smaller Screens */
   @media (max-width: 768px) {
     .phase-cards {
@@ -74,7 +74,7 @@ Edit
         A re-engineered trading system built for efficiency and precision—featuring AI‑optimized trade signals, automated risk management, and scalability across account sizes.
       </p>
     </div>
-    
+
     <!-- Phase 2: The Challenge -->
     <div class="phase-card phase-2">
       <h2>Phase 2: The Challenge</h2>
@@ -82,7 +82,7 @@ Edit
         A challenge designed for traders starting small, with step‑by‑step blueprints, live trade reviews, and community-driven accountability.
       </p>
     </div>
-    
+
     <!-- Phase 3: Strategy Breakdown -->
     <div class="phase-card phase-3">
       <h2>Phase 3: Strategy Breakdown</h2>
@@ -90,7 +90,7 @@ Edit
         The system revolves around three pillars—automation, risk control, and scalability—to ensure precision and consistent execution.
       </p>
     </div>
-    
+
     <!-- Phase 4: Cash Generation -->
     <div class="phase-card phase-4">
       <h2>Phase 4: Cash Generation</h2>

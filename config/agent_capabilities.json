@@ -3,7 +3,7 @@
   "last_updated": "2025-01-27",
   "coordination_mode": "five_agent",
   "active_agents": ["Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"],
-  
+
   "universal_capabilities": [
     "AUTONOMOUS_EXECUTION",
     "SELF_HEALING_LOOP",
@@ -26,7 +26,7 @@
     "THEA_CONSULTATION",
     "DEBATE_PARTICIPATION"
   ],
-  
+
   "interfaces_all": [
     "discord",
     "mailbox",
@@ -39,7 +39,7 @@
     "pyautogui",
     "cursor_ide"
   ],
-  
+
   "permissions_all": [
     "read_write_repo",
     "create_branches",
@@ -370,7 +370,7 @@
     "description": "All agents can assume any role when assigned by Captain Agent-4",
      "universal_roles": [
        "CAPTAIN",
-       "SSOT_MANAGER", 
+       "SSOT_MANAGER",
        "COORDINATOR",
        "INTEGRATION_SPECIALIST",
        "ARCHITECTURE_SPECIALIST",
@@ -468,3 +468,22 @@
     ]
   }
 }
+============================================================
+[A2A] MESSAGE
+============================================================
+📤 FROM: Agent-7
+📥 TO: Agent-7
+Priority: NORMAL
+Tags: GENERAL
+-------------------------------------------------------------
+SELF_TEST_MESSAGE: Testing the fixed messaging system. This message should paste correctly without Spanish text interference. The clipboard restoration issue has been resolved. All 25 role tools are operational and ready for deployment.
+🎯 QUALITY GATES REMINDER
+============================================================
+📋 V2 COMPLIANCE: ≤400 lines • ≤5 classes • ≤10 functions
+🚫 NO: Abstract classes • Complex inheritance • Threading
+✅ USE: Simple data classes • Direct calls • Basic validation
+🎯 KISS: Keep it simple! • Run `python quality_gates.py`
+============================================================
+📝 DEVLOG: Use 'python src/services/agent_devlog_posting.py --agent <flag> --action <desc>'
+============================================================
+-------------------------------------------------------------

@@ -1,25 +1,29 @@
-import os
-import json
-import shutil
 import hashlib
+import json
 import logging
-from typing import Dict, Any, Optional, List, Tuple
+import os
+from dataclasses import asdict, dataclass
 from datetime import datetime
-from dataclasses import dataclass, asdict
 from enum import Enum
+from typing import Any
+
 # import semver  # Removed dependency for V2 compliance
+
 
 class VersionStatus(Enum):
     """Status enumeration for model versions."""
+
     DRAFT = "draft"
     STAGING = "staging"
     PRODUCTION = "production"
     DEPRECATED = "deprecated"
     ARCHIVED = "archived"
 
+
 @dataclass
 class ModelVersion:
     """Data class for model version information."""
+
     model_name: str
     version: str
     framework: str
@@ -29,10 +33,11 @@ class ModelVersion:
     created_at: datetime
     created_by: str
     status: VersionStatus
-    description: Optional[str] = None
-    tags: Optional[List[str]] = None
-    metrics: Optional[Dict[str, Any]] = None
-    dependencies: Optional[Dict[str, str]] = None
+    description: str | None = None
+    tags: list[str] | None = None
+    metrics: dict[str, Any] | None = None
+    dependencies: dict[str, str] | None = None
+
 
 class ModelVersioning:
     """
@@ -56,9 +61,11 @@ class ModelVersioning:
         self.model_path = model_path
         self.registry_path = registry_path
         self.logger = logging.getLogger(__name__)
-        
+
         # Version registry
-        self.versions: Dict[str, Dict[str, ModelVersion]] = {}  # {model_name: {version: ModelVersion}}
+        self.versions: dict[
+            str, dict[str, ModelVersion]
+        ] = {}  # {model_name: {version: ModelVersion}}
         self.registry_file = os.path.join(registry_path, "model_registry.json")
 
         # Ensure directories exist
@@ -72,18 +79,20 @@ class ModelVersioning:
         """Loads the model version registry from disk."""
         if os.path.exists(self.registry_file):
             try:
-                with open(self.registry_file, 'r') as f:
+                with open(self.registry_file) as f:
                     data = json.load(f)
-                
+
                 for model_name, versions in data.items():
                     self.versions[model_name] = {}
                     for version, version_data in versions.items():
                         # Convert datetime strings back to datetime objects
-                        version_data['created_at'] = datetime.fromisoformat(version_data['created_at'])
+                        version_data["created_at"] = datetime.fromisoformat(
+                            version_data["created_at"]
+                        )
                         # Convert status string back to enum
-                        version_data['status'] = VersionStatus(version_data['status'])
+                        version_data["status"] = VersionStatus(version_data["status"])
                         self.versions[model_name][version] = ModelVersion(**version_data)
-                
+
                 self.logger.info(f"Loaded registry with {len(self.versions)} models")
             except Exception as e:
                 self.logger.error(f"Failed to load registry: {e}")
@@ -99,14 +108,14 @@ class ModelVersioning:
                 for version, version_obj in versions.items():
                     version_dict = asdict(version_obj)
                     # Convert datetime to string
-                    version_dict['created_at'] = version_obj.created_at.isoformat()
+                    version_dict["created_at"] = version_obj.created_at.isoformat()
                     # Convert enum to string
-                    version_dict['status'] = version_obj.status.value
+                    version_dict["status"] = version_obj.status.value
                     data[model_name][version] = version_dict
 
-            with open(self.registry_file, 'w') as f:
+            with open(self.registry_file, "w") as f:
                 json.dump(data, f, indent=2)
-            
+
             self.logger.info("Registry saved successfully")
         except Exception as e:
             self.logger.error(f"Failed to save registry: {e}")
@@ -127,11 +136,18 @@ class ModelVersioning:
                 sha256_hash.update(byte_block)
         return sha256_hash.hexdigest()
 
-    def register_model_version(self, model_name: str, version: str, framework: str,
-                             file_path: str, created_by: str, description: Optional[str] = None,
-                             tags: Optional[List[str]] = None, 
-                             metrics: Optional[Dict[str, Any]] = None,
-                             dependencies: Optional[Dict[str, str]] = None) -> ModelVersion:
+    def register_model_version(
+        self,
+        model_name: str,
+        version: str,
+        framework: str,
+        file_path: str,
+        created_by: str,
+        description: str | None = None,
+        tags: list[str] | None = None,
+        metrics: dict[str, Any] | None = None,
+        dependencies: dict[str, str] | None = None,
+    ) -> ModelVersion:
         """
         Registers a new model version.
 
@@ -186,7 +202,7 @@ class ModelVersioning:
             description=description,
             tags=tags or [],
             metrics=metrics,
-            dependencies=dependencies
+            dependencies=dependencies,
         )
 
         # Add to registry
@@ -200,7 +216,7 @@ class ModelVersioning:
         self.logger.info(f"Registered model version: {model_name} v{version}")
         return model_version
 
-    def get_model_versions(self, model_name: str) -> List[ModelVersion]:
+    def get_model_versions(self, model_name: str) -> list[ModelVersion]:
         """
         Gets all versions of a model.
 
@@ -212,7 +228,7 @@ class ModelVersioning:
         """
         if not model_name:
             raise ValueError("Model name cannot be empty.")
-        
+
         if model_name not in self.versions:
             return []
 
@@ -221,7 +237,9 @@ class ModelVersioning:
         versions.sort(key=lambda v: v.version, reverse=True)
         return versions
 
-    def get_latest_version(self, model_name: str, status_filter: Optional[VersionStatus] = None) -> Optional[ModelVersion]:
+    def get_latest_version(
+        self, model_name: str, status_filter: VersionStatus | None = None
+    ) -> ModelVersion | None:
         """
         Gets the latest version of a model.
 
@@ -255,13 +273,13 @@ class ModelVersioning:
         """
         if not model_name or not version:
             return False
-        
+
         if model_name not in self.versions or version not in self.versions[model_name]:
             return False
 
         self.versions[model_name][version].status = status
         self._save_registry()
-        
+
         self.logger.info(f"Updated status for {model_name} v{version}: {status.value}")
         return True
 
@@ -279,27 +297,31 @@ class ModelVersioning:
         """
         if not model_name or not version:
             return False
-        
+
         if model_name not in self.versions or version not in self.versions[model_name]:
             return False
 
         current_version = self.versions[model_name][version]
-        
+
         # Validate promotion path
         if target_status == VersionStatus.PRODUCTION:
             # Can only promote from staging to production
             if current_version.status != VersionStatus.STAGING:
-                self.logger.warning(f"Cannot promote {model_name} v{version} from {current_version.status.value} to production")
+                self.logger.warning(
+                    f"Cannot promote {model_name} v{version} from {current_version.status.value} to production"
+                )
                 return False
         elif target_status == VersionStatus.STAGING:
             # Can promote from draft to staging
             if current_version.status != VersionStatus.DRAFT:
-                self.logger.warning(f"Cannot promote {model_name} v{version} from {current_version.status.value} to staging")
+                self.logger.warning(
+                    f"Cannot promote {model_name} v{version} from {current_version.status.value} to staging"
+                )
                 return False
 
         return self.update_version_status(model_name, version, target_status)
 
-    def deprecate_version(self, model_name: str, version: str, reason: Optional[str] = None) -> bool:
+    def deprecate_version(self, model_name: str, version: str, reason: str | None = None) -> bool:
         """
         Deprecates a model version.
 
@@ -313,7 +335,7 @@ class ModelVersioning:
         """
         if not model_name or not version:
             return False
-        
+
         if model_name not in self.versions or version not in self.versions[model_name]:
             return False
 
@@ -329,7 +351,7 @@ class ModelVersioning:
 
         return success
 
-    def compare_versions(self, model_name: str, version1: str, version2: str) -> Dict[str, Any]:
+    def compare_versions(self, model_name: str, version1: str, version2: str) -> dict[str, Any]:
         """
         Compares two versions of a model.
 
@@ -344,9 +366,11 @@ class ModelVersioning:
         if not model_name or not version1 or not version2:
             raise ValueError("Model name and both versions are required.")
 
-        if (model_name not in self.versions or 
-            version1 not in self.versions[model_name] or 
-            version2 not in self.versions[model_name]):
+        if (
+            model_name not in self.versions
+            or version1 not in self.versions[model_name]
+            or version2 not in self.versions[model_name]
+        ):
             raise ValueError("One or both versions not found.")
 
         v1 = self.versions[model_name][version1]
@@ -359,24 +383,24 @@ class ModelVersioning:
                 "created_at": v1.created_at.isoformat(),
                 "status": v1.status.value,
                 "file_size": v1.file_size,
-                "metrics": v1.metrics
+                "metrics": v1.metrics,
             },
             "version2": {
                 "version": version2,
                 "created_at": v2.created_at.isoformat(),
                 "status": v2.status.value,
                 "file_size": v2.file_size,
-                "metrics": v2.metrics
+                "metrics": v2.metrics,
             },
             "comparison": {
                 "file_size_diff": v2.file_size - v1.file_size,
                 "created_time_diff": (v2.created_at - v1.created_at).total_seconds(),
                 "same_framework": v1.framework == v2.framework,
-                "same_creator": v1.created_by == v2.created_by
-            }
+                "same_creator": v1.created_by == v2.created_by,
+            },
         }
 
-    def get_registry_summary(self) -> Dict[str, Any]:
+    def get_registry_summary(self) -> dict[str, Any]:
         """
         Gets a summary of the model registry.
 
@@ -385,7 +409,7 @@ class ModelVersioning:
         """
         total_models = len(self.versions)
         total_versions = sum(len(versions) for versions in self.versions.values())
-        
+
         status_counts = {}
         for versions in self.versions.values():
             for version in versions.values():
@@ -397,5 +421,5 @@ class ModelVersioning:
             "total_versions": total_versions,
             "status_distribution": status_counts,
             "registry_file": self.registry_file,
-            "last_updated": datetime.utcnow().isoformat()
+            "last_updated": datetime.utcnow().isoformat(),
         }

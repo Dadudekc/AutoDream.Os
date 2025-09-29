@@ -17,12 +17,7 @@ from .messaging_enums import (
     UnifiedMessageTag,
     UnifiedMessageType,
 )
-from .messaging_models import (
-    AgentCoordinates,
-    MessageHistory,
-    MessagingMetrics,
-    UnifiedMessage,
-)
+from .messaging_models import AgentCoordinates, MessageHistory, MessagingMetrics, UnifiedMessage
 
 __all__ = [
     # Enums

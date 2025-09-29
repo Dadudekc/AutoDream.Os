@@ -49,7 +49,7 @@ function App() {
         // Mock data for now - will be replaced with real API calls
         const mockStockData = generateMockStockData();
         const mockForecastData = generateMockForecastData();
-        
+
         setStockData(mockStockData);
         setForecastData(mockForecastData);
         setError(null);
@@ -68,17 +68,17 @@ function App() {
     const data = [];
     const basePrice = 250;
     const now = new Date();
-    
+
     for (let i = 30; i >= 0; i--) {
       const date = new Date(now);
       date.setDate(date.getDate() - i);
-      
+
       const open = basePrice + (Math.random() - 0.5) * 20;
       const close = open + (Math.random() - 0.5) * 10;
       const high = Math.max(open, close) + Math.random() * 5;
       const low = Math.min(open, close) - Math.random() * 5;
       const volume = Math.floor(Math.random() * 1000000) + 500000;
-      
+
       data.push({
         date: date.toISOString().split('T')[0],
         open: parseFloat(open.toFixed(2)),
@@ -88,7 +88,7 @@ function App() {
         volume: volume,
       });
     }
-    
+
     return data;
   };
 
@@ -96,22 +96,22 @@ function App() {
     const data = [];
     const basePrice = stockData ? stockData[stockData.length - 1].close : 250;
     const now = new Date();
-    
+
     for (let i = 1; i <= 30; i++) {
       const date = new Date(now);
       date.setDate(date.getDate() + i);
-      
+
       const trend = Math.sin(i * 0.1) * 0.02;
       const volatility = (Math.random() - 0.5) * 0.05;
       const price = basePrice * (1 + trend + volatility);
-      
+
       data.push({
         date: date.toISOString().split('T')[0],
         price: parseFloat(price.toFixed(2)),
         confidence: Math.max(0.6, 1 - (i * 0.02)),
       });
     }
-    
+
     return data;
   };
 
@@ -119,10 +119,10 @@ function App() {
     return (
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Box 
-          display="flex" 
-          justifyContent="center" 
-          alignItems="center" 
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
           minHeight="100vh"
           sx={{ background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%)' }}
         >
@@ -138,10 +138,10 @@ function App() {
     return (
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Box 
-          display="flex" 
-          justifyContent="center" 
-          alignItems="center" 
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
           minHeight="100vh"
           sx={{ background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%)' }}
         >
@@ -156,20 +156,20 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Box 
-        sx={{ 
+      <Box
+        sx={{
           minHeight: '100vh',
           background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%)',
         }}
       >
         <Header />
-        
+
         <Container maxWidth="xl" sx={{ py: 4 }}>
           <Box display="flex" flexDirection="column" gap={4}>
             {/* Stock Information Panel */}
-            <Paper 
+            <Paper
               elevation={0}
-              sx={{ 
+              sx={{
                 p: 3,
                 background: 'rgba(255, 255, 255, 0.05)',
                 backdropFilter: 'blur(10px)',
@@ -181,9 +181,9 @@ function App() {
             </Paper>
 
             {/* Main Chart Section */}
-            <Paper 
+            <Paper
               elevation={0}
-              sx={{ 
+              sx={{
                 p: 3,
                 background: 'rgba(255, 255, 255, 0.05)',
                 backdropFilter: 'blur(10px)',
@@ -198,9 +198,9 @@ function App() {
             </Paper>
 
             {/* Forecast Panel */}
-            <Paper 
+            <Paper
               elevation={0}
-              sx={{ 
+              sx={{
                 p: 3,
                 background: 'rgba(255, 255, 255, 0.05)',
                 backdropFilter: 'blur(10px)',
@@ -218,5 +218,3 @@ function App() {
 }
 
 export default App;
-
-

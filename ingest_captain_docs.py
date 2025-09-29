@@ -10,82 +10,91 @@ Author: Agent-4 (Captain & Operations Coordinator)
 V2 Compliance: ≤400 lines, focused documentation ingestion
 """
 
+import json
 import sys
 from pathlib import Path
-from typing import Dict, List, Any
-import json
-from datetime import datetime
+from typing import Any
 
 # Add project root to Python path
 project_root = Path(__file__).parent
 sys.path.insert(0, str(project_root))
 
-from swarm_brain import SwarmBrain, Ingestor, Retriever
+from swarm_brain import Ingestor, Retriever, SwarmBrain
 
 
 class CaptainDocumentationIngestor:
     """Ingest Captain's documentation into vector database."""
-    
+
     def __init__(self):
         """Initialize the documentation ingestor."""
         self.brain = SwarmBrain()
         self.ingestor = Ingestor(self.brain)
         self.retriever = Retriever(self.brain)
         print("🧠 Captain Documentation Ingestor initialized")
-    
+
     def ingest_captain_log(self, log_path: str) -> int:
         """Ingest Captain's log into vector database."""
         try:
-            with open(log_path, 'r', encoding='utf-8') as f:
+            with open(log_path, encoding="utf-8") as f:
                 log_content = f.read()
-            
+
             # Parse log metadata
-            log_lines = log_content.split('\n')
-            date_line = [line for line in log_lines if line.startswith('**Date:**')]
-            date = date_line[0].split('**Date:**')[1].strip() if date_line else "2025-01-17"
-            
+            log_lines = log_content.split("\n")
+            date_line = [line for line in log_lines if line.startswith("**Date:**")]
+            date = date_line[0].split("**Date:**")[1].strip() if date_line else "2025-01-17"
+
             # Extract key sections
             sections = self._parse_log_sections(log_content)
-            
+
             # Ingest as protocol document
             doc_id = self.ingestor.protocol(
                 title="Captain's Daily Log - Swarm Status & Strategic Directives",
                 steps=[
                     "Swarm Health Assessment",
-                    "Strategic Directives Review", 
+                    "Strategic Directives Review",
                     "Initiative Progress Tracking",
                     "Quality Assessment",
                     "Performance Metrics Analysis",
-                    "Next Day Priority Planning"
+                    "Next Day Priority Planning",
                 ],
                 effectiveness=0.95,  # High effectiveness based on comprehensive coverage
                 improvements={
                     "automation_potential": "Automate routine status checks",
                     "integration_opportunities": "Link with agent performance metrics",
-                    "scalability_notes": "Template-based log generation for consistency"
+                    "scalability_notes": "Template-based log generation for consistency",
                 },
                 project="Agent_Cellphone_V2",
                 agent_id="Agent-4",
-                tags=["captain", "log", "swarm_coordination", "strategic_planning", "daily_operations"],
+                tags=[
+                    "captain",
+                    "log",
+                    "swarm_coordination",
+                    "strategic_planning",
+                    "daily_operations",
+                ],
                 summary=f"Comprehensive Captain's log covering swarm status, strategic directives, and operational priorities for {date}",
-                ref_id=f"captain_log_{date.replace('-', '')}"
+                ref_id=f"captain_log_{date.replace('-', '')}",
             )
-            
+
             # Add detailed context (simplified to match schema)
-            self.brain.insert_lens("coordination", doc_id, {
-                "coordination_type": "daily_captain_log",
-                "participants": "Agent-1,Agent-2,Agent-3,Agent-4,Agent-5,Agent-6,Agent-7,Agent-8",
-                "coordination_data": json.dumps(sections),
-                "effectiveness": 0.95
-            })
-            
+            self.brain.insert_lens(
+                "coordination",
+                doc_id,
+                {
+                    "coordination_type": "daily_captain_log",
+                    "participants": "Agent-1,Agent-2,Agent-3,Agent-4,Agent-5,Agent-6,Agent-7,Agent-8",
+                    "coordination_data": json.dumps(sections),
+                    "effectiveness": 0.95,
+                },
+            )
+
             print(f"✅ Captain's log ingested: Document ID {doc_id}")
             return doc_id
-            
+
         except Exception as e:
             print(f"❌ Failed to ingest Captain's log: {e}")
             return -1
-    
+
     def create_captain_handbook(self) -> str:
         """Create comprehensive Captain Handbook."""
         handbook_content = """# Captain's Handbook - Agent Cellphone V2
@@ -244,20 +253,20 @@ class CaptainDocumentationIngestor:
 
 ---
 
-**Captain's Signature**: Agent-4 (Captain & Operations Coordinator)  
-**Last Updated**: 2025-01-19  
-**Version**: 1.0  
+**Captain's Signature**: Agent-4 (Captain & Operations Coordinator)
+**Last Updated**: 2025-01-19
+**Version**: 1.0
 **Classification**: Internal Operations Manual
 """
-        
+
         # Save handbook
         handbook_path = Path("docs/CAPTAIN_HANDBOOK.md")
         handbook_path.parent.mkdir(exist_ok=True)
-        handbook_path.write_text(handbook_content, encoding='utf-8')
-        
+        handbook_path.write_text(handbook_content, encoding="utf-8")
+
         print(f"✅ Captain's Handbook created: {handbook_path}")
         return str(handbook_path)
-    
+
     def create_captain_cheatsheet(self) -> str:
         """Create Captain's Cheatsheet for quick reference."""
         cheatsheet_content = """# Captain's Cheatsheet - Quick Reference
@@ -332,7 +341,7 @@ patterns = retriever.how_do_agents_do("V2 compliance refactoring")
 
 ### 🚨 **Emergency Contacts**
 
-**Critical Issues**: 
+**Critical Issues**:
 - Escalate immediately to General (Human Commander)
 - Use P0 priority level
 - Document in Captain's Log
@@ -382,21 +391,21 @@ patterns = retriever.how_do_agents_do("V2 compliance refactoring")
 **Last Updated**: 2025-01-19
 **Version**: 1.0
 """
-        
+
         # Save cheatsheet
         cheatsheet_path = Path("docs/CAPTAIN_CHEATSHEET.md")
         cheatsheet_path.parent.mkdir(exist_ok=True)
-        cheatsheet_path.write_text(cheatsheet_content, encoding='utf-8')
-        
+        cheatsheet_path.write_text(cheatsheet_content, encoding="utf-8")
+
         print(f"✅ Captain's Cheatsheet created: {cheatsheet_path}")
         return str(cheatsheet_path)
-    
+
     def ingest_captain_handbook(self, handbook_path: str) -> int:
         """Ingest Captain's Handbook into vector database."""
         try:
-            with open(handbook_path, 'r', encoding='utf-8') as f:
+            with open(handbook_path, encoding="utf-8") as f:
                 handbook_content = f.read()
-            
+
             # Ingest as comprehensive protocol
             doc_id = self.ingestor.protocol(
                 title="Captain's Handbook - Complete Operations Manual",
@@ -409,34 +418,41 @@ patterns = retriever.how_do_agents_do("V2 compliance refactoring")
                     "Performance Metrics Monitoring",
                     "Crisis Management Response",
                     "Continuous Learning Integration",
-                    "Knowledge Management Strategy"
+                    "Knowledge Management Strategy",
                 ],
                 effectiveness=0.98,  # Very high effectiveness - comprehensive guide
                 improvements={
                     "automation_potential": "Automate routine operations and monitoring",
                     "integration_opportunities": "Link with vector database for real-time intelligence",
-                    "scalability_notes": "Template-based approach for different swarm sizes"
+                    "scalability_notes": "Template-based approach for different swarm sizes",
                 },
                 project="Agent_Cellphone_V2",
                 agent_id="Agent-4",
-                tags=["captain", "handbook", "operations_manual", "leadership", "coordination", "strategic_planning"],
+                tags=[
+                    "captain",
+                    "handbook",
+                    "operations_manual",
+                    "leadership",
+                    "coordination",
+                    "strategic_planning",
+                ],
                 summary="Comprehensive Captain's operations manual covering all aspects of swarm leadership and coordination",
-                ref_id="captain_handbook_v1"
+                ref_id="captain_handbook_v1",
             )
-            
+
             print(f"✅ Captain's Handbook ingested: Document ID {doc_id}")
             return doc_id
-            
+
         except Exception as e:
             print(f"❌ Failed to ingest Captain's Handbook: {e}")
             return -1
-    
+
     def ingest_captain_cheatsheet(self, cheatsheet_path: str) -> int:
         """Ingest Captain's Cheatsheet into vector database."""
         try:
-            with open(cheatsheet_path, 'r', encoding='utf-8') as f:
+            with open(cheatsheet_path, encoding="utf-8") as f:
                 cheatsheet_content = f.read()
-            
+
             # Ingest as workflow document
             doc_id = self.ingestor.workflow(
                 title="Captain's Cheatsheet - Quick Reference Workflow",
@@ -446,45 +462,45 @@ patterns = retriever.how_do_agents_do("V2 compliance refactoring")
                 optimization={
                     "speed": "Quick access to essential information",
                     "accuracy": "Standardized procedures and commands",
-                    "efficiency": "Streamlined operations workflow"
+                    "efficiency": "Streamlined operations workflow",
                 },
                 project="Agent_Cellphone_V2",
                 agent_id="Agent-4",
                 tags=["captain", "cheatsheet", "quick_reference", "workflow", "operations"],
                 summary="Quick reference guide for Captain's daily operations and emergency procedures",
-                ref_id="captain_cheatsheet_v1"
+                ref_id="captain_cheatsheet_v1",
             )
-            
+
             print(f"✅ Captain's Cheatsheet ingested: Document ID {doc_id}")
             return doc_id
-            
+
         except Exception as e:
             print(f"❌ Failed to ingest Captain's Cheatsheet: {e}")
             return -1
-    
-    def _parse_log_sections(self, log_content: str) -> Dict[str, Any]:
+
+    def _parse_log_sections(self, log_content: str) -> dict[str, Any]:
         """Parse Captain's log into structured sections."""
         sections = {}
-        
+
         # Extract key sections using simple parsing
-        lines = log_content.split('\n')
+        lines = log_content.split("\n")
         current_section = None
         current_content = []
-        
+
         for line in lines:
-            if line.startswith('## ') or line.startswith('**'):
+            if line.startswith("## ") or line.startswith("**"):
                 if current_section:
-                    sections[current_section] = '\n'.join(current_content)
-                current_section = line.strip('#* ').lower().replace(' ', '_')
+                    sections[current_section] = "\n".join(current_content)
+                current_section = line.strip("#* ").lower().replace(" ", "_")
                 current_content = []
             else:
                 current_content.append(line)
-        
+
         if current_section:
-            sections[current_section] = '\n'.join(current_content)
-        
+            sections[current_section] = "\n".join(current_content)
+
         return sections
-    
+
     def validate_vector_integration(self) -> bool:
         """Validate that Captain documentation is properly integrated."""
         try:
@@ -493,11 +509,11 @@ patterns = retriever.how_do_agents_do("V2 compliance refactoring")
                 "Captain's daily operations protocol",
                 "swarm coordination strategies",
                 "agent leadership responsibilities",
-                "strategic directives management"
+                "strategic directives management",
             ]
-            
+
             print("🔍 Validating vector database integration...")
-            
+
             for query in test_queries:
                 results = self.retriever.search(query, k=3)
                 if results:
@@ -506,14 +522,16 @@ patterns = retriever.how_do_agents_do("V2 compliance refactoring")
                         if isinstance(result, tuple) and len(result) == 2:
                             doc_id, score = result
                             doc = self.brain.get_document(doc_id)
-                            print(f"   - Document {doc_id}: {doc.get('title', 'Unknown')} (score: {score:.3f})")
+                            print(
+                                f"   - Document {doc_id}: {doc.get('title', 'Unknown')} (score: {score:.3f})"
+                            )
                         else:
                             print(f"   - Result: {result}")
                 else:
                     print(f"❌ Query '{query}' returned no results")
-            
+
             return True
-            
+
         except Exception as e:
             print(f"❌ Validation failed: {e}")
             return False
@@ -523,9 +541,9 @@ def main():
     """Main execution function."""
     print("🚀 Starting Captain Documentation Vector Database Integration")
     print("=" * 60)
-    
+
     ingestor = CaptainDocumentationIngestor()
-    
+
     # Step 1: Ingest existing Captain's log
     print("\n📋 Step 1: Ingesting Captain's Log")
     log_path = "swarm_coordination/captain_log_20250117.md"
@@ -537,7 +555,7 @@ def main():
             print("❌ Failed to ingest Captain's log")
     else:
         print(f"❌ Captain's log not found: {log_path}")
-    
+
     # Step 2: Create and ingest Captain's Handbook
     print("\n📚 Step 2: Creating Captain's Handbook")
     handbook_path = ingestor.create_captain_handbook()
@@ -546,7 +564,7 @@ def main():
         print(f"✅ Captain's Handbook created and ingested (ID: {handbook_doc_id})")
     else:
         print("❌ Failed to create or ingest Captain's Handbook")
-    
+
     # Step 3: Create and ingest Captain's Cheatsheet
     print("\n⚡ Step 3: Creating Captain's Cheatsheet")
     cheatsheet_path = ingestor.create_captain_cheatsheet()
@@ -555,20 +573,26 @@ def main():
         print(f"✅ Captain's Cheatsheet created and ingested (ID: {cheatsheet_doc_id})")
     else:
         print("❌ Failed to create or ingest Captain's Cheatsheet")
-    
+
     # Step 4: Validate integration
     print("\n🔍 Step 4: Validating Vector Database Integration")
     validation_success = ingestor.validate_vector_integration()
-    
+
     # Summary
     print("\n" + "=" * 60)
     print("📊 INTEGRATION SUMMARY")
     print("=" * 60)
-    print(f"Captain's Log: {'✅ Ingested' if 'log_doc_id' in locals() and log_doc_id > 0 else '❌ Failed'}")
-    print(f"Captain's Handbook: {'✅ Created & Ingested' if 'handbook_doc_id' in locals() and handbook_doc_id > 0 else '❌ Failed'}")
-    print(f"Captain's Cheatsheet: {'✅ Created & Ingested' if 'cheatsheet_doc_id' in locals() and cheatsheet_doc_id > 0 else '❌ Failed'}")
+    print(
+        f"Captain's Log: {'✅ Ingested' if 'log_doc_id' in locals() and log_doc_id > 0 else '❌ Failed'}"
+    )
+    print(
+        f"Captain's Handbook: {'✅ Created & Ingested' if 'handbook_doc_id' in locals() and handbook_doc_id > 0 else '❌ Failed'}"
+    )
+    print(
+        f"Captain's Cheatsheet: {'✅ Created & Ingested' if 'cheatsheet_doc_id' in locals() and cheatsheet_doc_id > 0 else '❌ Failed'}"
+    )
     print(f"Vector Integration: {'✅ Validated' if validation_success else '❌ Validation Failed'}")
-    
+
     if validation_success:
         print("\n🎉 Captain's documentation successfully integrated into vector database!")
         print("🧠 The swarm now has access to Captain's operational knowledge and protocols.")

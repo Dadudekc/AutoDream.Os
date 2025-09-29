@@ -181,6 +181,3 @@ This app was developed by Agent-1 as part of the Agent Cellphone V2 Repository p
 ---
 
 **Ready to track Tesla stock like a pro!** 🚀📈
-
-
-

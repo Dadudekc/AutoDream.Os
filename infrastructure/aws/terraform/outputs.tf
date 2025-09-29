@@ -75,6 +75,3 @@ output "kms_key_arn" {
   description = "KMS key ARN for encryption"
   value       = aws_kms_key.swarm_kms_key.arn
 }
-
-
-

@@ -6,13 +6,14 @@ Refactored messaging models using base classes and shared imports.
 Eliminates overcomplexity while maintaining functionality.
 """
 
+from src.core.base_classes import BaseConfig, BaseModel
 from src.core.shared_imports import *
-from src.core.base_classes import BaseModel, BaseConfig
 
 
 # Simplified Enums (reduced from 6 to 3)
 class MessageType(Enum):
     """Message types - simplified."""
+
     TEXT = "text"
     BROADCAST = "broadcast"
     ONBOARDING = "onboarding"
@@ -21,6 +22,7 @@ class MessageType(Enum):
 
 class MessagePriority(Enum):
     """Message priorities - simplified."""
+
     LOW = "low"
     NORMAL = "normal"
     HIGH = "high"
@@ -29,6 +31,7 @@ class MessagePriority(Enum):
 
 class MessageTag(Enum):
     """Message tags - simplified."""
+
     GENERAL = "general"
     COORDINATION = "coordination"
     TASK = "task"
@@ -38,7 +41,7 @@ class MessageTag(Enum):
 # Simplified Models (reduced from 7 to 3)
 class Message(BaseModel):
     """Core message model - simplified."""
-    
+
     def __init__(
         self,
         content: str,
@@ -47,7 +50,7 @@ class Message(BaseModel):
         message_type: MessageType = MessageType.TEXT,
         priority: MessagePriority = MessagePriority.NORMAL,
         tags: List[MessageTag] = None,
-        metadata: Dict[str, Any] = None
+        metadata: Dict[str, Any] = None,
     ):
         super().__init__()
         self.content = content
@@ -63,12 +66,12 @@ class Message(BaseModel):
 
 class MessageConfig(BaseConfig):
     """Message configuration - simplified."""
-    
+
     def __init__(
         self,
         default_priority: MessagePriority = MessagePriority.NORMAL,
         max_retries: int = 3,
-        timeout: int = 30
+        timeout: int = 30,
     ):
         super().__init__()
         self.default_priority = default_priority
@@ -78,13 +81,9 @@ class MessageConfig(BaseConfig):
 
 class MessageResult(BaseModel):
     """Message result - simplified."""
-    
+
     def __init__(
-        self,
-        success: bool,
-        message: str = "",
-        data: Any = None,
-        error: Optional[str] = None
+        self, success: bool, message: str = "", data: Any = None, error: Optional[str] = None
     ):
         super().__init__()
         self.success = success
@@ -96,27 +95,24 @@ class MessageResult(BaseModel):
 # Simplified Utilities (reduced parameters)
 class MessageUtils:
     """Message utilities - simplified."""
-    
+
     @staticmethod
     def create_message(
-        content: str,
-        sender: str,
-        recipient: str,
-        priority: str = "NORMAL"
+        content: str, sender: str, recipient: str, priority: str = "NORMAL"
     ) -> Message:
         """Create message with simplified parameters."""
         return Message(
             content=content,
             sender=sender,
             recipient=recipient,
-            priority=MessagePriority(priority.lower())
+            priority=MessagePriority(priority.lower()),
         )
-    
+
     @staticmethod
     def format_message(message: Message) -> str:
         """Format message for display."""
         return f"[{message.priority.value.upper()}] {message.sender} -> {message.recipient}: {message.content}"
-    
+
     @staticmethod
     def validate_message(message: Message) -> bool:
         """Validate message content."""
@@ -128,14 +124,14 @@ PRIORITY_MAP = {
     "low": MessagePriority.LOW,
     "normal": MessagePriority.NORMAL,
     "high": MessagePriority.HIGH,
-    "urgent": MessagePriority.URGENT
+    "urgent": MessagePriority.URGENT,
 }
 
 TAG_MAP = {
     "general": MessageTag.GENERAL,
     "coordination": MessageTag.COORDINATION,
     "task": MessageTag.TASK,
-    "status": MessageTag.STATUS
+    "status": MessageTag.STATUS,
 }
 
 

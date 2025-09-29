@@ -7,24 +7,23 @@ Agent Devlog Posting Service Package
 V2 Compliant: Modular design with focused components
 """
 
-from .devlog_poster import AgentDevlogPoster
-from .models import (
-    DevlogEntry,
-    DevlogStatus,
-    DevlogType,
-    AgentInfo,
-    DevlogStats,
-    SearchResult,
-    DevlogConfig
-)
-from .storage import DevlogStorage
 from .agent_validation import AgentValidator
 from .cli import AgentDevlogCLI
+from .devlog_poster import AgentDevlogPoster
+from .models import (
+    AgentInfo,
+    DevlogConfig,
+    DevlogEntry,
+    DevlogStats,
+    DevlogStatus,
+    DevlogType,
+    SearchResult,
+)
+from .storage import DevlogStorage
 
 __all__ = [
     # Main poster
     "AgentDevlogPoster",
-    
     # Models
     "DevlogEntry",
     "DevlogStatus",
@@ -33,9 +32,8 @@ __all__ = [
     "DevlogStats",
     "SearchResult",
     "DevlogConfig",
-    
     # Components
     "DevlogStorage",
     "AgentValidator",
-    "AgentDevlogCLI"
+    "AgentDevlogCLI",
 ]

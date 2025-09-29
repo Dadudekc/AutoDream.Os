@@ -25,14 +25,4 @@ try:
 except ImportError:
     ChromaBackend = None
 
-__all__ = [
-    "EmbeddingsBackend",
-    "NumpyBackend", 
-    "FaissBackend",
-    "OpenAIBackend",
-    "ChromaBackend"
-]
-
-
-
-
+__all__ = ["EmbeddingsBackend", "NumpyBackend", "FaissBackend", "OpenAIBackend", "ChromaBackend"]

@@ -10,16 +10,18 @@ Author: Agent-1 (Integration Specialist)
 License: MIT
 """
 import logging
-from typing import Any, Dict, List, Optional, Callable
-from enum import Enum
-from dataclasses import dataclass, field
 import threading
+from collections.abc import Callable
+from dataclasses import dataclass, field
+from enum import Enum
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
 
 class PatternType(Enum):
     """Design pattern type enumeration."""
+
     SINGLETON = "singleton"
     FACTORY = "factory"
     OBSERVER = "observer"
@@ -33,18 +35,20 @@ class PatternType(Enum):
 @dataclass
 class PatternConfig:
     """Configuration for design patterns."""
+
     pattern_type: PatternType
     name: str
     description: str
     enabled: bool = True
-    config: Dict[str, Any] = field(default_factory=dict)
+    config: dict[str, Any] = field(default_factory=dict)
 
 
 class Singleton:
     """Thread-safe singleton pattern implementation."""
+
     _instances = {}
     _lock = threading.Lock()
-    
+
     def __new__(cls, *args, **kwargs):
         if cls not in cls._instances:
             with cls._lock:
@@ -55,49 +59,51 @@ class Singleton:
 
 class Factory:
     """Simple factory pattern implementation."""
-    
+
     def __init__(self):
-        self._creators: Dict[str, Callable] = {}
-    
+        self._creators: dict[str, Callable] = {}
+
     def register_creator(self, name: str, creator: Callable) -> None:
         """Register a creator function for a type."""
         self._creators[name] = creator
         logger.debug(f"Creator registered for type: {name}")
-    
+
     def create(self, name: str, *args, **kwargs) -> Any:
         """Create an object using the registered creator."""
         if name not in self._creators:
             raise ValueError(f"No creator registered for type: {name}")
-        
+
         creator = self._creators[name]
         return creator(*args, **kwargs)
-    
-    def get_available_types(self) -> List[str]:
+
+    def get_available_types(self) -> list[str]:
         """Get list of available types."""
+
+
 # SECURITY: Key placeholder - replace with environment variable
 
 
 class Observer:
     """Simple observer pattern implementation."""
-    
+
     def __init__(self):
-        self._observers: List[Callable] = []
+        self._observers: list[Callable] = []
         self._lock = threading.Lock()
-    
+
     def attach(self, observer: Callable) -> None:
         """Attach an observer."""
         with self._lock:
             if observer not in self._observers:
                 self._observers.append(observer)
                 logger.debug("Observer attached")
-    
+
     def detach(self, observer: Callable) -> None:
         """Detach an observer."""
         with self._lock:
             if observer in self._observers:
                 self._observers.remove(observer)
                 logger.debug("Observer detached")
-    
+
     def notify(self, *args, **kwargs) -> None:
         """Notify all observers."""
         with self._lock:
@@ -106,7 +112,7 @@ class Observer:
                     observer(*args, **kwargs)
                 except Exception as e:
                     logger.error(f"Error notifying observer: {e}")
-    
+
     def get_observer_count(self) -> int:
         """Get the number of observers."""
         return len(self._observers)
@@ -114,65 +120,67 @@ class Observer:
 
 class Strategy:
     """Simple strategy pattern implementation."""
-    
+
     def __init__(self):
-        self._strategies: Dict[str, Callable] = {}
-        self._current_strategy: Optional[str] = None
-    
+        self._strategies: dict[str, Callable] = {}
+        self._current_strategy: str | None = None
+
     def add_strategy(self, name: str, strategy: Callable) -> None:
         """Add a strategy."""
         self._strategies[name] = strategy
         logger.debug(f"Strategy added: {name}")
-    
+
     def set_strategy(self, name: str) -> None:
         """Set the current strategy."""
         if name not in self._strategies:
             raise ValueError(f"Strategy not found: {name}")
-        
+
         self._current_strategy = name
         logger.debug(f"Strategy set to: {name}")
-    
+
     def execute_strategy(self, *args, **kwargs) -> Any:
         """Execute the current strategy."""
         if not self._current_strategy:
             raise ValueError("No strategy set")
-        
+
         strategy = self._strategies[self._current_strategy]
         return strategy(*args, **kwargs)
-    
-    def get_available_strategies(self) -> List[str]:
+
+    def get_available_strategies(self) -> list[str]:
         """Get list of available strategies."""
+
+
 # SECURITY: Key placeholder - replace with environment variable
 
 
 class Command:
     """Simple command pattern implementation."""
-    
-    def __init__(self, execute_func: Callable, undo_func: Optional[Callable] = None):
+
+    def __init__(self, execute_func: Callable, undo_func: Callable | None = None):
         self._execute_func = execute_func
         self._undo_func = undo_func
         self._executed = False
-    
+
     def execute(self, *args, **kwargs) -> Any:
         """Execute the command."""
         result = self._execute_func(*args, **kwargs)
         self._executed = True
         logger.debug("Command executed")
         return result
-    
+
     def undo(self, *args, **kwargs) -> Any:
         """Undo the command."""
         if not self._executed:
             raise ValueError("Command not executed yet")
-        
+
         if not self._undo_func:
             raise ValueError("No undo function available")
-        
+
         result = self._undo_func(*args, **kwargs)
         self._executed = False
         logger.debug("Command undone")
         return result
-    
+
     def can_undo(self) -> bool:
         """Check if the command can be undone."""
         return self._undo_func is not None and self._executed
@@ -180,29 +188,29 @@ class Command:
 
 class PatternRegistry:
     """Registry for managing design patterns."""
-    
+
     def __init__(self):
-        self._patterns: Dict[str, PatternConfig] = {}
-        self._instances: Dict[str, Any] = {}
-    
+        self._patterns: dict[str, PatternConfig] = {}
+        self._instances: dict[str, Any] = {}
+
     def register_pattern(self, config: PatternConfig) -> None:
         """Register a pattern configuration."""
         self._patterns[config.name] = config
         logger.debug(f"Pattern registered: {config.name}")
-    
-    def get_pattern(self, name: str) -> Optional[PatternConfig]:
+
+    def get_pattern(self, name: str) -> PatternConfig | None:
         """Get a pattern configuration."""
         return self._patterns.get(name)
-    
-    def get_all_patterns(self) -> Dict[str, PatternConfig]:
+
+    def get_all_patterns(self) -> dict[str, PatternConfig]:
         """Get all pattern configurations."""
         return self._patterns.copy()
-    
+
     def create_pattern_instance(self, name: str, pattern_type: PatternType) -> Any:
         """Create a pattern instance."""
         if name in self._instances:
             return self._instances[name]
-        
+
         if pattern_type == PatternType.SINGLETON:
             instance = Singleton()
         elif pattern_type == PatternType.FACTORY:
@@ -224,15 +232,15 @@ class PatternRegistry:
             instance = Observer()
         else:
             raise ValueError(f"Unknown pattern type: {pattern_type}")
-        
+
         self._instances[name] = instance
         logger.debug(f"Pattern instance created: {name}")
         return instance
-    
-    def get_pattern_instance(self, name: str) -> Optional[Any]:
+
+    def get_pattern_instance(self, name: str) -> Any | None:
         """Get a pattern instance."""
         return self._instances.get(name)
-    
+
     def clear_instances(self) -> None:
         """Clear all pattern instances."""
         self._instances.clear()
@@ -248,8 +256,8 @@ class PatternManager:
 
     def __init__(self):
         """Initialize pattern manager."""
-        self._patterns: Dict[str, PatternConfig] = {}
-        self._instances: Dict[str, Any] = {}
+        self._patterns: dict[str, PatternConfig] = {}
+        self._instances: dict[str, Any] = {}
         self.logger = logging.getLogger(f"{__name__}.PatternManager")
 
     def register_pattern(self, config: PatternConfig) -> None:
@@ -257,11 +265,11 @@ class PatternManager:
         self._patterns[config.name] = config
         self.logger.debug(f"Pattern registered: {config.name}")
 
-    def get_pattern(self, name: str) -> Optional[PatternConfig]:
+    def get_pattern(self, name: str) -> PatternConfig | None:
         """Get a pattern configuration."""
         return self._patterns.get(name)
 
-    def get_all_patterns(self) -> Dict[str, PatternConfig]:
+    def get_all_patterns(self) -> dict[str, PatternConfig]:
         """Get all pattern configurations."""
         return self._patterns.copy()
 
@@ -296,7 +304,7 @@ class PatternManager:
         self.logger.debug(f"Pattern instance created: {name}")
         return instance
 
-    def get_pattern_instance(self, name: str) -> Optional[Any]:
+    def get_pattern_instance(self, name: str) -> Any | None:
         """Get a pattern instance."""
         return self._instances.get(name)
 
@@ -306,7 +314,7 @@ class PatternManager:
         self.logger.info("All pattern instances cleaned up")
 
     @property
-    def patterns(self) -> Dict[str, PatternConfig]:
+    def patterns(self) -> dict[str, PatternConfig]:
         """Get all patterns."""
         return self._patterns.copy()
 
@@ -315,20 +323,25 @@ class PatternManager:
 pattern_manager = PatternManager()
 
 
-def register_pattern(pattern_type: PatternType, name: str, description: str, 
-                    enabled: bool = True, config: Dict[str, Any] = None) -> None:
+def register_pattern(
+    pattern_type: PatternType,
+    name: str,
+    description: str,
+    enabled: bool = True,
+    config: dict[str, Any] = None,
+) -> None:
     """Convenience function to register a pattern."""
     config_obj = PatternConfig(
         pattern_type=pattern_type,
         name=name,
         description=description,
         enabled=enabled,
-        config=config or {}
+        config=config or {},
     )
     pattern_registry.register_pattern(config_obj)
 
 
-def get_pattern(name: str) -> Optional[PatternConfig]:
+def get_pattern(name: str) -> PatternConfig | None:
     """Convenience function to get a pattern."""
     return pattern_registry.get_pattern(name)
 

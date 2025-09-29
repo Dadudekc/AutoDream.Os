@@ -18,7 +18,7 @@ TEST_CATEGORIES = [
     "messaging_service_core",
     "messaging_service_operations",
     "messaging_integration",
-    "messaging_performance"
+    "messaging_performance",
 ]
 
 # Test coverage targets
@@ -26,9 +26,5 @@ COVERAGE_TARGETS = {
     "messaging_service_core": 95,
     "messaging_service_operations": 90,
     "messaging_integration": 85,
-    "messaging_performance": 80
+    "messaging_performance": 80,
 }
-
-
-
-

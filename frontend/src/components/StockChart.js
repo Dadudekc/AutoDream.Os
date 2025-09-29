@@ -93,10 +93,10 @@ const StockChart = ({ stockData }) => {
           {
             label: 'OHLC',
             data: ohlcData,
-            backgroundColor: stockData.map(d => 
+            backgroundColor: stockData.map(d =>
               d.close >= d.open ? 'rgba(0, 255, 136, 0.8)' : 'rgba(255, 107, 107, 0.8)'
             ),
-            borderColor: stockData.map(d => 
+            borderColor: stockData.map(d =>
               d.close >= d.open ? '#00ff88' : '#ff6b6b'
             ),
             borderWidth: 1,
@@ -199,7 +199,7 @@ const StockChart = ({ stockData }) => {
         <Typography variant="h6" color="primary">
           Interactive Stock Charts
         </Typography>
-        
+
         <Box display="flex" gap={2}>
           <ToggleButtonGroup
             value={chartType}
@@ -280,5 +280,3 @@ const StockChart = ({ stockData }) => {
 };
 
 export default StockChart;
-
-

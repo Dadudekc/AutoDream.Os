@@ -10,17 +10,19 @@ Author: Agent-1 (Integration Specialist)
 License: MIT
 """
 import logging
-from typing import Any, Dict, List, Optional, Callable
-from enum import Enum
+import threading
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import datetime
-import threading
+from enum import Enum
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
 
 class IntegrationType(Enum):
     """Integration type enumeration."""
+
     API = "api"
     DATABASE = "database"
     MESSAGING = "messaging"
@@ -30,6 +32,7 @@ class IntegrationType(Enum):
 
 class IntegrationStatus(Enum):
     """Integration status enumeration."""
+
     DISCONNECTED = "disconnected"
     CONNECTING = "connecting"
     CONNECTED = "connected"
@@ -39,39 +42,41 @@ class IntegrationStatus(Enum):
 @dataclass
 class IntegrationConfig:
     """Configuration for system integrations."""
+
     integration_type: IntegrationType
     name: str
     endpoint: str
     timeout: int = 30
     retry_attempts: int = 3
     enabled: bool = True
-    config: Dict[str, Any] = field(default_factory=dict)
+    config: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
 class IntegrationMetrics:
     """Metrics for integration performance."""
+
     connection_count: int = 0
     success_count: int = 0
     error_count: int = 0
-    last_connection: Optional[datetime] = None
-    last_error: Optional[str] = None
+    last_connection: datetime | None = None
+    last_error: str | None = None
 
 
 class ServiceRegistry:
     """Simple service registry for system integration."""
-    
+
     def __init__(self):
-        self._services: Dict[str, IntegrationConfig] = {}
-        self._instances: Dict[str, Any] = {}
+        self._services: dict[str, IntegrationConfig] = {}
+        self._instances: dict[str, Any] = {}
         self._lock = threading.Lock()
-    
+
     def register_service(self, config: IntegrationConfig) -> None:
         """Register a service."""
         with self._lock:
             self._services[config.name] = config
             logger.debug(f"Service registered: {config.name}")
-    
+
     def unregister_service(self, name: str) -> None:
         """Unregister a service."""
         with self._lock:
@@ -80,20 +85,25 @@ class ServiceRegistry:
                 if name in self._instances:
                     del self._instances[name]
                 logger.debug(f"Service unregistered: {name}")
-    
-    def get_service(self, name: str) -> Optional[IntegrationConfig]:
+
+    def get_service(self, name: str) -> IntegrationConfig | None:
         """Get a service configuration."""
         return self._services.get(name)
-    
-    def get_all_services(self) -> Dict[str, IntegrationConfig]:
+
+    def get_all_services(self) -> dict[str, IntegrationConfig]:
         """Get all service configurations."""
         return self._services.copy()
-    
-    def get_services_by_type(self, integration_type: IntegrationType) -> Dict[str, IntegrationConfig]:
+
+    def get_services_by_type(
+        self, integration_type: IntegrationType
+    ) -> dict[str, IntegrationConfig]:
         """Get services by type."""
-        return {name: config for name, config in self._services.items() 
-                if config.integration_type == integration_type}
-    
+        return {
+            name: config
+            for name, config in self._services.items()
+            if config.integration_type == integration_type
+        }
+
     def is_service_registered(self, name: str) -> bool:
         """Check if a service is registered."""
         return name in self._services
@@ -101,11 +111,11 @@ class ServiceRegistry:
 
 class EventBus:
     """Simple event bus for system integration."""
-    
+
     def __init__(self):
-        self._subscribers: Dict[str, List[Callable]] = {}
+        self._subscribers: dict[str, list[Callable]] = {}
         self._lock = threading.Lock()
-    
+
     def subscribe(self, event_type: str, handler: Callable) -> None:
         """Subscribe to an event type."""
         with self._lock:
@@ -113,7 +123,7 @@ class EventBus:
                 self._subscribers[event_type] = []
             self._subscribers[event_type].append(handler)
             logger.debug(f"Subscribed to event: {event_type}")
-    
+
     def unsubscribe(self, event_type: str, handler: Callable) -> None:
         """Unsubscribe from an event type."""
         with self._lock:
@@ -121,7 +131,7 @@ class EventBus:
                 if handler in self._subscribers[event_type]:
                     self._subscribers[event_type].remove(handler)
                     logger.debug(f"Unsubscribed from event: {event_type}")
-    
+
     def publish(self, event_type: str, data: Any = None) -> None:
         """Publish an event."""
         with self._lock:
@@ -132,7 +142,7 @@ class EventBus:
                         logger.debug(f"Event published: {event_type}")
                     except Exception as e:
                         logger.error(f"Error publishing event {event_type}: {e}")
-    
+
     def get_subscriber_count(self, event_type: str) -> int:
         """Get the number of subscribers for an event type."""
         return len(self._subscribers.get(event_type, []))
@@ -140,13 +150,13 @@ class EventBus:
 
 class IntegrationManager:
     """Manager for system integrations."""
-    
+
     def __init__(self):
-        self._integrations: Dict[str, IntegrationConfig] = {}
-        self._metrics: Dict[str, IntegrationMetrics] = {}
-        self._status: Dict[str, IntegrationStatus] = {}
+        self._integrations: dict[str, IntegrationConfig] = {}
+        self._metrics: dict[str, IntegrationMetrics] = {}
+        self._status: dict[str, IntegrationStatus] = {}
         self._lock = threading.Lock()
-    
+
     def add_integration(self, config: IntegrationConfig) -> None:
         """Add an integration."""
         with self._lock:
@@ -154,7 +164,7 @@ class IntegrationManager:
             self._metrics[config.name] = IntegrationMetrics()
             self._status[config.name] = IntegrationStatus.DISCONNECTED
             logger.debug(f"Integration added: {config.name}")
-    
+
     def remove_integration(self, name: str) -> None:
         """Remove an integration."""
         with self._lock:
@@ -165,26 +175,26 @@ class IntegrationManager:
                 if name in self._status:
                     del self._status[name]
                 logger.debug(f"Integration removed: {name}")
-    
-    def get_integration(self, name: str) -> Optional[IntegrationConfig]:
+
+    def get_integration(self, name: str) -> IntegrationConfig | None:
         """Get an integration configuration."""
         return self._integrations.get(name)
-    
-    def get_integration_status(self, name: str) -> Optional[IntegrationStatus]:
+
+    def get_integration_status(self, name: str) -> IntegrationStatus | None:
         """Get the status of an integration."""
         return self._status.get(name)
-    
+
     def set_integration_status(self, name: str, status: IntegrationStatus) -> None:
         """Set the status of an integration."""
         with self._lock:
             if name in self._status:
                 self._status[name] = status
                 logger.debug(f"Integration {name} status set to: {status.value}")
-    
-    def get_integration_metrics(self, name: str) -> Optional[IntegrationMetrics]:
+
+    def get_integration_metrics(self, name: str) -> IntegrationMetrics | None:
         """Get the metrics of an integration."""
         return self._metrics.get(name)
-    
+
     def update_metrics(self, name: str, success: bool = True, error_message: str = None) -> None:
         """Update integration metrics."""
         with self._lock:
@@ -195,28 +205,33 @@ class IntegrationManager:
                 else:
                     metrics.error_count += 1
                     metrics.last_error = error_message
-                
+
                 metrics.last_connection = datetime.now()
                 logger.debug(f"Metrics updated for integration: {name}")
-    
-    def get_all_integrations(self) -> Dict[str, IntegrationConfig]:
+
+    def get_all_integrations(self) -> dict[str, IntegrationConfig]:
         """Get all integrations."""
         return self._integrations.copy()
-    
-    def get_integrations_by_type(self, integration_type: IntegrationType) -> Dict[str, IntegrationConfig]:
+
+    def get_integrations_by_type(
+        self, integration_type: IntegrationType
+    ) -> dict[str, IntegrationConfig]:
         """Get integrations by type."""
-        return {name: config for name, config in self._integrations.items() 
-                if config.integration_type == integration_type}
-    
-    def get_connected_integrations(self) -> List[str]:
+        return {
+            name: config
+            for name, config in self._integrations.items()
+            if config.integration_type == integration_type
+        }
+
+    def get_connected_integrations(self) -> list[str]:
         """Get list of connected integrations."""
-        return [name for name, status in self._status.items() 
-                if status == IntegrationStatus.CONNECTED]
-    
-    def get_error_integrations(self) -> List[str]:
+        return [
+            name for name, status in self._status.items() if status == IntegrationStatus.CONNECTED
+        ]
+
+    def get_error_integrations(self) -> list[str]:
         """Get list of integrations with errors."""
-        return [name for name, status in self._status.items() 
-                if status == IntegrationStatus.ERROR]
+        return [name for name, status in self._status.items() if status == IntegrationStatus.ERROR]
 
 
 # Global instances
@@ -225,9 +240,15 @@ event_bus = EventBus()
 integration_manager = IntegrationManager()
 
 
-def register_service(integration_type: IntegrationType, name: str, endpoint: str,
-                    timeout: int = 30, retry_attempts: int = 3, enabled: bool = True,
-                    config: Dict[str, Any] = None) -> None:
+def register_service(
+    integration_type: IntegrationType,
+    name: str,
+    endpoint: str,
+    timeout: int = 30,
+    retry_attempts: int = 3,
+    enabled: bool = True,
+    config: dict[str, Any] = None,
+) -> None:
     """Convenience function to register a service."""
     service_config = IntegrationConfig(
         integration_type=integration_type,
@@ -236,13 +257,13 @@ def register_service(integration_type: IntegrationType, name: str, endpoint: str
         timeout=timeout,
         retry_attempts=retry_attempts,
         enabled=enabled,
-        config=config or {}
+        config=config or {},
     )
     service_registry.register_service(service_config)
     integration_manager.add_integration(service_config)
 
 
-def get_service(name: str) -> Optional[IntegrationConfig]:
+def get_service(name: str) -> IntegrationConfig | None:
     """Convenience function to get a service."""
     return service_registry.get_service(name)
 

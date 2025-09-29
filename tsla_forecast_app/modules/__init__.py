@@ -7,37 +7,35 @@ Tesla Stock Forecast App Modules Package
 V2 Compliant: Modular design with focused components
 """
 
-from .main_app import TeslaStockApp, create_app, main
 from .data_worker import StockDataWorker
+from .flag_display import TradingFlagsDisplay
+from .main_app import TeslaStockApp, create_app, main
+from .trading_flags import (
+    AgentFlag,
+    FlagStrength,
+    FlagType,
+    MarketAnalysis,
+    TradingFlag,
+    TradingFlagEngine,
+)
 from .ui_components import (
-    StockDisplayWidget,
+    ChartDisplayWidget,
     ForecastDisplayWidget,
     LogDisplayWidget,
-    SettingsDisplayWidget,
-    ChartDisplayWidget,
     ProfessionalTheme,
     ResponsiveLayout,
-    ResponsiveWidget
+    ResponsiveWidget,
+    SettingsDisplayWidget,
+    StockDisplayWidget,
 )
-from .trading_flags import (
-    TradingFlagEngine,
-    TradingFlag,
-    FlagType,
-    FlagStrength,
-    AgentFlag,
-    MarketAnalysis
-)
-from .flag_display import TradingFlagsDisplay
 
 __all__ = [
     # Main application
     "TeslaStockApp",
     "create_app",
     "main",
-    
     # Data worker
     "StockDataWorker",
-    
     # UI components
     "StockDisplayWidget",
     "ForecastDisplayWidget",
@@ -47,7 +45,6 @@ __all__ = [
     "ProfessionalTheme",
     "ResponsiveLayout",
     "ResponsiveWidget",
-    
     # Trading flags
     "TradingFlagEngine",
     "TradingFlag",
@@ -55,5 +52,5 @@ __all__ = [
     "FlagStrength",
     "AgentFlag",
     "MarketAnalysis",
-    "TradingFlagsDisplay"
+    "TradingFlagsDisplay",
 ]

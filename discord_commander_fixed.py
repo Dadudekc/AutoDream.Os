@@ -15,15 +15,14 @@ Features:
 
 import asyncio
 import logging
-import os
 import sys
 from pathlib import Path
-from typing import Dict, Any, Optional
 
 # Discord imports with error handling
 try:
     import discord
     from discord.ext import commands
+
     DISCORD_AVAILABLE = True
 except ImportError:
     DISCORD_AVAILABLE = False
@@ -32,6 +31,7 @@ except ImportError:
 # Load environment variables
 try:
     from dotenv import load_dotenv
+
     dotenv_path = Path(__file__).parent / ".env"
     if dotenv_path.exists():
         load_dotenv(dotenv_path)
@@ -54,8 +54,7 @@ except ImportError:
 
 # Setup logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -71,11 +70,7 @@ class DiscordCommanderBot(commands.Bot):
             intents.members = True
             intents.guilds = True
 
-        super().__init__(
-            command_prefix=command_prefix,
-            intents=intents,
-            help_command=None
-        )
+        super().__init__(command_prefix=command_prefix, intents=intents, help_command=None)
 
         # Bot state
         self.is_ready = False
@@ -104,7 +99,7 @@ class DiscordCommanderBot(commands.Bot):
             await self.change_presence(
                 activity=discord.Activity(
                     type=discord.ActivityType.watching,
-                    name="🐝 WE ARE SWARM - Agent Coordination Active"
+                    name="🐝 WE ARE SWARM - Agent Coordination Active",
                 )
             )
 
@@ -115,8 +110,8 @@ class DiscordCommanderBot(commands.Bot):
             print(f"🤖 Bot: {self.user}")
             print(f"📊 Servers: {len(self.guilds)}")
             print(f"👥 Users: {len(self.users)}")
-            print(f"📡 Status: Online and Ready!")
-            print(f"🎯 5-Agent Mode: Agent-4, Agent-5, Agent-6, Agent-7, Agent-8")
+            print("📡 Status: Online and Ready!")
+            print("🎯 5-Agent Mode: Agent-4, Agent-5, Agent-6, Agent-7, Agent-8")
             print("=" * 60)
             print("✅ All systems operational!")
             print("🚀 Ready for agent coordination!")
@@ -156,33 +151,33 @@ class DiscordCommanderBot(commands.Bot):
             embed = discord.Embed(
                 title="🐝 Discord Commander Help",
                 description="Available commands for agent coordination",
-                color=0x00ff00
+                color=0x00FF00,
             )
 
             embed.add_field(
                 name="🤖 Bot Commands",
                 value="`!help` - Show this help message\n"
-                      "`!status` - Show bot status\n"
-                      "`!ping` - Test bot response\n"
-                      "`!agents` - Show connected agents",
-                inline=False
+                "`!status` - Show bot status\n"
+                "`!ping` - Test bot response\n"
+                "`!agents` - Show connected agents",
+                inline=False,
             )
 
             embed.add_field(
                 name="📋 Agent Commands",
                 value="`!register <agent_id>` - Register an agent\n"
-                      "`!unregister <agent_id>` - Unregister an agent\n"
-                      "`!send <agent_id> <message>` - Send message to agent\n"
-                      "`!broadcast <message>` - Broadcast to all agents",
-                inline=False
+                "`!unregister <agent_id>` - Unregister an agent\n"
+                "`!send <agent_id> <message>` - Send message to agent\n"
+                "`!broadcast <message>` - Broadcast to all agents",
+                inline=False,
             )
 
             embed.add_field(
                 name="🛠️ Admin Commands",
                 value="`!restart` - Restart the bot (admin only)\n"
-                      "`!shutdown` - Shutdown the bot (admin only)\n"
-                      "`!reload` - Reload commands (admin only)",
-                inline=False
+                "`!shutdown` - Shutdown the bot (admin only)\n"
+                "`!reload` - Reload commands (admin only)",
+                inline=False,
             )
 
             embed.set_footer(text="WE ARE SWARM - Agent Coordination Active")
@@ -191,46 +186,27 @@ class DiscordCommanderBot(commands.Bot):
         @self.command(name="status", help="Show bot status")
         async def status_command(ctx):
             """Show bot status."""
-            embed = discord.Embed(
-                title="📊 Discord Commander Status",
-                color=0x0099ff
-            )
+            embed = discord.Embed(title="📊 Discord Commander Status", color=0x0099FF)
 
             embed.add_field(
-                name="🤖 Bot Status",
-                value="🟢 Online" if self.is_ready else "🔴 Offline",
-                inline=True
+                name="🤖 Bot Status", value="🟢 Online" if self.is_ready else "🔴 Offline", inline=True
             )
 
-            embed.add_field(
-                name="📡 Servers",
-                value=str(len(self.guilds)),
-                inline=True
-            )
+            embed.add_field(name="📡 Servers", value=str(len(self.guilds)), inline=True)
 
-            embed.add_field(
-                name="👥 Users",
-                value=str(len(self.users)),
-                inline=True
-            )
+            embed.add_field(name="👥 Users", value=str(len(self.users)), inline=True)
 
             embed.add_field(
                 name="⏱️ Latency",
                 value=f"{round(self.latency * 1000)}ms" if self.latency else "Unknown",
-                inline=True
+                inline=True,
             )
 
             embed.add_field(
-                name="🔗 Connected Agents",
-                value=str(len(self.connected_agents)),
-                inline=True
+                name="🔗 Connected Agents", value=str(len(self.connected_agents)), inline=True
             )
 
-            embed.add_field(
-                name="🐝 Swarm Mode",
-                value="5-Agent Mode Active",
-                inline=True
-            )
+            embed.add_field(name="🐝 Swarm Mode", value="5-Agent Mode Active", inline=True)
 
             embed.set_footer(text="WE ARE SWARM - Agent Coordination Active")
             await ctx.send(embed=embed)
@@ -249,17 +225,11 @@ class DiscordCommanderBot(commands.Bot):
                 return
 
             embed = discord.Embed(
-                title="👥 Connected Agents",
-                description="Active agents in the swarm",
-                color=0xff9900
+                title="👥 Connected Agents", description="Active agents in the swarm", color=0xFF9900
             )
 
             for agent_id in self.connected_agents:
-                embed.add_field(
-                    name=f"🔗 {agent_id}",
-                    value="🟢 Connected",
-                    inline=True
-                )
+                embed.add_field(name=f"🔗 {agent_id}", value="🟢 Connected", inline=True)
 
             embed.set_footer(text="WE ARE SWARM - Agent Coordination Active")
             await ctx.send(embed=embed)
@@ -410,4 +380,3 @@ if __name__ == "__main__":
     # Run main function
     exit_code = asyncio.run(main())
     sys.exit(exit_code)
-

@@ -37,8 +37,8 @@ const SystemHealth = () => {
             {health.cpu || 0}%
           </div>
           <div className="progress-bar">
-            <div 
-              className="progress-fill" 
+            <div
+              className="progress-fill"
               style={{
                 width: `${health.cpu || 0}%`,
                 background: `linear-gradient(90deg, ${getHealthColor(health.cpu || 0)}, ${getHealthColor(health.cpu || 0)}88)`
@@ -52,8 +52,8 @@ const SystemHealth = () => {
             {health.memory || 0}%
           </div>
           <div className="progress-bar">
-            <div 
-              className="progress-fill" 
+            <div
+              className="progress-fill"
               style={{
                 width: `${health.memory || 0}%`,
                 background: `linear-gradient(90deg, ${getHealthColor(health.memory || 0)}, ${getHealthColor(health.memory || 0)}88)`
@@ -67,8 +67,8 @@ const SystemHealth = () => {
             {health.disk || 0}%
           </div>
           <div className="progress-bar">
-            <div 
-              className="progress-fill" 
+            <div
+              className="progress-fill"
               style={{
                 width: `${health.disk || 0}%`,
                 background: `linear-gradient(90deg, ${getHealthColor(health.disk || 0)}, ${getHealthColor(health.disk || 0)}88)`

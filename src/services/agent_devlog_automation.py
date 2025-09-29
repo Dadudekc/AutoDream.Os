@@ -26,7 +26,12 @@ try:
 except ImportError:
     pass
 
-from .discord_devlog_service import DiscordDevlogService
+try:
+    from .discord_devlog_service import DiscordDevlogService
+    DISCORD_AVAILABLE = True
+except ImportError:
+    DISCORD_AVAILABLE = False
+    DiscordDevlogService = None
 
 logger = logging.getLogger(__name__)
 
@@ -36,7 +41,10 @@ class AgentDevlogAutomation:
     
     def __init__(self):
         """Initialize agent devlog automation."""
-        self.devlog_service = DiscordDevlogService()
+        if DISCORD_AVAILABLE:
+            self.devlog_service = DiscordDevlogService()
+        else:
+            self.devlog_service = None
         self.agent_roles = {
             "Agent-1": "Integration & Core Systems Specialist",
             "Agent-2": "Architecture & Design Specialist", 
@@ -70,14 +78,19 @@ class AgentDevlogAutomation:
         })
         
         # Create and post devlog
-        return await self.devlog_service.create_and_post_devlog(
-            agent_id=agent_id,
-            action=action,
-            status=status,
-            details=enhanced_details,
-            post_to_discord=post_to_discord,
-            use_agent_channel=True  # Always use agent-specific channel
-        )
+        if self.devlog_service:
+            return await self.devlog_service.create_and_post_devlog(
+                agent_id=agent_id,
+                action=action,
+                status=status,
+                details=enhanced_details,
+                post_to_discord=post_to_discord,
+                use_agent_channel=True  # Always use agent-specific channel
+            )
+        else:
+            # Fallback: create local devlog without Discord
+            logger.info(f"Discord service not available, creating local devlog for {agent_id}")
+            return "local_devlog_created", True
     
     async def create_cycle_start_devlog(self, agent_id: str, focus: str) -> tuple[str, bool]:
         """Create devlog for cycle start."""

@@ -1,0 +1,2261 @@
+{
+  "swarm_brain": {
+    "971b08c4a4a2950a37c5f81b4e5523b9": {
+      "doc_id": "1",
+      "timestamp": "2025-09-29T07:56:28.235898",
+      "metadata": {
+        "agent_id": "Agent-2",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Project Scanner Analysis V2 97.6%, 1 violation found [ACTION] Project Scanner Analysis\nTool: project..."
+    },
+    "28714c44a730e473ee79fe3e7704cbd3": {
+      "doc_id": "2",
+      "timestamp": "2025-09-29T07:56:28.235898",
+      "metadata": {
+        "agent_id": "Agent-2",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Refactoring Strategy Generated 1 refactoring strategies [PROTOCOL] Refactoring Strategy\nEffectivenes..."
+    },
+    "5e585ad55d4ffcf3d91c7ae3e9d06591": {
+      "doc_id": "3",
+      "timestamp": "2025-09-29T07:56:28.235898",
+      "metadata": {
+        "agent_id": "Agent-2",
+        "kind": "tool",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Project Scanner Usage Scanner used to analyze 603 files [TOOL] Project Scanner Usage\nUsage Pattern: ..."
+    },
+    "8b0b73a454d280b9ffb9bbc366386bee": {
+      "doc_id": "4",
+      "timestamp": "2025-09-29T07:56:28.235898",
+      "metadata": {
+        "agent_id": "Agent-6",
+        "kind": "conversation",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Discord Communication Agent-2 completed project scan. Found 1 V2 violation in large_file.py. Suggest..."
+    },
+    "542e6c1422981c06538dd7d3ddf67735": {
+      "doc_id": "5",
+      "timestamp": "2025-09-29T07:56:28.235898",
+      "metadata": {
+        "agent_id": "Agent-6",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Discord Commander Agent-2 completed project scan. Found 1 V2 violation in large_file.py. Suggesting ..."
+    },
+    "64107a27e0ed529dcff36d6af1d28607": {
+      "doc_id": "6",
+      "timestamp": "2025-09-29T07:56:28.235898",
+      "metadata": {
+        "agent_id": "Agent-2",
+        "kind": "conversation",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Devlog Entry \n    Agent-2 completed project analysis:\n    - Analyzed 603 files\n    - Found 1 V2 comp..."
+    },
+    "b4345cb43de6e322b19196ca972f42f8": {
+      "doc_id": "7",
+      "timestamp": "2025-09-29T07:56:28.235898",
+      "metadata": {
+        "agent_id": "Agent-2",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Devlog Action \n    Agent-2 completed project analysis:\n    - Analyzed 603 files\n    - Found 1 V2 com..."
+    },
+    "ce29cef31f1393ccbc96b48fdfca8175": {
+      "doc_id": "8",
+      "timestamp": "2025-09-29T07:56:28.235898",
+      "metadata": {
+        "agent_id": "Agent-8",
+        "kind": "performance",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Performance Snapshot CPU: 45.0%, Memory: 60.0%, Response: 1.20s, 2 anomalies [PERFORMANCE] Performan..."
+    },
+    "51b78cf21ce46c78863ba8430949d1c5": {
+      "doc_id": "9",
+      "timestamp": "2025-09-29T07:56:28.235898",
+      "metadata": {
+        "agent_id": "Agent-8",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Performance Monitoring Alert Performance alert: CPU: 45.0%, Memory: 60.0%, Response: 1.20s, 2 anomal..."
+    },
+    "b5d1d48285ee086601ec3a65df9cefa4": {
+      "doc_id": "10",
+      "timestamp": "2025-09-29T07:56:28.235898",
+      "metadata": {
+        "agent_id": "Agent-3",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "compliance_fixer execution Fixed length_violation in large_file.py [ACTION] compliance_fixer executi..."
+    },
+    "6f9e888cda932c76727a7f5755bca88d": {
+      "doc_id": "11",
+      "timestamp": "2025-09-29T07:56:28.235898",
+      "metadata": {
+        "agent_id": "Agent-2",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "CLI Test Action  [ACTION] CLI Test Action\nTool: test_tool\nOutcome: success\nSummary: \nTags: test, cli..."
+    },
+    "4a7104dc1380afb1487dd5a43e0866c4": {
+      "doc_id": "74",
+      "timestamp": "2025-09-29T07:56:28.235898",
+      "metadata": {
+        "agent_id": "Agent-5",
+        "kind": "conversation",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Devlog Entry # \ud83d\udc1d DISCORD COMMANDER TEST MESSAGES RECEIVED - AGENT-7 MONITORING\n\n## **Discord Command..."
+    },
+    "dd35e895615be09e5b0dd9f4ea24aa13": {
+      "doc_id": "75",
+      "timestamp": "2025-09-29T07:56:28.235898",
+      "metadata": {
+        "agent_id": "Agent-5",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Devlog Action # \ud83d\udc1d DISCORD COMMANDER TEST MESSAGES RECEIVED - AGENT-7 MONITORING\n\n## **Discord Comman..."
+    },
+    "e9b60ed1c989caa4a9944dbb52a29006": {
+      "doc_id": "105",
+      "timestamp": "2025-09-29T07:56:28.235898",
+      "metadata": {
+        "agent_id": "Agent-5",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Protocol: AGENT_COMMUNICATION_PROTOCOLS Protocol from AGENT_COMMUNICATION_PROTOCOLS.md [PROTOCOL] Pr..."
+    },
+    "0f9e6ca20aae1909e590945a81d9d838": {
+      "doc_id": "106",
+      "timestamp": "2025-09-29T07:56:28.235898",
+      "metadata": {
+        "agent_id": "Agent-5",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Protocol: AGENT_DEVLOG_SYSTEM_PROTOCOLS Protocol from AGENT_DEVLOG_SYSTEM_PROTOCOLS.md [PROTOCOL] Pr..."
+    },
+    "22f46cba48aa297067d04579a0f59e23": {
+      "doc_id": "107",
+      "timestamp": "2025-09-29T07:56:28.235898",
+      "metadata": {
+        "agent_id": "Agent-5",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Protocol: COHERENT_COLLABORATION_GUIDE Protocol from COHERENT_COLLABORATION_GUIDE.md [PROTOCOL] Prot..."
+    },
+    "93798a673e7f1d2a20aa27f99d546deb": {
+      "doc_id": "108",
+      "timestamp": "2025-09-29T07:56:28.235898",
+      "metadata": {
+        "agent_id": "Agent-5",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Protocol: DUPLICATION_PREVENTION_PROTOCOL Protocol from DUPLICATION_PREVENTION_PROTOCOL.md [PROTOCOL..."
+    },
+    "ca0135a48462ad29d79e524aa289ffba": {
+      "doc_id": "109",
+      "timestamp": "2025-09-29T07:56:28.235898",
+      "metadata": {
+        "agent_id": "Agent-2",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Compliance Report: V2_REFACTORING_COORDINATION_PLAN Compliance report from V2_REFACTORING_COORDINATI..."
+    },
+    "344f677f6d8fac520bf5cac012358794": {
+      "doc_id": "110",
+      "timestamp": "2025-09-29T07:56:28.235898",
+      "metadata": {
+        "agent_id": "Agent-2",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Compliance Report: V2_VIOLATIONS_ACTION_PLAN Compliance report from V2_VIOLATIONS_ACTION_PLAN.md [AC..."
+    },
+    "1aacd383d1e64bb9c03a8eed9686feaa": {
+      "doc_id": "111",
+      "timestamp": "2025-09-29T07:56:28.235898",
+      "metadata": {
+        "agent_id": "Agent-2",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Compliance Report: V2_COMPLIANCE_REPORT Compliance report from V2_COMPLIANCE_REPORT.md [ACTION] Comp..."
+    },
+    "cfcd4e2c06c7bfcffd2c9fe712b17000": {
+      "doc_id": "112",
+      "timestamp": "2025-09-29T07:56:28.235898",
+      "metadata": {
+        "agent_id": "Agent-8",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Security Report: SECURITY_CONSOLIDATION_SUMMARY Security report from SECURITY_CONSOLIDATION_SUMMARY...."
+    },
+    "e107f1f9e9ad2cddd8c6521a9e6626a3": {
+      "doc_id": "113",
+      "timestamp": "2025-09-29T07:56:28.235898",
+      "metadata": {
+        "agent_id": "Agent-8",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Security Report: SECURITY_BEST_PRACTICES Security report from SECURITY_BEST_PRACTICES.md [ACTION] Se..."
+    },
+    "ec79e29fddd3126187225623896b21bd": {
+      "doc_id": "114",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-8",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Security Report: SECURITY_IMPLEMENTATION_SUMMARY Security report from SECURITY_IMPLEMENTATION_SUMMAR..."
+    },
+    "547ca28fbc9b85b63dcd6e5120288916": {
+      "doc_id": "115",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-8",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Security Report: PHASE4_SECURITY_VALIDATION_REPORT Security report from PHASE4_SECURITY_VALIDATION_R..."
+    },
+    "a9e8e726c63544d58dac3b4a075a4a0a": {
+      "doc_id": "116",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Agent Guidelines: AGENT_WORK_GUIDELINES Agent guidelines from AGENT_WORK_GUIDELINES.md [PROTOCOL] Ag..."
+    },
+    "b65e3ef1b41da19f5e56b6b509ce96bf": {
+      "doc_id": "117",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Agent Guidelines: AGENTS Agent guidelines from AGENTS.md [PROTOCOL] Agent Guidelines: AGENTS\nEffecti..."
+    },
+    "61035c528247b6c9f1033590ca4493a1": {
+      "doc_id": "118",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Agent Guidelines: V3_ALL_AGENTS_CONTRACT_SUMMARY Agent guidelines from V3_ALL_AGENTS_CONTRACT_SUMMAR..."
+    },
+    "efc2437abfe711e9bd980eef987738da": {
+      "doc_id": "119",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Agent Guidelines: V3_V2_CONSOLIDATION_PLAN Agent guidelines from V3_V2_CONSOLIDATION_PLAN.md [PROTOC..."
+    },
+    "9b54e659ddd599b7c893ebfb696d3c22": {
+      "doc_id": "120",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Agent Guidelines: V3_UPGRADE_ROADMAP Agent guidelines from V3_UPGRADE_ROADMAP.md [PROTOCOL] Agent Gu..."
+    },
+    "fe9623b8e4a6a93b98c73125111af670": {
+      "doc_id": "121",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Agent Guidelines: V3_CYCLE_BASED_CONTRACTS Agent guidelines from V3_CYCLE_BASED_CONTRACTS.md [PROTOC..."
+    },
+    "ba339bf9680884bd79e51176a9478cb2": {
+      "doc_id": "122",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Agent Guidelines: V3_TEAM_ALPHA_ONBOARDING_PROTOCOL Agent guidelines from V3_TEAM_ALPHA_ONBOARDING_P..."
+    },
+    "8d96e500b6deb8c766b796ed00f26103": {
+      "doc_id": "133",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Message: Agent-1 \u2192 Agent-2 Message from Agent-1 to Agent-2: Testing vector database integration [ACT..."
+    },
+    "e1fd7bc4e5e9a342f918babe6558ca2b": {
+      "doc_id": "136",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Message: Agent-1 \u2192 Agent-1 Message from Agent-1 to Agent-1: Vector database integration is now opera..."
+    },
+    "2493260ca5d936475875512ea5316692": {
+      "doc_id": "137",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Message: Agent-1 \u2192 Agent-2 Message from Agent-1 to Agent-2: Vector database integration is now opera..."
+    },
+    "af03af6709952207f511ff21f6c2e28f": {
+      "doc_id": "138",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Message: Agent-1 \u2192 Agent-3 Message from Agent-1 to Agent-3: Vector database integration is now opera..."
+    },
+    "40321048eb742ae5320b28e397de875b": {
+      "doc_id": "139",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Message: Agent-1 \u2192 Agent-4 Message from Agent-1 to Agent-4: Vector database integration is now opera..."
+    },
+    "3bdb5423d40a788286b2654c4d2aef66": {
+      "doc_id": "140",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Message: Agent-1 \u2192 Agent-5 Message from Agent-1 to Agent-5: Vector database integration is now opera..."
+    },
+    "138a94b0808513e6948744e4a9ccabc2": {
+      "doc_id": "141",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Message: Agent-1 \u2192 Agent-6 Message from Agent-1 to Agent-6: Vector database integration is now opera..."
+    },
+    "d0dd45f5f176ed0eaf565296a5c3af2a": {
+      "doc_id": "142",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Message: Agent-1 \u2192 Agent-7 Message from Agent-1 to Agent-7: Vector database integration is now opera..."
+    },
+    "64a0765dc21f3c49301f46c21ff2a4a5": {
+      "doc_id": "143",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Message: Agent-1 \u2192 Agent-8 Message from Agent-1 to Agent-8: Vector database integration is now opera..."
+    },
+    "bc0ef474168fcd20f909cdee330e5925": {
+      "doc_id": "144",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-Coordinator",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Task Coordination: vector database integration Coordinated task vector database integration with 5 a..."
+    },
+    "f9ec20b13dba2e78a985f6f839898644": {
+      "doc_id": "145",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Message: Agent-1 \u2192 Agent-2 Message from Agent-1 to Agent-2: Testing vector database integration [ACT..."
+    },
+    "2b654cca406bbaf731382301a70c5fc0": {
+      "doc_id": "146",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-Coordinator",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Task Coordination: integration testing Coordinated task integration testing with 5 agents [ACTION] T..."
+    },
+    "6f8977ac2d26d3211617941d10e69d00": {
+      "doc_id": "160",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-8",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Message: Agent-8 \u2192 Agent-4 Message from Agent-8 to Agent-4: Status update received! Agent-8 acknowle..."
+    },
+    "df33545aebbb535f767866e898204ca4": {
+      "doc_id": "164",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-5",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Message: Agent-5 \u2192 Agent-7 Message from Agent-5 to Agent-7: Status update received! Agent-5 acknowle..."
+    },
+    "e9525f9b2c9df4a44f2431c42831217c": {
+      "doc_id": "171",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Message: Agent-4 \u2192 Agent-7 Message from Agent-4 to Agent-7: REFACTORING COMPLETE! Captain_autonomous..."
+    },
+    "dc90ef1b54d4bf8aebb82aa5577ceed6": {
+      "doc_id": "173",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-8",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Message: Agent-8 \u2192 Agent-7 Message from Agent-8 to Agent-7: Status update received! Agent-8 acknowle..."
+    },
+    "f42f9df7a5683bd3c5534eccc3fafd78": {
+      "doc_id": "174",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Message: Agent-4 \u2192 Agent-2 Message from Agent-4 to Agent-2: ACKNOWLEDGMENT RECEIVED! Agent-4 confirm..."
+    },
+    "578ea984d0bd6b0d7cba8b5ddc9d7c9b": {
+      "doc_id": "175",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-3",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Message: Agent-3 \u2192 Agent-8 Message from Agent-3 to Agent-8: MULTICHAT TASK COORDINATION ACKNOWLEDGED..."
+    },
+    "9f2edd6da26d8e3f070b46628c533322": {
+      "doc_id": "176",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-7",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Message: Agent-7 \u2192 Agent-8 Message from Agent-7 to Agent-8: TASK COMPLETION ACKNOWLEDGED! Agent-7 co..."
+    },
+    "93ed3b5a15e11783f1fb20ade8000d12": {
+      "doc_id": "177",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Message: Agent-4 \u2192 Agent-8 Message from Agent-4 to Agent-8: TASK COMPLETION ACKNOWLEDGED! Agent-4 co..."
+    },
+    "5178e4948487f65fc38b84909ea83e35": {
+      "doc_id": "178",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Captain's Daily Log - Swarm Status & Strategic Directives Comprehensive Captain's log covering swarm..."
+    },
+    "1c7cdffdb708fe7153d839aab50e6856": {
+      "doc_id": "179",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Captain's Handbook - Complete Operations Manual Comprehensive Captain's operations manual covering a..."
+    },
+    "251958ca6f7a8c0f6eb01a3691d802bf": {
+      "doc_id": "180",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "workflow",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Captain's Cheatsheet - Quick Reference Workflow Quick reference guide for Captain's daily operations..."
+    },
+    "81b0f47c2cd598c98e856f898bc4efa5": {
+      "doc_id": "181",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Complete Agent Definitions and Roles Complete definitions of all 8 agents including roles, specializ..."
+    },
+    "522fb56093bf1e586435068b1549f7fd": {
+      "doc_id": "182",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "workflow",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Captain Onboarding Wizard - Complete Onboarding Process Interactive wizard for complete Captain onbo..."
+    },
+    "c0867473842163baf525745b93682ef3": {
+      "doc_id": "183",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Agent Messaging Workflow Guide Comprehensive guide for agent messaging workflow guide covering setup..."
+    },
+    "a3e0bea373c8d41092357f5564d467c2": {
+      "doc_id": "184",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Agent Workflow System Usage Guide Comprehensive guide for agent workflow system usage guide covering..."
+    },
+    "34d64f3e3c2973d692f6699ff1f6576d": {
+      "doc_id": "185",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Discord Commander Usage Guide Comprehensive guide for discord commander usage guide covering setup, ..."
+    },
+    "cbe164685a41491e91550c702a75cfcc": {
+      "doc_id": "186",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "User Training Guide Comprehensive guide for user training guide covering setup, usage, and best prac..."
+    },
+    "f9e08ea913bc642fac9b610fab230ce0": {
+      "doc_id": "187",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "workflow",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Onboarding Manager - Automated Agent Onboarding Automated onboarding manager for streamlined agent o..."
+    },
+    "ac50586aa7eda6e567957e07f9a3cc8f": {
+      "doc_id": "188",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "workflow",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Onboarding Service - Automated Agent Onboarding Automated onboarding service for streamlined agent o..."
+    },
+    "d09aa3f43a03b0b4ae6162d345678267": {
+      "doc_id": "189",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Captain's Handbook - Cycle-Based Operations Manual Updated Captain's operations manual using cycle-b..."
+    },
+    "e16699b08af4d9267a59fc2a8e5a1d12": {
+      "doc_id": "190",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "workflow",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Captain's Cheatsheet - Cycle-Based Quick Reference Updated quick reference guide for Captain's cycle..."
+    },
+    "2b2bbc54625c4292e533df44fe090d38": {
+      "doc_id": "191",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Current Mission Status - Phase 2 V2 Refactoring (January 2025) Current active mission status reflect..."
+    },
+    "2abf67212efc68e0ba6a3eae21005ca0": {
+      "doc_id": "192",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Agent-4 Captain Refactoring - captain_autonomous_manager.py Refactored captain_autonomous_manager.py..."
+    },
+    "487b114225855bd63f1b61aedcb0c1e6": {
+      "doc_id": "193",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Agent-8 Dashboard Refactoring - dashboard_web_interface.py Next refactoring task assigned to Agent-8..."
+    },
+    "5211d64033e115bd2632600404e9a759": {
+      "doc_id": "194",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Agent-3 Database Deployment Refactoring - v3_003_database_deployment.py High priority refactoring ta..."
+    },
+    "853f6e65f1dfbdd833ab918030c6e3f0": {
+      "doc_id": "195",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Agent-5 ML Training Refactoring - ml_training_infrastructure_tool.py High priority refactoring task ..."
+    },
+    "695298140d649ddc75b6332cf6c73a75": {
+      "doc_id": "196",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Current Role - Agent-1 Current role and assignment for Agent-1 in Phase 2 operations Current Role: A..."
+    },
+    "97cc00028de53bd08f6c0307fbccaa6e": {
+      "doc_id": "197",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Current Role - Agent-2 Current role and assignment for Agent-2 in Phase 2 operations Current Role: A..."
+    },
+    "64f37e117432075d9fea9d168c08bd6a": {
+      "doc_id": "198",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Current Role - Agent-3 Current role and assignment for Agent-3 in Phase 2 operations Current Role: A..."
+    },
+    "be2b38055b3fad3b207c4f6c19ce0f5e": {
+      "doc_id": "199",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Current Role - Agent-4 Current role and assignment for Agent-4 in Phase 2 operations Current Role: A..."
+    },
+    "34edc614b45021ad34e41c30ac742145": {
+      "doc_id": "200",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Current Role - Agent-5 Current role and assignment for Agent-5 in Phase 2 operations Current Role: A..."
+    },
+    "e50e44a42dc46e4338bc3ed2e815eb4d": {
+      "doc_id": "201",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Current Role - Agent-6 Current role and assignment for Agent-6 in Phase 2 operations Current Role: A..."
+    },
+    "3e4e10b9336502810c53dce192d9ae55": {
+      "doc_id": "202",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Current Role - Agent-7 Current role and assignment for Agent-7 in Phase 2 operations Current Role: A..."
+    },
+    "2f4cea4f1156ba31f33583a898d2b4a7": {
+      "doc_id": "203",
+      "timestamp": "2025-09-29T07:56:28.236890",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2"
+      },
+      "content_preview": "Current Role - Agent-8 Current role and assignment for Agent-8 in Phase 2 operations Current Role: A..."
+    }
+  },
+  "vector_database": {
+    "1a4afa031db586342c4886854771ca68": {
+      "doc_id": "devlog_1",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "action": "Implemented Vectorization Support",
+        "status": "completed",
+        "details": "Added full vectorization functionality to the devlog system. Now supports searchable vector database with text search capabilities. Removed placeholder and implemented actual vector storage and retrieval system.",
+        "timestamp": "2025-09-22T09:40:13.207846",
+        "source": "agent_devlog_system",
+        "type": "devlog",
+        "filepath": "devlogs\\2025-09-22_09-40-13_Agent-4_Implemented_Vectorization_Support.md"
+      },
+      "content_preview": "\n            Agent: Agent-4\n            Action: Implemented Vectorization Support\n            Status..."
+    },
+    "7cfb55f0acb4bbdcd8ac3179541d7438": {
+      "doc_id": "devlog_2",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "action": "Vectorization System Complete",
+        "status": "completed",
+        "details": "Successfully implemented full vectorization support for the devlog system. Features include: searchable vector database, text-based search functionality, statistics reporting, and command-line interface for search and stats operations. No longer a placeholder - fully functional vector storage and retrieval system.",
+        "timestamp": "2025-09-22T09:41:37.469626",
+        "source": "agent_devlog_system",
+        "type": "devlog",
+        "filepath": "devlogs\\2025-09-22_09-41-37_Agent-4_Vectorization_System_Complete.md"
+      },
+      "content_preview": "\n            Agent: Agent-4\n            Action: Vectorization System Complete\n            Status: co..."
+    },
+    "971b08c4a4a2950a37c5f81b4e5523b9": {
+      "doc_id": "swarm_doc_1",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-2",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:07:26",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 1
+      },
+      "content_preview": "Project Scanner Analysis V2 97.6%, 1 violation found [ACTION] Project Scanner Analysis\nTool: project..."
+    },
+    "28714c44a730e473ee79fe3e7704cbd3": {
+      "doc_id": "swarm_doc_2",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-2",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:07:26",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 2
+      },
+      "content_preview": "Refactoring Strategy Generated 1 refactoring strategies [PROTOCOL] Refactoring Strategy\nEffectivenes..."
+    },
+    "5e585ad55d4ffcf3d91c7ae3e9d06591": {
+      "doc_id": "swarm_doc_3",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-2",
+        "kind": "tool",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:07:26",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 3
+      },
+      "content_preview": "Project Scanner Usage Scanner used to analyze 603 files [TOOL] Project Scanner Usage\nUsage Pattern: ..."
+    },
+    "8b0b73a454d280b9ffb9bbc366386bee": {
+      "doc_id": "swarm_doc_4",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-6",
+        "kind": "conversation",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:07:26",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 4
+      },
+      "content_preview": "Discord Communication Agent-2 completed project scan. Found 1 V2 violation in large_file.py. Suggest..."
+    },
+    "542e6c1422981c06538dd7d3ddf67735": {
+      "doc_id": "swarm_doc_5",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-6",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:07:26",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 5
+      },
+      "content_preview": "Discord Commander Agent-2 completed project scan. Found 1 V2 violation in large_file.py. Suggesting ..."
+    },
+    "64107a27e0ed529dcff36d6af1d28607": {
+      "doc_id": "swarm_doc_6",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-2",
+        "kind": "conversation",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:07:26",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 6
+      },
+      "content_preview": "Devlog Entry \n    Agent-2 completed project analysis:\n    - Analyzed 603 files\n    - Found 1 V2 comp..."
+    },
+    "b4345cb43de6e322b19196ca972f42f8": {
+      "doc_id": "swarm_doc_7",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-2",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:07:26",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 7
+      },
+      "content_preview": "Devlog Action \n    Agent-2 completed project analysis:\n    - Analyzed 603 files\n    - Found 1 V2 com..."
+    },
+    "ce29cef31f1393ccbc96b48fdfca8175": {
+      "doc_id": "swarm_doc_8",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-8",
+        "kind": "performance",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:07:27",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 8
+      },
+      "content_preview": "Performance Snapshot CPU: 45.0%, Memory: 60.0%, Response: 1.20s, 2 anomalies [PERFORMANCE] Performan..."
+    },
+    "51b78cf21ce46c78863ba8430949d1c5": {
+      "doc_id": "swarm_doc_9",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-8",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:07:27",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 9
+      },
+      "content_preview": "Performance Monitoring Alert Performance alert: CPU: 45.0%, Memory: 60.0%, Response: 1.20s, 2 anomal..."
+    },
+    "b5d1d48285ee086601ec3a65df9cefa4": {
+      "doc_id": "swarm_doc_10",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-3",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:07:27",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 10
+      },
+      "content_preview": "compliance_fixer execution Fixed length_violation in large_file.py [ACTION] compliance_fixer executi..."
+    },
+    "6f9e888cda932c76727a7f5755bca88d": {
+      "doc_id": "swarm_doc_11",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-2",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:07:27",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 11
+      },
+      "content_preview": "CLI Test Action  [ACTION] CLI Test Action\nTool: test_tool\nOutcome: success\nSummary: \nTags: test, cli..."
+    },
+    "4a7104dc1380afb1487dd5a43e0866c4": {
+      "doc_id": "swarm_doc_74",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-5",
+        "kind": "conversation",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:11:56",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 74
+      },
+      "content_preview": "Devlog Entry # \ud83d\udc1d DISCORD COMMANDER TEST MESSAGES RECEIVED - AGENT-7 MONITORING\n\n## **Discord Command..."
+    },
+    "dd35e895615be09e5b0dd9f4ea24aa13": {
+      "doc_id": "swarm_doc_75",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-5",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:11:56",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 75
+      },
+      "content_preview": "Devlog Action # \ud83d\udc1d DISCORD COMMANDER TEST MESSAGES RECEIVED - AGENT-7 MONITORING\n\n## **Discord Comman..."
+    },
+    "e9b60ed1c989caa4a9944dbb52a29006": {
+      "doc_id": "swarm_doc_105",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-5",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:11:56",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 105
+      },
+      "content_preview": "Protocol: AGENT_COMMUNICATION_PROTOCOLS Protocol from AGENT_COMMUNICATION_PROTOCOLS.md [PROTOCOL] Pr..."
+    },
+    "0f9e6ca20aae1909e590945a81d9d838": {
+      "doc_id": "swarm_doc_106",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-5",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:11:56",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 106
+      },
+      "content_preview": "Protocol: AGENT_DEVLOG_SYSTEM_PROTOCOLS Protocol from AGENT_DEVLOG_SYSTEM_PROTOCOLS.md [PROTOCOL] Pr..."
+    },
+    "22f46cba48aa297067d04579a0f59e23": {
+      "doc_id": "swarm_doc_107",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-5",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:11:56",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 107
+      },
+      "content_preview": "Protocol: COHERENT_COLLABORATION_GUIDE Protocol from COHERENT_COLLABORATION_GUIDE.md [PROTOCOL] Prot..."
+    },
+    "93798a673e7f1d2a20aa27f99d546deb": {
+      "doc_id": "swarm_doc_108",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-5",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:11:56",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 108
+      },
+      "content_preview": "Protocol: DUPLICATION_PREVENTION_PROTOCOL Protocol from DUPLICATION_PREVENTION_PROTOCOL.md [PROTOCOL..."
+    },
+    "ca0135a48462ad29d79e524aa289ffba": {
+      "doc_id": "swarm_doc_109",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-2",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:11:57",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 109
+      },
+      "content_preview": "Compliance Report: V2_REFACTORING_COORDINATION_PLAN Compliance report from V2_REFACTORING_COORDINATI..."
+    },
+    "344f677f6d8fac520bf5cac012358794": {
+      "doc_id": "swarm_doc_110",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-2",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:11:57",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 110
+      },
+      "content_preview": "Compliance Report: V2_VIOLATIONS_ACTION_PLAN Compliance report from V2_VIOLATIONS_ACTION_PLAN.md [AC..."
+    },
+    "1aacd383d1e64bb9c03a8eed9686feaa": {
+      "doc_id": "swarm_doc_111",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-2",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:11:57",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 111
+      },
+      "content_preview": "Compliance Report: V2_COMPLIANCE_REPORT Compliance report from V2_COMPLIANCE_REPORT.md [ACTION] Comp..."
+    },
+    "cfcd4e2c06c7bfcffd2c9fe712b17000": {
+      "doc_id": "swarm_doc_112",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-8",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:11:57",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 112
+      },
+      "content_preview": "Security Report: SECURITY_CONSOLIDATION_SUMMARY Security report from SECURITY_CONSOLIDATION_SUMMARY...."
+    },
+    "e107f1f9e9ad2cddd8c6521a9e6626a3": {
+      "doc_id": "swarm_doc_113",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-8",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:11:57",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 113
+      },
+      "content_preview": "Security Report: SECURITY_BEST_PRACTICES Security report from SECURITY_BEST_PRACTICES.md [ACTION] Se..."
+    },
+    "ec79e29fddd3126187225623896b21bd": {
+      "doc_id": "swarm_doc_114",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-8",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:11:57",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 114
+      },
+      "content_preview": "Security Report: SECURITY_IMPLEMENTATION_SUMMARY Security report from SECURITY_IMPLEMENTATION_SUMMAR..."
+    },
+    "547ca28fbc9b85b63dcd6e5120288916": {
+      "doc_id": "swarm_doc_115",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-8",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:11:57",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 115
+      },
+      "content_preview": "Security Report: PHASE4_SECURITY_VALIDATION_REPORT Security report from PHASE4_SECURITY_VALIDATION_R..."
+    },
+    "a9e8e726c63544d58dac3b4a075a4a0a": {
+      "doc_id": "swarm_doc_116",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:11:57",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 116
+      },
+      "content_preview": "Agent Guidelines: AGENT_WORK_GUIDELINES Agent guidelines from AGENT_WORK_GUIDELINES.md [PROTOCOL] Ag..."
+    },
+    "b65e3ef1b41da19f5e56b6b509ce96bf": {
+      "doc_id": "swarm_doc_117",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:11:57",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 117
+      },
+      "content_preview": "Agent Guidelines: AGENTS Agent guidelines from AGENTS.md [PROTOCOL] Agent Guidelines: AGENTS\nEffecti..."
+    },
+    "61035c528247b6c9f1033590ca4493a1": {
+      "doc_id": "swarm_doc_118",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:11:57",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 118
+      },
+      "content_preview": "Agent Guidelines: V3_ALL_AGENTS_CONTRACT_SUMMARY Agent guidelines from V3_ALL_AGENTS_CONTRACT_SUMMAR..."
+    },
+    "efc2437abfe711e9bd980eef987738da": {
+      "doc_id": "swarm_doc_119",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:11:57",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 119
+      },
+      "content_preview": "Agent Guidelines: V3_V2_CONSOLIDATION_PLAN Agent guidelines from V3_V2_CONSOLIDATION_PLAN.md [PROTOC..."
+    },
+    "9b54e659ddd599b7c893ebfb696d3c22": {
+      "doc_id": "swarm_doc_120",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:11:57",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 120
+      },
+      "content_preview": "Agent Guidelines: V3_UPGRADE_ROADMAP Agent guidelines from V3_UPGRADE_ROADMAP.md [PROTOCOL] Agent Gu..."
+    },
+    "fe9623b8e4a6a93b98c73125111af670": {
+      "doc_id": "swarm_doc_121",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:11:57",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 121
+      },
+      "content_preview": "Agent Guidelines: V3_CYCLE_BASED_CONTRACTS Agent guidelines from V3_CYCLE_BASED_CONTRACTS.md [PROTOC..."
+    },
+    "ba339bf9680884bd79e51176a9478cb2": {
+      "doc_id": "swarm_doc_122",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:11:57",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 122
+      },
+      "content_preview": "Agent Guidelines: V3_TEAM_ALPHA_ONBOARDING_PROTOCOL Agent guidelines from V3_TEAM_ALPHA_ONBOARDING_P..."
+    },
+    "8d96e500b6deb8c766b796ed00f26103": {
+      "doc_id": "swarm_doc_133",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:32:54",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 133
+      },
+      "content_preview": "Message: Agent-1 \u2192 Agent-2 Message from Agent-1 to Agent-2: Testing vector database integration [ACT..."
+    },
+    "e1fd7bc4e5e9a342f918babe6558ca2b": {
+      "doc_id": "swarm_doc_136",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:37:21",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 136
+      },
+      "content_preview": "Message: Agent-1 \u2192 Agent-1 Message from Agent-1 to Agent-1: Vector database integration is now opera..."
+    },
+    "2493260ca5d936475875512ea5316692": {
+      "doc_id": "swarm_doc_137",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:37:22",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 137
+      },
+      "content_preview": "Message: Agent-1 \u2192 Agent-2 Message from Agent-1 to Agent-2: Vector database integration is now opera..."
+    },
+    "af03af6709952207f511ff21f6c2e28f": {
+      "doc_id": "swarm_doc_138",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:37:23",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 138
+      },
+      "content_preview": "Message: Agent-1 \u2192 Agent-3 Message from Agent-1 to Agent-3: Vector database integration is now opera..."
+    },
+    "40321048eb742ae5320b28e397de875b": {
+      "doc_id": "swarm_doc_139",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:37:25",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 139
+      },
+      "content_preview": "Message: Agent-1 \u2192 Agent-4 Message from Agent-1 to Agent-4: Vector database integration is now opera..."
+    },
+    "3bdb5423d40a788286b2654c4d2aef66": {
+      "doc_id": "swarm_doc_140",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:37:26",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 140
+      },
+      "content_preview": "Message: Agent-1 \u2192 Agent-5 Message from Agent-1 to Agent-5: Vector database integration is now opera..."
+    },
+    "138a94b0808513e6948744e4a9ccabc2": {
+      "doc_id": "swarm_doc_141",
+      "timestamp": "2025-09-29T07:56:28.237891",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:37:27",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 141
+      },
+      "content_preview": "Message: Agent-1 \u2192 Agent-6 Message from Agent-1 to Agent-6: Vector database integration is now opera..."
+    },
+    "d0dd45f5f176ed0eaf565296a5c3af2a": {
+      "doc_id": "swarm_doc_142",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:37:29",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 142
+      },
+      "content_preview": "Message: Agent-1 \u2192 Agent-7 Message from Agent-1 to Agent-7: Vector database integration is now opera..."
+    },
+    "64a0765dc21f3c49301f46c21ff2a4a5": {
+      "doc_id": "swarm_doc_143",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:37:30",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 143
+      },
+      "content_preview": "Message: Agent-1 \u2192 Agent-8 Message from Agent-1 to Agent-8: Vector database integration is now opera..."
+    },
+    "bc0ef474168fcd20f909cdee330e5925": {
+      "doc_id": "swarm_doc_144",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-Coordinator",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:37:36",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 144
+      },
+      "content_preview": "Task Coordination: vector database integration Coordinated task vector database integration with 5 a..."
+    },
+    "f9ec20b13dba2e78a985f6f839898644": {
+      "doc_id": "swarm_doc_145",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:37:38",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 145
+      },
+      "content_preview": "Message: Agent-1 \u2192 Agent-2 Message from Agent-1 to Agent-2: Testing vector database integration [ACT..."
+    },
+    "2b654cca406bbaf731382301a70c5fc0": {
+      "doc_id": "swarm_doc_146",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-Coordinator",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T22:37:46",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 146
+      },
+      "content_preview": "Task Coordination: integration testing Coordinated task integration testing with 5 agents [ACTION] T..."
+    },
+    "6f8977ac2d26d3211617941d10e69d00": {
+      "doc_id": "swarm_doc_160",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-8",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T23:25:02",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 160
+      },
+      "content_preview": "Message: Agent-8 \u2192 Agent-4 Message from Agent-8 to Agent-4: Status update received! Agent-8 acknowle..."
+    },
+    "df33545aebbb535f767866e898204ca4": {
+      "doc_id": "swarm_doc_164",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-5",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T23:29:27",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 164
+      },
+      "content_preview": "Message: Agent-5 \u2192 Agent-7 Message from Agent-5 to Agent-7: Status update received! Agent-5 acknowle..."
+    },
+    "e9525f9b2c9df4a44f2431c42831217c": {
+      "doc_id": "swarm_doc_171",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-23T23:59:44",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 171
+      },
+      "content_preview": "Message: Agent-4 \u2192 Agent-7 Message from Agent-4 to Agent-7: REFACTORING COMPLETE! Captain_autonomous..."
+    },
+    "dc90ef1b54d4bf8aebb82aa5577ceed6": {
+      "doc_id": "swarm_doc_173",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-8",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-24T00:02:03",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 173
+      },
+      "content_preview": "Message: Agent-8 \u2192 Agent-7 Message from Agent-8 to Agent-7: Status update received! Agent-8 acknowle..."
+    },
+    "f42f9df7a5683bd3c5534eccc3fafd78": {
+      "doc_id": "swarm_doc_174",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-24T00:03:48",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 174
+      },
+      "content_preview": "Message: Agent-4 \u2192 Agent-2 Message from Agent-4 to Agent-2: ACKNOWLEDGMENT RECEIVED! Agent-4 confirm..."
+    },
+    "578ea984d0bd6b0d7cba8b5ddc9d7c9b": {
+      "doc_id": "swarm_doc_175",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-3",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-24T00:05:36",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 175
+      },
+      "content_preview": "Message: Agent-3 \u2192 Agent-8 Message from Agent-3 to Agent-8: MULTICHAT TASK COORDINATION ACKNOWLEDGED..."
+    },
+    "9f2edd6da26d8e3f070b46628c533322": {
+      "doc_id": "swarm_doc_176",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-7",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-24T00:07:51",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 176
+      },
+      "content_preview": "Message: Agent-7 \u2192 Agent-8 Message from Agent-7 to Agent-8: TASK COMPLETION ACKNOWLEDGED! Agent-7 co..."
+    },
+    "93ed3b5a15e11783f1fb20ade8000d12": {
+      "doc_id": "swarm_doc_177",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-24T00:10:06",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 177
+      },
+      "content_preview": "Message: Agent-4 \u2192 Agent-8 Message from Agent-4 to Agent-8: TASK COMPLETION ACKNOWLEDGED! Agent-4 co..."
+    },
+    "5178e4948487f65fc38b84909ea83e35": {
+      "doc_id": "swarm_doc_178",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-24T08:07:22",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 178
+      },
+      "content_preview": "Captain's Daily Log - Swarm Status & Strategic Directives Comprehensive Captain's log covering swarm..."
+    },
+    "1c7cdffdb708fe7153d839aab50e6856": {
+      "doc_id": "swarm_doc_179",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-24T08:07:22",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 179
+      },
+      "content_preview": "Captain's Handbook - Complete Operations Manual Comprehensive Captain's operations manual covering a..."
+    },
+    "251958ca6f7a8c0f6eb01a3691d802bf": {
+      "doc_id": "swarm_doc_180",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "workflow",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-24T08:07:22",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 180
+      },
+      "content_preview": "Captain's Cheatsheet - Quick Reference Workflow Quick reference guide for Captain's daily operations..."
+    },
+    "81b0f47c2cd598c98e856f898bc4efa5": {
+      "doc_id": "swarm_doc_181",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-24T08:13:26",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 181
+      },
+      "content_preview": "Complete Agent Definitions and Roles Complete definitions of all 8 agents including roles, specializ..."
+    },
+    "522fb56093bf1e586435068b1549f7fd": {
+      "doc_id": "swarm_doc_182",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "workflow",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-24T08:13:26",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 182
+      },
+      "content_preview": "Captain Onboarding Wizard - Complete Onboarding Process Interactive wizard for complete Captain onbo..."
+    },
+    "c0867473842163baf525745b93682ef3": {
+      "doc_id": "swarm_doc_183",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-24T08:13:26",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 183
+      },
+      "content_preview": "Agent Messaging Workflow Guide Comprehensive guide for agent messaging workflow guide covering setup..."
+    },
+    "a3e0bea373c8d41092357f5564d467c2": {
+      "doc_id": "swarm_doc_184",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-24T08:13:26",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 184
+      },
+      "content_preview": "Agent Workflow System Usage Guide Comprehensive guide for agent workflow system usage guide covering..."
+    },
+    "34d64f3e3c2973d692f6699ff1f6576d": {
+      "doc_id": "swarm_doc_185",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-24T08:13:26",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 185
+      },
+      "content_preview": "Discord Commander Usage Guide Comprehensive guide for discord commander usage guide covering setup, ..."
+    },
+    "cbe164685a41491e91550c702a75cfcc": {
+      "doc_id": "swarm_doc_186",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-24T08:13:26",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 186
+      },
+      "content_preview": "User Training Guide Comprehensive guide for user training guide covering setup, usage, and best prac..."
+    },
+    "f9e08ea913bc642fac9b610fab230ce0": {
+      "doc_id": "swarm_doc_187",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "workflow",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-24T08:13:26",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 187
+      },
+      "content_preview": "Onboarding Manager - Automated Agent Onboarding Automated onboarding manager for streamlined agent o..."
+    },
+    "ac50586aa7eda6e567957e07f9a3cc8f": {
+      "doc_id": "swarm_doc_188",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "workflow",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-24T08:13:26",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 188
+      },
+      "content_preview": "Onboarding Service - Automated Agent Onboarding Automated onboarding service for streamlined agent o..."
+    },
+    "d09aa3f43a03b0b4ae6162d345678267": {
+      "doc_id": "swarm_doc_189",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-24T08:17:39",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 189
+      },
+      "content_preview": "Captain's Handbook - Cycle-Based Operations Manual Updated Captain's operations manual using cycle-b..."
+    },
+    "e16699b08af4d9267a59fc2a8e5a1d12": {
+      "doc_id": "swarm_doc_190",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "workflow",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-24T08:17:39",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 190
+      },
+      "content_preview": "Captain's Cheatsheet - Cycle-Based Quick Reference Updated quick reference guide for Captain's cycle..."
+    },
+    "2b2bbc54625c4292e533df44fe090d38": {
+      "doc_id": "swarm_doc_191",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-24T08:19:28",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 191
+      },
+      "content_preview": "Current Mission Status - Phase 2 V2 Refactoring (January 2025) Current active mission status reflect..."
+    },
+    "2abf67212efc68e0ba6a3eae21005ca0": {
+      "doc_id": "swarm_doc_192",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-24T08:19:28",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 192
+      },
+      "content_preview": "Agent-4 Captain Refactoring - captain_autonomous_manager.py Refactored captain_autonomous_manager.py..."
+    },
+    "487b114225855bd63f1b61aedcb0c1e6": {
+      "doc_id": "swarm_doc_193",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-24T08:19:28",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 193
+      },
+      "content_preview": "Agent-8 Dashboard Refactoring - dashboard_web_interface.py Next refactoring task assigned to Agent-8..."
+    },
+    "5211d64033e115bd2632600404e9a759": {
+      "doc_id": "swarm_doc_194",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-24T08:19:28",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 194
+      },
+      "content_preview": "Agent-3 Database Deployment Refactoring - v3_003_database_deployment.py High priority refactoring ta..."
+    },
+    "853f6e65f1dfbdd833ab918030c6e3f0": {
+      "doc_id": "swarm_doc_195",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "action",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-24T08:19:28",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 195
+      },
+      "content_preview": "Agent-5 ML Training Refactoring - ml_training_infrastructure_tool.py High priority refactoring task ..."
+    },
+    "695298140d649ddc75b6332cf6c73a75": {
+      "doc_id": "swarm_doc_196",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-24T08:19:28",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 196
+      },
+      "content_preview": "Current Role - Agent-1 Current role and assignment for Agent-1 in Phase 2 operations Current Role: A..."
+    },
+    "97cc00028de53bd08f6c0307fbccaa6e": {
+      "doc_id": "swarm_doc_197",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-24T08:19:28",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 197
+      },
+      "content_preview": "Current Role - Agent-2 Current role and assignment for Agent-2 in Phase 2 operations Current Role: A..."
+    },
+    "64f37e117432075d9fea9d168c08bd6a": {
+      "doc_id": "swarm_doc_198",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-24T08:19:28",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 198
+      },
+      "content_preview": "Current Role - Agent-3 Current role and assignment for Agent-3 in Phase 2 operations Current Role: A..."
+    },
+    "be2b38055b3fad3b207c4f6c19ce0f5e": {
+      "doc_id": "swarm_doc_199",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-24T08:19:28",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 199
+      },
+      "content_preview": "Current Role - Agent-4 Current role and assignment for Agent-4 in Phase 2 operations Current Role: A..."
+    },
+    "34edc614b45021ad34e41c30ac742145": {
+      "doc_id": "swarm_doc_200",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-24T08:19:28",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 200
+      },
+      "content_preview": "Current Role - Agent-5 Current role and assignment for Agent-5 in Phase 2 operations Current Role: A..."
+    },
+    "e50e44a42dc46e4338bc3ed2e815eb4d": {
+      "doc_id": "swarm_doc_201",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-24T08:19:28",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 201
+      },
+      "content_preview": "Current Role - Agent-6 Current role and assignment for Agent-6 in Phase 2 operations Current Role: A..."
+    },
+    "3e4e10b9336502810c53dce192d9ae55": {
+      "doc_id": "swarm_doc_202",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-24T08:19:28",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 202
+      },
+      "content_preview": "Current Role - Agent-7 Current role and assignment for Agent-7 in Phase 2 operations Current Role: A..."
+    },
+    "2f4cea4f1156ba31f33583a898d2b4a7": {
+      "doc_id": "swarm_doc_203",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "kind": "protocol",
+        "project": "Agent_Cellphone_V2",
+        "timestamp": "2025-09-24T08:19:28",
+        "source": "swarm_brain_cleanup",
+        "swarm_brain_id": 203
+      },
+      "content_preview": "Current Role - Agent-8 Current role and assignment for Agent-8 in Phase 2 operations Current Role: A..."
+    }
+  },
+  "devlogs": {
+    "9e0ce489da64c0b6a7ed6dea7c103592": {
+      "doc_id": "2025-09-21T20:34:55.818848",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "status": "completed",
+        "timestamp": "2025-09-21T20:34:55.818848"
+      },
+      "content_preview": "Testing fixed local storage system Testing the fixed system that has NO Discord dependency"
+    },
+    "e9b7829bc00017c7869f100fce964725": {
+      "doc_id": "2025-09-21T20:36:34.136943",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "status": "completed",
+        "timestamp": "2025-09-21T20:36:34.136943"
+      },
+      "content_preview": "Testing fixed system Testing the system that has NO Discord dependency"
+    },
+    "fc8f4ce97bdf9130ad3a83f2eb6eb801": {
+      "doc_id": "2025-09-22T09:27:44.625290",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "status": "completed",
+        "timestamp": "2025-09-22T09:27:44.625290"
+      },
+      "content_preview": "Fixed Devlog System - Removed Discord Dependency Successfully removed all Discord dependencies from ..."
+    },
+    "f2b3523a74bd4b37e88c3e923238f93e": {
+      "doc_id": "2025-09-22T09:40:13.170816",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "status": "completed",
+        "timestamp": "2025-09-22T09:40:13.170816"
+      },
+      "content_preview": "Implemented Vectorization Support Added full vectorization functionality to the devlog system. Now s..."
+    },
+    "1f933ed732744847bd16470a9ca59e18": {
+      "doc_id": "2025-09-22T09:41:37.446605",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "status": "completed",
+        "timestamp": "2025-09-22T09:41:37.446605"
+      },
+      "content_preview": "Vectorization System Complete Successfully implemented full vectorization support for the devlog sys..."
+    },
+    "9d61e58bca91c437ba17b92ee02fd196": {
+      "doc_id": "2025-09-23T22:07:26",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-2",
+        "status": "completed",
+        "timestamp": "2025-09-23T22:07:26"
+      },
+      "content_preview": "Project Scanner Analysis V2 97.6%, 1 violation found"
+    },
+    "de9bc1da7933d2224247e3cba207c145": {
+      "doc_id": "2025-09-23T22:07:26",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-6",
+        "status": "completed",
+        "timestamp": "2025-09-23T22:07:26"
+      },
+      "content_preview": "Discord Communication Agent-2 completed project scan. Found 1 V2 violation in large_file.py. Suggest..."
+    },
+    "1b790bf486aa9a748b3b32fae9227f10": {
+      "doc_id": "2025-09-23T22:07:26",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-6",
+        "status": "completed",
+        "timestamp": "2025-09-23T22:07:26"
+      },
+      "content_preview": "Discord Commander Agent-2 completed project scan. Found 1 V2 violation in large_file.py. Suggesting ..."
+    },
+    "ea554cde958fd8ff18d04430f35638e9": {
+      "doc_id": "2025-09-23T22:07:26",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-2",
+        "status": "completed",
+        "timestamp": "2025-09-23T22:07:26"
+      },
+      "content_preview": "Devlog Entry \n    Agent-2 completed project analysis:\n    - Analyzed 603 files\n    - Found 1 V2 comp..."
+    },
+    "cd0b11e9184aa83ea299a8117ae051f1": {
+      "doc_id": "2025-09-23T22:07:26",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-2",
+        "status": "completed",
+        "timestamp": "2025-09-23T22:07:26"
+      },
+      "content_preview": "Devlog Action \n    Agent-2 completed project analysis:\n    - Analyzed 603 files\n    - Found 1 V2 com..."
+    },
+    "9a13045bde345346d087712fb8ded608": {
+      "doc_id": "2025-09-23T22:07:27",
+      "timestamp": "2025-09-29T07:56:28.238894",
+      "metadata": {
+        "agent_id": "Agent-8",
+        "status": "completed",
+        "timestamp": "2025-09-23T22:07:27"
+      },
+      "content_preview": "Performance Monitoring Alert Performance alert: CPU: 45.0%, Memory: 60.0%, Response: 1.20s, 2 anomal..."
+    },
+    "4d7cb99d49df7021064377527c0a8306": {
+      "doc_id": "2025-09-23T22:07:27",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-3",
+        "status": "completed",
+        "timestamp": "2025-09-23T22:07:27"
+      },
+      "content_preview": "compliance_fixer execution Fixed length_violation in large_file.py"
+    },
+    "e138b8f5b91bc34e7566fb2687679460": {
+      "doc_id": "2025-09-23T22:07:27",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-2",
+        "status": "completed",
+        "timestamp": "2025-09-23T22:07:27"
+      },
+      "content_preview": "CLI Test Action "
+    },
+    "c1a291f02bd5c34de471d9ba6d679369": {
+      "doc_id": "2025-09-23T22:11:56",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-5",
+        "status": "completed",
+        "timestamp": "2025-09-23T22:11:56"
+      },
+      "content_preview": "Devlog Entry # \ud83d\udc1d DISCORD COMMANDER TEST MESSAGES RECEIVED - AGENT-7 MONITORING\n\n## **Discord Command..."
+    },
+    "aeb7c0929a5e0e495abfadf26e028ccf": {
+      "doc_id": "2025-09-23T22:11:56",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-5",
+        "status": "completed",
+        "timestamp": "2025-09-23T22:11:56"
+      },
+      "content_preview": "Devlog Action # \ud83d\udc1d DISCORD COMMANDER TEST MESSAGES RECEIVED - AGENT-7 MONITORING\n\n## **Discord Comman..."
+    },
+    "d45e0faf89b37fdf9918a5e3141db57e": {
+      "doc_id": "2025-09-23T22:11:57",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-2",
+        "status": "completed",
+        "timestamp": "2025-09-23T22:11:57"
+      },
+      "content_preview": "Compliance Report: V2_REFACTORING_COORDINATION_PLAN Compliance report from V2_REFACTORING_COORDINATI..."
+    },
+    "62dc945bb2790ed1dc090cd6ce03c909": {
+      "doc_id": "2025-09-23T22:11:57",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-2",
+        "status": "completed",
+        "timestamp": "2025-09-23T22:11:57"
+      },
+      "content_preview": "Compliance Report: V2_VIOLATIONS_ACTION_PLAN Compliance report from V2_VIOLATIONS_ACTION_PLAN.md"
+    },
+    "c7678910dd0be39f8fe458dec866247f": {
+      "doc_id": "2025-09-23T22:11:57",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-2",
+        "status": "completed",
+        "timestamp": "2025-09-23T22:11:57"
+      },
+      "content_preview": "Compliance Report: V2_COMPLIANCE_REPORT Compliance report from V2_COMPLIANCE_REPORT.md"
+    },
+    "0d075a65f85d7c9c3a3c6f016a616f66": {
+      "doc_id": "2025-09-23T22:11:57",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-8",
+        "status": "completed",
+        "timestamp": "2025-09-23T22:11:57"
+      },
+      "content_preview": "Security Report: SECURITY_CONSOLIDATION_SUMMARY Security report from SECURITY_CONSOLIDATION_SUMMARY...."
+    },
+    "c8bc4ff5063d5a64cd32c3c1804dba11": {
+      "doc_id": "2025-09-23T22:11:57",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-8",
+        "status": "completed",
+        "timestamp": "2025-09-23T22:11:57"
+      },
+      "content_preview": "Security Report: SECURITY_BEST_PRACTICES Security report from SECURITY_BEST_PRACTICES.md"
+    },
+    "2e743520df9c27ed653180331651d6c0": {
+      "doc_id": "2025-09-23T22:11:57",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-8",
+        "status": "completed",
+        "timestamp": "2025-09-23T22:11:57"
+      },
+      "content_preview": "Security Report: SECURITY_IMPLEMENTATION_SUMMARY Security report from SECURITY_IMPLEMENTATION_SUMMAR..."
+    },
+    "dd4d7cc0cdb46f95ee13ed67865c7683": {
+      "doc_id": "2025-09-23T22:11:57",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-8",
+        "status": "completed",
+        "timestamp": "2025-09-23T22:11:57"
+      },
+      "content_preview": "Security Report: PHASE4_SECURITY_VALIDATION_REPORT Security report from PHASE4_SECURITY_VALIDATION_R..."
+    },
+    "cce5876ff0a18b09a5d5b7d7d55a2026": {
+      "doc_id": "2025-09-23T22:37:38",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "status": "completed",
+        "timestamp": "2025-09-23T22:37:38"
+      },
+      "content_preview": "Message: Agent-1 \u2192 Agent-2 Message from Agent-1 to Agent-2: Testing vector database integration"
+    },
+    "0b20b31143d0af3ba446dc61b7e8d5f7": {
+      "doc_id": "2025-09-23T22:37:21",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "status": "completed",
+        "timestamp": "2025-09-23T22:37:21"
+      },
+      "content_preview": "Message: Agent-1 \u2192 Agent-1 Message from Agent-1 to Agent-1: Vector database integration is now opera..."
+    },
+    "ef7fe0e41783dc4d114531851c2dfecc": {
+      "doc_id": "2025-09-23T22:37:22",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "status": "completed",
+        "timestamp": "2025-09-23T22:37:22"
+      },
+      "content_preview": "Message: Agent-1 \u2192 Agent-2 Message from Agent-1 to Agent-2: Vector database integration is now opera..."
+    },
+    "9b1e619a2c5b4fb9712d3d995aa8986b": {
+      "doc_id": "2025-09-23T22:37:23",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "status": "completed",
+        "timestamp": "2025-09-23T22:37:23"
+      },
+      "content_preview": "Message: Agent-1 \u2192 Agent-3 Message from Agent-1 to Agent-3: Vector database integration is now opera..."
+    },
+    "3871073b0aac043bb7267fd94b894bf9": {
+      "doc_id": "2025-09-23T22:37:25",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "status": "completed",
+        "timestamp": "2025-09-23T22:37:25"
+      },
+      "content_preview": "Message: Agent-1 \u2192 Agent-4 Message from Agent-1 to Agent-4: Vector database integration is now opera..."
+    },
+    "0a47f98d974b822c6045baa9e3086293": {
+      "doc_id": "2025-09-23T22:37:26",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "status": "completed",
+        "timestamp": "2025-09-23T22:37:26"
+      },
+      "content_preview": "Message: Agent-1 \u2192 Agent-5 Message from Agent-1 to Agent-5: Vector database integration is now opera..."
+    },
+    "5533d6e6311ea1e68fa8f6993ca0004a": {
+      "doc_id": "2025-09-23T22:37:27",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "status": "completed",
+        "timestamp": "2025-09-23T22:37:27"
+      },
+      "content_preview": "Message: Agent-1 \u2192 Agent-6 Message from Agent-1 to Agent-6: Vector database integration is now opera..."
+    },
+    "7700a230278bc44bb3a4e3ea8ebc2884": {
+      "doc_id": "2025-09-23T22:37:29",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "status": "completed",
+        "timestamp": "2025-09-23T22:37:29"
+      },
+      "content_preview": "Message: Agent-1 \u2192 Agent-7 Message from Agent-1 to Agent-7: Vector database integration is now opera..."
+    },
+    "309485739d611ad5d31f89ff62d9864e": {
+      "doc_id": "2025-09-23T22:37:30",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-1",
+        "status": "completed",
+        "timestamp": "2025-09-23T22:37:30"
+      },
+      "content_preview": "Message: Agent-1 \u2192 Agent-8 Message from Agent-1 to Agent-8: Vector database integration is now opera..."
+    },
+    "29e24b56ee8f786617d330ea44bd94d1": {
+      "doc_id": "2025-09-23T22:37:36",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-Coordinator",
+        "status": "completed",
+        "timestamp": "2025-09-23T22:37:36"
+      },
+      "content_preview": "Task Coordination: vector database integration Coordinated task vector database integration with 5 a..."
+    },
+    "c3889af01dba73fdd363864b58efb5a2": {
+      "doc_id": "2025-09-23T22:37:46",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-Coordinator",
+        "status": "completed",
+        "timestamp": "2025-09-23T22:37:46"
+      },
+      "content_preview": "Task Coordination: integration testing Coordinated task integration testing with 5 agents"
+    },
+    "ebd75962c85c3d272f2973cc07f1ca3e": {
+      "doc_id": "2025-09-23T23:25:02",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-8",
+        "status": "completed",
+        "timestamp": "2025-09-23T23:25:02"
+      },
+      "content_preview": "Message: Agent-8 \u2192 Agent-4 Message from Agent-8 to Agent-4: Status update received! Agent-8 acknowle..."
+    },
+    "9b58096c28d1d04057b657e8ca320204": {
+      "doc_id": "2025-09-23T23:29:27",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-5",
+        "status": "completed",
+        "timestamp": "2025-09-23T23:29:27"
+      },
+      "content_preview": "Message: Agent-5 \u2192 Agent-7 Message from Agent-5 to Agent-7: Status update received! Agent-5 acknowle..."
+    },
+    "c05e626ebebbd3e9970caf7f8e48bbee": {
+      "doc_id": "2025-09-23T23:59:44",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "status": "completed",
+        "timestamp": "2025-09-23T23:59:44"
+      },
+      "content_preview": "Message: Agent-4 \u2192 Agent-7 Message from Agent-4 to Agent-7: REFACTORING COMPLETE! Captain_autonomous..."
+    },
+    "c6fa6f8f011ea33b0c6e8bfd1e17530f": {
+      "doc_id": "2025-09-24T00:02:03",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-8",
+        "status": "completed",
+        "timestamp": "2025-09-24T00:02:03"
+      },
+      "content_preview": "Message: Agent-8 \u2192 Agent-7 Message from Agent-8 to Agent-7: Status update received! Agent-8 acknowle..."
+    },
+    "e393afc10ef2f394c53d958600eacb7f": {
+      "doc_id": "2025-09-24T00:03:48",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "status": "completed",
+        "timestamp": "2025-09-24T00:03:48"
+      },
+      "content_preview": "Message: Agent-4 \u2192 Agent-2 Message from Agent-4 to Agent-2: ACKNOWLEDGMENT RECEIVED! Agent-4 confirm..."
+    },
+    "6a49cef324837b9b200d74a11223f216": {
+      "doc_id": "2025-09-24T00:05:36",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-3",
+        "status": "completed",
+        "timestamp": "2025-09-24T00:05:36"
+      },
+      "content_preview": "Message: Agent-3 \u2192 Agent-8 Message from Agent-3 to Agent-8: MULTICHAT TASK COORDINATION ACKNOWLEDGED..."
+    },
+    "6e4b82d41c98db6bdd11a54f611a2382": {
+      "doc_id": "2025-09-24T00:07:51",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-7",
+        "status": "completed",
+        "timestamp": "2025-09-24T00:07:51"
+      },
+      "content_preview": "Message: Agent-7 \u2192 Agent-8 Message from Agent-7 to Agent-8: TASK COMPLETION ACKNOWLEDGED! Agent-7 co..."
+    },
+    "eee6d7e9f116731aff21a71e67f89351": {
+      "doc_id": "2025-09-24T00:10:06",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "status": "completed",
+        "timestamp": "2025-09-24T00:10:06"
+      },
+      "content_preview": "Message: Agent-4 \u2192 Agent-8 Message from Agent-4 to Agent-8: TASK COMPLETION ACKNOWLEDGED! Agent-4 co..."
+    },
+    "f87aca39c0fad502b084da635a6e234d": {
+      "doc_id": "2025-09-24T08:19:28",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "status": "completed",
+        "timestamp": "2025-09-24T08:19:28"
+      },
+      "content_preview": "Agent-4 Captain Refactoring - captain_autonomous_manager.py Refactored captain_autonomous_manager.py..."
+    },
+    "7831a8fe935dab5fe2c1636a1a23cc0c": {
+      "doc_id": "2025-09-24T08:19:28",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "status": "completed",
+        "timestamp": "2025-09-24T08:19:28"
+      },
+      "content_preview": "Agent-8 Dashboard Refactoring - dashboard_web_interface.py Next refactoring task assigned to Agent-8"
+    },
+    "9ed3629852f583da8cd7cdbd0a8acefa": {
+      "doc_id": "2025-09-24T08:19:28",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "status": "completed",
+        "timestamp": "2025-09-24T08:19:28"
+      },
+      "content_preview": "Agent-3 Database Deployment Refactoring - v3_003_database_deployment.py High priority refactoring ta..."
+    },
+    "6c45bfb0f7fc1762f63cbf2dcc77efab": {
+      "doc_id": "2025-09-24T08:19:28",
+      "timestamp": "2025-09-29T07:56:28.239894",
+      "metadata": {
+        "agent_id": "Agent-4",
+        "status": "completed",
+        "timestamp": "2025-09-24T08:19:28"
+      },
+      "content_preview": "Agent-5 ML Training Refactoring - ml_training_infrastructure_tool.py High priority refactoring task ..."
+    }
+  },
+  "project_analysis": {},
+  "last_updated": "2025-09-29T07:56:28.239894"
+}

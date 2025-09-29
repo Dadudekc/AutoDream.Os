@@ -1,61 +1,232 @@
-# Unified Configuration File
-# Based on Dream.OS patterns with V2 compliance
-
 app:
-  name: "Agent-Cellphone-V2"
-  version: "1.0.0"
+  name: Agent-Cellphone-V2
+  version: 1.0.0
   debug: false
-  log_level: "INFO"
+  log_level: INFO
   max_retries: 3
   timeout: 30.0
-
 ai:
-  model: "gpt-4"
+  model: gpt-4
   temperature: 0.7
   max_tokens: 2000
   memory:
     max_entries: 1000
     min_score: 0.5
-
 discord:
-  bot_token: ""
+  bot_token: ''
   channel_id: 0
   enabled: false
-
 database:
-  url: "sqlite:///memory.db"
+  url: sqlite:///memory.db
   pool_size: 5
   timeout: 30.0
-
-# Task scheduling configuration
 task_scheduler:
   max_workers: 4
   retry_delay: 2.0
   max_retries: 3
-
-# Agent coordination
+coordination_mode: five_agent
+active_agents: 5
+testing_mode: ACTIVE
+agent_modes:
+  four_agent_mode_a:
+    name: Infrastructure & Core Team
+    description: Agent-3, Agent-4, Agent-7, Agent-8 - Infrastructure focused
+    active_agents:
+    - agent_3
+    - agent_4
+    - agent_7
+    - agent_8
+    inactive_agents:
+    - agent_1
+    - agent_2
+    - agent_5
+    - agent_6
+  four_agent_mode_b:
+    name: Foundation Team
+    description: Agent-1, Agent-2, Agent-3, Agent-4 - Core foundation team
+    active_agents:
+    - agent_1
+    - agent_2
+    - agent_3
+    - agent_4
+    inactive_agents:
+    - agent_5
+    - agent_6
+    - agent_7
+    - agent_8
+  five_agent:
+    name: Quality Focus Team
+    description: Agent-4, Agent-5, Agent-6, Agent-7, Agent-8 - Quality focused
+    active_agents:
+    - agent_4
+    - agent_5
+    - agent_6
+    - agent_7
+    - agent_8
+    inactive_agents:
+    - agent_1
+    - agent_2
+    - agent_3
+  eight_agent:
+    name: Full Swarm
+    description: All 8 agents active - Complete swarm intelligence
+    active_agents:
+    - agent_1
+    - agent_2
+    - agent_3
+    - agent_4
+    - agent_5
+    - agent_6
+    - agent_7
+    - agent_8
+    inactive_agents: []
 agents:
   agent_1:
-    name: "Integration & Core Systems Specialist"
-    coordinates: [-1269, 481]
-    enabled: true
+    name: Integration & Core Systems Specialist
+    role: integration_specialist
+    coordinates:
+    - -1269
+    - 481
+    enabled: false
+    capabilities:
+    - integration
+    - core_systems
+    - troubleshooting
+    - coordination
+    responsibilities:
+    - System integration and interoperability
+    - Core systems maintenance
+    - Integration testing and validation
+    - Cross-platform compatibility
   agent_2:
-    name: "Architecture & Design Specialist"
-    coordinates: [-308, 480]
-    enabled: true
+    name: Architecture & Design Specialist
+    role: architecture_specialist
+    coordinates:
+    - -308
+    - 480
+    enabled: false
+    capabilities:
+    - architecture
+    - design
+    - research
+    - optimization
+    - quality_assurance
+    responsibilities:
+    - System design and architectural decisions
+    - Architecture review and validation
+    - Design pattern implementation
+    - System optimization
   agent_3:
-    name: "Infrastructure & DevOps Specialist"
-    coordinates: [-1269, 1001]
-    enabled: true
+    name: Infrastructure & DevOps Specialist
+    role: infrastructure_specialist
+    coordinates:
+    - -1269
+    - 1001
+    enabled: false
+    capabilities:
+    - infrastructure
+    - devops
+    - deployment
+    - monitoring
+    - troubleshooting
+    responsibilities:
+    - DevOps and deployment management
+    - Infrastructure monitoring
+    - System deployment and scaling
+    - Performance optimization
   agent_4:
-    name: "Captain & Quality Manager"
-    coordinates: [-308, 1000]
+    name: Captain - Strategic Leadership
+    role: captain
+    coordinates:
+    - -308
+    - 1000
     enabled: true
-
-# Dream.OS integration settings
+    capabilities:
+    - strategic_oversight
+    - emergency_intervention
+    - role_assignment
+    - coordination
+    responsibilities:
+    - Overall mission leadership
+    - Strategic decision making
+    - Agent coordination oversight
+    - Quality standards enforcement
+    - Final approval authority
+  agent_5:
+    name: Coordinator - Task Management
+    role: coordinator
+    coordinates:
+    - 652
+    - 421
+    enabled: true
+    capabilities:
+    - coordination
+    - task_management
+    - communication
+    - workflow_optimization
+    responsibilities:
+    - Task coordination and distribution
+    - Agent communication management
+    - Workflow optimization
+    - Resource allocation
+    - Progress tracking
+  agent_6:
+    name: Quality Specialist - V2 Compliance
+    role: quality_specialist
+    coordinates:
+    - 1612
+    - 419
+    enabled: true
+    capabilities:
+    - quality_assurance
+    - testing
+    - validation
+    - compliance
+    - v2_enforcement
+    responsibilities:
+    - V2 compliance enforcement
+    - Code quality validation
+    - Quality gates implementation
+    - Architecture review
+    - Testing standards
+  agent_7:
+    name: Implementation Specialist - Core Systems
+    role: implementation_specialist
+    coordinates:
+    - 920
+    - 851
+    enabled: true
+    capabilities:
+    - web_development
+    - frontend
+    - backend
+    - task_execution
+    responsibilities:
+    - Core system implementation
+    - Repository management
+    - VSCode forking
+    - Technical execution
+    - System integration
+  agent_8:
+    name: Integration Specialist - Testing & Validation
+    role: integration_specialist
+    coordinates:
+    - 1611
+    - 941
+    enabled: true
+    capabilities:
+    - ssot_management
+    - coordination
+    - quality_assurance
+    - integration_specialist
+    responsibilities:
+    - Integration testing and validation
+    - Cross-platform compatibility
+    - Performance optimization
+    - Documentation management
+    - Quality assurance coordination
 dream_os:
   enabled: true
   integration_phase: 1
   config_validation: true
   hot_reload: true
-

@@ -17,8 +17,13 @@ from ..mailbox.mailbox_manager import MailboxManager
 from ..tasks.task_manager import TaskManager
 from ..blockers.blocker_resolver import BlockerResolver
 from ..operations.autonomous_operations import AutonomousOperations
-from ...agent_devlog_automation import auto_create_devlog
-from ...consolidated_messaging_service import ConsolidatedMessagingService
+from ...agent_devlog_automation import auto_create_cycle_devlog
+try:
+    from ...consolidated_messaging_service import ConsolidatedMessagingService
+    MESSAGING_AVAILABLE = True
+except ImportError:
+    MESSAGING_AVAILABLE = False
+    ConsolidatedMessagingService = None
 
 logger = logging.getLogger(__name__)
 
@@ -42,7 +47,10 @@ class AgentAutonomousWorkflow:
         self.processed_dir.mkdir(exist_ok=True)
         
         # Initialize messaging service
-        self.messaging_service = ConsolidatedMessagingService()
+        if MESSAGING_AVAILABLE:
+            self.messaging_service = ConsolidatedMessagingService()
+        else:
+            self.messaging_service = None
         
         # Initialize components
         self.mailbox_manager = MailboxManager(agent_id, self.workspace_dir)

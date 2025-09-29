@@ -197,3 +197,4 @@ Tags: GENERAL
             return agent_data.get("active", True)
         except Exception:
             return True  # Default to active if check fails
+

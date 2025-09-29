@@ -1,0 +1,470 @@
+{
+  "version": "3.2",
+  "last_updated": "2025-01-27",
+  "coordination_mode": "five_agent",
+  "active_agents": ["Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"],
+  
+  "universal_capabilities": [
+    "AUTONOMOUS_EXECUTION",
+    "SELF_HEALING_LOOP",
+    "BOTLESS_DISCORD_COMMS",
+    "WEBHOOK_PROVISIONING",
+    "CURSOR_ORCHESTRATION",
+    "BROWSER_RPA",
+    "LLM_TOOLCALLS",
+    "UNIT_TEST_AUTHOR",
+    "CICD_GITOPS",
+    "DOCS_AUTOGEN",
+    "VECTOR_DB_IO",
+    "OBSERVABILITY_REPORTS",
+    "POLICY_ENFORCEMENT",
+    "SAFEGUARD_REDTEAM",
+    "MULTI_AGENT_HANDOFF",
+    "PYAUTOGUI_MESSAGING",
+    "ROLE_DYNAMIC_ASSIGNMENT",
+    "PROJECT_SCANNER_INTEGRATION",
+    "THEA_CONSULTATION",
+    "DEBATE_PARTICIPATION"
+  ],
+  
+  "interfaces_all": [
+    "discord",
+    "mailbox",
+    "filesystem",
+    "git",
+    "http",
+    "browser",
+    "sqlite_vector",
+    "webhooks",
+    "pyautogui",
+    "cursor_ide"
+  ],
+  
+  "permissions_all": [
+    "read_write_repo",
+    "create_branches",
+    "open_pr",
+    "launch_runs",
+    "manage_webhooks",
+    "read_metrics",
+    "post_team_updates",
+    "role_assignment",
+    "mode_switching",
+    "project_analysis"
+  ],
+
+  "agents": {
+    "Agent-1": {
+      "name": "Integration & Core Systems Specialist",
+      "status": "INACTIVE",
+      "coordinates": [-1269, 481],
+      "default_roles": [
+        "INTEGRATION_SPECIALIST",
+        "TASK_EXECUTOR",
+        "TROUBLESHOOTER",
+        "COORDINATOR"
+      ],
+      "specialized_roles": [
+        "PIPELINE_VALIDATOR",
+        "API_SCAFFOLDER",
+        "TEST_FIXER",
+        "HOTPATCH_FIRST_RESPONDER"
+      ],
+      "capabilities": [
+        "integration",
+        "core_systems",
+        "troubleshooting",
+        "coordination"
+      ],
+      "kpis": ["MTTR_hotfix", "pipeline_pass_rate", "handoff_latency"],
+      "responsibilities": [
+        "System integration and interoperability",
+        "Core systems maintenance",
+        "Integration testing and validation",
+        "Cross-platform compatibility"
+      ],
+      "dynamic_role_capable": true,
+      "can_assume_captain_role": true
+    },
+
+    "Agent-2": {
+      "name": "Architecture & Design Specialist",
+      "status": "INACTIVE",
+      "coordinates": [-308, 480],
+      "default_roles": [
+        "ARCHITECTURE_SPECIALIST",
+        "RESEARCHER",
+        "OPTIMIZER",
+        "QUALITY_ASSURANCE"
+      ],
+      "specialized_roles": [
+        "SCHEMA_DESIGNER",
+        "PERF_OPTIMIZER",
+        "SECURITY_REVIEWER",
+        "PROMPT_ARCHITECT"
+      ],
+      "capabilities": [
+        "architecture",
+        "design",
+        "research",
+        "optimization",
+        "quality_assurance"
+      ],
+      "kpis": ["design_review_sla", "v2_compliance", "embedding_recall"],
+      "responsibilities": [
+        "System design and architectural decisions",
+        "Architecture review and validation",
+        "Design pattern implementation",
+        "System optimization"
+      ],
+      "dynamic_role_capable": true,
+      "can_assume_captain_role": true
+    },
+
+    "Agent-3": {
+      "name": "Infrastructure & DevOps Specialist",
+      "status": "INACTIVE",
+      "coordinates": [-1269, 1001],
+      "default_roles": [
+        "INFRASTRUCTURE_SPECIALIST",
+        "TASK_EXECUTOR",
+        "TROUBLESHOOTER"
+      ],
+      "specialized_roles": [
+        "DEPLOYMENT_ENGINEER",
+        "SCALABILITY_STRATEGIST",
+        "SECURITY_AUDITOR",
+        "SRE_ONCALL"
+      ],
+      "capabilities": [
+        "infrastructure",
+        "devops",
+        "deployment",
+        "monitoring",
+        "troubleshooting"
+      ],
+      "kpis": ["deploy_success_pct", "infra_cost_delta", "error_budget"],
+      "responsibilities": [
+        "DevOps and deployment management",
+        "Infrastructure monitoring",
+        "System deployment and scaling",
+        "Performance optimization"
+      ],
+      "dynamic_role_capable": true,
+      "can_assume_captain_role": true
+    },
+
+    "Agent-4": {
+      "name": "Captain - Strategic Leadership",
+      "status": "ACTIVE",
+      "coordinates": [-308, 1000],
+      "default_roles": [
+        "CAPTAIN",
+        "ROLE_ASSIGNER",
+        "MODE_SWITCH_CONTROLLER",
+        "POLICY_VALIDATOR"
+      ],
+      "specialized_roles": [
+        "GOVERNANCE_OVERSEER",
+        "COMMAND_ROUTER",
+        "ESCALATION_HANDLER",
+        "ROADMAP_OWNER",
+        "MERGE_GATEKEEPER"
+      ],
+      "capabilities": [
+        "strategic_oversight",
+        "emergency_intervention",
+        "role_assignment",
+        "coordination"
+      ],
+      "kpis": ["cycle_time", "escalation_accuracy", "merge_defect_rate"],
+      "responsibilities": [
+        "Overall mission leadership",
+        "Strategic decision making",
+        "Agent coordination oversight",
+        "Quality standards enforcement",
+        "Final approval authority"
+      ],
+      "dynamic_role_capable": true,
+      "can_assume_captain_role": true,
+      "is_current_captain": true
+    },
+
+    "Agent-5": {
+      "name": "Business Intelligence Coordinator",
+      "status": "ACTIVE",
+      "coordinates": [652, 421],
+      "default_roles": [
+        "DATA_ANALYST",
+        "RESEARCHER",
+        "OPTIMIZER"
+      ],
+      "specialized_roles": [
+        "METRICS_ENGINEER",
+        "VALIDATION_SPECIALIST",
+        "KNOWLEDGE_MINER",
+        "SENTIMENT_ANALYST"
+      ],
+      "capabilities": [
+        "data_analysis",
+        "research",
+        "optimization",
+        "business_intelligence"
+      ],
+      "kpis": ["signal_quality", "eval_coverage", "decision_latency"],
+      "responsibilities": [
+        "Data processing and analysis",
+        "Business intelligence reporting",
+        "Research and investigation",
+        "Performance optimization"
+      ],
+      "dynamic_role_capable": true,
+      "can_assume_captain_role": true
+    },
+
+    "Agent-6": {
+      "name": "Quality Assurance Specialist",
+      "status": "ACTIVE",
+      "coordinates": [1612, 419],
+      "default_roles": [
+        "COORDINATOR",
+        "COMMUNICATION_SPECIALIST",
+        "TASK_EXECUTOR"
+      ],
+      "specialized_roles": [
+        "TEAM_CHAT_MANAGER",
+        "SOCIAL_CONNECTOR",
+        "ANNOUNCEMENT_AUTOMATOR",
+        "STAKEHOLDER_BRIEF_WRITER"
+      ],
+      "capabilities": [
+        "communication",
+        "coordination",
+        "quality_assurance",
+        "team_management"
+      ],
+      "kpis": ["broadcast_delivery", "stakeholder_cs", "handoff_success"],
+      "responsibilities": [
+        "Inter-agent coordination and communication",
+        "Quality assurance and testing",
+        "Team communication management",
+        "Stakeholder communication"
+      ],
+      "dynamic_role_capable": true,
+      "can_assume_captain_role": true
+    },
+
+    "Agent-7": {
+      "name": "Web Development Implementation Specialist",
+      "status": "ACTIVE",
+      "coordinates": [920, 851],
+      "default_roles": [
+        "WEB_DEVELOPER",
+        "TASK_EXECUTOR",
+        "FRONTEND_SPECIALIST"
+      ],
+      "specialized_roles": [
+        "UI_UX_DESIGNER",
+        "API_ENGINEER",
+        "AUTOMATION_SCRIPTOR",
+        "TOOLCHAIN_INTEGRATOR"
+      ],
+      "capabilities": [
+        "web_development",
+        "frontend",
+        "implementation",
+        "api_development"
+      ],
+      "kpis": ["lighthouse_score", "a11y_score", "api_contract_pass"],
+      "responsibilities": [
+        "Frontend and backend web development",
+        "UI/UX design and implementation",
+        "API development and integration",
+        "Web application maintenance"
+      ],
+      "dynamic_role_capable": true,
+      "can_assume_captain_role": true
+    },
+
+    "Agent-8": {
+      "name": "SSOT & System Integration Specialist",
+      "status": "ACTIVE",
+      "coordinates": [1611, 941],
+      "default_roles": [
+        "SSOT_MANAGER",
+        "COORDINATOR",
+        "QUALITY_ASSURANCE",
+        "INTEGRATION_SPECIALIST"
+      ],
+      "specialized_roles": [
+        "COMPLIANCE_OFFICER",
+        "VERSION_CONTROL_ENGINEER",
+        "VALIDATION_AUTOMATOR",
+        "CANONICAL_COORDINATE_MANAGER"
+      ],
+      "capabilities": [
+        "ssot_management",
+        "system_integration",
+        "quality_assurance",
+        "coordination",
+        "compliance"
+      ],
+      "kpis": ["drift_index", "docs_freshness", "policy_violation_count"],
+      "responsibilities": [
+        "Single Source of Truth management",
+        "System integration and coordination",
+        "Quality assurance and compliance",
+        "Dynamic role assignment management",
+        "V2 compliance validation"
+      ],
+      "dynamic_role_capable": true,
+      "can_assume_captain_role": true
+    }
+  },
+
+  "handoff_rules": {
+    "bugfix_hotpath": ["Agent-1", "Agent-3", "Agent-8", "Agent-4"],
+    "feature_delivery": ["Agent-2", "Agent-7", "Agent-1", "Agent-8", "Agent-4"],
+    "incident_major": ["Agent-3", "Agent-6", "Agent-5", "Agent-4", "Agent-8"],
+    "research_to_prod": ["Agent-2", "Agent-5", "Agent-7", "Agent-1", "Agent-8", "Agent-4"],
+    "quality_assurance": ["Agent-6", "Agent-8", "Agent-4"],
+    "system_integration": ["Agent-8", "Agent-1", "Agent-7", "Agent-4"]
+  },
+
+  "mode_projections": {
+    "4_agent_mode_a": {
+      "name": "Infrastructure & Core Team",
+      "active": ["Agent-3", "Agent-4", "Agent-7", "Agent-8"],
+      "inactive": ["Agent-1", "Agent-2", "Agent-5", "Agent-6"],
+      "notes": "Infrastructure and core system maintenance"
+    },
+    "4_agent_mode_b": {
+      "name": "Foundation Team",
+      "active": ["Agent-1", "Agent-2", "Agent-3", "Agent-4"],
+      "inactive": ["Agent-5", "Agent-6", "Agent-7", "Agent-8"],
+      "notes": "Core foundation and architecture"
+    },
+    "5_agent_mode": {
+      "name": "Quality Focus Team",
+      "active": ["Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"],
+      "inactive": ["Agent-1", "Agent-2", "Agent-3"],
+      "notes": "Quality-focused coordination and implementation"
+    },
+    "8_agent_mode": {
+      "name": "Full Swarm",
+      "active": ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"],
+      "inactive": [],
+      "notes": "Complete swarm intelligence and coordination"
+    }
+  },
+
+  "escalation_policy": {
+    "p0": "Agent-3 leads, Agent-6 comms, Agent-4 governance; SLA 15m ack",
+    "p1": "Agent-1 triage, Agent-5 data, Agent-8 compliance; SLA 30m ack",
+    "p2": "Queue per backlog; Captain reviews daily",
+    "quality_issues": "Agent-6 leads, Agent-8 compliance, Agent-4 oversight",
+    "integration_issues": "Agent-8 leads, Agent-1 support, Agent-7 implementation"
+  },
+
+  "dynamic_role_assignment": {
+    "description": "All agents can assume any role when assigned by Captain Agent-4",
+     "universal_roles": [
+       "CAPTAIN",
+       "SSOT_MANAGER", 
+       "COORDINATOR",
+       "INTEGRATION_SPECIALIST",
+       "ARCHITECTURE_SPECIALIST",
+       "INFRASTRUCTURE_SPECIALIST",
+       "WEB_DEVELOPER",
+       "DATA_ANALYST",
+       "QUALITY_ASSURANCE",
+       "TASK_EXECUTOR",
+       "RESEARCHER",
+       "TROUBLESHOOTER",
+       "OPTIMIZER",
+       "DEVLOG_STORYTELLER",
+       "CODE_ARCHAEOLOGIST",
+       "PERFORMANCE_DETECTIVE",
+       "SECURITY_INSPECTOR",
+       "DOCUMENTATION_ARCHITECT",
+       "INTEGRATION_EXPLORER",
+       "FINANCIAL_ANALYST",
+       "TRADING_STRATEGIST",
+       "RISK_MANAGER",
+       "MARKET_RESEARCHER",
+       "PORTFOLIO_OPTIMIZER",
+       "COMPLIANCE_AUDITOR"
+     ],
+    "assignment_authority": "Captain Agent-4",
+    "emergency_override": "Any agent can assume CAPTAIN role in emergency situations",
+    "role_protocols": "Agents load role-specific protocols automatically when assigned",
+    "default_behavior": "Agents return to default_roles when role assignment expires"
+  },
+
+   "role_categories": {
+     "core_roles": [
+       "CAPTAIN",
+       "SSOT_MANAGER",
+       "COORDINATOR"
+     ],
+     "technical_roles": [
+       "INTEGRATION_SPECIALIST",
+       "ARCHITECTURE_SPECIALIST",
+       "INFRASTRUCTURE_SPECIALIST",
+       "WEB_DEVELOPER",
+       "DATA_ANALYST",
+       "QUALITY_ASSURANCE",
+       "PERFORMANCE_DETECTIVE",
+       "SECURITY_INSPECTOR",
+       "INTEGRATION_EXPLORER",
+       "FINANCIAL_ANALYST",
+       "TRADING_STRATEGIST",
+       "RISK_MANAGER",
+       "PORTFOLIO_OPTIMIZER",
+       "COMPLIANCE_AUDITOR"
+     ],
+     "operational_roles": [
+       "TASK_EXECUTOR",
+       "RESEARCHER",
+       "TROUBLESHOOTER",
+       "OPTIMIZER",
+       "DEVLOG_STORYTELLER",
+       "CODE_ARCHAEOLOGIST",
+       "DOCUMENTATION_ARCHITECT",
+       "MARKET_RESEARCHER"
+     ]
+   },
+
+  "general_cycle_integration": {
+    "phase_1_check_inbox": [
+      "Query Swarm Brain for patterns",
+      "Search vector database for similar actions",
+      "Review devlog database for recent activities",
+      "Check V2 compliance violations"
+    ],
+    "phase_2_evaluate_tasks": [
+      "Query Swarm Brain for task success patterns",
+      "Use vector similarity for related tasks",
+      "Check devlog database for completion patterns",
+      "Prioritize based on compliance violations"
+    ],
+    "phase_3_execute_role": [
+      "Run project scanner analysis",
+      "Consult THEA for quality control",
+      "Update vector database with results",
+      "Store vector embeddings for future reference"
+    ],
+    "phase_4_quality_gates": [
+      "Enforce V2 compliance",
+      "Validate SSOT requirements",
+      "Index quality results in vector database",
+      "Update Swarm Brain with validation results"
+    ],
+    "phase_5_cycle_done": [
+      "Sync Swarm Brain database with results",
+      "Index cycle results in vector database",
+      "Archive cycle summary in devlog database",
+      "Update agent workspace status"
+    ]
+  }
+}

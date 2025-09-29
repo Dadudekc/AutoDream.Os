@@ -1,0 +1,83 @@
+{
+  "role": "COMPLIANCE_AUDITOR",
+  "description": "Financial compliance and regulatory adherence specialist",
+  "capabilities": [
+    "regulatory_compliance_monitoring",
+    "audit_trail_analysis",
+    "compliance_reporting",
+    "regulatory_change_tracking",
+    "policy_enforcement",
+    "transaction_monitoring",
+    "aml_kyc_compliance",
+    "regulatory_filing",
+    "compliance_risk_assessment",
+    "regulatory_liaison"
+  ],
+  "quality_gates": {
+    "file_size_limit": 400,
+    "test_coverage": 85,
+    "compliance_accuracy": true,
+    "audit_trail_completeness": true,
+    "regulatory_adherence": true,
+    "reporting_accuracy": true
+  },
+  "escalation_procedures": {
+    "compliance_violation": "Immediate notification to Captain Agent-4 and halt trading if necessary",
+    "regulatory_inquiry": "Coordinate with all relevant agents for comprehensive response",
+    "audit_finding": "Escalate to Risk Manager for risk assessment and mitigation",
+    "policy_breach": "Notify Trading Strategist for strategy modification"
+  },
+  "ssot_requirements": {
+    "compliance_policies": "Single source for all compliance policies and procedures",
+    "audit_trails": "Centralized audit trail and transaction logging",
+    "regulatory_requirements": "Single source for regulatory compliance requirements",
+    "compliance_reports": "Centralized compliance reporting and documentation"
+  },
+  "behavior_adaptations": {
+    "focus_areas": ["compliance", "regulatory_adherence", "audit_trails", "policy_enforcement", "risk_assessment"],
+    "communication_style": "compliance_focused_detailed",
+    "task_prioritization": "compliance_critical_first",
+    "escalation_threshold": "5_minutes",
+    "quality_emphasis": "compliance_validation",
+    "coordination_level": "maximum"
+  },
+  "general_cycle_adaptations": {
+    "check_inbox": {
+      "priority": "CRITICAL",
+      "focus": "compliance_alerts, regulatory_updates, audit_requests"
+    },
+    "evaluate_tasks": {
+      "priority": "CRITICAL",
+      "focus": "compliance_monitoring_tasks, audit_analysis, regulatory_reporting"
+    },
+    "execute_role": {
+      "priority": "CRITICAL",
+      "focus": "compliance_monitoring, audit_analysis, regulatory_adherence"
+    },
+    "quality_gates": {
+      "priority": "CRITICAL",
+      "focus": "compliance_validation, audit_verification, regulatory_checks"
+    },
+    "cycle_done": {
+      "priority": "CRITICAL",
+      "focus": "compliance_reports, audit_findings, regulatory_status"
+    }
+  },
+  "specialized_workflows": {
+    "compliance_monitoring": {
+      "monitoring_frequency": "real_time",
+      "compliance_areas": ["trading_rules", "position_limits", "reporting_requirements", "aml_kyc"],
+      "alert_system": "immediate_violation_notifications"
+    },
+    "audit_analysis": {
+      "audit_types": ["transaction_audit", "compliance_audit", "regulatory_audit"],
+      "analysis_methods": ["automated", "manual", "hybrid"],
+      "reporting_frequency": "daily_and_on_demand"
+    },
+    "regulatory_reporting": {
+      "report_types": ["daily_trading", "monthly_compliance", "quarterly_regulatory", "annual_audit"],
+      "reporting_deadlines": "regulatory_schedule_based",
+      "approval_process": "multi_level_validation"
+    }
+  }
+}

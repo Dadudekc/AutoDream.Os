@@ -94,8 +94,12 @@ class ConsolidatedMessagingService:
         
         return violations
 
-    def send_message(self, agent_id: str, message: str, from_agent: str = "Agent-2", priority: str = "NORMAL") -> bool:
+    def send_message(self, agent_id: str, message: str, from_agent: str = None, priority: str = "NORMAL") -> bool:
         """Send message to specific agent via PyAutoGUI automation."""
+        if from_agent is None:
+            logger.error("from_agent is required - agents must specify their own ID")
+            return False
+            
         if not self._is_agent_active(agent_id):
             logger.warning(f"Agent {agent_id} is inactive, message not sent")
             return False
@@ -155,8 +159,12 @@ class ConsolidatedMessagingService:
             logger.error(f"Error sending message to {agent_id}: {e}")
             return False
 
-    def broadcast_message(self, message: str, from_agent: str = "Agent-2", priority: str = "NORMAL") -> Dict[str, bool]:
+    def broadcast_message(self, message: str, from_agent: str = None, priority: str = "NORMAL") -> Dict[str, bool]:
         """Send message to all active agents."""
+        if from_agent is None:
+            logger.error("from_agent is required - agents must specify their own ID")
+            return {}
+            
         results = {}
 
         for agent_id in self.agent_data.keys():
@@ -336,13 +344,13 @@ def build_parser() -> argparse.ArgumentParser:
     send_parser = subparsers.add_parser("send", help="Send message to specific agent")
     send_parser.add_argument("--agent", required=True, help="Target agent ID")
     send_parser.add_argument("--message", required=True, help="Message to send")
-    send_parser.add_argument("--from-agent", default="Agent-2", help="Source agent ID")
+    send_parser.add_argument("--from-agent", required=True, help="Source agent ID (REQUIRED)")
     send_parser.add_argument("--priority", default="NORMAL", help="Message priority")
     
     # Broadcast message command
     broadcast_parser = subparsers.add_parser("broadcast", help="Send message to all agents")
     broadcast_parser.add_argument("--message", required=True, help="Message to broadcast")
-    broadcast_parser.add_argument("--from-agent", default="Agent-2", help="Source agent ID")
+    broadcast_parser.add_argument("--from-agent", required=True, help="Source agent ID (REQUIRED)")
     broadcast_parser.add_argument("--priority", default="NORMAL", help="Message priority")
     
     # Status command

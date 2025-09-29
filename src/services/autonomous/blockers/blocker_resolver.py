@@ -11,7 +11,7 @@ import logging
 from pathlib import Path
 from typing import Dict, Any, List, Optional
 
-from ...agent_devlog_automation import auto_create_devlog
+from ...agent_devlog_automation import auto_create_cycle_devlog
 
 logger = logging.getLogger(__name__)
 

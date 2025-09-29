@@ -1,0 +1,158 @@
+{
+  "storytelling_tools": {
+    "discovered_at": "2025-09-29T07:44:00Z",
+    "version": "1.0.0",
+    "main_service": "src.services.devlog_storytelling.DevlogStorytellingService",
+    "core_tools": {
+      "devlog_reader": {
+        "path": "src.services.devlog_storytelling.core.devlog_reader.DevlogReader",
+        "description": "Reads and batches devlogs chronologically",
+        "capabilities": ["devlog_reading", "batch_processing", "chronological_ordering"]
+      },
+      "story_compiler": {
+        "path": "src.services.devlog_storytelling.core.story_compiler.StoryCompiler",
+        "description": "Compiles devlogs into coherent MMORPG isekai narratives",
+        "capabilities": ["story_compilation", "narrative_creation", "mmorpg_styling"]
+      },
+      "character_tracker": {
+        "path": "src.services.devlog_storytelling.core.character_tracker.CharacterTracker",
+        "description": "Tracks character progression across story chapters",
+        "capabilities": ["character_progression", "relationship_tracking", "development_arcs"]
+      },
+      "world_builder": {
+        "path": "src.services.devlog_storytelling.core.world_builder.WorldBuilder",
+        "description": "Maintains world continuity and lore consistency",
+        "capabilities": ["world_continuity", "lore_management", "setting_consistency"]
+      },
+      "story_validator": {
+        "path": "src.services.devlog_storytelling.core.story_validator.StoryValidator",
+        "description": "Validates story coherence and quality",
+        "capabilities": ["coherence_validation", "quality_checks", "consistency_verification"]
+      }
+    },
+    "processor_tools": {
+      "batch_processor": {
+        "path": "src.services.devlog_storytelling.processors.batch_processor.BatchProcessor",
+        "description": "Automates processing every 5 devlogs into stories",
+        "capabilities": ["batch_automation", "scheduled_processing", "workflow_management"]
+      },
+      "style_analyzer": {
+        "path": "src.services.devlog_storytelling.processors.style_analyzer.StyleAnalyzer",
+        "description": "Analyzes and imitates writing style parameters",
+        "capabilities": ["style_analysis", "imitation_learning", "voice_consistency"]
+      },
+      "archive_manager": {
+        "path": "src.services.devlog_storytelling.processors.archive_manager.ArchiveManager",
+        "description": "Manages story chapters and archives",
+        "capabilities": ["archive_management", "chapter_storage", "metadata_tracking"]
+      }
+    },
+    "integration_tools": {
+      "devlog_integration": {
+        "path": "src.services.devlog_storytelling.integration.devlog_integration.DevlogIntegration",
+        "description": "Integrates with existing devlog system",
+        "capabilities": ["devlog_system_integration", "data_synchronization", "workflow_coordination"]
+      },
+      "role_integration": {
+        "path": "src.services.devlog_storytelling.integration.role_integration.RoleIntegration",
+        "description": "Integrates with role assignment system",
+        "capabilities": ["role_system_integration", "tool_discovery", "capability_registration"]
+      }
+    },
+    "cli_tools": {
+      "storyteller_cli": {
+        "path": "tools.devlog_storyteller_cli.DevlogStorytellerCLI",
+        "description": "Command-line interface for storytelling tools",
+        "capabilities": ["cli_interface", "batch_processing", "story_validation", "tool_management"]
+      }
+    }
+  },
+  "usage_examples": {
+    "basic_story_creation": {
+      "description": "Create story from recent devlogs",
+      "code": "from src.services.devlog_storytelling import create_story_from_devlogs\nresult = create_story_from_devlogs(batch_size=5)",
+      "output": "Returns dict with status, chapter data, and validation results"
+    },
+    "full_service_usage": {
+      "description": "Use full storytelling service",
+      "code": "from src.services.devlog_storytelling import DevlogStorytellingService\nservice = DevlogStorytellingService()\nresult = service.process_devlog_batch(5)",
+      "output": "Returns comprehensive story processing results"
+    },
+    "individual_tool_usage": {
+      "description": "Use individual tools",
+      "code": "from src.services.devlog_storytelling.core.devlog_reader import DevlogReader\nreader = DevlogReader()\ndevlogs = reader.read_recent_devlogs(5)",
+      "output": "Returns list of recent devlog entries"
+    },
+    "cli_usage": {
+      "description": "Use command-line interface",
+      "code": "python tools/devlog_storyteller_cli.py --create-story --batch-size 5",
+      "output": "Creates and saves story chapter to stories/ directory"
+    }
+  },
+  "role_specific_commands": {
+    "DEVLOG_STORYTELLER": {
+      "primary_command": "python tools/devlog_storyteller_cli.py --create-story",
+      "batch_processing": "python tools/devlog_storyteller_cli.py --auto-process",
+      "story_validation": "python tools/devlog_storyteller_cli.py --validate-chapters",
+      "character_tracking": "python tools/devlog_storyteller_cli.py --update-characters",
+      "world_building": "python tools/devlog_storyteller_cli.py --update-world",
+      "tool_discovery": "python tools/devlog_storyteller_cli.py --show-tools"
+    }
+  },
+  "configuration_files": {
+    "style_parameters": {
+      "path": "config/storytelling_style_parameters.yaml",
+      "description": "Writing style imitation parameters",
+      "purpose": "Defines tone, vocabulary, narrative style, and MMORPG elements"
+    },
+    "character_profiles": {
+      "path": "config/storytelling/character_profiles.yaml",
+      "description": "Character definitions and progression rules",
+      "purpose": "Defines main characters, supporting characters, and development arcs"
+    },
+    "world_rules": {
+      "path": "config/storytelling/world_rules.yaml",
+      "description": "World building rules and lore consistency",
+      "purpose": "Defines setting, magic system, conflicts, and world continuity"
+    },
+    "tool_discovery": {
+      "path": "config/storytelling/tool_discovery.json",
+      "description": "Tool discovery and registration configuration",
+      "purpose": "Enables agents to discover and use storytelling tools"
+    }
+  },
+  "integration_points": {
+    "devlog_system": {
+      "source": "devlogs/agent_devlogs.json",
+      "purpose": "Primary source of devlog entries for story creation"
+    },
+    "vector_database": {
+      "source": "vector_database/devlog_vectors.json",
+      "purpose": "Semantic search and pattern analysis for enhanced storytelling"
+    },
+    "role_assignment": {
+      "source": "src/services/role_assignment/role_assignment_service.py",
+      "purpose": "Receives role assignments and task instructions from Captain Agent-4"
+    },
+    "messaging_system": {
+      "source": "src/services/consolidated_messaging_service.py",
+      "purpose": "Reports progress and completion status via PyAutoGUI messaging"
+    },
+    "project_scanner": {
+      "source": "tools/projectscanner/",
+      "purpose": "Provides context about current development state for story enhancement"
+    }
+  },
+  "output_locations": {
+    "story_archive": {
+      "path": "stories/",
+      "description": "Main story archive directory",
+      "contents": ["chapter_*.json", "chapter_*.md", "character_registry.json", "world_rulebook.json"]
+    },
+    "agent_workspace": {
+      "path": "agent_workspaces/Agent-7/",
+      "description": "Agent-7 workspace for storytelling task tracking",
+      "contents": ["tool_registry.json", "storytelling_tasks.json", "progress_reports.json"]
+    }
+  }
+}

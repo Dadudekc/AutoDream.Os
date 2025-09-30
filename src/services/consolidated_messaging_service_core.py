@@ -186,8 +186,8 @@ class ConsolidatedMessagingServiceCore:
     def get_agent_coordinates(self, agent_id: str) -> tuple[int, int] | None:
         """Get agent coordinates."""
         agent = self.agent_data.get(agent_id)
-        if agent and "coordinates" in agent:
-            return tuple(agent["coordinates"])
+        if agent and "chat_input_coordinates" in agent:
+            return tuple(agent["chat_input_coordinates"])
         return None
     
     def get_service_status(self) -> dict:

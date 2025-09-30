@@ -50,6 +50,17 @@ class ConsolidatedMessagingService(ConsolidatedMessagingServiceCore):
         self.sender = MessageSender(self.enhanced_handler, self.enhanced_validator)
         self.onboarder = AgentOnboarder(coord_path)
 
+    def get_agent_coordinates(self, agent_id: str) -> list:
+        """Get coordinates for specific agent."""
+        try:
+            agent_data = self.agent_data.get(agent_id, {})
+            if not agent_data:
+                return []
+            return agent_data.get("chat_input_coordinates", [])
+        except Exception as e:
+            logger.error(f"Error getting coordinates for {agent_id}: {e}")
+            return []
+
     def send_message(
         self, agent_id: str, message: str, from_agent: str, priority: str = "NORMAL"
     ) -> bool:

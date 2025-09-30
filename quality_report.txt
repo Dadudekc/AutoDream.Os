@@ -244,8 +244,8 @@ src\services\github_protocol_service.py: acceptable (Score: 65)
 
 src\services\multichat_session_demo.py: excellent (Score: 100)
 
-src\services\multichat_session_persistence.py: critical (Score: 0)
-  - Analysis failed
+src\services\multichat_session_persistence.py: good (Score: 90)
+  - Too many functions: 29 (limit: 10)
 
 src\services\persistent_memory.py: poor (Score: 55)
   - File size violation: 490 lines (limit: 400)
@@ -308,9 +308,7 @@ src\services\messaging\thea_handlers.py: excellent (Score: 95)
 src\services\messaging\agent_context.py: good (Score: 90)
   - Too many functions: 16 (limit: 10)
 
-src\services\messaging\intelligent_coordinator.py: acceptable (Score: 70)
-  - File size violation: 534 lines (limit: 400)
-  - Too many functions: 25 (limit: 10)
+src\services\messaging\intelligent_coordinator.py: excellent (Score: 100)
 
 src\services\messaging\intelligent_messaging.py: good (Score: 85)
   - Too many functions: 17 (limit: 10)
@@ -344,15 +342,17 @@ src\services\messaging\messaging_core.py: good (Score: 90)
 
 src\services\messaging\coordination_tracker.py: excellent (Score: 100)
 
-src\services\messaging\pyautogui_handler.py: excellent (Score: 100)
+src\services\messaging\pyautogui_handler.py: excellent (Score: 95)
+  - Too many parameters: 6 (limit: 5)
 
 src\services\messaging\__init__.py: excellent (Score: 100)
 
 src\services\messaging\enhanced_message_validator.py: good (Score: 90)
   - Function too complex: 11 (limit: 10)
 
-src\services\messaging\enhanced_pyautogui_handler.py: good (Score: 90)
+src\services\messaging\enhanced_pyautogui_handler.py: good (Score: 85)
   - Too many functions: 16 (limit: 10)
+  - Too many parameters: 6 (limit: 5)
 
 src\services\messaging\memory_leak_analyzer.py: good (Score: 90)
   - Too many functions: 22 (limit: 10)
@@ -361,6 +361,12 @@ src\services\messaging\memory_leak_fixes.py: good (Score: 90)
   - Too many functions: 22 (limit: 10)
 
 src\services\messaging\memory_leak_analysis_report.py: excellent (Score: 100)
+
+src\services\messaging\intelligent_coordinator_models.py: good (Score: 85)
+  - Too many classes: 7 (limit: 5)
+
+src\services\messaging\intelligent_coordinator_core.py: good (Score: 90)
+  - Too many functions: 17 (limit: 10)
 
 src\services\messaging\core\__init__.py: excellent (Score: 100)
 

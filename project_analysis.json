@@ -3,13 +3,13 @@
     "name": "Agent Cellphone V2",
     "version": "2.1.0",
     "description": "Advanced AI Agent System with Code Quality Standards",
-    "scan_timestamp": "2025-09-30T08:27:47.738004",
+    "scan_timestamp": "2025-09-30T08:37:09.910299",
     "scanner_version": "SimpleProjectScanner 1.0.0"
   },
   "analysis": {
     "project_structure": {
-      "total_files": 7853,
-      "python_files": 821,
+      "total_files": 7860,
+      "python_files": 826,
       "directories": [
         "D:\\Agent_Cellphone_V2_Repository\\config",
         "D:\\Agent_Cellphone_V2_Repository\\agent_workspaces",
@@ -3254,11 +3254,11 @@
         "D:\\Agent_Cellphone_V2_Repository\\src\\tools\\workflows"
       ],
       "file_types": {
-        ".md": 342,
+        ".md": 343,
         ".toml": 1,
-        ".json": 1206,
+        ".json": 1207,
         ".example": 2,
-        ".py": 821,
+        ".py": 826,
         ".ini": 2,
         ".txt": 542,
         ".db": 4,
@@ -3302,15 +3302,11 @@
       }
     },
     "python_analysis": {
-      "total_python_files": 821,
-      "v2_compliant_files": 739,
+      "total_python_files": 826,
+      "v2_compliant_files": 749,
       "non_compliant_files": [
         {
           "file": "D:\\Agent_Cellphone_V2_Repository\\update_captain_cycle_based.py",
-          "lines": 511
-        },
-        {
-          "file": "D:\\Agent_Cellphone_V2_Repository\\update_captain_cycle_based_backup.py",
           "lines": 511
         },
         {
@@ -3511,7 +3507,7 @@
         },
         {
           "file": "D:\\Agent_Cellphone_V2_Repository\\src\\services\\consolidated_messaging_service.py",
-          "lines": 864
+          "lines": 865
         },
         {
           "file": "D:\\Agent_Cellphone_V2_Repository\\src\\services\\messaging\\intelligent_coordinator.py",
@@ -3554,20 +3550,8 @@
           "lines": 428
         },
         {
-          "file": "D:\\Agent_Cellphone_V2_Repository\\src\\services\\discord_commander\\bot.py",
-          "lines": 1061
-        },
-        {
           "file": "D:\\Agent_Cellphone_V2_Repository\\src\\services\\discord_commander\\optimization.py",
           "lines": 425
-        },
-        {
-          "file": "D:\\Agent_Cellphone_V2_Repository\\src\\services\\discord_commander\\web_controller.py",
-          "lines": 1118
-        },
-        {
-          "file": "D:\\Agent_Cellphone_V2_Repository\\src\\services\\discord_commander\\web_controller_backup.py",
-          "lines": 1118
         },
         {
           "file": "D:\\Agent_Cellphone_V2_Repository\\src\\architecture\\design_patterns_v2.py",
@@ -3584,10 +3568,6 @@
         {
           "file": "D:\\Agent_Cellphone_V2_Repository\\src\\ml\\ml_pipeline_backup.py",
           "lines": 600
-        },
-        {
-          "file": "D:\\Agent_Cellphone_V2_Repository\\src\\ml\\ml_pipeline_core.py",
-          "lines": 606
         },
         {
           "file": "D:\\Agent_Cellphone_V2_Repository\\src\\ml\\model_versioning.py",
@@ -3653,7 +3633,7 @@
         },
         {
           "file": "D:\\Agent_Cellphone_V2_Repository\\src\\services\\consolidated_messaging_service.py",
-          "lines": 864
+          "lines": 865
         },
         {
           "file": "D:\\Agent_Cellphone_V2_Repository\\src\\services\\vector_database\\security_validator.py",
@@ -3662,25 +3642,9 @@
         {
           "file": "D:\\Agent_Cellphone_V2_Repository\\src\\services\\discord_bot\\core\\discord_bot.py",
           "lines": 790
-        },
-        {
-          "file": "D:\\Agent_Cellphone_V2_Repository\\src\\services\\discord_commander\\bot.py",
-          "lines": 1061
-        },
-        {
-          "file": "D:\\Agent_Cellphone_V2_Repository\\src\\services\\discord_commander\\web_controller.py",
-          "lines": 1118
-        },
-        {
-          "file": "D:\\Agent_Cellphone_V2_Repository\\src\\services\\discord_commander\\web_controller_backup.py",
-          "lines": 1118
-        },
-        {
-          "file": "D:\\Agent_Cellphone_V2_Repository\\src\\ml\\ml_pipeline_core.py",
-          "lines": 606
         }
       ],
-      "average_lines": 200.13641900121803
+      "average_lines": 194.33898305084745
     },
     "dependencies": {
       "requirements_files": [

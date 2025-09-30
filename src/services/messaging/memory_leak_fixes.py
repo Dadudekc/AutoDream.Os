@@ -151,17 +151,16 @@ class FileResourceManager:
         
         try:
             with open(file_path, mode) as file_handle:
-            
-            with self._lock:
-                self.open_files.add(file_handle)
-                self.file_registry[file_id] = {
-                    'handle': file_handle,
-                    'path': file_path,
-                    'mode': mode,
-                    'opened_at': time.time()
-                }
-            
-            yield file_handle
+                with self._lock:
+                    self.open_files.add(file_handle)
+                    self.file_registry[file_id] = {
+                        'handle': file_handle,
+                        'path': file_path,
+                        'mode': mode,
+                        'opened_at': time.time()
+                    }
+                
+                yield file_handle
             
         finally:
             if file_handle:
@@ -213,7 +212,7 @@ class MemoryLeakFixer:
             return
         
         self.running = True
-        self.cleanup_thread = threading.Thread(target=self._cleanup_loop, daemon=True, daemon=True, daemon=True)
+        self.cleanup_thread = threading.Thread(target=self._cleanup_loop, daemon=True)
         self.cleanup_thread.start()
         logger.info("Memory cleanup service started")
     

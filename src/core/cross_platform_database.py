@@ -53,17 +53,17 @@ class CrossPlatformDatabase:
             if self.is_windows:
                 # Windows: Use WAL mode and proper timeout
                 with sqlite3.connect(
-                    str(self.db_path) as connection:, timeout=30.0, check_same_thread=False
-                )
-                connection.execute("PRAGMA journal_mode=WAL")
-                connection.execute("PRAGMA synchronous=NORMAL")
-                connection.execute("PRAGMA cache_size=10000")
-                connection.execute("PRAGMA temp_store=MEMORY")
+                    str(self.db_path), timeout=30.0, check_same_thread=False
+                ) as connection:
+                    connection.execute("PRAGMA journal_mode=WAL")
+                    connection.execute("PRAGMA synchronous=NORMAL")
+                    connection.execute("PRAGMA cache_size=10000")
+                    connection.execute("PRAGMA temp_store=MEMORY")
             else:
                 # Linux: Standard connection
-                with sqlite3.connect(str(self.db_path) as connection:)
-                connection.execute("PRAGMA journal_mode=WAL")
-                connection.execute("PRAGMA synchronous=NORMAL")
+                with sqlite3.connect(str(self.db_path)) as connection:
+                    connection.execute("PRAGMA journal_mode=WAL")
+                    connection.execute("PRAGMA synchronous=NORMAL")
 
             connection.row_factory = sqlite3.Row
             yield connection

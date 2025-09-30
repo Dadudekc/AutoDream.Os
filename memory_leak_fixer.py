@@ -499,7 +499,7 @@ class ProjectMemoryFixer:
         cleanup_results = {
             'db_connections_cleaned': self.db_manager.cleanup_stale_connections(),
             'file_handles_cleaned': self.file_manager.cleanup_stale_handles(),
-            'gc_collections': sum(gc.collect())
+            'gc_collections': gc.collect()
         }
         
         return {

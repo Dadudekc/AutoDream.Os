@@ -77,8 +77,11 @@ python src/services/thea/strategic_consultation_cli.py consult --template priori
 # Project scan consultation with JSON context (8K char limit)
 python src/services/thea/strategic_consultation_cli.py project-scan --question "Strategic analysis" --scan-file project_analysis.json --visible
 
-# Direct message pasting (FASTEST METHOD)
+# Direct message pasting with validation (RECOMMENDED)
 python src/services/thea/strategic_consultation_cli.py paste --visible
+
+# Direct message pasting with auto-validation (AUTONOMOUS)
+python src/services/thea/strategic_consultation_cli.py paste --auto-validate --visible
 ```
 
 **3. Context Integration:**

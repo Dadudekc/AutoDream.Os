@@ -36,6 +36,7 @@ except Exception as e:
 try:
     from src.services.messaging.enhanced_message_validator import EnhancedMessageValidator
     from src.services.messaging.enhanced_pyautogui_handler import EnhancedPyAutoGUIHandler
+
     ENHANCED_VALIDATION_AVAILABLE = True
 except Exception as e:
     EnhancedMessageValidator = None
@@ -58,6 +59,16 @@ class ConsolidatedMessagingService:
         self.auto_devlog_enabled = True
         self.response_protocol_enabled = True
         self.coordination_requests = {}  # Track coordination requests
+
+        # Initialize enhanced validation if available
+        if ENHANCED_VALIDATION_AVAILABLE:
+            self.enhanced_validator = EnhancedMessageValidator()
+            self.enhanced_handler = EnhancedPyAutoGUIHandler()
+            logger.info("Enhanced messaging validation system initialized")
+        else:
+            self.enhanced_validator = None
+            self.enhanced_handler = None
+            logger.warning("Enhanced validation not available - using basic messaging")
 
     def _load_coordinates(self) -> dict:
         """Load agent coordinates from JSON file."""
@@ -227,8 +238,18 @@ Tags: GENERAL
 📝 DEVLOG: Use 'python src/services/agent_devlog_posting.py --agent <flag> --action <desc>'"""
 
     def _validate_message_before_paste(self, text: str) -> tuple[bool, str]:
-        """Validate message content before pasting."""
+        """Validate message content before pasting with enhanced validation."""
         try:
+            # Use enhanced validator if available
+            if self.enhanced_validator:
+                validation_result = self.enhanced_validator.validate_and_prepare_for_paste(text)
+                if validation_result["ready_for_paste"]:
+                    return True, "Enhanced validation passed"
+                else:
+                    recommendations = validation_result.get("recommendations", [])
+                    return False, f"Enhanced validation failed: {'; '.join(recommendations)}"
+
+            # Fallback to basic validation
             # Check if message contains required A2A format
             if "[A2A] MESSAGE" not in text:
                 return False, "Message missing A2A format"
@@ -251,8 +272,8 @@ Tags: GENERAL
                 if char in text:
                     return False, f"Message contains problematic character: {repr(char)}"
 
-            logger.info("✅ Message validation passed")
-            return True, "Message validation successful"
+            logger.info("✅ Basic message validation passed")
+            return True, "Basic message validation successful"
 
         except Exception as e:
             logger.error(f"Message validation failed: {e}")
@@ -264,6 +285,21 @@ Tags: GENERAL
             logger.error("PyAutoGUI or pyperclip not available")
             return False
 
+        # Use enhanced handler if available
+        if self.enhanced_handler:
+            try:
+                success = self.enhanced_handler.send_message_to_agent_with_validation(
+                    list(coords), text, use_paste=True
+                )
+                if success:
+                    logger.info("✅ Message sent successfully via enhanced handler")
+                    return True
+                else:
+                    logger.warning("⚠️ Enhanced handler failed, falling back to basic method")
+            except Exception as e:
+                logger.warning(f"⚠️ Enhanced handler error: {e}, falling back to basic method")
+
+        # Fallback to basic validation and paste
         # Validate message before pasting
         is_valid, validation_msg = self._validate_message_before_paste(text)
         if not is_valid:

@@ -176,16 +176,17 @@ def emergency_command(args):
 
 
 def paste_message_command(args):
-    """Handle direct message pasting to THEA."""
+    """Handle direct message pasting to THEA with validation."""
     print("🤖 THEA Direct Message Mode")
     print("=" * 50)
     print("📋 Instructions:")
     print("1. Prepare your message with project context")
     print("2. Copy the message to clipboard")
-    print("3. Press Enter to send to THEA")
+    print("3. Press Enter to validate and send to THEA")
     print("=" * 50)
 
-    input("Press Enter when ready to send message to THEA...")
+    if not args.auto_validate:
+        input("Press Enter when ready to validate and send message to THEA...")
 
     # Get message from clipboard (simplified approach)
     try:
@@ -199,13 +200,68 @@ def paste_message_command(args):
         print("❌ pyperclip not available. Please install: pip install pyperclip")
         return 1
 
-    print(f"\n📤 Message to send ({len(message)} characters):")
+    # Validate message before sending
+    print(f"\n🔍 MESSAGE VALIDATION ({len(message)} characters):")
+    print("-" * 50)
+    
+    # Character limit validation
+    max_chars = 32000  # ChatGPT character limit
+    if len(message) > max_chars:
+        print(f"⚠️  WARNING: Message exceeds {max_chars} character limit")
+        print(f"   Current: {len(message)} characters")
+        print(f"   Excess: {len(message) - max_chars} characters")
+        
+        if args.auto_validate:
+            # Auto-truncate for autonomous operation
+            message = message[:max_chars-100] + "\n... [TRUNCATED DUE TO CHARACTER LIMIT]"
+            print(f"✅ Message auto-truncated to {len(message)} characters")
+        else:
+            # Ask if user wants to truncate
+            truncate = input(f"\n❓ Truncate message to {max_chars} characters? (y/n): ").lower().strip()
+            if truncate == 'y':
+                message = message[:max_chars-100] + "\n... [TRUNCATED DUE TO CHARACTER LIMIT]"
+                print(f"✅ Message truncated to {len(message)} characters")
+            else:
+                print("❌ Message too long. Please reduce size and try again.")
+                return 1
+    
+    # Content validation
+    if len(message.strip()) < 10:
+        print("⚠️  WARNING: Message seems too short (< 10 characters)")
+        if args.auto_validate:
+            print("✅ Auto-validation: Proceeding with short message")
+        else:
+            proceed = input("❓ Proceed anyway? (y/n): ").lower().strip()
+            if proceed != 'y':
+                print("❌ Message validation failed. Please provide a more substantial message.")
+                return 1
+    
+    # Check for common issues
+    if message.count('\n') > 100:
+        print("⚠️  WARNING: Message has many line breaks (> 100)")
+        if args.auto_validate:
+            print("✅ Auto-validation: Proceeding with many line breaks")
+        else:
+            proceed = input("❓ Proceed anyway? (y/n): ").lower().strip()
+            if proceed != 'y':
+                print("❌ Message validation failed. Please format message better.")
+                return 1
+    
+    # Show validated message preview
+    print(f"\n📤 VALIDATED MESSAGE TO SEND ({len(message)} characters):")
     print("-" * 50)
     print(message[:500] + "..." if len(message) > 500 else message)
     print("-" * 50)
+    
+    # Final confirmation (skip if auto-validate)
+    if not args.auto_validate:
+        confirm = input("\n❓ Send this validated message to Commander Thea? (y/n): ").lower().strip()
+        if confirm != 'y':
+            print("❌ Message sending cancelled by user.")
+            return 1
 
     # Send message
-    print("\n📤 Sending message to Commander Thea...")
+    print("\n📤 Sending validated message to Commander Thea...")
     try:
         response = send_thea_message_autonomous(message, headless=not args.visible)
 
@@ -377,6 +433,7 @@ Examples:
         "paste", help="Send message directly from clipboard to THEA"
     )
     paste_parser.add_argument("--visible", action="store_true", help="Run in visible mode")
+    paste_parser.add_argument("--auto-validate", action="store_true", help="Auto-validate and send without prompts")
     emergency_parser.add_argument(
         "--auto-send", action="store_true", help="Send without confirmation"
     )

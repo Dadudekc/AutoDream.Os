@@ -4,12 +4,12 @@ V2 Compliant web controller interface
 """
 
 from .web_controller_main import DiscordCommanderController
-from .web_controller_models import WebControllerConfig, AgentStatus, MessageData, SystemHealth
+from .web_controller_models import AgentStatus, MessageData, SystemHealth, WebControllerConfig
 
 __all__ = [
-    'DiscordCommanderController',
-    'WebControllerConfig', 
-    'AgentStatus',
-    'MessageData',
-    'SystemHealth'
+    "DiscordCommanderController",
+    "WebControllerConfig",
+    "AgentStatus",
+    "MessageData",
+    "SystemHealth",
 ]

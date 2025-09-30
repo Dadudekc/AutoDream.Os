@@ -1,257 +1,214 @@
-#!/usr/bin/env python3
 """
-Discord Commander Bot Commands - Command handling
-===============================================
-
-Command handling extracted from bot.py for V2 compliance (≤400 lines).
-
-Author: Agent-7 (Web Development Specialist)
-License: MIT
+Discord Commander Bot Commands
+Command implementations for Discord bot functionality
 """
 
-import logging
-from collections.abc import Callable
+import asyncio
 from datetime import datetime
-from typing import Any
+from typing import Any, Dict, List, Optional
 
-logger = logging.getLogger(__name__)
+try:
+    import discord
+    from discord.ext import commands
+    DISCORD_AVAILABLE = True
+except ImportError:
+    DISCORD_AVAILABLE = False
+
+from .bot_core import BotCore, CommandContext, EmbedBuilder
 
 
-class DiscordBotCommands:
-    """Discord bot command handling system."""
-
-    def __init__(self, bot_core):
-        """Initialize bot commands."""
+class CommandManager:
+    """Command management system"""
+    
+    def __init__(self, bot_core: BotCore):
         self.bot_core = bot_core
-        self.commands: dict[str, dict[str, Any]] = {}
-        self.command_aliases: dict[str, str] = {}
-        self._register_default_commands()
-        logger.info("Discord bot commands initialized")
-
-    def _register_default_commands(self):
-        """Register default bot commands."""
-        self.register_command(
-            "status", self.cmd_status, "Get bot status and system information", ["health", "info"]
-        )
-
-        self.register_command("ping", self.cmd_ping, "Check bot responsiveness", ["latency"])
-
-        self.register_command("help", self.cmd_help, "Show available commands", ["commands", "?"])
-
-        self.register_command("uptime", self.cmd_uptime, "Show bot uptime", ["time", "runtime"])
-
-        self.register_command(
-            "agents", self.cmd_agents, "Show agent status information", ["swarm", "team"]
-        )
-
-    def register_command(
-        self, name: str, handler: Callable, description: str, aliases: list[str] = None
-    ):
-        """Register a new command."""
-        self.commands[name] = {
-            "handler": handler,
-            "description": description,
-            "aliases": aliases or [],
-            "registered_at": datetime.now().isoformat(),
-        }
-
-        # Register aliases
-        if aliases:
-            for alias in aliases:
-                self.command_aliases[alias] = name
-
-        logger.info(f"Command '{name}' registered with {len(aliases or [])} aliases")
-
-    def unregister_command(self, name: str):
-        """Unregister a command."""
-        if name in self.commands:
-            # Remove aliases
-            aliases = self.commands[name].get("aliases", [])
-            for alias in aliases:
-                if alias in self.command_aliases:
-                    del self.command_aliases[alias]
-
-            # Remove command
-            del self.commands[name]
-            logger.info(f"Command '{name}' unregistered")
-
-    def get_command(self, name: str) -> dict[str, Any] | None:
-        """Get command by name or alias."""
-        # Check direct command name
-        if name in self.commands:
-            return self.commands[name]
-
-        # Check aliases
-        if name in self.command_aliases:
-            actual_name = self.command_aliases[name]
-            return self.commands.get(actual_name)
-
-        return None
-
-    def list_commands(self) -> list[dict[str, Any]]:
-        """List all registered commands."""
-        command_list = []
-        for name, cmd_data in self.commands.items():
-            command_list.append(
-                {
-                    "name": name,
-                    "description": cmd_data["description"],
-                    "aliases": cmd_data["aliases"],
-                    "registered_at": cmd_data["registered_at"],
-                }
-            )
-        return command_list
-
-    async def execute_command(self, command_name: str, *args, **kwargs) -> dict[str, Any]:
-        """Execute a command."""
-        command = self.get_command(command_name)
-        if not command:
-            return {
-                "success": False,
-                "error": f"Command '{command_name}' not found",
-                "available_commands": list(self.commands.keys()),
-            }
-
+        self.commands_registered: List[str] = []
+        self.command_history: List[Dict[str, Any]] = []
+    
+    def register_commands(self, bot: commands.Bot) -> None:
+        """Register all bot commands"""
+        if not DISCORD_AVAILABLE:
+            return
+        
+        @bot.command(name="ping")
+        async def ping_command(ctx: commands.Context):
+            """Ping command to test bot responsiveness"""
+            await self._handle_ping_command(ctx)
+        
+        @bot.command(name="status")
+        async def status_command(ctx: commands.Context):
+            """Get bot status information"""
+            await self._handle_status_command(ctx)
+        
+        @bot.command(name="help")
+        async def help_command(ctx: commands.Context):
+            """Show help information"""
+            await self._handle_help_command(ctx)
+        
+        @bot.command(name="agents")
+        async def agents_command(ctx: commands.Context):
+            """Show agent information"""
+            await self._handle_agents_command(ctx)
+        
+        @bot.command(name="swarm")
+        async def swarm_command(ctx: commands.Context):
+            """Show swarm coordination information"""
+            await self._handle_swarm_command(ctx)
+        
+        self.commands_registered = ["ping", "status", "help", "agents", "swarm"]
+    
+    async def _handle_ping_command(self, ctx: commands.Context) -> None:
+        """Handle ping command"""
         try:
-            # Record command execution
-            self.bot_core.record_command_execution()
-
-            # Execute command
-            result = await command["handler"](*args, **kwargs)
-
-            return {"success": True, "result": result, "command": command_name}
-
+            context = CommandContext(ctx)
+            latency = round(self.bot_core.bot.latency * 1000) if self.bot_core.bot else 0
+            
+            embed = EmbedBuilder.create_success_embed(
+                "Pong!",
+                f"Latency: {latency}ms\nBot is responsive!"
+            )
+            
+            await ctx.send(embed=embed)
+            self._log_command_execution("ping", context.user.name, True)
+            
         except Exception as e:
-            logger.error(f"Error executing command '{command_name}': {e}")
-            self.bot_core.record_error()
-
-            return {"success": False, "error": str(e), "command": command_name}
-
-    # Default command implementations
-    async def cmd_status(self, *args, **kwargs) -> dict[str, Any]:
-        """Status command implementation."""
-        bot_info = self.bot_core.get_bot_info()
-        performance_stats = self.bot_core.get_performance_stats()
-        health_status = self.bot_core.get_health_status()
-
-        return {
-            "bot_info": bot_info,
-            "performance_stats": performance_stats,
-            "health_status": health_status,
+            await self._handle_command_error(ctx, "ping", str(e))
+    
+    async def _handle_status_command(self, ctx: commands.Context) -> None:
+        """Handle status command"""
+        try:
+            context = CommandContext(ctx)
+            status_info = self.bot_core.get_status_info()
+            
+            embed = EmbedBuilder.create_info_embed(
+                "Bot Status",
+                f"**Online:** {'Yes' if status_info['is_online'] else 'No'}\n"
+                f"**Uptime:** {status_info['uptime']}\n"
+                f"**Commands Executed:** {status_info['commands_executed']}\n"
+                f"**Errors:** {status_info['errors_count']}\n"
+                f"**Last Error:** {status_info['last_error'] or 'None'}"
+            )
+            
+            await ctx.send(embed=embed)
+            self._log_command_execution("status", context.user.name, True)
+            
+        except Exception as e:
+            await self._handle_command_error(ctx, "status", str(e))
+    
+    async def _handle_help_command(self, ctx: commands.Context) -> None:
+        """Handle help command"""
+        try:
+            context = CommandContext(ctx)
+            
+            embed = EmbedBuilder.create_info_embed(
+                "Help - Available Commands",
+                "**!ping** - Test bot responsiveness\n"
+                "**!status** - Get bot status information\n"
+                "**!help** - Show this help message\n"
+                "**!agents** - Show agent information\n"
+                "**!swarm** - Show swarm coordination info\n\n"
+                "Use `!help <command>` for detailed information about a specific command."
+            )
+            
+            await ctx.send(embed=embed)
+            self._log_command_execution("help", context.user.name, True)
+            
+        except Exception as e:
+            await self._handle_command_error(ctx, "help", str(e))
+    
+    async def _handle_agents_command(self, ctx: commands.Context) -> None:
+        """Handle agents command"""
+        try:
+            context = CommandContext(ctx)
+            
+            embed = EmbedBuilder.create_info_embed(
+                "Agent Information",
+                "**Active Agents:**\n"
+                "• Agent-4 (Captain) - Strategic oversight\n"
+                "• Agent-5 (Coordinator) - Inter-agent coordination\n"
+                "• Agent-6 (Quality) - Quality assurance\n"
+                "• Agent-7 (Implementation) - Web development\n"
+                "• Agent-8 (Integration) - System integration\n\n"
+                "**Status:** All agents are active and coordinating via PyAutoGUI messaging."
+            )
+            
+            await ctx.send(embed=embed)
+            self._log_command_execution("agents", context.user.name, True)
+            
+        except Exception as e:
+            await self._handle_command_error(ctx, "agents", str(e))
+    
+    async def _handle_swarm_command(self, ctx: commands.Context) -> None:
+        """Handle swarm command"""
+        try:
+            context = CommandContext(ctx)
+            
+            embed = EmbedBuilder.create_info_embed(
+                "Swarm Coordination",
+                "**Current Mode:** 5-Agent Quality Focus Team\n"
+                "**Coordination:** PyAutoGUI messaging system\n"
+                "**Status:** Active swarm intelligence\n"
+                "**Capabilities:**\n"
+                "• Real-time agent coordination\n"
+                "• Dynamic role assignment\n"
+                "• Quality gates enforcement\n"
+                "• Vector database intelligence\n\n"
+                "🐝 **WE ARE SWARM** - Autonomous agent coordination system"
+            )
+            
+            await ctx.send(embed=embed)
+            self._log_command_execution("swarm", context.user.name, True)
+            
+        except Exception as e:
+            await self._handle_command_error(ctx, "swarm", str(e))
+    
+    async def _handle_command_error(self, ctx: commands.Context, command: str, error: str) -> None:
+        """Handle command execution error"""
+        embed = EmbedBuilder.create_error_embed(
+            f"Command Error: {command}",
+            f"An error occurred while executing the command:\n```{error}```"
+        )
+        
+        await ctx.send(embed=embed)
+        self.bot_core.status.errors_count += 1
+        self.bot_core.status.last_error = error
+        self._log_command_execution(command, ctx.author.name, False, error)
+    
+    def _log_command_execution(self, command: str, user: str, success: bool, error: Optional[str] = None) -> None:
+        """Log command execution"""
+        execution_log = {
             "timestamp": datetime.now().isoformat(),
+            "command": command,
+            "user": user,
+            "success": success,
+            "error": error
         }
-
-    async def cmd_ping(self, *args, **kwargs) -> dict[str, Any]:
-        """Ping command implementation."""
-        start_time = datetime.now()
-
-        # Simulate some processing
-        await asyncio.sleep(0.1)
-
-        end_time = datetime.now()
-        latency = (end_time - start_time).total_seconds() * 1000  # ms
-
+        
+        self.command_history.append(execution_log)
+        self.bot_core.status.commands_executed += 1
+        
+        if success:
+            self.bot_core.logger.info(f"Command '{command}' executed successfully by {user}")
+        else:
+            self.bot_core.logger.error(f"Command '{command}' failed for {user}: {error}")
+    
+    def get_command_history(self, limit: int = 10) -> List[Dict[str, Any]]:
+        """Get recent command history"""
+        return self.command_history[-limit:] if self.command_history else []
+    
+    def get_command_stats(self) -> Dict[str, Any]:
+        """Get command statistics"""
+        if not self.command_history:
+            return {"total": 0, "successful": 0, "failed": 0, "success_rate": 0.0}
+        
+        total = len(self.command_history)
+        successful = sum(1 for log in self.command_history if log["success"])
+        failed = total - successful
+        success_rate = (successful / total) * 100 if total > 0 else 0.0
+        
         return {
-            "pong": True,
-            "latency_ms": round(latency, 2),
-            "timestamp": datetime.now().isoformat(),
+            "total": total,
+            "successful": successful,
+            "failed": failed,
+            "success_rate": success_rate
         }
-
-    async def cmd_help(self, *args, **kwargs) -> dict[str, Any]:
-        """Help command implementation."""
-        commands = self.list_commands()
-
-        help_text = "**Discord Commander Bot Commands:**\n\n"
-        for cmd in commands:
-            help_text += f"**{cmd['name']}** - {cmd['description']}\n"
-            if cmd["aliases"]:
-                help_text += f"  *Aliases: {', '.join(cmd['aliases'])}*\n"
-            help_text += "\n"
-
-        return {
-            "help_text": help_text,
-            "total_commands": len(commands),
-            "timestamp": datetime.now().isoformat(),
-        }
-
-    async def cmd_uptime(self, *args, **kwargs) -> dict[str, Any]:
-        """Uptime command implementation."""
-        uptime_string = self.bot_core.get_uptime_string()
-        bot_info = self.bot_core.get_bot_info()
-
-        return {
-            "uptime_string": uptime_string,
-            "uptime_seconds": bot_info["uptime_seconds"],
-            "start_time": bot_info["start_time"],
-            "timestamp": datetime.now().isoformat(),
-        }
-
-    async def cmd_agents(self, *args, **kwargs) -> dict[str, Any]:
-        """Agents command implementation."""
-        # TODO: Implement actual agent status retrieval
-        # For now, return mock data
-        return {
-            "agents": [
-                {"agent_id": "Agent-1", "status": "ACTIVE", "role": "Integration Specialist"},
-                {"agent_id": "Agent-4", "status": "ACTIVE", "role": "Captain"},
-                {"agent_id": "Agent-7", "status": "ACTIVE", "role": "Web Development Specialist"},
-            ],
-            "total_agents": 8,
-            "active_agents": 5,
-            "timestamp": datetime.now().isoformat(),
-        }
-
-    def get_command_usage_stats(self) -> dict[str, Any]:
-        """Get command usage statistics."""
-        return {
-            "total_commands": len(self.commands),
-            "total_aliases": len(self.command_aliases),
-            "most_used_command": "status",  # TODO: Implement actual tracking
-            "commands_executed": self.bot_core.commands_executed,
-            "timestamp": datetime.now().isoformat(),
-        }
-
-    def validate_command_syntax(self, command_text: str) -> dict[str, Any]:
-        """Validate command syntax."""
-        if not command_text.startswith(self.bot_core.command_prefix):
-            return {
-                "valid": False,
-                "error": f"Command must start with '{self.bot_core.command_prefix}'",
-            }
-
-        parts = command_text[1:].split()
-        if not parts:
-            return {"valid": False, "error": "No command specified"}
-
-        command_name = parts[0]
-        command = self.get_command(command_name)
-
-        if not command:
-            return {
-                "valid": False,
-                "error": f"Unknown command: {command_name}",
-                "suggestions": self._get_command_suggestions(command_name),
-            }
-
-        return {
-            "valid": True,
-            "command_name": command_name,
-            "arguments": parts[1:],
-            "command_info": command,
-        }
-
-    def _get_command_suggestions(self, partial_name: str) -> list[str]:
-        """Get command suggestions for partial name."""
-        suggestions = []
-        partial_lower = partial_name.lower()
-
-        for cmd_name in self.commands.keys():
-            if partial_lower in cmd_name.lower():
-                suggestions.append(cmd_name)
-
-        # Check aliases
-        for alias in self.command_aliases.keys():
-            if partial_lower in alias.lower():
-                suggestions.append(alias)
-
-        return suggestions[:5]  # Return top 5 suggestions

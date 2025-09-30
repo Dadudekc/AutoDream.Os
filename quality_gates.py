@@ -34,7 +34,14 @@ def main():
         logging.basicConfig(level=logging.INFO)
     
     checker = QualityGateChecker()
-    results = checker.check_directory(args.path)
+    # Check individual files in directory
+    results = []
+    path = Path(args.path)
+    if path.is_file():
+        results.append(checker.check_file(str(path)))
+    else:
+        for py_file in path.rglob("*.py"):
+            results.append(checker.check_file(str(py_file)))
     
     if args.output:
         checker.save_results(results, args.output)

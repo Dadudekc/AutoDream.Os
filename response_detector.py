@@ -15,7 +15,7 @@ Features:
 
 Usage:
     from response_detector import ResponseDetector, ResponseWaitResult
-    
+
     detector = ResponseDetector(driver)
     result = detector.wait_until_complete(timeout=120)
     text = detector.extract_response_text()

@@ -112,7 +112,7 @@ class DiscordCommanderControllerV2:
             <p>Active Agents: {{ system_status.active_agents }}</p>
             <p>System Health: <span class="system-health health-{{ system_status.system_health.lower() }}">{{ system_status.system_health }}</span></p>
         </div>
-        
+
         <div class="panel">
             <h2>Agent Status</h2>
             {% for agent in agents %}
@@ -123,18 +123,18 @@ class DiscordCommanderControllerV2:
             </div>
             {% endfor %}
         </div>
-        
+
         <div class="panel">
             <h2>Quality Metrics</h2>
             <p>V2 Compliance: {{ (quality_metrics.compliance_rate * 100)|round(1) }}%</p>
             <p>Total Files: {{ quality_metrics.total_files }}</p>
             <p>Critical Violations: {{ quality_metrics.critical_violations }}</p>
         </div>
-        
+
         <div class="panel">
             <h2>Social Media</h2>
             {% for platform in social_media_status %}
-            <p>{{ platform.platform }}: {{ platform.status }} 
+            <p>{{ platform.platform }}: {{ platform.status }}
                {% if platform.is_active %}({{ platform.posts_today }} posts today){% endif %}</p>
             {% endfor %}
         </div>
@@ -142,22 +142,22 @@ class DiscordCommanderControllerV2:
 
     <script>
         const socket = io();
-        
+
         socket.on('connect', function() {
             console.log('Connected to Discord Commander');
         });
-        
+
         socket.on('agent_status_update', function(data) {
             console.log('Agent status update:', data);
             // Refresh page or update specific elements
             location.reload();
         });
-        
+
         socket.on('system_status_update', function(data) {
             console.log('System status update:', data);
             // Update system status display
         });
-        
+
         // Request periodic updates
         setInterval(function() {
             socket.emit('update_dashboard');

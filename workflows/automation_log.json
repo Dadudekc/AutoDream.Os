@@ -38,5 +38,15 @@
       "to_agent": "Agent-3",
       "status": "success"
     }
+  },
+  {
+    "type": "task_assignment",
+    "timestamp": "2025-09-29T20:48:39.048418",
+    "data": {
+      "task_id": "QUALITY_001",
+      "assigned_to": "Agent-7",
+      "assigned_by": "Agent-4",
+      "status": "success"
+    }
   }
 ]

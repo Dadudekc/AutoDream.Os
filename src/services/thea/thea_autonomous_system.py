@@ -217,8 +217,27 @@ class TheaAutonomousSystem:
 
                 logger.info("Autonomous message exchange completed successfully")
 
-                # Update conversation activity
+                # Update conversation activity and extract real conversation link
                 self.conversation_manager.update_conversation_activity()
+
+                # Extract and save the real conversation link if we have one
+                real_conversation_link = self.conversation_manager.extract_conversation_link(
+                    self.driver
+                )
+                if (
+                    real_conversation_link
+                    and real_conversation_link
+                    != "https://chatgpt.com/c/placeholder-20250929-210833"
+                ):
+                    logger.info(f"🔗 Extracted real conversation link: {real_conversation_link}")
+                    # Update the active conversation with the real link
+                    if self.conversation_manager.active_conversation_id:
+                        conv_meta = self.conversation_manager.conversations[
+                            self.conversation_manager.active_conversation_id
+                        ]
+                        conv_meta.conversation_link = real_conversation_link
+                        self.conversation_manager._save_conversations()
+                        logger.info("✅ Updated conversation with real link")
 
                 return response_text
 

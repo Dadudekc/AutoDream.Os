@@ -215,11 +215,52 @@ Tags: GENERAL
 ============================================================
 📝 DEVLOG: Use 'python src/services/agent_devlog_posting.py --agent <flag> --action <desc>'"""
 
+    def _validate_message_before_paste(self, text: str) -> tuple[bool, str]:
+        """Validate message content before pasting."""
+        try:
+            # Check if message contains required A2A format
+            if "[A2A] MESSAGE" not in text:
+                return False, "Message missing A2A format"
+
+            # Check if message contains FROM field
+            if "📤 FROM:" not in text:
+                return False, "Message missing FROM field"
+
+            # Check if message contains TO field
+            if "📥 TO:" not in text:
+                return False, "Message missing TO field"
+
+            # Check message length (not too long for clipboard)
+            if len(text) > 10000:
+                return False, "Message too long for clipboard"
+
+            # Check for problematic characters that might break pasting
+            problematic_chars = ["\x00", "\x01", "\x02", "\x03", "\x04", "\x05"]
+            for char in problematic_chars:
+                if char in text:
+                    return False, f"Message contains problematic character: {repr(char)}"
+
+            logger.info("✅ Message validation passed")
+            return True, "Message validation successful"
+
+        except Exception as e:
+            logger.error(f"Message validation failed: {e}")
+            return False, f"Validation error: {e}"
+
     def _paste_to_coords(self, coords: tuple[int, int], text: str) -> bool:
-        """Paste text to coordinates and press Enter to send using PyAutoGUI."""
+        """Paste text to coordinates and press Enter to send using PyAutoGUI with validation."""
         if not pyautogui or not pyperclip:
             logger.error("PyAutoGUI or pyperclip not available")
             return False
+
+        # Validate message before pasting
+        is_valid, validation_msg = self._validate_message_before_paste(text)
+        if not is_valid:
+            logger.error(f"❌ Message validation failed: {validation_msg}")
+            logger.error(f"Message content preview: {text[:200]}...")
+            return False
+
+        logger.info(f"✅ Message validation passed: {validation_msg}")
 
         try:
             # Save current clipboard
@@ -267,6 +308,7 @@ Tags: GENERAL
                 # Clear clipboard to prevent spam content restoration
                 pyperclip.copy("")
 
+            logger.info("✅ Message pasted and sent successfully")
             return True
 
         except Exception as e:
@@ -274,7 +316,25 @@ Tags: GENERAL
             return False
 
     def stall_agent(self, agent_id: str, reason: str = None) -> bool:
-        """Stall an agent by sending Ctrl+Shift+Backspace to their chat input."""
+        """
+        Stall an agent by sending Ctrl+Shift+Backspace to their chat input.
+
+        QUEUE BEHAVIOR:
+        - Stops agent's current operations immediately
+        - Any cued messages remain in the queue (not lost)
+        - New messages sent to stalled agent go to top of queue
+        - Agent will process queued messages when unstalled
+
+        To resume: Use unstall_agent() which sends Ctrl+Enter to deliver
+        the next pending message in the cue.
+
+        Args:
+            agent_id: The agent to stall
+            reason: Optional reason for stalling (for logging)
+
+        Returns:
+            bool: True if stall command was sent successfully
+        """
         try:
             import json
             import time
@@ -308,7 +368,32 @@ Tags: GENERAL
             return False
 
     def unstall_agent(self, agent_id: str, message: str = None) -> bool:
-        """Unstall an agent by sending Ctrl+Enter with optional message."""
+        """
+        Unstall an agent by sending Ctrl+Enter with optional message.
+
+        MESSAGE QUEUE BEHAVIOR:
+        - Ctrl+Shift+Backspace (stall): Stops agent, any cued messages remain in queue
+        - Ctrl+Enter (unstall): Sends next pending message in cue to agent
+        - If message provided: Sends that message immediately to stalled agent
+        - New messages sent to stalled agent go to top of queue (next to be processed)
+
+        USAGE SCENARIOS:
+        1. Unstall with message: "You were stuck, review why and report to captain so we can address this blocker later"
+           Then press Ctrl+Enter to send immediately to stalled agent
+        2. Unstall without message: Just send next queued message to agent
+
+        WARNING: Ctrl+Enter may cause task abandonment if agent was stuck on previous work.
+
+        Args:
+            agent_id: The agent to unstall
+            message: Optional message to send immediately to stalled agent
+
+        Returns:
+            bool: True if unstall command was sent successfully
+
+        Warning:
+            Use with caution - may cause task abandonment if agent was stuck on work.
+        """
         try:
             import json
             import time
@@ -333,9 +418,14 @@ Tags: GENERAL
             time.sleep(0.2)
 
             if message:
+                # Send immediate message to stalled agent (goes to top of queue)
                 pyautogui.write(message)
                 time.sleep(0.2)
 
+            # WARNING: Ctrl+Enter sends next pending message in cue to agent
+            # If message was provided above, it sends that message immediately
+            # If no message, sends the next queued message
+            # This may cause task abandonment if agent was stuck on previous work
             pyautogui.hotkey("ctrl", "enter")
             time.sleep(0.5)
 
@@ -345,6 +435,166 @@ Tags: GENERAL
         except Exception as e:
             logger.error(f"Error unstalling agent {agent_id}: {e}")
             return False
+
+    def hard_onboard_agent(self, agent_id: str) -> bool:
+        """Comprehensive 7-step hard onboarding sequence for a single agent."""
+        try:
+            import json
+            import time
+
+            import pyautogui
+            import pyperclip
+
+            # Load coordinates
+            with open(self.coord_path) as f:
+                coords_data = json.load(f)
+
+            if agent_id not in coords_data["agents"]:
+                logger.error(f"Agent {agent_id} not found in coordinates")
+                return False
+
+            agent_data = coords_data["agents"][agent_id]
+            chat_coords = agent_data["chat_input_coordinates"]
+            onboard_coords = agent_data["onboarding_coordinates"]
+
+            # Get agent's default role from capabilities
+            default_role = self._get_agent_default_role(agent_id)
+
+            # Create comprehensive onboarding message
+            onboarding_message = self._create_onboarding_message(agent_id, default_role)
+
+            logger.info(f"Starting 7-step onboarding sequence for {agent_id}")
+
+            # Step 1: Click chat input coordinates to get attention
+            logger.info(f"Step 1: Focusing chat input at {chat_coords}")
+            pyautogui.moveTo(chat_coords[0], chat_coords[1], duration=0.5)
+            time.sleep(0.2)
+            pyautogui.click()
+            time.sleep(0.3)
+
+            # Step 2: Press Ctrl+Enter+Backspace to stop running agents
+            logger.info("Step 2: Stopping running agents")
+            pyautogui.hotkey("ctrl", "enter")
+            time.sleep(0.2)
+            pyautogui.press("backspace")
+            time.sleep(0.3)
+
+            # Step 3: Press Ctrl+Enter to save all changes
+            logger.info("Step 3: Saving all changes")
+            pyautogui.hotkey("ctrl", "enter")
+            time.sleep(0.3)
+
+            # Step 4: Press Ctrl+N to open new chat
+            logger.info("Step 4: Opening new chat")
+            pyautogui.hotkey("ctrl", "n")
+            time.sleep(0.5)
+
+            # Step 5: Navigate to onboarding coordinates
+            logger.info(f"Step 5: Navigating to onboarding coordinates {onboard_coords}")
+            pyautogui.moveTo(onboard_coords[0], onboard_coords[1], duration=0.5)
+            time.sleep(0.2)
+            pyautogui.click()
+            time.sleep(0.3)
+
+            # Step 6: Paste onboarding message
+            logger.info("Step 6: Pasting onboarding message")
+            pyperclip.copy(onboarding_message)
+            pyautogui.hotkey("ctrl", "v")
+            time.sleep(0.3)
+
+            # Step 7: Press Enter to send onboarding message
+            logger.info("Step 7: Sending onboarding message")
+            pyautogui.press("enter")
+            time.sleep(0.5)
+
+            logger.info(f"✅ 7-step onboarding sequence completed for {agent_id}")
+            return True
+
+        except Exception as e:
+            logger.error(f"Error in hard onboarding sequence for {agent_id}: {e}")
+            return False
+
+    def hard_onboard_all_agents(self) -> dict:
+        """Hard onboard all active agents."""
+        results = {}
+        active_agents = ["Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
+
+        for agent_id in active_agents:
+            logger.info(f"Starting hard onboarding for {agent_id}")
+            results[agent_id] = self.hard_onboard_agent(agent_id)
+            time.sleep(1)  # Small delay between agents
+
+        return results
+
+    def _get_agent_default_role(self, agent_id: str) -> str:
+        """Get agent's default role from capabilities."""
+        try:
+            with open("config/agent_capabilities.json") as f:
+                capabilities = json.load(f)
+
+            if agent_id in capabilities["agents"]:
+                default_roles = capabilities["agents"][agent_id]["default_roles"]
+                return default_roles[0] if default_roles else "TASK_EXECUTOR"
+            return "TASK_EXECUTOR"
+        except:
+            return "TASK_EXECUTOR"
+
+    def _create_onboarding_message(self, agent_id: str, default_role: str) -> str:
+        """Create comprehensive onboarding message with role assignment and tool discovery."""
+        return f"""🔔 HARD ONBOARD SEQUENCE INITIATED
+============================================================
+🤖 AGENT: {agent_id}
+🎭 DEFAULT ROLE: {default_role}
+📋 STATUS: ACTIVATING
+============================================================
+
+📖 IMMEDIATE ACTIONS REQUIRED:
+1. Review AGENTS.md for complete system overview
+2. Understand your role: {default_role}
+3. Initialize agent workspace and inbox
+4. Load role-specific protocols from config/protocols/
+5. Discover and integrate available tools
+6. Begin autonomous workflow cycle
+
+🎯 COORDINATION PROTOCOL:
+- Monitor inbox for role assignments from Captain Agent-4
+- Execute General Cycle: CHECK_INBOX → EVALUATE_TASKS → EXECUTE_ROLE → QUALITY_GATES → CYCLE_DONE
+- Maintain V2 compliance standards (≤400 lines, proper structure)
+- Use PyAutoGUI messaging for agent coordination
+
+📊 AVAILABLE ROLES (25 total):
+Core: CAPTAIN, SSOT_MANAGER, COORDINATOR
+Technical: INTEGRATION_SPECIALIST, ARCHITECTURE_SPECIALIST, INFRASTRUCTURE_SPECIALIST, WEB_DEVELOPER, DATA_ANALYST, QUALITY_ASSURANCE, PERFORMANCE_DETECTIVE, SECURITY_INSPECTOR, INTEGRATION_EXPLORER, FINANCIAL_ANALYST, TRADING_STRATEGIST, RISK_MANAGER, PORTFOLIO_OPTIMIZER, COMPLIANCE_AUDITOR
+Operational: TASK_EXECUTOR, RESEARCHER, TROUBLESHOOTER, OPTIMIZER, DEVLOG_STORYTELLER, CODE_ARCHAEOLOGIST, DOCUMENTATION_ARCHITECT, MARKET_RESEARCHER
+
+🛠️ TOOL DISCOVERY PROTOCOL:
+1. Core Communication: src/services/consolidated_messaging_service.py
+2. Captain Tools: tools/captain_cli.py, tools/captain_directive_manager.py
+3. Analysis Tools: tools/analysis_cli.py, tools/overengineering_detector.py
+4. Workflow Tools: tools/agent_workflow_manager.py, tools/simple_workflow_automation.py
+5. Static Analysis: tools/static_analysis/ (code_quality_analyzer.py, dependency_scanner.py, security_scanner.py)
+6. Protocol Tools: tools/protocol_compliance_checker.py, tools/protocol_governance_system.py
+7. DevOps Tools: scripts/deployment_dashboard.py, tools/performance_detective_cli.py
+8. Specialized Tools: tools/financial_analyst_cli.py, tools/trading_strategist_cli.py, tools/risk_manager_cli.py
+9. THEA Integration: src/services/thea/ (strategic_consultation_cli.py, thea_autonomous_system.py)
+10. Alerting Tools: tools/intelligent_alerting_cli.py, tools/predictive_analytics_cli.py
+
+🔧 TOOL INTEGRATION IN GENERAL CYCLE:
+- PHASE 1 (CHECK_INBOX): Use messaging tools, check tool status
+- PHASE 2 (EVALUATE_TASKS): Use analysis tools, workflow tools
+- PHASE 3 (EXECUTE_ROLE): Use role-specific tools, specialized tools
+- PHASE 4 (QUALITY_GATES): Use quality tools, static analysis tools
+- PHASE 5 (CYCLE_DONE): Use reporting tools, update tool status
+
+📚 REQUIRED READING FOR TOOL DISCOVERY:
+- AGENTS.md (complete tool integration in General Cycle)
+- tools/ directory (all available CLI tools)
+- src/services/ directory (all available services)
+- config/protocols/ (role-specific tool protocols)
+
+🚀 BEGIN ONBOARDING PROTOCOLS
+============================================================
+🐝 WE ARE SWARM - {agent_id} Activation Complete"""
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -455,22 +705,15 @@ def main(argv: list[str] | None = None) -> int:
             return 0
 
         elif args.cmd == "hard-onboard":
-            # Simple hard onboard implementation
+            # Comprehensive 7-step onboarding sequence
             if args.agent:
-                # Simulate hard onboard by sending a message
-                success = messaging_service.send_message(
-                    args.agent,
-                    "🔔 HARD ONBOARD: Agent activated and ready for coordination",
-                    "System",
-                )
+                success = messaging_service.hard_onboard_agent(args.agent)
                 print(
                     f"WE ARE SWARM - Hard onboard {'successful' if success else 'failed'} for {args.agent}"
                 )
                 return 0 if success else 1
             elif args.all_agents:
-                results = messaging_service.broadcast_message(
-                    "🔔 HARD ONBOARD: All agents activated and ready for coordination", "System"
-                )
+                results = messaging_service.hard_onboard_all_agents()
                 successful = sum(1 for success in results.values() if success)
                 print(f"WE ARE SWARM - Hard onboard complete: {successful}/{len(results)} agents")
                 return 0 if successful == len(results) else 1

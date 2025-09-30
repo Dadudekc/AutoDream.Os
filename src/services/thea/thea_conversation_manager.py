@@ -154,10 +154,10 @@ class TheaConversationManager:
             conversation_link = self.extract_conversation_link(driver)
 
             if not conversation_link:
-                logger.warning("Could not extract conversation link, creating placeholder")
-                conversation_link = (
-                    f"https://chatgpt.com/c/placeholder-{datetime.now().strftime('%Y%m%d-%H%M%S')}"
+                logger.error(
+                    "Could not extract conversation link - THEA system may not be properly logged in"
                 )
+                return None
 
             # Generate conversation ID
             conversation_id = f"thea_conv_{datetime.now().strftime('%Y%m%d_%H%M%S')}"

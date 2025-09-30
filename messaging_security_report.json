@@ -1,0 +1,66 @@
+{
+  "timestamp": "2025-09-30T07:53:30.469956",
+  "project_root": "D:\\Agent_Cellphone_V2_Repository\\src\\services\\messaging",
+  "tools": {
+    "bandit": {
+      "status": "success",
+      "data": {
+        "errors": [
+          {
+            "filename": "D:\\Agent_Cellphone_V2_Repository\\src\\services\\messaging\\src",
+            "reason": "No such file or directory"
+          }
+        ],
+        "generated_at": "2025-09-30T12:53:35Z",
+        "metrics": {
+          "_totals": {
+            "CONFIDENCE.HIGH": 0,
+            "CONFIDENCE.LOW": 0,
+            "CONFIDENCE.MEDIUM": 0,
+            "CONFIDENCE.UNDEFINED": 0,
+            "SEVERITY.HIGH": 0,
+            "SEVERITY.LOW": 0,
+            "SEVERITY.MEDIUM": 0,
+            "SEVERITY.UNDEFINED": 0,
+            "loc": 0,
+            "nosec": 0,
+            "skipped_tests": 0
+          }
+        },
+        "results": []
+      },
+      "command": "bandit -r D:\\Agent_Cellphone_V2_Repository\\src\\services\\messaging\\src -f json -ll --skip B101,B601"
+    },
+    "safety": {
+      "status": "success",
+      "data": [],
+      "command": "safety check --json --short-report"
+    },
+    "semgrep": {
+      "status": "skipped",
+      "reason": "Semgrep not installed",
+      "data": []
+    },
+    "dependency_check": {
+      "status": "skipped",
+      "reason": "No requirements.txt found",
+      "data": []
+    }
+  },
+  "summary": {
+    "total_issues": 0,
+    "high_severity": 0,
+    "medium_severity": 0,
+    "low_severity": 0,
+    "info_issues": 0,
+    "tools_status": {
+      "bandit": "success",
+      "safety": "success",
+      "semgrep": "skipped",
+      "dependency_check": "skipped"
+    },
+    "recommendations": [
+      "\u2705 No security issues detected"
+    ]
+  }
+}

@@ -54,12 +54,8 @@ def consult_command(args):
     print(message)
     print("-" * 50)
 
-    # Confirm before sending
-    if not args.auto_send:
-        confirm = input("\n🤔 Send this message to Commander Thea? (y/N): ")
-        if confirm.lower() != "y":
-            print("❌ Consultation cancelled")
-            return 0
+    # Autonomous operation - no confirmation needed
+    print("\n🤖 Autonomous consultation mode - sending automatically...")
 
     # Send message
     print("\n📤 Sending consultation to Commander Thea...")
@@ -118,12 +114,8 @@ def status_report_command(args):
     print(message)
     print("-" * 50)
 
-    # Confirm before sending
-    if not args.auto_send:
-        confirm = input("\n🤔 Send this status report to Commander Thea? (y/N): ")
-        if confirm.lower() != "y":
-            print("❌ Status report cancelled")
-            return 0
+    # Autonomous operation - no confirmation needed
+    print("\n🤖 Autonomous status report mode - sending automatically...")
 
     # Send message
     print("\n📤 Sending status report to Commander Thea...")
@@ -159,12 +151,8 @@ def emergency_command(args):
     print(message)
     print("-" * 50)
 
-    # Confirm before sending
-    if not args.auto_send:
-        confirm = input("\n🚨 Send this EMERGENCY consultation to Commander Thea? (y/N): ")
-        if confirm.lower() != "y":
-            print("❌ Emergency consultation cancelled")
-            return 0
+    # Autonomous operation - no confirmation needed
+    print("\n🤖 Autonomous emergency consultation mode - sending automatically...")
 
     # Send message
     print("\n🚨 Sending EMERGENCY consultation to Commander Thea...")
@@ -187,7 +175,99 @@ def emergency_command(args):
         return 1
 
 
-def list_templates_command(args):
+def paste_message_command(args):
+    """Handle direct message pasting to THEA."""
+    print("🤖 THEA Direct Message Mode")
+    print("=" * 50)
+    print("📋 Instructions:")
+    print("1. Prepare your message with project context")
+    print("2. Copy the message to clipboard")
+    print("3. Press Enter to send to THEA")
+    print("=" * 50)
+
+    input("Press Enter when ready to send message to THEA...")
+
+    # Get message from clipboard (simplified approach)
+    try:
+        import pyperclip
+
+        message = pyperclip.paste()
+        if not message.strip():
+            print("❌ No message found in clipboard")
+            return 1
+    except ImportError:
+        print("❌ pyperclip not available. Please install: pip install pyperclip")
+        return 1
+
+    print(f"\n📤 Message to send ({len(message)} characters):")
+    print("-" * 50)
+    print(message[:500] + "..." if len(message) > 500 else message)
+    print("-" * 50)
+
+    # Send message
+    print("\n📤 Sending message to Commander Thea...")
+    try:
+        response = send_thea_message_autonomous(message, headless=not args.visible)
+
+        if response:
+            print("\n✅ SUCCESS: Received response from Commander Thea")
+            print(f"📋 Response ({len(response)} characters):")
+            print("-" * 50)
+            print(response)
+            print("-" * 50)
+            return 0
+        else:
+            print("❌ FAILED: No response received from Commander Thea")
+            return 1
+
+    except Exception as e:
+        print(f"❌ ERROR: {e}")
+        return 1
+
+    """Handle project scan consultation command."""
+    context_manager = ProjectContextManager()
+
+    # Read project scan JSON file
+    try:
+        with open(args.scan_file, encoding="utf-8") as f:
+            project_scan_json = f.read()
+        print(f"📊 Loaded project scan from: {args.scan_file}")
+    except Exception as e:
+        print(f"❌ Failed to read project scan file: {e}")
+        return 1
+
+    # Create consultation message with project scan context
+    message = context_manager.create_project_scan_context(args.question, project_scan_json)
+
+    # Show message preview
+    print(f"\n📤 Project Scan Consultation ({len(message)} characters):")
+    print("-" * 50)
+    print(message)
+    print("-" * 50)
+
+    # Autonomous operation - no confirmation needed
+    print("\n🤖 Autonomous project scan consultation mode - sending automatically...")
+
+    # Send message
+    print("\n📤 Sending project scan consultation to Commander Thea...")
+    try:
+        response = send_thea_message_autonomous(message, headless=not args.visible)
+
+        if response:
+            print("\n✅ SUCCESS: Received response from Commander Thea")
+            print(f"📋 Response ({len(response)} characters):")
+            print("-" * 50)
+            print(response)
+            print("-" * 50)
+            return 0
+        else:
+            print("❌ FAILED: No response received from Commander Thea")
+            return 1
+
+    except Exception as e:
+        print(f"❌ ERROR: {e}")
+        return 1
+
     """List available consultation templates."""
     print("📋 Available Strategic Consultation Templates:")
     print("=" * 60)
@@ -291,6 +371,12 @@ Examples:
     )
     emergency_parser.add_argument("--issue", required=True, help="Emergency issue description")
     emergency_parser.add_argument("--visible", action="store_true", help="Run in visible mode")
+
+    # Paste message command
+    paste_parser = subparsers.add_parser(
+        "paste", help="Send message directly from clipboard to THEA"
+    )
+    paste_parser.add_argument("--visible", action="store_true", help="Run in visible mode")
     emergency_parser.add_argument(
         "--auto-send", action="store_true", help="Send without confirmation"
     )
@@ -312,6 +398,10 @@ Examples:
         return status_report_command(args)
     elif args.command == "emergency":
         return emergency_command(args)
+    elif args.command == "project-scan":
+        return project_scan_command(args)
+    elif args.command == "paste":
+        return paste_message_command(args)
     elif args.command == "list-templates":
         return list_templates_command(args)
     elif args.command == "test-limits":

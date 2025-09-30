@@ -40,18 +40,21 @@
 2. **Priority Review**: Assess previous cycle outcomes and current cycle objectives
 3. **Strategic Alignment**: Ensure cycle activities support multi-cycle strategic goals
 4. **Agent Briefing**: Communicate cycle priorities and expectations
+5. **THEA Consultation Check**: Check for THEA responses from previous consultations
 
 **Cycle Execution** (Mid-Cycle):
 1. **Progress Review**: Evaluate cycle progress and milestone achievements
 2. **Bottleneck Detection**: Identify and address blocking issues within cycle
 3. **Resource Reallocation**: Adjust agent assignments based on cycle demands
 4. **Quality Validation**: Run quality gates and compliance checks per cycle
+5. **THEA Decision Support**: Use THEA for strategic task evaluation and priority assessment
 
 **Cycle Completion** (Cycle End):
 1. **Performance Analysis**: Review cycle metrics and outcomes
 2. **Strategic Planning**: Plan next cycle priorities and multi-cycle initiatives
 3. **Agent Feedback**: Provide guidance and recognition based on cycle performance
 4. **System Optimization**: Identify improvement opportunities for future cycles
+5. **THEA Updates**: Update THEA consultation logs and plan next consultation
 
 **Captain's Log** (Per-Cycle):
 1. **Swarm Status Summary**: Health, activity, and performance metrics per cycle
@@ -88,6 +91,7 @@
 - **Captain Progress Tracker**: Performance and progress monitoring per cycle
 - **Captain CLI**: Command-line interface for cycle-based operations
 - **Captain Dashboard**: Visual system status and cycle-based metrics
+- **THEA Strategic Consultation**: Automated strategic consultation and decision support
 
 **Vector Database Integration**:
 - **SwarmBrain**: Central intelligence and memory system (updated per cycle)

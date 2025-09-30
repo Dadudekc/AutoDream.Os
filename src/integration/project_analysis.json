@@ -1,0 +1,97 @@
+{
+  "project_info": {
+    "name": "Agent Cellphone V2",
+    "version": "2.1.0",
+    "description": "Advanced AI Agent System with Code Quality Standards",
+    "scan_timestamp": "2025-09-30T07:03:49.026909",
+    "scanner_version": "SimpleProjectScanner 1.0.0"
+  },
+  "analysis": {
+    "project_structure": {
+      "total_files": 63,
+      "python_files": 63,
+      "directories": [
+        "D:\\Agent_Cellphone_V2_Repository\\src\\integration\\qa_coordination",
+        "D:\\Agent_Cellphone_V2_Repository\\src\\integration\\agent7_interface_testing"
+      ],
+      "file_types": {
+        ".py": 63
+      }
+    },
+    "python_analysis": {
+      "total_python_files": 63,
+      "v2_compliant_files": 50,
+      "non_compliant_files": [
+        {
+          "file": "D:\\Agent_Cellphone_V2_Repository\\src\\integration\\agent6_vscode_forking_validation.py",
+          "lines": 462
+        },
+        {
+          "file": "D:\\Agent_Cellphone_V2_Repository\\src\\integration\\agent7_agent8_phase4_testing_coordination.py",
+          "lines": 546
+        },
+        {
+          "file": "D:\\Agent_Cellphone_V2_Repository\\src\\integration\\agent7_comprehensive_testing_system.py",
+          "lines": 409
+        },
+        {
+          "file": "D:\\Agent_Cellphone_V2_Repository\\src\\integration\\aggressive_documentation_cleanup_system.py",
+          "lines": 489
+        },
+        {
+          "file": "D:\\Agent_Cellphone_V2_Repository\\src\\integration\\comprehensive_integration_assessment.py",
+          "lines": 537
+        },
+        {
+          "file": "D:\\Agent_Cellphone_V2_Repository\\src\\integration\\consolidation_execution_approval_system.py",
+          "lines": 420
+        },
+        {
+          "file": "D:\\Agent_Cellphone_V2_Repository\\src\\integration\\documentation_consolidation_system.py",
+          "lines": 450
+        },
+        {
+          "file": "D:\\Agent_Cellphone_V2_Repository\\src\\integration\\dual_role_comprehensive_mission.py",
+          "lines": 627
+        },
+        {
+          "file": "D:\\Agent_Cellphone_V2_Repository\\src\\integration\\phase3_coordination_excellence_confirmation_system.py",
+          "lines": 441
+        },
+        {
+          "file": "D:\\Agent_Cellphone_V2_Repository\\src\\integration\\phase3_mission_completion_summary_system.py",
+          "lines": 439
+        },
+        {
+          "file": "D:\\Agent_Cellphone_V2_Repository\\src\\integration\\phase4_quality_assurance_framework.py",
+          "lines": 460
+        },
+        {
+          "file": "D:\\Agent_Cellphone_V2_Repository\\src\\integration\\team_beta_integration_assessment.py",
+          "lines": 406
+        },
+        {
+          "file": "D:\\Agent_Cellphone_V2_Repository\\src\\integration\\testing_documentation_framework.py",
+          "lines": 432
+        }
+      ],
+      "large_files": [
+        {
+          "file": "D:\\Agent_Cellphone_V2_Repository\\src\\integration\\dual_role_comprehensive_mission.py",
+          "lines": 627
+        }
+      ],
+      "average_lines": 319.1746031746032
+    },
+    "dependencies": {
+      "requirements_files": [],
+      "python_version": "3.11.9",
+      "key_dependencies": [
+        "discord.py",
+        "pyautogui",
+        "pydantic",
+        "yaml"
+      ]
+    }
+  }
+}

@@ -1,0 +1,1542 @@
+================================================================================
+QUALITY GATES REPORT
+================================================================================
+
+Total Files Checked: 415
+Excellent: 247
+Good: 74
+Acceptable: 36
+Poor: 47
+Critical: 11
+
+FILES WITH VIOLATIONS:
+----------------------------------------
+
+core\coherent_collaboration_cli.py (Score: 60)
+  Quality Level: ACCEPTABLE
+  Line Count: 468
+  Violations:
+    - File size violation: 468 lines (limit: 400)
+    - Function too complex: 12 (limit: 10)
+
+core\cross_platform_database.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 213
+  Violations:
+    - Too many functions: 16 (limit: 10)
+
+core\cross_platform_env.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 253
+  Violations:
+    - Too many functions: 24 (limit: 10)
+
+core\cross_platform_paths.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 262
+  Violations:
+    - Too many functions: 28 (limit: 10)
+
+core\design_authority.py (Score: 45)
+  Quality Level: POOR
+  Line Count: 440
+  Violations:
+    - File size violation: 440 lines (limit: 400)
+    - Too many functions: 15 (limit: 10)
+    - Function too complex: 12 (limit: 10)
+
+core\knowledge_base.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 121
+  Violations:
+    - Too many functions: 21 (limit: 10)
+
+core\knowledge_base_core.py (Score: 55)
+  Quality Level: POOR
+  Line Count: 448
+  Violations:
+    - File size violation: 448 lines (limit: 400)
+    - Too many functions: 32 (limit: 10)
+
+core\knowledge_base_manager.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 271
+  Violations:
+    - Too many functions: 11 (limit: 10)
+
+core\knowledge_base_retriever.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 226
+  Violations:
+    - Too many functions: 14 (limit: 10)
+
+core\pr_review_protocol.py (Score: 25)
+  Quality Level: CRITICAL
+  Line Count: 592
+  Violations:
+    - File size violation: 592 lines (limit: 400)
+    - Too many classes: 6 (limit: 5)
+    - Too many functions: 23 (limit: 10)
+    - Too many parameters: 7 (limit: 5)
+
+core\project_registry.py (Score: 70)
+  Quality Level: ACCEPTABLE
+  Line Count: 335
+  Violations:
+    - Too many functions: 19 (limit: 10)
+    - Too many parameters: 6 (limit: 5)
+
+core\shared_error_handling.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 193
+  Violations:
+    - Too many functions: 13 (limit: 10)
+
+core\shared_validation.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 205
+  Violations:
+    - Too many functions: 17 (limit: 10)
+
+core\unified_coordinate_loader.py (Score: 55)
+  Quality Level: POOR
+  Line Count: 428
+  Violations:
+    - File size violation: 428 lines (limit: 400)
+    - Too many functions: 14 (limit: 10)
+
+core\unified_ml_pipeline.py (Score: 25)
+  Quality Level: CRITICAL
+  Line Count: 482
+  Violations:
+    - File size violation: 482 lines (limit: 400)
+    - Too many classes: 10 (limit: 5)
+    - Too many functions: 18 (limit: 10)
+    - Too many parameters: 6 (limit: 5)
+
+core\vibe_check.py (Score: 55)
+  Quality Level: POOR
+  Line Count: 578
+  Violations:
+    - File size violation: 578 lines (limit: 400)
+    - Too many functions: 19 (limit: 10)
+
+core\database\backup_recovery_system.py (Score: 50)
+  Quality Level: POOR
+  Line Count: 431
+  Violations:
+    - File size violation: 431 lines (limit: 400)
+    - Too many classes: 8 (limit: 5)
+    - Async functions found: 15 (may be unnecessary)
+
+core\database\data_replication_system.py (Score: 50)
+  Quality Level: POOR
+  Line Count: 424
+  Violations:
+    - File size violation: 424 lines (limit: 400)
+    - Too many classes: 6 (limit: 5)
+    - Async functions found: 20 (may be unnecessary)
+
+core\database\database_monitoring_system.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 212
+  Violations:
+    - Async functions found: 6 (may be unnecessary)
+
+core\database\database_monitoring_system_v2.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 212
+  Violations:
+    - Async functions found: 6 (may be unnecessary)
+
+core\database\distributed_db_manager.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 283
+  Violations:
+    - Async functions found: 8 (may be unnecessary)
+
+core\database\monitoring\alert_manager.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 237
+  Violations:
+    - Async functions found: 7 (may be unnecessary)
+
+core\database\monitoring\health_checker.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 288
+  Violations:
+    - Async functions found: 6 (may be unnecessary)
+
+core\database\monitoring\metrics_collector.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 213
+  Violations:
+    - Async functions found: 5 (may be unnecessary)
+
+core\security\jwt_manager.py (Score: 70)
+  Quality Level: ACCEPTABLE
+  Line Count: 205
+  Violations:
+    - Too many functions: 17 (limit: 10)
+    - Too many parameters: 6 (limit: 5)
+
+core\security\oauth2_provider.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 184
+  Violations:
+    - Too many functions: 13 (limit: 10)
+
+core\security\security_cli.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 255
+  Violations:
+    - Too many functions: 14 (limit: 10)
+
+core\security\security_manager.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 280
+  Violations:
+    - Too many functions: 20 (limit: 10)
+
+core\tracing\error_tracker.py (Score: 25)
+  Quality Level: CRITICAL
+  Line Count: 416
+  Violations:
+    - File size violation: 416 lines (limit: 400)
+    - Too many classes: 6 (limit: 5)
+    - Too many functions: 19 (limit: 10)
+    - Too many parameters: 9 (limit: 5)
+
+core\tracing\jaeger_tracer.py (Score: 80)
+  Quality Level: GOOD
+  Line Count: 271
+  Violations:
+    - Too many functions: 21 (limit: 10)
+    - Async functions found: 1 (may be unnecessary)
+
+core\tracing\performance_monitor.py (Score: 70)
+  Quality Level: ACCEPTABLE
+  Line Count: 330
+  Violations:
+    - Too many functions: 20 (limit: 10)
+    - Too many parameters: 6 (limit: 5)
+
+core\tracing\request_tracker.py (Score: 70)
+  Quality Level: ACCEPTABLE
+  Line Count: 268
+  Violations:
+    - Too many functions: 12 (limit: 10)
+    - Too many parameters: 8 (limit: 5)
+
+core\config\unified_config_manager.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 282
+  Violations:
+    - Too many functions: 19 (limit: 10)
+
+core\task\priority_scheduler.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 289
+  Violations:
+    - Too many functions: 16 (limit: 10)
+
+core\prompts\aletheia_manager.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 306
+  Violations:
+    - Too many functions: 24 (limit: 10)
+
+core\memory\persistent_memory.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 374
+  Violations:
+    - Too many functions: 20 (limit: 10)
+
+services\discord_devlog_service.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 350
+  Violations:
+    - Async functions found: 9 (may be unnecessary)
+
+services\agent_devlog_automation.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 222
+  Violations:
+    - Async functions found: 11 (may be unnecessary)
+
+services\discord_bot_integrated.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 279
+  Violations:
+    - Async functions found: 10 (may be unnecessary)
+
+services\agent_devlog_posting.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 71
+  Violations:
+    - Async functions found: 2 (may be unnecessary)
+
+services\aletheia_prompt_manager.py (Score: 40)
+  Quality Level: POOR
+  Line Count: 447
+  Violations:
+    - File size violation: 447 lines (limit: 400)
+    - Too many classes: 10 (limit: 5)
+    - Too many functions: 30 (limit: 10)
+
+services\consolidated_messaging_service.py (Score: 45)
+  Quality Level: POOR
+  Line Count: 817
+  Violations:
+    - File size violation: 817 lines (limit: 400)
+    - Too many functions: 19 (limit: 10)
+    - Function too complex: 22 (limit: 10)
+
+services\coordinate_manager.py (Score: 30)
+  Quality Level: CRITICAL
+  Line Count: 434
+  Violations:
+    - File size violation: 434 lines (limit: 400)
+    - Too many classes: 7 (limit: 5)
+    - Too many functions: 20 (limit: 10)
+    - Function too complex: 11 (limit: 10)
+
+services\devlog_analytics_api.py (Score: 45)
+  Quality Level: POOR
+  Line Count: 448
+  Violations:
+    - File size violation: 448 lines (limit: 400)
+    - Too many functions: 17 (limit: 10)
+    - Function too complex: 14 (limit: 10)
+
+services\devlog_storytelling_service.py (Score: 55)
+  Quality Level: POOR
+  Line Count: 420
+  Violations:
+    - File size violation: 420 lines (limit: 400)
+    - Too many functions: 20 (limit: 10)
+
+services\discord_line_emitter.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 83
+  Violations:
+    - Async functions found: 1 (may be unnecessary)
+
+services\github_protocol_models.py (Score: 40)
+  Quality Level: POOR
+  Line Count: 484
+  Violations:
+    - File size violation: 484 lines (limit: 400)
+    - Too many classes: 9 (limit: 5)
+    - Too many functions: 18 (limit: 10)
+
+services\github_protocol_service.py (Score: 40)
+  Quality Level: POOR
+  Line Count: 480
+  Violations:
+    - File size violation: 480 lines (limit: 400)
+    - Too many functions: 18 (limit: 10)
+    - Too many parameters: 8 (limit: 5)
+
+services\multichat_session_persistence.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 356
+  Violations:
+    - Too many functions: 29 (limit: 10)
+
+services\persistent_memory.py (Score: 40)
+  Quality Level: POOR
+  Line Count: 489
+  Violations:
+    - File size violation: 489 lines (limit: 400)
+    - Too many classes: 10 (limit: 5)
+    - Too many functions: 29 (limit: 10)
+
+services\service_manager.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 384
+  Violations:
+    - Async functions found: 13 (may be unnecessary)
+
+services\social_media_integration.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 181
+  Violations:
+    - Async functions found: 7 (may be unnecessary)
+
+services\swarm_intelligence_coordination.py (Score: 50)
+  Quality Level: POOR
+  Line Count: 409
+  Violations:
+    - File size violation: 409 lines (limit: 400)
+    - Too many classes: 6 (limit: 5)
+    - Async functions found: 16 (may be unnecessary)
+
+services\v3_autonomous_workflow_system.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 323
+  Violations:
+    - Async functions found: 17 (may be unnecessary)
+
+services\messaging\onboarding_bridge.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 37
+  Violations:
+    - Too many parameters: 7 (limit: 5)
+
+services\messaging\agent_context.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 310
+  Violations:
+    - Too many functions: 16 (limit: 10)
+
+services\messaging\intelligent_coordinator.py (Score: 55)
+  Quality Level: POOR
+  Line Count: 533
+  Violations:
+    - File size violation: 533 lines (limit: 400)
+    - Too many functions: 25 (limit: 10)
+
+services\messaging\intelligent_messaging.py (Score: 70)
+  Quality Level: ACCEPTABLE
+  Line Count: 389
+  Violations:
+    - Too many functions: 17 (limit: 10)
+    - Too many parameters: 6 (limit: 5)
+
+services\messaging\models_optimized.py (Score: 70)
+  Quality Level: ACCEPTABLE
+  Line Count: 145
+  Violations:
+    - Too many classes: 7 (limit: 5)
+    - Too many parameters: 8 (limit: 5)
+
+services\messaging\multichat_response.py (Score: 40)
+  Quality Level: POOR
+  Line Count: 409
+  Violations:
+    - File size violation: 409 lines (limit: 400)
+    - Too many functions: 17 (limit: 10)
+    - Too many parameters: 6 (limit: 5)
+
+services\messaging\project_update_cli.py (Score: 90)
+  Quality Level: EXCELLENT
+  Line Count: 272
+  Violations:
+    - Function too complex: 25 (limit: 10)
+
+services\messaging\project_update_system.py (Score: 70)
+  Quality Level: ACCEPTABLE
+  Line Count: 309
+  Violations:
+    - Too many functions: 11 (limit: 10)
+    - Too many parameters: 7 (limit: 5)
+
+services\messaging\workflow_integration.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 359
+  Violations:
+    - Too many functions: 11 (limit: 10)
+
+services\messaging\interfaces\messaging_interfaces.py (Score: 75)
+  Quality Level: GOOD
+  Line Count: 102
+  Violations:
+    - Too many functions: 12 (limit: 10)
+    - Abstract base classes found: 2 (not recommended)
+
+services\messaging\models\messaging_enums.py (Score: 70)
+  Quality Level: ACCEPTABLE
+  Line Count: 81
+  Violations:
+    - Too many enums: 6 (limit: 3)
+    - Too many classes: 6 (limit: 5)
+
+services\messaging\providers\discord_provider.py (Score: 55)
+  Quality Level: POOR
+  Line Count: 431
+  Violations:
+    - File size violation: 431 lines (limit: 400)
+    - Function too complex: 11 (limit: 10)
+    - Async functions found: 10 (may be unnecessary)
+
+services\messaging\status\status_monitor.py (Score: 90)
+  Quality Level: EXCELLENT
+  Line Count: 164
+  Violations:
+    - Function too complex: 11 (limit: 10)
+
+services\thea\thea_login_detector.py (Score: 90)
+  Quality Level: EXCELLENT
+  Line Count: 373
+  Violations:
+    - Function too complex: 37 (limit: 10)
+
+services\thea\context_templates.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 277
+  Violations:
+    - Too many functions: 12 (limit: 10)
+
+services\thea\thea_autonomous_system.py (Score: 70)
+  Quality Level: ACCEPTABLE
+  Line Count: 356
+  Violations:
+    - Too many functions: 11 (limit: 10)
+    - Too many parameters: 7 (limit: 5)
+
+services\thea\thea_communication_core.py (Score: 90)
+  Quality Level: EXCELLENT
+  Line Count: 397
+  Violations:
+    - Function too complex: 13 (limit: 10)
+
+services\thea\thea_communication_interface.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 343
+  Violations:
+    - Too many functions: 11 (limit: 10)
+
+services\thea\thea_conversation_manager.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 352
+  Violations:
+    - Too many functions: 13 (limit: 10)
+
+services\thea\thea_error_recovery.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 373
+  Violations:
+    - Too many functions: 15 (limit: 10)
+
+services\thea\thea_monitoring_system.py (Score: 40)
+  Quality Level: POOR
+  Line Count: 466
+  Violations:
+    - File size violation: 466 lines (limit: 400)
+    - Too many functions: 16 (limit: 10)
+    - Too many parameters: 6 (limit: 5)
+
+services\vector_database\architecture_integration.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 367
+  Violations:
+    - Too many functions: 13 (limit: 10)
+
+services\vector_database\complete_infrastructure_integration.py (Score: 70)
+  Quality Level: ACCEPTABLE
+  Line Count: 391
+  Violations:
+    - Too many functions: 17 (limit: 10)
+    - Too many parameters: 8 (limit: 5)
+
+services\vector_database\core_integration.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 289
+  Violations:
+    - Async functions found: 1 (may be unnecessary)
+
+services\vector_database\enhanced_collaboration.py (Score: 70)
+  Quality Level: ACCEPTABLE
+  Line Count: 328
+  Violations:
+    - Too many classes: 8 (limit: 5)
+    - Too many functions: 34 (limit: 10)
+
+services\vector_database\kiss_principle_enforcement_system.py (Score: 55)
+  Quality Level: POOR
+  Line Count: 342
+  Violations:
+    - Too many classes: 6 (limit: 5)
+    - Too many functions: 24 (limit: 10)
+    - Too many parameters: 6 (limit: 5)
+
+services\vector_database\performance_optimization_framework.py (Score: 70)
+  Quality Level: ACCEPTABLE
+  Line Count: 339
+  Violations:
+    - Too many classes: 7 (limit: 5)
+    - Too many functions: 31 (limit: 10)
+
+services\vector_database\project_completion_system.py (Score: 70)
+  Quality Level: ACCEPTABLE
+  Line Count: 305
+  Violations:
+    - Too many classes: 7 (limit: 5)
+    - Too many functions: 31 (limit: 10)
+
+services\vector_database\quality_assurance_framework.py (Score: 55)
+  Quality Level: POOR
+  Line Count: 311
+  Violations:
+    - Too many classes: 7 (limit: 5)
+    - Too many functions: 23 (limit: 10)
+    - Too many parameters: 6 (limit: 5)
+
+services\vector_database\record_time_migration.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 362
+  Violations:
+    - Too many functions: 14 (limit: 10)
+
+services\vector_database\security_validator.py (Score: 55)
+  Quality Level: POOR
+  Line Count: 614
+  Violations:
+    - File size violation: 614 lines (limit: 400)
+    - Too many functions: 29 (limit: 10)
+
+services\vector_database\v3_contract_execution_system.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 101
+  Violations:
+    - Too many parameters: 6 (limit: 5)
+
+services\vector_database\vector_database_integration.py (Score: 65)
+  Quality Level: ACCEPTABLE
+  Line Count: 124
+  Violations:
+    - Too many functions: 15 (limit: 10)
+    - Too many parameters: 6 (limit: 5)
+    - Async functions found: 1 (may be unnecessary)
+
+services\vector_database\vector_database_models.py (Score: 25)
+  Quality Level: CRITICAL
+  Line Count: 403
+  Violations:
+    - File size violation: 403 lines (limit: 400)
+    - Too many classes: 9 (limit: 5)
+    - Too many functions: 16 (limit: 10)
+    - Too many parameters: 7 (limit: 5)
+
+services\vector_database\vector_database_monitoring.py (Score: 70)
+  Quality Level: ACCEPTABLE
+  Line Count: 198
+  Violations:
+    - Too many classes: 7 (limit: 5)
+    - Too many functions: 13 (limit: 10)
+
+services\vector_database\vector_database_orchestrator.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 225
+  Violations:
+    - Async functions found: 6 (may be unnecessary)
+
+services\vector_database\query_analytics.py (Score: 75)
+  Quality Level: GOOD
+  Line Count: 295
+  Violations:
+    - Function too complex: 13 (limit: 10)
+    - Too many parameters: 6 (limit: 5)
+
+services\vector_database\contracts\contract_execution_core.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 195
+  Violations:
+    - Too many functions: 15 (limit: 10)
+
+services\autonomous\blockers\blocker_resolver.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 327
+  Violations:
+    - Async functions found: 18 (may be unnecessary)
+
+services\autonomous\core\autonomous_workflow.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 185
+  Violations:
+    - Async functions found: 3 (may be unnecessary)
+
+services\autonomous\mailbox\mailbox_manager.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 174
+  Violations:
+    - Async functions found: 6 (may be unnecessary)
+
+services\autonomous\operations\autonomous_operations.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 276
+  Violations:
+    - Async functions found: 10 (may be unnecessary)
+
+services\autonomous\operations\modular\core.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 131
+  Violations:
+    - Async functions found: 1 (may be unnecessary)
+
+services\autonomous\operations\modular\operation_executor.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 81
+  Violations:
+    - Async functions found: 1 (may be unnecessary)
+
+services\autonomous\operations\modular\operations_loader.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 143
+  Violations:
+    - Async functions found: 3 (may be unnecessary)
+
+services\autonomous\operations\modular\operations_manager.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 120
+  Violations:
+    - Async functions found: 2 (may be unnecessary)
+
+services\autonomous\operations\modular\executors\code_review_executor.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 61
+  Violations:
+    - Async functions found: 1 (may be unnecessary)
+
+services\autonomous\operations\modular\executors\documentation_update_executor.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 27
+  Violations:
+    - Async functions found: 1 (may be unnecessary)
+
+services\autonomous\operations\modular\executors\performance_analysis_executor.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 60
+  Violations:
+    - Async functions found: 1 (may be unnecessary)
+
+services\autonomous\operations\modular\executors\security_scan_executor.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 27
+  Violations:
+    - Async functions found: 1 (may be unnecessary)
+
+services\autonomous\operations\modular\executors\ssot_validation_executor.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 27
+  Violations:
+    - Async functions found: 1 (may be unnecessary)
+
+services\autonomous\operations\modular\executors\swarm_coordination_analysis_executor.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 27
+  Violations:
+    - Async functions found: 1 (may be unnecessary)
+
+services\autonomous\operations\modular\executors\system_integration_scan_executor.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 27
+  Violations:
+    - Async functions found: 1 (may be unnecessary)
+
+services\autonomous\tasks\task_manager.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 193
+  Violations:
+    - Async functions found: 4 (may be unnecessary)
+
+services\discord_bot\commands\basic_commands.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 229
+  Violations:
+    - Async functions found: 6 (may be unnecessary)
+
+services\discord_bot\commands\button_handlers.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 167
+  Violations:
+    - Async functions found: 4 (may be unnecessary)
+
+services\discord_bot\commands\help_command.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 67
+  Violations:
+    - Async functions found: 1 (may be unnecessary)
+
+services\discord_bot\commands\main_interface.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 270
+  Violations:
+    - Async functions found: 11 (may be unnecessary)
+
+services\discord_bot\commands\modal_handlers.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 87
+  Violations:
+    - Async functions found: 2 (may be unnecessary)
+
+services\discord_bot\commands\ping_command.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 38
+  Violations:
+    - Async functions found: 1 (may be unnecessary)
+
+services\discord_bot\commands\response_utils.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 38
+  Violations:
+    - Async functions found: 2 (may be unnecessary)
+
+services\discord_bot\commands\safe_response_utils.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 63
+  Violations:
+    - Async functions found: 1 (may be unnecessary)
+
+services\discord_bot\commands\social_media_commands.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 272
+  Violations:
+    - Async functions found: 6 (may be unnecessary)
+
+services\discord_bot\commands\webhook_setup_commands.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 203
+  Violations:
+    - Function too complex: 20 (limit: 10)
+    - Async functions found: 5 (may be unnecessary)
+
+services\discord_bot\commands\agent_coordination\core.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 209
+  Violations:
+    - Async functions found: 8 (may be unnecessary)
+
+services\discord_bot\commands\agent_coordination\messaging.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 173
+  Violations:
+    - Async functions found: 7 (may be unnecessary)
+
+services\discord_bot\commands\agent_coordination\onboarding.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 188
+  Violations:
+    - Async functions found: 7 (may be unnecessary)
+
+services\discord_bot\commands\agent_coordination\status.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 162
+  Violations:
+    - Async functions found: 2 (may be unnecessary)
+
+services\discord_bot\core\discord_bot.py (Score: 55)
+  Quality Level: POOR
+  Line Count: 790
+  Violations:
+    - File size violation: 790 lines (limit: 400)
+    - Function too complex: 11 (limit: 10)
+    - Async functions found: 31 (may be unnecessary)
+
+services\discord_bot\core\commands\social_media_commands.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 168
+  Violations:
+    - Async functions found: 6 (may be unnecessary)
+
+services\discord_bot\ui\discord_ui.py (Score: 50)
+  Quality Level: POOR
+  Line Count: 466
+  Violations:
+    - File size violation: 466 lines (limit: 400)
+    - Too many classes: 7 (limit: 5)
+    - Async functions found: 15 (may be unnecessary)
+
+services\discord_bot\tools\webhook_provisioner.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 197
+  Violations:
+    - Async functions found: 5 (may be unnecessary)
+
+services\alerting\intelligent_alerting_system.py (Score: 25)
+  Quality Level: CRITICAL
+  Line Count: 428
+  Violations:
+    - File size violation: 428 lines (limit: 400)
+    - Too many classes: 8 (limit: 5)
+    - Too many functions: 24 (limit: 10)
+    - Too many parameters: 7 (limit: 5)
+
+services\dashboard\dashboard_web_core.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 196
+  Violations:
+    - Too many functions: 19 (limit: 10)
+
+services\dashboard\dashboard_web_utils.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 150
+  Violations:
+    - Too many functions: 14 (limit: 10)
+
+services\dashboard\swarm_coordination_dashboard.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 289
+  Violations:
+    - Too many functions: 19 (limit: 10)
+
+services\discord_commander\bot.py (Score: 65)
+  Quality Level: ACCEPTABLE
+  Line Count: 1061
+  Violations:
+    - File size violation: 1061 lines (limit: 400)
+    - Async functions found: 33 (may be unnecessary)
+
+services\discord_commander\commands.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 351
+  Violations:
+    - Async functions found: 10 (may be unnecessary)
+
+services\discord_commander\core.py (Score: 80)
+  Quality Level: GOOD
+  Line Count: 270
+  Violations:
+    - Too many functions: 19 (limit: 10)
+    - Async functions found: 7 (may be unnecessary)
+
+services\discord_commander\optimization.py (Score: 35)
+  Quality Level: CRITICAL
+  Line Count: 425
+  Violations:
+    - File size violation: 425 lines (limit: 400)
+    - Too many classes: 6 (limit: 5)
+    - Too many functions: 27 (limit: 10)
+    - Async functions found: 5 (may be unnecessary)
+
+services\discord_commander\web_controller.py (Score: 40)
+  Quality Level: POOR
+  Line Count: 1118
+  Violations:
+    - File size violation: 1118 lines (limit: 400)
+    - Too many functions: 20 (limit: 10)
+    - Function too complex: 19 (limit: 10)
+    - Async functions found: 4 (may be unnecessary)
+
+services\discord_commander\web_controller_core.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 129
+  Violations:
+    - Too many functions: 11 (limit: 10)
+
+services\discord_commander\social_media_poster.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 101
+  Violations:
+    - Async functions found: 5 (may be unnecessary)
+
+services\agent_devlog\agent_validation.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 190
+  Violations:
+    - Too many functions: 15 (limit: 10)
+
+services\agent_devlog\cli.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 239
+  Violations:
+    - Async functions found: 6 (may be unnecessary)
+
+services\agent_devlog\devlog_poster.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 234
+  Violations:
+    - Too many parameters: 6 (limit: 5)
+
+services\agent_devlog\models.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 89
+  Violations:
+    - Too many classes: 7 (limit: 5)
+
+services\role_assignment\role_assignment_service.py (Score: 70)
+  Quality Level: ACCEPTABLE
+  Line Count: 290
+  Violations:
+    - Too many functions: 15 (limit: 10)
+    - Too many parameters: 6 (limit: 5)
+
+architecture\application_layer.py (Score: 45)
+  Quality Level: POOR
+  Line Count: 322
+  Violations:
+    - Too many classes: 8 (limit: 5)
+    - Too many functions: 23 (limit: 10)
+    - Too many parameters: 6 (limit: 5)
+    - Abstract base classes found: 1 (not recommended)
+
+architecture\design_patterns.py (Score: 70)
+  Quality Level: ACCEPTABLE
+  Line Count: 351
+  Violations:
+    - Too many classes: 9 (limit: 5)
+    - Too many functions: 37 (limit: 10)
+
+architecture\design_patterns_v2.py (Score: 30)
+  Quality Level: CRITICAL
+  Line Count: 403
+  Violations:
+    - File size violation: 403 lines (limit: 400)
+    - Too many classes: 18 (limit: 5)
+    - Too many functions: 37 (limit: 10)
+    - Abstract base classes found: 4 (not recommended)
+
+architecture\repository_layer.py (Score: 70)
+  Quality Level: ACCEPTABLE
+  Line Count: 292
+  Violations:
+    - Too many classes: 9 (limit: 5)
+    - Too many functions: 33 (limit: 10)
+
+architecture\service_layer.py (Score: 60)
+  Quality Level: ACCEPTABLE
+  Line Count: 341
+  Violations:
+    - Too many classes: 7 (limit: 5)
+    - Too many functions: 33 (limit: 10)
+    - Abstract base classes found: 1 (not recommended)
+
+architecture\system_integration.py (Score: 55)
+  Quality Level: POOR
+  Line Count: 278
+  Violations:
+    - Too many classes: 7 (limit: 5)
+    - Too many functions: 28 (limit: 10)
+    - Too many parameters: 7 (limit: 5)
+
+architecture\unified_architecture_core.py (Score: 70)
+  Quality Level: ACCEPTABLE
+  Line Count: 323
+  Violations:
+    - Too many classes: 7 (limit: 5)
+    - Too many functions: 27 (limit: 10)
+
+architecture\patterns\singleton_factory.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 138
+  Violations:
+    - Too many functions: 11 (limit: 10)
+
+architecture\patterns\command_repository.py (Score: 70)
+  Quality Level: ACCEPTABLE
+  Line Count: 262
+  Violations:
+    - Too many classes: 7 (limit: 5)
+    - Too many functions: 31 (limit: 10)
+
+architecture\patterns\observer_strategy.py (Score: 70)
+  Quality Level: ACCEPTABLE
+  Line Count: 201
+  Violations:
+    - Too many classes: 10 (limit: 5)
+    - Too many functions: 23 (limit: 10)
+
+domain\domain_events.py (Score: 55)
+  Quality Level: POOR
+  Line Count: 320
+  Violations:
+    - Too many classes: 10 (limit: 5)
+    - Too many functions: 27 (limit: 10)
+    - Too many parameters: 6 (limit: 5)
+
+domain\entities\agent.py (Score: 25)
+  Quality Level: CRITICAL
+  Line Count: 450
+  Violations:
+    - File size violation: 450 lines (limit: 400)
+    - Too many classes: 7 (limit: 5)
+    - Too many functions: 44 (limit: 10)
+    - Too many parameters: 6 (limit: 5)
+
+domain\entities\task.py (Score: 10)
+  Quality Level: CRITICAL
+  Line Count: 543
+  Violations:
+    - File size violation: 543 lines (limit: 400)
+    - Too many enums: 4 (limit: 3)
+    - Too many classes: 10 (limit: 5)
+    - Too many functions: 42 (limit: 10)
+    - Too many parameters: 8 (limit: 5)
+
+monitoring\memory_optimized_monitor.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 339
+  Violations:
+    - Async functions found: 8 (may be unnecessary)
+
+monitoring\performance_monitor.py (Score: 65)
+  Quality Level: ACCEPTABLE
+  Line Count: 422
+  Violations:
+    - File size violation: 422 lines (limit: 400)
+    - Async functions found: 9 (may be unnecessary)
+
+fsm\activity_monitor.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 194
+  Violations:
+    - Too many functions: 14 (limit: 10)
+
+fsm\fsm_messaging_integration.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 180
+  Violations:
+    - Too many parameters: 6 (limit: 5)
+
+fsm\fsm_registry.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 213
+  Violations:
+    - Too many functions: 11 (limit: 10)
+
+ml\ml_monitoring.py (Score: 70)
+  Quality Level: ACCEPTABLE
+  Line Count: 140
+  Violations:
+    - Too many functions: 12 (limit: 10)
+    - Too many parameters: 7 (limit: 5)
+
+ml\ml_monitoring_core.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 198
+  Violations:
+    - Too many parameters: 7 (limit: 5)
+
+ml\ml_pipeline_backup.py (Score: 55)
+  Quality Level: POOR
+  Line Count: 600
+  Violations:
+    - File size violation: 600 lines (limit: 400)
+    - Too many functions: 18 (limit: 10)
+
+ml\ml_pipeline_core.py (Score: 55)
+  Quality Level: POOR
+  Line Count: 606
+  Violations:
+    - File size violation: 606 lines (limit: 400)
+    - Too many functions: 19 (limit: 10)
+
+ml\ml_pipeline_core_fixed.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 346
+  Violations:
+    - Too many functions: 15 (limit: 10)
+
+ml\ml_pipeline_core_refactored.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 333
+  Violations:
+    - Too many functions: 13 (limit: 10)
+
+ml\ml_pipeline_core_v2_compliant.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 359
+  Violations:
+    - Too many functions: 18 (limit: 10)
+
+ml\ml_pipeline_core_v2_final.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 297
+  Violations:
+    - Too many functions: 17 (limit: 10)
+
+ml\ml_pipeline_core_v2_perfect.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 265
+  Violations:
+    - Too many functions: 11 (limit: 10)
+
+ml\ml_pipeline_system_v2.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 311
+  Violations:
+    - Too many functions: 22 (limit: 10)
+
+ml\ml_pipeline_utils.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 186
+  Violations:
+    - Too many functions: 11 (limit: 10)
+
+ml\model_deployment.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 297
+  Violations:
+    - Async functions found: 4 (may be unnecessary)
+
+ml\model_versioning.py (Score: 40)
+  Quality Level: POOR
+  Line Count: 425
+  Violations:
+    - File size violation: 425 lines (limit: 400)
+    - Too many functions: 12 (limit: 10)
+    - Too many parameters: 10 (limit: 5)
+
+ml\pytorch_infrastructure.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 317
+  Violations:
+    - Too many parameters: 9 (limit: 5)
+
+ml\tensorflow_infrastructure.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 236
+  Violations:
+    - Too many parameters: 8 (limit: 5)
+
+ml\training_pipeline.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 361
+  Violations:
+    - Async functions found: 4 (may be unnecessary)
+
+ml\v3_007_core.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 274
+  Violations:
+    - Too many functions: 14 (limit: 10)
+
+ml\validation_framework.py (Score: 65)
+  Quality Level: ACCEPTABLE
+  Line Count: 485
+  Violations:
+    - File size violation: 485 lines (limit: 400)
+    - Async functions found: 9 (may be unnecessary)
+
+ml\data_ingestion_system\data_ingestion\IngestManager.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 201
+  Violations:
+    - Too many functions: 12 (limit: 10)
+
+tracing\distributed_tracing_core.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 386
+  Violations:
+    - Too many functions: 13 (limit: 10)
+
+tracing\distributed_tracing_system.py (Score: 55)
+  Quality Level: POOR
+  Line Count: 411
+  Violations:
+    - File size violation: 411 lines (limit: 400)
+    - Too many functions: 15 (limit: 10)
+
+discord\memory_aware_responses.py (Score: 40)
+  Quality Level: POOR
+  Line Count: 457
+  Violations:
+    - File size violation: 457 lines (limit: 400)
+    - Too many classes: 6 (limit: 5)
+    - Too many functions: 25 (limit: 10)
+
+discord\realtime_coordination.py (Score: 25)
+  Quality Level: CRITICAL
+  Line Count: 537
+  Violations:
+    - File size violation: 537 lines (limit: 400)
+    - Too many classes: 6 (limit: 5)
+    - Too many functions: 29 (limit: 10)
+    - Too many parameters: 7 (limit: 5)
+
+discord\template_messaging.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 340
+  Violations:
+    - Too many functions: 19 (limit: 10)
+
+discord\enhanced_bot_engine.py (Score: 80)
+  Quality Level: GOOD
+  Line Count: 376
+  Violations:
+    - Too many functions: 11 (limit: 10)
+    - Async functions found: 13 (may be unnecessary)
+
+team_beta\clone_automation.py (Score: 75)
+  Quality Level: GOOD
+  Line Count: 342
+  Violations:
+    - Too many functions: 13 (limit: 10)
+    - Function too complex: 14 (limit: 10)
+
+team_beta\consolidation_analyzer.py (Score: 70)
+  Quality Level: ACCEPTABLE
+  Line Count: 403
+  Violations:
+    - File size violation: 403 lines (limit: 400)
+
+team_beta\repository_analyzer.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 356
+  Violations:
+    - Too many functions: 15 (limit: 10)
+
+team_beta\repository_manager.py (Score: 70)
+  Quality Level: ACCEPTABLE
+  Line Count: 334
+  Violations:
+    - Too many classes: 6 (limit: 5)
+    - Too many functions: 15 (limit: 10)
+
+team_beta\vscode_customization.py (Score: 70)
+  Quality Level: ACCEPTABLE
+  Line Count: 339
+  Violations:
+    - Too many classes: 6 (limit: 5)
+    - Too many functions: 14 (limit: 10)
+
+team_beta\vscode_customization_core.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 278
+  Violations:
+    - Too many classes: 6 (limit: 5)
+
+team_beta\vscode_quality_gates.py (Score: 70)
+  Quality Level: ACCEPTABLE
+  Line Count: 342
+  Violations:
+    - Too many functions: 12 (limit: 10)
+    - Too many parameters: 7 (limit: 5)
+
+integration\agent6_vscode_forking_validation.py (Score: 70)
+  Quality Level: ACCEPTABLE
+  Line Count: 462
+  Violations:
+    - File size violation: 462 lines (limit: 400)
+
+integration\aggressive_documentation_cleanup_system.py (Score: 45)
+  Quality Level: POOR
+  Line Count: 489
+  Violations:
+    - File size violation: 489 lines (limit: 400)
+    - Too many functions: 17 (limit: 10)
+    - Function too complex: 14 (limit: 10)
+
+integration\comprehensive_integration_assessment.py (Score: 55)
+  Quality Level: POOR
+  Line Count: 537
+  Violations:
+    - File size violation: 537 lines (limit: 400)
+    - Too many functions: 28 (limit: 10)
+
+integration\consolidation_execution_approval_system.py (Score: 55)
+  Quality Level: POOR
+  Line Count: 420
+  Violations:
+    - File size violation: 420 lines (limit: 400)
+    - Too many classes: 6 (limit: 5)
+
+integration\discord_messaging_optimizer.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 283
+  Violations:
+    - Async functions found: 5 (may be unnecessary)
+
+integration\documentation_consolidation_system.py (Score: 55)
+  Quality Level: POOR
+  Line Count: 450
+  Violations:
+    - File size violation: 450 lines (limit: 400)
+    - Too many functions: 14 (limit: 10)
+
+integration\dual_role_comprehensive_mission.py (Score: 55)
+  Quality Level: POOR
+  Line Count: 627
+  Violations:
+    - File size violation: 627 lines (limit: 400)
+    - Too many functions: 35 (limit: 10)
+
+integration\execute_documentation_cleanup.py (Score: 90)
+  Quality Level: EXCELLENT
+  Line Count: 159
+  Violations:
+    - Function too complex: 18 (limit: 10)
+
+integration\phase3_consolidation_coordination_enhancement.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 355
+  Violations:
+    - Too many classes: 6 (limit: 5)
+
+integration\phase3_consolidation_coordination_system.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 395
+  Violations:
+    - Too many classes: 6 (limit: 5)
+
+integration\phase3_consolidation_execution_readiness.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 374
+  Violations:
+    - Too many classes: 6 (limit: 5)
+
+integration\phase3_consolidation_execution_system.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 343
+  Violations:
+    - Too many classes: 6 (limit: 5)
+
+integration\phase3_consolidation_oversight_system.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 382
+  Violations:
+    - Too many classes: 6 (limit: 5)
+
+integration\phase3_coordination_excellence_confirmation_system.py (Score: 70)
+  Quality Level: ACCEPTABLE
+  Line Count: 441
+  Violations:
+    - File size violation: 441 lines (limit: 400)
+
+integration\phase3_integration_leadership_plan.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 327
+  Violations:
+    - Too many functions: 12 (limit: 10)
+
+integration\phase3_mission_completion_summary_system.py (Score: 70)
+  Quality Level: ACCEPTABLE
+  Line Count: 439
+  Violations:
+    - File size violation: 439 lines (limit: 400)
+
+integration\phase4_quality_assurance_framework.py (Score: 55)
+  Quality Level: POOR
+  Line Count: 460
+  Violations:
+    - File size violation: 460 lines (limit: 400)
+    - Too many classes: 6 (limit: 5)
+
+integration\quality_integration_system.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 326
+  Violations:
+    - Too many functions: 14 (limit: 10)
+
+integration\system_duplication_analysis.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 311
+  Violations:
+    - Too many functions: 11 (limit: 10)
+
+integration\targeted_documentation_cleanup_system.py (Score: 90)
+  Quality Level: EXCELLENT
+  Line Count: 383
+  Violations:
+    - Function too complex: 16 (limit: 10)
+
+integration\team_beta_integration_assessment.py (Score: 55)
+  Quality Level: POOR
+  Line Count: 406
+  Violations:
+    - File size violation: 406 lines (limit: 400)
+    - Too many functions: 15 (limit: 10)
+
+integration\team_beta_integration_support.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 378
+  Violations:
+    - Too many functions: 11 (limit: 10)
+
+integration\v3_system_integration_strategy.py (Score: 95)
+  Quality Level: EXCELLENT
+  Line Count: 335
+  Violations:
+    - Async functions found: 4 (may be unnecessary)
+
+integration\qa_coordination\core_coordination.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 307
+  Violations:
+    - Too many parameters: 9 (limit: 5)
+
+integration\qa_coordination\models.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 101
+  Violations:
+    - Too many classes: 8 (limit: 5)
+
+integration\qa_coordination\performance_validation.py (Score: 70)
+  Quality Level: ACCEPTABLE
+  Line Count: 394
+  Violations:
+    - Too many functions: 15 (limit: 10)
+    - Too many parameters: 6 (limit: 5)
+
+integration\qa_coordination\validation_protocols.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 288
+  Violations:
+    - Too many functions: 12 (limit: 10)
+
+v3\v3_009_command_understanding.py (Score: 40)
+  Quality Level: POOR
+  Line Count: 427
+  Violations:
+    - File size violation: 427 lines (limit: 400)
+    - Too many classes: 7 (limit: 5)
+    - Too many functions: 27 (limit: 10)
+
+v3\v3_009_intent_recognition.py (Score: 55)
+  Quality Level: POOR
+  Line Count: 431
+  Violations:
+    - File size violation: 431 lines (limit: 400)
+    - Too many functions: 20 (limit: 10)
+
+v3\v3_009_nlp_pipeline.py (Score: 40)
+  Quality Level: POOR
+  Line Count: 407
+  Violations:
+    - File size violation: 407 lines (limit: 400)
+    - Too many classes: 7 (limit: 5)
+    - Too many functions: 28 (limit: 10)
+
+v3\v3_009_response_generation.py (Score: 40)
+  Quality Level: POOR
+  Line Count: 578
+  Violations:
+    - File size violation: 578 lines (limit: 400)
+    - Too many classes: 6 (limit: 5)
+    - Too many functions: 26 (limit: 10)
+
+v3\v3_011_api_gateway_advanced.py (Score: 55)
+  Quality Level: POOR
+  Line Count: 300
+  Violations:
+    - Too many classes: 6 (limit: 5)
+    - Too many functions: 15 (limit: 10)
+    - Too many parameters: 6 (limit: 5)
+
+v3\v3_011_api_gateway_core.py (Score: 55)
+  Quality Level: POOR
+  Line Count: 310
+  Violations:
+    - Too many classes: 8 (limit: 5)
+    - Too many functions: 14 (limit: 10)
+    - Too many parameters: 6 (limit: 5)
+
+v3\v3_012_mobile_app_framework.py (Score: 40)
+  Quality Level: POOR
+  Line Count: 542
+  Violations:
+    - File size violation: 542 lines (limit: 400)
+    - Too many functions: 22 (limit: 10)
+    - Too many parameters: 7 (limit: 5)
+
+v3\v3_012_ui_components.py (Score: 70)
+  Quality Level: ACCEPTABLE
+  Line Count: 307
+  Violations:
+    - Too many classes: 6 (limit: 5)
+    - Too many functions: 13 (limit: 10)
+
+v3\v3_012_ui_screens.py (Score: 85)
+  Quality Level: GOOD
+  Line Count: 302
+  Violations:
+    - Too many functions: 17 (limit: 10)
+
+tools\swarm_workflow_orchestrator.py (Score: 45)
+  Quality Level: POOR
+  Line Count: 511
+  Violations:
+    - File size violation: 511 lines (limit: 400)
+    - Too many functions: 15 (limit: 10)
+    - Function too complex: 12 (limit: 10)

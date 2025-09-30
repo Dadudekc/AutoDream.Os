@@ -1,0 +1,24 @@
+{
+  "status": "success",
+  "symbol": "TSLA",
+  "timeframe": "1d",
+  "analysis": {
+    "technical_score": 7.2,
+    "fundamental_score": 6.8,
+    "sentiment_score": 7.5,
+    "volatility_score": 6.3
+  },
+  "signals": {
+    "buy_signals": 3,
+    "sell_signals": 1,
+    "hold_signals": 2,
+    "strong_buy": 1,
+    "strong_sell": 0
+  },
+  "recommendations": [
+    "Strong bullish momentum detected",
+    "Volume confirmation supports upward trend",
+    "Support level holding at $150.25",
+    "Consider position sizing based on risk tolerance"
+  ]
+}

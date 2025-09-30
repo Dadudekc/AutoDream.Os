@@ -1,13 +1,24 @@
+#!/usr/bin/env python3
 """
-Messaging Service Package
-========================
+Messaging Module - V2 Compliant Messaging Services
+================================================
 
-Modular messaging service components for V2 compliance.
+Modular messaging services extracted for V2 compliance.
+
+Author: Agent-7 (Web Development Specialist)
+License: MIT
 """
 
-from .core.messaging_service import MessagingService
-from .onboarding.onboarding_service import OnboardingService
-from .project_update_system import ProjectUpdateSystem
-from .status.status_monitor import StatusMonitor
+from .consolidated_messaging_service_v2 import ConsolidatedMessagingServiceV2
+from .coordination_tracker import CoordinationTracker
+from .message_validator import MessageValidator
+from .messaging_core import MessagingCore
+from .pyautogui_handler import PyAutoGUIHandler
 
-__all__ = ["MessagingService", "StatusMonitor", "OnboardingService", "ProjectUpdateSystem"]
+__all__ = [
+    "MessagingCore",
+    "CoordinationTracker",
+    "PyAutoGUIHandler",
+    "MessageValidator",
+    "ConsolidatedMessagingServiceV2",
+]

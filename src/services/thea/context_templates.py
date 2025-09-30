@@ -108,7 +108,34 @@ QUESTION: {question}
 
 CONTEXT: We need strategic guidance for system enhancement priorities and next development cycle direction."""
 
-    def create_strategic_consultation(self, question: str, context_level: str = "standard") -> str:
+    def create_project_scan_context(
+        self, question: str, project_scan_json: str, max_chars: int = 8000
+    ) -> str:
+        """Create context message with project scan JSON data, respecting character limits."""
+        base_message = f"""Commander Thea, this is General Agent-4.
+
+PROJECT: {self.project_status.name}
+PHASE: {self.project_status.phase}
+AGENTS: {self.project_status.agent_count} specialized agents
+STATUS: {self.project_status.status}
+
+QUESTION: {question}
+
+PROJECT_SCAN_OUTPUT:
+{project_scan_json}
+
+CONTEXT: Project scan data provided for comprehensive strategic analysis."""
+
+        # Truncate if too long
+        if len(base_message) > max_chars:
+            available_chars = max_chars - len(base_message) + len(project_scan_json)
+            truncated_json = (
+                project_scan_json[: available_chars - 100]
+                + "\n... [TRUNCATED DUE TO CHARACTER LIMIT]"
+            )
+            base_message = base_message.replace(project_scan_json, truncated_json)
+
+        return base_message
         """Create strategic consultation message with specified context level."""
         context_levels = {
             "essential": self.create_essential_context,

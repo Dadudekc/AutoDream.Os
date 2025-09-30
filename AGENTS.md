@@ -683,6 +683,939 @@ agent_workspaces/{AGENT_ID}/
 
 ---
 
+## ⚡ **CAPTAIN CLI TOOLS INTEGRATION IN GENERAL CYCLE**
+
+### **🎯 Captain CLI Tools Overview**
+The Captain CLI tools provide Agent-4 (Captain) with comprehensive agent management, monitoring, and coordination capabilities:
+
+**Current Captain Tools Status:**
+- **Captain CLI**: Agent status monitoring, high-priority messaging, onboarding
+- **Captain Directive Manager**: Strategic directive and initiative management
+- **Captain Autonomous Manager**: Autonomous captain operations and decision-making
+- **Agent Workflow Manager**: Multi-agent workflow coordination with dependency management
+- **Swarm Coordination Tool**: Democratic decision-making and swarm intelligence
+
+### **🔧 Captain Tools Integration Points**
+
+#### **PHASE 1: CHECK_INBOX (Captain Role)**
+- **⚡ Captain Status Check**: Use `python tools/captain_cli.py status` to monitor all agents
+- **🚨 Inactive Agent Detection**: Use `python tools/captain_cli.py inactive` to identify agents needing attention
+- **📋 Directive Review**: Check active directives and initiatives status
+- **🗳️ Swarm Decisions**: Review pending swarm decisions requiring captain input
+- **🤖 THEA Consultation Check**: Check for THEA responses from previous consultations
+- **📊 Project Analysis Review**: Review project_analysis.json for THEA analysis insights
+- **🎯 THEA Strategic Review**: Review previous THEA consultations and strategic guidance
+- **📋 THEA Template Selection**: Select appropriate THEA consultation template for current cycle
+
+#### **PHASE 2: EVALUATE_TASKS (Captain Role)**
+- **📊 Workflow Analysis**: Use `python tools/agent_workflow_manager.py status` to check active workflows
+- **⚖️ Load Balancing**: Analyze agent workloads and redistribute tasks if needed
+- **🎯 Priority Assessment**: Evaluate directive priorities and assign resources
+- **📋 Initiative Planning**: Plan new initiatives based on system needs
+- **🤖 THEA Decision Support**: Use THEA for strategic task evaluation and priority assessment
+- **📊 THEA Strategic Consultation**: Execute THEA consultation for task prioritization
+- **🎯 THEA Resource Allocation**: Use THEA for resource allocation decisions
+- **📋 THEA Quality Guidance**: Consult THEA for quality improvement strategies
+
+#### **PHASE 3: EXECUTE_ROLE (Captain Role)**
+- **🚨 High-Priority Messaging**: Use `python tools/captain_cli.py high-priority --agent [ID]` for urgent communication
+- **📋 Directive Execution**: Create and manage strategic directives using `python tools/captain_directive_manager.py`
+- **🤖 Workflow Coordination**: Launch multi-agent workflows using `python tools/agent_workflow_manager.py run`
+- **🗳️ Swarm Decision Leadership**: Propose decisions and guide democratic processes
+- **🤖 THEA Implementation**: Execute THEA recommendations automatically
+- **📊 THEA Strategic Execution**: Implement THEA strategic guidance in Captain operations
+- **🎯 THEA Crisis Management**: Use THEA for emergency consultation and crisis response
+- **📋 THEA Integration Strategy**: Execute THEA integration recommendations
+
+#### **PHASE 4: QUALITY_GATES (Captain Role)**
+- **📊 Captain Reporting**: Generate comprehensive captain reports using `python tools/captain_cli.py report`
+- **⚖️ System Health Monitoring**: Use captain autonomous manager for system health checks
+- **📋 Directive Progress Tracking**: Monitor directive and initiative progress
+- **🗳️ Decision Validation**: Ensure swarm decisions align with strategic objectives
+- **🤖 THEA Quality Control**: Automated review of file contents for V2 compliance
+- **📊 THEA Validation**: Verify implementation success based on THEA guidance
+- **🎯 THEA Technical Architecture**: Consult THEA for architectural quality validation
+- **📋 THEA Quality Improvement**: Execute THEA quality improvement recommendations
+
+#### **PHASE 5: CYCLE_DONE (Captain Role)**
+- **📊 Captain Status Update**: Update captain logs and status reports
+- **⚡ Agent Onboarding**: Use `python tools/captain_cli.py onboard [AGENT_ID]` for new agent activation
+- **📋 Workflow Completion**: Mark completed workflow steps and launch new workflows
+- **🗳️ Swarm Coordination**: Update swarm intelligence coordination status
+- **🤖 THEA Updates**: Update THEA consultation logs and store results
+- **📊 THEA Planning**: Plan next THEA consultation based on cycle results
+- **🎯 THEA Future Planning**: Consult THEA for long-term strategic planning
+- **📋 THEA Status Reporting**: Send status report to THEA for cycle completion
+
+### **🎯 Captain-Specific Tool Usage**
+
+#### **CAPTAIN (Agent-4)**
+- **Focus Areas**: Strategic oversight, agent coordination, swarm leadership
+- **Primary Tools**: Captain CLI, Directive Manager, Workflow Manager, Swarm Coordination
+- **Key Operations**: Agent monitoring, high-priority messaging, workflow coordination, strategic planning
+
+### **📊 Captain CLI Commands & Tools**
+
+#### **Captain CLI Commands**
+```bash
+# Show comprehensive agent status
+python tools/captain_cli.py status
+
+# Show inactive agents requiring attention
+python tools/captain_cli.py inactive
+
+# Send high-priority message to agent
+python tools/captain_cli.py high-priority --agent Agent-8 --message "URGENT: System integration required"
+
+# Onboard new agent
+python tools/captain_cli.py onboard Agent-9
+
+# Generate captain report
+python tools/captain_cli.py report
+
+# THEA Strategic Consultation
+python src/services/thea/strategic_consultation_cli.py consult --question "What should be our next priority?"
+python src/services/thea/strategic_consultation_cli.py consult --template priority_guidance
+python src/services/thea/strategic_consultation_cli.py status-report
+python src/services/thea/strategic_consultation_cli.py emergency --issue "System degradation detected"
+
+# THEA Autonomous Communication
+python -m src.services.thea.thea_autonomous_cli send "Strategic consultation request"
+python -m src.services.thea.thea_autonomous_cli status
+```
+
+#### **Captain Directive Manager Commands**
+```bash
+# Create strategic directive
+python tools/captain_directive_manager.py directive create "System Integration" strategic "Integrate all V2_SWARM systems" 0 "2 cycles"
+
+# Update directive progress
+python tools/captain_directive_manager.py directive update "System Integration" 75
+
+# Assign agents to directive
+python tools/captain_directive_manager.py directive assign "System Integration" "Agent-1,Agent-8"
+
+# Show directive status
+python tools/captain_directive_manager.py status
+```
+
+#### **Agent Workflow Manager Commands**
+```bash
+# Create sample workflow
+python tools/agent_workflow_manager.py create-sample --output workflow.json
+
+# Run multi-agent workflow
+python tools/agent_workflow_manager.py --workflow workflow.json run --max-concurrent 3
+
+# Check workflow status
+python tools/agent_workflow_manager.py --workflow workflow.json status
+
+# Mark step completed
+python tools/agent_workflow_manager.py --workflow workflow.json complete --step-id database_setup --result "Database schema created successfully"
+```
+
+#### **Swarm Coordination Commands**
+```bash
+# Get swarm status
+python tools/swarm_coordination_tool.py status
+
+# Propose swarm decision
+python tools/swarm_coordination_tool.py propose --agent Agent-4 --type strategic --title "New Architecture Decision" --description "Propose new system architecture"
+
+# Cast vote on decision
+python tools/swarm_coordination_tool.py vote --agent Agent-8 --decision decision_123 --vote yes
+
+# Run coordination cycle
+python tools/swarm_coordination_tool.py cycle
+```
+
+### **📈 Captain Tools Data Flow**
+1. **Pre-Cycle**: Monitor agent status and system health
+2. **During Cycle**: Execute captain responsibilities using specialized tools
+3. **Post-Cycle**: Update reports and coordinate next cycle activities
+4. **Continuous**: Maintain swarm coordination and strategic oversight
+
+---
+
+## 🔍 **ANALYSIS & QUALITY TOOLS INTEGRATION IN GENERAL CYCLE**
+
+### **🎯 Analysis & Quality Tools Overview**
+The V2_SWARM analysis and quality tools provide comprehensive code analysis, compliance checking, and overengineering detection capabilities:
+
+**Current Analysis Tools Status:**
+- **Analysis CLI**: V2 compliance analysis with violations detection and refactoring suggestions
+- **Overengineering Detector**: Pattern-based detection of overengineering and complexity issues
+- **Violation Detector**: AST-based analysis for V2 compliance violations
+- **Refactoring Tools**: Automated refactoring suggestions and planning
+- **Static Analysis**: Advanced code analysis and quality metrics
+
+### **🔧 Analysis & Quality Tools Integration Points**
+
+#### **PHASE 1: CHECK_INBOX**
+- **🔍 Code Health Check**: Use `python tools/analysis_cli.py --ci-gate` for quick compliance check
+- **📊 Quality Status**: Review current quality metrics and violation trends
+- **🚨 Critical Issues**: Identify files requiring immediate attention
+- **📋 Analysis Queue**: Check for pending analysis tasks
+
+#### **PHASE 2: EVALUATE_TASKS**
+- **📊 Quality Impact Assessment**: Evaluate task impact on code quality using `python tools/analysis_cli.py --violations`
+- **🔍 Overengineering Prevention**: Use `python tools/overengineering_detector.py` to prevent complexity issues
+- **📋 Refactoring Planning**: Generate refactoring suggestions for complex tasks
+- **⚖️ Quality Prioritization**: Prioritize tasks based on quality impact
+
+#### **PHASE 3: EXECUTE_ROLE**
+- **🔍 Real-time Quality Monitoring**: Run analysis tools during development
+- **📊 Compliance Validation**: Ensure all code meets V2 standards
+- **🚨 Issue Detection**: Detect and prevent overengineering patterns
+- **📋 Quality Metrics Collection**: Gather quality data for analysis
+
+#### **PHASE 4: QUALITY_GATES**
+- **🚨 Comprehensive Analysis**: Run `python tools/analysis_cli.py --violations --refactor` for full analysis
+- **📊 Quality Reporting**: Generate detailed quality reports and metrics
+- **🔍 Overengineering Check**: Use `python tools/overengineering_detector.py --report --fix` for pattern detection
+- **📋 Refactoring Planning**: Create refactoring plans for identified issues
+
+#### **PHASE 5: CYCLE_DONE**
+- **📊 Quality Validation**: Final quality check before cycle completion
+- **🔍 Analysis Results Storage**: Store analysis results in databases
+- **📋 Quality Trends**: Update quality trend analysis
+- **🚨 Issue Tracking**: Track and monitor quality improvements
+
+### **🎯 Role-Specific Analysis & Quality Usage**
+
+#### **INTEGRATION_SPECIALIST**
+- **Focus Areas**: Integration quality, API compliance, system architecture analysis
+- **Analysis Tools**: Focus on system integration quality, API compliance checking
+- **Quality Checks**: Integration-specific quality metrics and compliance
+
+#### **QUALITY_ASSURANCE**
+- **Focus Areas**: Comprehensive quality analysis, compliance validation, testing quality
+- **Analysis Tools**: Full analysis suite, comprehensive quality reporting
+- **Quality Checks**: Complete quality gates execution, test coverage analysis
+
+#### **SSOT_MANAGER**
+- **Focus Areas**: SSOT compliance, configuration quality, system consistency
+- **Analysis Tools**: Configuration quality analysis, system consistency checks
+- **Quality Checks**: SSOT compliance validation and consistency monitoring
+
+### **📊 Analysis & Quality Commands & Tools**
+
+#### **Analysis CLI Commands**
+```bash
+# Generate violations report
+python tools/analysis_cli.py --violations --format text
+
+# Run CI gate check (exit with error if violations found)
+python tools/analysis_cli.py --ci-gate
+
+# Generate refactoring suggestions
+python tools/analysis_cli.py --refactor --output refactor_plan.json
+
+# Full analysis with JSON output
+python tools/analysis_cli.py --violations --refactor --format json --output analysis_results.json
+
+# Analyze specific directory
+python tools/analysis_cli.py --project-root src/ --violations --n 1000
+```
+
+#### **Overengineering Detector Commands**
+```bash
+# Analyze file for overengineering
+python tools/overengineering_detector.py src/services/messaging_service.py --report
+
+# Analyze directory for overengineering
+python tools/overengineering_detector.py src/ --report --fix
+
+# Get simplification recommendations
+python tools/overengineering_detector.py src/services/ --fix
+
+# Quick overengineering check
+python tools/overengineering_detector.py tools/captain_cli.py
+```
+
+#### **Quality Analysis Features**
+- **V2 Compliance Analysis**: AST-based analysis for V2 compliance violations
+- **Overengineering Detection**: Pattern-based detection of complexity issues
+- **Refactoring Suggestions**: Automated refactoring recommendations
+- **Quality Metrics**: Comprehensive quality scoring and reporting
+- **CI Integration**: Automated quality gates for continuous integration
+
+### **📈 Analysis & Quality Data Flow**
+1. **Pre-Cycle**: Check code health and identify quality issues
+2. **During Cycle**: Monitor quality during development and task execution
+3. **Post-Cycle**: Comprehensive quality analysis and reporting
+4. **Continuous**: Maintain quality standards and prevent overengineering
+
+---
+
+## 💰 **SPECIALIZED ROLE CLI TOOLS INTEGRATION IN GENERAL CYCLE**
+
+### **🎯 Specialized Role CLI Tools Overview**
+The V2_SWARM specialized role CLI tools provide comprehensive domain-specific capabilities for finance, trading, risk management, and other specialized functions:
+
+**Current Specialized Role Tools Status:**
+- **Financial Analyst CLI**: Market analysis, signal generation, volatility assessment
+- **Trading Strategist CLI**: Strategy development, backtesting, optimization
+- **Risk Manager CLI**: Portfolio risk assessment, VaR calculation, stress testing
+- **Market Researcher CLI**: Market data analysis, trend research, regime detection
+- **Portfolio Optimizer CLI**: Portfolio optimization, rebalancing, performance attribution
+- **Compliance Auditor CLI**: Regulatory compliance, audit trails, AML/KYC
+- **Swarm Dashboard CLI**: Real-time monitoring and coordination dashboard
+
+### **🔧 Specialized Role CLI Tools Integration Points**
+
+#### **PHASE 1: CHECK_INBOX**
+- **📊 Role-Specific Data Check**: Check for role-specific data updates and market conditions
+- **🎯 Signal Processing**: Process incoming signals and alerts relevant to role
+- **📋 Tool Status**: Verify specialized tools are operational and up-to-date
+- **🚨 Alert Monitoring**: Monitor role-specific alerts and notifications
+
+#### **PHASE 2: EVALUATE_TASKS**
+- **📊 Role Task Assessment**: Evaluate tasks based on role-specific capabilities
+- **🎯 Market Analysis**: Assess current market conditions and opportunities
+- **📋 Risk Evaluation**: Evaluate risk implications of proposed tasks
+- **⚖️ Priority Assessment**: Prioritize tasks based on role-specific criteria
+
+#### **PHASE 3: EXECUTE_ROLE**
+- **📊 Specialized Analysis**: Execute role-specific analysis and calculations
+- **🎯 Tool Execution**: Run specialized CLI tools for role-specific tasks
+- **📋 Data Processing**: Process and analyze role-specific data
+- **🚨 Monitoring**: Monitor role-specific metrics and performance
+
+#### **PHASE 4: QUALITY_GATES**
+- **📊 Role Quality Validation**: Validate role-specific outputs and analysis
+- **🎯 Accuracy Checks**: Verify calculations and analysis accuracy
+- **📋 Compliance Validation**: Ensure role-specific compliance requirements
+- **🚨 Risk Assessment**: Final risk assessment and validation
+
+#### **PHASE 5: CYCLE_DONE**
+- **📊 Role Reporting**: Generate role-specific reports and summaries
+- **🎯 Tool Updates**: Update role-specific tools and databases
+- **📋 Knowledge Storage**: Store role-specific insights and patterns
+- **🚨 Alert Management**: Manage role-specific alerts and notifications
+
+### **🎯 Role-Specific CLI Tool Usage**
+
+#### **FINANCIAL_ANALYST**
+- **Focus Areas**: Market analysis, signal generation, volatility assessment
+- **Primary Tools**: FinancialAnalystCLI, MarketAnalyzer, SignalGenerator, VolatilityAssessor
+- **Key Operations**: Technical analysis, fundamental analysis, sentiment analysis
+
+#### **TRADING_STRATEGIST**
+- **Focus Areas**: Strategy development, backtesting, optimization
+- **Primary Tools**: TradingStrategistCLI, StrategyDeveloper, BacktestingEngine, StrategyOptimizer
+- **Key Operations**: Strategy development, performance analysis, parameter optimization
+
+#### **RISK_MANAGER**
+- **Focus Areas**: Portfolio risk assessment, VaR calculation, stress testing
+- **Primary Tools**: RiskManagerCLI, PortfolioRiskAssessor, StressTester, LimitMonitor
+- **Key Operations**: Risk assessment, stress testing, limit monitoring
+
+#### **MARKET_RESEARCHER**
+- **Focus Areas**: Market data analysis, trend research, regime detection
+- **Primary Tools**: MarketResearcherCLI, TrendAnalyzer, RegimeDetector, SentimentAnalyzer
+- **Key Operations**: Market research, trend analysis, regime detection
+
+#### **PORTFOLIO_OPTIMIZER**
+- **Focus Areas**: Portfolio optimization, rebalancing, performance attribution
+- **Primary Tools**: PortfolioOptimizerCLI, OptimizationEngine, Rebalancer, PerformanceAttributor
+- **Key Operations**: Portfolio optimization, rebalancing, performance analysis
+
+#### **COMPLIANCE_AUDITOR**
+- **Focus Areas**: Regulatory compliance, audit trails, AML/KYC
+- **Primary Tools**: ComplianceAuditorCLI, ComplianceChecker, AuditTrail, AMLKYCMonitor
+- **Key Operations**: Compliance checking, audit trail management, regulatory monitoring
+
+### **📊 Specialized Role CLI Commands & Tools**
+
+#### **Financial Analyst CLI Commands**
+```bash
+# Market analysis
+python tools/financial_analyst_cli.py --analyze TSLA --timeframe 1d
+python tools/financial_analyst_cli.py --generate-signals TSLA
+python tools/financial_analyst_cli.py --assess-volatility TSLA
+python tools/financial_analyst_cli.py --show-tools
+```
+
+#### **Trading Strategist CLI Commands**
+```bash
+# Strategy development
+python tools/trading_strategist_cli.py --develop "MomentumStrategy" --strategy-type momentum
+python tools/trading_strategist_cli.py --backtest "MomentumStrategy"
+python tools/trading_strategist_cli.py --optimize "MomentumStrategy"
+python tools/trading_strategist_cli.py --show-tools
+```
+
+#### **Risk Manager CLI Commands**
+```bash
+# Risk assessment
+python tools/risk_manager_cli.py --assess-risk "Portfolio001"
+python tools/risk_manager_cli.py --stress-test "Portfolio001"
+python tools/risk_manager_cli.py --monitor-limits "Portfolio001"
+python tools/risk_manager_cli.py --show-tools
+```
+
+#### **Swarm Dashboard CLI Commands**
+```bash
+# Dashboard management
+python tools/swarm_dashboard_cli.py start --host localhost --port 8080
+python tools/swarm_dashboard_cli.py status --format table
+python tools/swarm_dashboard_cli.py agents --format json
+python tools/swarm_dashboard_cli.py tasks --format table
+python tools/swarm_dashboard_cli.py alerts --format table
+python tools/swarm_dashboard_cli.py add-alert --type warning --message "High risk detected" --agent Agent-8
+python tools/swarm_dashboard_cli.py update-agent --agent Agent-8 --status working --task "Risk assessment" --score 95.5
+```
+
+### **📈 Specialized Role CLI Data Flow**
+1. **Pre-Cycle**: Check role-specific data and market conditions
+2. **During Cycle**: Execute specialized analysis and tool operations
+3. **Post-Cycle**: Generate role-specific reports and update databases
+4. **Continuous**: Monitor role-specific metrics and maintain tool functionality
+
+---
+
+## 🔄 **WORKFLOW & AUTOMATION TOOLS INTEGRATION IN GENERAL CYCLE**
+
+### **🎯 Workflow & Automation Tools Overview**
+The V2_SWARM workflow and automation tools provide comprehensive task management, workflow coordination, and automated agent operations:
+
+**Current Workflow & Automation Tools Status:**
+- **Agent Workflow Manager**: Multi-agent workflow coordination with dependency management
+- **Agent Workflow Automation**: Comprehensive workflow automation for common tasks
+- **Simple Workflow Automation**: Streamlined workflow operations for repetitive tasks
+- **Workflow CLI**: Command-line interface for workflow management
+- **Static Analysis Tools**: Code quality, dependency, and security analysis
+
+### **🔧 Workflow & Automation Tools Integration Points**
+
+#### **PHASE 1: CHECK_INBOX**
+- **🔄 Workflow Status Check**: Check for active workflows and pending tasks
+- **📋 Task Queue Review**: Review available tasks and workflow dependencies
+- **🚨 Workflow Alerts**: Monitor for workflow failures and timeout alerts
+- **📊 Automation Status**: Verify automation tools are operational
+
+#### **PHASE 2: EVALUATE_TASKS**
+- **🔄 Workflow Task Assessment**: Evaluate tasks based on workflow dependencies
+- **📋 Automation Opportunities**: Identify tasks suitable for automation
+- **⚖️ Workflow Priority**: Prioritize tasks based on workflow requirements
+- **📊 Resource Allocation**: Assess resources needed for workflow execution
+
+#### **PHASE 3: EXECUTE_ROLE**
+- **🔄 Workflow Execution**: Execute tasks within workflow context
+- **📋 Automation Execution**: Run automated workflows and operations
+- **📊 Progress Tracking**: Track workflow progress and task completion
+- **🚨 Error Handling**: Handle workflow errors and automation failures
+
+#### **PHASE 4: QUALITY_GATES**
+- **🔄 Workflow Quality**: Validate workflow execution quality
+- **📋 Automation Quality**: Ensure automated operations meet standards
+- **📊 Static Analysis**: Run code quality, dependency, and security analysis
+- **🚨 Quality Validation**: Validate workflow and automation outputs
+
+#### **PHASE 5: CYCLE_DONE**
+- **🔄 Workflow Completion**: Mark workflow steps as completed
+- **📋 Automation Reporting**: Generate automation and workflow reports
+- **📊 Quality Reports**: Generate static analysis and quality reports
+- **🚨 Status Updates**: Update workflow and automation status
+
+### **🎯 Workflow & Automation Tool Usage**
+
+#### **AGENT_WORKFLOW_MANAGER**
+- **Focus Areas**: Multi-agent workflow coordination, dependency management, task orchestration
+- **Primary Tools**: WorkflowStep, AgentWorkflowManager, workflow execution engine
+- **Key Operations**: Workflow creation, step execution, dependency resolution, timeout management
+
+#### **AGENT_WORKFLOW_AUTOMATION**
+- **Focus Areas**: Comprehensive workflow automation, task management, project coordination
+- **Primary Tools**: AgentWorkflowAutomation, import fixing, testing automation
+- **Key Operations**: Import fixing, test execution, message forwarding, devlog creation
+
+#### **SIMPLE_WORKFLOW_AUTOMATION**
+- **Focus Areas**: Streamlined workflow operations, task assignment, message forwarding
+- **Primary Tools**: SimpleWorkflowAutomation, task assignment, status checking
+- **Key Operations**: Task assignment, message forwarding, status requests, project coordination
+
+#### **STATIC_ANALYSIS_TOOLS**
+- **Focus Areas**: Code quality analysis, dependency scanning, security assessment
+- **Primary Tools**: CodeQualityAnalyzer, DependencyScanner, SecurityScanner
+- **Key Operations**: Code quality assessment, vulnerability scanning, security analysis
+
+### **📊 Workflow & Automation Commands & Tools**
+
+#### **Agent Workflow Manager Commands**
+```bash
+# Workflow management
+python tools/agent_workflow_manager.py --workflow workflow.json run --max-concurrent 3
+python tools/agent_workflow_manager.py --workflow workflow.json status
+python tools/agent_workflow_manager.py --workflow workflow.json complete --step-id step_001 --result "Success"
+python tools/agent_workflow_manager.py --workflow workflow.json fail --step-id step_001 --error "Timeout"
+python tools/agent_workflow_manager.py create-sample --output sample_workflow.json
+```
+
+#### **Agent Workflow Automation Commands**
+```bash
+# Workflow automation
+python tools/agent_workflow_automation.py fix-imports --module-path src/core
+python tools/agent_workflow_automation.py test-imports --module-path src/services
+python tools/agent_workflow_automation.py run-tests --test-path tests/
+python tools/agent_workflow_automation.py send-message --agent Agent-4 --message "Task complete"
+python tools/agent_workflow_automation.py create-devlog --title "Workflow Complete" --content "Details"
+python tools/agent_workflow_automation.py check-compliance --file src/main.py
+python tools/agent_workflow_automation.py run-workflow --name fix_imports --params '{"module_path":"src/core"}'
+```
+
+#### **Simple Workflow Automation Commands**
+```bash
+# Simple automation
+python tools/simple_workflow_automation.py assign --task-id TASK_001 --title "Fix imports" --description "Fix missing imports" --to Agent-8 --from Agent-4
+python tools/simple_workflow_automation.py message --from Agent-4 --to Agent-8 --content "Status update" --priority high
+python tools/simple_workflow_automation.py status --requesting Agent-4 --targets Agent-8 Agent-5 --project "Integration"
+python tools/simple_workflow_automation.py project --name "Tesla App" --coordinator Agent-4 --agents Agent-1 Agent-2 Agent-3
+python tools/simple_workflow_automation.py summary
+```
+
+#### **Static Analysis Tools Commands**
+```bash
+# Code quality analysis
+python tools/static_analysis/code_quality_analyzer.py --project-root . --output quality_report.json --verbose
+python tools/static_analysis/dependency_scanner.py --project-root . --output deps_report.json --remediation --verbose
+python tools/static_analysis/security_scanner.py --project-root . --output security_report.json --verbose
+```
+
+### **📈 Workflow & Automation Data Flow**
+1. **Pre-Cycle**: Check workflow status and automation readiness
+2. **During Cycle**: Execute workflows and automated operations
+3. **Post-Cycle**: Generate reports and update workflow status
+4. **Continuous**: Monitor workflows and maintain automation systems
+
+---
+
+## 🛡️ **PROTOCOL & COMPLIANCE TOOLS INTEGRATION IN GENERAL CYCLE**
+
+### **🎯 Protocol & Compliance Tools Overview**
+The V2_SWARM protocol and compliance tools provide comprehensive protocol governance, compliance auditing, and security inspection capabilities:
+
+**Current Protocol & Compliance Tools Status:**
+- **Protocol Compliance Checker**: Agent Protocol System standards verification
+- **Protocol Governance System**: Prevents unnecessary protocol creation and manages protocol lifecycle
+- **Compliance Auditor CLI**: Financial compliance and regulatory adherence
+- **Security Inspector CLI**: Security auditing and vulnerability detection
+- **Protocol Reference Enforcer**: Ensures protocol adherence across the system
+- **Protocol Creation Validator**: Validates new protocol proposals
+
+### **🔧 Protocol & Compliance Tools Integration Points**
+
+#### **PHASE 1: CHECK_INBOX**
+- **🛡️ Protocol Status Check**: Check for protocol compliance violations and updates
+- **📋 Compliance Monitoring**: Monitor compliance status and regulatory requirements
+- **🚨 Security Alerts**: Check for security vulnerabilities and compliance violations
+- **📊 Protocol Governance**: Review protocol proposals and governance decisions
+
+#### **PHASE 2: EVALUATE_TASKS**
+- **🛡️ Compliance Task Assessment**: Evaluate tasks based on compliance requirements
+- **📋 Protocol Impact**: Assess impact of changes on protocol compliance
+- **⚖️ Security Priority**: Prioritize security-related tasks and compliance issues
+- **📋 Regulatory Requirements**: Check regulatory compliance requirements
+
+#### **PHASE 3: EXECUTE_ROLE**
+- **🛡️ Protocol Compliance**: Ensure all operations meet protocol standards
+- **📋 Compliance Auditing**: Conduct compliance audits and security inspections
+- **🚨 Security Validation**: Perform security vulnerability assessments
+- **📋 Protocol Enforcement**: Enforce protocol adherence across the system
+
+#### **PHASE 4: QUALITY_GATES**
+- **🛡️ Compliance Validation**: Validate compliance with protocols and regulations
+- **📋 Security Validation**: Ensure security requirements are met
+- **🚨 Protocol Violations**: Detect and report protocol violations
+- **📋 Compliance Reporting**: Generate compliance and security reports
+
+#### **PHASE 5: CYCLE_DONE**
+- **🛡️ Compliance Reporting**: Generate compliance reports and summaries
+- **📋 Security Updates**: Update security status and recommendations
+- **🚨 Protocol Status**: Update protocol compliance status
+- **📋 Governance Updates**: Update protocol governance decisions
+
+### **🎯 Role-Specific Protocol & Compliance Usage**
+
+#### **COMPLIANCE_AUDITOR**
+- **Focus Areas**: Regulatory compliance, audit trails, AML/KYC, financial compliance
+- **Primary Tools**: ComplianceAuditorCLI, ProtocolComplianceChecker, SecurityInspectorCLI
+- **Key Operations**: Compliance auditing, regulatory monitoring, audit trail management
+
+#### **SECURITY_INSPECTOR**
+- **Focus Areas**: Security auditing, vulnerability detection, security policy enforcement
+- **Primary Tools**: SecurityInspectorCLI, SecurityManager, SecurityValidator
+- **Key Operations**: Security scanning, vulnerability assessment, security policy management
+
+#### **SSOT_MANAGER**
+- **Focus Areas**: Protocol governance, compliance coordination, system-wide protocol enforcement
+- **Primary Tools**: ProtocolGovernanceSystem, ProtocolReferenceEnforcer, ProtocolCreationValidator
+- **Key Operations**: Protocol management, compliance coordination, governance decisions
+
+### **📊 Protocol & Compliance Commands & Tools**
+
+#### **Protocol Compliance Checker Commands**
+```bash
+# Check protocol compliance
+python tools/protocol_compliance_checker.py --check-all
+python tools/protocol_compliance_checker.py --check-git-workflow
+python tools/protocol_compliance_checker.py --check-code-quality
+python tools/protocol_compliance_checker.py --check-agent-coordination
+python tools/protocol_compliance_checker.py --generate-report --output compliance_report.json
+```
+
+#### **Protocol Governance System Commands**
+```bash
+# Protocol governance management
+python tools/protocol_governance_system.py --propose --type git_workflow --title "New Git Protocol" --description "Description"
+python tools/protocol_governance_system.py --review --protocol-id protocol_123
+python tools/protocol_governance_system.py --approve --protocol-id protocol_123
+python tools/protocol_governance_system.py --reject --protocol-id protocol_123 --reason duplicate
+python tools/protocol_governance_system.py --status
+```
+
+#### **Compliance Auditor CLI Commands**
+```bash
+# Compliance auditing
+python tools/compliance_auditor_cli.py --audit-compliance "financial_systems" --audit-type comprehensive
+python tools/compliance_auditor_cli.py --audit-compliance "trading_systems" --audit-type security
+python tools/compliance_auditor_cli.py --audit-compliance "data_handling" --audit-type privacy
+python tools/compliance_auditor_cli.py --show-tools
+```
+
+#### **Security Inspector CLI Commands**
+```bash
+# Security inspection
+python tools/security_inspector_cli.py --conduct-audit src/
+python tools/security_inspector_cli.py --conduct-audit infrastructure/
+python tools/security_inspector_cli.py --conduct-audit config/
+python tools/security_inspector_cli.py --show-tools
+```
+
+### **📈 Protocol & Compliance Data Flow**
+1. **Pre-Cycle**: Check protocol compliance and security status
+2. **During Cycle**: Monitor compliance during operations and enforce protocols
+3. **Post-Cycle**: Generate compliance reports and update security status
+4. **Continuous**: Maintain protocol adherence and security monitoring
+
+---
+
+## 🚀 **DEVOPS & INFRASTRUCTURE TOOLS INTEGRATION IN GENERAL CYCLE**
+
+### **🎯 DevOps & Infrastructure Tools Overview**
+The V2_SWARM DevOps and infrastructure tools provide comprehensive deployment, monitoring, and infrastructure management capabilities:
+
+**Current DevOps & Infrastructure Tools Status:**
+- **Deployment Dashboard**: Comprehensive deployment and monitoring dashboard
+- **Performance Detective CLI**: Performance investigation and optimization
+- **Infrastructure Setup**: Cloud infrastructure and Kubernetes deployment
+- **Monitoring Systems**: Real-time performance monitoring and alerting
+- **Security Infrastructure**: Infrastructure security and compliance
+- **Deployment Scripts**: Automated deployment and configuration management
+
+### **🔧 DevOps & Infrastructure Tools Integration Points**
+
+#### **PHASE 1: CHECK_INBOX**
+- **🚀 Infrastructure Status Check**: Check deployment status and infrastructure health
+- **📊 Performance Monitoring**: Monitor system performance and resource usage
+- **🚨 Infrastructure Alerts**: Check for infrastructure issues and deployment failures
+- **📋 Deployment Queue**: Review pending deployments and infrastructure updates
+
+#### **PHASE 2: EVALUATE_TASKS**
+- **🚀 Infrastructure Task Assessment**: Evaluate tasks based on infrastructure requirements
+- **📊 Performance Impact**: Assess impact of changes on system performance
+- **⚖️ Deployment Priority**: Prioritize deployment and infrastructure tasks
+- **📋 Resource Requirements**: Assess infrastructure resources needed
+
+#### **PHASE 3: EXECUTE_ROLE**
+- **🚀 Infrastructure Operations**: Execute infrastructure and deployment tasks
+- **📊 Performance Optimization**: Optimize system performance and resource usage
+- **🚨 Infrastructure Monitoring**: Monitor infrastructure health and performance
+- **📋 Deployment Management**: Manage deployments and infrastructure updates
+
+#### **PHASE 4: QUALITY_GATES**
+- **🚀 Infrastructure Validation**: Validate infrastructure deployment and configuration
+- **📊 Performance Validation**: Ensure performance requirements are met
+- **🚨 Infrastructure Security**: Validate infrastructure security and compliance
+- **📋 Deployment Validation**: Validate deployment success and configuration
+
+#### **PHASE 5: CYCLE_DONE**
+- **🚀 Infrastructure Reporting**: Generate infrastructure and deployment reports
+- **📊 Performance Metrics**: Update performance metrics and monitoring data
+- **🚨 Infrastructure Status**: Update infrastructure status and health
+- **📋 Deployment Status**: Update deployment status and next steps
+
+### **🎯 Role-Specific DevOps & Infrastructure Usage**
+
+#### **INFRASTRUCTURE_SPECIALIST**
+- **Focus Areas**: Infrastructure deployment, Kubernetes management, cloud infrastructure
+- **Primary Tools**: DeploymentDashboard, InfrastructureSetup, KubernetesDeployment
+- **Key Operations**: Infrastructure deployment, Kubernetes management, cloud setup
+
+#### **PERFORMANCE_DETECTIVE**
+- **Focus Areas**: Performance investigation, optimization, resource monitoring
+- **Primary Tools**: PerformanceDetectiveCLI, PerformanceMonitor, ResourceOptimizer
+- **Key Operations**: Performance analysis, optimization, resource monitoring
+
+#### **SECURITY_INSPECTOR**
+- **Focus Areas**: Infrastructure security, security scanning, compliance validation
+- **Primary Tools**: SecurityInspectorCLI, SecurityManager, InfrastructureSecurity
+- **Key Operations**: Security scanning, infrastructure security, compliance validation
+
+### **📊 DevOps & Infrastructure Commands & Tools**
+
+#### **Deployment Dashboard Commands**
+```bash
+# Deployment dashboard management
+python scripts/deployment_dashboard.py --initialize-components
+python scripts/deployment_dashboard.py --start-monitoring
+python scripts/deployment_dashboard.py --deploy-modular-components
+python scripts/deployment_dashboard.py --status
+python scripts/deployment_dashboard.py --generate-report
+```
+
+#### **Performance Detective CLI Commands**
+```bash
+# Performance investigation
+python tools/performance_detective_cli.py --investigate-performance src/
+python tools/performance_detective_cli.py --investigate-performance infrastructure/
+python tools/performance_detective_cli.py --investigate-performance k8s/
+python tools/performance_detective_cli.py --show-tools
+```
+
+#### **Infrastructure Deployment Commands**
+```bash
+# Infrastructure deployment
+bash infrastructure/deploy.sh
+bash scripts/deploy.sh
+bash scripts/deploy.ps1
+python scripts/deploy_modular_components.py
+```
+
+#### **Kubernetes Deployment Commands**
+```bash
+# Kubernetes deployment
+kubectl apply -f k8s/deployment.yaml
+kubectl apply -f infrastructure/k8s/deployment.yaml
+kubectl apply -f k8s/monitoring.yaml
+kubectl get pods
+kubectl get services
+```
+
+### **📈 DevOps & Infrastructure Data Flow**
+1. **Pre-Cycle**: Check infrastructure status and deployment readiness
+2. **During Cycle**: Execute infrastructure operations and monitor performance
+3. **Post-Cycle**: Update infrastructure status and generate deployment reports
+4. **Continuous**: Maintain infrastructure health and performance monitoring
+
+---
+
+## 🔍 **STATIC ANALYSIS TOOLS INTEGRATION IN GENERAL CYCLE**
+
+### **🎯 Static Analysis Tools Overview**
+The V2_SWARM static analysis tools provide comprehensive code quality, dependency, and security analysis capabilities:
+
+**Current Static Analysis Tools Status:**
+- **Code Quality Analyzer**: Comprehensive code quality assessment using multiple tools
+- **Dependency Scanner**: Dependency vulnerability analysis and remediation
+- **Security Scanner**: Security vulnerability detection and assessment
+- **Analysis Dashboard**: Centralized analysis results and reporting
+- **Demo Analysis**: Analysis demonstration and testing tools
+
+### **🔧 Static Analysis Tools Integration Points**
+
+#### **PHASE 1: CHECK_INBOX**
+- **🔍 Analysis Status Check**: Check for pending analysis tasks and results
+- **📊 Quality Metrics Review**: Review current code quality metrics
+- **🚨 Security Alerts**: Monitor for security vulnerabilities and alerts
+- **📋 Dependency Updates**: Check for dependency updates and vulnerabilities
+
+#### **PHASE 2: EVALUATE_TASKS**
+- **🔍 Analysis Task Assessment**: Evaluate tasks requiring code analysis
+- **📊 Quality Impact**: Assess impact of changes on code quality
+- **⚖️ Security Priority**: Prioritize security-related tasks
+- **📋 Compliance Requirements**: Check V2 compliance requirements
+
+#### **PHASE 3: EXECUTE_ROLE**
+- **🔍 Code Quality Analysis**: Run comprehensive code quality analysis
+- **📊 Dependency Scanning**: Scan for dependency vulnerabilities
+- **🚨 Security Analysis**: Perform security vulnerability assessment
+- **📋 Compliance Validation**: Validate V2 compliance and standards
+
+#### **PHASE 4: QUALITY_GATES**
+- **🔍 Quality Validation**: Validate code quality and standards
+- **📊 Security Validation**: Ensure security requirements are met
+- **🚨 Vulnerability Assessment**: Assess and report vulnerabilities
+- **📋 Compliance Reporting**: Generate compliance and quality reports
+
+#### **PHASE 5: CYCLE_DONE**
+- **🔍 Analysis Reporting**: Generate analysis reports and summaries
+- **📊 Quality Metrics**: Update quality metrics and dashboards
+- **🚨 Security Updates**: Update security status and recommendations
+- **📋 Compliance Status**: Update compliance status and reports
+
+### **🎯 Static Analysis Tool Usage**
+
+#### **CODE_QUALITY_ANALYZER**
+- **Focus Areas**: Code quality assessment, linting, complexity analysis
+- **Primary Tools**: Ruff, Pylint, MyPy, Flake8, Radon
+- **Key Operations**: Code style analysis, type checking, complexity assessment
+
+#### **DEPENDENCY_SCANNER**
+- **Focus Areas**: Dependency vulnerability scanning, package security
+- **Primary Tools**: Safety, pip-audit, OSV scanner, manual checks
+- **Key Operations**: Vulnerability detection, remediation recommendations
+
+#### **SECURITY_SCANNER**
+- **Focus Areas**: Security vulnerability detection, code security analysis
+- **Primary Tools**: Bandit, Safety, Semgrep, dependency checks
+- **Key Operations**: Security scanning, vulnerability assessment
+
+### **📊 Static Analysis Commands & Tools**
+
+#### **Code Quality Analyzer Commands**
+```bash
+# Comprehensive code quality analysis
+python tools/static_analysis/code_quality_analyzer.py --project-root . --output quality_report.json --verbose
+
+# Individual tool analysis
+ruff check src/ --output-format=json
+pylint --output-format=json --disable=C0114,C0115,C0116 src/
+mypy --json-report /tmp/mypy-report.json src/
+flake8 --format=%(path)s:%(row)d:%(col)d: %(code)s %(text)s src/
+radon cc --json --min B src/
+```
+
+#### **Dependency Scanner Commands**
+```bash
+# Dependency vulnerability scanning
+python tools/static_analysis/dependency_scanner.py --project-root . --output deps_report.json --remediation --verbose
+
+# Individual dependency tools
+safety check --json --short-report
+pip-audit --format=json --desc
+osv-scanner --json .
+```
+
+#### **Security Scanner Commands**
+```bash
+# Security vulnerability scanning
+python tools/static_analysis/security_scanner.py --project-root . --output security_report.json --verbose
+
+# Individual security tools
+bandit -r src/ -f json -ll --skip B101,B601
+safety check --json --short-report
+semgrep --config=auto --json --exclude-rule python.lang.security.audit.weak-cryptographic-key.weak-cryptographic-key src/
+```
+
+### **📈 Static Analysis Data Flow**
+1. **Pre-Cycle**: Check analysis status and review metrics
+2. **During Cycle**: Execute analysis tools and generate reports
+3. **Post-Cycle**: Update metrics and generate analysis reports
+4. **Continuous**: Monitor code quality and security status
+
+---
+
+## 🚨 **INTELLIGENT ALERTING & PREDICTIVE ANALYTICS INTEGRATION IN GENERAL CYCLE**
+
+### **🎯 Intelligent Alerting & Predictive Analytics Overview**
+The V2_SWARM intelligent alerting and predictive analytics tools provide advanced monitoring, alerting, and predictive capabilities:
+
+**Current Intelligent Alerting & Predictive Analytics Tools Status:**
+- **Intelligent Alerting CLI**: Advanced alert management and rule configuration
+- **Predictive Analytics CLI**: Real-time performance analysis and anomaly detection
+- **Performance Monitoring**: Real-time performance monitoring and metrics collection
+- **Alert Management**: Intelligent alert routing and escalation
+- **Anomaly Detection**: Predictive anomaly detection and forecasting
+- **Capacity Planning**: Predictive capacity planning and resource optimization
+
+### **🔧 Intelligent Alerting & Predictive Analytics Integration Points**
+
+#### **PHASE 1: CHECK_INBOX**
+- **🚨 Alert Status Check**: Check for active alerts and alert management status
+- **📊 Performance Metrics**: Review current performance metrics and trends
+- **🔮 Predictive Insights**: Check for predictive analytics insights and forecasts
+- **📋 Alert Rules**: Review alert rules and configuration status
+
+#### **PHASE 2: EVALUATE_TASKS**
+- **🚨 Alert Task Assessment**: Evaluate tasks based on alert priorities and severity
+- **📊 Performance Impact**: Assess impact of changes on performance metrics
+- **⚖️ Alert Priority**: Prioritize tasks based on alert severity and impact
+- **📋 Capacity Planning**: Assess capacity requirements and resource needs
+
+#### **PHASE 3: EXECUTE_ROLE**
+- **🚨 Alert Management**: Manage alerts and alert escalation procedures
+- **📊 Performance Analysis**: Analyze performance metrics and trends
+- **🔮 Predictive Analytics**: Execute predictive analytics and forecasting
+- **📋 Capacity Optimization**: Optimize capacity and resource utilization
+
+#### **PHASE 4: QUALITY_GATES**
+- **🚨 Alert Validation**: Validate alert accuracy and response effectiveness
+- **📊 Performance Validation**: Ensure performance requirements are met
+- **🔮 Predictive Accuracy**: Validate predictive analytics accuracy
+- **📋 Capacity Validation**: Validate capacity planning and resource allocation
+
+#### **PHASE 5: CYCLE_DONE**
+- **🚨 Alert Reporting**: Generate alert reports and analytics summaries
+- **📊 Performance Metrics**: Update performance metrics and monitoring data
+- **🔮 Predictive Updates**: Update predictive models and forecasts
+- **📋 Capacity Status**: Update capacity status and planning recommendations
+
+### **🎯 Role-Specific Intelligent Alerting & Predictive Analytics Usage**
+
+#### **PERFORMANCE_DETECTIVE**
+- **Focus Areas**: Performance analysis, optimization, resource monitoring
+- **Primary Tools**: PerformanceDetectiveCLI, PerformanceMonitor, PredictiveAnalyticsCLI
+- **Key Operations**: Performance analysis, optimization, predictive analytics
+
+#### **INTELLIGENT_ALERTING_SPECIALIST**
+- **Focus Areas**: Alert management, rule configuration, intelligent routing
+- **Primary Tools**: IntelligentAlertingCLI, AlertManager, IntelligentRouting
+- **Key Operations**: Alert management, rule configuration, intelligent routing
+
+#### **PREDICTIVE_ANALYST**
+- **Focus Areas**: Predictive analytics, forecasting, anomaly detection
+- **Primary Tools**: PredictiveAnalyticsCLI, ForecastingEngine, AnomalyDetector
+- **Key Operations**: Predictive analytics, forecasting, anomaly detection
+
+### **📊 Intelligent Alerting & Predictive Analytics Commands & Tools**
+
+#### **Intelligent Alerting CLI Commands**
+```bash
+# Alert management
+python tools/intelligent_alerting_cli.py create-alert --title "High CPU Usage" --severity warning --source "system" --category "performance"
+python tools/intelligent_alerting_cli.py list-alerts --status active --limit 10
+python tools/intelligent_alerting_cli.py update-alert --alert-id alert_123 --status resolved
+python tools/intelligent_alerting_cli.py configure-rules --rule-type performance --threshold 80
+python tools/intelligent_alerting_cli.py analytics --timeframe 24h --format json
+```
+
+#### **Predictive Analytics CLI Commands**
+```bash
+# Predictive analytics
+python tools/predictive_analytics_cli.py analyze-performance --metrics cpu,memory,disk
+python tools/predictive_analytics_cli.py forecast-capacity --timeframe 7d --resource cpu
+python tools/predictive_analytics_cli.py detect-anomalies --data-source performance --sensitivity high
+python tools/predictive_analytics_cli.py optimize-resources --target-efficiency 90
+python tools/predictive_analytics_cli.py generate-report --output predictive_report.json
+```
+
+#### **Performance Monitoring Commands**
+```bash
+# Performance monitoring
+python -c "from src.monitoring.performance_monitor import RealTimePerformanceMonitor; monitor = RealTimePerformanceMonitor('.'); monitor.start_monitoring()"
+python -c "from src.monitoring.performance_monitor import RealTimePerformanceMonitor; monitor = RealTimePerformanceMonitor('.'); print(monitor.get_current_metrics())"
+```
+
+### **📈 Intelligent Alerting & Predictive Analytics Data Flow**
+1. **Pre-Cycle**: Check alert status and performance metrics
+2. **During Cycle**: Execute alert management and predictive analytics
+3. **Post-Cycle**: Update alert status and generate predictive reports
+4. **Continuous**: Maintain alert management and predictive analytics systems
+
+---
+
 ## 🗳️ **DEBATE SYSTEM & COLLABORATIVE INNOVATION**
 
 ### **🎯 Debate System Purpose**
@@ -764,6 +1697,16 @@ The debate system enables agents to collaboratively introduce and refine:
   - Cued messaging: python src/services/consolidated_messaging_service.py cue --agents [AGENTS] --message "[MSG]" --cue [CUE_ID]
   - Hard onboard: python src/services/consolidated_messaging_service.py hard-onboard --agent [AGENT]
   - Stall/Unstall: python src/services/consolidated_messaging_service.py stall/unstall --agent [AGENT]
+
+⚡ Captain CLI Tools:
+  - Agent status: python tools/captain_cli.py status
+  - Inactive agents: python tools/captain_cli.py inactive
+  - High-priority message: python tools/captain_cli.py high-priority --agent [ID] --message "[MSG]"
+  - Agent onboarding: python tools/captain_cli.py onboard [AGENT_ID]
+  - Captain report: python tools/captain_cli.py report
+  - Directive management: python tools/captain_directive_manager.py [directive|initiative] [create|update|assign] [ARGS]
+  - Workflow coordination: python tools/agent_workflow_manager.py [run|status|complete|fail] [ARGS]
+  - Swarm coordination: python tools/swarm_coordination_tool.py [status|propose|vote|cycle] [ARGS]
 ```
 
 ### **Project Analysis & Intelligence**
@@ -831,12 +1774,106 @@ The debate system enables agents to collaboratively introduce and refine:
   - Quality scoring and violation detection
   - 772 files analyzed, 691 V2 compliant (89.5%)
 
+🔍 Analysis & Quality Tools:
+  - tools/analysis_cli.py (V2 compliance analysis with violations detection)
+  - tools/overengineering_detector.py (Overengineering pattern detection)
+  - tools/analysis/violations.py (Violation detection and reporting)
+  - tools/analysis/refactor.py (Refactoring suggestions and planning)
+  - tools/static_analysis/ (Advanced static code analysis tools)
+
 🔧 Quality Tools:
   - src/team_beta/testing_validation.py (Testing framework)
   - tests/ directory (Comprehensive test suite)
-  - tools/static_analysis/ (Code analysis tools)
   - src/validation/ (Validation protocols)
   - tools/protocol_compliance_checker.py (Protocol compliance)
+```
+
+### **Specialized Role CLI Tools**
+```
+💰 Finance & Trading Tools:
+  - tools/financial_analyst_cli.py (Market analysis, signal generation, volatility assessment)
+  - tools/trading_strategist_cli.py (Strategy development, backtesting, optimization)
+  - tools/risk_manager_cli.py (Portfolio risk assessment, VaR calculation, stress testing)
+  - tools/market_researcher_cli.py (Market data analysis, trend research, regime detection)
+  - tools/portfolio_optimizer_cli.py (Portfolio optimization, rebalancing, performance attribution)
+  - tools/compliance_auditor_cli.py (Regulatory compliance, audit trails, AML/KYC)
+
+📊 Dashboard & Monitoring Tools:
+  - tools/swarm_dashboard_cli.py (Real-time monitoring and coordination dashboard)
+  - tools/team_dashboard.py (Team collaboration dashboard)
+  - tools/operational_dashboard_tool.py (Operational monitoring dashboard)
+
+🔧 Specialized Analysis Tools:
+  - tools/performance_detective_cli.py (Performance analysis and optimization)
+  - tools/security_inspector_cli.py (Security analysis and compliance)
+  - tools/intelligent_alerting_cli.py (Intelligent alerting and notification system)
+  - tools/predictive_analytics_cli.py (Predictive analytics and forecasting)
+```
+
+### **Workflow & Automation Tools**
+```
+🔄 Workflow Management:
+  - tools/agent_workflow_manager.py (Multi-agent workflow coordination with dependency management)
+  - tools/agent_workflow_automation.py (Comprehensive workflow automation for common tasks)
+  - tools/simple_workflow_automation.py (Streamlined workflow operations for repetitive tasks)
+  - tools/workflow_cli.py (Command-line interface for workflow management)
+  - tools/agent_workflow_cli.py (Agent workflow command-line interface)
+
+🔍 Static Analysis Tools:
+  - tools/static_analysis/code_quality_analyzer.py (Comprehensive code quality assessment)
+  - tools/static_analysis/dependency_scanner.py (Dependency vulnerability analysis and remediation)
+  - tools/static_analysis/security_scanner.py (Security vulnerability detection and assessment)
+  - tools/static_analysis/analysis_dashboard.py (Centralized analysis results and reporting)
+  - tools/static_analysis/demo_analysis.py (Analysis demonstration and testing tools)
+```
+
+### **Protocol & Compliance Tools**
+```
+🛡️ Protocol Management:
+  - tools/protocol_compliance_checker.py (Agent Protocol System standards verification)
+  - tools/protocol_governance_system.py (Prevents unnecessary protocol creation and manages protocol lifecycle)
+  - tools/protocol_reference_enforcer.py (Ensures protocol adherence across the system)
+  - tools/protocol_creation_validator.py (Validates new protocol proposals)
+
+📋 Compliance & Security:
+  - tools/compliance_auditor_cli.py (Financial compliance and regulatory adherence)
+  - tools/security_inspector_cli.py (Security auditing and vulnerability detection)
+  - src/core/security/security_manager.py (Unified security management)
+  - src/validation/security_validator.py (Security validation framework)
+```
+
+### **DevOps & Infrastructure Tools**
+```
+🚀 Deployment & Infrastructure:
+  - scripts/deployment_dashboard.py (Comprehensive deployment and monitoring dashboard)
+  - scripts/deploy.sh (Automated deployment script)
+  - scripts/deploy.ps1 (PowerShell deployment script)
+  - scripts/deploy_modular_components.py (Modular component deployment)
+  - infrastructure/deploy.sh (Infrastructure deployment)
+  - k8s/deployment.yaml (Kubernetes deployment configuration)
+  - k8s/monitoring.yaml (Kubernetes monitoring configuration)
+
+📊 Performance & Monitoring:
+  - tools/performance_detective_cli.py (Performance investigation and optimization)
+  - src/monitoring/performance_monitor.py (Real-time performance monitoring)
+  - src/core/tracing/performance_monitor.py (Performance tracing and monitoring)
+  - src/validation/performance_validator.py (Performance validation framework)
+```
+
+### **Intelligent Alerting & Predictive Analytics Tools**
+```
+🚨 Alerting & Analytics:
+  - tools/intelligent_alerting_cli.py (Advanced alert management and rule configuration)
+  - tools/predictive_analytics_cli.py (Real-time performance analysis and anomaly detection)
+  - src/services/alerting/intelligent_alerting_system.py (Intelligent alerting system)
+  - analytics/predictive_engine.py (Predictive analytics engine)
+  - src/services/messaging/intelligent_coordinator.py (Intelligent messaging coordination)
+
+🔮 Predictive Capabilities:
+  - Performance forecasting and capacity planning
+  - Anomaly detection and predictive maintenance
+  - Intelligent alert routing and escalation
+  - Real-time analytics and insights
 ```
 
 ### **Autonomous Workflow System**

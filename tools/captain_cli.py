@@ -88,11 +88,32 @@ Agent {agent_id}, you need to complete onboarding protocol.
 
 📋 REQUIRED ACTIONS:
 1. Review onboarding documentation in your workspace
-2. Read ONBOARDING_PROTOCOL.md file
-3. Update your status to ACTIVE
-4. Send confirmation message to Captain (Agent-4)
+2. Read AGENTS.md file for complete system overview
+3. Discover and integrate available tools
+4. Update your status to ACTIVE
+5. Send confirmation message to Captain (Agent-4)
+
+🛠️ TOOL DISCOVERY PROTOCOL:
+1. Core Communication: src/services/consolidated_messaging_service.py
+2. Captain Tools: tools/captain_cli.py, tools/captain_directive_manager.py
+3. Analysis Tools: tools/analysis_cli.py, tools/overengineering_detector.py
+4. Workflow Tools: tools/agent_workflow_manager.py, tools/simple_workflow_automation.py
+5. Static Analysis: tools/static_analysis/ (code_quality_analyzer.py, dependency_scanner.py, security_scanner.py)
+6. Protocol Tools: tools/protocol_compliance_checker.py, tools/protocol_governance_system.py
+7. DevOps Tools: scripts/deployment_dashboard.py, tools/performance_detective_cli.py
+8. Specialized Tools: tools/financial_analyst_cli.py, tools/trading_strategist_cli.py, tools/risk_manager_cli.py
+9. THEA Integration: src/services/thea/ (strategic_consultation_cli.py, thea_autonomous_system.py)
+10. Alerting Tools: tools/intelligent_alerting_cli.py, tools/predictive_analytics_cli.py
+
+🔧 TOOL INTEGRATION IN GENERAL CYCLE:
+- PHASE 1 (CHECK_INBOX): Use messaging tools, check tool status
+- PHASE 2 (EVALUATE_TASKS): Use analysis tools, workflow tools
+- PHASE 3 (EXECUTE_ROLE): Use role-specific tools, specialized tools
+- PHASE 4 (QUALITY_GATES): Use quality tools, static analysis tools
+- PHASE 5 (CYCLE_DONE): Use reporting tools, update tool status
 
 📁 ONBOARDING FILES TO REVIEW:
+• AGENTS.md - Complete system overview and tool integration
 • docs/fsm/OVERVIEW.md - FSM system overview
 • AGENT_QUICK_START_GUIDE.md - Quick start guide
 • AGENT_WORK_GUIDELINES.md - Work guidelines

@@ -40,8 +40,8 @@
     },
     "Agent-7": {
       "active": true,
-      "chat_input_coordinates": [920, 851],
-      "onboarding_coordinates": [924, 541],
+      "chat_input_coordinates": [695, 937],
+      "onboarding_coordinates": [695, 641],
       "description": "Web Development Expert"
     },
     "Agent-8": {

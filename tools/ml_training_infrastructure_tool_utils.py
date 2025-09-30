@@ -11,18 +11,17 @@ License: MIT
 
 import json
 import logging
-import time
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from .ml_training_infrastructure_tool_core import (
+    ResourceType,
     TrainingEnvironment,
     TrainingJob,
     TrainingJobStatus,
     TrainingResource,
     TrainingStatus,
-    ResourceType,
 )
 
 logger = logging.getLogger(__name__)
@@ -79,7 +78,7 @@ class TrainingSimulator:
 class ResourceManager:
     """Manages resource allocation and deallocation."""
 
-    def __init__(self, resource_pool: Dict[str, int]):
+    def __init__(self, resource_pool: dict[str, int]):
         """Initialize resource manager with available resources."""
         self.resource_pool = resource_pool.copy()
 
@@ -107,7 +106,7 @@ class ResourceManager:
 
         return True
 
-    def release_resources(self, resources: List[TrainingResource]) -> None:
+    def release_resources(self, resources: list[TrainingResource]) -> None:
         """Release allocated resources."""
         for resource in resources:
             if resource.resource_type == ResourceType.GPU:
@@ -115,7 +114,7 @@ class ResourceManager:
             elif resource.resource_type == ResourceType.CPU:
                 self.resource_pool["cpu_cores"] += resource.quantity
 
-    def get_resource_status(self) -> Dict[str, Any]:
+    def get_resource_status(self) -> dict[str, Any]:
         """Get current resource status."""
         return {
             "gpu_units": self.resource_pool.get("gpu_units", 0),
@@ -131,7 +130,7 @@ class JobQueueManager:
 
     def __init__(self):
         """Initialize job queue manager."""
-        self.job_queue: List[str] = []
+        self.job_queue: list[str] = []
 
     def add_job_to_queue(self, job_id: str) -> None:
         """Add job to queue."""
@@ -149,7 +148,7 @@ class JobQueueManager:
         """Get current queue length."""
         return len(self.job_queue)
 
-    def get_next_job(self) -> Optional[str]:
+    def get_next_job(self) -> str | None:
         """Get next job from queue."""
         return self.job_queue[0] if self.job_queue else None
 
@@ -163,7 +162,7 @@ class FileManager:
         self.environments_dir = base_dir / "environments"
         self.jobs_dir = base_dir / "jobs"
         self.status_dir = base_dir / "status"
-        
+
         # Create directories if they don't exist
         self.environments_dir.mkdir(parents=True, exist_ok=True)
         self.jobs_dir.mkdir(parents=True, exist_ok=True)
@@ -185,42 +184,46 @@ class FileManager:
                     {
                         "resource_type": r.resource_type.value,
                         "quantity": r.quantity,
-                        "specifications": r.specifications
+                        "specifications": r.specifications,
                     }
                     for r in env.resources
-                ] if env.resources else []
+                ]
+                if env.resources
+                else [],
             }
-            
-            with open(env_file, 'w') as f:
+
+            with open(env_file, "w") as f:
                 json.dump(env_data, f, indent=2)
-            
+
             logger.info(f"Environment {env.env_id} saved to {env_file}")
             return True
         except Exception as e:
             logger.error(f"Failed to save environment {env.env_id}: {e}")
             return False
 
-    def load_environment(self, env_id: str) -> Optional[TrainingEnvironment]:
+    def load_environment(self, env_id: str) -> TrainingEnvironment | None:
         """Load environment from file."""
         try:
             env_file = self.environments_dir / f"{env_id}.json"
             if not env_file.exists():
                 return None
-            
-            with open(env_file, 'r') as f:
+
+            with open(env_file) as f:
                 env_data = json.load(f)
-            
+
             # Convert back to TrainingEnvironment
             from .ml_training_infrastructure_tool_core import FrameworkType
-            
+
             resources = []
             for r_data in env_data.get("resources", []):
-                resources.append(TrainingResource(
-                    resource_type=ResourceType(r_data["resource_type"]),
-                    quantity=r_data["quantity"],
-                    specifications=r_data.get("specifications", {})
-                ))
-            
+                resources.append(
+                    TrainingResource(
+                        resource_type=ResourceType(r_data["resource_type"]),
+                        quantity=r_data["quantity"],
+                        specifications=r_data.get("specifications", {}),
+                    )
+                )
+
             return TrainingEnvironment(
                 env_id=env_data["env_id"],
                 name=env_data["name"],
@@ -229,7 +232,7 @@ class FileManager:
                 base_image=env_data["base_image"],
                 requirements=env_data["requirements"],
                 environment_vars=env_data.get("environment_vars", {}),
-                resources=resources
+                resources=resources,
             )
         except Exception as e:
             logger.error(f"Failed to load environment {env_id}: {e}")
@@ -254,10 +257,12 @@ class FileManager:
                         {
                             "resource_type": r.resource_type.value,
                             "quantity": r.quantity,
-                            "specifications": r.specifications
+                            "specifications": r.specifications,
                         }
                         for r in job.environment.resources
-                    ] if job.environment.resources else []
+                    ]
+                    if job.environment.resources
+                    else [],
                 },
                 "training_script": job.training_script,
                 "data_path": job.data_path,
@@ -267,54 +272,58 @@ class FileManager:
                     {
                         "resource_type": r.resource_type.value,
                         "quantity": r.quantity,
-                        "specifications": r.specifications
+                        "specifications": r.specifications,
                     }
                     for r in job.resources
                 ],
                 "priority": job.priority,
                 "timeout": job.timeout,
-                "created_at": job.created_at
+                "created_at": job.created_at,
             }
-            
-            with open(job_file, 'w') as f:
+
+            with open(job_file, "w") as f:
                 json.dump(job_data, f, indent=2)
-            
+
             logger.info(f"Job {job.job_id} saved to {job_file}")
             return True
         except Exception as e:
             logger.error(f"Failed to save job {job.job_id}: {e}")
             return False
 
-    def load_job(self, job_id: str) -> Optional[TrainingJob]:
+    def load_job(self, job_id: str) -> TrainingJob | None:
         """Load job from file."""
         try:
             job_file = self.jobs_dir / f"{job_id}.json"
             if not job_file.exists():
                 return None
-            
-            with open(job_file, 'r') as f:
+
+            with open(job_file) as f:
                 job_data = json.load(f)
-            
+
             # Convert back to TrainingJob
             env_data = job_data["environment"]
             env_resources = []
             for r_data in env_data.get("resources", []):
-                env_resources.append(TrainingResource(
-                    resource_type=ResourceType(r_data["resource_type"]),
-                    quantity=r_data["quantity"],
-                    specifications=r_data.get("specifications", {})
-                ))
-            
+                env_resources.append(
+                    TrainingResource(
+                        resource_type=ResourceType(r_data["resource_type"]),
+                        quantity=r_data["quantity"],
+                        specifications=r_data.get("specifications", {}),
+                    )
+                )
+
             job_resources = []
             for r_data in job_data.get("resources", []):
-                job_resources.append(TrainingResource(
-                    resource_type=ResourceType(r_data["resource_type"]),
-                    quantity=r_data["quantity"],
-                    specifications=r_data.get("specifications", {})
-                ))
-            
+                job_resources.append(
+                    TrainingResource(
+                        resource_type=ResourceType(r_data["resource_type"]),
+                        quantity=r_data["quantity"],
+                        specifications=r_data.get("specifications", {}),
+                    )
+                )
+
             from .ml_training_infrastructure_tool_core import FrameworkType
-            
+
             environment = TrainingEnvironment(
                 env_id=env_data["env_id"],
                 name=env_data["name"],
@@ -323,9 +332,9 @@ class FileManager:
                 base_image=env_data["base_image"],
                 requirements=env_data["requirements"],
                 environment_vars=env_data.get("environment_vars", {}),
-                resources=env_resources
+                resources=env_resources,
             )
-            
+
             return TrainingJob(
                 job_id=job_data["job_id"],
                 name=job_data["name"],
@@ -337,7 +346,7 @@ class FileManager:
                 resources=job_resources,
                 priority=job_data.get("priority", 1),
                 timeout=job_data.get("timeout", 3600),
-                created_at=job_data.get("created_at", "")
+                created_at=job_data.get("created_at", ""),
             )
         except Exception as e:
             logger.error(f"Failed to load job {job_id}: {e}")
@@ -355,7 +364,7 @@ class FileManager:
                     {
                         "resource_type": r.resource_type.value,
                         "quantity": r.quantity,
-                        "specifications": r.specifications
+                        "specifications": r.specifications,
                     }
                     for r in status.resources_allocated
                 ],
@@ -363,37 +372,39 @@ class FileManager:
                 "end_time": status.end_time,
                 "progress": status.progress,
                 "metrics": status.metrics,
-                "logs": status.logs
+                "logs": status.logs,
             }
-            
-            with open(status_file, 'w') as f:
+
+            with open(status_file, "w") as f:
                 json.dump(status_data, f, indent=2)
-            
+
             logger.info(f"Job status {status.job_id} saved to {status_file}")
             return True
         except Exception as e:
             logger.error(f"Failed to save job status {status.job_id}: {e}")
             return False
 
-    def load_job_status(self, job_id: str) -> Optional[TrainingJobStatus]:
+    def load_job_status(self, job_id: str) -> TrainingJobStatus | None:
         """Load job status from file."""
         try:
             status_file = self.status_dir / f"{job_id}.json"
             if not status_file.exists():
                 return None
-            
-            with open(status_file, 'r') as f:
+
+            with open(status_file) as f:
                 status_data = json.load(f)
-            
+
             # Convert back to TrainingJobStatus
             resources_allocated = []
             for r_data in status_data.get("resources_allocated", []):
-                resources_allocated.append(TrainingResource(
-                    resource_type=ResourceType(r_data["resource_type"]),
-                    quantity=r_data["quantity"],
-                    specifications=r_data.get("specifications", {})
-                ))
-            
+                resources_allocated.append(
+                    TrainingResource(
+                        resource_type=ResourceType(r_data["resource_type"]),
+                        quantity=r_data["quantity"],
+                        specifications=r_data.get("specifications", {}),
+                    )
+                )
+
             return TrainingJobStatus(
                 job_id=status_data["job_id"],
                 status=TrainingStatus(status_data["status"]),
@@ -403,7 +414,7 @@ class FileManager:
                 end_time=status_data.get("end_time"),
                 progress=status_data.get("progress", 0.0),
                 metrics=status_data.get("metrics", {}),
-                logs=status_data.get("logs", [])
+                logs=status_data.get("logs", []),
             )
         except Exception as e:
             logger.error(f"Failed to load job status {job_id}: {e}")

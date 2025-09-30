@@ -11,9 +11,10 @@ License: MIT
 V2 Compliance: ≤400 lines, modular design, comprehensive security validation
 """
 
+from .security_validator_checks import SecurityChecks
+
 # Import all components from refactored modules
 from .security_validator_core import VectorDatabaseSecurityCore
-from .security_validator_checks import SecurityChecks
 from .security_validator_main import (
     VectorDatabaseSecurityValidator,
     generate_security_report,
@@ -23,15 +24,13 @@ from .security_validator_main import (
 # Re-export main classes for backward compatibility
 __all__ = [
     # Core classes
-    'VectorDatabaseSecurityCore',
-    'SecurityChecks',
-    
+    "VectorDatabaseSecurityCore",
+    "SecurityChecks",
     # Main validator
-    'VectorDatabaseSecurityValidator',
-    
+    "VectorDatabaseSecurityValidator",
     # Convenience functions
-    'validate_vector_database_security',
-    'generate_security_report',
+    "validate_vector_database_security",
+    "generate_security_report",
 ]
 
 

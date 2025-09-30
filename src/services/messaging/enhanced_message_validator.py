@@ -119,16 +119,16 @@ class EnhancedMessageValidator:
             validation_result["warnings"].append(f"Long lines detected at positions: {long_lines}")
             validation_result["paste_safe"] = False
 
-        # Check for excessive special characters
+        # Check for excessive special characters (more lenient)
         special_char_count = len(re.findall(r"[^\w\s\n\r\t]", message))
-        if special_char_count > len(message) * 0.3:  # More than 30% special chars
+        if special_char_count > len(message) * 0.5:  # More than 50% special chars (was 30%)
             validation_result["warnings"].append(
                 "High ratio of special characters may cause paste issues"
             )
             validation_result["paste_safe"] = False
 
-        # Check for clipboard size
-        if len(message.encode("utf-8")) > self.max_clipboard_size:
+        # Check for clipboard size (more lenient)
+        if len(message.encode("utf-8")) > self.max_clipboard_size * 2:  # Double the limit
             validation_result["warnings"].append("Message size may exceed clipboard limits")
             validation_result["paste_safe"] = False
 

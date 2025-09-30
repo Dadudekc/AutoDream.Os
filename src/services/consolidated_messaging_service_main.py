@@ -58,7 +58,9 @@ class ConsolidatedMessagingService(ConsolidatedMessagingServiceCore):
             logger.warning(f"Agent {agent_id} not active, skipping message")
             return False
 
-        formatted_message = self.formatter.format_a2a_message(from_agent, agent_id, message, priority)
+        formatted_message = self.formatter.format_a2a_message(
+            from_agent, agent_id, message, priority
+        )
 
         coords = self.get_agent_coordinates(agent_id)
         if not coords:

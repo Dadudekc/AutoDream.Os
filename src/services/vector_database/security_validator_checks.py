@@ -10,7 +10,7 @@ License: MIT
 """
 
 import logging
-from typing import Any, Dict, List
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +22,7 @@ class SecurityChecks:
         """Initialize security checks."""
         logger.info("Security Checks initialized")
 
-    def check_sql_injection_vulnerabilities(self) -> Dict[str, Any]:
+    def check_sql_injection_vulnerabilities(self) -> dict[str, Any]:
         """Check for SQL injection vulnerabilities."""
         try:
             # Check for parameterized queries
@@ -41,7 +41,7 @@ class SecurityChecks:
         except Exception as e:
             return {"score": 0, "error": str(e)}
 
-    def check_data_sanitization(self) -> Dict[str, Any]:
+    def check_data_sanitization(self) -> dict[str, Any]:
         """Check data sanitization measures."""
         try:
             score = 80  # Good default for basic sanitization
@@ -59,7 +59,7 @@ class SecurityChecks:
         except Exception as e:
             return {"score": 0, "error": str(e)}
 
-    def check_encryption_requirements(self) -> Dict[str, Any]:
+    def check_encryption_requirements(self) -> dict[str, Any]:
         """Check encryption requirements."""
         try:
             score = 75  # Moderate score for basic encryption
@@ -73,7 +73,7 @@ class SecurityChecks:
         except Exception as e:
             return {"score": 0, "error": str(e)}
 
-    def check_data_validation(self) -> Dict[str, Any]:
+    def check_data_validation(self) -> dict[str, Any]:
         """Check data validation measures."""
         try:
             score = 90  # Good validation in place
@@ -87,7 +87,7 @@ class SecurityChecks:
         except Exception as e:
             return {"score": 0, "error": str(e)}
 
-    def check_authentication_mechanisms(self) -> Dict[str, Any]:
+    def check_authentication_mechanisms(self) -> dict[str, Any]:
         """Check authentication mechanisms."""
         try:
             score = 70  # Basic authentication
@@ -101,7 +101,7 @@ class SecurityChecks:
         except Exception as e:
             return {"score": 0, "error": str(e)}
 
-    def check_authorization_controls(self) -> Dict[str, Any]:
+    def check_authorization_controls(self) -> dict[str, Any]:
         """Check authorization controls."""
         try:
             score = 75  # Basic authorization
@@ -115,7 +115,7 @@ class SecurityChecks:
         except Exception as e:
             return {"score": 0, "error": str(e)}
 
-    def check_permission_validation(self) -> Dict[str, Any]:
+    def check_permission_validation(self) -> dict[str, Any]:
         """Check permission validation."""
         try:
             score = 80  # Good permission validation
@@ -129,7 +129,7 @@ class SecurityChecks:
         except Exception as e:
             return {"score": 0, "error": str(e)}
 
-    def check_session_management(self) -> Dict[str, Any]:
+    def check_session_management(self) -> dict[str, Any]:
         """Check session management security."""
         try:
             score = 70  # Basic session management
@@ -144,7 +144,7 @@ class SecurityChecks:
         except Exception as e:
             return {"score": 0, "error": str(e)}
 
-    def check_error_message_security(self) -> Dict[str, Any]:
+    def check_error_message_security(self) -> dict[str, Any]:
         """Check error message security."""
         try:
             score = 85  # Good error message handling
@@ -158,7 +158,7 @@ class SecurityChecks:
         except Exception as e:
             return {"score": 0, "error": str(e)}
 
-    def check_exception_handling(self) -> Dict[str, Any]:
+    def check_exception_handling(self) -> dict[str, Any]:
         """Check exception handling security."""
         try:
             score = 80  # Good exception handling
@@ -172,7 +172,7 @@ class SecurityChecks:
         except Exception as e:
             return {"score": 0, "error": str(e)}
 
-    def check_logging_security(self) -> Dict[str, Any]:
+    def check_logging_security(self) -> dict[str, Any]:
         """Check logging security."""
         try:
             score = 75  # Basic logging security
@@ -187,7 +187,7 @@ class SecurityChecks:
         except Exception as e:
             return {"score": 0, "error": str(e)}
 
-    def check_information_disclosure(self) -> Dict[str, Any]:
+    def check_information_disclosure(self) -> dict[str, Any]:
         """Check for information disclosure vulnerabilities."""
         try:
             score = 85  # Good information disclosure protection
@@ -201,7 +201,7 @@ class SecurityChecks:
         except Exception as e:
             return {"score": 0, "error": str(e)}
 
-    def check_input_validation(self) -> Dict[str, Any]:
+    def check_input_validation(self) -> dict[str, Any]:
         """Check input validation measures."""
         try:
             score = 90  # Good input validation
@@ -215,7 +215,7 @@ class SecurityChecks:
         except Exception as e:
             return {"score": 0, "error": str(e)}
 
-    def check_input_sanitization(self) -> Dict[str, Any]:
+    def check_input_sanitization(self) -> dict[str, Any]:
         """Check input sanitization measures."""
         try:
             score = 85  # Good input sanitization
@@ -229,7 +229,7 @@ class SecurityChecks:
         except Exception as e:
             return {"score": 0, "error": str(e)}
 
-    def check_buffer_overflow_protection(self) -> Dict[str, Any]:
+    def check_buffer_overflow_protection(self) -> dict[str, Any]:
         """Check buffer overflow protection."""
         try:
             score = 95  # Excellent buffer overflow protection (Python)
@@ -243,7 +243,7 @@ class SecurityChecks:
         except Exception as e:
             return {"score": 0, "error": str(e)}
 
-    def check_injection_prevention(self) -> Dict[str, Any]:
+    def check_injection_prevention(self) -> dict[str, Any]:
         """Check injection prevention measures."""
         try:
             score = 85  # Good injection prevention
@@ -257,7 +257,7 @@ class SecurityChecks:
         except Exception as e:
             return {"score": 0, "error": str(e)}
 
-    def check_environment_variables(self) -> Dict[str, Any]:
+    def check_environment_variables(self) -> dict[str, Any]:
         """Check environment variable security."""
         try:
             score = 80  # Good environment variable handling
@@ -272,7 +272,7 @@ class SecurityChecks:
         except Exception as e:
             return {"score": 0, "error": str(e)}
 
-    def check_configuration_files(self) -> Dict[str, Any]:
+    def check_configuration_files(self) -> dict[str, Any]:
         """Check configuration file security."""
         try:
             score = 75  # Basic configuration security
@@ -287,7 +287,7 @@ class SecurityChecks:
         except Exception as e:
             return {"score": 0, "error": str(e)}
 
-    def check_default_settings(self) -> Dict[str, Any]:
+    def check_default_settings(self) -> dict[str, Any]:
         """Check default settings security."""
         try:
             score = 70  # Basic default settings
@@ -302,7 +302,7 @@ class SecurityChecks:
         except Exception as e:
             return {"score": 0, "error": str(e)}
 
-    def check_secrets_management(self) -> Dict[str, Any]:
+    def check_secrets_management(self) -> dict[str, Any]:
         """Check secrets management security."""
         try:
             score = 65  # Basic secrets management

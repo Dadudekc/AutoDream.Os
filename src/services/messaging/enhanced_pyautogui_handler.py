@@ -129,26 +129,82 @@ class EnhancedPyAutoGUIHandler:
                 logger.error("Both paste and typing methods failed validation")
                 return False
 
-        # Use validated message for paste
-        try:
-            if use_paste and pyperclip:
-                pyperclip.copy(validation_result["final_message"])
-                time.sleep(1.0)  # Wait for clipboard
-                pyautogui.hotkey("ctrl", "v")
-            else:
-                return self._send_message_by_typing(validation_result["final_message"])
-
-            time.sleep(0.5)
-            pyautogui.press("enter")
-            logger.info("Message sent successfully via validated paste")
-            return True
-        except Exception as e:
-            logger.error(f"Error sending validated message content: {e}")
-            # Fallback to typing
+        # Try multiple paste strategies for hardened pasting
+        if use_paste and pyperclip:
+            # Strategy 1: Direct paste
+            if self._try_direct_paste(validation_result["final_message"]):
+                return True
+            
+            # Strategy 2: Clear and paste
+            if self._try_clear_and_paste(validation_result["final_message"]):
+                return True
+            
+            # Strategy 3: Select all and paste
+            if self._try_select_all_and_paste(validation_result["final_message"]):
+                return True
+            
+            # Strategy 4: Type with line breaks as final fallback
+            logger.warning("All paste strategies failed, using typing with line breaks")
+            return self._send_message_by_typing(validation_result["final_message"])
+        else:
             return self._send_message_by_typing(validation_result["final_message"])
 
+    def _try_direct_paste(self, message: str) -> bool:
+        """Try direct paste strategy."""
+        try:
+            pyperclip.copy(message)
+            time.sleep(0.5)  # Wait for clipboard
+            pyautogui.hotkey('ctrl', 'v')
+            time.sleep(0.3)
+            pyautogui.press('enter')
+            logger.info("Direct paste successful")
+            return True
+        except Exception as e:
+            logger.warning(f"Direct paste failed: {e}")
+            return False
+
+    def _try_clear_and_paste(self, message: str) -> bool:
+        """Try clear input area and paste strategy."""
+        try:
+            # Clear input area first
+            pyautogui.hotkey('ctrl', 'a')
+            time.sleep(0.1)
+            pyautogui.press('delete')
+            time.sleep(0.1)
+            
+            # Then paste
+            pyperclip.copy(message)
+            time.sleep(0.5)
+            pyautogui.hotkey('ctrl', 'v')
+            time.sleep(0.3)
+            pyautogui.press('enter')
+            logger.info("Clear and paste successful")
+            return True
+        except Exception as e:
+            logger.warning(f"Clear and paste failed: {e}")
+            return False
+
+    def _try_select_all_and_paste(self, message: str) -> bool:
+        """Try select all and paste strategy."""
+        try:
+            # Select all content
+            pyautogui.hotkey('ctrl', 'a')
+            time.sleep(0.1)
+            
+            # Paste over selected content
+            pyperclip.copy(message)
+            time.sleep(0.5)
+            pyautogui.hotkey('ctrl', 'v')
+            time.sleep(0.3)
+            pyautogui.press('enter')
+            logger.info("Select all and paste successful")
+            return True
+        except Exception as e:
+            logger.warning(f"Select all and paste failed: {e}")
+            return False
+
     def _send_message_by_typing(self, message: str) -> bool:
-        """Send message by typing with chunking for large messages."""
+        """Send message by typing with chunking for large messages and Shift+Enter for line breaks."""
         if not self.pyautogui_available:
             return False
 
@@ -159,19 +215,33 @@ class EnhancedPyAutoGUIHandler:
                 chunks = [message[i : i + chunk_size] for i in range(0, len(message), chunk_size)]
 
                 for i, chunk in enumerate(chunks):
-                    pyautogui.typewrite(chunk, interval=0.01)
+                    self._type_with_line_breaks(chunk)
                     if i < len(chunks) - 1:  # Not the last chunk
                         time.sleep(0.1)  # Brief pause between chunks
             else:
-                pyautogui.typewrite(message, interval=0.01)
+                self._type_with_line_breaks(message)
 
             time.sleep(0.5)
-            pyautogui.press("enter")
-            logger.info("Message sent successfully via typing")
+            pyautogui.press("enter")  # Final Enter to send
+            logger.info("Message sent successfully via typing with Shift+Enter line breaks")
             return True
         except Exception as e:
             logger.error(f"Error sending message by typing: {e}")
             return False
+
+    def _type_with_line_breaks(self, text: str) -> None:
+        """Type text with proper line break handling using Shift+Enter."""
+        lines = text.split('\n')
+        
+        for i, line in enumerate(lines):
+            # Type the line content
+            if line.strip():  # Only type non-empty lines
+                pyautogui.typewrite(line, interval=0.01)
+            
+            # Add line break if not the last line
+            if i < len(lines) - 1:
+                pyautogui.hotkey('shift', 'enter')  # Shift+Enter for line break
+                time.sleep(0.05)  # Brief pause after line break
 
     def send_message_to_agent_with_validation(
         self,

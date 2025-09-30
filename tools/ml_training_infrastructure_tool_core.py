@@ -148,10 +148,10 @@ class TrainingInfrastructureCore:
         self.job_statuses: dict[str, TrainingJobStatus] = {}
         self.resource_pool: list[TrainingResource] = []
         self.job_queue: list[str] = []
-        
+
         # Initialize resource pool
         self._initialize_resource_pool()
-        
+
         logger.info(f"ML Training Infrastructure Core initialized with config: {self.config}")
 
     def _initialize_resource_pool(self) -> None:
@@ -162,40 +162,40 @@ class TrainingInfrastructureCore:
                 TrainingResource(
                     resource_type=ResourceType.CPU,
                     quantity=1,
-                    specifications={"cores": 4, "frequency": "2.4GHz"}
+                    specifications={"cores": 4, "frequency": "2.4GHz"},
                 )
             )
-        
+
         # Add GPU resources
         for i in range(4):
             self.resource_pool.append(
                 TrainingResource(
                     resource_type=ResourceType.GPU,
                     quantity=1,
-                    specifications={"memory": "8GB", "compute_capability": "7.5"}
+                    specifications={"memory": "8GB", "compute_capability": "7.5"},
                 )
             )
-        
+
         # Add memory resources
         for i in range(10):
             self.resource_pool.append(
                 TrainingResource(
                     resource_type=ResourceType.MEMORY,
                     quantity=1,
-                    specifications={"size": "16GB", "type": "DDR4"}
+                    specifications={"size": "16GB", "type": "DDR4"},
                 )
             )
-        
+
         # Add storage resources
         for i in range(5):
             self.resource_pool.append(
                 TrainingResource(
                     resource_type=ResourceType.STORAGE,
                     quantity=1,
-                    specifications={"size": "1TB", "type": "SSD"}
+                    specifications={"size": "1TB", "type": "SSD"},
                 )
             )
-        
+
         logger.info(f"Resource pool initialized with {len(self.resource_pool)} resources")
 
     def get_available_resources(self) -> dict[str, int]:
@@ -203,8 +203,7 @@ class TrainingInfrastructureCore:
         available = {}
         for resource_type in ResourceType:
             available[resource_type.value] = sum(
-                1 for resource in self.resource_pool 
-                if resource.resource_type == resource_type
+                1 for resource in self.resource_pool if resource.resource_type == resource_type
             )
         return available
 
@@ -212,35 +211,34 @@ class TrainingInfrastructureCore:
         """Get current resource utilization."""
         total_resources = len(self.resource_pool)
         allocated_resources = sum(
-            len(status.resources_allocated) 
+            len(status.resources_allocated)
             for status in self.job_statuses.values()
             if status.status in [TrainingStatus.RUNNING, TrainingStatus.PROVISIONING]
         )
-        
+
         utilization = allocated_resources / total_resources if total_resources > 0 else 0.0
-        
+
         return {
             "total_resources": total_resources,
             "allocated_resources": allocated_resources,
             "utilization_percentage": utilization * 100,
-            "available_resources": total_resources - allocated_resources
+            "available_resources": total_resources - allocated_resources,
         }
 
     def get_job_statistics(self) -> dict[str, Any]:
         """Get comprehensive job statistics."""
         total_jobs = len(self.jobs)
         status_counts = {}
-        
+
         for status in TrainingStatus:
             status_counts[status.value] = sum(
-                1 for job_status in self.job_statuses.values()
-                if job_status.status == status
+                1 for job_status in self.job_statuses.values() if job_status.status == status
             )
-        
+
         return {
             "total_jobs": total_jobs,
             "status_counts": status_counts,
             "queue_length": len(self.job_queue),
             "resource_utilization": self.get_resource_utilization(),
-            "available_resources": self.get_available_resources()
+            "available_resources": self.get_available_resources(),
         }

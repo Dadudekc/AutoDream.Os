@@ -38,7 +38,7 @@ class MigrationCore:
         """Create database connection."""
         try:
             self.db_path.parent.mkdir(parents=True, exist_ok=True)
-            self.connection = sqlite3.connect(str(self.db_path))
+            self.with sqlite3.connect(str(self.db_path) as connection:)
             self.connection.row_factory = sqlite3.Row
             logger.info("✅ Database connection established")
             return True
@@ -64,7 +64,7 @@ class MigrationCore:
             backup_path.parent.mkdir(parents=True, exist_ok=True)
 
             # Create backup using SQLite backup API
-            backup_conn = sqlite3.connect(str(backup_path))
+            with sqlite3.connect(str(backup_path) as backup_conn:)
             self.connection.backup(backup_conn)
             backup_conn.close()
 

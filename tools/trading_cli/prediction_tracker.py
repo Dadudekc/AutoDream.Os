@@ -29,7 +29,7 @@ class PredictionTracker:
 
     def _init_database(self):
         """Initialize SQLite database for tracking predictions"""
-        conn = sqlite3.connect(self.db_path)
+        with sqlite3.connect(self.db_path) as conn:
         cursor = conn.cursor()
 
         # Create predictions table
@@ -80,7 +80,7 @@ class PredictionTracker:
         reasoning: str = "",
     ) -> int:
         """Record a new prediction"""
-        conn = sqlite3.connect(self.db_path)
+        with sqlite3.connect(self.db_path) as conn:
         cursor = conn.cursor()
 
         cursor.execute(
@@ -108,7 +108,7 @@ class PredictionTracker:
 
     def update_actual_price(self, prediction_id: int, actual_price: float):
         """Update prediction with actual price and calculate accuracy"""
-        conn = sqlite3.connect(self.db_path)
+        with sqlite3.connect(self.db_path) as conn:
         cursor = conn.cursor()
 
         # Get the prediction
@@ -233,7 +233,7 @@ class PredictionTracker:
 
     def get_agent_accuracy(self, symbol: str = "TSLA", agent_id: str = None) -> dict[str, Any]:
         """Get accuracy statistics for agents"""
-        conn = sqlite3.connect(self.db_path)
+        with sqlite3.connect(self.db_path) as conn:
         cursor = conn.cursor()
 
         if agent_id:
@@ -290,7 +290,7 @@ class PredictionTracker:
 
     def get_recent_predictions(self, symbol: str = "TSLA", days: int = 7) -> list[dict[str, Any]]:
         """Get recent predictions"""
-        conn = sqlite3.connect(self.db_path)
+        with sqlite3.connect(self.db_path) as conn:
         cursor = conn.cursor()
 
         cutoff_date = (datetime.now() - timedelta(days=days)).isoformat()

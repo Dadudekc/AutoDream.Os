@@ -117,7 +117,7 @@ class CompleteInfrastructureIntegration:
         self._running = True
         self._integration_stats["start_time"] = datetime.now(UTC)
         if self.auto_integration:
-            self._integration_thread = threading.Thread(target=self._integration_loop, daemon=True)
+            self._integration_thread = threading.Thread(target=self._integration_loop, daemon=True, daemon=True, daemon=True, daemon=True, daemon=True)
             self._integration_thread.start()
         logger.info("Complete Infrastructure Integration started")
 

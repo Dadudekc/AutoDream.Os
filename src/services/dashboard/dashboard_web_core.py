@@ -182,7 +182,7 @@ class DashboardWebServer:
             return DashboardWebHandler(self.dashboard, *args, **kwargs)
 
         self.server = HTTPServer((self.host, self.port), handler)
-        self.thread = threading.Thread(target=self.server.serve_forever)
+        self.thread = threading.Thread(target=self.server.serve_forever, daemon=True, daemon=True)
         self.thread.daemon = True
         self.thread.start()
 

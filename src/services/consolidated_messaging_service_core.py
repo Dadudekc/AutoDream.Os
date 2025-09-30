@@ -35,6 +35,19 @@ except Exception as e:
     ENHANCED_VALIDATION_AVAILABLE = False
     logging.warning(f"Enhanced validation import failed: {e}")
 
+# Import memory management components
+try:
+    from src.services.messaging.memory_leak_fixes import (
+        initialize_memory_management,
+        cleanup_memory_resources,
+        get_memory_status,
+        memory_fixer
+    )
+    MEMORY_MANAGEMENT_AVAILABLE = True
+except Exception as e:
+    MEMORY_MANAGEMENT_AVAILABLE = False
+    logging.warning(f"Memory management import failed: {e}")
+
 logger = logging.getLogger(__name__)
 
 
@@ -148,6 +161,13 @@ class ConsolidatedMessagingServiceCore:
             self.enhanced_handler = None
             logger.warning("Enhanced validation not available - using basic messaging")
 
+        # Initialize memory management if available
+        if MEMORY_MANAGEMENT_AVAILABLE:
+            initialize_memory_management()
+            logger.info("Memory management system initialized")
+        else:
+            logger.warning("Memory management not available - potential memory leaks possible")
+
     def track_coordination_request(self, from_agent: str, to_agent: str, message: str) -> None:
         """Track coordination requests for protocol compliance."""
         request = CoordinationRequest(from_agent, to_agent, message)
@@ -169,3 +189,36 @@ class ConsolidatedMessagingServiceCore:
         if agent and "coordinates" in agent:
             return tuple(agent["coordinates"])
         return None
+    
+    def get_service_status(self) -> dict:
+        """Get messaging service status."""
+        status = {
+            "service": "ConsolidatedMessagingServiceCore",
+            "status": "active",
+            "agents_loaded": len(self.agent_data),
+            "coordination_requests": len(self.coordination_requests),
+            "enhanced_validation": ENHANCED_VALIDATION_AVAILABLE,
+            "memory_management": MEMORY_MANAGEMENT_AVAILABLE,
+            "auto_devlog": self.auto_devlog_enabled,
+            "response_protocol": self.response_protocol_enabled,
+        }
+        
+        # Add memory status if available
+        if MEMORY_MANAGEMENT_AVAILABLE:
+            status["memory_status"] = get_memory_status()
+        
+        return status
+    
+    def cleanup_memory(self) -> dict:
+        """Cleanup memory resources."""
+        if MEMORY_MANAGEMENT_AVAILABLE:
+            return cleanup_memory_resources()
+        else:
+            return {"error": "Memory management not available"}
+    
+    def get_memory_status(self) -> dict:
+        """Get memory status."""
+        if MEMORY_MANAGEMENT_AVAILABLE:
+            return get_memory_status()
+        else:
+            return {"error": "Memory management not available"}

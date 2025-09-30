@@ -1,0 +1,122 @@
+{
+  "timestamp": "2025-09-30 10:41:45.234755",
+  "project_root": ".",
+  "total_fixes": 14,
+  "fixes_by_type": {
+    "thread_daemon": 14
+  },
+  "detailed_fixes": [
+    {
+      "file": "src\\services\\vector_database\\complete_infrastructure_integration.py",
+      "line": 120,
+      "type": "thread_daemon",
+      "description": "Add daemon=True to threads for automatic cleanup",
+      "original": "threading.Thread(target=self._integration_loop, daemon=True, daemon=True, daemon=True)",
+      "fixed": "threading.Thread(target=self._integration_loop, daemon=True, daemon=True, daemon=True, daemon=True)"
+    },
+    {
+      "file": "src\\services\\vector_database\\contracts\\contract_execution_core.py",
+      "line": 54,
+      "type": "thread_daemon",
+      "description": "Add daemon=True to threads for automatic cleanup",
+      "original": "threading.Thread(target=self._execution_loop, daemon=True, daemon=True)",
+      "fixed": "threading.Thread(target=self._execution_loop, daemon=True, daemon=True, daemon=True)"
+    },
+    {
+      "file": "src\\services\\vector_database\\record_time_migration.py",
+      "line": 74,
+      "type": "thread_daemon",
+      "description": "Add daemon=True to threads for automatic cleanup",
+      "original": "threading.Thread(target=self._migration_loop, daemon=True, daemon=True)",
+      "fixed": "threading.Thread(target=self._migration_loop, daemon=True, daemon=True, daemon=True)"
+    },
+    {
+      "file": "src\\services\\messaging\\memory_leak_fixes.py",
+      "line": 216,
+      "type": "thread_daemon",
+      "description": "Add daemon=True to threads for automatic cleanup",
+      "original": "threading.Thread(target=self._cleanup_loop, daemon=True, daemon=True)",
+      "fixed": "threading.Thread(target=self._cleanup_loop, daemon=True, daemon=True, daemon=True)"
+    },
+    {
+      "file": "src\\services\\discord_commander\\performance_monitor.py",
+      "line": 66,
+      "type": "thread_daemon",
+      "description": "Add daemon=True to threads for automatic cleanup",
+      "original": "threading.Thread(target=monitor_loop, daemon=True, daemon=True)",
+      "fixed": "threading.Thread(target=monitor_loop, daemon=True, daemon=True, daemon=True)"
+    },
+    {
+      "file": "src\\core\\tracing\\performance_monitor.py",
+      "line": 75,
+      "type": "thread_daemon",
+      "description": "Add daemon=True to threads for automatic cleanup",
+      "original": "threading.Thread(target=self._monitor_loop, daemon=True, daemon=True)",
+      "fixed": "threading.Thread(target=self._monitor_loop, daemon=True, daemon=True, daemon=True)"
+    },
+    {
+      "file": "src\\services\\discord_commander\\web_controller_v2.py",
+      "line": 195,
+      "type": "thread_daemon",
+      "description": "Add daemon=True to threads for automatic cleanup",
+      "original": "threading.Thread(target=self._run_server, daemon=True, daemon=True)",
+      "fixed": "threading.Thread(target=self._run_server, daemon=True, daemon=True, daemon=True)"
+    },
+    {
+      "file": "discord_commander_launcher_core.py",
+      "line": 161,
+      "type": "thread_daemon",
+      "description": "Add daemon=True to threads for automatic cleanup",
+      "original": "threading.Thread(target=run_controller, daemon=True, daemon=True)",
+      "fixed": "threading.Thread(target=run_controller, daemon=True, daemon=True, daemon=True)"
+    },
+    {
+      "file": "discord_commander_launcher_core.py",
+      "line": 128,
+      "type": "thread_daemon",
+      "description": "Add daemon=True to threads for automatic cleanup",
+      "original": "threading.Thread(target=run_bot, daemon=True, daemon=True)",
+      "fixed": "threading.Thread(target=run_bot, daemon=True, daemon=True, daemon=True)"
+    },
+    {
+      "file": "devlog_analytics_system_core.py",
+      "line": 53,
+      "type": "thread_daemon",
+      "description": "Add daemon=True to threads for automatic cleanup",
+      "original": "threading.Thread(target=_run, daemon=True, daemon=True)",
+      "fixed": "threading.Thread(target=_run, daemon=True, daemon=True, daemon=True)"
+    },
+    {
+      "file": "src\\core\\task\\priority_scheduler.py",
+      "line": 93,
+      "type": "thread_daemon",
+      "description": "Add daemon=True to threads for automatic cleanup",
+      "original": "threading.Thread(\n                target=self._worker_loop, name=f\"PriorityWorker-{i}\", daemon=True\n            , daemon=True)",
+      "fixed": "threading.Thread(\n                target=self._worker_loop, name=f\"PriorityWorker-{i}\", daemon=True\n            , daemon=True, daemon=True)"
+    },
+    {
+      "file": "src\\services\\dashboard\\dashboard_web_core.py",
+      "line": 185,
+      "type": "thread_daemon",
+      "description": "Add daemon=True to threads for automatic cleanup",
+      "original": "threading.Thread(target=self.server.serve_forever, daemon=True)",
+      "fixed": "threading.Thread(target=self.server.serve_forever, daemon=True, daemon=True)"
+    },
+    {
+      "file": "src\\services\\vector_database\\architecture_integration.py",
+      "line": 61,
+      "type": "thread_daemon",
+      "description": "Add daemon=True to threads for automatic cleanup",
+      "original": "threading.Thread(target=self._sync_loop, daemon=True, daemon=True)",
+      "fixed": "threading.Thread(target=self._sync_loop, daemon=True, daemon=True, daemon=True)"
+    },
+    {
+      "file": "src\\services\\vector_database\\complete_infrastructure_integration.py",
+      "line": 120,
+      "type": "thread_daemon",
+      "description": "Add daemon=True to threads for automatic cleanup",
+      "original": "threading.Thread(target=self._integration_loop, daemon=True, daemon=True, daemon=True, daemon=True)",
+      "fixed": "threading.Thread(target=self._integration_loop, daemon=True, daemon=True, daemon=True, daemon=True, daemon=True)"
+    }
+  ]
+}

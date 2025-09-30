@@ -188,7 +188,7 @@ class VectorDatabaseConnection:
     def _initialize_database(self) -> None:
         """Initialize database schema."""
         try:
-            self._connection = sqlite3.connect(str(self.db_path), check_same_thread=False)
+            self.with sqlite3.connect(str(self.db_path) as _connection:, check_same_thread=False)
             self._connection.row_factory = sqlite3.Row
             self._create_tables()
             logger.info(f"Vector database initialized: {self.db_path}")

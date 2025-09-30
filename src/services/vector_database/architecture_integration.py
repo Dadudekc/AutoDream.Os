@@ -58,7 +58,7 @@ class ArchitectureIntegration:
 
         self._running = True
         if self.auto_sync:
-            self._sync_thread = threading.Thread(target=self._sync_loop, daemon=True)
+            self._sync_thread = threading.Thread(target=self._sync_loop, daemon=True, daemon=True, daemon=True)
             self._sync_thread.start()
         logger.info("Architecture Integration started")
 

@@ -95,8 +95,8 @@ class MultibotManager:
         """Initialize multibot manager."""
         self.num_workers = num_workers
         self.workers = []
-        self.work_queue = queue.Queue()
-        self.result_queue = queue.Queue()
+        self.work_queue = queue.Queue(maxsize=1000)
+        self.result_queue = queue.Queue(maxsize=1000)
         self.initialized = False
 
         logger.info(f"Initialized MultibotManager with {num_workers} workers")

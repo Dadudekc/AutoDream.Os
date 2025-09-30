@@ -192,7 +192,7 @@ class DiscordCommanderControllerV2:
             self.routes = WebRoutes(self.app, self.socketio, messaging_service)
 
             # Start server in separate thread
-            self.server_thread = threading.Thread(target=self._run_server, daemon=True)
+            self.server_thread = threading.Thread(target=self._run_server, daemon=True, daemon=True, daemon=True)
             self.server_thread.start()
 
             logger.info(f"Web controller started on http://{self.config.host}:{self.config.port}")

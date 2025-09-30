@@ -71,7 +71,7 @@ class SessionPersistence:
     def init_sqlite_storage(self):
         """Initialize SQLite database storage"""
         self.db_file = self.storage_path / "sessions.db"
-        self.conn = sqlite3.connect(str(self.db_file))
+        self.with sqlite3.connect(str(self.db_file) as conn:)
 
         # Create tables
         self.conn.execute(

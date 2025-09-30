@@ -21,7 +21,7 @@ class CaptainCycleCore:
 
 ## Core Responsibilities
 - Swarm Coordination across cycles
-- Strategic Planning over multiple cycles  
+- Strategic Planning over multiple cycles
 - Quality Assurance per cycle
 - Agent Development through cycles
 - System Evolution continuously
@@ -91,3 +91,4 @@ class CaptainCycleCore:
         except Exception as e:
             print(f"❌ Error ingesting {doc_type}: {e}")
             return False
+

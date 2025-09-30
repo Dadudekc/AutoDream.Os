@@ -125,7 +125,7 @@ class DiscordCommanderLauncher:
                 def run_bot():
                     asyncio.run(self.bot.start())
 
-                bot_thread = threading.Thread(target=run_bot, daemon=True)
+                bot_thread = threading.Thread(target=run_bot, daemon=True, daemon=True, daemon=True)
                 bot_thread.start()
 
                 # Give the bot a moment to connect
@@ -158,7 +158,7 @@ class DiscordCommanderLauncher:
             def run_controller():
                 self.controller.run()
 
-            controller_thread = threading.Thread(target=run_controller, daemon=True)
+            controller_thread = threading.Thread(target=run_controller, daemon=True, daemon=True, daemon=True)
             controller_thread.start()
 
             print("✅ Web controller started on http://localhost:8080")

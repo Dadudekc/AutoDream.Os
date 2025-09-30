@@ -50,7 +50,7 @@ class DevlogAnalyticsSystem:
             except Exception as e:
                 print(f"{Colors.RED}❌ Error starting {name}: {e}{Colors.ENDC}")
 
-        thread = threading.Thread(target=_run, daemon=True)
+        thread = threading.Thread(target=_run, daemon=True, daemon=True, daemon=True)
         thread.start()
         return thread
     

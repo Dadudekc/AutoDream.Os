@@ -59,7 +59,8 @@ class Agent5InboxChecker:
                     message = json.load(f)
 
                 print(
-                    f"\n📝 Processing: {message.get('type', 'unknown')} - {message.get('thread_id', 'unknown')}"
+                    f"\n📝 Processing: {message.get('type', 'unknown')} - "
+                    f"{message.get('thread_id', 'unknown')}"
                 )
                 print(f"   From: {message.get('from', 'unknown')}")
                 print(f"   Timestamp: {message.get('timestamp', 'unknown')}")

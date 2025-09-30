@@ -31,24 +31,18 @@ def main():
 
     # Test all sources
     results = []
+    test_sources = [
+        test_yahoo_finance,
+        test_alpha_vantage,
+        test_polygon,
+        test_finnhub,
+        test_news_api,
+        test_alpaca,
+    ]
 
-    results.append(test_yahoo_finance())
-    print()
-
-    results.append(test_alpha_vantage())
-    print()
-
-    results.append(test_polygon())
-    print()
-
-    results.append(test_finnhub())
-    print()
-
-    results.append(test_news_api())
-    print()
-
-    results.append(test_alpaca())
-    print()
+    for test_func in test_sources:
+        results.append(test_func())
+        print()
 
     # Summary
     print("📊 TEST SUMMARY")

@@ -1,0 +1,105 @@
+{
+  "agents": {
+    "Agent-1": {
+      "role": "INTEGRATION_SPECIALIST",
+      "status": "INACTIVE",
+      "position": "Left Monitor",
+      "coordinates": [-1269, 481]
+    },
+    "Agent-2": {
+      "role": "ARCHITECTURE_SPECIALIST",
+      "status": "INACTIVE",
+      "position": "Left Monitor",
+      "coordinates": [-308, 480]
+    },
+    "Agent-3": {
+      "role": "INFRASTRUCTURE_SPECIALIST",
+      "status": "INACTIVE",
+      "position": "Left Monitor",
+      "coordinates": [-1269, 1001]
+    },
+    "Agent-4": {
+      "role": "CAPTAIN",
+      "status": "ACTIVE",
+      "position": "Left Monitor",
+      "coordinates": [-308, 1000]
+    },
+    "Agent-5": {
+      "role": "COORDINATOR",
+      "status": "ACTIVE",
+      "position": "Right Monitor",
+      "coordinates": [652, 421]
+    },
+    "Agent-6": {
+      "role": "SSOT_MANAGER",
+      "status": "ACTIVE",
+      "position": "Right Monitor",
+      "coordinates": [1612, 419]
+    },
+    "Agent-7": {
+      "role": "IMPLEMENTATION_SPECIALIST",
+      "status": "ACTIVE",
+      "position": "Right Monitor",
+      "coordinates": [920, 851]
+    },
+    "Agent-8": {
+      "role": "INTEGRATION_SPECIALIST",
+      "status": "ACTIVE",
+      "position": "Right Monitor",
+      "coordinates": [1611, 941]
+    }
+  },
+  "system": {
+    "version": "V2_SWARM",
+    "mode": "5-Agent Quality Focus Team",
+    "cycle_duration": 300,
+    "quality_gates_enabled": true,
+    "v2_compliance_enforced": true
+  },
+  "messaging": {
+    "service_status": "Active",
+    "agents_configured": 8,
+    "active_agents": 8,
+    "coordination_requests": 0,
+    "auto_devlog_enabled": true,
+    "response_protocol_enabled": true
+  },
+  "quality_gates": {
+    "file_size_limit": 400,
+    "class_limit": 5,
+    "function_limit": 10,
+    "line_length_limit": 100,
+    "enforce_v2_compliance": true,
+    "auto_fix_enabled": false
+  },
+  "protocols": {
+    "general_cycle": {
+      "phases": ["CHECK_INBOX", "EVALUATE_TASKS", "EXECUTE_ROLE", "QUALITY_GATES", "CYCLE_DONE"],
+      "timeout": 300
+    },
+    "ssot_management": {
+      "enforce_single_source": true,
+      "validate_configuration": true,
+      "auto_sync": true
+    }
+  },
+  "database": {
+    "swarm_brain": {
+      "documents": 181,
+      "status": "active"
+    },
+    "vector_database": {
+      "vectors": 100,
+      "status": "active"
+    },
+    "agent_workspaces": {
+      "status": "active"
+    }
+  },
+  "monitoring": {
+    "performance_monitoring": true,
+    "quality_monitoring": true,
+    "compliance_monitoring": true,
+    "alerting_enabled": true
+  }
+}

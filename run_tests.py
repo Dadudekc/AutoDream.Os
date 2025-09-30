@@ -16,8 +16,8 @@ import sys
 from test_runner_core import TestRunner
 
 
-def main():
-    """Main test runner."""
+def parse_arguments():
+    """Parse command line arguments."""
     parser = argparse.ArgumentParser(description="Run comprehensive test suite")
     parser.add_argument(
         "--type",
@@ -29,9 +29,11 @@ def main():
     parser.add_argument("--quiet", action="store_true", help="Run tests quietly")
     parser.add_argument("--parallel", action="store_true", help="Run tests in parallel")
     parser.add_argument("--quality-gates", action="store_true", help="Run quality gates validation")
+    return parser.parse_args()
 
-    args = parser.parse_args()
 
+def print_test_info(args):
+    """Print test configuration information."""
     print("🚀 Agent Cellphone V2 - Comprehensive Test Suite")
     print("=" * 60)
     print(f"📋 Test Type: {args.type}")
@@ -40,35 +42,42 @@ def main():
     print(f"⚡ Parallel: {'Enabled' if args.parallel else 'Disabled'}")
     print("=" * 60)
 
-    runner = TestRunner()
 
-    # Run tests
+def run_test_suite(args):
+    """Run the test suite with given arguments."""
+    runner = TestRunner()
+    
     success = runner.run_tests(
         test_type=args.type,
         coverage=not args.no_coverage,
         verbose=not args.quiet,
         parallel=args.parallel,
     )
-
+    
     if not success:
         print("❌ Test suite failed!")
         sys.exit(1)
-
-    # Run quality gates if requested
+    
     if args.quality_gates:
         quality_success = runner.run_quality_gates()
         if not quality_success:
             print("❌ Quality gates failed!")
             sys.exit(1)
-
-    # Run coverage report if coverage was enabled
+    
     if not args.no_coverage:
         coverage_success = runner.run_coverage_report()
         if not coverage_success:
             print("⚠️ Coverage report failed, but tests passed")
-
+    
     print("\n🎉 Test suite completed successfully!")
     print("📊 Check htmlcov/index.html for detailed coverage report")
+
+
+def main():
+    """Main test runner."""
+    args = parse_arguments()
+    print_test_info(args)
+    run_test_suite(args)
 
 
 if __name__ == "__main__":

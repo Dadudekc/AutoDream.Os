@@ -88,6 +88,14 @@ python src/services/thea/strategic_consultation_cli.py paste --auto-validate --v
 - Paste project scan data
 - Include quality metrics
 - Add agent status information
+
+**4. Message Validation Features:**
+- **Character Limit Check**: Validates against 32K ChatGPT limit
+- **Content Validation**: Checks for minimum length and formatting
+- **Auto-Truncation**: Automatically truncates oversized messages
+- **Interactive Mode**: Prompts for user decisions on validation issues
+- **Autonomous Mode**: `--auto-validate` flag for agent operation
+- **Preview Mode**: Shows message preview before sending
 - Include recent achievements
 
 **4. Strategic Question Formulation:**

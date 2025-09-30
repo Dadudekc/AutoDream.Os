@@ -9,8 +9,9 @@ Author: Agent-7 (Web Development Specialist)
 License: MIT
 """
 
-from .consolidated_messaging_service_v2 import ConsolidatedMessagingServiceV2
 from .coordination_tracker import CoordinationTracker
+from .enhanced_message_validator import EnhancedMessageValidator
+from .enhanced_pyautogui_handler import EnhancedPyAutoGUIHandler
 from .message_validator import MessageValidator
 from .messaging_core import MessagingCore
 from .pyautogui_handler import PyAutoGUIHandler
@@ -20,5 +21,6 @@ __all__ = [
     "CoordinationTracker",
     "PyAutoGUIHandler",
     "MessageValidator",
-    "ConsolidatedMessagingServiceV2",
+    "EnhancedMessageValidator",
+    "EnhancedPyAutoGUIHandler",
 ]

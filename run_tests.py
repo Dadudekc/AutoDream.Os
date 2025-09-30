@@ -11,93 +11,9 @@ License: MIT
 """
 
 import argparse
-import subprocess
 import sys
 
-
-def run_tests(test_type="all", coverage=True, verbose=True, parallel=False):
-    """Run tests with specified options."""
-
-    # Base pytest command
-    cmd = ["python", "-m", "pytest"]
-
-    # Add test directory
-    cmd.append("tests/")
-
-    # Add verbosity
-    if verbose:
-        cmd.append("-v")
-
-    # Add coverage
-    if coverage:
-        cmd.extend(
-            ["--cov=src", "--cov-report=html", "--cov-report=term-missing", "--cov-report=xml"]
-        )
-
-    # Add parallel execution
-    if parallel:
-        cmd.extend(["-n", "auto"])
-
-    # Add specific test type
-    if test_type != "all":
-        cmd.extend(["-k", test_type])
-
-    # Add markers
-    if test_type == "integration":
-        cmd.extend(["-m", "integration"])
-    elif test_type == "unit":
-        cmd.extend(["-m", "unit"])
-
-    # Add test discovery
-    cmd.extend(["--tb=short", "--strict-markers", "--disable-warnings"])
-
-    print(f"🚀 Running tests: {' '.join(cmd)}")
-    print("=" * 60)
-
-    try:
-        result = subprocess.run(cmd, check=True, capture_output=False)
-        print("\n" + "=" * 60)
-        print("✅ All tests passed!")
-        return True
-    except subprocess.CalledProcessError as e:
-        print("\n" + "=" * 60)
-        print(f"❌ Tests failed with exit code: {e.returncode}")
-        return False
-    except Exception as e:
-        print(f"❌ Error running tests: {e}")
-        return False
-
-
-def run_coverage_report():
-    """Run coverage report."""
-    print("📊 Generating coverage report...")
-
-    try:
-        result = subprocess.run(
-            ["python", "-m", "coverage", "report", "--show-missing"],
-            check=True,
-            capture_output=False,
-        )
-        return True
-    except subprocess.CalledProcessError as e:
-        print(f"❌ Coverage report failed: {e}")
-        return False
-
-
-def run_quality_gates():
-    """Run quality gates validation."""
-    print("🔍 Running quality gates validation...")
-
-    try:
-        result = subprocess.run(["python", "quality_gates.py"], check=True, capture_output=False)
-        print("✅ Quality gates passed!")
-        return True
-    except subprocess.CalledProcessError as e:
-        print(f"❌ Quality gates failed: {e}")
-        return False
-    except FileNotFoundError:
-        print("⚠️ Quality gates script not found, skipping...")
-        return True
+from test_runner_core import TestRunner
 
 
 def main():
@@ -124,8 +40,10 @@ def main():
     print(f"⚡ Parallel: {'Enabled' if args.parallel else 'Disabled'}")
     print("=" * 60)
 
+    runner = TestRunner()
+
     # Run tests
-    success = run_tests(
+    success = runner.run_tests(
         test_type=args.type,
         coverage=not args.no_coverage,
         verbose=not args.quiet,
@@ -138,14 +56,14 @@ def main():
 
     # Run quality gates if requested
     if args.quality_gates:
-        quality_success = run_quality_gates()
+        quality_success = runner.run_quality_gates()
         if not quality_success:
             print("❌ Quality gates failed!")
             sys.exit(1)
 
     # Run coverage report if coverage was enabled
     if not args.no_coverage:
-        coverage_success = run_coverage_report()
+        coverage_success = runner.run_coverage_report()
         if not coverage_success:
             print("⚠️ Coverage report failed, but tests passed")
 

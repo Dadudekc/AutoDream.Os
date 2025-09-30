@@ -49,7 +49,7 @@ sys.path.insert(0, str(Path(__file__).parent / "src"))
 import sys
 from pathlib import Path
 
-from discord_bot_config import config as discord_config
+from discord_commander_config import DiscordCommanderConfig
 from discord_commander_core import DiscordCommanderCore
 
 sys.path.insert(0, str(Path(__file__).parent / "src"))
@@ -78,6 +78,7 @@ class DiscordCommander:
         self.bot = None
         self.logger = logging.getLogger(f"{__name__}.DiscordCommander")
         self.core = DiscordCommanderCore(self.logger)
+        self.config = DiscordCommanderConfig(self.logger)
 
     async def initialize(self) -> bool:
         """Initialize the Discord Commander system."""
@@ -86,7 +87,7 @@ class DiscordCommander:
             self.logger.info("🐝 WE ARE SWARM - Discord Commander Starting!")
 
             # Check configuration
-            if not self._check_configuration():
+            if not self.config.check_configuration():
                 self.logger.error("❌ Discord Commander configuration incomplete!")
                 return False
 
@@ -102,29 +103,6 @@ class DiscordCommander:
             self.logger.error(f"❌ Failed to initialize Discord Commander: {e}")
             return False
 
-    def _check_configuration(self) -> bool:
-        """Check Discord Commander configuration."""
-        try:
-            # Check Discord bot token
-            if not discord_config.get_bot_token():
-                self.logger.error("❌ Discord bot token not configured!")
-                self.logger.error("   Set DISCORD_BOT_TOKEN environment variable")
-                return False
-
-            # Check Discord channel ID
-            if not discord_config.get_channel_id():
-                self.logger.warning("⚠️  Discord channel ID not configured!")
-                self.logger.warning("   Set DISCORD_CHANNEL_ID environment variable")
-
-            # Print configuration status
-            discord_config.print_config_status()
-
-            return True
-
-        except Exception as e:
-            self.logger.error(f"❌ Error checking configuration: {e}")
-            return False
-
     async def start(self) -> bool:
         """Start the Discord Commander."""
         try:
@@ -136,7 +114,7 @@ class DiscordCommander:
             self.logger.info("🐝 WE ARE SWARM - 5-Agent Mode Active!")
 
             # Get bot token
-            token = discord_config.get_bot_token()
+            token = self.config.get_bot_token()
             if not token:
                 self.logger.error("❌ No Discord bot token available!")
                 self.logger.error("💡 Please set DISCORD_BOT_TOKEN environment variable")
@@ -180,11 +158,12 @@ class DiscordCommander:
         status = {
             "commander_status": "Active" if self.bot else "Stopped",
             "bot_initialized": self.bot is not None,
-            "configuration_valid": discord_config.is_configured(),
-            "bot_token_configured": discord_config.get_bot_token() is not None,
-            "channel_configured": discord_config.get_channel_id() is not None,
         }
 
+        # Add configuration status
+        status.update(self.config.get_config_status())
+
+        # Add bot status if available
         if self.bot:
             status.update(self.core.get_bot_status())
 

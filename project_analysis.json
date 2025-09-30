@@ -3,13 +3,13 @@
     "name": "Agent Cellphone V2",
     "version": "2.1.0",
     "description": "Advanced AI Agent System with Code Quality Standards",
-    "scan_timestamp": "2025-09-30T07:58:39.265325",
+    "scan_timestamp": "2025-09-30T08:09:35.876231",
     "scanner_version": "SimpleProjectScanner 1.0.0"
   },
   "analysis": {
     "project_structure": {
-      "total_files": 7867,
-      "python_files": 850,
+      "total_files": 7887,
+      "python_files": 856,
       "directories": [
         "D:\\Agent_Cellphone_V2_Repository\\config",
         "D:\\Agent_Cellphone_V2_Repository\\agent_workspaces",
@@ -3254,11 +3254,11 @@
         "D:\\Agent_Cellphone_V2_Repository\\src\\tools\\workflows"
       ],
       "file_types": {
-        ".md": 334,
+        ".md": 342,
         ".toml": 1,
-        ".json": 1199,
+        ".json": 1205,
         ".example": 2,
-        ".py": 850,
+        ".py": 856,
         ".ini": 2,
         ".txt": 542,
         ".db": 4,
@@ -3302,8 +3302,8 @@
       }
     },
     "python_analysis": {
-      "total_python_files": 850,
-      "v2_compliant_files": 753,
+      "total_python_files": 856,
+      "v2_compliant_files": 759,
       "non_compliant_files": [
         {
           "file": "D:\\Agent_Cellphone_V2_Repository\\ingest_all_onboarding_docs.py",
@@ -3574,16 +3574,16 @@
           "lines": 1118
         },
         {
+          "file": "D:\\Agent_Cellphone_V2_Repository\\src\\services\\discord_commander\\web_controller_backup.py",
+          "lines": 1118
+        },
+        {
           "file": "D:\\Agent_Cellphone_V2_Repository\\src\\architecture\\design_patterns_v2.py",
           "lines": 403
         },
         {
           "file": "D:\\Agent_Cellphone_V2_Repository\\src\\domain\\entities\\agent.py",
           "lines": 450
-        },
-        {
-          "file": "D:\\Agent_Cellphone_V2_Repository\\src\\domain\\entities\\task.py",
-          "lines": 543
         },
         {
           "file": "D:\\Agent_Cellphone_V2_Repository\\src\\monitoring\\performance_monitor.py",
@@ -3736,6 +3736,10 @@
           "lines": 1118
         },
         {
+          "file": "D:\\Agent_Cellphone_V2_Repository\\src\\services\\discord_commander\\web_controller_backup.py",
+          "lines": 1118
+        },
+        {
           "file": "D:\\Agent_Cellphone_V2_Repository\\src\\ml\\ml_pipeline_core.py",
           "lines": 606
         },
@@ -3744,7 +3748,7 @@
           "lines": 627
         }
       ],
-      "average_lines": 209.99176470588236
+      "average_lines": 210.3913551401869
     },
     "dependencies": {
       "requirements_files": [

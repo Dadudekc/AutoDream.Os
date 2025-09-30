@@ -32,6 +32,17 @@ except Exception as e:
     pyperclip = None  # type: ignore
     logging.warning(f"PyAutoGUI import failed: {e}")
 
+# Import enhanced validation components
+try:
+    from src.services.messaging.enhanced_message_validator import EnhancedMessageValidator
+    from src.services.messaging.enhanced_pyautogui_handler import EnhancedPyAutoGUIHandler
+    ENHANCED_VALIDATION_AVAILABLE = True
+except Exception as e:
+    EnhancedMessageValidator = None
+    EnhancedPyAutoGUIHandler = None
+    ENHANCED_VALIDATION_AVAILABLE = False
+    logging.warning(f"Enhanced validation import failed: {e}")
+
 logger = logging.getLogger(__name__)
 
 

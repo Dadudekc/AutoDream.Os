@@ -22,6 +22,7 @@ sys.path.insert(0, str(project_root))
 from src.services.messaging.coordination_tracker import CoordinationTracker
 from src.services.messaging.message_validator import MessageValidator
 from src.services.messaging.messaging_core import MessagingCore
+from src.services.messaging.enhanced_pyautogui_handler import EnhancedPyAutoGUIHandler
 from src.services.messaging.pyautogui_handler import PyAutoGUIHandler
 
 logger = logging.getLogger(__name__)
@@ -34,7 +35,7 @@ class ConsolidatedMessagingServiceV2:
         """Initialize V2 compliant messaging service."""
         self.messaging_core = MessagingCore(coord_path)
         self.coordination_tracker = CoordinationTracker()
-        self.pyautogui_handler = PyAutoGUIHandler()
+        self.pyautogui_handler = EnhancedPyAutoGUIHandler()
         self.validator = MessageValidator()
 
         # Enhanced functionality
@@ -74,8 +75,8 @@ class ConsolidatedMessagingServiceV2:
         # Track coordination request
         self.coordination_tracker.track_coordination_request(from_agent, agent_id, message)
 
-        # Send via PyAutoGUI
-        success = self.pyautogui_handler.send_message_to_agent(coordinates, formatted_message)
+        # Send via Enhanced PyAutoGUI with validation
+        success = self.pyautogui_handler.send_message_to_agent_with_validation(coordinates, formatted_message)
 
         # Log delivery
         self.messaging_core.log_message_delivery(metadata, success)

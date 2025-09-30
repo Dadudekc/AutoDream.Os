@@ -3,13 +3,13 @@
     "name": "Agent Cellphone V2",
     "version": "2.1.0",
     "description": "Advanced AI Agent System with Code Quality Standards",
-    "scan_timestamp": "2025-09-30T07:22:28.917977",
+    "scan_timestamp": "2025-09-30T07:58:39.265325",
     "scanner_version": "SimpleProjectScanner 1.0.0"
   },
   "analysis": {
     "project_structure": {
-      "total_files": 7862,
-      "python_files": 847,
+      "total_files": 7867,
+      "python_files": 850,
       "directories": [
         "D:\\Agent_Cellphone_V2_Repository\\config",
         "D:\\Agent_Cellphone_V2_Repository\\agent_workspaces",
@@ -3254,11 +3254,11 @@
         "D:\\Agent_Cellphone_V2_Repository\\src\\tools\\workflows"
       ],
       "file_types": {
-        ".md": 333,
+        ".md": 334,
         ".toml": 1,
-        ".json": 1198,
+        ".json": 1199,
         ".example": 2,
-        ".py": 847,
+        ".py": 850,
         ".ini": 2,
         ".txt": 542,
         ".db": 4,
@@ -3302,8 +3302,8 @@
       }
     },
     "python_analysis": {
-      "total_python_files": 847,
-      "v2_compliant_files": 749,
+      "total_python_files": 850,
+      "v2_compliant_files": 753,
       "non_compliant_files": [
         {
           "file": "D:\\Agent_Cellphone_V2_Repository\\ingest_all_onboarding_docs.py",
@@ -3490,10 +3490,6 @@
           "lines": 447
         },
         {
-          "file": "D:\\Agent_Cellphone_V2_Repository\\src\\services\\consolidated_messaging_service.py",
-          "lines": 817
-        },
-        {
           "file": "D:\\Agent_Cellphone_V2_Repository\\src\\services\\coordinate_manager.py",
           "lines": 434
         },
@@ -3522,6 +3518,10 @@
           "lines": 409
         },
         {
+          "file": "D:\\Agent_Cellphone_V2_Repository\\src\\services\\consolidated_messaging_service.py",
+          "lines": 818
+        },
+        {
           "file": "D:\\Agent_Cellphone_V2_Repository\\src\\services\\messaging\\intelligent_coordinator.py",
           "lines": 533
         },
@@ -3539,7 +3539,7 @@
         },
         {
           "file": "D:\\Agent_Cellphone_V2_Repository\\src\\services\\thea\\strategic_consultation_cli.py",
-          "lines": 416
+          "lines": 415
         },
         {
           "file": "D:\\Agent_Cellphone_V2_Repository\\src\\services\\vector_database\\security_validator.py",
@@ -3686,10 +3686,6 @@
           "lines": 407
         },
         {
-          "file": "D:\\Agent_Cellphone_V2_Repository\\src\\v3\\v3_009_response_generation.py",
-          "lines": 578
-        },
-        {
           "file": "D:\\Agent_Cellphone_V2_Repository\\src\\v3\\v3_012_mobile_app_framework.py",
           "lines": 542
         },
@@ -3721,7 +3717,7 @@
         },
         {
           "file": "D:\\Agent_Cellphone_V2_Repository\\src\\services\\consolidated_messaging_service.py",
-          "lines": 817
+          "lines": 818
         },
         {
           "file": "D:\\Agent_Cellphone_V2_Repository\\src\\services\\vector_database\\security_validator.py",
@@ -3748,7 +3744,7 @@
           "lines": 627
         }
       ],
-      "average_lines": 210.40377804014167
+      "average_lines": 209.99176470588236
     },
     "dependencies": {
       "requirements_files": [

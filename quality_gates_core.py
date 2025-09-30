@@ -289,3 +289,27 @@ class QualityGateChecker:
             violations=["Analysis failed"],
             score=0
         )
+    
+    def save_results(self, results: list[QualityMetrics], output_path: str):
+        """Save results to file."""
+        try:
+            with open(output_path, 'w') as f:
+                for result in results:
+                    f.write(f"{result.file_path}: {result.quality_level.value} (Score: {result.score})\n")
+                    for violation in result.violations:
+                        f.write(f"  - {violation}\n")
+                    f.write("\n")
+            print(f"Results saved to {output_path}")
+        except Exception as e:
+            print(f"Error saving results: {e}")
+    
+    def print_results(self, results: list[QualityMetrics]):
+        """Print results to console."""
+        for result in results:
+            print(f"{result.file_path} (Score: {result.score})")
+            print(f"  Quality Level: {result.quality_level.value}")
+            print(f"  Line Count: {result.line_count}")
+            print(f"  Violations: {len(result.violations)}")
+            for violation in result.violations:
+                print(f"    - {violation}")
+            print()

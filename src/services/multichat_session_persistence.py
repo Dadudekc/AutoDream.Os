@@ -71,34 +71,38 @@ class SessionPersistence:
     def init_sqlite_storage(self):
         """Initialize SQLite database storage"""
         self.db_file = self.storage_path / "sessions.db"
-        self.with sqlite3.connect(str(self.db_file) as conn:)
-
-        # Create tables
-        self.conn.execute(
-            """
-            CREATE TABLE IF NOT EXISTS sessions (
-                session_id TEXT PRIMARY KEY,
-                participants TEXT,
-                created_at REAL,
-                last_activity REAL,
-                message_count INTEGER
+        with sqlite3.connect(str(self.db_file)) as conn:
+            # Create tables
+            conn.execute(
+                """
+                CREATE TABLE IF NOT EXISTS sessions (
+                    session_id TEXT PRIMARY KEY,
+                    participants TEXT,
+                    created_at REAL,
+                    last_activity REAL,
+                    message_count INTEGER
+                )
+                """
             )
-        """
-        )
 
-        self.conn.execute(
-            """
-            CREATE TABLE IF NOT EXISTS messages (
-                id TEXT PRIMARY KEY,
-                session_id TEXT,
-                sender TEXT,
-                recipient TEXT,
-                content TEXT,
-                timestamp REAL,
-                FOREIGN KEY (session_id) REFERENCES sessions (session_id)
+            conn.execute(
+                """
+                CREATE TABLE IF NOT EXISTS messages (
+                    id TEXT PRIMARY KEY,
+                    session_id TEXT,
+                    sender TEXT,
+                    recipient TEXT,
+                    content TEXT,
+                    timestamp REAL,
+                    FOREIGN KEY (session_id) REFERENCES sessions (session_id)
+                )
+                """
             )
-        """
-        )
+            
+            conn.commit()
+        
+        # Store connection for later use
+        self.conn = sqlite3.connect(str(self.db_file))
 
         self.conn.commit()
 

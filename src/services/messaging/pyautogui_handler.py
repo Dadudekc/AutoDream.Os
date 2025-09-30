@@ -91,7 +91,7 @@ class PyAutoGUIHandler:
             return False
 
     def send_message_content(self, message: str, use_paste: bool = True) -> bool:
-        """Send message content via typing or paste."""
+        """Send message content via typing or paste with proper line break handling."""
         if not self.pyautogui_available:
             return False
 
@@ -101,7 +101,16 @@ class PyAutoGUIHandler:
                 time.sleep(1.0)  # Wait for clipboard
                 pyautogui.hotkey("ctrl", "v")
             else:
-                pyautogui.typewrite(message, interval=0.01)
+                # Handle line breaks properly by typing line by line with Shift+Enter
+                lines = message.split('\n')
+                for i, line in enumerate(lines):
+                    if line.strip():  # Only type non-empty lines
+                        pyautogui.typewrite(line, interval=0.01)
+                    
+                    # Add line break if not the last line
+                    if i < len(lines) - 1:
+                        pyautogui.hotkey('shift', 'enter')  # Shift+Enter for line break
+                        time.sleep(0.05)  # Brief pause after line break
 
             time.sleep(0.5)
             pyautogui.press("enter")
@@ -116,6 +125,7 @@ class PyAutoGUIHandler:
         message: str,
         use_paste: bool = True,
         new_tab_method: str = "ctrl_t",
+        create_new_tab: bool = False,
     ) -> bool:
         """Send complete message to agent via PyAutoGUI."""
         if not self.pyautogui_available:
@@ -131,9 +141,10 @@ class PyAutoGUIHandler:
             if not self.clear_input_area():
                 return False
 
-            # Create new tab
-            if not self.create_new_tab(new_tab_method):
-                return False
+            # Create new tab only if explicitly requested (for onboarding)
+            if create_new_tab:
+                if not self.create_new_tab(new_tab_method):
+                    return False
 
             # Send message content
             if not self.send_message_content(message, use_paste):

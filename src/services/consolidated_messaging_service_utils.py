@@ -123,7 +123,7 @@ class MessageSender:
         if self.enhanced_handler:
             try:
                 success = self.enhanced_handler.send_message_to_agent_with_validation(
-                    list(coords), text, use_paste=True
+                    list(coords), text, use_paste=True, create_new_tab=False
                 )
                 if success:
                     logger.info("✅ Message sent successfully via enhanced handler")

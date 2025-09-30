@@ -249,6 +249,7 @@ class EnhancedPyAutoGUIHandler:
         message: str,
         use_paste: bool = True,
         new_tab_method: str = "ctrl_t",
+        create_new_tab: bool = False,
     ) -> bool:
         """Send complete message to agent via PyAutoGUI with validation."""
         if not self.pyautogui_available:
@@ -264,9 +265,10 @@ class EnhancedPyAutoGUIHandler:
             if not self.clear_input_area():
                 return False
 
-            # Create new tab
-            if not self.create_new_tab(new_tab_method):
-                return False
+            # Create new tab only if explicitly requested (for onboarding)
+            if create_new_tab:
+                if not self.create_new_tab(new_tab_method):
+                    return False
 
             # Send message content with validation
             if not self.send_message_content_with_validation(message, use_paste):

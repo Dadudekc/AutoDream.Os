@@ -159,12 +159,12 @@ class FileHandleManager:
             with self._lock:
                 handle_id = f"{file_path}_{mode}_{int(time.time())}"
                 with open(file_path, mode) as file_handle:
-                self.open_handles[handle_id] = {
-                    'handle': file_handle,
-                    'path': file_path,
-                    'mode': mode,
-                    'opened_at': time.time()
-                }
+                    self.open_handles[handle_id] = {
+                        'handle': file_handle,
+                        'path': file_path,
+                        'mode': mode,
+                        'opened_at': time.time()
+                    }
             
             yield file_handle
             

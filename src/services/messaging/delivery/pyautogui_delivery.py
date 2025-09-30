@@ -72,11 +72,22 @@ def _paste_or_type(pg, pc, text: str):
     if pc is not None:
         try:
             pc.copy(text)
-            # SECURITY: Key placeholder - replace with environment variable
+            pg.hotkey("ctrl", "v")
+            time.sleep(0.1)  # Wait for paste to complete
             return
         except Exception:
             pass
-    pg.typewrite(text, interval=0.01)
+    
+    # Handle line breaks properly by typing line by line with Shift+Enter
+    lines = text.split('\n')
+    for i, line in enumerate(lines):
+        if line.strip():  # Only type non-empty lines
+            pg.typewrite(line, interval=0.01)
+        
+        # Add line break if not the last line
+        if i < len(lines) - 1:
+            pg.hotkey('shift', 'enter')  # Shift+Enter for line break
+            time.sleep(0.05)  # Brief pause after line break
 
 
 def deliver_message_pyautogui(

@@ -1,7 +1,7 @@
 import json
 
 # Load compliance data
-with open('final_compliance_check.json', 'r') as f:
+with open('current_compliance.json', 'r') as f:
     data = json.load(f)
 
 # Find large files

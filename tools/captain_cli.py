@@ -20,7 +20,7 @@ sys.path.insert(0, str(project_root))
 
 from src.fsm.activity_monitor import get_activity_monitor
 from src.fsm.captain_dashboard import get_captain_dashboard
-from src.services.messaging.service import MessagingService
+from src.services.messaging.core.messaging_service import MessagingService
 
 # V2 Compliance: File under 400 lines, functions under 30 lines
 

@@ -18,6 +18,7 @@ from src.core.resource_management.thread_manager import get_thread_manager
 
 try:
     from src.services.discord_commander.bot_v2 import DiscordCommanderBotV2 as DiscordCommanderBot
+
     BOT_AVAILABLE = True
 except ImportError as e:
     print(f"❌ Error importing Discord Commander Bot: {e}")
@@ -25,6 +26,7 @@ except ImportError as e:
 
 try:
     from src.services.discord_commander.web_controller_main import DiscordCommanderController
+
     WEB_AVAILABLE = True
 except ImportError as e:
     print(f"⚠️ Web controller not available: {e}")
@@ -76,7 +78,9 @@ class DiscordCommanderLauncher:
         try:
             import flask
             import flask_socketio
+
             import discord
+
             print("✅ Required packages installed")
         except ImportError as e:
             issues.append(f"Missing packages: {e}")
@@ -125,28 +129,25 @@ class DiscordCommanderLauncher:
             print("🤖 Starting Discord Commander Bot...")
             self.bot = DiscordCommanderBot()
 
-            if await self.bot.initialize():
-                print("✅ Discord bot initialized successfully")
+            # Start bot directly (V2 version doesn't need separate initialize)
+            print("✅ Discord bot starting...")
 
-                # Start bot in a separate thread using ThreadManager
-                def run_bot():
-                    asyncio.run(self.bot.start())
+            # Start bot in a separate thread using ThreadManager
+            def run_bot():
+                asyncio.run(self.bot.start())
 
-                bot_thread = self.thread_manager.start_thread(
-                    target=run_bot, name="discord_bot", daemon=True
-                )
+            bot_thread = self.thread_manager.start_thread(
+                target=run_bot, name="discord_bot", daemon=True
+            )
 
-                # Give the bot a moment to connect
-                await asyncio.sleep(3)
+            # Give the bot a moment to connect
+            await asyncio.sleep(3)
 
-                if self.bot.is_healthy():
-                    print("✅ Discord bot connected and healthy")
-                    return True
-                else:
-                    print("❌ Discord bot failed to connect properly")
-                    return False
+            if self.bot.is_healthy():
+                print("✅ Discord bot connected and healthy")
+                return True
             else:
-                print("❌ Failed to initialize Discord bot")
+                print("❌ Discord bot failed to connect properly")
                 return False
 
         except Exception as e:
@@ -184,7 +185,7 @@ class DiscordCommanderLauncher:
         print("=" * 50)
 
         if self.bot:
-            status = self.bot.get_status()
+            status = self.bot.get_bot_status()
             print(
                 f"🤖 Bot Status: {'🟢 Connected' if status.get('status') == 'healthy' else '🔴 Disconnected'}"
             )
@@ -257,6 +258,7 @@ class DiscordCommanderLauncher:
 
             while self.running:
                 import time
+
                 time.sleep(1)
 
         except KeyboardInterrupt:

@@ -3,13 +3,13 @@
     "name": "Agent Cellphone V2",
     "version": "2.1.0",
     "description": "Advanced AI Agent System with Code Quality Standards",
-    "scan_timestamp": "2025-10-01T03:27:33.853605",
+    "scan_timestamp": "2025-10-01T08:00:10.207930",
     "scanner_version": "SimpleProjectScanner 1.0.0"
   },
   "analysis": {
     "project_structure": {
-      "total_files": 7963,
-      "python_files": 921,
+      "total_files": 8125,
+      "python_files": 937,
       "directories": [
         "D:\\Agent_Cellphone_V2_Repository\\config",
         "D:\\Agent_Cellphone_V2_Repository\\agent_workspaces",
@@ -19,7 +19,6 @@
         "D:\\Agent_Cellphone_V2_Repository\\browser_service",
         "D:\\Agent_Cellphone_V2_Repository\\analysis",
         "D:\\Agent_Cellphone_V2_Repository\\devlogs",
-        "D:\\Agent_Cellphone_V2_Repository\\backups",
         "D:\\Agent_Cellphone_V2_Repository\\docs",
         "D:\\Agent_Cellphone_V2_Repository\\frontend",
         "D:\\Agent_Cellphone_V2_Repository\\k8s",
@@ -44,7 +43,6 @@
         "D:\\Agent_Cellphone_V2_Repository\\web_dashboard",
         "D:\\Agent_Cellphone_V2_Repository\\captain_progress_data",
         "D:\\Agent_Cellphone_V2_Repository\\sqlite_sessions",
-        "D:\\Agent_Cellphone_V2_Repository\\sessions",
         "D:\\Agent_Cellphone_V2_Repository\\ml_models",
         "D:\\Agent_Cellphone_V2_Repository\\documentation_backup",
         "D:\\Agent_Cellphone_V2_Repository\\ml_training",
@@ -66,7 +64,6 @@
         "D:\\Agent_Cellphone_V2_Repository\\integration_reports",
         "D:\\Agent_Cellphone_V2_Repository\\reports",
         "D:\\Agent_Cellphone_V2_Repository\\src",
-        "D:\\Agent_Cellphone_V2_Repository\\config\\tracing",
         "D:\\Agent_Cellphone_V2_Repository\\config\\protocols",
         "D:\\Agent_Cellphone_V2_Repository\\config\\storytelling",
         "D:\\Agent_Cellphone_V2_Repository\\agent_workspaces\\Agent-7",
@@ -89,6 +86,7 @@
         "D:\\Agent_Cellphone_V2_Repository\\agent_workspaces\\agent-5\\inbox",
         "D:\\Agent_Cellphone_V2_Repository\\agent_workspaces\\agent-5\\outbox",
         "D:\\Agent_Cellphone_V2_Repository\\agent_workspaces\\agent-5\\processed",
+        "D:\\Agent_Cellphone_V2_Repository\\agent_workspaces\\agent-5\\inbox\\processed",
         "D:\\Agent_Cellphone_V2_Repository\\agent_workspaces\\agent-6\\inbox",
         "D:\\Agent_Cellphone_V2_Repository\\agent_workspaces\\agent-6\\outbox",
         "D:\\Agent_Cellphone_V2_Repository\\agent_workspaces\\agent-6\\processed",
@@ -139,11 +137,15 @@
         "D:\\Agent_Cellphone_V2_Repository\\browser_service\\core",
         "D:\\Agent_Cellphone_V2_Repository\\browser_service\\managers",
         "D:\\Agent_Cellphone_V2_Repository\\browser_service\\operations",
-        "D:\\Agent_Cellphone_V2_Repository\\backups\\database",
+        "D:\\Agent_Cellphone_V2_Repository\\docs\\task_assignment_workflows",
+        "D:\\Agent_Cellphone_V2_Repository\\docs\\agent_cycle_improvements",
+        "D:\\Agent_Cellphone_V2_Repository\\docs\\task_assignment_workflows\\schemas",
+        "D:\\Agent_Cellphone_V2_Repository\\docs\\task_assignment_workflows\\workflows",
+        "D:\\Agent_Cellphone_V2_Repository\\docs\\task_assignment_workflows\\implementations",
+        "D:\\Agent_Cellphone_V2_Repository\\docs\\task_assignment_workflows\\tests",
         "D:\\Agent_Cellphone_V2_Repository\\frontend\\src",
         "D:\\Agent_Cellphone_V2_Repository\\frontend\\public",
         "D:\\Agent_Cellphone_V2_Repository\\frontend\\node_modules",
-        "D:\\Agent_Cellphone_V2_Repository\\frontend\\src\\charts",
         "D:\\Agent_Cellphone_V2_Repository\\frontend\\src\\components",
         "D:\\Agent_Cellphone_V2_Repository\\frontend\\src\\styles",
         "D:\\Agent_Cellphone_V2_Repository\\frontend\\node_modules\\@types",
@@ -3123,19 +3125,16 @@
         "D:\\Agent_Cellphone_V2_Repository\\frontend\\node_modules\\babel-preset-react-app\\node_modules\\@babel",
         "D:\\Agent_Cellphone_V2_Repository\\frontend\\node_modules\\babel-preset-react-app\\node_modules\\@babel\\plugin-proposal-private-property-in-object",
         "D:\\Agent_Cellphone_V2_Repository\\frontend\\node_modules\\babel-preset-react-app\\node_modules\\@babel\\plugin-proposal-private-property-in-object\\lib",
-        "D:\\Agent_Cellphone_V2_Repository\\k8s\\tracing",
         "D:\\Agent_Cellphone_V2_Repository\\infrastructure\\aws",
         "D:\\Agent_Cellphone_V2_Repository\\infrastructure\\k8s",
         "D:\\Agent_Cellphone_V2_Repository\\infrastructure\\aws\\terraform",
-        "D:\\Agent_Cellphone_V2_Repository\\scripts\\fsm",
-        "D:\\Agent_Cellphone_V2_Repository\\scripts\\fsm\\actions",
+        "D:\\Agent_Cellphone_V2_Repository\\swarm_coordination\\reports",
         "D:\\Agent_Cellphone_V2_Repository\\runtime\\fsm",
         "D:\\Agent_Cellphone_V2_Repository\\runtime\\windows",
         "D:\\Agent_Cellphone_V2_Repository\\runtime\\windows\\2025-01-18",
         "D:\\Agent_Cellphone_V2_Repository\\runtime\\windows\\2025-01-18\\agents",
         "D:\\Agent_Cellphone_V2_Repository\\analytics\\signals",
         "D:\\Agent_Cellphone_V2_Repository\\social\\logs",
-        "D:\\Agent_Cellphone_V2_Repository\\social\\logs\\json_logs",
         "D:\\Agent_Cellphone_V2_Repository\\swarm_brain\\embeddings",
         "D:\\Agent_Cellphone_V2_Repository\\swarm_brain\\connectors",
         "D:\\Agent_Cellphone_V2_Repository\\tsla_forecast_app\\modules",
@@ -3158,14 +3157,11 @@
         "D:\\Agent_Cellphone_V2_Repository\\ml_training\\environments",
         "D:\\Agent_Cellphone_V2_Repository\\ml_training\\jobs",
         "D:\\Agent_Cellphone_V2_Repository\\templates\\prompts",
-        "D:\\Agent_Cellphone_V2_Repository\\src\\web",
         "D:\\Agent_Cellphone_V2_Repository\\src\\core",
         "D:\\Agent_Cellphone_V2_Repository\\src\\services",
         "D:\\Agent_Cellphone_V2_Repository\\src\\architecture",
         "D:\\Agent_Cellphone_V2_Repository\\src\\domain",
-        "D:\\Agent_Cellphone_V2_Repository\\src\\testing",
         "D:\\Agent_Cellphone_V2_Repository\\src\\monitoring",
-        "D:\\Agent_Cellphone_V2_Repository\\src\\optimization",
         "D:\\Agent_Cellphone_V2_Repository\\src\\fsm",
         "D:\\Agent_Cellphone_V2_Repository\\src\\ml",
         "D:\\Agent_Cellphone_V2_Repository\\src\\infrastructure",
@@ -3179,8 +3175,7 @@
         "D:\\Agent_Cellphone_V2_Repository\\src\\memory",
         "D:\\Agent_Cellphone_V2_Repository\\src\\tools",
         "D:\\Agent_Cellphone_V2_Repository\\src\\observability",
-        "D:\\Agent_Cellphone_V2_Repository\\src\\web\\static",
-        "D:\\Agent_Cellphone_V2_Repository\\src\\web\\static\\js",
+        "D:\\Agent_Cellphone_V2_Repository\\src\\models",
         "D:\\Agent_Cellphone_V2_Repository\\src\\core\\database",
         "D:\\Agent_Cellphone_V2_Repository\\src\\core\\security",
         "D:\\Agent_Cellphone_V2_Repository\\src\\core\\tracing",
@@ -3203,6 +3198,7 @@
         "D:\\Agent_Cellphone_V2_Repository\\src\\services\\role_assignment",
         "D:\\Agent_Cellphone_V2_Repository\\src\\services\\devlog_storytelling",
         "D:\\Agent_Cellphone_V2_Repository\\src\\services\\code_archaeology",
+        "D:\\Agent_Cellphone_V2_Repository\\src\\services\\cycle_optimization",
         "D:\\Agent_Cellphone_V2_Repository\\src\\services\\messaging\\core",
         "D:\\Agent_Cellphone_V2_Repository\\src\\services\\messaging\\broadcast_service",
         "D:\\Agent_Cellphone_V2_Repository\\src\\services\\messaging\\cli",
@@ -3233,6 +3229,7 @@
         "D:\\Agent_Cellphone_V2_Repository\\src\\services\\discord_bot\\commands\\agent_coordination",
         "D:\\Agent_Cellphone_V2_Repository\\src\\services\\discord_bot\\core\\commands",
         "D:\\Agent_Cellphone_V2_Repository\\src\\services\\discord_commander\\templates",
+        "D:\\Agent_Cellphone_V2_Repository\\src\\services\\discord_commander\\commands",
         "D:\\Agent_Cellphone_V2_Repository\\src\\services\\devlog_storytelling\\core",
         "D:\\Agent_Cellphone_V2_Repository\\src\\services\\devlog_storytelling\\processors",
         "D:\\Agent_Cellphone_V2_Repository\\src\\services\\devlog_storytelling\\integration",
@@ -3243,7 +3240,6 @@
         "D:\\Agent_Cellphone_V2_Repository\\src\\services\\code_archaeology\\integration",
         "D:\\Agent_Cellphone_V2_Repository\\src\\architecture\\patterns",
         "D:\\Agent_Cellphone_V2_Repository\\src\\domain\\entities",
-        "D:\\Agent_Cellphone_V2_Repository\\src\\ml\\data",
         "D:\\Agent_Cellphone_V2_Repository\\src\\ml\\logs",
         "D:\\Agent_Cellphone_V2_Repository\\src\\ml\\models",
         "D:\\Agent_Cellphone_V2_Repository\\src\\ml\\data_ingestion_system",
@@ -3259,13 +3255,14 @@
         "D:\\Agent_Cellphone_V2_Repository\\src\\observability\\memory\\integrations"
       ],
       "file_types": {
-        ".md": 322,
+        ".md": 443,
         ".toml": 1,
-        ".json": 1224,
+        ".json": 1234,
         ".example": 2,
-        ".py": 921,
+        ".py": 937,
         ".ini": 2,
-        ".txt": 549,
+        ".txt": 576,
+        ".backup": 1,
         ".db": 4,
         ".yml": 3,
         ".ps1": 4,
@@ -3275,7 +3272,7 @@
         ".png": 19,
         ".js": 2830,
         ".css": 14,
-        ".html": 56,
+        ".html": 55,
         ".ts": 274,
         ".mts": 3,
         ".map": 152,
@@ -3299,16 +3296,16 @@
         ".c": 2,
         ".mdown": 1,
         ".tf": 9,
-        ".log": 20,
+        ".log": 7,
         ".sql": 1,
         ".jsx": 8,
         ".j2": 3,
-        ".pkl": 13
+        ".pkl": 14
       }
     },
     "python_analysis": {
-      "total_python_files": 921,
-      "v2_compliant_files": 871,
+      "total_python_files": 937,
+      "v2_compliant_files": 889,
       "non_compliant_files": [
         {
           "file": "D:\\Agent_Cellphone_V2_Repository\\tests\\integration\\test_discord_commander_integration.py",
@@ -3364,7 +3361,7 @@
         },
         {
           "file": "D:\\Agent_Cellphone_V2_Repository\\tools\\trading_cli\\prediction_tracker.py",
-          "lines": 468
+          "lines": 461
         },
         {
           "file": "D:\\Agent_Cellphone_V2_Repository\\tools\\static_analysis\\analysis_dashboard.py",
@@ -3399,10 +3396,6 @@
           "lines": 428
         },
         {
-          "file": "D:\\Agent_Cellphone_V2_Repository\\src\\core\\unified_ml_pipeline.py",
-          "lines": 482
-        },
-        {
           "file": "D:\\Agent_Cellphone_V2_Repository\\src\\core\\database\\backup_recovery_system.py",
           "lines": 431
         },
@@ -3433,10 +3426,6 @@
         {
           "file": "D:\\Agent_Cellphone_V2_Repository\\src\\services\\github_protocol_models.py",
           "lines": 484
-        },
-        {
-          "file": "D:\\Agent_Cellphone_V2_Repository\\src\\services\\github_protocol_service.py",
-          "lines": 480
         },
         {
           "file": "D:\\Agent_Cellphone_V2_Repository\\src\\services\\swarm_intelligence_coordination.py",
@@ -3512,7 +3501,7 @@
         }
       ],
       "large_files": [],
-      "average_lines": 176.89576547231272
+      "average_lines": 176.69797225186767
     },
     "dependencies": {
       "requirements_files": [

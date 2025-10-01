@@ -1,0 +1,104 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Task Assignment Workflow Schema",
+  "description": "Schema for V2_SWARM task assignment workflows",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["workflow_id", "category", "steps"],
+  "properties": {
+    "workflow_id": {
+      "type": "string",
+      "description": "Unique identifier for workflow"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "task_identification",
+        "capability_assessment",
+        "task_assignment",
+        "task_monitoring",
+        "quality_validation"
+      ],
+      "description": "Workflow category"
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable workflow name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Workflow description"
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["LOW", "NORMAL", "HIGH", "URGENT"],
+      "default": "NORMAL"
+    },
+    "steps": {
+      "type": "array",
+      "description": "Workflow execution steps",
+      "items": {
+        "type": "object",
+        "required": ["step_id", "action"],
+        "properties": {
+          "step_id": {
+            "type": "string",
+            "description": "Unique step identifier"
+          },
+          "action": {
+            "type": "string",
+            "description": "Action to perform"
+          },
+          "inputs": {
+            "type": "object",
+            "description": "Step input parameters"
+          },
+          "outputs": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "Expected outputs"
+          },
+          "dependencies": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "Step dependencies (other step_ids)"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "default": 300,
+            "description": "Step timeout in seconds"
+          },
+          "retry_count": {
+            "type": "integer",
+            "default": 0,
+            "description": "Number of retries on failure"
+          }
+        }
+      }
+    },
+    "validation_rules": {
+      "type": "array",
+      "description": "Workflow validation rules",
+      "items": {
+        "type": "object",
+        "properties": {
+          "rule_id": {"type": "string"},
+          "condition": {"type": "string"},
+          "error_message": {"type": "string"}
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "created_by": {"type": "string"},
+        "created_at": {"type": "string", "format": "date-time"},
+        "version": {"type": "string"},
+        "tags": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      }
+    }
+  }
+}

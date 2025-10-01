@@ -16,32 +16,27 @@ Features:
 # DEPRECATED: Use bot_v2.py instead
 # This file maintained for backward compatibility only
 
-from .bot_models import (
-    BotConfiguration,
-    BotCore,
-    CommandContext,
-    EmbedBuilder
-)
-from .bot_commands import CommandManager
 from .bot_main import (
-    DiscordCommanderBot,
     BotManager,
-    create_discord_bot,
+    DiscordCommanderBot,
     create_bot_configuration,
-    run_bot
+    create_discord_bot,
+    run_bot,
 )
+from .bot_models import BotConfiguration, BotCore, CommandContext, EmbedBuilder
+from .commands import CommandManager
 
 # Re-export main classes for backward compatibility
 __all__ = [
-    'BotConfiguration',
-    'BotCore',
-    'BotStatus',
-    'CommandContext',
-    'EmbedBuilder',
-    'CommandManager',
-    'DiscordCommanderBot',
-    'BotManager',
-    'create_discord_bot',
-    'create_bot_configuration',
-    'run_bot'
+    "BotConfiguration",
+    "BotCore",
+    "BotStatus",
+    "CommandContext",
+    "EmbedBuilder",
+    "CommandManager",
+    "DiscordCommanderBot",
+    "BotManager",
+    "create_discord_bot",
+    "create_bot_configuration",
+    "run_bot",
 ]

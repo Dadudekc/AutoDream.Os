@@ -1,0 +1,73 @@
+{
+  "workflow_id": "task_identification_001",
+  "category": "task_identification",
+  "name": "Task Identification and Prioritization",
+  "description": "Workflow for discovering, categorizing, and prioritizing tasks",
+  "priority": "NORMAL",
+  "steps": [
+    {
+      "step_id": "discover_tasks",
+      "action": "scan_task_sources",
+      "inputs": {
+        "sources": ["future_tasks", "inbox", "captain_directives", "system_analysis"]
+      },
+      "outputs": ["discovered_tasks"],
+      "dependencies": [],
+      "timeout_seconds": 60,
+      "retry_count": 2
+    },
+    {
+      "step_id": "categorize_tasks",
+      "action": "categorize_by_type",
+      "inputs": {
+        "tasks": "discovered_tasks",
+        "categories": ["development", "integration", "quality", "research", "optimization"]
+      },
+      "outputs": ["categorized_tasks"],
+      "dependencies": ["discover_tasks"],
+      "timeout_seconds": 30,
+      "retry_count": 1
+    },
+    {
+      "step_id": "assess_priority",
+      "action": "calculate_priority_score",
+      "inputs": {
+        "tasks": "categorized_tasks",
+        "criteria": ["urgency", "impact", "effort", "dependencies"]
+      },
+      "outputs": ["prioritized_tasks"],
+      "dependencies": ["categorize_tasks"],
+      "timeout_seconds": 45,
+      "retry_count": 1
+    },
+    {
+      "step_id": "estimate_resources",
+      "action": "analyze_resource_requirements",
+      "inputs": {
+        "tasks": "prioritized_tasks"
+      },
+      "outputs": ["tasks_with_estimates"],
+      "dependencies": ["assess_priority"],
+      "timeout_seconds": 60,
+      "retry_count": 1
+    }
+  ],
+  "validation_rules": [
+    {
+      "rule_id": "min_tasks",
+      "condition": "len(discovered_tasks) > 0",
+      "error_message": "No tasks discovered"
+    },
+    {
+      "rule_id": "all_categorized",
+      "condition": "all(task.category for task in categorized_tasks)",
+      "error_message": "Not all tasks categorized"
+    }
+  ],
+  "metadata": {
+    "created_by": "Agent-5",
+    "created_at": "2025-10-01T12:15:00Z",
+    "version": "1.0.0",
+    "tags": ["task_management", "prioritization", "v2_compliant"]
+  }
+}

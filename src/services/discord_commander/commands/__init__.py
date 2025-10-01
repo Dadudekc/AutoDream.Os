@@ -14,6 +14,12 @@ from .agent_control import AgentControlCommands
 AgentCommands = AgentControlCommands
 CommandManager = AgentControlCommands
 SwarmCommands = AgentControlCommands
+SystemCommands = AgentControlCommands  # Add missing SystemCommands alias
 
-__all__ = ['AgentControlCommands', 'AgentCommands', 'CommandManager', 'SwarmCommands']
-
+__all__ = [
+    "AgentControlCommands",
+    "AgentCommands",
+    "CommandManager",
+    "SwarmCommands",
+    "SystemCommands",
+]

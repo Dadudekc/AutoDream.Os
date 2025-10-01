@@ -183,18 +183,20 @@ agents:
     - validation
     - compliance
     - v2_enforcement
+    - ssot_validation
     responsibilities:
     - V2 compliance enforcement
     - Code quality validation
     - Quality gates implementation
     - Architecture review
     - Testing standards
+    - SSOT quality validation
   agent_7:
     name: Implementation Specialist - Core Systems
     role: implementation_specialist
     coordinates:
-    - 920
-    - 851
+    - 700
+    - 938
     enabled: true
     capabilities:
     - web_development
@@ -208,23 +210,24 @@ agents:
     - Technical execution
     - System integration
   agent_8:
-    name: Integration Specialist - Testing & Validation
-    role: integration_specialist
+    name: SSOT & System Integration Specialist
+    role: ssot_manager
     coordinates:
     - 1611
     - 941
     enabled: true
     capabilities:
     - ssot_management
-    - coordination
+    - system_integration
     - quality_assurance
-    - integration_specialist
+    - coordination
+    - compliance
     responsibilities:
-    - Integration testing and validation
-    - Cross-platform compatibility
-    - Performance optimization
-    - Documentation management
-    - Quality assurance coordination
+    - Single Source of Truth management
+    - System integration and coordination
+    - Quality assurance and compliance
+    - Dynamic role assignment management
+    - V2 compliance validation
 dream_os:
   enabled: true
   integration_phase: 1

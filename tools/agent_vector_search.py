@@ -22,7 +22,6 @@ project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
 try:
-    from src.services.messaging.enhanced_messaging_service import get_enhanced_messaging_service
     from src.services.vector_database.vector_database_integration import VectorDatabaseIntegration
 
     VECTOR_DB_AVAILABLE = True
@@ -40,9 +39,9 @@ def search_similar_messages(
         return []
 
     try:
-        messaging_service = get_enhanced_messaging_service()
-        results = messaging_service.search_similar_messages(query, agent_id, limit)
-        return results
+        vector_db = VectorDatabaseIntegration("vector_database/devlog_vectors.db")
+        results = vector_db.query(query, namespace="agent_devlogs", limit=limit)
+        return results if results else []
     except Exception as e:
         print(f"❌ Search failed: {e}")
         return []
@@ -55,9 +54,10 @@ def search_agent_experience(agent_id: str, query: str, limit: int = 3) -> list[d
         return []
 
     try:
-        messaging_service = get_enhanced_messaging_service()
-        results = messaging_service.search_agent_experience(agent_id, query, limit)
-        return results
+        vector_db = VectorDatabaseIntegration("vector_database/devlog_vectors.db")
+        # Search by agent ID with query
+        results = vector_db.search_by_agent(agent_id, limit=limit)
+        return results if results else []
     except Exception as e:
         print(f"❌ Experience search failed: {e}")
         return []
@@ -69,9 +69,14 @@ def get_agent_knowledge_summary(agent_id: str, time_range_hours: int = 24) -> di
         return {"error": "Vector database not available"}
 
     try:
-        messaging_service = get_enhanced_messaging_service()
-        summary = messaging_service.get_agent_knowledge_summary(agent_id, time_range_hours)
-        return summary
+        vector_db = VectorDatabaseIntegration("vector_database/devlog_vectors.db")
+        results = vector_db.search_by_agent(agent_id, limit=10)
+        return {
+            "agent_id": agent_id,
+            "knowledge_items": len(results),
+            "time_range_hours": time_range_hours,
+            "recent_activities": results[:5],
+        }
     except Exception as e:
         return {"error": str(e)}
 
@@ -82,9 +87,10 @@ def get_swarm_knowledge_summary() -> dict[str, Any]:
         return {"error": "Vector database not available"}
 
     try:
-        messaging_service = get_enhanced_messaging_service()
-        summary = messaging_service.get_swarm_knowledge_summary()
-        return summary
+        vector_db = VectorDatabaseIntegration("vector_database/devlog_vectors.db")
+        # Get diverse sample of swarm knowledge
+        results = vector_db.query("swarm coordination agent", namespace="agent_devlogs", limit=20)
+        return {"total_knowledge_items": len(results), "top_activities": results[:10]}
     except Exception as e:
         return {"error": str(e)}
 
@@ -163,8 +169,13 @@ def main():
     if args.status:
         if VECTOR_DB_AVAILABLE:
             try:
-                messaging_service = get_enhanced_messaging_service()
-                status = messaging_service.get_vector_db_status()
+                vector_db = VectorDatabaseIntegration("vector_database/devlog_vectors.db")
+                status = {
+                    "database": "vector_database/devlog_vectors.db",
+                    "operational": True,
+                    "health": vector_db.get_system_health(),
+                    "statistics": vector_db.get_index_statistics(),
+                }
                 print("✅ Vector Database Status:")
                 print(json.dumps(status, indent=2))
             except Exception as e:

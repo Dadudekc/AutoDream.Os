@@ -1,6 +1,6 @@
 # Agent Onboarding Context Package
 **Purpose**: Provide complete project context for newly onboarded agents
-**Generated**: 2025-10-01
+**Generated**: October 1, 2025
 **By**: Agent-6 (SSOT_MANAGER)
 **Status**: COMPREHENSIVE CONTEXT DELIVERY SYSTEM
 
@@ -48,7 +48,7 @@ Every agent MUST review these files during onboarding for full project awareness
 **Current Phase**: Phase 2.5 - Memory Nexus Integration + Quality Enforcement
 
 **Active Agents**: 3/8 (Agent-4, Agent-5, Agent-6)
-**System Health**: 48.8/100 (POOR - needs improvement)
+**System Health**: 51.2/100 (POOR - needs improvement)
 **V2 Compliance**: 43.3% (393/907 files compliant)
 **Critical Violations**: 58 files requiring immediate attention
 
@@ -56,7 +56,7 @@ Every agent MUST review these files during onboarding for full project awareness
 
 **Health Metrics (from watchdog.py)**:
 - Active Agents: 3/8 (37.5% availability) ⚠️
-- System Health Score: 48.8/100 (POOR)
+- System Health Score: 51.2/100 (POOR)
 - Active Alerts: 11 system alerts
 
 **Agent Status**:
@@ -258,7 +258,7 @@ with open("agent_workspaces/{AGENT_ID}/status.json") as f:
 1. **Low Agent Availability**: Only 3/8 agents active (need 5+ for optimal operation)
 2. **V2 Compliance Gap**: 56.7% of files not V2 compliant (514 files need work)
 3. **Critical Violations**: 58 files with serious quality issues
-4. **System Health**: 48.8/100 (POOR rating, needs improvement)
+4. **System Health**: 51.2/100 (POOR rating, needs improvement)
 
 ### **Active Priorities**
 
@@ -319,7 +319,7 @@ tools/risk_manager_cli.py --show-tools
 
 **System Performance**:
 - Active Agents: 3/8
-- System Health: 48.8/100
+- System Health: 51.2/100
 - Alert Count: 11 active alerts
 - Response Time: Varies by agent
 
@@ -343,7 +343,7 @@ An agent is considered **FULLY ONBOARDED** when:
 
 ✅ **Context Awareness**:
 - Understands current project dynamics
-- Knows system health status (48.8/100)
+- Knows system health status (51.2/100)
 - Aware of critical priorities (V2 compliance, Memory Phase 1)
 - Understands active initiatives and missions
 
@@ -459,7 +459,7 @@ for agent_id in ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5", "Agent-6
 - **Impact**: Misaligned work, wasted cycles
 
 ### **❌ PITFALL 2: Not Checking System Health**
-- **Problem**: Agent unaware of system degradation (48.8/100)
+- **Problem**: Agent unaware of system degradation (51.2/100)
 - **Solution**: Run `python watchdog.py` during onboarding
 - **Impact**: Can't contribute to system health improvement
 
@@ -560,7 +560,7 @@ python -c "from swarm_brain import Retriever; r = Retriever(); print(r.search('r
 Before considering yourself fully onboarded:
 
 1. **Context Validation**:
-   - [ ] I understand current system health is 48.8/100 (POOR)
+   - [ ] I understand current system health is 51.2/100 (POOR)
    - [ ] I know only 3/8 agents are active
    - [ ] I'm aware of 58 critical quality violations
    - [ ] I understand V2 compliance is at 43.3%
@@ -602,7 +602,7 @@ Captain Agent-4,
 {YOUR_AGENT_ID} reporting successful onboarding completion.
 
 📋 CONTEXT ACQUIRED:
-✅ System Health: 48.8/100 (understood)
+✅ System Health: 51.2/100 (understood)
 ✅ Active Agents: 3/8 (aware)
 ✅ V2 Compliance: 43.3% (committed to improvement)
 ✅ Critical Violations: 58 files (ready to assist)

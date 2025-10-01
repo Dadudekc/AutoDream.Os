@@ -136,6 +136,8 @@ CONTEXT: Project scan data provided for comprehensive strategic analysis."""
             base_message = base_message.replace(project_scan_json, truncated_json)
 
         return base_message
+
+    def create_strategic_consultation(self, question: str, context_level: str = "standard") -> str:
         """Create strategic consultation message with specified context level."""
         context_levels = {
             "essential": self.create_essential_context,

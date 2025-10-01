@@ -31,7 +31,7 @@
       "coordinates": [652, 421]
     },
     "Agent-6": {
-      "role": "SSOT_MANAGER",
+      "role": "QUALITY_SPECIALIST",
       "status": "ACTIVE",
       "position": "Right Monitor",
       "coordinates": [1612, 419]
@@ -40,10 +40,10 @@
       "role": "IMPLEMENTATION_SPECIALIST",
       "status": "ACTIVE",
       "position": "Right Monitor",
-      "coordinates": [920, 851]
+      "coordinates": [700, 938]
     },
     "Agent-8": {
-      "role": "INTEGRATION_SPECIALIST",
+      "role": "SSOT_MANAGER",
       "status": "ACTIVE",
       "position": "Right Monitor",
       "coordinates": [1611, 941]

@@ -1,0 +1,13 @@
+{
+  "check_interval": 300,
+  "alert_thresholds": {
+    "health_score_warning": 60,
+    "health_score_critical": 40,
+    "agent_availability_warning": 0.5
+  },
+  "enabled_checks": {
+    "agent_status": true,
+    "system_health": true,
+    "resource_usage": true
+  }
+}

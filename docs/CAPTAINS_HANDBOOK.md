@@ -1,7 +1,7 @@
 # 📋 Captain Agent-4 Handbook - V2_SWARM Operating Orders
 
-**Version:** 2.0
-**Date:** 2025-01-16
+**Version:** 2.1
+**Date:** 2025-10-01
 **Agent:** Agent-4 (Captain - Strategic Oversight & Emergency Intervention)
 **Status:** ACTIVE
 
@@ -20,6 +20,13 @@
 - **Task Reassignment**: Can reassign tasks between agents
 - **System Resets**: Authorization required for system resets
 - **Emergency Broadcasts**: Bypass normal communication protocols
+
+### **📋 Documentation Responsibilities (NEW)**
+- **Captain's Log Maintenance**: Update log after each major mission milestone
+- **Handbook Updates**: Document new protocols and procedures immediately
+- **Mission Documentation**: Create comprehensive plans for critical missions
+- **Performance Tracking**: Maintain agent performance records
+- **Decision Recording**: Document all major Captain decisions with rationale
 
 ---
 

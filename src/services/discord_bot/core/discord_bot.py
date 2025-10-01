@@ -17,6 +17,7 @@ sys.path.insert(0, str(project_root))
 
 from .discord_bot_core import DiscordBotCore
 from .discord_bot_models import BotConfiguration
+from .discord_agent_interface import DiscordAgentInterface, DiscordSwarmCoordinator
 
 
 class EnhancedDiscordAgentBot(commands.Bot):

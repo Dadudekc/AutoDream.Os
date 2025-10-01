@@ -80,27 +80,26 @@ class PredictionTracker:
     ) -> int:
         """Record a new prediction"""
         with sqlite3.connect(self.db_path) as conn:
-        cursor = conn.cursor()
+            cursor = conn.cursor()
 
-        cursor.execute(
-            """
-            INSERT INTO predictions (symbol, prediction_date, agent_id, action, target_price, confidence, reasoning)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        """,
-            (
-                symbol,
-                datetime.now().isoformat(),
-                agent_id,
-                action,
-                target_price,
-                confidence,
-                reasoning,
-            ),
-        )
+            cursor.execute(
+                """
+                INSERT INTO predictions (symbol, prediction_date, agent_id, action, target_price, confidence, reasoning)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    symbol,
+                    datetime.now().isoformat(),
+                    agent_id,
+                    action,
+                    target_price,
+                    confidence,
+                    reasoning,
+                ),
+            )
 
-        prediction_id = cursor.lastrowid
-        conn.commit()
-        conn.close()
+            prediction_id = cursor.lastrowid
+            conn.commit()
 
         print(f"📝 Recorded prediction #{prediction_id} for {agent_id}")
         return prediction_id
@@ -108,38 +107,36 @@ class PredictionTracker:
     def update_actual_price(self, prediction_id: int, actual_price: float):
         """Update prediction with actual price and calculate accuracy"""
         with sqlite3.connect(self.db_path) as conn:
-        cursor = conn.cursor()
+            cursor = conn.cursor()
 
-        # Get the prediction
-        cursor.execute("SELECT * FROM predictions WHERE id = ?", (prediction_id,))
-        prediction = cursor.fetchone()
+            # Get the prediction
+            cursor.execute("SELECT * FROM predictions WHERE id = ?", (prediction_id,))
+            prediction = cursor.fetchone()
 
-        if not prediction:
-            print(f"❌ Prediction #{prediction_id} not found")
-            conn.close()
-            return
+            if not prediction:
+                print(f"❌ Prediction #{prediction_id} not found")
+                return
 
-        # Calculate accuracy score
-        target_price = prediction[5]  # target_price column
-        accuracy_score = self._calculate_accuracy_score(
-            target_price, actual_price, prediction[4]
-        )  # action column
+            # Calculate accuracy score
+            target_price = prediction[5]  # target_price column
+            accuracy_score = self._calculate_accuracy_score(
+                target_price, actual_price, prediction[4]
+            )  # action column
 
-        # Update prediction
-        cursor.execute(
-            """
-            UPDATE predictions
-            SET actual_price = ?, accuracy_score = ?
-            WHERE id = ?
-        """,
-            (actual_price, accuracy_score, prediction_id),
-        )
+            # Update prediction
+            cursor.execute(
+                """
+                UPDATE predictions
+                SET actual_price = ?, accuracy_score = ?
+                WHERE id = ?
+                """,
+                (actual_price, accuracy_score, prediction_id),
+            )
 
-        # Update accuracy summary
-        self._update_accuracy_summary(prediction[1], prediction[3], cursor)  # symbol, agent_id
+            # Update accuracy summary
+            self._update_accuracy_summary(prediction[1], prediction[3], cursor)  # symbol, agent_id
 
-        conn.commit()
-        conn.close()
+            conn.commit()
 
         print(
             f"✅ Updated prediction #{prediction_id} with actual price ${actual_price:.2f} (accuracy: {accuracy_score:.1%})"
@@ -233,47 +230,21 @@ class PredictionTracker:
     def get_agent_accuracy(self, symbol: str = "TSLA", agent_id: str = None) -> dict[str, Any]:
         """Get accuracy statistics for agents"""
         with sqlite3.connect(self.db_path) as conn:
-        cursor = conn.cursor()
+            cursor = conn.cursor()
 
-        if agent_id:
-            # Get specific agent stats
-            cursor.execute(
-                """
-                SELECT * FROM accuracy_summary
-                WHERE symbol = ? AND agent_id = ?
-            """,
-                (symbol, agent_id),
-            )
+            if agent_id:
+                # Get specific agent stats
+                cursor.execute(
+                    """
+                    SELECT * FROM accuracy_summary
+                    WHERE symbol = ? AND agent_id = ?
+                    """,
+                    (symbol, agent_id),
+                )
 
-            result = cursor.fetchone()
-            if result:
-                return {
-                    "agent_id": result[1],
-                    "total_predictions": result[2],
-                    "correct_predictions": result[3],
-                    "accuracy_percentage": result[4],
-                    "avg_confidence": result[5],
-                    "last_updated": result[6],
-                }
-            else:
-                return None
-        else:
-            # Get all agents stats
-            cursor.execute(
-                """
-                SELECT * FROM accuracy_summary
-                WHERE symbol = ?
-                ORDER BY accuracy_percentage DESC
-            """,
-                (symbol,),
-            )
-
-            results = cursor.fetchall()
-            agents = []
-
-            for result in results:
-                agents.append(
-                    {
+                result = cursor.fetchone()
+                if result:
+                    return {
                         "agent_id": result[1],
                         "total_predictions": result[2],
                         "correct_predictions": result[3],
@@ -281,49 +252,72 @@ class PredictionTracker:
                         "avg_confidence": result[5],
                         "last_updated": result[6],
                     }
+                else:
+                    return None
+            else:
+                # Get all agents stats
+                cursor.execute(
+                    """
+                    SELECT * FROM accuracy_summary
+                    WHERE symbol = ?
+                    ORDER BY accuracy_percentage DESC
+                    """,
+                    (symbol,),
                 )
 
-            return agents
+                results = cursor.fetchall()
+                agents = []
 
-        conn.close()
+                for result in results:
+                    agents.append(
+                        {
+                            "agent_id": result[1],
+                            "total_predictions": result[2],
+                            "correct_predictions": result[3],
+                            "accuracy_percentage": result[4],
+                            "avg_confidence": result[5],
+                            "last_updated": result[6],
+                        }
+                    )
+
+                return agents
 
     def get_recent_predictions(self, symbol: str = "TSLA", days: int = 7) -> list[dict[str, Any]]:
         """Get recent predictions"""
         with sqlite3.connect(self.db_path) as conn:
-        cursor = conn.cursor()
+            cursor = conn.cursor()
 
-        cutoff_date = (datetime.now() - timedelta(days=days)).isoformat()
+            cutoff_date = (datetime.now() - timedelta(days=days)).isoformat()
 
-        cursor.execute(
-            """
-            SELECT * FROM predictions
-            WHERE symbol = ? AND prediction_date >= ?
-            ORDER BY prediction_date DESC
-        """,
-            (symbol, cutoff_date),
-        )
-
-        results = cursor.fetchall()
-        predictions = []
-
-        for result in results:
-            predictions.append(
-                {
-                    "id": result[0],
-                    "symbol": result[1],
-                    "prediction_date": result[2],
-                    "agent_id": result[3],
-                    "action": result[4],
-                    "target_price": result[5],
-                    "confidence": result[6],
-                    "reasoning": result[7],
-                    "actual_price": result[8],
-                    "accuracy_score": result[9],
-                    "created_at": result[10],
-                }
+            cursor.execute(
+                """
+                SELECT * FROM predictions
+                WHERE symbol = ? AND prediction_date >= ?
+                ORDER BY prediction_date DESC
+                """,
+                (symbol, cutoff_date),
             )
 
-        conn.close()
+            results = cursor.fetchall()
+            predictions = []
+
+            for result in results:
+                predictions.append(
+                    {
+                        "id": result[0],
+                        "symbol": result[1],
+                        "prediction_date": result[2],
+                        "agent_id": result[3],
+                        "action": result[4],
+                        "target_price": result[5],
+                        "confidence": result[6],
+                        "reasoning": result[7],
+                        "actual_price": result[8],
+                        "accuracy_score": result[9],
+                        "created_at": result[10],
+                    }
+                )
+
         return predictions
 
     def display_accuracy_report(self, symbol: str = "TSLA"):

@@ -13,11 +13,12 @@ Features:
 - Interactive help system
 """
 
-# Import all components from refactored modules
-from .bot_core import (
+# DEPRECATED: Use bot_v2.py instead
+# This file maintained for backward compatibility only
+
+from .bot_models import (
     BotConfiguration,
     BotCore,
-    BotStatus,
     CommandContext,
     EmbedBuilder
 )

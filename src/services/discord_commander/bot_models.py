@@ -1,0 +1,122 @@
+"""
+Discord Commander Bot Models
+============================
+
+Core data models and classes for Discord Commander.
+Created to resolve circular import issues and missing classes.
+
+Author: Agent-5 (Coordinator)
+License: MIT
+"""
+
+import logging
+from dataclasses import dataclass, field
+from datetime import datetime
+from typing import Any, Dict, List, Optional
+
+logger = logging.getLogger(__name__)
+
+
+@dataclass
+class BotConfiguration:
+    """Bot configuration data"""
+    
+    token: Optional[str] = None
+    guild_id: Optional[int] = None
+    command_prefix: str = "!"
+    status_message: str = "Ready"
+    max_retries: int = 3
+    timeout_seconds: int = 30
+    log_level: str = "INFO"
+    enable_commands: bool = True
+    enable_events: bool = True
+
+
+@dataclass
+class CommandContext:
+    """Command execution context"""
+    
+    command_name: str
+    user_id: str
+    channel_id: str
+    guild_id: str
+    args: List[str] = field(default_factory=list)
+    kwargs: Dict[str, Any] = field(default_factory=dict)
+    timestamp: datetime = field(default_factory=datetime.now)
+
+
+class BotCore:
+    """Bot core functionality"""
+    
+    def __init__(self, config: Optional[BotConfiguration] = None):
+        """Initialize bot core"""
+        self.config = config or BotConfiguration()
+        self.is_ready = False
+        self.error_count = 0
+        logger.info("BotCore initialized")
+    
+    def start_bot(self) -> bool:
+        """Start bot"""
+        try:
+            self.is_ready = True
+            logger.info("Bot core started")
+            return True
+        except Exception as e:
+            logger.error(f"Error starting bot core: {e}")
+            return False
+    
+    def stop_bot(self) -> bool:
+        """Stop bot"""
+        try:
+            self.is_ready = False
+            logger.info("Bot core stopped")
+            return True
+        except Exception as e:
+            logger.error(f"Error stopping bot core: {e}")
+            return False
+    
+    def record_error(self) -> None:
+        """Record error"""
+        self.error_count += 1
+        logger.warning(f"Error recorded. Total errors: {self.error_count}")
+    
+    def get_status(self) -> Dict[str, Any]:
+        """Get bot status"""
+        return {
+            'is_ready': self.is_ready,
+            'error_count': self.error_count,
+            'config': self.config.__dict__ if self.config else {}
+        }
+
+
+class EmbedBuilder:
+    """Discord embed builder utility"""
+    
+    def __init__(self):
+        """Initialize embed builder"""
+        self.embeds = []
+    
+    def create_embed(self, title: str, description: str, color: int = 0x00ff00) -> Dict[str, Any]:
+        """Create Discord embed"""
+        embed = {
+            'title': title,
+            'description': description,
+            'color': color,
+            'timestamp': datetime.now().isoformat(),
+            'fields': []
+        }
+        return embed
+    
+    def add_field(self, embed: Dict, name: str, value: str, inline: bool = False) -> Dict:
+        """Add field to embed"""
+        embed['fields'].append({
+            'name': name,
+            'value': value,
+            'inline': inline
+        })
+        return embed
+    
+    def build(self, embed: Dict) -> Dict:
+        """Build final embed"""
+        return embed
+

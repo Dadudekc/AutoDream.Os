@@ -14,7 +14,7 @@ try:
 except ImportError:
     DISCORD_AVAILABLE = False
 
-from .bot_core import BotCore, CommandContext, EmbedBuilder
+from .bot_models import BotCore, CommandContext, EmbedBuilder
 
 
 class CommandManager:

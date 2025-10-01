@@ -32,7 +32,7 @@ except ImportError:
 project_root = Path(__file__).parent.parent.parent.parent
 sys.path.insert(0, str(project_root))
 
-from .bot_core import BotConfiguration, BotCore
+from .bot_models import BotConfiguration, BotCore
 from .bot_commands import CommandManager
 
 

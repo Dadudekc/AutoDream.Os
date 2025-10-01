@@ -16,7 +16,6 @@ except ImportError:
 
 from .bot_config import BotConfig
 from .bot_events import DiscordBotEvents
-from .bot_commands import BotCommands
 
 
 class DiscordCommanderBot:
@@ -26,13 +25,18 @@ class DiscordCommanderBot:
         """Initialize bot"""
         self.config = BotConfig()
         self.events = DiscordBotEvents(self)
-        self.commands = BotCommands()
+        self.commands = None  # Lazy load to avoid circular import
         self.bot = None
         
     async def initialize(self):
         """Initialize bot components"""
         if not DISCORD_AVAILABLE:
             raise RuntimeError("Discord.py not available")
+        
+        # Lazy load commands to avoid circular import
+        if self.commands is None:
+            from .bot_commands import BotCommands
+            self.commands = BotCommands()
         
         intents = discord.Intents.default()
         intents.message_content = True

@@ -7,6 +7,7 @@ Centralized configuration for Discord bot to avoid environment parsing issues.
 """
 
 import sys
+from typing import Any
 from discord_bot_config_core import DiscordBotConfigCore
 
 

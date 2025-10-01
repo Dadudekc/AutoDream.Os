@@ -17,7 +17,7 @@ sys.path.insert(0, str(project_root))
 from src.core.resource_management.thread_manager import get_thread_manager
 
 try:
-    from src.services.discord_commander.bot import DiscordCommanderBot
+    from src.services.discord_commander.bot_v2 import DiscordCommanderBotV2 as DiscordCommanderBot
     from src.services.discord_commander.web_controller import (
         DiscordCommanderController,
         create_default_templates,

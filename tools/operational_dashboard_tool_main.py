@@ -233,33 +233,33 @@ class OperationalDashboard:
 
         <div class="section">
             <h2>Agent Performance</h2>
-            {"".join([
-                f"""
+            {''.join([
+                f'''
                 <div style="margin: 10px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px;">
-                    <h3>{agent['agent_id']}</h3>
-                    <p>Tasks Completed: {agent['tasks_completed']} | Failed: {agent['tasks_failed']}</p>
-                    <p>Quality Score: {agent['quality_score']:.1f} | Cycle Time: {agent['average_cycle_time']:.1f}s</p>
-                    <p>Last Active: {agent['last_active']}</p>
-                    <span class="agent-status status-{agent['current_status']}">{agent['current_status'].upper()}</span>
+                    <h3>{agent["agent_id"]}</h3>
+                    <p>Tasks Completed: {agent["tasks_completed"]} | Failed: {agent["tasks_failed"]}</p>
+                    <p>Quality Score: {agent["quality_score"]:.1f} | Cycle Time: {agent["average_cycle_time"]:.1f}s</p>
+                    <p>Last Active: {agent["last_active"]}</p>
+                    <span class="agent-status status-{agent["current_status"]}">{agent["current_status"].upper()}</span>
                 </div>
-                """
+                '''
                 for agent in report['agent_performance']
             ])}
         </div>
 
         <div class="section">
             <h2>Project Progress</h2>
-            {"".join([
-                f"""
+            {''.join([
+                f'''
                 <div style="margin: 10px 0;">
-                    <h3>{project['project_name']}</h3>
+                    <h3>{project["project_name"]}</h3>
                     <div class="progress-bar">
-                        <div class="progress-fill" style="width: {project['completion_percentage']:.1f}%"></div>
+                        <div class="progress-fill" style="width: {project["completion_percentage"]:.1f}%"></div>
                     </div>
-                    <p>{project['tasks_completed']}/{project['tasks_total']} tasks completed ({project['completion_percentage']:.1f}%)</p>
-                    <p>Status: {project['status']} | Last Update: {project['last_update']}</p>
+                    <p>{project["tasks_completed"]}/{project["tasks_total"]} tasks completed ({project["completion_percentage"]:.1f}%)</p>
+                    <p>Status: {project["status"]} | Last Update: {project["last_update"]}</p>
                 </div>
-                """
+                '''
                 for project in report['project_progress']
             ])}
         </div>
@@ -267,19 +267,19 @@ class OperationalDashboard:
         <div class="section">
             <h2>Recommendations</h2>
             <ul>
-                {"".join([f"<li>{rec}</li>" for rec in report['recommendations']])}
+                {''.join([f"<li>{rec}</li>" for rec in report['recommendations']])}
             </ul>
         </div>
 
         <div class="section">
             <h2>Alerts</h2>
-            {"".join([
-                f"""
-                <div class="alert alert-{alert['level']}">
-                    <strong>{alert['level'].upper()}</strong>: {alert['message']}
-                    <br><small>Agent: {alert['agent_id'] or 'N/A'} | Project: {alert['project_name'] or 'N/A'} | {alert['timestamp']}</small>
+            {''.join([
+                f'''
+                <div class="alert alert-{alert["level"]}">
+                    <strong>{alert["level"].upper()}</strong>: {alert["message"]}
+                    <br><small>Agent: {alert["agent_id"] or "N/A"} | Project: {alert["project_name"] or "N/A"} | {alert["timestamp"]}</small>
                 </div>
-                """
+                '''
                 for alert in report['alerts']
             ])}
         </div>

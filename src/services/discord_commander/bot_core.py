@@ -15,7 +15,7 @@ except ImportError:
     DISCORD_AVAILABLE = False
 
 from .bot_config import BotConfig
-from .bot_events import BotEvents
+from .bot_events import DiscordBotEvents
 from .bot_commands import BotCommands
 
 
@@ -25,7 +25,7 @@ class DiscordCommanderBot:
     def __init__(self):
         """Initialize bot"""
         self.config = BotConfig()
-        self.events = BotEvents()
+        self.events = DiscordBotEvents(self)
         self.commands = BotCommands()
         self.bot = None
         

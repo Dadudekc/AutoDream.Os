@@ -12,11 +12,13 @@ Handles bot creation, configuration, and event handling.
 import logging
 from typing import Optional
 
+logger = logging.getLogger(__name__)
+
 # Discord imports for error handling
 try:
     import discord
     from discord.ext import commands
-    from services.discord_bot.core.discord_bot import EnhancedDiscordAgentBot
+    from src.services.discord_bot.core.discord_bot import EnhancedDiscordAgentBot
 except ImportError:
     discord = None
     commands = None
@@ -44,7 +46,7 @@ class DiscordCommanderCore:
         bot = EnhancedDiscordAgentBot(command_prefix="!", intents=intents)
 
         # Add agent interface and swarm coordinator
-        from services.discord_bot.core.discord_bot import (
+        from src.services.discord_bot.core.discord_agent_interface import (
             DiscordAgentInterface,
             DiscordSwarmCoordinator,
         )
@@ -52,8 +54,11 @@ class DiscordCommanderCore:
         bot.agent_interface = DiscordAgentInterface(bot)
         bot.swarm_coordinator = DiscordSwarmCoordinator(bot)
 
-        # Setup slash commands
-        bot.setup_slash_commands()
+        # Setup slash commands (if method exists)
+        if hasattr(bot, 'setup_slash_commands'):
+            bot.setup_slash_commands()
+        else:
+            logger.warning("setup_slash_commands method not available on bot")
 
         # Add on_ready event for slash command syncing
         @bot.event

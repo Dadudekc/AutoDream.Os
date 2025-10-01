@@ -7,12 +7,14 @@ import asyncio
 import logging
 import os
 import sys
-import threading
 from pathlib import Path
 
 # Add project root to Python path
 project_root = Path(__file__).parent
 sys.path.insert(0, str(project_root))
+
+# Import ThreadManager for safe threading
+from src.core.resource_management.thread_manager import get_thread_manager
 
 try:
     from src.services.discord_commander.bot import DiscordCommanderBot
@@ -40,6 +42,7 @@ class DiscordCommanderLauncher:
         self.bot = None
         self.controller = None
         self.running = False
+        self.thread_manager = get_thread_manager()
 
     def validate_environment(self) -> bool:
         """Validate the environment and provide guidance."""
@@ -121,12 +124,13 @@ class DiscordCommanderLauncher:
             if await self.bot.initialize():
                 print("✅ Discord bot initialized successfully")
 
-                # Start bot in a separate thread
+                # Start bot in a separate thread using ThreadManager
                 def run_bot():
                     asyncio.run(self.bot.start())
 
-                bot_thread = threading.Thread(target=run_bot, daemon=True, daemon=True, daemon=True)
-                bot_thread.start()
+                bot_thread = self.thread_manager.start_thread(
+                    target=run_bot, name="discord_bot", daemon=True
+                )
 
                 # Give the bot a moment to connect
                 await asyncio.sleep(3)
@@ -154,12 +158,13 @@ class DiscordCommanderLauncher:
             if self.bot:
                 self.controller.set_bot(self.bot)
 
-            # Start controller in a separate thread
+            # Start controller in a separate thread using ThreadManager
             def run_controller():
                 self.controller.run()
 
-            controller_thread = threading.Thread(target=run_controller, daemon=True, daemon=True, daemon=True)
-            controller_thread.start()
+            controller_thread = self.thread_manager.start_thread(
+                target=run_controller, name="web_controller", daemon=True
+            )
 
             print("✅ Web controller started on http://localhost:8080")
             return True
@@ -266,4 +271,7 @@ class DiscordCommanderLauncher:
         if self.bot:
             asyncio.run(self.bot.stop())
 
+        # Properly stop all threads using ThreadManager
+        stopped = self.thread_manager.stop_all(timeout=5.0)
+        print(f"✅ Stopped {stopped} threads")
         print("✅ Discord Commander System stopped")

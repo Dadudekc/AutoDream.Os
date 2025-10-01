@@ -6,9 +6,11 @@ Core logic for devlog analytics system startup script.
 import os
 import subprocess
 import sys
-import threading
 import time
 from pathlib import Path
+
+# Import ThreadManager for safe threading
+from src.core.resource_management.thread_manager import get_thread_manager
 
 
 class Colors:
@@ -28,6 +30,7 @@ class DevlogAnalyticsSystem:
         """Initialize the system."""
         self.script_dir = Path(__file__).parent
         self.services = []
+        self.thread_manager = get_thread_manager()
     
     def print_header(self):
         """Print startup header."""
@@ -36,7 +39,7 @@ class DevlogAnalyticsSystem:
         print()
     
     def run_service(self, name: str, command: list, port: int, delay: float = 0):
-        """Run a service in a separate thread."""
+        """Run a service in a separate thread using ThreadManager."""
         def _run():
             if delay > 0:
                 print(f"{Colors.YELLOW}⏳ Starting {name} in {delay}s...{Colors.ENDC}")
@@ -50,8 +53,8 @@ class DevlogAnalyticsSystem:
             except Exception as e:
                 print(f"{Colors.RED}❌ Error starting {name}: {e}{Colors.ENDC}")
 
-        thread = threading.Thread(target=_run, daemon=True, daemon=True, daemon=True)
-        thread.start()
+        # Use ThreadManager for proper thread lifecycle management
+        thread = self.thread_manager.start_thread(target=_run, name=name, daemon=True)
         return thread
     
     def check_requirements(self):
@@ -176,4 +179,6 @@ class DevlogAnalyticsSystem:
         except KeyboardInterrupt:
             print()
             print(f"{Colors.YELLOW}🛑 Shutting down services...{Colors.ENDC}")
-            # Services will stop when main thread exits (daemon threads)
+            # Properly stop all threads using ThreadManager
+            stopped = self.thread_manager.stop_all(timeout=5.0)
+            print(f"{Colors.GREEN}✅ Stopped {stopped} service threads{Colors.ENDC}")

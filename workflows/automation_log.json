@@ -48,5 +48,65 @@
       "assigned_by": "Agent-4",
       "status": "success"
     }
+  },
+  {
+    "type": "message_forwarding",
+    "timestamp": "2025-09-30T12:13:57.371824",
+    "data": {
+      "message_id": "MSG_20250930_121357",
+      "from_agent": "Agent-4",
+      "to_agent": "Agent-5",
+      "status": "success"
+    }
+  },
+  {
+    "type": "message_forwarding",
+    "timestamp": "2025-09-30T12:16:04.177937",
+    "data": {
+      "message_id": "MSG_20250930_121602",
+      "from_agent": "Agent-4",
+      "to_agent": "Agent-5",
+      "status": "success"
+    }
+  },
+  {
+    "type": "message_forwarding",
+    "timestamp": "2025-09-30T12:21:48.850178",
+    "data": {
+      "message_id": "MSG_20250930_122148",
+      "from_agent": "Agent-4",
+      "to_agent": "Agent-5",
+      "status": "success"
+    }
+  },
+  {
+    "type": "message_forwarding",
+    "timestamp": "2025-09-30T12:22:14.033554",
+    "data": {
+      "message_id": "MSG_20250930_122214",
+      "from_agent": "Agent-4",
+      "to_agent": "Agent-5",
+      "status": "success"
+    }
+  },
+  {
+    "type": "message_forwarding",
+    "timestamp": "2025-09-30T12:23:05.020983",
+    "data": {
+      "message_id": "MSG_20250930_122305",
+      "from_agent": "Agent-4",
+      "to_agent": "Agent-5",
+      "status": "success"
+    }
+  },
+  {
+    "type": "message_forwarding",
+    "timestamp": "2025-09-30T12:23:22.932309",
+    "data": {
+      "message_id": "MSG_20250930_122322",
+      "from_agent": "Agent-4",
+      "to_agent": "Agent-5",
+      "status": "success"
+    }
   }
 ]

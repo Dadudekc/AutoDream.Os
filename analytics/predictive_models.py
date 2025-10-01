@@ -102,3 +102,4 @@ class ResourceUtilization:
     average_utilization: float
     utilization_trend: str
     efficiency_score: float
+

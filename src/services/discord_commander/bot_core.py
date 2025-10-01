@@ -1,78 +1,92 @@
 """
-Discord Commander Bot Core
-V2 Compliant main bot class
+Discord Commander Bot Core - V2 Compliant
+========================================
+
+Core bot functionality for Discord Commander.
+Manages bot instance, configuration, and agent integration.
+
+Author: Agent-6 (SSOT_MANAGER)
+License: MIT
+V2 Compliance: ≤400 lines, ≤5 classes, ≤10 functions
 """
 
-import asyncio
 import logging
-from typing import Any
+import os
 
 try:
     import discord
     from discord.ext import commands
+
     DISCORD_AVAILABLE = True
 except ImportError:
     DISCORD_AVAILABLE = False
+    discord = None
+    commands = None
 
-from .bot_config import BotConfig
-from .bot_events import DiscordBotEvents
+logger = logging.getLogger(__name__)
 
 
-class DiscordCommanderBot:
-    """Main Discord Commander Bot - V2 Compliant"""
-    
-    def __init__(self):
-        """Initialize bot"""
-        self.config = BotConfig()
-        self.events = DiscordBotEvents(self)
-        self.commands = None  # Lazy load to avoid circular import
+class DiscordCommanderBotCore:
+    """Core Discord Commander bot functionality"""
+
+    def __init__(self, token: str = None, guild_id: int = None):
+        """Initialize Discord Commander bot core"""
+        self.token = token or os.getenv("DISCORD_BOT_TOKEN")
+        self.guild_id = guild_id or os.getenv("DISCORD_GUILD_ID")
         self.bot = None
-        
-    async def initialize(self):
-        """Initialize bot components"""
+        self.agent_interface = None
+        self.swarm_coordinator = None
+
         if not DISCORD_AVAILABLE:
-            raise RuntimeError("Discord.py not available")
-        
-        # Lazy load commands to avoid circular import
-        if self.commands is None:
-            from .bot_commands import BotCommands
-            self.commands = BotCommands()
-        
+            logger.error("Discord.py not available")
+            raise ImportError("Discord.py not installed")
+
+        self._create_bot()
+
+    def _create_bot(self):
+        """Create Discord bot instance"""
         intents = discord.Intents.default()
         intents.message_content = True
+        intents.members = True
         intents.guilds = True
-        
-        self.bot = commands.Bot(
-            command_prefix=self.config.get_prefix(),
-            intents=intents,
-            help_command=None
-        )
-        
-        # Setup events and commands
-        await self.events.setup(self.bot)
-        await self.commands.setup(self.bot)
-        
-    async def start_bot(self):
-        """Start the bot"""
-        if not self.bot:
-            await self.initialize()
-        
-        token = self.config.get_token()
-        if not token:
-            raise ValueError("Discord token not found")
-        
-        await self.bot.start(token)
-    
-    async def close(self):
-        """Close bot connections"""
+
+        self.bot = commands.Bot(command_prefix="!", intents=intents)
+
+        # Import and set up agent interface
+        try:
+            from src.services.discord_bot.core.discord_agent_interface import (
+                DiscordAgentInterface,
+                DiscordSwarmCoordinator,
+            )
+
+            self.agent_interface = DiscordAgentInterface(self.bot)
+            self.swarm_coordinator = DiscordSwarmCoordinator(self.bot)
+            logger.info("Agent interface and swarm coordinator initialized")
+        except ImportError as e:
+            logger.warning(f"Could not import agent interface: {e}")
+
+    async def start(self):
+        """Start the Discord bot"""
+        if not self.token:
+            raise ValueError("Discord bot token not configured")
+
+        logger.info("Starting Discord Commander bot...")
+        await self.bot.start(self.token)
+
+    async def stop(self):
+        """Stop the Discord bot"""
         if self.bot:
             await self.bot.close()
-    
-    def get_status(self) -> dict[str, Any]:
-        """Get bot status"""
-        return {
-            "status": "running" if self.bot else "stopped",
-            "guilds": len(self.bot.guilds) if self.bot else 0,
-            "users": len(self.bot.users) if self.bot else 0,
-            "commands": len(self.bot.commands) if self.bot else 0
-        }
+            logger.info("Discord Commander bot stopped")
+
+    def get_bot(self):
+        """Get the bot instance"""
+        return self.bot
+
+    def get_agent_interface(self):
+        """Get the agent interface"""
+        return self.agent_interface
+
+    def get_swarm_coordinator(self):
+        """Get the swarm coordinator"""
+        return self.swarm_coordinator

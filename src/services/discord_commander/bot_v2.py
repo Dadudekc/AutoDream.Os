@@ -18,15 +18,24 @@ from typing import Any
 
 from .bot_commands import DiscordBotCommands
 from .bot_core import DiscordCommanderBotCore
-from .bot_events import DiscordBotEvents
 
-# Import agent control commands
+# Import bot events if available
+try:
+    from .bot_events import DiscordBotEvents
+
+    BOT_EVENTS_AVAILABLE = True
+except ImportError:
+    BOT_EVENTS_AVAILABLE = False
+    DiscordBotEvents = None
+
+# Import agent control commands if available
 try:
     from .commands.agent_control import AgentControlCommands
+
     AGENT_COMMANDS_AVAILABLE = True
 except ImportError:
     AGENT_COMMANDS_AVAILABLE = False
-    logger.warning("Agent control commands not available")
+    AgentControlCommands = None
 
 logger = logging.getLogger(__name__)
 
@@ -38,10 +47,16 @@ class DiscordCommanderBotV2:
         """Initialize V2 Discord Commander bot."""
         self.core = DiscordCommanderBotCore(token, guild_id)
         self.commands = DiscordBotCommands(self.core)
-        self.events = DiscordBotEvents(self.core)
-        
+
+        # Initialize bot events if available
+        if BOT_EVENTS_AVAILABLE and DiscordBotEvents:
+            self.events = DiscordBotEvents(self.core)
+        else:
+            self.events = None
+            logger.warning("Bot events not available")
+
         # Initialize agent control commands if available
-        if AGENT_COMMANDS_AVAILABLE:
+        if AGENT_COMMANDS_AVAILABLE and AgentControlCommands:
             self.agent_commands = AgentControlCommands(self.core.bot, None)
             logger.info("Agent control commands integrated")
         else:
@@ -54,12 +69,12 @@ class DiscordCommanderBotV2:
         """Start the bot."""
         try:
             self.core.start_bot()
-            
+
             # Register agent control commands if available
-            if self.agent_commands and hasattr(self.core, 'bot') and hasattr(self.core.bot, 'tree'):
+            if self.agent_commands and hasattr(self.core, "bot") and hasattr(self.core.bot, "tree"):
                 self.agent_commands.register_commands(self.core.bot.tree)
                 logger.info("Agent control commands registered with command tree")
-            
+
             await self.events.trigger_event("on_ready")
             logger.info("Discord Commander Bot V2 started successfully")
             return True

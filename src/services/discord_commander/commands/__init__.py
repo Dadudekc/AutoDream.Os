@@ -10,8 +10,10 @@ License: MIT
 
 from .agent_control import AgentControlCommands
 
-# Alias for backward compatibility
+# Aliases for backward compatibility
 AgentCommands = AgentControlCommands
+CommandManager = AgentControlCommands
+SwarmCommands = AgentControlCommands
 
-__all__ = ['AgentControlCommands', 'AgentCommands']
+__all__ = ['AgentControlCommands', 'AgentCommands', 'CommandManager', 'SwarmCommands']
 

@@ -1,0 +1,171 @@
+# Memory Policy Configuration - V2_SWARM
+# =====================================
+# Policy-driven memory budgets and leak detection configuration
+# 
+# Author: Agent-5 (Coordinator)
+# License: MIT
+
+# Memory Budget Policies
+memory_budgets:
+  # Global system budget
+  global:
+    max_memory_mb: 512
+    warning_threshold_percent: 80
+    critical_threshold_percent: 95
+    
+  # Per-service budgets
+  services:
+    messaging:
+      max_memory_mb: 100
+      warning_threshold_percent: 75
+      critical_threshold_percent: 90
+      
+    autonomous_workflow:
+      max_memory_mb: 150
+      warning_threshold_percent: 75
+      critical_threshold_percent: 90
+      
+    vector_database:
+      max_memory_mb: 200
+      warning_threshold_percent: 80
+      critical_threshold_percent: 95
+      
+    agent_workspace:
+      max_memory_mb: 50
+      warning_threshold_percent: 70
+      critical_threshold_percent: 85
+
+# Memory Leak Detection Policies
+leak_detection:
+  # Detection settings
+  enabled: true
+  check_interval_seconds: 300  # 5 minutes
+  snapshot_retention_count: 10
+  
+  # Leak thresholds
+  thresholds:
+    memory_growth_mb: 10  # Alert if growth exceeds 10MB
+    memory_growth_percent: 20  # Alert if growth exceeds 20%
+    object_count_growth: 1000  # Alert if object count grows by 1000+
+    
+  # Detection sensitivity
+  sensitivity: medium  # low, medium, high
+  
+  # Auto-cleanup settings
+  auto_cleanup:
+    enabled: true
+    threshold_mb: 50  # Trigger cleanup at 50MB growth
+    methods:
+      - garbage_collection
+      - resource_cleanup
+      - cache_flush
+
+# Memory Monitoring Configuration
+monitoring:
+  # Tracemalloc integration
+  tracemalloc:
+    enabled: true
+    trace_limit: 25  # Number of stack frames to capture
+    
+  # Snapshot settings
+  snapshots:
+    enabled: true
+    interval_seconds: 60
+    retention_count: 100
+    
+  # Metrics collection
+  metrics:
+    - memory_usage
+    - object_counts
+    - allocation_rates
+    - deallocation_rates
+    - garbage_collection_stats
+
+# Alert Configuration
+alerts:
+  # Alert channels
+  channels:
+    - logging
+    - messaging  # A2A messaging system
+    
+  # Alert levels
+  levels:
+    warning:
+      enabled: true
+      cooldown_seconds: 300
+      
+    critical:
+      enabled: true
+      cooldown_seconds: 60
+      
+    emergency:
+      enabled: true
+      cooldown_seconds: 0
+      
+  # Alert recipients
+  recipients:
+    warning:
+      - Agent-5  # Coordinator
+      
+    critical:
+      - Agent-4  # Captain
+      - Agent-5  # Coordinator
+      
+    emergency:
+      - Agent-4  # Captain
+      - Agent-5  # Coordinator
+      - Agent-8  # Integration
+
+# Ledger Configuration
+ledger:
+  # Ledger persistence
+  enabled: true
+  storage_path: "logs/memory_ledger.json"
+  
+  # Ledger retention
+  retention:
+    max_entries: 10000
+    max_age_days: 30
+    
+  # Ledger metrics
+  metrics:
+    - timestamp
+    - service_name
+    - memory_usage_mb
+    - object_count
+    - allocation_count
+    - deallocation_count
+    - gc_collections
+
+# Policy Enforcement
+enforcement:
+  # Hard limits
+  hard_limits:
+    enabled: true
+    action: alert_and_cleanup  # alert_only, alert_and_cleanup, alert_and_restart
+    
+  # Soft limits
+  soft_limits:
+    enabled: true
+    action: alert_only
+    
+  # Grace period
+  grace_period_seconds: 60
+
+# System Integration
+integration:
+  # Messaging service
+  messaging_service:
+    enabled: true
+    use_cue_system: true
+    
+  # Quality gates
+  quality_gates:
+    enabled: true
+    enforce_v2_compliance: true
+    
+  # Agent coordination
+  agent_coordination:
+    enabled: true
+    auto_notify: true
+

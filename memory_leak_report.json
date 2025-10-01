@@ -2,24 +2,24 @@
   "timestamp": "D:\\Agent_Cellphone_V2_Repository",
   "project_root": ".",
   "summary": {
-    "total_files_analyzed": 884,
-    "files_with_issues": 674,
-    "total_issues": 3757,
+    "total_files_analyzed": 890,
+    "files_with_issues": 676,
+    "total_issues": 3751,
     "issues_by_severity": {
-      "HIGH": 66,
-      "MEDIUM": 2911,
-      "LOW": 780
+      "HIGH": 77,
+      "MEDIUM": 2891,
+      "LOW": 783
     },
     "issues_by_type": {
-      "global_variables": 702,
-      "event_handlers": 2717,
-      "circular_references": 192,
-      "large_data_structures": 78,
-      "threading_thread": 13,
-      "resource_creation": 19,
-      "sqlite_without_close": 30,
-      "queue_without_limit": 2,
-      "file_without_context": 4
+      "global_variables": 704,
+      "event_handlers": 2701,
+      "circular_references": 188,
+      "large_data_structures": 79,
+      "threading_thread": 21,
+      "resource_creation": 22,
+      "sqlite_without_close": 32,
+      "deque_without_limit": 2,
+      "file_without_context": 2
     },
     "top_files_with_issues": [
       {
@@ -29,6 +29,10 @@
       {
         "file": "src\\discord\\memory_aware_responses.py",
         "issue_count": 39
+      },
+      {
+        "file": "analytics\\predictive_core.py",
+        "issue_count": 31
       },
       {
         "file": "static_documentation_deleter_core.py",
@@ -47,10 +51,6 @@
         "issue_count": 23
       },
       {
-        "file": "analytics\\predictive_engine.py",
-        "issue_count": 22
-      },
-      {
         "file": "src\\core\\database\\monitoring\\health_checker.py",
         "issue_count": 22
       },
@@ -59,16 +59,16 @@
         "issue_count": 22
       },
       {
-        "file": "src\\services\\thea\\thea_monitoring_system.py",
+        "file": "src\\services\\multichat_session_persistence.py",
         "issue_count": 22
       }
     ],
     "recommendations": [
-      "🚨 URGENT: 66 HIGH severity issues require immediate attention",
-      "⚠️ WARNING: 2911 MEDIUM severity issues should be addressed",
-      "🧵 Thread Management: 13 threading issues detected - ensure proper cleanup",
-      "🗄️ Database: 30 SQLite connection issues - use context managers",
-      "📁 File Handling: 4 file handling issues - use context managers"
+      "🚨 URGENT: 77 HIGH severity issues require immediate attention",
+      "⚠️ WARNING: 2891 MEDIUM severity issues should be addressed",
+      "🧵 Thread Management: 21 threading issues detected - ensure proper cleanup",
+      "🗄️ Database: 32 SQLite connection issues - use context managers",
+      "📁 File Handling: 2 file handling issues - use context managers"
     ]
   },
   "detailed_issues": [
@@ -466,69 +466,6 @@
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
       "code": "frontend_files = list(frontend_dir.rglob(\"*.md\"))",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "update_captain_cycle_based.py",
-      "line": 17,
-      "type": "global_variables",
-      "severity": "LOW",
-      "description": "Global variable that may accumulate data",
-      "code": "project_root = Path(__file__).parent",
-      "recommendation": "Consider using local variables or cleanup mechanisms"
-    },
-    {
-      "file": "update_captain_cycle_based.py",
-      "line": 34,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "handbook_content = \"\"\"# Captain's Handbook - Agent Cellphone V2 (Cycle-Based Operations)",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "update_captain_cycle_based.py",
-      "line": 220,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "cheatsheet_content = \"\"\"# Captain's Cheatsheet - Quick Reference (Cycle-Based Operations)",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "update_captain_cycle_based.py",
-      "line": 241,
-      "type": "global_variables",
-      "severity": "LOW",
-      "description": "Global variable that may accumulate data",
-      "code": "retriever = Retriever()",
-      "recommendation": "Consider using local variables or cleanup mechanisms"
-    },
-    {
-      "file": "update_captain_cycle_based.py",
-      "line": 242,
-      "type": "global_variables",
-      "severity": "LOW",
-      "description": "Global variable that may accumulate data",
-      "code": "patterns = retriever.how_do_agents_do(\"V2 compliance refactoring across cycles\")",
-      "recommendation": "Consider using local variables or cleanup mechanisms"
-    },
-    {
-      "file": "update_captain_cycle_based.py",
-      "line": 411,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "execution_pattern=\"cycle_based_quick_reference\",",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "update_captain_cycle_based.py",
-      "line": 489,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "validation_success = updater.validate_cycle_based_integration()",
       "recommendation": "Ensure event handlers are properly removed"
     },
     {
@@ -1815,7 +1752,7 @@
       "type": "threading_thread",
       "severity": "HIGH",
       "description": "Thread creation without proper cleanup",
-      "code": "thread = threading.Thread(target=_run, daemon=True)",
+      "code": "thread = threading.Thread(target=_run, daemon=True, daemon=True, daemon=True)",
       "recommendation": "Ensure threads are properly joined or use daemon threads"
     },
     {
@@ -1860,7 +1797,7 @@
       "type": "threading_thread",
       "severity": "HIGH",
       "description": "Thread creation without proper cleanup",
-      "code": "bot_thread = threading.Thread(target=run_bot, daemon=True)",
+      "code": "bot_thread = threading.Thread(target=run_bot, daemon=True, daemon=True, daemon=True)",
       "recommendation": "Ensure threads are properly joined or use daemon threads"
     },
     {
@@ -1878,7 +1815,7 @@
       "type": "threading_thread",
       "severity": "HIGH",
       "description": "Thread creation without proper cleanup",
-      "code": "controller_thread = threading.Thread(target=run_controller, daemon=True)",
+      "code": "controller_thread = threading.Thread(target=run_controller, daemon=True, daemon=True, daemon=True)",
       "recommendation": "Ensure threads are properly joined or use daemon threads"
     },
     {
@@ -1887,7 +1824,7 @@
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
-      "code": "controller_thread = threading.Thread(target=run_controller, daemon=True)",
+      "code": "controller_thread = threading.Thread(target=run_controller, daemon=True, daemon=True, daemon=True)",
       "recommendation": "Ensure event handlers are properly removed"
     },
     {
@@ -2161,6 +2098,33 @@
       "recommendation": "Consider using local variables or cleanup mechanisms"
     },
     {
+      "file": "quality_coordination_response.py",
+      "line": 18,
+      "type": "global_variables",
+      "severity": "LOW",
+      "description": "Global variable that may accumulate data",
+      "code": "logger = logging.getLogger(__name__)",
+      "recommendation": "Consider using local variables or cleanup mechanisms"
+    },
+    {
+      "file": "quality_coordination_response.py",
+      "line": 219,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "response = protocol.create_coordination_response()",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "quality_coordination_response.py",
+      "line": 247,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "response_path = Path(\"agent_workspaces/Agent-6/coordination_response.json\")",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
       "file": "agent_workspaces\\database_specialist\\migration_executor.py",
       "line": 23,
       "type": "global_variables",
@@ -2301,17 +2265,8 @@
       "type": "sqlite_without_close",
       "severity": "HIGH",
       "description": "SQLite connection without explicit close",
-      "code": "self.connection = sqlite3.connect(str(self.db_path))",
+      "code": "self.with sqlite3.connect(str(self.db_path) as connection:)",
       "recommendation": "Use context manager or ensure connection.close()"
-    },
-    {
-      "file": "agent_workspaces\\database_specialist\\migration_core.py",
-      "line": 41,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "self.connection = sqlite3.connect(str(self.db_path))",
-      "recommendation": "Ensure event handlers are properly removed"
     },
     {
       "file": "agent_workspaces\\database_specialist\\migration_core.py",
@@ -2328,17 +2283,8 @@
       "type": "sqlite_without_close",
       "severity": "HIGH",
       "description": "SQLite connection without explicit close",
-      "code": "backup_conn = sqlite3.connect(str(backup_path))",
+      "code": "with sqlite3.connect(str(backup_path) as backup_conn:)",
       "recommendation": "Use context manager or ensure connection.close()"
-    },
-    {
-      "file": "agent_workspaces\\database_specialist\\migration_core.py",
-      "line": 67,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "backup_conn = sqlite3.connect(str(backup_path))",
-      "recommendation": "Ensure event handlers are properly removed"
     },
     {
       "file": "agent_workspaces\\database_specialist\\migration_core.py",
@@ -2400,17 +2346,8 @@
       "type": "sqlite_without_close",
       "severity": "HIGH",
       "description": "SQLite connection without explicit close",
-      "code": "self.connection = sqlite3.connect(str(self.db_path))",
+      "code": "self.with sqlite3.connect(str(self.db_path) as connection:)",
       "recommendation": "Use context manager or ensure connection.close()"
-    },
-    {
-      "file": "agent_workspaces\\database_specialist\\query_optimization_system.py",
-      "line": 46,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "self.connection = sqlite3.connect(str(self.db_path))",
-      "recommendation": "Ensure event handlers are properly removed"
     },
     {
       "file": "agent_workspaces\\database_specialist\\query_optimization_system.py",
@@ -2769,17 +2706,8 @@
       "type": "sqlite_without_close",
       "severity": "HIGH",
       "description": "SQLite connection without explicit close",
-      "code": "self.connection = sqlite3.connect(str(self.db_path))",
+      "code": "self.with sqlite3.connect(str(self.db_path) as connection:)",
       "recommendation": "Use context manager or ensure connection.close()"
-    },
-    {
-      "file": "agent_workspaces\\Agent-3\\migration_core.py",
-      "line": 41,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "self.connection = sqlite3.connect(str(self.db_path))",
-      "recommendation": "Ensure event handlers are properly removed"
     },
     {
       "file": "agent_workspaces\\Agent-3\\migration_core.py",
@@ -2796,17 +2724,8 @@
       "type": "sqlite_without_close",
       "severity": "HIGH",
       "description": "SQLite connection without explicit close",
-      "code": "backup_conn = sqlite3.connect(str(backup_path))",
+      "code": "with sqlite3.connect(str(backup_path) as backup_conn:)",
       "recommendation": "Use context manager or ensure connection.close()"
-    },
-    {
-      "file": "agent_workspaces\\Agent-3\\migration_core.py",
-      "line": 67,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "backup_conn = sqlite3.connect(str(backup_path))",
-      "recommendation": "Ensure event handlers are properly removed"
     },
     {
       "file": "agent_workspaces\\Agent-3\\migration_core.py",
@@ -3021,17 +2940,8 @@
       "type": "sqlite_without_close",
       "severity": "HIGH",
       "description": "SQLite connection without explicit close",
-      "code": "self.connection = sqlite3.connect(str(self.db_path))",
+      "code": "self.with sqlite3.connect(str(self.db_path) as connection:)",
       "recommendation": "Use context manager or ensure connection.close()"
-    },
-    {
-      "file": "agent_workspaces\\Agent-3\\query_optimization_core.py",
-      "line": 42,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "self.connection = sqlite3.connect(str(self.db_path))",
-      "recommendation": "Ensure event handlers are properly removed"
     },
     {
       "file": "agent_workspaces\\Agent-3\\query_optimization_core.py",
@@ -4222,195 +4132,6 @@
       "recommendation": "Ensure event handlers are properly removed"
     },
     {
-      "file": "tools\\captain_progress_tracker.py",
-      "line": 23,
-      "type": "global_variables",
-      "severity": "LOW",
-      "description": "Global variable that may accumulate data",
-      "code": "project_root = Path(__file__).parent.parent",
-      "recommendation": "Consider using local variables or cleanup mechanisms"
-    },
-    {
-      "file": "tools\\captain_progress_tracker.py",
-      "line": 200,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "contract_data = self.progress_data[\"v3_contracts\"][contract_id]",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\captain_progress_tracker.py",
-      "line": 253,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "contract_status = self.progress_data[\"v3_contracts\"][contract_id][\"status\"]",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\captain_progress_tracker.py",
-      "line": 254,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "if contract_status == TaskStatus.COMPLETED.value:",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\captain_progress_tracker.py",
-      "line": 273,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "total_contracts = self.progress_data[\"swarm_status\"][\"total_contracts\"]",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\captain_progress_tracker.py",
-      "line": 274,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "completed_contracts = sum(",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\captain_progress_tracker.py",
-      "line": 334,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "completed_contracts=data[\"completed_contracts\"],",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\captain_progress_tracker.py",
-      "line": 335,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "total_contracts=data[\"total_contracts\"],",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\captain_repository_health_monitor.py",
-      "line": 22,
-      "type": "global_variables",
-      "severity": "LOW",
-      "description": "Global variable that may accumulate data",
-      "code": "project_root = Path(__file__).parent.parent",
-      "recommendation": "Consider using local variables or cleanup mechanisms"
-    },
-    {
-      "file": "tools\\captain_repository_health_monitor.py",
-      "line": 61,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "agent_assignment: str | None = None",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\captain_repository_health_monitor.py",
-      "line": 74,
-      "type": "circular_references",
-      "severity": "MEDIUM",
-      "description": "Potential circular reference",
-      "code": "self.assessment_templates = self._load_assessment_templates()",
-      "recommendation": "Use weakref or break the circular reference"
-    },
-    {
-      "file": "tools\\captain_repository_health_monitor.py",
-      "line": 75,
-      "type": "circular_references",
-      "severity": "MEDIUM",
-      "description": "Potential circular reference",
-      "code": "self.v2_standards = self._load_v2_standards()",
-      "recommendation": "Use weakref or break the circular reference"
-    },
-    {
-      "file": "tools\\captain_repository_health_monitor.py",
-      "line": 137,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "recommendations = self._generate_recommendations(issues_found)",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\captain_repository_health_monitor.py",
-      "line": 148,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "recommendations=recommendations,",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\captain_repository_health_monitor.py",
-      "line": 220,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "violations = []",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\captain_repository_health_monitor.py",
-      "line": 223,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "python_files = list(repo_path.rglob(\"*.py\"))",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\captain_repository_health_monitor.py",
-      "line": 240,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "content = \"\".join(lines)",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\captain_repository_health_monitor.py",
-      "line": 289,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "content = f.read()",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\captain_repository_health_monitor.py",
-      "line": 352,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "violations = v2_compliance.get(\"violations\", [])",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\captain_repository_health_monitor.py",
-      "line": 370,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "recommendations = []",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\captain_repository_health_monitor.py",
-      "line": 466,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "monitor = CaptainRepositoryHealthMonitor()",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
       "file": "tools\\code_archaeologist_cli.py",
       "line": 20,
       "type": "global_variables",
@@ -5356,96 +5077,6 @@
       "recommendation": "Ensure event handlers are properly removed"
     },
     {
-      "file": "tools\\ml_pipeline_deployment_tool.py",
-      "line": 33,
-      "type": "global_variables",
-      "severity": "LOW",
-      "description": "Global variable that may accumulate data",
-      "code": "logger = logging.getLogger(__name__)",
-      "recommendation": "Consider using local variables or cleanup mechanisms"
-    },
-    {
-      "file": "tools\\ml_pipeline_deployment_tool.py",
-      "line": 80,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "accuracy: float | None = None",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\ml_pipeline_deployment_tool.py",
-      "line": 162,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "response_time=0.045,",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\ml_pipeline_deployment_tool.py",
-      "line": 170,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "config_file = self.deployments_dir / f\"{deployment_id}_config.json\"",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\ml_pipeline_deployment_tool.py",
-      "line": 171,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "config_dict = asdict(config)",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\ml_pipeline_deployment_tool.py",
-      "line": 226,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "config_file = self.deployments_dir / f\"{deployment_id}_config.json\"",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\ml_pipeline_deployment_tool.py",
-      "line": 231,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "config_data = json.load(f)",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\ml_pipeline_deployment_tool.py",
-      "line": 277,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "monitoring_data = {",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\ml_pipeline_deployment_tool.py",
-      "line": 453,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "monitor_parser = subparsers.add_parser(\"monitor\", help=\"Monitor deployment\")",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\ml_pipeline_deployment_tool.py",
-      "line": 498,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "config = DeploymentConfig(",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
       "file": "tools\\overengineering_detector.py",
       "line": 20,
       "type": "global_variables",
@@ -5542,276 +5173,6 @@
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
       "code": "response_time=args.response_time,",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\protocol_creation_validator.py",
-      "line": 30,
-      "type": "circular_references",
-      "severity": "MEDIUM",
-      "description": "Potential circular reference",
-      "code": "self.protocol_files = self._get_protocol_files()",
-      "recommendation": "Use weakref or break the circular reference"
-    },
-    {
-      "file": "tools\\protocol_creation_validator.py",
-      "line": 31,
-      "type": "circular_references",
-      "severity": "MEDIUM",
-      "description": "Potential circular reference",
-      "code": "self.knowledge_base = self._load_knowledge_base()",
-      "recommendation": "Use weakref or break the circular reference"
-    },
-    {
-      "file": "tools\\protocol_creation_validator.py",
-      "line": 50,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "content = kb_file.read_text(encoding=\"utf-8\")",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\protocol_creation_validator.py",
-      "line": 62,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "solutions = []",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\protocol_creation_validator.py",
-      "line": 87,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "reasons = []",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\protocol_creation_validator.py",
-      "line": 90,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "recommendations = []",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\protocol_creation_validator.py",
-      "line": 134,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "confidence_score = self._calculate_confidence_score(",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\protocol_creation_validator.py",
-      "line": 143,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "confidence_score=confidence_score,",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\protocol_creation_validator.py",
-      "line": 144,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "reasons=reasons,",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\protocol_creation_validator.py",
-      "line": 147,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "recommendations=recommendations,",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\protocol_creation_validator.py",
-      "line": 158,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "content = protocol_file.read_text(encoding=\"utf-8\")",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\protocol_creation_validator.py",
-      "line": 185,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "relevant_solutions = []",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\protocol_creation_validator.py",
-      "line": 192,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "kb_content = self.knowledge_base[\"content\"].lower()",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\protocol_creation_validator.py",
-      "line": 224,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "justification_indicators = [",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\protocol_creation_validator.py",
-      "line": 256,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "solution_keywords = self._extract_keywords(solution)",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\protocol_creation_validator.py",
-      "line": 260,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "content = tool_file.read_text(encoding=\"utf-8\")",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\protocol_creation_validator.py",
-      "line": 367,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "content = protocol_file.read_text(encoding=\"utf-8\")",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\protocol_creation_validator.py",
-      "line": 384,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "content = tool_file.read_text(encoding=\"utf-8\")",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\protocol_governance_system.py",
-      "line": 68,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "rejection_reason: RejectionReason | None = None",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\protocol_governance_system.py",
-      "line": 70,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "approved_by: str | None = None",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\protocol_governance_system.py",
-      "line": 71,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "implementation_notes: str | None = None",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\protocol_governance_system.py",
-      "line": 94,
-      "type": "circular_references",
-      "severity": "MEDIUM",
-      "description": "Potential circular reference",
-      "code": "self.existing_protocols = self._load_existing_protocols()",
-      "recommendation": "Use weakref or break the circular reference"
-    },
-    {
-      "file": "tools\\protocol_governance_system.py",
-      "line": 95,
-      "type": "circular_references",
-      "severity": "MEDIUM",
-      "description": "Potential circular reference",
-      "code": "self.proposals = self._load_proposals()",
-      "recommendation": "Use weakref or break the circular reference"
-    },
-    {
-      "file": "tools\\protocol_governance_system.py",
-      "line": 168,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "content = file_path.read_text(encoding=\"utf-8\")",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\protocol_governance_system.py",
-      "line": 206,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "validation_result = self._validate_proposal(",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\protocol_governance_system.py",
-      "line": 228,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "existing_solutions=validation_result[\"existing_solutions\"],",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\protocol_governance_system.py",
-      "line": 312,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "existing_solutions = []",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\protocol_governance_system.py",
-      "line": 360,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "existing_solutions = []",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\protocol_governance_system.py",
-      "line": 379,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "strong_indicators = [",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "tools\\protocol_governance_system.py",
-      "line": 454,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "suggestions = []",
       "recommendation": "Ensure event handlers are properly removed"
     },
     {
@@ -7057,6 +6418,483 @@
       "recommendation": "Ensure event handlers are properly removed"
     },
     {
+      "file": "tools\\memory_optimizer.py",
+      "line": 23,
+      "type": "global_variables",
+      "severity": "LOW",
+      "description": "Global variable that may accumulate data",
+      "code": "logger = logging.getLogger(__name__)",
+      "recommendation": "Consider using local variables or cleanup mechanisms"
+    },
+    {
+      "file": "tools\\memory_optimizer.py",
+      "line": 49,
+      "type": "sqlite_without_close",
+      "severity": "HIGH",
+      "description": "SQLite connection without explicit close",
+      "code": "\"replacement\": r\"with sqlite3.connect(\\2) as \\1:\",",
+      "recommendation": "Use context manager or ensure connection.close()"
+    },
+    {
+      "file": "tools\\memory_optimizer.py",
+      "line": 59,
+      "type": "threading_thread",
+      "severity": "HIGH",
+      "description": "Thread creation without proper cleanup",
+      "code": "\"replacement\": r\"threading.Thread(\\1, daemon=True)\",",
+      "recommendation": "Ensure threads are properly joined or use daemon threads"
+    },
+    {
+      "file": "tools\\memory_optimizer.py",
+      "line": 80,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "content = f.read()",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "tools\\memory_optimizer.py",
+      "line": 81,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "original_content = content",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "tools\\memory_optimizer.py",
+      "line": 110,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "content = content[:match.start()] + fixed_code + content[match.end():]",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "tools\\memory_optimizer.py",
+      "line": 152,
+      "type": "large_data_structures",
+      "severity": "LOW",
+      "description": "Large data structure that may grow indefinitely",
+      "code": "high_severity_files = set()",
+      "recommendation": "Consider size limits or cleanup mechanisms"
+    },
+    {
+      "file": "tools\\memory_optimizer.py",
+      "line": 185,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "monitoring_tool = '''#!/usr/bin/env python3",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "tools\\memory_optimizer.py",
+      "line": 205,
+      "type": "global_variables",
+      "severity": "LOW",
+      "description": "Global variable that may accumulate data",
+      "code": "logger = logging.getLogger(__name__)",
+      "recommendation": "Consider using local variables or cleanup mechanisms"
+    },
+    {
+      "file": "tools\\memory_optimizer.py",
+      "line": 225,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "self.is_monitoring = False",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "tools\\memory_optimizer.py",
+      "line": 244,
+      "type": "circular_references",
+      "severity": "MEDIUM",
+      "description": "Potential circular reference",
+      "code": "self.snapshots = self.snapshots[-100:]",
+      "recommendation": "Use weakref or break the circular reference"
+    },
+    {
+      "file": "tools\\memory_optimizer.py",
+      "line": 281,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "self.is_monitoring = True",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "tools\\memory_optimizer.py",
+      "line": 296,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "self.is_monitoring = False",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "tools\\memory_optimizer.py",
+      "line": 313,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "monitor = MemoryMonitor(args.threshold)",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "tools\\memory_optimizer.py",
+      "line": 328,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "monitoring_file = self.project_root / \"tools\" / \"memory_monitor.py\"",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "tools\\memory_optimizer.py",
+      "line": 387,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "monitoring_tool = optimizer.create_memory_monitoring_tool()",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "tools\\memory_monitor.py",
+      "line": 21,
+      "type": "global_variables",
+      "severity": "LOW",
+      "description": "Global variable that may accumulate data",
+      "code": "logger = logging.getLogger(__name__)",
+      "recommendation": "Consider using local variables or cleanup mechanisms"
+    },
+    {
+      "file": "tools\\memory_monitor.py",
+      "line": 41,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "self.is_monitoring = False",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "tools\\memory_monitor.py",
+      "line": 60,
+      "type": "circular_references",
+      "severity": "MEDIUM",
+      "description": "Potential circular reference",
+      "code": "self.snapshots = self.snapshots[-100:]",
+      "recommendation": "Use weakref or break the circular reference"
+    },
+    {
+      "file": "tools\\memory_monitor.py",
+      "line": 97,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "self.is_monitoring = True",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "tools\\memory_monitor.py",
+      "line": 112,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "self.is_monitoring = False",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "tools\\memory_monitor.py",
+      "line": 129,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "monitor = MemoryMonitor(args.threshold)",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "tools\\memory_monitor.py",
+      "line": 45,
+      "type": "resource_creation",
+      "severity": "HIGH",
+      "description": "Resource creation in function take_snapshot",
+      "code": "Process()",
+      "recommendation": "Ensure proper cleanup in finally block"
+    },
+    {
+      "file": "tools\\memory_manager.py",
+      "line": 25,
+      "type": "global_variables",
+      "severity": "LOW",
+      "description": "Global variable that may accumulate data",
+      "code": "logger = logging.getLogger(__name__)",
+      "recommendation": "Consider using local variables or cleanup mechanisms"
+    },
+    {
+      "file": "tools\\memory_manager.py",
+      "line": 46,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "self.is_monitoring = False",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "tools\\memory_manager.py",
+      "line": 81,
+      "type": "circular_references",
+      "severity": "MEDIUM",
+      "description": "Potential circular reference",
+      "code": "self.stats_history = self.stats_history[-self.max_history:]",
+      "recommendation": "Use weakref or break the circular reference"
+    },
+    {
+      "file": "tools\\memory_manager.py",
+      "line": 145,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "self.is_monitoring = True",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "tools\\memory_manager.py",
+      "line": 146,
+      "type": "threading_thread",
+      "severity": "HIGH",
+      "description": "Thread creation without proper cleanup",
+      "code": "self.monitor_thread = threading.Thread(",
+      "recommendation": "Ensure threads are properly joined or use daemon threads"
+    },
+    {
+      "file": "tools\\memory_manager.py",
+      "line": 146,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "self.monitor_thread = threading.Thread(",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "tools\\memory_manager.py",
+      "line": 157,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "self.is_monitoring = False",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "tools\\memory_manager.py",
+      "line": 241,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "recommendations = []",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "tools\\memory_manager.py",
+      "line": 60,
+      "type": "resource_creation",
+      "severity": "HIGH",
+      "description": "Resource creation in function get_current_stats",
+      "code": "Process()",
+      "recommendation": "Ensure proper cleanup in finally block"
+    },
+    {
+      "file": "tools\\memory_manager.py",
+      "line": 146,
+      "type": "resource_creation",
+      "severity": "HIGH",
+      "description": "Resource creation in function start_monitoring",
+      "code": "Thread()",
+      "recommendation": "Ensure proper cleanup in finally block"
+    },
+    {
+      "file": "tools\\critical_memory_fixer.py",
+      "line": 21,
+      "type": "global_variables",
+      "severity": "LOW",
+      "description": "Global variable that may accumulate data",
+      "code": "logger = logging.getLogger(__name__)",
+      "recommendation": "Consider using local variables or cleanup mechanisms"
+    },
+    {
+      "file": "tools\\critical_memory_fixer.py",
+      "line": 55,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "content = f.read()",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "tools\\critical_memory_fixer.py",
+      "line": 58,
+      "type": "threading_thread",
+      "severity": "HIGH",
+      "description": "Thread creation without proper cleanup",
+      "code": "if \"threading.Thread(\" in content and \"daemon=True\" not in content:",
+      "recommendation": "Ensure threads are properly joined or use daemon threads"
+    },
+    {
+      "file": "tools\\critical_memory_fixer.py",
+      "line": 59,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "content = content.replace(",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "tools\\critical_memory_fixer.py",
+      "line": 60,
+      "type": "threading_thread",
+      "severity": "HIGH",
+      "description": "Thread creation without proper cleanup",
+      "code": "\"threading.Thread(\",",
+      "recommendation": "Ensure threads are properly joined or use daemon threads"
+    },
+    {
+      "file": "tools\\critical_memory_fixer.py",
+      "line": 61,
+      "type": "threading_thread",
+      "severity": "HIGH",
+      "description": "Thread creation without proper cleanup",
+      "code": "\"threading.Thread(\"",
+      "recommendation": "Ensure threads are properly joined or use daemon threads"
+    },
+    {
+      "file": "tools\\critical_memory_fixer.py",
+      "line": 64,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "content = re.sub(",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "tools\\critical_memory_fixer.py",
+      "line": 66,
+      "type": "threading_thread",
+      "severity": "HIGH",
+      "description": "Thread creation without proper cleanup",
+      "code": "r\"threading.Thread(\\1, daemon=True)\",",
+      "recommendation": "Ensure threads are properly joined or use daemon threads"
+    },
+    {
+      "file": "tools\\critical_memory_fixer.py",
+      "line": 115,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "content = f.read()",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "tools\\critical_memory_fixer.py",
+      "line": 118,
+      "type": "deque_without_limit",
+      "severity": "MEDIUM",
+      "description": "Unbounded deque can cause memory growth",
+      "code": "if \"collections.deque()\" in content:",
+      "recommendation": "Consider using maxlen parameter"
+    },
+    {
+      "file": "tools\\critical_memory_fixer.py",
+      "line": 119,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "content = content.replace(",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "tools\\critical_memory_fixer.py",
+      "line": 120,
+      "type": "deque_without_limit",
+      "severity": "MEDIUM",
+      "description": "Unbounded deque can cause memory growth",
+      "code": "\"collections.deque()\",",
+      "recommendation": "Consider using maxlen parameter"
+    },
+    {
+      "file": "tools\\critical_memory_fixer.py",
+      "line": 158,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "content = f.read()",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "tools\\critical_memory_fixer.py",
+      "line": 204,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "content = f.read()",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "tools\\critical_memory_fixer.py",
+      "line": 207,
+      "type": "threading_thread",
+      "severity": "HIGH",
+      "description": "Thread creation without proper cleanup",
+      "code": "if \"threading.Thread(\" in content and \"daemon=True\" not in content:",
+      "recommendation": "Ensure threads are properly joined or use daemon threads"
+    },
+    {
+      "file": "tools\\critical_memory_fixer.py",
+      "line": 208,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "content = re.sub(",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "tools\\critical_memory_fixer.py",
+      "line": 210,
+      "type": "threading_thread",
+      "severity": "HIGH",
+      "description": "Thread creation without proper cleanup",
+      "code": "r\"threading.Thread(\\1, daemon=True)\",",
+      "recommendation": "Ensure threads are properly joined or use daemon threads"
+    },
+    {
+      "file": "tools\\critical_memory_fixer.py",
+      "line": 249,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "content = f.read()",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "tools\\critical_memory_fixer.py",
+      "line": 263,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "conversations = data.get(\"conversations\", [])",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "tools\\critical_memory_fixer.py",
+      "line": 267,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "filtered_conversations = [",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
       "file": "tools\\projectscanner\\analyzers.py",
       "line": 13,
       "type": "global_variables",
@@ -7109,24 +6947,6 @@
       "description": "Global variable that may accumulate data",
       "code": "logger = logging.getLogger(__name__)",
       "recommendation": "Consider using local variables or cleanup mechanisms"
-    },
-    {
-      "file": "tools\\projectscanner\\workers.py",
-      "line": 98,
-      "type": "queue_without_limit",
-      "severity": "MEDIUM",
-      "description": "Unbounded queue can cause memory growth",
-      "code": "self.work_queue = queue.Queue()",
-      "recommendation": "Consider using maxsize parameter"
-    },
-    {
-      "file": "tools\\projectscanner\\workers.py",
-      "line": 99,
-      "type": "queue_without_limit",
-      "severity": "MEDIUM",
-      "description": "Unbounded queue can cause memory growth",
-      "code": "self.result_queue = queue.Queue()",
-      "recommendation": "Consider using maxsize parameter"
     },
     {
       "file": "tools\\projectscanner\\workers.py",
@@ -8592,17 +8412,8 @@
       "type": "sqlite_without_close",
       "severity": "HIGH",
       "description": "SQLite connection without explicit close",
-      "code": "conn = sqlite3.connect(self.db_path)",
+      "code": "with sqlite3.connect(self.db_path) as conn:",
       "recommendation": "Use context manager or ensure connection.close()"
-    },
-    {
-      "file": "tools\\trading_cli\\prediction_tracker.py",
-      "line": 32,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "conn = sqlite3.connect(self.db_path)",
-      "recommendation": "Ensure event handlers are properly removed"
     },
     {
       "file": "tools\\trading_cli\\prediction_tracker.py",
@@ -8610,17 +8421,8 @@
       "type": "sqlite_without_close",
       "severity": "HIGH",
       "description": "SQLite connection without explicit close",
-      "code": "conn = sqlite3.connect(self.db_path)",
+      "code": "with sqlite3.connect(self.db_path) as conn:",
       "recommendation": "Use context manager or ensure connection.close()"
-    },
-    {
-      "file": "tools\\trading_cli\\prediction_tracker.py",
-      "line": 83,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "conn = sqlite3.connect(self.db_path)",
-      "recommendation": "Ensure event handlers are properly removed"
     },
     {
       "file": "tools\\trading_cli\\prediction_tracker.py",
@@ -8637,17 +8439,8 @@
       "type": "sqlite_without_close",
       "severity": "HIGH",
       "description": "SQLite connection without explicit close",
-      "code": "conn = sqlite3.connect(self.db_path)",
+      "code": "with sqlite3.connect(self.db_path) as conn:",
       "recommendation": "Use context manager or ensure connection.close()"
-    },
-    {
-      "file": "tools\\trading_cli\\prediction_tracker.py",
-      "line": 111,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "conn = sqlite3.connect(self.db_path)",
-      "recommendation": "Ensure event handlers are properly removed"
     },
     {
       "file": "tools\\trading_cli\\prediction_tracker.py",
@@ -8673,17 +8466,8 @@
       "type": "sqlite_without_close",
       "severity": "HIGH",
       "description": "SQLite connection without explicit close",
-      "code": "conn = sqlite3.connect(self.db_path)",
+      "code": "with sqlite3.connect(self.db_path) as conn:",
       "recommendation": "Use context manager or ensure connection.close()"
-    },
-    {
-      "file": "tools\\trading_cli\\prediction_tracker.py",
-      "line": 236,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "conn = sqlite3.connect(self.db_path)",
-      "recommendation": "Ensure event handlers are properly removed"
     },
     {
       "file": "tools\\trading_cli\\prediction_tracker.py",
@@ -8691,17 +8475,8 @@
       "type": "sqlite_without_close",
       "severity": "HIGH",
       "description": "SQLite connection without explicit close",
-      "code": "conn = sqlite3.connect(self.db_path)",
+      "code": "with sqlite3.connect(self.db_path) as conn:",
       "recommendation": "Use context manager or ensure connection.close()"
-    },
-    {
-      "file": "tools\\trading_cli\\prediction_tracker.py",
-      "line": 293,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "conn = sqlite3.connect(self.db_path)",
-      "recommendation": "Ensure event handlers are properly removed"
     },
     {
       "file": "tools\\trading_cli\\prediction_tracker.py",
@@ -10181,12 +9956,12 @@
     },
     {
       "file": "analytics\\predictive_engine.py",
-      "line": 76,
-      "type": "circular_references",
+      "line": 88,
+      "type": "event_handlers",
       "severity": "MEDIUM",
-      "description": "Potential circular reference",
-      "code": "self.historical_data = self.historical_data[-self.window_size :]",
-      "recommendation": "Use weakref or break the circular reference"
+      "description": "Event handler that may not be removed",
+      "code": "response_time=response_time,",
+      "recommendation": "Ensure event handlers are properly removed"
     },
     {
       "file": "analytics\\predictive_engine.py",
@@ -10194,187 +9969,34 @@
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
-      "code": "confidence=0.0,",
+      "code": "active_connections=active_connections,",
       "recommendation": "Ensure event handlers are properly removed"
     },
     {
       "file": "analytics\\predictive_engine.py",
-      "line": 95,
+      "line": 98,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
-      "code": "recommendations=[\"Insufficient data for prediction\"],",
+      "code": "response_prediction = self.predict_response_time(time_horizon)",
       "recommendation": "Ensure event handlers are properly removed"
     },
     {
       "file": "analytics\\predictive_engine.py",
-      "line": 115,
+      "line": 176,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
-      "code": "confidence = self._calculate_confidence(cpu_values, memory_values)",
+      "code": "response_time=data[\"response_time\"],",
       "recommendation": "Ensure event handlers are properly removed"
     },
     {
       "file": "analytics\\predictive_engine.py",
-      "line": 127,
+      "line": 179,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
-      "code": "recommendations = self._generate_load_recommendations(",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "analytics\\predictive_engine.py",
-      "line": 134,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "confidence=confidence,",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "analytics\\predictive_engine.py",
-      "line": 138,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "recommendations=recommendations,",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "analytics\\predictive_engine.py",
-      "line": 165,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "confidence = max(0.0, 1.0 - (avg_std / 50.0))  # Normalize to 0-1",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "analytics\\predictive_engine.py",
-      "line": 193,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "recommendations = []",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "analytics\\predictive_engine.py",
-      "line": 263,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "confidence = 0.9",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "analytics\\predictive_engine.py",
-      "line": 266,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "confidence = 0.8",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "analytics\\predictive_engine.py",
-      "line": 269,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "confidence = 0.7",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "analytics\\predictive_engine.py",
-      "line": 272,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "confidence = 0.6",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "analytics\\predictive_engine.py",
-      "line": 280,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "confidence=confidence,",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "analytics\\predictive_engine.py",
-      "line": 289,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "self.baseline_metrics: PerformanceMetrics | None = None",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "analytics\\predictive_engine.py",
-      "line": 318,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "recommendations = self._generate_anomaly_recommendations(",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "analytics\\predictive_engine.py",
-      "line": 326,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "confidence=anomaly_score,",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "analytics\\predictive_engine.py",
-      "line": 330,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "recommendations=recommendations,",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "analytics\\predictive_engine.py",
-      "line": 340,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "recommendations = []",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "analytics\\predictive_engine.py",
-      "line": 435,
-      "type": "circular_references",
-      "severity": "MEDIUM",
-      "description": "Potential circular reference",
-      "code": "self.prediction_history = self.prediction_history[-100:]",
-      "recommendation": "Use weakref or break the circular reference"
-    },
-    {
-      "file": "analytics\\predictive_engine.py",
-      "line": 435,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "self.prediction_history = self.prediction_history[-100:]",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "analytics\\predictive_engine.py",
-      "line": 449,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "response_health = max(0, 1 - min(1, metrics.response_time / 1000))  # 1s threshold",
+      "code": "active_connections=data[\"active_connections\"],",
       "recommendation": "Ensure event handlers are properly removed"
     },
     {
@@ -10393,6 +10015,285 @@
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
       "code": "tasks_on_time=data.get(\"tasks_on_time\", 0),",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "analytics\\predictive_core.py",
+      "line": 44,
+      "type": "circular_references",
+      "severity": "MEDIUM",
+      "description": "Potential circular reference",
+      "code": "self.metrics_history = self.metrics_history[-1000:]",
+      "recommendation": "Use weakref or break the circular reference"
+    },
+    {
+      "file": "analytics\\predictive_core.py",
+      "line": 60,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "confidence = self._calculate_confidence(cpu_values)",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "analytics\\predictive_core.py",
+      "line": 67,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "confidence=confidence,",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "analytics\\predictive_core.py",
+      "line": 71,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "recommendations=self._generate_cpu_recommendations(predicted_value),",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "analytics\\predictive_core.py",
+      "line": 88,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "confidence = self._calculate_confidence(memory_values)",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "analytics\\predictive_core.py",
+      "line": 95,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "confidence=confidence,",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "analytics\\predictive_core.py",
+      "line": 99,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "recommendations=self._generate_memory_recommendations(predicted_value),",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "analytics\\predictive_core.py",
+      "line": 109,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "response_values = [m.response_time for m in recent_metrics]",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "analytics\\predictive_core.py",
+      "line": 116,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "confidence = self._calculate_confidence(response_values)",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "analytics\\predictive_core.py",
+      "line": 123,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "confidence=confidence,",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "analytics\\predictive_core.py",
+      "line": 127,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "recommendations=self._generate_response_time_recommendations(predicted_value),",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "analytics\\predictive_core.py",
+      "line": 153,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "response_values = [m.response_time for m in recent_metrics]",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "analytics\\predictive_core.py",
+      "line": 155,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "response_anomaly = self._check_metric_anomaly(\"response_time\", response_values)",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "analytics\\predictive_core.py",
+      "line": 182,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "utilization_percentage = (predicted_usage / capacity_limit) * 100",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "analytics\\predictive_core.py",
+      "line": 198,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "utilization_percentage=utilization_percentage,",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "analytics\\predictive_core.py",
+      "line": 210,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "recommendations=[\"Start collecting metrics\"],",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "analytics\\predictive_core.py",
+      "line": 231,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "recommendations = self._generate_health_recommendations(health_score, issues)",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "analytics\\predictive_core.py",
+      "line": 237,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "recommendations=recommendations,",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "analytics\\predictive_core.py",
+      "line": 249,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "utilization_trend=\"stable\",",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "analytics\\predictive_core.py",
+      "line": 267,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "utilization_trend=\"stable\",",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "analytics\\predictive_core.py",
+      "line": 274,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "utilization_trend = self._determine_trend(values)",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "analytics\\predictive_core.py",
+      "line": 282,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "utilization_trend=utilization_trend,",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "analytics\\predictive_core.py",
+      "line": 333,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "confidence = max(0.0, min(1.0, 1.0 - cv))",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "analytics\\predictive_core.py",
+      "line": 404,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "confidence=0.0,",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "analytics\\predictive_core.py",
+      "line": 408,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "recommendations=[\"Collect more data for accurate predictions\"],",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "analytics\\predictive_core.py",
+      "line": 418,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "utilization_percentage=50.0,",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "analytics\\predictive_core.py",
+      "line": 469,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "response_values = [m.response_time for m in metrics]",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "analytics\\predictive_core.py",
+      "line": 471,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "avg_response = statistics.mean(response_values)",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "analytics\\predictive_core.py",
+      "line": 472,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "response_score = max(0.0, 1.0 - (avg_response / 1000.0))  # Assume 1000ms is bad",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "analytics\\predictive_core.py",
+      "line": 495,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "response_values = [m.response_time for m in metrics]",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "analytics\\predictive_core.py",
+      "line": 503,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "recommendations = []",
       "recommendation": "Ensure event handlers are properly removed"
     },
     {
@@ -10518,17 +10419,8 @@
       "type": "sqlite_without_close",
       "severity": "HIGH",
       "description": "SQLite connection without explicit close",
-      "code": "self.conn = sqlite3.connect(self.path)",
+      "code": "self.with sqlite3.connect(self.path) as conn:",
       "recommendation": "Use context manager or ensure connection.close()"
-    },
-    {
-      "file": "swarm_brain\\db.py",
-      "line": 34,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "self.conn = sqlite3.connect(self.path)",
-      "recommendation": "Ensure event handlers are properly removed"
     },
     {
       "file": "swarm_brain\\db.py",
@@ -12723,17 +12615,8 @@
       "type": "sqlite_without_close",
       "severity": "HIGH",
       "description": "SQLite connection without explicit close",
-      "code": "connection = sqlite3.connect(",
+      "code": "with sqlite3.connect(",
       "recommendation": "Use context manager or ensure connection.close()"
-    },
-    {
-      "file": "src\\core\\cross_platform_database.py",
-      "line": 55,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "connection = sqlite3.connect(",
-      "recommendation": "Ensure event handlers are properly removed"
     },
     {
       "file": "src\\core\\cross_platform_database.py",
@@ -12750,17 +12633,8 @@
       "type": "sqlite_without_close",
       "severity": "HIGH",
       "description": "SQLite connection without explicit close",
-      "code": "connection = sqlite3.connect(str(self.db_path))",
+      "code": "with sqlite3.connect(str(self.db_path)) as connection:",
       "recommendation": "Use context manager or ensure connection.close()"
-    },
-    {
-      "file": "src\\core\\cross_platform_database.py",
-      "line": 64,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "connection = sqlite3.connect(str(self.db_path))",
-      "recommendation": "Ensure event handlers are properly removed"
     },
     {
       "file": "src\\core\\cross_platform_database.py",
@@ -15441,7 +15315,7 @@
       "type": "threading_thread",
       "severity": "HIGH",
       "description": "Thread creation without proper cleanup",
-      "code": "self._monitor_thread = threading.Thread(target=self._monitor_loop, daemon=True)",
+      "code": "self._monitor_thread = threading.Thread(target=self._monitor_loop, daemon=True, daemon=True, daemon=True)",
       "recommendation": "Ensure threads are properly joined or use daemon threads"
     },
     {
@@ -15450,7 +15324,7 @@
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
-      "code": "self._monitor_thread = threading.Thread(target=self._monitor_loop, daemon=True)",
+      "code": "self._monitor_thread = threading.Thread(target=self._monitor_loop, daemon=True, daemon=True, daemon=True)",
       "recommendation": "Ensure event handlers are properly removed"
     },
     {
@@ -16980,12 +16854,21 @@
       "type": "sqlite_without_close",
       "severity": "HIGH",
       "description": "SQLite connection without explicit close",
+      "code": "with sqlite3.connect(str(self.db_file)) as conn:",
+      "recommendation": "Use context manager or ensure connection.close()"
+    },
+    {
+      "file": "src\\services\\multichat_session_persistence.py",
+      "line": 105,
+      "type": "sqlite_without_close",
+      "severity": "HIGH",
+      "description": "SQLite connection without explicit close",
       "code": "self.conn = sqlite3.connect(str(self.db_file))",
       "recommendation": "Use context manager or ensure connection.close()"
     },
     {
       "file": "src\\services\\multichat_session_persistence.py",
-      "line": 74,
+      "line": 105,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
@@ -16994,7 +16877,7 @@
     },
     {
       "file": "src\\services\\multichat_session_persistence.py",
-      "line": 107,
+      "line": 111,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
@@ -17003,7 +16886,7 @@
     },
     {
       "file": "src\\services\\multichat_session_persistence.py",
-      "line": 113,
+      "line": 117,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
@@ -17012,7 +16895,7 @@
     },
     {
       "file": "src\\services\\multichat_session_persistence.py",
-      "line": 134,
+      "line": 138,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
@@ -17021,7 +16904,7 @@
     },
     {
       "file": "src\\services\\multichat_session_persistence.py",
-      "line": 172,
+      "line": 176,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
@@ -17030,7 +16913,7 @@
     },
     {
       "file": "src\\services\\multichat_session_persistence.py",
-      "line": 173,
+      "line": 177,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
@@ -17039,7 +16922,7 @@
     },
     {
       "file": "src\\services\\multichat_session_persistence.py",
-      "line": 183,
+      "line": 187,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
@@ -17048,7 +16931,7 @@
     },
     {
       "file": "src\\services\\multichat_session_persistence.py",
-      "line": 191,
+      "line": 195,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
@@ -17057,7 +16940,7 @@
     },
     {
       "file": "src\\services\\multichat_session_persistence.py",
-      "line": 262,
+      "line": 266,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
@@ -17066,7 +16949,7 @@
     },
     {
       "file": "src\\services\\multichat_session_persistence.py",
-      "line": 272,
+      "line": 276,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
@@ -17075,7 +16958,7 @@
     },
     {
       "file": "src\\services\\multichat_session_persistence.py",
-      "line": 283,
+      "line": 287,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
@@ -17084,7 +16967,7 @@
     },
     {
       "file": "src\\services\\multichat_session_persistence.py",
-      "line": 286,
+      "line": 290,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
@@ -17093,7 +16976,7 @@
     },
     {
       "file": "src\\services\\multichat_session_persistence.py",
-      "line": 294,
+      "line": 298,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
@@ -17102,7 +16985,7 @@
     },
     {
       "file": "src\\services\\multichat_session_persistence.py",
-      "line": 310,
+      "line": 314,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
@@ -17111,7 +16994,7 @@
     },
     {
       "file": "src\\services\\multichat_session_persistence.py",
-      "line": 314,
+      "line": 318,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
@@ -17120,7 +17003,7 @@
     },
     {
       "file": "src\\services\\multichat_session_persistence.py",
-      "line": 333,
+      "line": 337,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
@@ -17714,7 +17597,7 @@
     },
     {
       "file": "src\\services\\consolidated_messaging_service_core.py",
-      "line": 38,
+      "line": 51,
       "type": "global_variables",
       "severity": "LOW",
       "description": "Global variable that may accumulate data",
@@ -17723,7 +17606,7 @@
     },
     {
       "file": "src\\services\\consolidated_messaging_service_core.py",
-      "line": 52,
+      "line": 65,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
@@ -17732,7 +17615,7 @@
     },
     {
       "file": "src\\services\\consolidated_messaging_service_core.py",
-      "line": 73,
+      "line": 86,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
@@ -17741,7 +17624,7 @@
     },
     {
       "file": "src\\services\\consolidated_messaging_service_core.py",
-      "line": 77,
+      "line": 90,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
@@ -17750,7 +17633,7 @@
     },
     {
       "file": "src\\services\\consolidated_messaging_service_core.py",
-      "line": 135,
+      "line": 148,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
@@ -17759,7 +17642,7 @@
     },
     {
       "file": "src\\services\\consolidated_messaging_service_core.py",
-      "line": 136,
+      "line": 149,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
@@ -17768,7 +17651,7 @@
     },
     {
       "file": "src\\services\\consolidated_messaging_service_core.py",
-      "line": 154,
+      "line": 174,
       "type": "large_data_structures",
       "severity": "LOW",
       "description": "Large data structure that may grow indefinitely",
@@ -17858,7 +17741,7 @@
     },
     {
       "file": "src\\services\\consolidated_messaging_service_main.py",
-      "line": 167,
+      "line": 178,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
@@ -17867,7 +17750,7 @@
     },
     {
       "file": "src\\services\\consolidated_messaging_service_main.py",
-      "line": 170,
+      "line": 181,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
@@ -17876,7 +17759,7 @@
     },
     {
       "file": "src\\services\\consolidated_messaging_service_main.py",
-      "line": 261,
+      "line": 272,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
@@ -17885,7 +17768,7 @@
     },
     {
       "file": "src\\services\\consolidated_messaging_service_main.py",
-      "line": 262,
+      "line": 273,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
@@ -17894,7 +17777,7 @@
     },
     {
       "file": "src\\services\\consolidated_messaging_service_main.py",
-      "line": 291,
+      "line": 302,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
@@ -17903,7 +17786,7 @@
     },
     {
       "file": "src\\services\\consolidated_messaging_service_main.py",
-      "line": 358,
+      "line": 369,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
@@ -18398,7 +18281,7 @@
     },
     {
       "file": "src\\services\\messaging\\intelligent_coordinator.py",
-      "line": 19,
+      "line": 29,
       "type": "global_variables",
       "severity": "LOW",
       "description": "Global variable that may accumulate data",
@@ -18407,92 +18290,56 @@
     },
     {
       "file": "src\\services\\messaging\\intelligent_coordinator.py",
-      "line": 43,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "coordination_patterns = self.retriever.how_do_agents_do(f\"coordinate {task}\", k=10)",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "src\\services\\messaging\\intelligent_coordinator.py",
       "line": 46,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
-      "code": "coordination_plan = self._create_coordination_plan(",
+      "code": "coordination_task = CoordinationTask(",
       "recommendation": "Ensure event handlers are properly removed"
     },
     {
       "file": "src\\services\\messaging\\intelligent_coordinator.py",
-      "line": 79,
+      "line": 56,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
-      "code": "confidence = self._calculate_assignment_confidence(task, best_agent)",
+      "code": "coordination_patterns = self.core.get_coordination_patterns(task)",
       "recommendation": "Ensure event handlers are properly removed"
     },
     {
       "file": "src\\services\\messaging\\intelligent_coordinator.py",
-      "line": 206,
+      "line": 59,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
-      "code": "context={",
+      "code": "coordination_plan = self.core.create_coordination_plan(",
       "recommendation": "Ensure event handlers are properly removed"
     },
     {
       "file": "src\\services\\messaging\\intelligent_coordinator.py",
-      "line": 388,
+      "line": 113,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
-      "code": "recommendations = []",
+      "code": "coordination_success_rate=0.92,",
       "recommendation": "Ensure event handlers are properly removed"
     },
     {
       "file": "src\\services\\messaging\\intelligent_coordinator.py",
-      "line": 468,
+      "line": 114,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
-      "code": "communication_results = results.get(\"communication_results\", {})",
+      "code": "average_response_time=2.5,",
       "recommendation": "Ensure event handlers are properly removed"
     },
     {
       "file": "src\\services\\messaging\\intelligent_coordinator.py",
-      "line": 481,
+      "line": 116,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
-      "code": "lessons = []",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "src\\services\\messaging\\intelligent_coordinator.py",
-      "line": 505,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "agent_actions = self.retriever.search(f\"actions by {agent_id}\", kinds=[\"action\"], k=50)",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "src\\services\\messaging\\intelligent_coordinator.py",
-      "line": 508,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "successful_actions = [a for a in agent_actions if a.get(\"outcome\") == \"success\"]",
-      "recommendation": "Ensure event handlers are properly removed"
-    },
-    {
-      "file": "src\\services\\messaging\\intelligent_coordinator.py",
-      "line": 525,
-      "type": "event_handlers",
-      "severity": "MEDIUM",
-      "description": "Event handler that may not be removed",
-      "code": "specializations = []",
+      "code": "task_completion_rate=0.88,",
       "recommendation": "Ensure event handlers are properly removed"
     },
     {
@@ -19118,7 +18965,7 @@
     },
     {
       "file": "src\\services\\messaging\\enhanced_pyautogui_handler.py",
-      "line": 293,
+      "line": 295,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
@@ -19127,7 +18974,7 @@
     },
     {
       "file": "src\\services\\messaging\\enhanced_pyautogui_handler.py",
-      "line": 390,
+      "line": 392,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
@@ -19142,15 +18989,6 @@
       "description": "Global variable that may accumulate data",
       "code": "logger = logging.getLogger(__name__)",
       "recommendation": "Consider using local variables or cleanup mechanisms"
-    },
-    {
-      "file": "src\\services\\messaging\\memory_leak_analyzer.py",
-      "line": 161,
-      "type": "file_without_context",
-      "severity": "HIGH",
-      "description": "File opened without context manager",
-      "code": "file_handle = open(file_path, mode)",
-      "recommendation": "Use 'with open() as f:' context manager"
     },
     {
       "file": "src\\services\\messaging\\memory_leak_analyzer.py",
@@ -19235,16 +19073,7 @@
     },
     {
       "file": "src\\services\\messaging\\memory_leak_fixes.py",
-      "line": 153,
-      "type": "file_without_context",
-      "severity": "HIGH",
-      "description": "File opened without context manager",
-      "code": "file_handle = open(file_path, mode)",
-      "recommendation": "Use 'with open() as f:' context manager"
-    },
-    {
-      "file": "src\\services\\messaging\\memory_leak_fixes.py",
-      "line": 204,
+      "line": 203,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
@@ -19253,7 +19082,7 @@
     },
     {
       "file": "src\\services\\messaging\\memory_leak_fixes.py",
-      "line": 216,
+      "line": 215,
       "type": "threading_thread",
       "severity": "HIGH",
       "description": "Thread creation without proper cleanup",
@@ -19262,7 +19091,7 @@
     },
     {
       "file": "src\\services\\messaging\\memory_leak_fixes.py",
-      "line": 235,
+      "line": 234,
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
@@ -19271,7 +19100,7 @@
     },
     {
       "file": "src\\services\\messaging\\memory_leak_fixes.py",
-      "line": 275,
+      "line": 274,
       "type": "global_variables",
       "severity": "LOW",
       "description": "Global variable that may accumulate data",
@@ -19280,12 +19109,129 @@
     },
     {
       "file": "src\\services\\messaging\\memory_leak_fixes.py",
-      "line": 216,
+      "line": 215,
       "type": "resource_creation",
       "severity": "HIGH",
       "description": "Resource creation in function start_cleanup_service",
       "code": "Thread()",
       "recommendation": "Ensure proper cleanup in finally block"
+    },
+    {
+      "file": "src\\services\\messaging\\memory_leak_analysis_report.py",
+      "line": 17,
+      "type": "global_variables",
+      "severity": "LOW",
+      "description": "Global variable that may accumulate data",
+      "code": "logger = logging.getLogger(__name__)",
+      "recommendation": "Consider using local variables or cleanup mechanisms"
+    },
+    {
+      "file": "src\\services\\messaging\\memory_leak_analysis_report.py",
+      "line": 29,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "self.recommendations = []",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "src\\services\\messaging\\memory_leak_analysis_report.py",
+      "line": 141,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "self.recommendations = [",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "src\\services\\messaging\\intelligent_coordinator_core.py",
+      "line": 28,
+      "type": "global_variables",
+      "severity": "LOW",
+      "description": "Global variable that may accumulate data",
+      "code": "logger = logging.getLogger(__name__)",
+      "recommendation": "Consider using local variables or cleanup mechanisms"
+    },
+    {
+      "file": "src\\services\\messaging\\intelligent_coordinator_core.py",
+      "line": 87,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "coordination_strategy=strategy,",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "src\\services\\messaging\\intelligent_coordinator_core.py",
+      "line": 109,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "execution_time = self._get_current_time() - start_time",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "src\\services\\messaging\\intelligent_coordinator_core.py",
+      "line": 114,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "coordination_plan=plan,",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "src\\services\\messaging\\intelligent_coordinator_core.py",
+      "line": 115,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "execution_time=execution_time,",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "src\\services\\messaging\\intelligent_coordinator_core.py",
+      "line": 127,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "coordination_plan=plan,",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "src\\services\\messaging\\intelligent_coordinator_core.py",
+      "line": 128,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "execution_time=self._get_current_time() - start_time,",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "src\\services\\messaging\\intelligent_coordinator_core.py",
+      "line": 146,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "recommendations = self._generate_recommendations(patterns)",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "src\\services\\messaging\\intelligent_coordinator_core.py",
+      "line": 152,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "recommendations=recommendations,",
+      "recommendation": "Ensure event handlers are properly removed"
+    },
+    {
+      "file": "src\\services\\messaging\\intelligent_coordinator_core.py",
+      "line": 220,
+      "type": "event_handlers",
+      "severity": "MEDIUM",
+      "description": "Event handler that may not be removed",
+      "code": "recommendations = []",
+      "recommendation": "Ensure event handlers are properly removed"
     },
     {
       "file": "src\\services\\messaging\\core\\__init__.py",
@@ -21111,7 +21057,7 @@
       "type": "threading_thread",
       "severity": "HIGH",
       "description": "Thread creation without proper cleanup",
-      "code": "self._sync_thread = threading.Thread(target=self._sync_loop, daemon=True)",
+      "code": "self._sync_thread = threading.Thread(target=self._sync_loop, daemon=True, daemon=True, daemon=True)",
       "recommendation": "Ensure threads are properly joined or use daemon threads"
     },
     {
@@ -21228,7 +21174,7 @@
       "type": "threading_thread",
       "severity": "HIGH",
       "description": "Thread creation without proper cleanup",
-      "code": "self._integration_thread = threading.Thread(target=self._integration_loop, daemon=True)",
+      "code": "self._integration_thread = threading.Thread(target=self._integration_loop, daemon=True, daemon=True, daemon=True, daemon=True, daemon=True)",
       "recommendation": "Ensure threads are properly joined or use daemon threads"
     },
     {
@@ -21237,7 +21183,7 @@
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
-      "code": "self._integration_thread = threading.Thread(target=self._integration_loop, daemon=True)",
+      "code": "self._integration_thread = threading.Thread(target=self._integration_loop, daemon=True, daemon=True, daemon=True, daemon=True, daemon=True)",
       "recommendation": "Ensure event handlers are properly removed"
     },
     {
@@ -22002,7 +21948,7 @@
       "type": "threading_thread",
       "severity": "HIGH",
       "description": "Thread creation without proper cleanup",
-      "code": "self._migration_thread = threading.Thread(target=self._migration_loop, daemon=True)",
+      "code": "self._migration_thread = threading.Thread(target=self._migration_loop, daemon=True, daemon=True, daemon=True)",
       "recommendation": "Ensure threads are properly joined or use daemon threads"
     },
     {
@@ -22011,7 +21957,7 @@
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
-      "code": "self._migration_thread = threading.Thread(target=self._migration_loop, daemon=True)",
+      "code": "self._migration_thread = threading.Thread(target=self._migration_loop, daemon=True, daemon=True, daemon=True)",
       "recommendation": "Ensure event handlers are properly removed"
     },
     {
@@ -22929,7 +22875,7 @@
       "type": "threading_thread",
       "severity": "HIGH",
       "description": "Thread creation without proper cleanup",
-      "code": "self._execution_thread = threading.Thread(target=self._execution_loop, daemon=True)",
+      "code": "self._execution_thread = threading.Thread(target=self._execution_loop, daemon=True, daemon=True, daemon=True)",
       "recommendation": "Ensure threads are properly joined or use daemon threads"
     },
     {
@@ -22938,7 +22884,7 @@
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
-      "code": "self._execution_thread = threading.Thread(target=self._execution_loop, daemon=True)",
+      "code": "self._execution_thread = threading.Thread(target=self._execution_loop, daemon=True, daemon=True, daemon=True)",
       "recommendation": "Ensure event handlers are properly removed"
     },
     {
@@ -24477,7 +24423,7 @@
       "type": "threading_thread",
       "severity": "HIGH",
       "description": "Thread creation without proper cleanup",
-      "code": "self.thread = threading.Thread(target=self.server.serve_forever)",
+      "code": "self.thread = threading.Thread(target=self.server.serve_forever, daemon=True, daemon=True)",
       "recommendation": "Ensure threads are properly joined or use daemon threads"
     },
     {
@@ -25125,7 +25071,7 @@
       "type": "threading_thread",
       "severity": "HIGH",
       "description": "Thread creation without proper cleanup",
-      "code": "monitor_thread = threading.Thread(target=monitor_loop, daemon=True)",
+      "code": "monitor_thread = threading.Thread(target=monitor_loop, daemon=True, daemon=True, daemon=True)",
       "recommendation": "Ensure threads are properly joined or use daemon threads"
     },
     {
@@ -25134,7 +25080,7 @@
       "type": "event_handlers",
       "severity": "MEDIUM",
       "description": "Event handler that may not be removed",
-      "code": "monitor_thread = threading.Thread(target=monitor_loop, daemon=True)",
+      "code": "monitor_thread = threading.Thread(target=monitor_loop, daemon=True, daemon=True, daemon=True)",
       "recommendation": "Ensure event handlers are properly removed"
     },
     {
@@ -25404,7 +25350,7 @@
       "type": "threading_thread",
       "severity": "HIGH",
       "description": "Thread creation without proper cleanup",
-      "code": "self.server_thread = threading.Thread(target=self._run_server, daemon=True)",
+      "code": "self.server_thread = threading.Thread(target=self._run_server, daemon=True, daemon=True, daemon=True)",
       "recommendation": "Ensure threads are properly joined or use daemon threads"
     },
     {

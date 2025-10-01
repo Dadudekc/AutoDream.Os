@@ -1,6 +1,9 @@
 """
 Design Authority Agent - Enforces simplicity and prevents overcomplication.
 Acts as the arbiter of design decisions and keeper of project philosophy.
+
+V2 Compliance Refactored: Knowledge base split to separate module
+Author: Agent-7 (Web Development Expert)
 """
 
 from dataclasses import dataclass
@@ -8,6 +11,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any
 
+from .design_authority_knowledge import get_design_knowledge_base
 from .project_registry import registry_manager
 
 
@@ -48,89 +52,8 @@ class DesignAuthority:
     """
 
     def __init__(self):
-        self.knowledge_base = self._load_knowledge_base()
+        self.knowledge_base = get_design_knowledge_base()
         self.review_history: list[DesignReview] = []
-
-    def _load_knowledge_base(self) -> dict[str, Any]:
-        """Load the design authority's knowledge base."""
-        return {
-            "principles": {
-                "KISS": {
-                    "description": "Keep It Simple, Stupid",
-                    "guidelines": [
-                        "Prefer simple functions over complex classes",
-                        "Use built-in types when possible",
-                        "Avoid premature abstractions",
-                        "Choose clarity over cleverness",
-                    ],
-                    "red_flags": [
-                        "complex",
-                        "advanced",
-                        "sophisticated",
-                        "enterprise",
-                        "framework",
-                        "architecture",
-                        "pattern",
-                        "design",
-                    ],
-                },
-                "YAGNI": {
-                    "description": "You Aren't Gonna Need It",
-                    "guidelines": [
-                        "Build only what you need right now",
-                        "Avoid speculative features",
-                        "Start simple, add complexity when required",
-                        "Prefer composition over inheritance",
-                    ],
-                    "red_flags": [
-                        "future-proof",
-                        "extensible",
-                        "scalable",
-                        "generic",
-                        "reusable",
-                        "flexible",
-                        "configurable",
-                    ],
-                },
-                "Single_Responsibility": {
-                    "description": "One component, one purpose",
-                    "guidelines": [
-                        "Each function should do one thing well",
-                        "Separate concerns clearly",
-                        "Avoid god classes or functions",
-                        "Keep modules focused",
-                    ],
-                    "red_flags": [
-                        "manager",
-                        "handler",
-                        "controller",
-                        "processor",
-                        "service",
-                        "facade",
-                        "adapter",
-                    ],
-                },
-            },
-            "anti_patterns": [
-                "Creating interfaces before understanding requirements",
-                "Building generic solutions for specific problems",
-                "Over-engineering simple data structures",
-                "Premature optimization",
-                "Complex inheritance hierarchies",
-                "Deeply nested conditional logic",
-                "Functions with too many parameters",
-                "Classes with too many responsibilities",
-            ],
-            "preferred_alternatives": {
-                "complex_class": "simple_function",
-                "inheritance": "composition",
-                "interface": "concrete_type",
-                "factory": "direct_instantiation",
-                "builder": "constructor",
-                "strategy": "if_statement",
-                "observer": "callback_function",
-            },
-        }
 
     def review_component_plan(
         self, requester: str, component_name: str, plan: str, context: str = ""

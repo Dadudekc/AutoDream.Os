@@ -30,10 +30,10 @@ class PredictionTracker:
     def _init_database(self):
         """Initialize SQLite database for tracking predictions"""
         with sqlite3.connect(self.db_path) as conn:
-        cursor = conn.cursor()
+            cursor = conn.cursor()
 
-        # Create predictions table
-        cursor.execute(
+            # Create predictions table
+            cursor.execute(
             """
             CREATE TABLE IF NOT EXISTS predictions (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -48,27 +48,26 @@ class PredictionTracker:
                 accuracy_score REAL,
                 created_at TEXT DEFAULT CURRENT_TIMESTAMP
             )
-        """
-        )
-
-        # Create accuracy summary table
-        cursor.execute(
             """
-            CREATE TABLE IF NOT EXISTS accuracy_summary (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                symbol TEXT NOT NULL,
-                agent_id TEXT NOT NULL,
-                total_predictions INTEGER DEFAULT 0,
-                correct_predictions INTEGER DEFAULT 0,
-                accuracy_percentage REAL DEFAULT 0.0,
-                avg_confidence REAL DEFAULT 0.0,
-                last_updated TEXT DEFAULT CURRENT_TIMESTAMP
             )
-        """
-        )
 
-        conn.commit()
-        conn.close()
+            # Create accuracy summary table
+            cursor.execute(
+                """
+                CREATE TABLE IF NOT EXISTS accuracy_summary (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    symbol TEXT NOT NULL,
+                    agent_id TEXT NOT NULL,
+                    total_predictions INTEGER DEFAULT 0,
+                    correct_predictions INTEGER DEFAULT 0,
+                    accuracy_percentage REAL DEFAULT 0.0,
+                    avg_confidence REAL DEFAULT 0.0,
+                    last_updated TEXT DEFAULT CURRENT_TIMESTAMP
+                )
+                """
+            )
+
+            conn.commit()
 
     def record_prediction(
         self,

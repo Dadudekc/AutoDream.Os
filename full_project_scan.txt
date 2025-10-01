@@ -1,3 +1,1067 @@
+discord_commander.py: excellent (Score: 98)
+  - Async functions found: 4 (may be unnecessary)
+
+__init__.py: excellent (Score: 100)
+
+V3_VALIDATION_TESTING_FRAMEWORK.py: excellent (Score: 100)
+
+add_sample_devlogs.py: excellent (Score: 98)
+  - Async functions found: 1 (may be unnecessary)
+
+check_agent5_inbox.py: excellent (Score: 100)
+
+check_v2_compliance.py: excellent (Score: 100)
+
+final_demo.py: excellent (Score: 100)
+
+query_all_devlogs.py: excellent (Score: 100)
+
+setup_discord_commander.py: excellent (Score: 100)
+
+comprehensive_devlog_upload.py: excellent (Score: 100)
+
+demo_captain_knowledge_queries.py: excellent (Score: 100)
+
+create_combined_export.py: excellent (Score: 100)
+
+delete_static_documentation.py: excellent (Score: 100)
+
+demonstrate_database_queries.py: excellent (Score: 100)
+
+demo_current_mission_status.py: excellent (Score: 100)
+
+demo_cycle_based_operations.py: excellent (Score: 100)
+
+demo_onboarding_knowledge.py: excellent (Score: 100)
+
+devlog_inventory.py: excellent (Score: 100)
+
+run_discord_tests.py: excellent (Score: 100)
+
+demonstrate_vector_integration.py: excellent (Score: 100)
+
+test_multichat_integration.py: excellent (Score: 100)
+
+discord_bot_config.py: excellent (Score: 100)
+
+github_agent_client_standalone.py: excellent (Score: 100)
+
+discord_commander_fixed.py: excellent (Score: 98)
+  - Async functions found: 4 (may be unnecessary)
+
+get_real_tesla_price.py: excellent (Score: 100)
+
+ingest_all_onboarding_docs.py: excellent (Score: 100)
+
+discord_commander_modular.py: excellent (Score: 98)
+  - Async functions found: 1 (may be unnecessary)
+
+ingest_captain_docs.py: excellent (Score: 100)
+
+ingest_existing_documentation.py: excellent (Score: 100)
+
+integration_test.py: excellent (Score: 98)
+  - Async functions found: 3 (may be unnecessary)
+
+quality_gates.py: excellent (Score: 100)
+
+reduce_md_files.py: excellent (Score: 100)
+
+real_agent_coordination.py: excellent (Score: 100)
+
+run_tests.py: excellent (Score: 100)
+
+run_devlog_analytics_system.py: excellent (Score: 100)
+
+run_discord_commander.py: excellent (Score: 100)
+
+swarm_orchestrator.py: excellent (Score: 100)
+
+switch_agent_mode.py: excellent (Score: 100)
+
+temp_message_sender.py: excellent (Score: 100)
+
+test_all_data_sources.py: excellent (Score: 100)
+
+test_all_functionality.py: excellent (Score: 100)
+
+test_dashboard.py: excellent (Score: 98)
+  - Async functions found: 1 (may be unnecessary)
+
+test_discord_commander.py: excellent (Score: 98)
+  - Async functions found: 1 (may be unnecessary)
+
+test_message_formatting.py: excellent (Score: 100)
+
+V3_DIRECTIVES_DEPLOYMENT_SYSTEM.py: excellent (Score: 100)
+
+V3_SECURITY_CLEANUP_FIXED.py: excellent (Score: 100)
+
+cleanup_stale_database_records.py: excellent (Score: 100)
+
+swarm_brain_integration_example.py: excellent (Score: 100)
+
+thea_selector_debugger.py: excellent (Score: 100)
+
+thea_clean_test.py: excellent (Score: 100)
+
+simple_thea_debugger.py: excellent (Score: 100)
+
+thea_auth_test.py: good (Score: 90)
+  - Function too complex: 16 (limit: 10)
+
+thea_manual_login.py: excellent (Score: 100)
+
+response_detector.py: good (Score: 75)
+  - Too many functions: 11 (limit: 10)
+  - Function too complex: 12 (limit: 10)
+  - Too many parameters: 6 (limit: 5)
+
+quality_gates_core.py: good (Score: 85)
+  - Too many functions: 17 (limit: 10)
+  - Too many parameters: 11 (limit: 5)
+
+captain_docs_core.py: excellent (Score: 100)
+
+captain_cycle_core.py: excellent (Score: 100)
+
+complete_onboarding_core.py: excellent (Score: 100)
+
+discord_commander_fixed_backup.py: excellent (Score: 98)
+  - Async functions found: 16 (may be unnecessary)
+
+discord_commander_core.py: excellent (Score: 98)
+  - Async functions found: 5 (may be unnecessary)
+
+discord_commander_setup_core.py: excellent (Score: 100)
+
+comprehensive_devlog_core.py: excellent (Score: 100)
+
+analyze_large_files.py: excellent (Score: 100)
+
+cleanup_stale_database_core.py: excellent (Score: 100)
+
+discord_commander_config.py: excellent (Score: 100)
+
+agent5_inbox_checker_core.py: excellent (Score: 100)
+
+captain_knowledge_demo_core.py: excellent (Score: 100)
+
+v2_compliance_checker_core.py: excellent (Score: 100)
+
+combined_export_core.py: excellent (Score: 100)
+
+static_documentation_deleter_core.py: good (Score: 90)
+  - Too many functions: 11 (limit: 10)
+
+database_query_demonstrator_core.py: excellent (Score: 100)
+
+mission_status_demonstrator_core.py: excellent (Score: 100)
+
+cycle_based_operations_demonstrator_core.py: excellent (Score: 100)
+
+onboarding_knowledge_demo_core.py: excellent (Score: 100)
+
+devlog_inventory_core.py: excellent (Score: 100)
+
+test_runner_core.py: excellent (Score: 100)
+
+devlog_analytics_system_core.py: excellent (Score: 100)
+
+discord_commander_launcher_core.py: excellent (Score: 98)
+  - Async functions found: 1 (may be unnecessary)
+
+swarm_orchestrator_core.py: excellent (Score: 100)
+
+agent_mode_switcher_core.py: excellent (Score: 100)
+
+discord_bot_config_core.py: excellent (Score: 100)
+
+github_agent_client_core.py: excellent (Score: 100)
+
+real_agent_coordination_core.py: excellent (Score: 100)
+
+temp_message_sender_core.py: excellent (Score: 100)
+
+test_all_data_sources_core.py: excellent (Score: 100)
+
+test_message_formatting_core.py: excellent (Score: 100)
+
+update_captain_cycle_core.py: excellent (Score: 100)
+
+quality_coordination_response.py: excellent (Score: 100)
+
+watchdog.py: good (Score: 90)
+  - Too many functions: 14 (limit: 10)
+
+report.py: good (Score: 90)
+  - Too many functions: 11 (limit: 10)
+
+agent_workspaces\database_specialist\migration_executor.py: excellent (Score: 100)
+
+agent_workspaces\database_specialist\scalability_strategies.py: excellent (Score: 100)
+
+agent_workspaces\database_specialist\automated_migration_scripts.py: excellent (Score: 100)
+
+agent_workspaces\database_specialist\caching_strategy_system.py: excellent (Score: 100)
+
+agent_workspaces\database_specialist\migration_core.py: critical (Score: 0)
+  - Analysis failed
+
+agent_workspaces\database_specialist\migration_scripts.py: excellent (Score: 100)
+
+agent_workspaces\database_specialist\query_optimization_system.py: critical (Score: 0)
+  - Analysis failed
+
+agent_workspaces\database_specialist\scalability_core.py: excellent (Score: 100)
+
+agent_workspaces\database_specialist\scalability_validation.py: excellent (Score: 100)
+
+agent_workspaces\database_specialist\v2_compliance_improvement_plan.py: excellent (Score: 100)
+
+agent_workspaces\database_specialist\__init__.py: excellent (Score: 100)
+
+agent_workspaces\database_specialist\caching\__init__.py: excellent (Score: 100)
+
+agent_workspaces\database_specialist\caching\core\__init__.py: excellent (Score: 100)
+
+agent_workspaces\database_specialist\caching\core\caching_system.py: excellent (Score: 100)
+
+agent_workspaces\database_specialist\caching\models\__init__.py: excellent (Score: 100)
+
+agent_workspaces\database_specialist\caching\models\cache_models.py: excellent (Score: 100)
+
+agent_workspaces\database_specialist\caching\monitoring\__init__.py: excellent (Score: 100)
+
+agent_workspaces\database_specialist\caching\monitoring\cache_monitor.py: excellent (Score: 100)
+
+agent_workspaces\database_specialist\caching\strategies\__init__.py: excellent (Score: 100)
+
+agent_workspaces\database_specialist\caching\strategies\cache_strategies.py: good (Score: 90)
+  - Too many functions: 12 (limit: 10)
+
+agent_workspaces\database_specialist\caching\tools\__init__.py: excellent (Score: 100)
+
+agent_workspaces\database_specialist\caching\tools\cache_tools.py: good (Score: 90)
+  - Too many functions: 11 (limit: 10)
+
+agent_workspaces\Agent-3\caching_strategy_system.py: excellent (Score: 100)
+
+agent_workspaces\Agent-3\__init__.py: excellent (Score: 100)
+
+agent_workspaces\Agent-3\migration_core.py: critical (Score: 0)
+  - Analysis failed
+
+agent_workspaces\Agent-3\migration_executor.py: excellent (Score: 100)
+
+agent_workspaces\Agent-3\migration_scripts.py: excellent (Score: 100)
+
+agent_workspaces\Agent-3\query_optimization_system.py: excellent (Score: 100)
+
+agent_workspaces\Agent-3\scalability_core.py: excellent (Score: 100)
+
+agent_workspaces\Agent-3\scalability_strategies.py: excellent (Score: 100)
+
+agent_workspaces\Agent-3\scalability_validation.py: excellent (Score: 100)
+
+agent_workspaces\Agent-3\v2_compliance_improvement_plan.py: excellent (Score: 100)
+
+agent_workspaces\Agent-3\automated_migration_scripts.py: excellent (Score: 100)
+
+agent_workspaces\Agent-3\query_optimization_core.py: critical (Score: 0)
+  - Analysis failed
+
+agent_workspaces\Agent-3\caching\__init__.py: excellent (Score: 100)
+
+agent_workspaces\Agent-3\caching\core\__init__.py: excellent (Score: 100)
+
+agent_workspaces\Agent-3\caching\core\caching_system.py: excellent (Score: 100)
+
+agent_workspaces\Agent-3\caching\models\__init__.py: excellent (Score: 100)
+
+agent_workspaces\Agent-3\caching\models\cache_models.py: excellent (Score: 100)
+
+agent_workspaces\Agent-3\caching\monitoring\__init__.py: excellent (Score: 100)
+
+agent_workspaces\Agent-3\caching\monitoring\cache_monitor.py: excellent (Score: 100)
+
+agent_workspaces\Agent-3\caching\strategies\__init__.py: excellent (Score: 100)
+
+agent_workspaces\Agent-3\caching\strategies\cache_strategies.py: good (Score: 90)
+  - Too many functions: 12 (limit: 10)
+
+agent_workspaces\Agent-3\caching\tools\__init__.py: excellent (Score: 100)
+
+agent_workspaces\Agent-3\caching\tools\cache_tools.py: good (Score: 90)
+  - Too many functions: 11 (limit: 10)
+
+tests\__init__.py: excellent (Score: 100)
+
+tests\conftest.py: good (Score: 90)
+  - Function too complex: 15 (limit: 10)
+
+tests\conftest_discord.py: good (Score: 90)
+  - Too many functions: 19 (limit: 10)
+
+tests\run_modular_tests.py: good (Score: 90)
+  - Function too complex: 14 (limit: 10)
+
+tests\test_canon.py: excellent (Score: 100)
+
+tests\test_roundtrip.py: excellent (Score: 100)
+
+tests\test_memory_phase1_integration.py: excellent (Score: 100)
+
+tests\test_messaging_memory_integration.py: good (Score: 75)
+  - Too many classes: 10 (limit: 5)
+  - Too many functions: 19 (limit: 10)
+
+tests\unit\__init__.py: excellent (Score: 100)
+
+tests\integration\__init__.py: excellent (Score: 100)
+
+tests\integration\test_comprehensive_integration.py: good (Score: 83)
+  - Too many classes: 8 (limit: 5)
+  - Async functions found: 11 (may be unnecessary)
+
+tests\integration\test_discord_commander_integration.py: poor (Score: 53)
+  - File size violation: 453 lines (limit: 400)
+  - Too many classes: 9 (limit: 5)
+  - Too many functions: 26 (limit: 10)
+  - Async functions found: 1 (may be unnecessary)
+
+tests\integration\test_messaging_integration.py: good (Score: 90)
+  - Too many functions: 16 (limit: 10)
+
+tests\integration\test_vector_database_integration.py: excellent (Score: 98)
+  - Async functions found: 11 (may be unnecessary)
+
+tests\integration\test_workflow_integration.py: good (Score: 90)
+  - Too many functions: 17 (limit: 10)
+
+tests\performance\__init__.py: excellent (Score: 100)
+
+tests\utils\__init__.py: excellent (Score: 100)
+
+tests\utils\cross_platform_test_utils.py: good (Score: 90)
+  - Too many functions: 21 (limit: 10)
+
+tests\utils\test_base_classes.py: acceptable (Score: 65)
+  - Too many classes: 10 (limit: 5)
+  - Too many functions: 43 (limit: 10)
+  - Too many parameters: 6 (limit: 5)
+  - Abstract base classes found: 1 (not recommended)
+
+tests\utils\test_fixtures.py: acceptable (Score: 70)
+  - File size violation: 424 lines (limit: 400)
+  - Too many functions: 32 (limit: 10)
+
+tests\messaging\__init__.py: excellent (Score: 100)
+
+tests\messaging\test_messaging_service_core.py: good (Score: 90)
+  - Too many functions: 15 (limit: 10)
+
+tests\messaging\test_messaging_service_operations.py: good (Score: 90)
+  - Too many functions: 23 (limit: 10)
+
+tests\discord\__init__.py: excellent (Score: 100)
+
+tests\discord\test_discord_bot_core.py: good (Score: 88)
+  - Too many functions: 13 (limit: 10)
+  - Async functions found: 6 (may be unnecessary)
+
+tests\discord\test_discord_bot_integration.py: good (Score: 88)
+  - Too many functions: 18 (limit: 10)
+  - Async functions found: 4 (may be unnecessary)
+
+tests\database\__init__.py: excellent (Score: 100)
+
+tests\database\test_migration_scripts.py: poor (Score: 55)
+  - File size violation: 476 lines (limit: 400)
+  - Too many classes: 6 (limit: 5)
+  - Too many functions: 33 (limit: 10)
+
+tests\database\test_schema_implementation.py: good (Score: 90)
+  - Too many functions: 17 (limit: 10)
+
+tests\database\test_schema_models.py: good (Score: 85)
+  - Too many classes: 6 (limit: 5)
+
+tests\database\test_schema_core.py: good (Score: 90)
+  - Too many functions: 12 (limit: 10)
+
+tools\agent_get_started.py: excellent (Score: 98)
+  - Async functions found: 1 (may be unnecessary)
+
+tools\agent_task_manager.py: good (Score: 90)
+  - Function too complex: 11 (limit: 10)
+
+tools\analysis_cli.py: excellent (Score: 100)
+
+tools\post_major_update.py: excellent (Score: 98)
+  - Async functions found: 7 (may be unnecessary)
+
+tools\projectscanner.py: excellent (Score: 100)
+
+tools\agent_autonomous_cycle.py: excellent (Score: 98)
+  - Async functions found: 1 (may be unnecessary)
+
+tools\agent_workflow_cli.py: excellent (Score: 100)
+
+tools\captain_autonomous_interface.py: excellent (Score: 100)
+
+tools\directive_handlers.py: good (Score: 75)
+  - Too many functions: 11 (limit: 10)
+  - Function too complex: 12 (limit: 10)
+  - Too many parameters: 6 (limit: 5)
+
+tools\directive_models.py: excellent (Score: 95)
+  - Too many parameters: 6 (limit: 5)
+
+tools\run_project_scan.py: excellent (Score: 100)
+
+tools\simple_workflow_automation.py: acceptable (Score: 65)
+  - File size violation: 469 lines (limit: 400)
+  - Too many functions: 11 (limit: 10)
+  - Too many parameters: 7 (limit: 5)
+
+tools\workflow_cli.py: excellent (Score: 100)
+
+tools\performance_detective_cli.py: excellent (Score: 100)
+
+tools\security_inspector_cli.py: excellent (Score: 100)
+
+tools\documentation_architect_cli.py: excellent (Score: 100)
+
+tools\integration_explorer_cli.py: excellent (Score: 100)
+
+tools\financial_analyst_cli.py: excellent (Score: 100)
+
+tools\trading_strategist_cli.py: excellent (Score: 100)
+
+tools\risk_manager_cli.py: excellent (Score: 100)
+
+tools\market_researcher_cli.py: excellent (Score: 100)
+
+tools\portfolio_optimizer_cli.py: excellent (Score: 100)
+
+tools\compliance_auditor_cli.py: excellent (Score: 100)
+
+tools\__init__.py: excellent (Score: 100)
+
+tools\agent_swarm_scaffolder.py: good (Score: 80)
+  - File size violation: 419 lines (limit: 400)
+
+tools\agent_vector_search.py: excellent (Score: 100)
+
+tools\agent_workflow_automation.py: acceptable (Score: 70)
+  - File size violation: 436 lines (limit: 400)
+  - Too many functions: 16 (limit: 10)
+
+tools\agent_workflow_manager.py: acceptable (Score: 65)
+  - File size violation: 444 lines (limit: 400)
+  - Too many functions: 16 (limit: 10)
+  - Too many parameters: 6 (limit: 5)
+
+tools\api_gateway_cli.py: good (Score: 90)
+  - Too many functions: 12 (limit: 10)
+
+tools\captain_autonomous_core.py: good (Score: 90)
+  - Too many functions: 25 (limit: 10)
+
+tools\captain_autonomous_manager.py: excellent (Score: 100)
+
+tools\captain_autonomous_models.py: excellent (Score: 95)
+  - Too many parameters: 6 (limit: 5)
+
+tools\captain_autonomous_storage.py: excellent (Score: 100)
+
+tools\captain_autonomous_utility.py: good (Score: 90)
+  - Too many functions: 31 (limit: 10)
+
+tools\captain_cli.py: excellent (Score: 100)
+
+tools\captain_directive_manager.py: poor (Score: 40)
+  - File size violation: 463 lines (limit: 400)
+  - Too many classes: 6 (limit: 5)
+  - Too many functions: 16 (limit: 10)
+  - Function too complex: 12 (limit: 10)
+  - Too many parameters: 6 (limit: 5)
+
+tools\code_archaeologist_cli.py: excellent (Score: 100)
+
+tools\content_hash_system.py: excellent (Score: 100)
+
+tools\coordinate_mapper.py: good (Score: 90)
+  - Too many functions: 13 (limit: 10)
+
+tools\database_cleanup.py: good (Score: 90)
+  - Function too complex: 12 (limit: 10)
+
+tools\db_diagnostic.py: excellent (Score: 100)
+
+tools\devlog_consolidator.py: good (Score: 90)
+  - Function too complex: 32 (limit: 10)
+
+tools\devlog_storyteller_cli.py: excellent (Score: 100)
+
+tools\directive_services.py: good (Score: 85)
+  - Too many functions: 14 (limit: 10)
+  - Too many parameters: 6 (limit: 5)
+
+tools\duplication_audit.py: good (Score: 80)
+  - Too many functions: 12 (limit: 10)
+  - Function too complex: 13 (limit: 10)
+
+tools\emit_event.py: excellent (Score: 98)
+  - Async functions found: 1 (may be unnecessary)
+
+tools\feature_registry_check.py: excellent (Score: 95)
+  - Too many parameters: 6 (limit: 5)
+
+tools\github_agent_cli.py: good (Score: 90)
+  - Too many functions: 12 (limit: 10)
+
+tools\github_agent_client.py: good (Score: 90)
+  - Too many functions: 11 (limit: 10)
+
+tools\github_agent_controller.py: good (Score: 85)
+  - Too many functions: 23 (limit: 10)
+  - Too many parameters: 8 (limit: 5)
+
+tools\intelligent_alerting_cli.py: good (Score: 90)
+  - Function too complex: 14 (limit: 10)
+
+tools\knowledge_base_search.py: good (Score: 80)
+  - Too many functions: 11 (limit: 10)
+  - Function too complex: 13 (limit: 10)
+
+tools\overengineering_detector.py: good (Score: 85)
+  - Function too complex: 13 (limit: 10)
+  - Too many parameters: 7 (limit: 5)
+
+tools\predictive_analytics_cli.py: good (Score: 90)
+  - Function too complex: 11 (limit: 10)
+
+tools\protocol_reference_enforcer.py: good (Score: 90)
+  - Function too complex: 13 (limit: 10)
+
+tools\quick_fix.py: excellent (Score: 100)
+
+tools\simple_project_scanner.py: excellent (Score: 100)
+
+tools\simple_vector_cleanup.py: excellent (Score: 100)
+
+tools\simple_vector_search.py: good (Score: 90)
+  - Function too complex: 14 (limit: 10)
+
+tools\swarm_coordination_tool.py: excellent (Score: 98)
+  - Async functions found: 4 (may be unnecessary)
+
+tools\swarm_dashboard_cli.py: excellent (Score: 100)
+
+tools\team_collaboration_tool.py: good (Score: 90)
+  - Function too complex: 13 (limit: 10)
+
+tools\team_dashboard.py: good (Score: 90)
+  - Too many functions: 11 (limit: 10)
+
+tools\test_role_assignment.py: excellent (Score: 100)
+
+tools\unified_database_search.py: good (Score: 90)
+  - Function too complex: 15 (limit: 10)
+
+tools\v2_refactoring_assistant.py: acceptable (Score: 60)
+  - File size violation: 439 lines (limit: 400)
+  - Too many functions: 15 (limit: 10)
+  - Function too complex: 16 (limit: 10)
+
+tools\v3_autonomous_cycle.py: excellent (Score: 98)
+  - Async functions found: 2 (may be unnecessary)
+
+tools\webhook_provisioner_cli.py: excellent (Score: 98)
+  - Async functions found: 9 (may be unnecessary)
+
+tools\agent_cycle_devlog.py: excellent (Score: 98)
+  - Async functions found: 1 (may be unnecessary)
+
+tools\enhanced_onboarding_cli.py: good (Score: 90)
+  - Function too complex: 13 (limit: 10)
+
+tools\soft_onboarding_cli.py: good (Score: 90)
+  - Function too complex: 13 (limit: 10)
+
+tools\unified_onboarding_cli.py: good (Score: 90)
+  - Function too complex: 18 (limit: 10)
+
+tools\find_coordinates.py: excellent (Score: 100)
+
+tools\ml_training_infrastructure_tool.py: excellent (Score: 100)
+
+tools\ml_training_infrastructure_tool_core.py: good (Score: 85)
+  - Too many classes: 9 (limit: 5)
+
+tools\ml_training_infrastructure_tool_main.py: excellent (Score: 100)
+
+tools\ml_training_infrastructure_tool_utils.py: acceptable (Score: 70)
+  - File size violation: 422 lines (limit: 400)
+  - Too many functions: 19 (limit: 10)
+
+tools\protocol_compliance_checker_core.py: excellent (Score: 100)
+
+tools\protocol_compliance_checker_utils.py: good (Score: 90)
+  - Too many functions: 12 (limit: 10)
+
+tools\protocol_compliance_checker_main.py: excellent (Score: 100)
+
+tools\protocol_compliance_checker.py: excellent (Score: 100)
+
+tools\operational_dashboard_tool_core.py: good (Score: 85)
+  - Too many classes: 6 (limit: 5)
+
+tools\operational_dashboard_tool_utils.py: excellent (Score: 100)
+
+tools\operational_dashboard_tool_main.py: critical (Score: 0)
+  - Analysis failed
+
+tools\operational_dashboard_tool.py: excellent (Score: 100)
+
+tools\memory_leak_detector.py: good (Score: 90)
+  - Too many functions: 14 (limit: 10)
+
+tools\memory_optimizer.py: good (Score: 80)
+  - File size violation: 405 lines (limit: 400)
+
+tools\memory_monitor.py: excellent (Score: 100)
+
+tools\memory_manager.py: good (Score: 90)
+  - Too many functions: 12 (limit: 10)
+
+tools\critical_memory_fixer.py: excellent (Score: 100)
+
+tools\ci_memory_gate.py: excellent (Score: 100)
+
+tools\generate_memory_leak_report.py: excellent (Score: 100)
+
+tools\projectscanner\analyzers.py: excellent (Score: 100)
+
+tools\projectscanner\reporters.py: good (Score: 90)
+  - Too many functions: 14 (limit: 10)
+
+tools\projectscanner\workers.py: good (Score: 90)
+  - Too many functions: 13 (limit: 10)
+
+tools\projectscanner\core.py: good (Score: 80)
+  - Too many functions: 15 (limit: 10)
+  - Function too complex: 11 (limit: 10)
+
+tools\projectscanner\__init__.py: excellent (Score: 100)
+
+tools\projectscanner\cli.py: excellent (Score: 100)
+
+tools\projectscanner\enhanced_analyzer_v2.py: excellent (Score: 100)
+
+tools\projectscanner\enhanced_scanner\file_discovery.py: excellent (Score: 100)
+
+tools\projectscanner\enhanced_scanner\core_analyzer.py: excellent (Score: 100)
+
+tools\projectscanner\enhanced_scanner\caching_system.py: good (Score: 90)
+  - Too many functions: 13 (limit: 10)
+
+tools\projectscanner\enhanced_scanner\report_generator.py: good (Score: 90)
+  - Too many functions: 11 (limit: 10)
+
+tools\projectscanner\enhanced_scanner\language_analyzer.py: excellent (Score: 100)
+
+tools\projectscanner\enhanced_scanner\python_analyzer.py: good (Score: 90)
+  - Function too complex: 18 (limit: 10)
+
+tools\projectscanner\enhanced_scanner\__init__.py: excellent (Score: 100)
+
+tools\projectscanner\enhanced_scanner\agent_categorization.py: excellent (Score: 100)
+
+tools\projectscanner\enhanced_scanner\file_analysis.py: excellent (Score: 100)
+
+tools\projectscanner\enhanced_scanner\report_generation.py: excellent (Score: 100)
+
+tools\projectscanner\enhanced_scanner\core.py: excellent (Score: 100)
+
+tools\projectscanner\enhanced_analyzer\__init__.py: excellent (Score: 100)
+
+tools\projectscanner\enhanced_analyzer\core.py: excellent (Score: 100)
+
+tools\analysis\core.py: excellent (Score: 100)
+
+tools\analysis\refactor.py: excellent (Score: 100)
+
+tools\analysis\violations.py: excellent (Score: 100)
+
+tools\analysis\__init__.py: excellent (Score: 100)
+
+tools\analysis\cli.py: excellent (Score: 100)
+
+tools\fsm\__init__.py: excellent (Score: 100)
+
+tools\fsm\fsm_scan.py: good (Score: 90)
+  - Function too complex: 16 (limit: 10)
+
+tools\coverage\changed_file_report.py: excellent (Score: 100)
+
+tools\coverage\gap_analyzer.py: excellent (Score: 100)
+
+tools\coverage\mutation_gate.py: excellent (Score: 100)
+
+tools\coverage\run_coverage_analysis.py: good (Score: 90)
+  - Function too complex: 12 (limit: 10)
+
+tools\coverage\__init__.py: excellent (Score: 100)
+
+tools\workflow\__init__.py: excellent (Score: 100)
+
+tools\workflow\automation.py: good (Score: 90)
+  - Too many functions: 15 (limit: 10)
+
+tools\workflow\core.py: good (Score: 90)
+  - Too many functions: 15 (limit: 10)
+
+tools\workflow\manager.py: good (Score: 90)
+  - Too many functions: 11 (limit: 10)
+
+tools\workflow\optimization.py: acceptable (Score: 68)
+  - File size violation: 429 lines (limit: 400)
+  - Too many functions: 29 (limit: 10)
+  - Async functions found: 1 (may be unnecessary)
+
+tools\workflow\simple_manager.py: good (Score: 80)
+  - Too many functions: 17 (limit: 10)
+  - Function too complex: 14 (limit: 10)
+
+tools\trading_cli\__init__.py: excellent (Score: 100)
+
+tools\trading_cli\market_analyzer.py: good (Score: 90)
+  - Too many functions: 14 (limit: 10)
+
+tools\trading_cli\master_cli.py: excellent (Score: 100)
+
+tools\trading_cli\news_analyzer.py: acceptable (Score: 70)
+  - File size violation: 414 lines (limit: 400)
+  - Too many functions: 12 (limit: 10)
+
+tools\trading_cli\prediction_tracker.py: critical (Score: 0)
+  - Analysis failed
+
+tools\trading_cli\agent_coordinator.py: good (Score: 90)
+  - Too many functions: 11 (limit: 10)
+
+tools\trading_cli\technical_analyzer_core.py: excellent (Score: 100)
+
+tools\trading_cli\technical_analyzer_utils.py: good (Score: 90)
+  - Function too complex: 16 (limit: 10)
+
+tools\trading_cli\technical_analyzer_main.py: excellent (Score: 100)
+
+tools\trading_cli\technical_analyzer.py: excellent (Score: 100)
+
+tools\refactoring_templates\__init__.py: excellent (Score: 100)
+
+tools\refactoring_templates\critical_file_refactoring.py: good (Score: 90)
+  - Too many functions: 12 (limit: 10)
+
+tools\static_analysis\__init__.py: excellent (Score: 100)
+
+tools\static_analysis\analysis_dashboard.py: acceptable (Score: 70)
+  - File size violation: 437 lines (limit: 400)
+  - Too many functions: 12 (limit: 10)
+
+tools\static_analysis\code_quality_analyzer.py: good (Score: 80)
+  - Too many functions: 12 (limit: 10)
+  - Function too complex: 18 (limit: 10)
+
+tools\static_analysis\demo_analysis.py: excellent (Score: 100)
+
+tools\static_analysis\dependency_scanner.py: good (Score: 80)
+  - Too many functions: 11 (limit: 10)
+  - Function too complex: 13 (limit: 10)
+
+tools\static_analysis\security_scanner.py: good (Score: 90)
+  - Function too complex: 15 (limit: 10)
+
+browser_service\__init__.py: excellent (Score: 100)
+
+browser_service\adapters\__init__.py: excellent (Score: 100)
+
+browser_service\adapters\chrome_adapter.py: good (Score: 85)
+  - Too many functions: 21 (limit: 10)
+  - Abstract base classes found: 1 (not recommended)
+
+browser_service\config\__init__.py: excellent (Score: 100)
+
+browser_service\config\browser_config.py: excellent (Score: 100)
+
+browser_service\core\__init__.py: excellent (Score: 100)
+
+browser_service\core\unified_browser_service.py: good (Score: 90)
+  - Too many functions: 18 (limit: 10)
+
+browser_service\managers\__init__.py: excellent (Score: 100)
+
+browser_service\managers\session_manager.py: excellent (Score: 100)
+
+browser_service\operations\__init__.py: excellent (Score: 100)
+
+browser_service\operations\browser_operations.py: excellent (Score: 100)
+
+infrastructure\__init__.py: excellent (Score: 100)
+
+infrastructure\validate_deployment.py: excellent (Score: 98)
+  - Async functions found: 6 (may be unnecessary)
+
+infrastructure\validate_ml_pipeline.py: excellent (Score: 100)
+
+infrastructure\validate_tracing.py: good (Score: 78)
+  - File size violation: 442 lines (limit: 400)
+  - Async functions found: 8 (may be unnecessary)
+
+scripts\__init__.py: excellent (Score: 100)
+
+scripts\continuous_optimization_monitor.py: good (Score: 78)
+  - File size violation: 415 lines (limit: 400)
+  - Async functions found: 8 (may be unnecessary)
+
+scripts\deploy_modular_components.py: excellent (Score: 100)
+
+scripts\deployment_dashboard.py: excellent (Score: 98)
+  - Async functions found: 3 (may be unnecessary)
+
+scripts\lightweight_deployment_dashboard.py: excellent (Score: 98)
+  - Async functions found: 3 (may be unnecessary)
+
+scripts\remove_duplicate_discord_files.py: excellent (Score: 100)
+
+scripts\run_comprehensive_tests.py: excellent (Score: 100)
+
+scripts\security_integration.py: excellent (Score: 100)
+
+scripts\windows_compatible_test_runner.py: good (Score: 80)
+  - File size violation: 451 lines (limit: 400)
+
+analytics\__init__.py: excellent (Score: 100)
+
+analytics\agent_metrics.py: excellent (Score: 100)
+
+analytics\predictive_engine.py: good (Score: 85)
+  - Too many functions: 19 (limit: 10)
+  - Too many parameters: 10 (limit: 5)
+
+analytics\score_window.py: excellent (Score: 100)
+
+analytics\window_loader.py: excellent (Score: 100)
+
+analytics\predictive_models.py: good (Score: 85)
+  - Too many classes: 8 (limit: 5)
+
+analytics\predictive_core.py: acceptable (Score: 70)
+  - File size violation: 576 lines (limit: 400)
+  - Too many functions: 28 (limit: 10)
+
+analytics\signals\__init__.py: excellent (Score: 100)
+
+analytics\signals\collect_ci_signals.py: excellent (Score: 100)
+
+swarm_brain\__init__.py: excellent (Score: 100)
+
+swarm_brain\canon.py: excellent (Score: 95)
+  - Too many parameters: 7 (limit: 5)
+
+swarm_brain\cli.py: excellent (Score: 100)
+
+swarm_brain\config.py: excellent (Score: 100)
+
+swarm_brain\db.py: critical (Score: 0)
+  - Analysis failed
+
+swarm_brain\decorators.py: good (Score: 85)
+  - Too many functions: 15 (limit: 10)
+  - Too many parameters: 6 (limit: 5)
+
+swarm_brain\ingest.py: excellent (Score: 95)
+  - Too many parameters: 12 (limit: 5)
+
+swarm_brain\paths.py: excellent (Score: 100)
+
+swarm_brain\retriever.py: excellent (Score: 95)
+  - Too many parameters: 6 (limit: 5)
+
+swarm_brain\embeddings\__init__.py: excellent (Score: 100)
+
+swarm_brain\embeddings\base.py: excellent (Score: 95)
+  - Abstract base classes found: 1 (not recommended)
+
+swarm_brain\embeddings\numpy_backend.py: excellent (Score: 100)
+
+swarm_brain\connectors\__init__.py: excellent (Score: 100)
+
+swarm_brain\connectors\devlogs.py: good (Score: 90)
+  - Function too complex: 13 (limit: 10)
+
+swarm_brain\connectors\discord.py: good (Score: 85)
+  - Function too complex: 15 (limit: 10)
+  - Too many parameters: 7 (limit: 5)
+
+swarm_brain\connectors\performance.py: good (Score: 85)
+  - Function too complex: 15 (limit: 10)
+  - Too many parameters: 6 (limit: 5)
+
+swarm_brain\connectors\project_scanner.py: excellent (Score: 95)
+  - Too many parameters: 6 (limit: 5)
+
+tsla_forecast_app\__init__.py: excellent (Score: 100)
+
+tsla_forecast_app\V2_STANDALONE_DEMO.py: good (Score: 90)
+  - Too many functions: 18 (limit: 10)
+
+tsla_forecast_app\V2_TRADING_ROBOT_DEMO.py: excellent (Score: 100)
+
+tsla_forecast_app\run_app.py: excellent (Score: 100)
+
+tsla_forecast_app\run_trading_robot.py: excellent (Score: 100)
+
+tsla_forecast_app\tesla_stock_app.py: excellent (Score: 100)
+
+tsla_forecast_app\trading_robot_core.py: excellent (Score: 100)
+
+tsla_forecast_app\trading_robot_interface.py: good (Score: 90)
+  - Too many functions: 21 (limit: 10)
+
+tsla_forecast_app\trading_robot_strategies.py: good (Score: 75)
+  - Too many classes: 6 (limit: 5)
+  - Too many functions: 23 (limit: 10)
+
+tsla_forecast_app\trading_models.py: good (Score: 85)
+  - Too many classes: 7 (limit: 5)
+
+tsla_forecast_app\trading_strategies.py: excellent (Score: 100)
+
+tsla_forecast_app\trading_robot.py: excellent (Score: 100)
+
+tsla_forecast_app\modules\__init__.py: excellent (Score: 100)
+
+tsla_forecast_app\modules\data_worker.py: good (Score: 90)
+  - Too many functions: 12 (limit: 10)
+
+tsla_forecast_app\modules\flag_display.py: good (Score: 90)
+  - Too many functions: 14 (limit: 10)
+
+tsla_forecast_app\modules\main_app.py: good (Score: 90)
+  - Too many functions: 15 (limit: 10)
+
+tsla_forecast_app\modules\trading_flags.py: poor (Score: 45)
+  - File size violation: 461 lines (limit: 400)
+  - Too many classes: 6 (limit: 5)
+  - Too many functions: 18 (limit: 10)
+  - Function too complex: 14 (limit: 10)
+
+tsla_forecast_app\modules\ui_components.py: good (Score: 90)
+  - Too many functions: 18 (limit: 10)
+
+tsla_forecast_app\modules\v2_trading_interface.py: good (Score: 90)
+  - Too many functions: 19 (limit: 10)
+
+tsla_forecast_app\modules\ui_components\__init__.py: excellent (Score: 100)
+
+tsla_forecast_app\modules\ui_components\chart_display.py: good (Score: 80)
+  - Too many functions: 15 (limit: 10)
+  - Function too complex: 12 (limit: 10)
+
+tsla_forecast_app\modules\ui_components\forecast_display.py: excellent (Score: 100)
+
+tsla_forecast_app\modules\ui_components\log_display.py: good (Score: 90)
+  - Too many functions: 11 (limit: 10)
+
+tsla_forecast_app\modules\ui_components\professional_theme.py: excellent (Score: 100)
+
+tsla_forecast_app\modules\ui_components\responsive_layout.py: good (Score: 90)
+  - Too many functions: 18 (limit: 10)
+
+tsla_forecast_app\modules\ui_components\settings_display.py: excellent (Score: 100)
+
+tsla_forecast_app\modules\ui_components\stock_display.py: excellent (Score: 100)
+
+tsla_forecast_app\modules\ui\__init__.py: excellent (Score: 100)
+
+tsla_forecast_app\modules\ui\chart_widget.py: good (Score: 90)
+  - Too many functions: 19 (limit: 10)
+
+tsla_forecast_app\modules\ui\mobile_responsive.py: good (Score: 90)
+  - Too many functions: 16 (limit: 10)
+
+tsla_forecast_app\modules\ui\trading_dashboard.py: good (Score: 90)
+  - Too many functions: 11 (limit: 10)
+
+migration_system\__init__.py: excellent (Score: 100)
+
+migration_system\backup\__init__.py: excellent (Score: 100)
+
+migration_system\backup\backup_manager.py: excellent (Score: 100)
+
+migration_system\core\__init__.py: excellent (Score: 100)
+
+migration_system\core\migration_controller.py: excellent (Score: 100)
+
+migration_system\data\__init__.py: excellent (Score: 100)
+
+migration_system\data\data_migrator.py: excellent (Score: 100)
+
+migration_system\schema\__init__.py: excellent (Score: 100)
+
+migration_system\schema\schema_manager.py: excellent (Score: 100)
+
+migration_system\testing\__init__.py: excellent (Score: 100)
+
+migration_system\testing\integration_tester.py: excellent (Score: 100)
+
+migration_system\validation\__init__.py: excellent (Score: 100)
+
+migration_system\validation\data_validator.py: excellent (Score: 100)
+
+thea_auth\cookie_manager.py: good (Score: 90)
+  - Function too complex: 11 (limit: 10)
+
+thea_auth\login_handler.py: good (Score: 90)
+  - Function too complex: 13 (limit: 10)
+
+thea_auth\__init__.py: excellent (Score: 100)
+
+thea_auth\factory.py: excellent (Score: 100)
+
+thea_communication\__init__.py: excellent (Score: 100)
+
+thea_communication\automation\__init__.py: excellent (Score: 100)
+
+thea_communication\automation\selenium_handler.py: good (Score: 90)
+  - Function too complex: 12 (limit: 10)
+
+thea_communication\automation\simple_manual.py: excellent (Score: 100)
+
+thea_communication\core\__init__.py: excellent (Score: 100)
+
+thea_communication\core\communication_service.py: excellent (Score: 100)
+
+thea_communication\response\__init__.py: excellent (Score: 100)
+
+thea_communication\response\response_analyzer.py: excellent (Score: 100)
+
+thea_communication\response\response_capturer.py: excellent (Score: 100)
+
+thea_communication\response\response_handler.py: excellent (Score: 100)
+
+web_dashboard\__init__.py: excellent (Score: 100)
+
+web_dashboard\api.py: excellent (Score: 100)
+
+web_dashboard\websocket.py: excellent (Score: 98)
+  - Async functions found: 10 (may be unnecessary)
+
 src\commandresult.py: excellent (Score: 100)
 
 src\coordinate_agent_registry.py: excellent (Score: 100)

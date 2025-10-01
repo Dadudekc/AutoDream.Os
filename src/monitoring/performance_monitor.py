@@ -380,7 +380,7 @@ class RealTimePerformanceMonitor:
                 },
                 "recent_snapshots": [
                     snapshot.to_dict()
-                    for snapshot in self.performance_history[-50:]  # Last 50 snapshots
+                    for snapshot in self.performance_history[-50:]
                 ],
             }
 
@@ -396,27 +396,3 @@ class RealTimePerformanceMonitor:
         except Exception as e:
             logger.error(f"Failed to save performance report: {e}")
             return False
-
-
-# Global monitor instance
-_global_monitor: RealTimePerformanceMonitor | None = None
-
-
-def get_global_monitor() -> RealTimePerformanceMonitor:
-    """Get global performance monitor instance."""
-    global _global_monitor
-    if _global_monitor is None:
-        _global_monitor = RealTimePerformanceMonitor(Path("."))
-    return _global_monitor
-
-
-async def start_global_monitoring():
-    """Start global performance monitoring."""
-    monitor = get_global_monitor()
-    await monitor.start_monitoring()
-
-
-async def stop_global_monitoring():
-    """Stop global performance monitoring."""
-    monitor = get_global_monitor()
-    await monitor.stop_monitoring()

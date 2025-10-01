@@ -41,9 +41,12 @@ logger = logging.getLogger(__name__)
 
 def get_coordinate_loader():
     try:
-        from src.core.coordinate_loader import get_coordinate_loader as _core
-
-        return _core()
+        from src.core.coordinate_loader import CoordinateLoader
+        
+        # Use config/coordinates.json as primary config
+        loader = CoordinateLoader("config/coordinates.json")
+        loader.load()
+        return loader
     except Exception as e:
         logger.warning(f"[coord] fallback loader: {e}")
 

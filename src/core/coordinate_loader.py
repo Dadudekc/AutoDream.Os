@@ -88,3 +88,17 @@ class CoordinateLoader:
     def validate_all(self):
         """Validate all coordinates (compatible with messaging service)"""
         return type("ValidationReport", (), {"is_all_ok": lambda self: True, "issues": []})()
+    
+    def get_all_agents(self):
+        """Get list of all agent IDs"""
+        return list(self.coordinates.get("agents", {}).keys())
+    
+    def is_agent_active(self, agent_id: str):
+        """Check if agent is active"""
+        if agent_id in self.coordinates.get("agents", {}):
+            return self.coordinates["agents"][agent_id].get("active", True)
+        return False
+    
+    def get_chat_coordinates(self, agent_id: str):
+        """Get chat input coordinates for agent"""
+        return self.get_agent_coordinates(agent_id)

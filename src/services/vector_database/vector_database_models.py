@@ -186,7 +186,7 @@ class VectorDatabaseConnection:
         self._initialize_database()
 
     def _initialize_database(self) -> None:
-        """Initialize database schema."""
+        """Initialize database schema with proper resource management."""
         try:
             self._connection = sqlite3.connect(str(self.db_path), check_same_thread=False)
             self._connection.row_factory = sqlite3.Row
@@ -194,6 +194,9 @@ class VectorDatabaseConnection:
             logger.info(f"Vector database initialized: {self.db_path}")
         except Exception as e:
             logger.error(f"Database initialization failed: {e}")
+            if self._connection:
+                self._connection.close()
+                self._connection = None
             raise VectorDatabaseError(f"Database initialization failed: {e}")
 
     def _create_tables(self) -> None:

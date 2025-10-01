@@ -1,0 +1,62 @@
+{
+  "snapshot": {
+    "timestamp": 1759303312.9041266,
+    "current_mb": 0.0030994415283203125,
+    "peak_mb": 0.0034799575805664062,
+    "object_count": 17347
+  },
+  "leak_detection": {
+    "leak_detection": {
+      "detected": false,
+      "severity": "none",
+      "memory_growth_mb": 0,
+      "memory_growth_percent": 0,
+      "object_count_growth": 0,
+      "details": {
+        "reason": "insufficient snapshots"
+      }
+    },
+    "trend_analysis": null,
+    "object_leaks": [],
+    "auto_cleanup": null
+  },
+  "budget_checks": {
+    "messaging": {
+      "service": "messaging",
+      "current_mb": 0.0030994415283203125,
+      "budget_mb": 100,
+      "warning_mb": 75.0,
+      "critical_mb": 90.0,
+      "status": "ok",
+      "within_budget": true
+    },
+    "autonomous_workflow": {
+      "service": "autonomous_workflow",
+      "current_mb": 0.0030994415283203125,
+      "budget_mb": 150,
+      "warning_mb": 112.5,
+      "critical_mb": 135.0,
+      "status": "ok",
+      "within_budget": true
+    },
+    "vector_database": {
+      "service": "vector_database",
+      "current_mb": 0.0030994415283203125,
+      "budget_mb": 200,
+      "warning_mb": 160.0,
+      "critical_mb": 190.0,
+      "status": "ok",
+      "within_budget": true
+    },
+    "agent_workspace": {
+      "service": "agent_workspace",
+      "current_mb": 0.0030994415283203125,
+      "budget_mb": 50,
+      "warning_mb": 35.0,
+      "critical_mb": 42.5,
+      "status": "ok",
+      "within_budget": true
+    }
+  },
+  "alerts": []
+}

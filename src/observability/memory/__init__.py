@@ -30,6 +30,19 @@ from .policies import (
     MemorySnapshot,
     TracemallocIntegration,
 )
+from .watchdog import (
+    EnforcementMode,
+    IntegratedWatchdog,
+    MemoryWatchdog,
+    WatchdogAlert,
+    WatchdogManager,
+)
+from .report import (
+    MemoryReport,
+    PerformanceReporter,
+    ReportFormatter,
+    ReportGenerator,
+)
 
 __all__ = [
     # Policies
@@ -51,5 +64,16 @@ __all__ = [
     "MemoryLedger",
     "LedgerAnalyzer",
     "PersistentLedgerManager",
+    # Watchdog
+    "EnforcementMode",
+    "WatchdogAlert",
+    "MemoryWatchdog",
+    "IntegratedWatchdog",
+    "WatchdogManager",
+    # Report
+    "MemoryReport",
+    "ReportGenerator",
+    "ReportFormatter",
+    "PerformanceReporter",
 ]
 

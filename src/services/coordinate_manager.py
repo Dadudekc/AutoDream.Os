@@ -14,10 +14,7 @@ from .coordinate_manager_core import (
     CoordinateCalculator,
     CoordinateFilterCore,
 )
-from .coordinate_manager_models import (
-    CoordinateBatch,
-    CoordinateFilter,
-)
+from .coordinate_manager_models import CoordinateBatch, CoordinateFilter
 
 
 @dataclass

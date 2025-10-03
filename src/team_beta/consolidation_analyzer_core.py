@@ -383,3 +383,4 @@ class SystemConsolidationAnalyzerCore:
         except Exception as e:
             print(f"Error exporting consolidation analysis: {e}")
             return False
+

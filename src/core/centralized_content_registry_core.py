@@ -473,3 +473,4 @@ class CentralizedContentRegistryCore:
             ),
             "last_updated": datetime.now().isoformat(),
         }
+

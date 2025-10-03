@@ -117,3 +117,4 @@ __all__ = [
     "GitHubRepositoryConfig",
     "GitHubWorkflowTemplate",
 ]
+

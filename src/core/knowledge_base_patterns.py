@@ -234,3 +234,4 @@ class UserService:
 
 
 __all__ = ["KnowledgeBasePatterns"]
+

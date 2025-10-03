@@ -71,7 +71,7 @@ class SwarmCoordinationSystem:
 
         # Start coordination thread
         coordination_thread = threading.Thread(
-            target=self._coordination_loop, daemon=True, daemon=True
+            target=self._coordination_loop, daemon=True
         )
         coordination_thread.start()
 

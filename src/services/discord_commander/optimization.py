@@ -13,10 +13,7 @@ from .optimization_core import (
     DiscordOptimizationEngine,
     DiscordPerformanceMonitor,
 )
-from .optimization_models import (
-    DiscordPerformanceMetrics,
-    OptimizationConfig,
-)
+from .optimization_models import DiscordPerformanceMetrics, OptimizationConfig
 
 
 class DiscordOptimizationManager:

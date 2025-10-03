@@ -193,3 +193,4 @@ class DiscordProviderService:
 
         logger.info(f"Cleaned up {removed_count} old log entries")
         return removed_count
+

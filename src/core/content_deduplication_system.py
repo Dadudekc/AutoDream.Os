@@ -129,9 +129,7 @@ class ContentDeduplicationSystem:
 
         return intersection / union if union > 0 else 0.0
 
-    def check_duplicate(
-        self, content: str, file_path: str = ""
-    ) -> tuple[bool, str | None, float]:
+    def check_duplicate(self, content: str, file_path: str = "") -> tuple[bool, str | None, float]:
         """Check if content is duplicate or similar to existing content"""
         if len(content) < self.min_content_size:
             return False, None, 0.0

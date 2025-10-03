@@ -14,7 +14,7 @@ import threading
 import time
 import weakref
 from contextlib import contextmanager
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -30,7 +30,7 @@ class CoordinationRequestManager:
         self.last_cleanup = time.time()
         self._lock = threading.Lock()
 
-    def add_request(self, request_id: str, request_data: Dict[str, Any]) -> None:
+    def add_request(self, request_id: str, request_data: dict[str, Any]) -> None:
         """Add coordination request with size limits"""
         with self._lock:
             # Cleanup if needed
@@ -43,7 +43,7 @@ class CoordinationRequestManager:
                 "access_count": 0,
             }
 
-    def get_request(self, request_id: str) -> Optional[Dict[str, Any]]:
+    def get_request(self, request_id: str) -> dict[str, Any] | None:
         """Get request with access tracking"""
         with self._lock:
             if request_id in self.coordination_requests:
@@ -97,7 +97,7 @@ class PyAutoGUIResourceManager:
             if session:
                 self._cleanup_session(session_id)
 
-    def _create_session(self, session_id: str) -> Dict[str, Any]:
+    def _create_session(self, session_id: str) -> dict[str, Any]:
         """Create PyAutoGUI session"""
         with self._lock:
             session = {
@@ -247,7 +247,7 @@ class MemoryLeakFixer:
                 logger.error(f"Error in cleanup loop: {e}")
                 time.sleep(60)  # Wait 1 minute before retrying
 
-    def get_memory_stats(self) -> Dict[str, Any]:
+    def get_memory_stats(self) -> dict[str, Any]:
         """Get current memory statistics"""
         return {
             "coordination_requests": len(self.coordination_manager.coordination_requests),
@@ -256,7 +256,7 @@ class MemoryLeakFixer:
             "cleanup_service_running": self.running,
         }
 
-    def force_cleanup(self) -> Dict[str, int]:
+    def force_cleanup(self) -> dict[str, int]:
         """Force immediate cleanup of all resources"""
         logger.info("Performing forced cleanup of all resources")
 
@@ -280,11 +280,11 @@ def initialize_memory_management() -> None:
     logger.info("Memory management initialized for messaging system")
 
 
-def cleanup_memory_resources() -> Dict[str, int]:
+def cleanup_memory_resources() -> dict[str, int]:
     """Cleanup memory resources"""
     return memory_fixer.force_cleanup()
 
 
-def get_memory_status() -> Dict[str, Any]:
+def get_memory_status() -> dict[str, Any]:
     """Get current memory status"""
     return memory_fixer.get_memory_stats()

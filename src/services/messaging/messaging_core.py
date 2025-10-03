@@ -21,6 +21,7 @@ sys.path.insert(0, str(project_root))
 
 try:
     from src.services.messaging.core.messaging_service import MessagingService
+
     MessagingCore = MessagingService  # Alias for compatibility
 except ImportError as e:
     logging.error(f"Failed to import MessagingService: {e}")

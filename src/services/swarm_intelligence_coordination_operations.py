@@ -14,9 +14,7 @@ import logging
 from datetime import datetime
 from typing import Any
 
-from src.services.swarm_intelligence_coordination_core import (
-    SwarmCoordinationCore,
-)
+from src.services.swarm_intelligence_coordination_core import SwarmCoordinationCore
 
 logger = logging.getLogger(__name__)
 

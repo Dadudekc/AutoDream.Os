@@ -204,4 +204,3 @@ class DistributedTracingService:
 
         logger.info(f"Cleaned up {removed_count} old tracing records")
         return removed_count
-

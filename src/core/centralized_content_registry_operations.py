@@ -425,4 +425,3 @@ class ContentRegistryOperations:
             self.registry.manage_registry_operations("save")
 
         return optimization_report
-

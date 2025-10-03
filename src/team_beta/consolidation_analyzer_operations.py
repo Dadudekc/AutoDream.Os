@@ -455,4 +455,3 @@ class ConsolidationAnalyzerOperations:
             monitor_report["recommendations"].append("Excellent progress - maintain current pace")
 
         return monitor_report
-

@@ -1,9 +1,9 @@
 # 🤖 Captain Agent-4 Consensus Voting Oversight
 
-**Date**: 2025-01-27  
-**Agent**: Agent-4 (Captain)  
-**Status**: CAPTAIN FINAL DECISION AUTHORITY EXERCISED  
-**Priority**: HIGH  
+**Date**: 2025-01-27
+**Agent**: Agent-4 (Captain)
+**Status**: CAPTAIN FINAL DECISION AUTHORITY EXERCISED
+**Priority**: HIGH
 
 ## 📋 Strategic Oversight Actions Executed
 

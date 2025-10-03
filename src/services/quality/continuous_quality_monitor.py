@@ -243,4 +243,3 @@ if __name__ == "__main__":
     print(f"Compliant Files: {metrics.compliant_files}/{metrics.total_files}")
     print(f"Violations: {metrics.violation_count}")
     print(monitor.get_violation_summary())
-

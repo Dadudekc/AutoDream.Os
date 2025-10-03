@@ -60,4 +60,3 @@ class PromptOptimization:
 
 
 __all__ = ["PromptStatus", "PromptType", "PromptMetadata", "PromptOptimization"]
-

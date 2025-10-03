@@ -461,4 +461,3 @@ class Agent8CoordinationWorkflowCore:
                 assigned_count += 1
 
         return assigned_count
-

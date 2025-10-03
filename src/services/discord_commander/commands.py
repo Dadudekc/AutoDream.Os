@@ -349,7 +349,7 @@ class DiscordCommandManager:
             return
 
         # Add help command
-        @bot.command(name='help')
+        @bot.command(name="help")
         async def help_command(ctx):
             """Show help information."""
             help_text = """🤖 Discord Commander - Agent Control Hub
@@ -372,48 +372,48 @@ class DiscordCommandManager:
             await ctx.send(help_text)
 
         # Add ping command
-        @bot.command(name='ping')
+        @bot.command(name="ping")
         async def ping_command(ctx):
             """Test bot responsiveness."""
             await ctx.send("🏓 Pong! Bot is responsive.")
 
         # Add agent_status command
-        @bot.command(name='agent_status')
+        @bot.command(name="agent_status")
         async def agent_status_command(ctx, agent_id: str = None):
             """Get status of agents."""
             result = await self.agent_commands.agent_status(ctx, agent_id)
             await ctx.send(result)
 
         # Add send_message command
-        @bot.command(name='send_message')
+        @bot.command(name="send_message")
         async def send_message_command(ctx, agent_id: str, *, message: str):
             """Send message to an agent."""
             result = await self.agent_commands.send_message(ctx, agent_id, message)
             await ctx.send(result)
 
         # Add swarm_status command
-        @bot.command(name='swarm_status')
+        @bot.command(name="swarm_status")
         async def swarm_status_command(ctx):
             """Get swarm status."""
             result = await self.swarm_commands.swarm_status(ctx)
             await ctx.send(result)
 
         # Add system_status command
-        @bot.command(name='system_status')
+        @bot.command(name="system_status")
         async def system_status_command(ctx):
             """Get system status."""
             result = await self.system_commands.system_status(ctx)
             await ctx.send(result)
 
         # Add project_info command
-        @bot.command(name='project_info')
+        @bot.command(name="project_info")
         async def project_info_command(ctx):
             """Get project information."""
             result = await self.system_commands.project_info(ctx)
             await ctx.send(result)
 
         # Add swarm_coordinate command
-        @bot.command(name='swarm_coordinate')
+        @bot.command(name="swarm_coordinate")
         async def swarm_coordinate_command(ctx, *, message: str):
             """Send coordination message to all agents."""
             result = await self.swarm_commands.swarm_coordinate(ctx, message)

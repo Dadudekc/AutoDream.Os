@@ -95,7 +95,7 @@ class DiscordCommanderBotCore:
     def record_message_processed(self):
         """Record that a message was processed"""
         # Simple message counter for tracking
-        if not hasattr(self, '_message_count'):
+        if not hasattr(self, "_message_count"):
             self._message_count = 0
         self._message_count += 1
 
@@ -104,6 +104,7 @@ class DiscordCommanderBotCore:
         if self.bot:
             # Close bot connection
             import asyncio
+
             try:
                 loop = asyncio.get_event_loop()
                 if loop.is_running():
@@ -121,29 +122,29 @@ class DiscordCommanderBotCore:
 
     def set_status_message(self, message: str):
         """Set bot status message"""
-        if not hasattr(self, '_status_message'):
+        if not hasattr(self, "_status_message"):
             self._status_message = "Ready"
         self._status_message = message
 
     def set_healthy(self, healthy: bool):
         """Set bot health status"""
-        if not hasattr(self, '_healthy'):
+        if not hasattr(self, "_healthy"):
             self._healthy = True
         self._healthy = healthy
 
     def record_error(self):
         """Record an error occurrence"""
-        if not hasattr(self, '_error_count'):
+        if not hasattr(self, "_error_count"):
             self._error_count = 0
         self._error_count += 1
 
     def update_activity(self):
         """Update bot activity timestamp"""
-        if not hasattr(self, '_last_activity'):
+        if not hasattr(self, "_last_activity"):
             self._last_activity = None
         self._last_activity = datetime.now()
 
     @property
     def is_healthy(self):
         """Check if bot is healthy"""
-        return getattr(self, '_healthy', True)
+        return getattr(self, "_healthy", True)

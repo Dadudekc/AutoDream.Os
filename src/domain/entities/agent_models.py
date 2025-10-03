@@ -7,14 +7,14 @@ V2 Compliance: ≤400 lines, ≤5 classes, KISS principle
 """
 
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any
 
 
 class AgentStatus(Enum):
     """Agent status enumeration."""
-    
+
     INACTIVE = "inactive"
     ACTIVE = "active"
     BUSY = "busy"
@@ -24,7 +24,7 @@ class AgentStatus(Enum):
 
 class AgentType(Enum):
     """Agent type enumeration."""
-    
+
     CORE = "core"
     SERVICE = "service"
     INTEGRATION = "integration"
@@ -33,7 +33,7 @@ class AgentType(Enum):
 
 class AgentCapability(Enum):
     """Agent capability enumeration."""
-    
+
     MESSAGING = "messaging"
     COMMAND_EXECUTION = "command_execution"
     DATA_PROCESSING = "data_processing"
@@ -46,7 +46,7 @@ class AgentCapability(Enum):
 @dataclass
 class AgentMetrics:
     """Agent performance metrics."""
-    
+
     tasks_completed: int = 0
     tasks_failed: int = 0
     average_response_time: float = 0.0
@@ -54,8 +54,8 @@ class AgentMetrics:
     memory_usage: float = 0.0
     cpu_usage: float = 0.0
     last_activity: datetime = field(default_factory=datetime.now)
-    
-    def to_dict(self) -> Dict[str, Any]:
+
+    def to_dict(self) -> dict[str, Any]:
         """Convert metrics to dictionary."""
         return {
             "tasks_completed": self.tasks_completed,
@@ -71,14 +71,13 @@ class AgentMetrics:
 @dataclass
 class AgentConfig:
     """Agent configuration."""
-    
+
     agent_id: str
     name: str
     agent_type: AgentType
-    capabilities: List[AgentCapability]
+    capabilities: list[AgentCapability]
     status: AgentStatus = AgentStatus.INACTIVE
     created_at: datetime = field(default_factory=datetime.now)
     updated_at: datetime = field(default_factory=datetime.now)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
     metrics: AgentMetrics = field(default_factory=AgentMetrics)
-

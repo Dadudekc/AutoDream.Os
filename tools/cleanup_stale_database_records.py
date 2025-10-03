@@ -23,24 +23,24 @@ sys.path.insert(0, str(project_root))
 def main():
     """Main entry point for stale database cleanup."""
     print("🚀 Starting Vector Database Cleanup")
-    
+
     # Initialize cleanup core
     cleanup_core = StaleDatabaseCleanupCore()
-    
+
     # Run comprehensive cleanup
     results = cleanup_core.run_comprehensive_cleanup()
-    
+
     if "error" in results:
         print(f"❌ Database cleanup failed: {results['error']}")
         return False
-    
-    print(f"\n✅ Vector database cleanup completed successfully!")
-    print(f"📊 Summary:")
+
+    print("\n✅ Vector database cleanup completed successfully!")
+    print("📊 Summary:")
     print(f"   Status: {results['status']}")
     print(f"   Stale records identified: {results['stale_records_identified']}")
     print(f"   Records cleaned: {results['records_cleaned']}")
     print(f"   Tasks updated: {results['tasks_updated']}")
-    
+
     return True
 
 

@@ -28,7 +28,10 @@ except Exception as e:
     pyperclip = None  # type: ignore
     logging.warning(f"PyAutoGUI import failed: {e}")
 
-from src.services.consolidated_messaging_service_core import ConsolidatedMessagingServiceCore, ScreenshotManager
+from src.services.consolidated_messaging_service_core import (
+    ConsolidatedMessagingServiceCore,
+    ScreenshotManager,
+)
 from src.services.consolidated_messaging_service_utils import (
     AgentOnboarder,
     MessageFormatter,
@@ -48,10 +51,10 @@ class ConsolidatedMessagingService(ConsolidatedMessagingServiceCore):
     def __init__(self, coord_path: str = "config/coordinates.json") -> None:
         """Initialize complete messaging service."""
         super().__init__(coord_path)
-        
+
         # Initialize screenshot manager
         self.screenshot_manager = ScreenshotManager()
-        
+
         # Initialize utility components
         self.formatter = MessageFormatter()
         self.sender = MessageSender(self.enhanced_handler, self.enhanced_validator)
@@ -61,11 +64,11 @@ class ConsolidatedMessagingService(ConsolidatedMessagingServiceCore):
     def check_screenshot_trigger(self, cycle_type: str, event_type: str = "NORMAL") -> bool:
         """Check if screenshot should be taken based on messaging cycle."""
         return self.screenshot_manager.should_take_screenshot(cycle_type, event_type)
-    
+
     def increment_messaging_cycle(self):
         """Increment messaging cycle counter."""
         self.screenshot_manager.increment_cycle()
-    
+
     def get_screenshot_context(self, trigger_reason: str) -> dict:
         """Get screenshot context for messaging system."""
         return self.screenshot_manager.get_screenshot_context(trigger_reason)

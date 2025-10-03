@@ -71,7 +71,9 @@ class RecordTimeMigration:
 
         self._running = True
         self._migration_stats["start_time"] = datetime.now(UTC)
-        self._migration_thread = threading.Thread(target=self._migration_loop, daemon=True, daemon=True, daemon=True, daemon=True)
+        self._migration_thread = threading.Thread(
+            target=self._migration_loop, daemon=True, daemon=True, daemon=True, daemon=True
+        )
         self._migration_thread.start()
         logger.info("Record-Time Migration started")
 

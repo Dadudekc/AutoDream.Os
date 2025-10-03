@@ -9,7 +9,6 @@ Simple tool to send messages to agents using PyAutoGUI.
 import json
 import sys
 import time
-from pathlib import Path
 
 try:
     import pyautogui
@@ -17,6 +16,7 @@ try:
 except ImportError:
     print("❌ PyAutoGUI not available")
     sys.exit(1)
+
 
 def load_coordinates():
     """Load agent coordinates."""
@@ -27,19 +27,20 @@ def load_coordinates():
         print(f"❌ Failed to load coordinates: {e}")
         return {}
 
+
 def send_message_to_agent(agent_id: str, message: str, priority: str = "NORMAL"):
     """Send message to specific agent using PyAutoGUI."""
     coordinates = load_coordinates()
     agent_info = coordinates.get("agents", {}).get(agent_id)
-    
+
     if not agent_info:
         print(f"❌ Agent {agent_id} coordinates not found")
         return False
-    
+
     try:
         # Get coordinates
         chat_coords = agent_info.get("chat_input_coordinates", [0, 0])
-        
+
         # Create formatted message
         formatted_message = f"""============================================================
 [A2A] MESSAGE
@@ -60,7 +61,7 @@ Tags: TASK_ASSIGNMENT
 📝 DEVLOG: Use 'python src/services/agent_devlog_posting.py --agent <flag> --action <desc>'
 ============================================================
 ------------------------------------------------------------"""
-        
+
         # Send message
         pyautogui.click(chat_coords[0], chat_coords[1])
         time.sleep(0.5)
@@ -69,13 +70,14 @@ Tags: TASK_ASSIGNMENT
         time.sleep(0.5)
         pyautogui.press("enter")
         time.sleep(0.5)
-        
+
         print(f"✅ Message sent to {agent_id}")
         return True
-        
+
     except Exception as e:
         print(f"❌ Failed to send message to {agent_id}: {e}")
         return False
+
 
 def main():
     """Main function."""
@@ -83,14 +85,15 @@ def main():
         print("Usage: python send_message.py <agent_id> <message> <priority>")
         print("Example: python send_message.py Agent-5 'Fix Discord commands' HIGH")
         sys.exit(1)
-    
+
     agent_id = sys.argv[1]
     message = sys.argv[2]
     priority = sys.argv[3] if len(sys.argv) > 3 else "NORMAL"
-    
+
     print(f"📤 Sending message to {agent_id}...")
     success = send_message_to_agent(agent_id, message, priority)
     sys.exit(0 if success else 1)
+
 
 if __name__ == "__main__":
     main()

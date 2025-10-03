@@ -23,33 +23,33 @@ sys.path.insert(0, str(project_root))
 def main():
     """Main entry point for Captain documentation ingestion."""
     print("🚀 Starting Captain Documentation Ingestion")
-    
+
     # Initialize core
     core = CaptainDocumentationCore()
-    
+
     # Define paths
     captain_log_path = "captain_logs/captain_log_2025-01-17.md"
     captain_handbook_path = "docs/captain_handbook.md"
     captain_cheatsheet_path = "docs/captain_cheatsheet.md"
-    
+
     # Ingest documentation
     log_id = core.ingest_captain_log(captain_log_path)
     handbook_id = core.ingest_captain_handbook(captain_handbook_path)
     cheatsheet_id = core.ingest_captain_cheatsheet(captain_cheatsheet_path)
-    
+
     # Search test
     print("\n🔍 Testing Captain documentation search:")
     results = core.search_captain_docs("agent coordination", limit=3)
     for i, result in enumerate(results, 1):
         print(f"{i}. {result.get('title', 'No title')}")
-    
+
     # Expertise test
     print("\n🧠 Testing Captain expertise retrieval:")
     expertise = core.get_captain_expertise(limit=3)
     for i, item in enumerate(expertise, 1):
         print(f"{i}. {item.get('title', 'No title')}")
-    
-    print(f"\n✅ Captain documentation ingestion complete!")
+
+    print("\n✅ Captain documentation ingestion complete!")
     print(f"📊 Ingested: Log={log_id}, Handbook={handbook_id}, Cheatsheet={cheatsheet_id}")
 
 

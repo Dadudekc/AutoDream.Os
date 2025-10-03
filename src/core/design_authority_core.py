@@ -12,12 +12,11 @@ from enum import Enum
 from typing import Any
 
 from .design_authority_knowledge import get_design_knowledge_base
-from .project_registry import registry_manager
 
 
 class DecisionSeverity(Enum):
     """Severity levels for design decisions."""
-    
+
     ERROR = "error"
     WARNING = "warning"
     INFO = "info"
@@ -26,7 +25,7 @@ class DecisionSeverity(Enum):
 @dataclass
 class DesignReview:
     """Represents a design review decision."""
-    
+
     request_id: str
     component_name: str
     decision: str
@@ -38,12 +37,12 @@ class DesignReview:
 
 class DesignAuthorityCore:
     """Core design authority functionality."""
-    
+
     def __init__(self):
         """Initialize design authority core."""
         self.knowledge_base = get_design_knowledge_base()
         self.reviews = []
-    
+
     def review_component_plan(self, requester: str, component_name: str, plan: str) -> DesignReview:
         """Review component implementation plan."""
         # Simplified review logic for V2 compliance
@@ -59,7 +58,7 @@ class DesignAuthorityCore:
             decision = "APPROVE: Plan looks good"
             severity = DecisionSeverity.INFO
             reasoning = "Plan follows KISS principles"
-        
+
         review = DesignReview(
             request_id=f"plan_{component_name}_{datetime.now().timestamp()}",
             component_name=component_name,
@@ -67,17 +66,19 @@ class DesignAuthorityCore:
             severity=severity,
             reasoning=reasoning,
             timestamp=datetime.now(),
-            reviewer="DesignAuthorityCore"
+            reviewer="DesignAuthorityCore",
         )
-        
+
         self.reviews.append(review)
         return review
-    
-    def review_code_complexity(self, requester: str, component_name: str, code_snippet: str) -> DesignReview:
+
+    def review_code_complexity(
+        self, requester: str, component_name: str, code_snippet: str
+    ) -> DesignReview:
         """Review code complexity."""
         # Simplified complexity review for V2 compliance
-        lines = len(code_snippet.split('\n'))
-        
+        lines = len(code_snippet.split("\n"))
+
         if lines > 400:
             decision = "REJECT: File too large"
             severity = DecisionSeverity.ERROR
@@ -90,7 +91,7 @@ class DesignAuthorityCore:
             decision = "APPROVE: Good size"
             severity = DecisionSeverity.INFO
             reasoning = "File size is appropriate"
-        
+
         review = DesignReview(
             request_id=f"complexity_{component_name}_{datetime.now().timestamp()}",
             component_name=component_name,
@@ -98,16 +99,16 @@ class DesignAuthorityCore:
             severity=severity,
             reasoning=reasoning,
             timestamp=datetime.now(),
-            reviewer="DesignAuthorityCore"
+            reviewer="DesignAuthorityCore",
         )
-        
+
         self.reviews.append(review)
         return review
-    
+
     def get_review_history(self) -> list[DesignReview]:
         """Get review history."""
         return self.reviews
-    
+
     def get_knowledge_base(self) -> dict[str, Any]:
         """Get design knowledge base."""
         return self.knowledge_base
@@ -123,4 +124,3 @@ def review_code_complexity(requester: str, component_name: str, code_snippet: st
     """Review code complexity."""
     authority = DesignAuthorityCore()
     return authority.review_code_complexity(requester, component_name, code_snippet)
-

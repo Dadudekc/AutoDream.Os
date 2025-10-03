@@ -271,21 +271,22 @@ class SimpleWorkflowAutomation:
         try:
             # Import devlog poster
             import sys
+
             sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
             from services.agent_devlog.devlog_poster import AgentDevlogPoster
-            
+
             # Initialize devlog poster
             devlog_poster = AgentDevlogPoster()
-            
+
             # Post devlog
             result = devlog_poster.post_devlog(
                 agent_flag=agent_flag,
                 action=action,
                 status=status,
                 details=details,
-                dry_run=dry_run
+                dry_run=dry_run,
             )
-            
+
             # Log workflow
             self._log_workflow(
                 "devlog_posting",
@@ -296,10 +297,10 @@ class SimpleWorkflowAutomation:
                     "success": result.get("success", False),
                 },
             )
-            
+
             logger.info(f"Devlog posted: {agent_flag} - {action}")
             return result.get("success", False)
-            
+
         except Exception as e:
             logger.error(f"Devlog posting failed: {e}")
             return False

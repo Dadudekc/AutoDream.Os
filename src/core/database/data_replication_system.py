@@ -7,7 +7,6 @@ V2 Compliance: ≤400 lines, single responsibility, KISS principle
 
 import asyncio
 import logging
-from typing import Dict, List, Optional
 
 from .data_replication_core import DataReplicationCore
 from .data_replication_models import (
@@ -78,7 +77,7 @@ class DataReplicationSystem:
 def create_replication_config(
     source_db: str,
     target_db: str,
-    tables: List[str],
+    tables: list[str],
     strategy: ConflictResolutionStrategy = ConflictResolutionStrategy.LAST_WRITE_WINS,
     batch_size: int = 1000,
     sync_interval: int = 60,
@@ -112,16 +111,16 @@ async def run_replication_demo() -> None:
 
     # Create and start replication system
     replication_system = create_replication_system(config)
-    
+
     try:
         # Run single sync for demo
         result = await replication_system.sync_once()
         print(f"Demo sync result: {result}")
-        
+
         # Show metrics
         metrics = replication_system.get_metrics()
         print(f"Metrics: {metrics}")
-        
+
     except Exception as e:
         print(f"Demo failed: {e}")
 
@@ -134,8 +133,12 @@ def main():
     parser.add_argument("--source", required=True, help="Source database URL")
     parser.add_argument("--target", required=True, help="Target database URL")
     parser.add_argument("--tables", nargs="+", required=True, help="Tables to replicate")
-    parser.add_argument("--strategy", choices=["last_write_wins", "first_write_wins", "manual"], 
-                       default="last_write_wins", help="Conflict resolution strategy")
+    parser.add_argument(
+        "--strategy",
+        choices=["last_write_wins", "first_write_wins", "manual"],
+        default="last_write_wins",
+        help="Conflict resolution strategy",
+    )
     parser.add_argument("--interval", type=int, default=60, help="Sync interval in seconds")
     parser.add_argument("--demo", action="store_true", help="Run demonstration")
 
@@ -162,7 +165,7 @@ def main():
 
     # Create and run replication system
     replication_system = create_replication_system(config)
-    
+
     try:
         asyncio.run(replication_system.start_replication())
     except KeyboardInterrupt:

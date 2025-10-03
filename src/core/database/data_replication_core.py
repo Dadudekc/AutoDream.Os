@@ -5,11 +5,9 @@ V3-003: Data Replication System Core
 V2 Compliance: ≤400 lines, single responsibility, KISS principle
 """
 
-import asyncio
-import json
 import logging
 from datetime import UTC, datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 import asyncpg
 
@@ -18,7 +16,6 @@ from .data_replication_models import (
     ConflictResolutionStrategy,
     ReplicationConfig,
     ReplicationMetrics,
-    ReplicationRecord,
     ReplicationStatus,
     SyncResult,
 )
@@ -55,9 +52,7 @@ class DataReplicationCore:
 
             try:
                 for table in self.config.tables:
-                    table_result = await self._sync_table(
-                        source_conn, target_conn, table
-                    )
+                    table_result = await self._sync_table(source_conn, target_conn, table)
                     records_processed += table_result["records"]
                     conflicts_found += table_result["conflicts"]
 
@@ -88,7 +83,7 @@ class DataReplicationCore:
 
     async def _sync_table(
         self, source_conn: asyncpg.Connection, target_conn: asyncpg.Connection, table: str
-    ) -> Dict[str, int]:
+    ) -> dict[str, int]:
         """Synchronize a single table."""
         records = 0
         conflicts = 0
@@ -96,10 +91,10 @@ class DataReplicationCore:
         try:
             # Get source data
             source_data = await source_conn.fetch(f"SELECT * FROM {table}")
-            
+
             for row in source_data:
                 record_dict = dict(row)
-                
+
                 # Check for conflicts
                 conflict = await self._check_conflict(target_conn, table, record_dict)
                 if conflict:
@@ -107,7 +102,7 @@ class DataReplicationCore:
                     await self._resolve_conflict(target_conn, table, conflict)
                 else:
                     await self._upsert_record(target_conn, table, record_dict)
-                
+
                 records += 1
 
         except Exception as e:
@@ -117,8 +112,8 @@ class DataReplicationCore:
         return {"records": records, "conflicts": conflicts}
 
     async def _check_conflict(
-        self, target_conn: asyncpg.Connection, table: str, record: Dict[str, Any]
-    ) -> Optional[ConflictRecord]:
+        self, target_conn: asyncpg.Connection, table: str, record: dict[str, Any]
+    ) -> ConflictRecord | None:
         """Check for data conflicts."""
         try:
             # Simple conflict detection based on primary key
@@ -169,7 +164,7 @@ class DataReplicationCore:
             raise
 
     async def _upsert_record(
-        self, target_conn: asyncpg.Connection, table: str, record: Dict[str, Any]
+        self, target_conn: asyncpg.Connection, table: str, record: dict[str, Any]
     ) -> None:
         """Upsert a record into the target table."""
         try:
@@ -179,7 +174,7 @@ class DataReplicationCore:
 
             # Build upsert query
             update_clause = ", ".join([f"{col} = EXCLUDED.{col}" for col in columns])
-            
+
             query = f"""
                 INSERT INTO {table} ({', '.join(columns)})
                 VALUES ({', '.join(placeholders)})
@@ -213,4 +208,3 @@ class DataReplicationCore:
             last_sync_time=datetime.now(UTC),
             status=self.metrics.status,
         )
-

@@ -3,7 +3,6 @@ Discord Commander Bot Main
 Main bot system with comprehensive Discord functionality
 """
 
-import logging
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -40,26 +39,29 @@ def create_bot_configuration(token: str = None, guild_id: int = None) -> BotConf
     """Create bot configuration."""
     return BotConfiguration(token=token, guild_id=guild_id)
 
-def create_discord_bot(config: BotConfiguration = None) -> 'DiscordCommanderBot':
+
+def create_discord_bot(config: BotConfiguration = None) -> "DiscordCommanderBot":
     """Create Discord bot instance."""
     return DiscordCommanderBot(config)
 
-async def run_bot(bot: 'DiscordCommanderBot') -> None:
+
+async def run_bot(bot: "DiscordCommanderBot") -> None:
     """Run the Discord bot."""
     await bot.start()
 
+
 class BotManager:
     """Bot management utility."""
-    
+
     def __init__(self):
         self.bots = {}
-    
-    def create_bot(self, name: str, config: BotConfiguration) -> 'DiscordCommanderBot':
+
+    def create_bot(self, name: str, config: BotConfiguration) -> "DiscordCommanderBot":
         """Create a named bot instance."""
         bot = DiscordCommanderBot(config)
         self.bots[name] = bot
         return bot
-    
+
     async def start_bot(self, name: str) -> None:
         """Start a named bot."""
         if name in self.bots:
@@ -86,9 +88,10 @@ class DiscordCommanderBot:
         if not self.bot:
             self.logger.error("Failed to create Discord bot")
             return
-            
+
         # Initialize command manager with bot_core
         from .commands import CommandManager
+
         self.command_manager = CommandManager(self.bot, None)
         self.command_manager.register_commands(self.bot.tree)
         self.command_manager.register_regular_commands(self.bot)
@@ -144,9 +147,8 @@ class DiscordCommanderBot:
             return  # Ignore command not found errors
 
         from .bot_models import EmbedBuilder
-        embed = EmbedBuilder.create_error_embed(
-            "Command Error", f"An error occurred: {str(error)}"
-        )
+
+        embed = EmbedBuilder.create_error_embed("Command Error", f"An error occurred: {str(error)}")
 
         try:
             await ctx.send(embed=embed)

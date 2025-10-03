@@ -47,7 +47,7 @@ Monitor 1 (Left Screen):           Monitor 2 (Right Screen):
 
 ### **Monitor 1 (Left Screen)**
 - **Agent-1**: (-1269, 481) - INACTIVE
-- **Agent-2**: (-308, 480) - INACTIVE  
+- **Agent-2**: (-308, 480) - INACTIVE
 - **Agent-3**: (-1269, 1001) - INACTIVE
 - **Agent-4**: (-308, 1000) - ACTIVE (Captain)
 

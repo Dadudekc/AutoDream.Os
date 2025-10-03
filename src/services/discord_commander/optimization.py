@@ -6,43 +6,46 @@ Main interface for Discord commander optimization system.
 V2 Compliance: ≤400 lines, single responsibility, KISS principle
 """
 
-from typing import Any, Dict, List
+from typing import Any
 
-from .optimization_core import DiscordCacheManager, DiscordOptimizationEngine, DiscordPerformanceMonitor
+from .optimization_core import (
+    DiscordCacheManager,
+    DiscordOptimizationEngine,
+    DiscordPerformanceMonitor,
+)
 from .optimization_models import (
     DiscordPerformanceMetrics,
     OptimizationConfig,
-    PerformanceThresholds,
 )
 
 
 class DiscordOptimizationManager:
     """Main Discord optimization manager interface."""
-    
+
     def __init__(self, config: OptimizationConfig = None):
         """Initialize Discord optimization manager."""
         self.config = config or OptimizationConfig()
         self.monitor = DiscordPerformanceMonitor(self.config)
         self.engine = DiscordOptimizationEngine(self.config)
         self.cache = DiscordCacheManager(self.config)
-    
+
     def update_performance_metrics(self, metrics: DiscordPerformanceMetrics):
         """Update performance metrics."""
         self.monitor.update_metrics(metrics)
-    
+
     def get_current_metrics(self) -> DiscordPerformanceMetrics:
         """Get current performance metrics."""
         return self.monitor.get_current_metrics()
-    
-    def analyze_performance(self) -> Dict[str, Any]:
+
+    def analyze_performance(self) -> dict[str, Any]:
         """Analyze current performance and suggest optimizations."""
         current_metrics = self.monitor.get_current_metrics()
         return self.engine.analyze_performance(current_metrics)
-    
-    def apply_optimizations(self, recommendations: List[str]) -> Dict[str, Any]:
+
+    def apply_optimizations(self, recommendations: list[str]) -> dict[str, Any]:
         """Apply optimization recommendations."""
         return self.engine.apply_optimizations(recommendations)
-    
+
     def manage_cache_operations(self, operation: str, key: str = None, value: Any = None) -> Any:
         """Manage cache operations."""
         if operation == "get" and key:
@@ -56,13 +59,13 @@ class DiscordOptimizationManager:
             return self.cache.get_cache_stats()
         else:
             return None
-    
-    def get_performance_summary(self) -> Dict[str, Any]:
+
+    def get_performance_summary(self) -> dict[str, Any]:
         """Get comprehensive performance summary."""
         current_metrics = self.monitor.get_current_metrics()
         analysis = self.engine.analyze_performance(current_metrics)
         cache_stats = self.cache.get_cache_stats()
-        
+
         return {
             "current_metrics": current_metrics.to_dict(),
             "performance_analysis": analysis,
@@ -74,7 +77,7 @@ class DiscordOptimizationManager:
                 "max_concurrent_operations": self.config.max_concurrent_operations,
                 "enable_compression": self.config.enable_compression,
                 "enable_caching": self.config.enable_caching,
-            }
+            },
         }
 
 

@@ -54,12 +54,12 @@ logger = logging.getLogger(__name__)
 @dataclass
 class ScreenshotTrigger:
     """Screenshot trigger configuration for messaging system."""
-    
+
     trigger_type: str  # COORDINATION, MILESTONE, CRITICAL, USER_REQUEST
     cycle_interval: int  # Every N cycles
     last_triggered: str = ""
     enabled: bool = True
-    
+
     def __post_init__(self):
         if not self.last_triggered:
             self.last_triggered = time.strftime("%Y-%m-%dT%H:%M:%S")
@@ -67,18 +67,18 @@ class ScreenshotTrigger:
 
 class ScreenshotManager:
     """Integrated screenshot management for messaging system."""
-    
+
     def __init__(self):
         """Initialize screenshot manager."""
         self.current_cycle = 0
         self.triggers = {
             "COORDINATION": ScreenshotTrigger("COORDINATION", 3),  # Every 3 cycles
-            "MILESTONE": ScreenshotTrigger("MILESTONE", 10),        # Every 10 cycles
-            "CRITICAL": ScreenshotTrigger("CRITICAL", 1),          # Always enabled
-            "USER_REQUEST": ScreenshotTrigger("USER_REQUEST", 1)    # Always enabled
+            "MILESTONE": ScreenshotTrigger("MILESTONE", 10),  # Every 10 cycles
+            "CRITICAL": ScreenshotTrigger("CRITICAL", 1),  # Always enabled
+            "USER_REQUEST": ScreenshotTrigger("USER_REQUEST", 1),  # Always enabled
         }
         logger.info("Screenshot Manager initialized")
-    
+
     def should_take_screenshot(self, cycle_type: str, event_type: str = "NORMAL") -> bool:
         """Determine if screenshot should be taken based on triggers."""
         try:
@@ -86,38 +86,46 @@ class ScreenshotManager:
             if event_type == "USER_REQUEST":
                 logger.info("Screenshot triggered: User request")
                 return True
-            
+
             # Critical events always trigger
             if event_type in ["MAJOR_COMPLETION", "SYSTEM_FAILURE", "AGENT_ERROR"]:
                 logger.info(f"Screenshot triggered: Critical event - {event_type}")
                 return True
-            
+
             # Check cycle-based triggers
             if cycle_type == "COORDINATION":
                 coordination_trigger = self.triggers.get("COORDINATION")
                 if coordination_trigger and coordination_trigger.enabled:
-                    if self.current_cycle % coordination_trigger.cycle_interval == 0 and self.current_cycle > 0:
-                        logger.info(f"Screenshot triggered: Coordination cycle {self.current_cycle}")
+                    if (
+                        self.current_cycle % coordination_trigger.cycle_interval == 0
+                        and self.current_cycle > 0
+                    ):
+                        logger.info(
+                            f"Screenshot triggered: Coordination cycle {self.current_cycle}"
+                        )
                         return True
-            
+
             # Check milestone triggers
             milestone_trigger = self.triggers.get("MILESTONE")
             if milestone_trigger and milestone_trigger.enabled:
-                if self.current_cycle % milestone_trigger.cycle_interval == 0 and self.current_cycle > 0:
+                if (
+                    self.current_cycle % milestone_trigger.cycle_interval == 0
+                    and self.current_cycle > 0
+                ):
                     logger.info(f"Screenshot triggered: Milestone cycle {self.current_cycle}")
                     return True
-            
+
             return False
-            
+
         except Exception as e:
             logger.error(f"Error checking screenshot trigger: {e}")
             return False
-    
+
     def increment_cycle(self):
         """Increment cycle counter."""
         self.current_cycle += 1
         logger.debug(f"Cycle incremented to {self.current_cycle}")
-    
+
     def get_screenshot_context(self, trigger_reason: str) -> dict:
         """Generate screenshot context metadata."""
         return {
@@ -126,26 +134,26 @@ class ScreenshotManager:
             "timestamp": time.strftime("%Y-%m-%dT%H:%M:%S"),
             "focus_agents": ["Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"],
             "expected_content": self._get_expected_content(trigger_reason),
-            "screenshot_type": self._get_screenshot_type(trigger_reason)
+            "screenshot_type": self._get_screenshot_type(trigger_reason),
         }
-    
+
     def _get_expected_content(self, trigger_reason: str) -> str:
         """Get expected screenshot content based on trigger."""
         content_map = {
             "COORDINATION": "Multi-agent coordination and A2A messages",
             "MILESTONE": "System-wide progress and agent status",
             "CRITICAL": "Error context and system state",
-            "USER_REQUEST": "Specific user-requested context"
+            "USER_REQUEST": "Specific user-requested context",
         }
         return content_map.get(trigger_reason, "General system status")
-    
+
     def _get_screenshot_type(self, trigger_reason: str) -> str:
         """Get screenshot type based on trigger."""
         type_map = {
             "COORDINATION": "multi_agent_view",
             "MILESTONE": "system_overview",
             "CRITICAL": "error_context",
-            "USER_REQUEST": "custom_context"
+            "USER_REQUEST": "custom_context",
         }
         return type_map.get(trigger_reason, "general")
 

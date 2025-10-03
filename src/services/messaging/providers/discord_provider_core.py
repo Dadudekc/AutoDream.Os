@@ -12,7 +12,7 @@ Original: discord_provider.py (432 lines) - Core module
 
 import logging
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any
 
 import discord
 from discord.ext import commands
@@ -33,7 +33,7 @@ class DiscordMessagingProvider:
         self.bot = bot
         self.logger = logging.getLogger(f"{__name__}.DiscordMessagingProvider")
         self.messaging_service = MessagingService("config/coordinates.json")
-        self.agent_channels: Dict[str, discord.TextChannel] = {}
+        self.agent_channels: dict[str, discord.TextChannel] = {}
 
     async def manage_messaging(self, action: str, **kwargs) -> Any:
         """Consolidated messaging operations"""
@@ -56,12 +56,15 @@ class DiscordMessagingProvider:
             return True
         return None
 
-    async def _send_message_to_agent(self, agent_id: str, message: str, from_agent: str = None) -> bool:
+    async def _send_message_to_agent(
+        self, agent_id: str, message: str, from_agent: str = None
+    ) -> bool:
         """Send message to specific agent via Discord."""
         try:
             if from_agent is None:
                 try:
                     from ..agent_context import get_current_agent
+
                     from_agent = get_current_agent()
                 except ImportError:
                     from_agent = "system"
@@ -73,13 +76,13 @@ class DiscordMessagingProvider:
 
             # Create formatted message
             formatted_message = self._format_agent_message(message, from_agent, agent_id)
-            
+
             # Send via Discord
             await channel.send(formatted_message)
-            
+
             # Log to messaging service
             self.messaging_service.log_message(from_agent, agent_id, message, "discord")
-            
+
             self.logger.info(f"Message sent to agent {agent_id} via Discord")
             return True
 
@@ -87,12 +90,15 @@ class DiscordMessagingProvider:
             self.logger.error(f"Failed to send message to agent {agent_id}: {e}")
             return False
 
-    async def _send_broadcast_message(self, message: str, from_agent: str = None, exclude_agents: list = None) -> int:
+    async def _send_broadcast_message(
+        self, message: str, from_agent: str = None, exclude_agents: list = None
+    ) -> int:
         """Send broadcast message to all registered agents."""
         try:
             if from_agent is None:
                 try:
                     from ..agent_context import get_current_agent
+
                     from_agent = get_current_agent()
                 except ImportError:
                     from_agent = "system"
@@ -117,12 +123,15 @@ class DiscordMessagingProvider:
             self.logger.error(f"Failed to send broadcast message: {e}")
             return 0
 
-    async def _send_message_to_channel(self, channel_id: int, message: str, from_agent: str = None) -> bool:
+    async def _send_message_to_channel(
+        self, channel_id: int, message: str, from_agent: str = None
+    ) -> bool:
         """Send message to specific Discord channel."""
         try:
             if from_agent is None:
                 try:
                     from ..agent_context import get_current_agent
+
                     from_agent = get_current_agent()
                 except ImportError:
                     from_agent = "system"
@@ -134,7 +143,7 @@ class DiscordMessagingProvider:
 
             formatted_message = self._format_channel_message(message, from_agent)
             await channel.send(formatted_message)
-            
+
             self.logger.info(f"Message sent to channel {channel_id}")
             return True
 
@@ -157,7 +166,7 @@ class DiscordMessagingProvider:
         timestamp = datetime.now().strftime("%H:%M:%S")
         return f"**[{timestamp}] {from_agent}**\n{message}"
 
-    def get_provider_status(self) -> Dict[str, Any]:
+    def get_provider_status(self) -> dict[str, Any]:
         """Get Discord provider status."""
         return {
             "provider_type": "discord",

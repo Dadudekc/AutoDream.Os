@@ -8,11 +8,9 @@ V2 Compliance: ≤400 lines, type hints, KISS principle
 import json
 import os
 from pathlib import Path
-from typing import Dict, List, Optional
 
 from .unified_coordinate_loader_models import (
     AgentCoordinates,
-    AgentStatus,
     CoordinateConfig,
     CoordinateSource,
     LoadResult,
@@ -57,7 +55,7 @@ class CoordinateLoader:
     def _load_from_file(self, path: Path, source: CoordinateSource) -> LoadResult:
         """Load coordinates from a file."""
         try:
-            with open(path, "r") as f:
+            with open(path) as f:
                 data = json.load(f)
 
             config = self._parse_coordinate_data(data, source)
@@ -75,7 +73,7 @@ class CoordinateLoader:
                 source=source,
             )
 
-    def _load_from_environment(self) -> Optional[CoordinateConfig]:
+    def _load_from_environment(self) -> CoordinateConfig | None:
         """Load coordinates from environment variables."""
         # Check for environment-based coordinates
         env_agents = {}
@@ -103,7 +101,7 @@ class CoordinateLoader:
 
         return None
 
-    def _parse_coordinate_data(self, data: Dict, source: CoordinateSource) -> CoordinateConfig:
+    def _parse_coordinate_data(self, data: dict, source: CoordinateSource) -> CoordinateConfig:
         """Parse coordinate data from loaded JSON."""
         agents = {}
         for agent_id, agent_data in data.get("agents", {}).items():
@@ -125,29 +123,31 @@ class CoordinateLoader:
         """Validate coordinate configuration."""
         errors = []
         warnings = []
-        
+
         for agent_id, coords in config.agents.items():
             self._validate_agent_coords(agent_id, coords, errors, warnings)
-        
+
         return ValidationResult(
             valid=len(errors) == 0,
             errors=errors,
             warnings=warnings,
         )
-    
-    def _validate_agent_coords(self, agent_id: str, coords: AgentCoordinates, errors: list, warnings: list):
+
+    def _validate_agent_coords(
+        self, agent_id: str, coords: AgentCoordinates, errors: list, warnings: list
+    ):
         """Validate individual agent coordinates."""
         # Check coordinate bounds
         if coords.x < -2000 or coords.x > 2000:
             errors.append(f"{agent_id}: X coordinate {coords.x} out of bounds")
         if coords.y < -2000 or coords.y > 2000:
             errors.append(f"{agent_id}: Y coordinate {coords.y} out of bounds")
-        
+
         # Check monitor assignment
         if coords.monitor not in ["Monitor 1", "Monitor 2", "unknown"]:
             warnings.append(f"{agent_id}: Unknown monitor '{coords.monitor}'")
 
-    def save_coordinates(self, config: CoordinateConfig, path: Optional[Path] = None) -> bool:
+    def save_coordinates(self, config: CoordinateConfig, path: Path | None = None) -> bool:
         """Save coordinates to file."""
         if path is None:
             path = self.primary_path

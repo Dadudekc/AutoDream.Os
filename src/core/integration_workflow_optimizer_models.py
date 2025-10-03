@@ -8,12 +8,12 @@ V2 Compliance: ≤400 lines, ≤5 classes, ≤10 functions, KISS principle
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 
 class IntegrationPattern(Enum):
     """Integration pattern enumeration."""
-    
+
     SERVICE_TO_SERVICE = "service_to_service"
     DATA_PIPELINE = "data_pipeline"
     EVENT_DRIVEN = "event_driven"
@@ -23,7 +23,7 @@ class IntegrationPattern(Enum):
 
 class AutomationLevel(Enum):
     """Automation level enumeration."""
-    
+
     MANUAL = "manual"
     SEMI_AUTOMATED = "semi_automated"
     FULL = "full"
@@ -32,7 +32,7 @@ class AutomationLevel(Enum):
 
 class ConnectionStatus(Enum):
     """Connection status enumeration."""
-    
+
     ACTIVE = "active"
     INACTIVE = "inactive"
     ERROR = "error"
@@ -42,7 +42,7 @@ class ConnectionStatus(Enum):
 @dataclass
 class IntegrationWorkflow:
     """Integration workflow configuration."""
-    
+
     workflow_id: str
     pattern: IntegrationPattern
     source_service: str
@@ -55,7 +55,7 @@ class IntegrationWorkflow:
 @dataclass
 class SeamlessConnection:
     """Seamless connection configuration."""
-    
+
     connection_id: str
     source: str
     destination: str
@@ -68,18 +68,18 @@ class SeamlessConnection:
 @dataclass
 class AutomationTool:
     """Automation tool configuration."""
-    
+
     tool_id: str
     tool_name: str
     tool_type: str
-    configuration: Dict[str, Any]
+    configuration: dict[str, Any]
     status: str = "active"
 
 
 @dataclass
 class WorkflowMetrics:
     """Workflow performance metrics."""
-    
+
     workflow_id: str
     execution_time: float
     success_rate: float
@@ -90,10 +90,10 @@ class WorkflowMetrics:
 @dataclass
 class IntegrationReport:
     """Integration analysis report."""
-    
+
     report_id: str
     total_workflows: int
     active_connections: int
     automation_coverage: float
     performance_score: float
-    recommendations: List[str]
+    recommendations: list[str]

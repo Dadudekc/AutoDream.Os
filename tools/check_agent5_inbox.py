@@ -11,6 +11,7 @@ License: MIT
 """
 
 import logging
+
 from agent5_inbox_checker_core import Agent5InboxCheckerCore
 
 logger = logging.getLogger(__name__)

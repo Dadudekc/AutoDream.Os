@@ -2,10 +2,10 @@
 
 ## 📊 **CURRENT PROJECT STATUS**
 
-**Current Files**: 2,705 files  
-**Current Directories**: 321 directories  
-**Target Files**: ~500 files (81.5% reduction needed)  
-**Target Directories**: ~50 directories (84.4% reduction needed)  
+**Current Files**: 2,705 files
+**Current Directories**: 321 directories
+**Target Files**: ~500 files (81.5% reduction needed)
+**Target Directories**: ~50 directories (84.4% reduction needed)
 
 ---
 

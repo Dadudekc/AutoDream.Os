@@ -8,12 +8,11 @@ V2 Compliance: ≤400 lines, ≤5 classes, simple data structures
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Dict, List, Optional
 
 
 class IntegrationPattern(Enum):
     """Integration pattern enumeration."""
-    
+
     SERVICE_TO_SERVICE = "service_to_service"
     DATA_PIPELINE = "data_pipeline"
     EVENT_DRIVEN = "event_driven"
@@ -24,7 +23,7 @@ class IntegrationPattern(Enum):
 @dataclass
 class IntegrationWorkflow:
     """Integration workflow configuration."""
-    
+
     workflow_id: str
     pattern: IntegrationPattern
     source_service: str
@@ -37,7 +36,7 @@ class IntegrationWorkflow:
 @dataclass
 class SeamlessConnection:
     """Seamless connection configuration."""
-    
+
     connection_id: str
     source: str
     destination: str
@@ -50,7 +49,7 @@ class SeamlessConnection:
 @dataclass
 class OptimizationResult:
     """Optimization result data."""
-    
+
     workflow_id: str
     optimization_type: str
     performance_gain: float
@@ -62,7 +61,7 @@ class OptimizationResult:
 @dataclass
 class IntegrationMetrics:
     """Integration performance metrics."""
-    
+
     connection_count: int
     average_latency: float
     success_rate: float

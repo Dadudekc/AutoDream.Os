@@ -12,7 +12,7 @@ License: MIT
 import logging
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -20,9 +20,9 @@ logger = logging.getLogger(__name__)
 @dataclass
 class BotConfiguration:
     """Bot configuration data"""
-    
-    token: Optional[str] = None
-    guild_id: Optional[int] = None
+
+    token: str | None = None
+    guild_id: int | None = None
     command_prefix: str = "!"
     status_message: str = "Ready"
     max_retries: int = 3
@@ -35,27 +35,27 @@ class BotConfiguration:
 @dataclass
 class CommandContext:
     """Command execution context"""
-    
+
     command_name: str
     user_id: str
     channel_id: str
     guild_id: str
-    args: List[str] = field(default_factory=list)
-    kwargs: Dict[str, Any] = field(default_factory=dict)
+    args: list[str] = field(default_factory=list)
+    kwargs: dict[str, Any] = field(default_factory=dict)
     timestamp: datetime = field(default_factory=datetime.now)
 
 
 class BotCore:
     """Bot core functionality"""
-    
-    def __init__(self, config: Optional[BotConfiguration] = None):
+
+    def __init__(self, config: BotConfiguration | None = None):
         """Initialize bot core"""
         self.config = config or BotConfiguration()
         self.is_ready = False
         self.error_count = 0
         self.logger = logger
         logger.info("BotCore initialized")
-    
+
     def start_bot(self) -> bool:
         """Start bot"""
         try:
@@ -65,7 +65,7 @@ class BotCore:
         except Exception as e:
             logger.error(f"Error starting bot core: {e}")
             return False
-    
+
     def stop_bot(self) -> bool:
         """Stop bot"""
         try:
@@ -75,76 +75,69 @@ class BotCore:
         except Exception as e:
             logger.error(f"Error stopping bot core: {e}")
             return False
-    
+
     def record_error(self) -> None:
         """Record error"""
         self.error_count += 1
         logger.warning(f"Error recorded. Total errors: {self.error_count}")
-    
+
     def create_bot(self):
         """Create Discord bot instance"""
         try:
             import discord
             from discord.ext import commands
-            
+
             intents = discord.Intents.default()
             intents.message_content = True
             intents.members = True
             intents.guilds = True
-            
+
             bot = commands.Bot(
-                command_prefix=self.config.command_prefix,
-                intents=intents,
-                help_command=None
+                command_prefix=self.config.command_prefix, intents=intents, help_command=None
             )
-            
+
             self.logger.info("Discord bot created successfully")
             return bot
-            
+
         except ImportError:
             self.logger.error("Discord.py not available")
             return None
         except Exception as e:
             self.logger.error(f"Error creating bot: {e}")
             return None
-    
-    def get_status(self) -> Dict[str, Any]:
+
+    def get_status(self) -> dict[str, Any]:
         """Get bot status"""
         return {
-            'is_ready': self.is_ready,
-            'error_count': self.error_count,
-            'config': self.config.__dict__ if self.config else {}
+            "is_ready": self.is_ready,
+            "error_count": self.error_count,
+            "config": self.config.__dict__ if self.config else {},
         }
 
 
 class EmbedBuilder:
     """Discord embed builder utility"""
-    
+
     def __init__(self):
         """Initialize embed builder"""
         self.embeds = []
-    
-    def create_embed(self, title: str, description: str, color: int = 0x00ff00) -> Dict[str, Any]:
+
+    def create_embed(self, title: str, description: str, color: int = 0x00FF00) -> dict[str, Any]:
         """Create Discord embed"""
         embed = {
-            'title': title,
-            'description': description,
-            'color': color,
-            'timestamp': datetime.now().isoformat(),
-            'fields': []
+            "title": title,
+            "description": description,
+            "color": color,
+            "timestamp": datetime.now().isoformat(),
+            "fields": [],
         }
         return embed
-    
-    def add_field(self, embed: Dict, name: str, value: str, inline: bool = False) -> Dict:
+
+    def add_field(self, embed: dict, name: str, value: str, inline: bool = False) -> dict:
         """Add field to embed"""
-        embed['fields'].append({
-            'name': name,
-            'value': value,
-            'inline': inline
-        })
-        return embed
-    
-    def build(self, embed: Dict) -> Dict:
-        """Build final embed"""
+        embed["fields"].append({"name": name, "value": value, "inline": inline})
         return embed
 
+    def build(self, embed: dict) -> dict:
+        """Build final embed"""
+        return embed

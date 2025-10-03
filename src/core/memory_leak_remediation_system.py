@@ -34,29 +34,29 @@ class MemoryLeakIssue:
 
 class SQLiteLeakRemediator:
     """Remediates SQLite connection leaks."""
-    
+
     def __init__(self):
         """Initialize SQLite leak remediator."""
         self.fixed_connections = 0
         self.active_connections: Dict[str, sqlite3.Connection] = {}
         self._lock = threading.Lock()
-    
+
     @contextmanager
     def safe_connection(self, db_path: str | Path) -> sqlite3.Connection:
         """Safe SQLite connection with automatic cleanup."""
         db_path = str(db_path)
         conn_id = f"{db_path}_{threading.get_ident()}"
-        
+
         try:
             with sqlite3.connect(db_path, timeout=5.0) as conn:
             conn.row_factory = sqlite3.Row
-            
+
             with self._lock:
                 self.active_connections[conn_id] = conn
-            
+
             yield conn
             conn.commit()
-            
+
         except Exception as e:
             logger.error(f"SQLite error: {e}")
             if 'conn' in locals():
@@ -68,7 +68,7 @@ class SQLiteLeakRemediator:
             with self._lock:
                 self.active_connections.pop(conn_id, None)
                 self.fixed_connections += 1
-    
+
     def close_all_connections(self) -> int:
         """Close all active connections."""
         with self._lock:
@@ -84,36 +84,36 @@ class SQLiteLeakRemediator:
 
 class ThreadLeakRemediator:
     """Remediates threading leaks."""
-    
+
     def __init__(self):
         """Initialize thread leak remediator."""
         self.fixed_threads = 0
         self.active_threads: List[threading.Thread] = []
         self._stop_event = threading.Event()
         self._lock = threading.Lock()
-    
+
     def create_managed_thread(self, target, daemon: bool = True, **kwargs) -> threading.Thread:
         """Create a managed thread with proper cleanup."""
         thread = threading.Thread(target=target, daemon=daemon, **kwargs, daemon=True)
-        
+
         with self._lock:
             self.active_threads.append(thread)
-        
+
         thread.start()
         return thread
-    
+
     def cleanup_all_threads(self) -> int:
         """Cleanup all managed threads."""
         with self._lock:
             count = len(self.active_threads)
             self._stop_event.set()
-            
+
             for thread in self.active_threads:
                 try:
                     thread.join(timeout=5)
                 except Exception as e:
                     logger.error(f"Error joining thread: {e}")
-            
+
             self.active_threads.clear()
             self.fixed_threads += count
             return count
@@ -121,18 +121,18 @@ class ThreadLeakRemediator:
 
 class ResourceLeakRemediator:
     """Remediates resource leaks."""
-    
+
     def __init__(self):
         """Initialize resource leak remediator."""
         self.fixed_resources = 0
         self.active_resources: Dict[str, Any] = {}
         self._lock = threading.Lock()
-    
+
     def register_resource(self, resource_id: str, resource: Any) -> None:
         """Register a resource for tracking."""
         with self._lock:
             self.active_resources[resource_id] = resource
-    
+
     def cleanup_resource(self, resource_id: str) -> bool:
         """Cleanup a specific resource."""
         with self._lock:
@@ -148,7 +148,7 @@ class ResourceLeakRemediator:
                 except Exception as e:
                     logger.error(f"Error cleaning up resource {resource_id}: {e}")
             return False
-    
+
     def cleanup_all_resources(self) -> int:
         """Cleanup all registered resources."""
         with self._lock:
@@ -161,7 +161,7 @@ class ResourceLeakRemediator:
                         resource.cleanup()
                 except Exception as e:
                     logger.error(f"Error cleaning up resource {resource_id}: {e}")
-            
+
             self.active_resources.clear()
             self.fixed_resources += count
             return count
@@ -169,18 +169,18 @@ class ResourceLeakRemediator:
 
 class MemoryLeakRemediationSystem:
     """Main memory leak remediation system."""
-    
+
     def __init__(self):
         """Initialize memory leak remediation system."""
         self.sqlite_remediator = SQLiteLeakRemediator()
         self.thread_remediator = ThreadLeakRemediator()
         self.resource_remediator = ResourceLeakRemediator()
         self.total_fixes = 0
-    
+
     def remediate_sqlite_leaks(self, file_paths: List[str]) -> int:
         """Remediate SQLite leaks in specified files."""
         fixes_applied = 0
-        
+
         for file_path in file_paths:
             try:
                 # This would scan and fix SQLite connection issues
@@ -189,14 +189,14 @@ class MemoryLeakRemediationSystem:
                 logger.info(f"Fixed SQLite leaks in {file_path}")
             except Exception as e:
                 logger.error(f"Error fixing SQLite leaks in {file_path}: {e}")
-        
+
         self.total_fixes += fixes_applied
         return fixes_applied
-    
+
     def remediate_thread_leaks(self, file_paths: List[str]) -> int:
         """Remediate threading leaks in specified files."""
         fixes_applied = 0
-        
+
         for file_path in file_paths:
             try:
                 # This would scan and fix threading issues
@@ -205,14 +205,14 @@ class MemoryLeakRemediationSystem:
                 logger.info(f"Fixed threading leaks in {file_path}")
             except Exception as e:
                 logger.error(f"Error fixing threading leaks in {file_path}: {e}")
-        
+
         self.total_fixes += fixes_applied
         return fixes_applied
-    
+
     def remediate_resource_leaks(self, file_paths: List[str]) -> int:
         """Remediate resource leaks in specified files."""
         fixes_applied = 0
-        
+
         for file_path in file_paths:
             try:
                 # This would scan and fix resource issues
@@ -221,10 +221,10 @@ class MemoryLeakRemediationSystem:
                 logger.info(f"Fixed resource leaks in {file_path}")
             except Exception as e:
                 logger.error(f"Error fixing resource leaks in {file_path}: {e}")
-        
+
         self.total_fixes += fixes_applied
         return fixes_applied
-    
+
     def get_remediation_summary(self) -> Dict[str, Any]:
         """Get comprehensive remediation summary."""
         return {
@@ -236,7 +236,7 @@ class MemoryLeakRemediationSystem:
             "active_threads": len(self.thread_remediator.active_threads),
             "active_resources": len(self.resource_remediator.active_resources)
         }
-    
+
     def emergency_cleanup(self) -> Dict[str, int]:
         """Emergency cleanup of all resources."""
         return {
@@ -253,11 +253,11 @@ memory_leak_remediation_system = MemoryLeakRemediationSystem()
 def main():
     """Main function for testing."""
     system = MemoryLeakRemediationSystem()
-    
+
     # Example usage
     print("Memory Leak Remediation System initialized")
     print(f"Remediation summary: {system.get_remediation_summary()}")
-    
+
     # Emergency cleanup example
     cleanup_results = system.emergency_cleanup()
     print(f"Emergency cleanup results: {cleanup_results}")
@@ -265,4 +265,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

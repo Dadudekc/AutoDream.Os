@@ -13,7 +13,6 @@ import json
 import logging
 import threading
 import time
-from typing import Tuple
 
 # Lazy import to prevent hard dep at import time
 try:
@@ -68,7 +67,7 @@ class MessageValidator:
         """Initialize message validator."""
         self.enhanced_validator = enhanced_validator
 
-    def validate_before_paste(self, text: str) -> Tuple[bool, str]:
+    def validate_before_paste(self, text: str) -> tuple[bool, str]:
         """Validate message content before pasting with enhanced validation."""
         try:
             # Use enhanced validator if available
@@ -272,7 +271,7 @@ Operational: TASK_EXECUTOR, RESEARCHER, TROUBLESHOOTER, OPTIMIZER, DEVLOG_STORYT
             if agent_id in self.recently_onboarded:
                 logger.warning(f"Agent {agent_id} recently onboarded, skipping duplicate")
                 return True
-            
+
             # Get agent coordinates
             with open(self.coord_path) as f:
                 coords = json.load(f)
@@ -295,17 +294,20 @@ Operational: TASK_EXECUTOR, RESEARCHER, TROUBLESHOOTER, OPTIMIZER, DEVLOG_STORYT
                 pyautogui.hotkey("ctrl", "v")
                 pyautogui.press("enter")
                 logger.info(f"Hard onboarded agent {agent_id} with role {default_role}")
-                
+
                 # Mark as recently onboarded
                 self.recently_onboarded.add(agent_id)
                 # Remove from recently onboarded after 5 minutes
                 import threading
+
                 def remove_from_recent():
                     import time
+
                     time.sleep(300)  # 5 minutes
                     self.recently_onboarded.discard(agent_id)
+
                 threading.Thread(target=remove_from_recent, daemon=True).start()
-                
+
                 return True
             else:
                 logger.warning(f"PyAutoGUI not available, cannot hard onboard {agent_id}")
@@ -320,16 +322,16 @@ Operational: TASK_EXECUTOR, RESEARCHER, TROUBLESHOOTER, OPTIMIZER, DEVLOG_STORYT
         try:
             with open(self.coord_path) as f:
                 coords = json.load(f)
-            
+
             success_count = 0
             for agent_id in coords["agents"]:
                 if self.hard_onboard_agent(agent_id):
                     success_count += 1
                     time.sleep(1)  # Brief delay between onboardings
-            
+
             logger.info(f"Hard onboarded {success_count}/{len(coords['agents'])} agents")
             return success_count > 0
-            
+
         except Exception as e:
             logger.error(f"Error hard onboarding all agents: {e}")
             return False

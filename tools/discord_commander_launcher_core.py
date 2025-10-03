@@ -116,6 +116,7 @@ class DiscordCommanderLauncher:
         try:
             # Simple template creation - just create directories
             import os
+
             os.makedirs("web_interface/templates", exist_ok=True)
             os.makedirs("web_interface/static", exist_ok=True)
             print("✅ Web interface templates created")
@@ -163,7 +164,10 @@ class DiscordCommanderLauncher:
             print("🖥️ Starting Web Controller...")
             # Create a simple config for the controller
             from src.services.discord_commander.web_controller_models import WebControllerConfig
-            config = WebControllerConfig(port=8080, host="localhost", debug_mode=False, auto_reload=False)
+
+            config = WebControllerConfig(
+                port=8080, host="localhost", debug_mode=False, auto_reload=False
+            )
             self.controller = DiscordCommanderController(config)
 
             if self.bot:

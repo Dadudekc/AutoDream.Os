@@ -1,7 +1,0 @@
-{
-  "retraining_schedule": "weekly",
-  "performance_threshold": 0.1,
-  "data_freshness_threshold": 7,
-  "auto_deployment": true,
-  "rollback_on_failure": true
-}

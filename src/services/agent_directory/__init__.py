@@ -15,15 +15,15 @@ License: MIT
 """
 
 from .agent_directory_manager import AgentDirectoryManager, AgentInfo
-from .agent_registry import AgentRegistry, AgentCapability, AgentRole
 from .agent_health_monitor import AgentHealthMonitor, HealthCheck
+from .agent_registry import AgentCapability, AgentRegistry, AgentRole
 
 __all__ = [
     "AgentDirectoryManager",
-    "AgentInfo", 
+    "AgentInfo",
     "AgentRegistry",
     "AgentCapability",
     "AgentRole",
     "AgentHealthMonitor",
-    "HealthCheck"
+    "HealthCheck",
 ]

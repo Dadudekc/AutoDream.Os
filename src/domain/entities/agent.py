@@ -6,25 +6,19 @@ Main interface for agent entity system.
 V2 Compliance: ≤400 lines, single responsibility, KISS principle
 """
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from .agent_core import AgentCore, AgentManager
-from .agent_models import (
-    AgentCapability,
-    AgentConfig,
-    AgentMetrics,
-    AgentStatus,
-    AgentType,
-)
+from .agent_models import AgentCapability, AgentConfig, AgentMetrics, AgentType
 
 
 class Agent:
     """Main agent interface."""
-    
+
     def __init__(self, config: AgentConfig):
         """Initialize agent."""
         self.core = AgentCore(config)
-    
+
     def manage_agent_operations(self, operation: str, **kwargs) -> Any:
         """Manage agent operations."""
         if operation == "activate":
@@ -50,11 +44,11 @@ class Agent:
             return True
         else:
             return None
-    
+
     def get_config(self) -> AgentConfig:
         """Get agent configuration."""
         return self.core.config
-    
+
     def get_metrics(self) -> AgentMetrics:
         """Get agent metrics."""
         return self.core.config.metrics
@@ -71,15 +65,15 @@ def main():
         agent_id="test-agent-1",
         name="Test Agent",
         agent_type=AgentType.CORE,
-        capabilities=[AgentCapability.MESSAGING, AgentCapability.COORDINATION]
+        capabilities=[AgentCapability.MESSAGING, AgentCapability.COORDINATION],
     )
-    
+
     # Register the agent
     register_agent(test_agent)
-    
+
     # Activate the agent
     test_agent.activate()
-    
+
     print(f"Agent created and activated: {test_agent.get_config().agent_id}")
     print(f"Agent status: {test_agent.get_status()}")
     print(f"Agent capabilities: {[cap.value for cap in test_agent.get_config().capabilities]}")

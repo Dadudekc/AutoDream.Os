@@ -14,7 +14,7 @@ from typing import Any
 
 class CoordinateOperation(Enum):
     """Coordinate operation enumeration."""
-    
+
     ADD = "add"
     SUBTRACT = "subtract"
     MULTIPLY = "multiply"
@@ -25,7 +25,7 @@ class CoordinateOperation(Enum):
 
 class CoordinateFilter(Enum):
     """Coordinate filter enumeration."""
-    
+
     BY_TYPE = "by_type"
     BY_SYSTEM = "by_system"
     BY_RANGE = "by_range"
@@ -35,7 +35,7 @@ class CoordinateFilter(Enum):
 @dataclass
 class CoordinateRange:
     """Coordinate range data structure."""
-    
+
     min_x: float
     max_x: float
     min_y: float
@@ -48,9 +48,8 @@ class CoordinateRange:
 @dataclass
 class CoordinateBatch:
     """Coordinate batch data structure."""
-    
+
     coordinates: list[tuple[str, Any]]  # (coord_id, coordinate)
     operation: CoordinateOperation
     parameters: dict[str, Any] = field(default_factory=dict)
     timestamp: datetime = field(default_factory=lambda: datetime.now(UTC))
-

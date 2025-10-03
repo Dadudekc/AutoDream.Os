@@ -27,7 +27,7 @@ class FileResourceGuard:
     Context manager for safe file operations with automatic cleanup.
     Prevents file descriptor leaks in messaging system.
     """
-    
+
     def __init__(self, file_path: str, mode: str = 'r', encoding: str = 'utf-8'):
         """Initialize file resource guard"""
         self.file_path = file_path
@@ -35,7 +35,7 @@ class FileResourceGuard:
         self.encoding = encoding
         self.file_handle = None
         self.opened = False
-    
+
     def __enter__(self):
         """Open file with resource tracking"""
         try:
@@ -46,7 +46,7 @@ class FileResourceGuard:
         except Exception as e:
             logger.error(f"FileResourceGuard: Error opening {self.file_path}: {e}")
             raise
-    
+
     def __exit__(self, exc_type, exc_val, exc_tb):
         """Close file with guaranteed cleanup"""
         if self.file_handle and self.opened:
@@ -70,17 +70,17 @@ class MessageSizeValidator:
     Validates message sizes to prevent memory bloat.
     Enforces reasonable message size limits.
     """
-    
+
     def __init__(self, max_size_mb: float = 1.0):
         """Initialize message size validator"""
         self.max_size_bytes = int(max_size_mb * 1024 * 1024)
         logger.info(f"MessageSizeValidator initialized: max_size={max_size_mb}MB")
-    
+
     def validate(self, message: str) -> Dict[str, Any]:
         """Validate message size"""
         try:
             message_bytes = len(message.encode('utf-8'))
-            
+
             if message_bytes > self.max_size_bytes:
                 return {
                     'is_valid': False,
@@ -88,7 +88,7 @@ class MessageSizeValidator:
                     'message_size_bytes': message_bytes,
                     'metadata': {'max_size_bytes': self.max_size_bytes}
                 }
-            
+
             return {
                 'is_valid': True,
                 'reason': "Message size within limits",
@@ -111,12 +111,12 @@ class MessageSizeValidator:
 
 class MessagingInstrumentation:
     """Instruments messaging operations for memory tracking."""
-    
+
     def __init__(self):
         """Initialize messaging instrumentation"""
         self.metrics_history = []
         self.max_history = 100
-    
+
     @contextmanager
     def instrument_operation(self, operation: str, message_size_bytes: int):
         """Context manager for instrumenting messaging operations"""
@@ -145,23 +145,23 @@ class CoordinationRequestPurger:
     Purges old coordination requests to prevent memory accumulation.
     Implements time-based and count-based purging strategies.
     """
-    
+
     def __init__(self, max_age_seconds: int = 3600, max_count: int = 1000):
         """Initialize coordination request purger"""
         self.max_age_seconds = max_age_seconds
         self.max_count = max_count
         logger.info(f"CoordinationRequestPurger initialized")
-    
+
     def purge_old_requests(self, requests: Dict[str, Dict]) -> Dict[str, Any]:
         """Purge old coordination requests (time and count based)"""
         current_time = time.time()
-        
+
         # Time-based purging
         remaining = {
             rid: rdata for rid, rdata in requests.items()
             if (current_time - rdata.get('timestamp', 0)) <= self.max_age_seconds
         }
-        
+
         # Count-based purging (keep most recent)
         if len(remaining) > self.max_count:
             sorted_reqs = sorted(
@@ -170,10 +170,10 @@ class CoordinationRequestPurger:
                 reverse=True
             )
             remaining = dict(sorted_reqs[:self.max_count])
-        
+
         purged_count = len(requests) - len(remaining)
         logger.info(f"Purged {purged_count} old coordination requests")
-        
+
         return {
             'purged_count': purged_count,
             'remaining_count': len(remaining),
@@ -190,7 +190,7 @@ class MessagingMemoryIntegration:
     Integrates messaging checks with Phase 1 memory policy framework.
     Provides unified memory management for messaging operations.
     """
-    
+
     def __init__(self, policy_manager=None):
         """Initialize messaging memory integration"""
         self.policy_manager = policy_manager
@@ -208,4 +208,3 @@ __all__ = [
     'CoordinationRequestPurger',
     'MessagingMemoryIntegration',
 ]
-

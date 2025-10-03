@@ -9,13 +9,11 @@ SSOT Implementation: Consolidates cursor_agent_coords.json and config/coordinate
 import time
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, List, Optional
 
 from .unified_coordinate_loader_core import CoordinateLoader
 from .unified_coordinate_loader_models import (
     AgentCoordinates,
     CoordinateConfig,
-    CoordinateSource,
     LoadResult,
     ValidationResult,
 )
@@ -27,7 +25,7 @@ def load_agent_coordinates() -> LoadResult:
     return loader.load_coordinates()
 
 
-def get_agent_coordinates(agent_id: str) -> Optional[AgentCoordinates]:
+def get_agent_coordinates(agent_id: str) -> AgentCoordinates | None:
     """Get coordinates for a specific agent."""
     result = load_agent_coordinates()
     if result.success and result.config:
@@ -35,7 +33,7 @@ def get_agent_coordinates(agent_id: str) -> Optional[AgentCoordinates]:
     return None
 
 
-def get_all_agent_coordinates() -> Dict[str, AgentCoordinates]:
+def get_all_agent_coordinates() -> dict[str, AgentCoordinates]:
     """Get coordinates for all agents."""
     result = load_agent_coordinates()
     if result.success and result.config:
@@ -43,7 +41,7 @@ def get_all_agent_coordinates() -> Dict[str, AgentCoordinates]:
     return {}
 
 
-def get_active_agents() -> List[str]:
+def get_active_agents() -> list[str]:
     """Get list of active agents based on coordinate availability."""
     coords = get_all_agent_coordinates()
     return list(coords.keys())
@@ -55,7 +53,7 @@ def validate_coordinate_config(config: CoordinateConfig) -> ValidationResult:
     return loader.validate_coordinates(config)
 
 
-def save_coordinate_config(config: CoordinateConfig, path: Optional[Path] = None) -> bool:
+def save_coordinate_config(config: CoordinateConfig, path: Path | None = None) -> bool:
     """Save coordinate configuration to file."""
     loader = CoordinateLoader()
     return loader.save_coordinates(config, path)
@@ -64,6 +62,7 @@ def save_coordinate_config(config: CoordinateConfig, path: Optional[Path] = None
 @dataclass
 class CoordinateUpdate:
     """Coordinate update data."""
+
     agent_id: str
     action: str
     x: int = 0
@@ -91,7 +90,7 @@ def manage_agent_coordinates(update: CoordinateUpdate) -> bool:
     return save_coordinate_config(result.config)
 
 
-def get_coordinate_summary() -> Dict:
+def get_coordinate_summary() -> dict:
     """Get summary of coordinate configuration."""
     result = load_agent_coordinates()
     if not result.success or not result.config:
@@ -180,7 +179,7 @@ def _handle_summary_command():
     print(f"Status: {summary['status']}")
     print(f"Agents: {summary['agents']}")
     print(f"Source: {summary['source']}")
-    if summary.get('last_updated'):
+    if summary.get("last_updated"):
         print(f"Last Updated: {summary['last_updated']}")
 
 

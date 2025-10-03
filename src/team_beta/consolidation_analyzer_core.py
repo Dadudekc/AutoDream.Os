@@ -10,17 +10,21 @@ import json
 import time
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any
+
 
 class DuplicationSeverity(Enum):
     """Duplication severity levels."""
+
     CRITICAL = "critical"  # Immediate consolidation required
     HIGH = "high"  # High priority consolidation
     MEDIUM = "medium"  # Medium priority consolidation
     LOW = "low"  # Low priority consolidation
 
+
 class ConsolidationStatus(Enum):
     """Consolidation status enumeration."""
+
     IDENTIFIED = "identified"
     ANALYZED = "analyzed"
     PLANNED = "planned"
@@ -28,22 +32,26 @@ class ConsolidationStatus(Enum):
     COMPLETED = "completed"
     CANCELLED = "cancelled"
 
+
 @dataclass
 class DuplicationInstance:
     """Duplication instance structure."""
+
     name: str
     description: str
-    files: List[str]
+    files: list[str]
     severity: DuplicationSeverity
     status: ConsolidationStatus
     impact: str
     consolidation_plan: str
-    dependencies: List[str]
-    risks: List[str]
+    dependencies: list[str]
+    risks: list[str]
+
 
 @dataclass
 class ConsolidationReport:
     """Consolidation report structure."""
+
     total_duplications: int
     critical_duplications: int
     high_priority_duplications: int
@@ -53,12 +61,13 @@ class ConsolidationReport:
     v2_compliance_issues: int
     maintenance_complexity_score: float
 
+
 class SystemConsolidationAnalyzerCore:
     """Core logic for system consolidation analyzer"""
-    
+
     def __init__(self):
         """Initialize consolidation analyzer."""
-        self.duplications: List[DuplicationInstance] = []
+        self.duplications: list[DuplicationInstance] = []
         self.consolidation_report = ConsolidationReport(
             total_duplications=0,
             critical_duplications=0,
@@ -70,7 +79,7 @@ class SystemConsolidationAnalyzerCore:
             maintenance_complexity_score=0.0,
         )
         self._initialize_known_duplications()
-    
+
     def manage_consolidation_operations(self, action: str, **kwargs) -> Any:
         """Consolidated consolidation operations"""
         if action == "analyze":
@@ -86,7 +95,7 @@ class SystemConsolidationAnalyzerCore:
         elif action == "assess_risks":
             return self._assess_consolidation_risks()
         return None
-    
+
     def _initialize_known_duplications(self):
         """Initialize known system duplications."""
         self.duplications = [
@@ -135,8 +144,8 @@ class SystemConsolidationAnalyzerCore:
                 risks=["Model compatibility", "Training disruption"],
             ),
         ]
-    
-    def analyze_duplications(self) -> Dict[str, Any]:
+
+    def analyze_duplications(self) -> dict[str, Any]:
         """Analyze all system duplications."""
         analysis = {
             "analysis_timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
@@ -182,12 +191,14 @@ class SystemConsolidationAnalyzerCore:
         ]:
             for dup in self.duplications:
                 if dup.severity == severity:
-                    priority_order.append({
-                        "name": dup.name,
-                        "severity": dup.severity.value,
-                        "file_count": len(dup.files),
-                        "impact": dup.impact,
-                    })
+                    priority_order.append(
+                        {
+                            "name": dup.name,
+                            "severity": dup.severity.value,
+                            "file_count": len(dup.files),
+                            "impact": dup.impact,
+                        }
+                    )
 
         analysis["consolidation_priority_order"] = priority_order
 
@@ -195,8 +206,8 @@ class SystemConsolidationAnalyzerCore:
         analysis["risk_assessment"] = self._assess_consolidation_risks()
 
         return analysis
-    
-    def _assess_consolidation_risks(self) -> Dict[str, Any]:
+
+    def _assess_consolidation_risks(self) -> dict[str, Any]:
         """Assess risks associated with consolidation."""
         risks = {
             "high_risk_consolidations": [],
@@ -207,23 +218,17 @@ class SystemConsolidationAnalyzerCore:
 
         for dup in self.duplications:
             if dup.severity == DuplicationSeverity.CRITICAL:
-                risks["high_risk_consolidations"].append({
-                    "name": dup.name, 
-                    "risks": dup.risks, 
-                    "impact": dup.impact
-                })
+                risks["high_risk_consolidations"].append(
+                    {"name": dup.name, "risks": dup.risks, "impact": dup.impact}
+                )
             elif dup.severity == DuplicationSeverity.HIGH:
-                risks["medium_risk_consolidations"].append({
-                    "name": dup.name, 
-                    "risks": dup.risks, 
-                    "impact": dup.impact
-                })
+                risks["medium_risk_consolidations"].append(
+                    {"name": dup.name, "risks": dup.risks, "impact": dup.impact}
+                )
             else:
-                risks["low_risk_consolidations"].append({
-                    "name": dup.name, 
-                    "risks": dup.risks, 
-                    "impact": dup.impact
-                })
+                risks["low_risk_consolidations"].append(
+                    {"name": dup.name, "risks": dup.risks, "impact": dup.impact}
+                )
 
         # Determine overall risk level
         if len(risks["high_risk_consolidations"]) > 2:
@@ -232,8 +237,8 @@ class SystemConsolidationAnalyzerCore:
             risks["overall_risk_level"] = "low"
 
         return risks
-    
-    def create_consolidation_plan(self) -> Dict[str, Any]:
+
+    def create_consolidation_plan(self) -> dict[str, Any]:
         """Create comprehensive consolidation plan."""
         plan = {
             "consolidation_plan": {
@@ -321,18 +326,20 @@ class SystemConsolidationAnalyzerCore:
         }
 
         return plan
-    
+
     def update_duplication_status(self, name: str, status: ConsolidationStatus):
         """Update status of a duplication."""
         for dup in self.duplications:
             if dup.name == name:
                 dup.status = status
                 break
-    
-    def get_consolidation_progress(self) -> Dict[str, Any]:
+
+    def get_consolidation_progress(self) -> dict[str, Any]:
         """Get current consolidation progress."""
         completed = len([d for d in self.duplications if d.status == ConsolidationStatus.COMPLETED])
-        in_progress = len([d for d in self.duplications if d.status == ConsolidationStatus.IN_PROGRESS])
+        in_progress = len(
+            [d for d in self.duplications if d.status == ConsolidationStatus.IN_PROGRESS]
+        )
         total = len(self.duplications)
 
         return {
@@ -341,9 +348,11 @@ class SystemConsolidationAnalyzerCore:
             "in_progress": in_progress,
             "pending": total - completed - in_progress,
             "completion_percentage": (completed / total) * 100 if total > 0 else 0,
-            "current_phase": "Critical Consolidation" if completed == 0 else "High Priority Consolidation",
+            "current_phase": "Critical Consolidation"
+            if completed == 0
+            else "High Priority Consolidation",
         }
-    
+
     def export_consolidation_analysis(self, filepath: str) -> bool:
         """Export consolidation analysis to JSON file."""
         try:

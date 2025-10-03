@@ -9,12 +9,12 @@ V2 Compliance: ≤400 lines, ≤5 classes, KISS principle
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 
 class ReplicationStatus(Enum):
     """Replication status enumeration."""
-    
+
     ACTIVE = "active"
     PAUSED = "paused"
     FAILED = "failed"
@@ -25,10 +25,10 @@ class ReplicationStatus(Enum):
 @dataclass
 class ReplicationConfig:
     """Replication configuration."""
-    
+
     source_db: str
     target_db: str
-    tables: List[str]
+    tables: list[str]
     batch_size: int = 1000
     sync_interval: int = 60
 
@@ -36,11 +36,11 @@ class ReplicationConfig:
 @dataclass
 class ReplicationRecord:
     """Replication record data structure."""
-    
+
     id: str
     table_name: str
     operation: str
-    data: Dict[str, Any]
+    data: dict[str, Any]
     timestamp: datetime
     source_node: str
     checksum: str
@@ -49,7 +49,7 @@ class ReplicationRecord:
 @dataclass
 class ReplicationMetrics:
     """Replication metrics data structure."""
-    
+
     records_synced: int
     conflicts_resolved: int
     sync_duration: float
@@ -61,9 +61,9 @@ class ReplicationMetrics:
 @dataclass
 class SyncResult:
     """Synchronization result."""
-    
+
     success: bool
     records_processed: int
     conflicts_found: int
-    errors: List[str]
+    errors: list[str]
     duration: float

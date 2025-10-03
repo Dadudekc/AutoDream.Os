@@ -7,14 +7,13 @@ V2 Compliance: ≤400 lines, ≤5 classes, KISS principle
 """
 
 from dataclasses import dataclass
-from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any
 
 
 @dataclass
 class DiscordPerformanceMetrics:
     """Performance metrics for Discord Commander."""
-    
+
     message_processing_time: float
     command_execution_time: float
     event_handling_time: float
@@ -23,8 +22,8 @@ class DiscordPerformanceMetrics:
     commands_per_second: float
     error_rate: float
     uptime_seconds: float
-    
-    def to_dict(self) -> Dict[str, Any]:
+
+    def to_dict(self) -> dict[str, Any]:
         """Convert metrics to dictionary."""
         return {
             "message_processing_time": self.message_processing_time,
@@ -41,7 +40,7 @@ class DiscordPerformanceMetrics:
 @dataclass
 class OptimizationConfig:
     """Optimization configuration."""
-    
+
     cache_size: int = 1000
     cache_ttl: int = 300
     rate_limit_per_minute: int = 60
@@ -53,7 +52,7 @@ class OptimizationConfig:
 @dataclass
 class PerformanceThresholds:
     """Performance thresholds."""
-    
+
     max_message_processing_time: float = 1.0
     max_command_execution_time: float = 2.0
     max_event_handling_time: float = 0.5
@@ -61,4 +60,3 @@ class PerformanceThresholds:
     min_messages_per_second: float = 10.0
     min_commands_per_second: float = 5.0
     max_error_rate: float = 0.05
-

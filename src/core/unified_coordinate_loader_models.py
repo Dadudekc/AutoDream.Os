@@ -8,12 +8,11 @@ V2 Compliance: ≤400 lines, ≤5 classes, KISS principle
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional
 
 
 class CoordinateSource(Enum):
     """Coordinate source enumeration."""
-    
+
     PRIMARY = "primary"
     BACKUP = "backup"
     ENVIRONMENT = "environment"
@@ -22,7 +21,7 @@ class CoordinateSource(Enum):
 @dataclass
 class AgentCoordinates:
     """Agent coordinates data structure."""
-    
+
     x: int
     y: int
     monitor: str
@@ -32,27 +31,27 @@ class AgentCoordinates:
 @dataclass
 class CoordinateConfig:
     """Coordinate configuration data structure."""
-    
+
     version: str
     last_updated: str
     source: CoordinateSource
-    agents: Dict[str, AgentCoordinates]
+    agents: dict[str, AgentCoordinates]
 
 
 @dataclass
 class LoadResult:
     """Coordinate loading result."""
-    
+
     success: bool
-    config: Optional[CoordinateConfig]
-    error: Optional[str]
-    source: Optional[CoordinateSource]
+    config: CoordinateConfig | None
+    error: str | None
+    source: CoordinateSource | None
 
 
 @dataclass
 class ValidationResult:
     """Coordinate validation result."""
-    
+
     valid: bool
-    errors: List[str]
-    warnings: List[str]
+    errors: list[str]
+    warnings: list[str]

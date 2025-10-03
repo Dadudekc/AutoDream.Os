@@ -344,8 +344,7 @@ class RealTimePerformanceMonitor:
             "monitoring_duration": (datetime.now() - self.start_time).total_seconds(),
             "total_snapshots": len(self.performance_history),
             "recent_averages": {
-                "cpu_percent": sum(s.cpu_percent for s in recent_snapshots)
-                / len(recent_snapshots),
+                "cpu_percent": sum(s.cpu_percent for s in recent_snapshots) / len(recent_snapshots),
                 "memory_mb": sum(s.memory_mb for s in recent_snapshots) / len(recent_snapshots),
                 "response_time_ms": sum(s.response_time_ms for s in recent_snapshots)
                 / len(recent_snapshots),
@@ -372,8 +371,7 @@ class RealTimePerformanceMonitor:
                     name: metrics.to_dict() for name, metrics in self.component_metrics.items()
                 },
                 "recent_snapshots": [
-                    snapshot.to_dict()
-                    for snapshot in self.performance_history[-50:]
+                    snapshot.to_dict() for snapshot in self.performance_history[-50:]
                 ],
             }
 

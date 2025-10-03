@@ -7,14 +7,12 @@ V2 Compliance: ≤400 lines, single responsibility, KISS principle
 """
 
 from dataclasses import dataclass
-from datetime import datetime
 from enum import Enum
-from typing import Dict, List, Optional
 
 
 class BottleneckType(Enum):
     """Bottleneck type enumeration."""
-    
+
     MANUAL_INBOX_SCAN = "manual_inbox_scan"
     MANUAL_TASK_EVAL = "manual_task_eval"
     MANUAL_DEVLOG_CREATE = "manual_devlog_create"
@@ -25,7 +23,7 @@ class BottleneckType(Enum):
 @dataclass
 class BottleneckElimination:
     """Bottleneck elimination result."""
-    
+
     bottleneck_type: BottleneckType
     eliminated: bool
     time_saved_per_cycle: float
@@ -36,7 +34,7 @@ class BottleneckElimination:
 @dataclass
 class AutomationScript:
     """Automation script configuration."""
-    
+
     script_name: str
     script_path: str
     description: str
@@ -47,10 +45,9 @@ class AutomationScript:
 @dataclass
 class BottleneckSummary:
     """Bottleneck elimination summary."""
-    
+
     total_bottlenecks_eliminated: int
     total_time_saved: float
     total_manual_steps_removed: int
-    automation_scripts_created: List[AutomationScript]
+    automation_scripts_created: list[AutomationScript]
     efficiency_gain_percentage: float
-

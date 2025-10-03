@@ -10,6 +10,8 @@ Author: Agent-4 (Captain & Operations Coordinator)
 License: MIT
 """
 
+from src.services.consolidated_messaging_cli import ConsolidatedMessagingCLI
+
 # Import all components from refactored modules
 from src.services.consolidated_messaging_service_core import (
     ENHANCED_VALIDATION_AVAILABLE,
@@ -18,12 +20,10 @@ from src.services.consolidated_messaging_service_core import (
     ConsolidatedMessagingServiceCore,
     CoordinationRequest,
     MessageProtocolChecker,
+    ScreenshotManager,
+    ScreenshotTrigger,
 )
-from src.services.consolidated_messaging_service_main import (
-    ConsolidatedMessagingService,
-    build_parser,
-    main,
-)
+from src.services.consolidated_messaging_service_main import ConsolidatedMessagingService
 from src.services.consolidated_messaging_service_utils import (
     AgentOnboarder,
     MessageFormatter,
@@ -47,13 +47,14 @@ __all__ = [
     "MessageProtocolChecker",
     "AgentCoordinatesLoader",
     "AgentStatusChecker",
+    "ScreenshotManager",
+    "ScreenshotTrigger",
     "ENHANCED_VALIDATION_AVAILABLE",
     "create_message_formatter",
     "create_message_validator",
     "create_message_sender",
     "create_agent_onboarder",
-    "build_parser",
-    "main",
+    "ConsolidatedMessagingCLI",
 ]
 
 if __name__ == "__main__":
@@ -61,4 +62,5 @@ if __name__ == "__main__":
     import sys
 
     logging.basicConfig(level=logging.INFO)
-    sys.exit(main())
+    cli = ConsolidatedMessagingCLI()
+    sys.exit(cli.main())

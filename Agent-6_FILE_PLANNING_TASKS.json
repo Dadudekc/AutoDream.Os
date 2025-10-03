@@ -1,0 +1,40 @@
+{
+  "agent": "Agent-6",
+  "role": "Quality Agent",
+  "responsibility": "V2 compliance and quality standards",
+  "focus": "File size limits (\u2264400 lines), quality gates, compliance",
+  "assigned_categories": [
+    "essential_core",
+    "quality_standards"
+  ],
+  "specific_tasks": [
+    "Review all files for V2 compliance",
+    "Identify files exceeding 400 lines",
+    "Ensure quality gates are met",
+    "Validate file necessity from quality perspective"
+  ],
+  "coordination_methods": {
+    "debate_system": {
+      "description": "Use debate system for complex decisions",
+      "when_to_use": "When agents disagree on file necessity",
+      "process": "Present arguments, vote, reach consensus"
+    },
+    "messaging_system": {
+      "description": "Use messaging system for coordination",
+      "when_to_use": "For ongoing coordination and updates",
+      "process": "Send messages, receive responses, coordinate actions"
+    },
+    "collaborative_planning": {
+      "description": "Collaborative planning session",
+      "when_to_use": "For initial planning and framework creation",
+      "process": "All agents contribute to planning document"
+    }
+  },
+  "success_criteria": {
+    "file_reduction": "Reduce from 11,977 to ~500 files (95.8% reduction)",
+    "directory_reduction": "Reduce from 554 to ~50 directories",
+    "maintainability": "System must be easy to navigate and understand",
+    "functionality": "All essential inter-agent coordination must work",
+    "quality": "All remaining files must meet V2 compliance standards"
+  }
+}

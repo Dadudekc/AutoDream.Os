@@ -11,6 +11,7 @@ License: MIT
 
 import json
 import logging
+import threading
 import time
 from typing import Tuple
 
@@ -191,6 +192,8 @@ class AgentOnboarder:
     def __init__(self, coord_path: str = "config/coordinates.json"):
         """Initialize agent onboarder."""
         self.coord_path = coord_path
+        self.recently_onboarded = set()  # Track recently onboarded agents
+        self._onboarding_lock = threading.Lock()
 
     def get_agent_default_role(self, agent_id: str) -> str:
         """Get agent's default role from capabilities."""
@@ -261,6 +264,75 @@ Operational: TASK_EXECUTOR, RESEARCHER, TROUBLESHOOTER, OPTIMIZER, DEVLOG_STORYT
 🚀 BEGIN ONBOARDING PROTOCOLS
 ============================================================
 🐝 WE ARE SWARM - {agent_id} Activation Complete"""
+
+    def hard_onboard_agent(self, agent_id: str) -> bool:
+        """Hard onboard specific agent with PyAutoGUI messaging."""
+        try:
+            # Check if recently onboarded to prevent duplicates
+            if agent_id in self.recently_onboarded:
+                logger.warning(f"Agent {agent_id} recently onboarded, skipping duplicate")
+                return True
+            
+            # Get agent coordinates
+            with open(self.coord_path) as f:
+                coords = json.load(f)
+
+            if agent_id not in coords["agents"]:
+                logger.error(f"Agent {agent_id} not found in coordinates")
+                return False
+
+            # Get default role
+            default_role = self.get_agent_default_role(agent_id)
+
+            # Create onboarding message
+            message = self.create_onboarding_message(agent_id, default_role)
+
+            # Send via PyAutoGUI
+            if pyautogui and pyperclip:
+                pyperclip.copy(message)
+                agent_coords = coords["agents"][agent_id]["chat_input_coordinates"]
+                pyautogui.click(agent_coords[0], agent_coords[1])
+                pyautogui.hotkey("ctrl", "v")
+                pyautogui.press("enter")
+                logger.info(f"Hard onboarded agent {agent_id} with role {default_role}")
+                
+                # Mark as recently onboarded
+                self.recently_onboarded.add(agent_id)
+                # Remove from recently onboarded after 5 minutes
+                import threading
+                def remove_from_recent():
+                    import time
+                    time.sleep(300)  # 5 minutes
+                    self.recently_onboarded.discard(agent_id)
+                threading.Thread(target=remove_from_recent, daemon=True).start()
+                
+                return True
+            else:
+                logger.warning(f"PyAutoGUI not available, cannot hard onboard {agent_id}")
+                return False
+
+        except Exception as e:
+            logger.error(f"Error hard onboarding agent {agent_id}: {e}")
+            return False
+
+    def hard_onboard_all_agents(self) -> bool:
+        """Hard onboard all agents."""
+        try:
+            with open(self.coord_path) as f:
+                coords = json.load(f)
+            
+            success_count = 0
+            for agent_id in coords["agents"]:
+                if self.hard_onboard_agent(agent_id):
+                    success_count += 1
+                    time.sleep(1)  # Brief delay between onboardings
+            
+            logger.info(f"Hard onboarded {success_count}/{len(coords['agents'])} agents")
+            return success_count > 0
+            
+        except Exception as e:
+            logger.error(f"Error hard onboarding all agents: {e}")
+            return False
 
 
 def create_message_formatter() -> MessageFormatter:

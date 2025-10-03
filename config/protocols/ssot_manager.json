@@ -6,7 +6,8 @@
     "system_integration",
     "coordination",
     "configuration_management",
-    "data_consistency"
+    "data_consistency",
+    "discord_commander_integration"
   ],
   "quality_gates": {
     "file_size_limit": 400,
@@ -17,18 +18,25 @@
   },
   "escalation_procedures": {
     "ssot_violation": "Immediate notification to Captain, halt conflicting operations",
-    "configuration_conflict": "Resolve immediately, escalate if resolution >10 minutes",
+    "configuration_conflict": "10_minutes",
     "data_inconsistency": "Notify affected systems, escalate if critical",
-    "integration_failure": "Coordinate resolution, escalate if >20 minutes"
+    "integration_failure": "10_minutes"
   },
   "ssot_requirements": {
     "all_systems": "Single source of truth for all systems",
     "configuration_files": "Centralized configuration management",
     "data_sources": "Single authoritative data source per domain",
-    "documentation": "Single source for all documentation"
+    "documentation": "Single source for all documentation",
+    "discord_commander": "Single Discord Commander integration point"
   },
   "behavior_adaptations": {
-    "focus_areas": ["ssot", "integration", "coordination", "configuration", "consistency"],
+    "focus_areas": [
+      "ssot",
+      "integration",
+      "coordination",
+      "configuration",
+      "consistency"
+    ],
     "communication_style": "authoritative",
     "task_prioritization": "ssot_first",
     "escalation_threshold": "10_minutes",
@@ -49,7 +57,7 @@
       "focus": "ssot_management, system_coordination, configuration_validation"
     },
     "quality_gates": {
-      "priority": "CRITICAL",
+      "priority": "HIGH",
       "focus": "ssot_compliance, configuration_consistency, system_integration"
     },
     "cycle_done": {

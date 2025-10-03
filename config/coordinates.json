@@ -60,7 +60,11 @@
         656,
         111
       ],
-      "description": "Business Intelligence"
+      "description": "SSOT Manager & Business Intelligence",
+      "current_role": "SSOT_MANAGER",
+      "capabilities": ["SSOT_MANAGER", "COORDINATOR", "DATA_ANALYST", "BUSINESS_INTELLIGENCE"],
+      "reassigned_from": "Agent-8",
+      "reassignment_reason": "Agent-8 deactivated after 28+ failed activation attempts"
     },
     "Agent-6": {
       "active": true,

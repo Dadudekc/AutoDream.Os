@@ -10,6 +10,7 @@ V2 Compliance: ≤400 lines, focused path functionality.
 import logging
 from pathlib import Path
 
+from src.core.cross_platform_paths import ensure_dir
 from .config import CONFIG
 
 logger = logging.getLogger(__name__)
@@ -19,8 +20,8 @@ def ensure_directories() -> None:
     """Ensure all required directories exist."""
     try:
         if CONFIG.create_dirs:
-            CONFIG.root.mkdir(parents=True, exist_ok=True)
-            CONFIG.index_path.mkdir(parents=True, exist_ok=True)
+            ensure_dir(CONFIG.root)
+            ensure_dir(CONFIG.index_path)
             logger.debug(f"Created directories: {CONFIG.root}, {CONFIG.index_path}")
     except Exception as e:
         logger.error(f"Failed to create directories: {e}")

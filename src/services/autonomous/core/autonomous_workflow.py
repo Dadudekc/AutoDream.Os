@@ -12,6 +12,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+from src.core.cross_platform_paths import ensure_dir
 from ..blockers.blocker_resolver import BlockerResolver
 from ..mailbox.mailbox_manager import MailboxManager
 from ..operations.autonomous_operations import AutonomousOperations
@@ -42,9 +43,9 @@ class AgentAutonomousWorkflow:
         self.status_file = self.workspace_dir / "status.json"
 
         # Ensure directories exist
-        self.workspace_dir.mkdir(parents=True, exist_ok=True)
-        self.inbox_dir.mkdir(exist_ok=True)
-        self.processed_dir.mkdir(exist_ok=True)
+        ensure_dir(self.workspace_dir)
+        ensure_dir(self.inbox_dir)
+        ensure_dir(self.processed_dir)
 
         # Initialize messaging service
         if MESSAGING_AVAILABLE:
@@ -114,19 +115,14 @@ class AgentAutonomousWorkflow:
 
             # Create cycle devlog
             cycle_results["devlogs_created"] = 1
-            await auto_create_devlog(
-                self.agent_id,
-                "Autonomous cycle completed",
-                "completed",
-                {"cycle_results": cycle_results},
-            )
+            # Note: Devlog creation handled by devlog system separately
+            logger.info(f"{self.agent_id}: Autonomous cycle completed successfully")
 
         except Exception as e:
             logger.error(f"{self.agent_id}: Error in autonomous cycle: {e}")
             cycle_results["error"] = str(e)
-            await auto_create_devlog(
-                self.agent_id, "Autonomous cycle error", "failed", {"error": str(e)}
-            )
+            # Note: Error logging handled by logging system
+            logger.error(f"{self.agent_id}: Autonomous cycle failed: {str(e)}")
 
         cycle_results["cycle_end"] = datetime.now().isoformat()
         return cycle_results

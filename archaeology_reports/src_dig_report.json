@@ -1,9 +1,0 @@
-{
-  "status": "success",
-  "findings_summary": {
-    "evolution_stages": 5,
-    "patterns_discovered": 12,
-    "debt_items_mapped": 8,
-    "dead_code_fragments": 3
-  }
-}

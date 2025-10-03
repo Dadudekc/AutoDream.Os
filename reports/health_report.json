@@ -2,25 +2,23 @@
   "system_health": {
     "overall_status": "POOR",
     "active_agents": 3,
-    "total_agents": 8,
-    "health_score": 51.25,
+    "total_agents": 7,
+    "health_score": 50.0,
     "alerts": [
-      "LOW AGENT AVAILABILITY: Only 3/8 agents active",
+      "LOW AGENT AVAILABILITY: Only 3/7 agents active",
       "AGENT HEALTH: Agent-1 health score low (30.0)",
       "AGENT STATUS: Agent-1 is UNKNOWN",
       "AGENT HEALTH: Agent-2 health score low (30.0)",
       "AGENT STATUS: Agent-2 is INACTIVE",
       "AGENT HEALTH: Agent-3 health score low (30.0)",
       "AGENT STATUS: Agent-3 is UNKNOWN",
-      "AGENT HEALTH: Agent-7 health score low (30.0)",
-      "AGENT STATUS: Agent-7 is CYCLE_UPDATE_SYSTEMS_COMPLETE",
       "AGENT HEALTH: Agent-8 health score low (30.0)",
       "AGENT STATUS: Agent-8 is UNKNOWN"
     ],
-    "timestamp": "2025-10-01T07:56:19.994031"
+    "timestamp": "2025-10-02T05:42:36.844599"
   },
   "agent_details": {
-    "timestamp": "2025-10-01T07:56:20.002039",
+    "timestamp": "2025-10-02T05:42:36.845599",
     "agents": [
       {
         "agent_id": "Agent-1",
@@ -68,15 +66,7 @@
         "role": "QUALITY_ASSURANCE",
         "last_active": "2025-10-01T12:50:00",
         "task_count": 0,
-        "health_score": 100.0
-      },
-      {
-        "agent_id": "Agent-7",
-        "status": "CYCLE_UPDATE_SYSTEMS_COMPLETE",
-        "role": "NONE",
-        "last_active": "NEVER",
-        "task_count": 0,
-        "health_score": 30.0
+        "health_score": 70.0
       },
       {
         "agent_id": "Agent-8",
@@ -88,9 +78,9 @@
       }
     ],
     "summary": {
-      "total_agents": 8,
+      "total_agents": 7,
       "active_agents": 3,
-      "average_health": 51.25
+      "average_health": 50.0
     }
   }
 }

@@ -34,12 +34,18 @@
     "stress_test_results": "Centralized stress testing data and results"
   },
   "behavior_adaptations": {
-    "focus_areas": ["risk_assessment", "portfolio_protection", "limit_enforcement", "emergency_response", "hedging"],
+    "focus_areas": [
+      "risk_assessment",
+      "portfolio_protection",
+      "limit_enforcement",
+      "emergency_response",
+      "hedging"
+    ],
     "communication_style": "risk_focused_urgent",
     "task_prioritization": "risk_critical_first",
     "escalation_threshold": "2_minutes",
     "quality_emphasis": "risk_accuracy",
-    "coordination_level": "maximum"
+    "coordination_level": "medium"
   },
   "general_cycle_adaptations": {
     "check_inbox": {
@@ -47,15 +53,15 @@
       "focus": "risk_alerts, position_updates, limit_breach_notifications"
     },
     "evaluate_tasks": {
-      "priority": "CRITICAL",
+      "priority": "HIGH",
       "focus": "risk_assessment_tasks, stress_testing, limit_monitoring"
     },
     "execute_role": {
-      "priority": "CRITICAL",
+      "priority": "HIGH",
       "focus": "risk_monitoring, limit_enforcement, emergency_response"
     },
     "quality_gates": {
-      "priority": "CRITICAL",
+      "priority": "HIGH",
       "focus": "risk_validation, limit_verification, emergency_readiness"
     },
     "cycle_done": {
@@ -66,18 +72,36 @@
   "specialized_workflows": {
     "risk_monitoring": {
       "monitoring_frequency": "real_time",
-      "risk_metrics": ["var", "expected_shortfall", "max_drawdown", "correlation_risk"],
+      "risk_metrics": [
+        "var",
+        "expected_shortfall",
+        "max_drawdown",
+        "correlation_risk"
+      ],
       "alert_thresholds": "dynamic_based_on_volatility"
     },
     "stress_testing": {
-      "stress_scenarios": ["market_crash", "sector_rotation", "liquidity_crisis", "volatility_spike"],
+      "stress_scenarios": [
+        "market_crash",
+        "sector_rotation",
+        "liquidity_crisis",
+        "volatility_spike"
+      ],
       "testing_frequency": "daily_and_on_demand",
       "response_protocols": "automated_and_manual"
     },
     "emergency_response": {
       "response_time": "immediate",
-      "action_types": ["position_reduction", "hedge_activation", "trading_halt"],
-      "escalation_levels": ["automated", "agent_notification", "captain_intervention"]
+      "action_types": [
+        "position_reduction",
+        "hedge_activation",
+        "trading_halt"
+      ],
+      "escalation_levels": [
+        "automated",
+        "agent_notification",
+        "captain_intervention"
+      ]
     }
   }
 }

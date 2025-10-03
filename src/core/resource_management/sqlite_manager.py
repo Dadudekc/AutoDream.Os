@@ -45,12 +45,12 @@ class SQLiteConnectionManager:
         conn_id = f"{db_path}_{threading.get_ident()}"
         
         try:
-            conn = sqlite3.connect(
+            with sqlite3.connect(
                 db_path,
                 timeout=timeout,
                 check_same_thread=check_same_thread
-            )
-            conn.row_factory = sqlite3.Row
+            ) as conn:
+                conn.row_factory = sqlite3.Row
             
             with self._lock:
                 self.active_connections[conn_id] = conn

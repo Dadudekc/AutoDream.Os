@@ -28,12 +28,18 @@
     "performance_benchmarks": "Centralized benchmark definitions"
   },
   "behavior_adaptations": {
-    "focus_areas": ["testing", "quality", "compliance", "validation", "performance"],
+    "focus_areas": [
+      "testing",
+      "quality",
+      "compliance",
+      "validation",
+      "performance"
+    ],
     "communication_style": "detail_oriented",
     "task_prioritization": "quality_first",
     "escalation_threshold": "5_minutes",
     "quality_emphasis": "comprehensive_testing",
-    "coordination_level": "medium"
+    "coordination_level": "high"
   },
   "general_cycle_adaptations": {
     "check_inbox": {
@@ -49,7 +55,7 @@
       "focus": "test_development, quality_validation, compliance_checking"
     },
     "quality_gates": {
-      "priority": "CRITICAL",
+      "priority": "HIGH",
       "focus": "comprehensive_testing, compliance_validation, performance_testing"
     },
     "cycle_done": {

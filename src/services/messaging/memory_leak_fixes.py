@@ -212,7 +212,7 @@ class MemoryLeakFixer:
             return
         
         self.running = True
-        self.cleanup_thread = threading.Thread(target=self._cleanup_loop, daemon=True)
+        self.cleanup_thread = threading.Thread(target=self._cleanup_loop, daemon=True, daemon=True)
         self.cleanup_thread.start()
         logger.info("Memory cleanup service started")
     

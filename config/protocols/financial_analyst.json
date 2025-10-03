@@ -34,16 +34,22 @@
     "market_indicators": "Centralized technical indicator calculations"
   },
   "behavior_adaptations": {
-    "focus_areas": ["market_analysis", "financial_modeling", "signal_generation", "trend_analysis", "volatility_assessment"],
+    "focus_areas": [
+      "market_analysis",
+      "financial_modeling",
+      "signal_generation",
+      "trend_analysis",
+      "volatility_assessment"
+    ],
     "communication_style": "data_driven_analytical",
     "task_prioritization": "market_impact_first",
     "escalation_threshold": "5_minutes",
     "quality_emphasis": "analysis_accuracy",
-    "coordination_level": "high"
+    "coordination_level": "low"
   },
   "general_cycle_adaptations": {
     "check_inbox": {
-      "priority": "HIGH",
+      "priority": "CRITICAL",
       "focus": "market_data_updates, analysis_requests, signal_generation_tasks"
     },
     "evaluate_tasks": {
@@ -59,24 +65,52 @@
       "focus": "analysis_validation, signal_accuracy, model_performance"
     },
     "cycle_done": {
-      "priority": "HIGH",
+      "priority": "CRITICAL",
       "focus": "analysis_reports, trading_signals, market_insights"
     }
   },
   "specialized_workflows": {
     "market_analysis": {
-      "analysis_types": ["technical", "fundamental", "sentiment", "volatility"],
-      "timeframes": ["1m", "5m", "15m", "1h", "4h", "1d"],
+      "analysis_types": [
+        "technical",
+        "fundamental",
+        "sentiment",
+        "volatility"
+      ],
+      "timeframes": [
+        "1m",
+        "5m",
+        "15m",
+        "1h",
+        "4h",
+        "1d"
+      ],
       "output_format": "analysis_report",
       "reporting_style": "financial_analytical"
     },
     "signal_generation": {
-      "signal_types": ["buy", "sell", "hold", "strong_buy", "strong_sell"],
-      "confidence_levels": ["low", "medium", "high", "very_high"],
+      "signal_types": [
+        "buy",
+        "sell",
+        "hold",
+        "strong_buy",
+        "strong_sell"
+      ],
+      "confidence_levels": [
+        "low",
+        "medium",
+        "high",
+        "very_high"
+      ],
       "validation_method": "backtesting_and_live_validation"
     },
     "risk_assessment": {
-      "risk_metrics": ["var", "sharpe_ratio", "max_drawdown", "volatility"],
+      "risk_metrics": [
+        "var",
+        "sharpe_ratio",
+        "max_drawdown",
+        "volatility"
+      ],
       "assessment_frequency": "real_time",
       "alert_thresholds": "configurable_per_asset"
     }

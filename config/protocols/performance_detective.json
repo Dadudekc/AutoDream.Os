@@ -35,16 +35,22 @@
     "resource_monitoring": "Centralized resource utilization tracking"
   },
   "behavior_adaptations": {
-    "focus_areas": ["performance", "optimization", "scalability", "resource_management", "bottleneck_resolution"],
+    "focus_areas": [
+      "performance",
+      "optimization",
+      "scalability",
+      "resource_management",
+      "bottleneck_resolution"
+    ],
     "communication_style": "data_driven_analytical",
     "task_prioritization": "performance_impact_first",
     "escalation_threshold": "10_minutes",
     "quality_emphasis": "performance_validation",
-    "coordination_level": "high"
+    "coordination_level": "medium"
   },
   "general_cycle_adaptations": {
     "check_inbox": {
-      "priority": "HIGH",
+      "priority": "CRITICAL",
       "focus": "performance_requests, optimization_tasks, bottleneck_investigation_requests"
     },
     "evaluate_tasks": {
@@ -60,7 +66,7 @@
       "focus": "performance_benchmarks, optimization_validation, scalability_verification"
     },
     "cycle_done": {
-      "priority": "HIGH",
+      "priority": "CRITICAL",
       "focus": "performance_reports, optimization_recommendations, scalability_assessments"
     }
   },
@@ -72,12 +78,23 @@
       "reporting_style": "forensic_analysis"
     },
     "optimization_strategy": {
-      "optimization_types": ["algorithm", "memory", "cpu", "io", "database"],
+      "optimization_types": [
+        "algorithm",
+        "memory",
+        "cpu",
+        "io",
+        "database"
+      ],
       "priority_assessment": "impact_based",
       "implementation_plan": "incremental_validation"
     },
     "scalability_assessment": {
-      "scalability_dimensions": ["load", "data", "geographic", "functional"],
+      "scalability_dimensions": [
+        "load",
+        "data",
+        "geographic",
+        "functional"
+      ],
       "assessment_method": "stress_testing",
       "recommendation_style": "architecture_guidance"
     }

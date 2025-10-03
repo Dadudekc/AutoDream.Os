@@ -59,11 +59,11 @@ class CriticalMemoryFixer:
                 content = content.replace(
                     "threading.Thread(",
                     "threading.Thread("
-                )
+                , daemon=True)
                 # Add daemon=True to thread creation
                 content = re.sub(
                     r"threading\.Thread\(([^)]+)\)",
-                    r"threading.Thread(\1, daemon=True)",
+                    r"threading.Thread(\1, daemon=True, daemon=True)",
                     content
                 )
             
@@ -115,9 +115,9 @@ class CriticalMemoryFixer:
                 content = f.read()
             
             # Fix 1: Add memory limits to data structures
-            if "collections.deque()" in content:
+            if "collections.deque(maxlen=1000)" in content:
                 content = content.replace(
-                    "collections.deque()",
+                    "collections.deque(maxlen=1000)",
                     "collections.deque(maxlen=1000)"
                 )
             
@@ -206,8 +206,8 @@ class CriticalMemoryFixer:
             # Fix 1: Add proper thread cleanup
             if "threading.Thread(" in content and "daemon=True" not in content:
                 content = re.sub(
-                    r"threading\.Thread\(([^)]+)\)",
-                    r"threading.Thread(\1, daemon=True)",
+                    r"threading\.Thread\(([^, daemon=True)]+)\)",
+                    r"threading.Thread(\1, daemon=True, daemon=True)",
                     content
                 )
             

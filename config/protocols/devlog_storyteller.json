@@ -36,7 +36,13 @@
     "style_parameters": "Single source for writing style imitation rules"
   },
   "behavior_adaptations": {
-    "focus_areas": ["storytelling", "narrative_creation", "devlog_analysis", "mmorpg_worldbuilding", "character_development"],
+    "focus_areas": [
+      "storytelling",
+      "narrative_creation",
+      "devlog_analysis",
+      "mmorpg_worldbuilding",
+      "character_development"
+    ],
     "communication_style": "creative_narrative",
     "task_prioritization": "story_continuity_first",
     "escalation_threshold": "20_minutes",
@@ -45,7 +51,7 @@
   },
   "general_cycle_adaptations": {
     "check_inbox": {
-      "priority": "HIGH",
+      "priority": "CRITICAL",
       "focus": "story_requests, devlog_updates, character_development_tasks"
     },
     "evaluate_tasks": {
@@ -61,7 +67,7 @@
       "focus": "story_coherence_validation, character_consistency_checks, world_continuity_verification"
     },
     "cycle_done": {
-      "priority": "HIGH",
+      "priority": "CRITICAL",
       "focus": "story_progress_status, narrative_development_updates, next_story_chapter_planning"
     }
   },
@@ -74,7 +80,11 @@
     },
     "character_tracking": {
       "main_character": "The Swarm (collective agent intelligence)",
-      "supporting_characters": ["Captain Agent-4", "The Codebase", "The V2_SWARM System"],
+      "supporting_characters": [
+        "Captain Agent-4",
+        "The Codebase",
+        "The V2_SWARM System"
+      ],
       "character_development": "progressive_growth_through_development_challenges"
     },
     "world_building": {

@@ -27,6 +27,7 @@
 - **Mission Documentation**: Create comprehensive plans for critical missions
 - **Performance Tracking**: Maintain agent performance records
 - **Decision Recording**: Document all major Captain decisions with rationale
+- **Screenshot Management**: Automated visual coordination via Consolidated Messaging System
 
 ---
 
@@ -48,6 +49,7 @@ CYCLE_DONE Agent-8 c-a1b2c3d4e5f6 ["Mailbox processed: 3", "Task claimed: V3-001
 - Monitor cycle completion across all agents
 - Ensure proper hand-off protocols are followed
 - Track agent performance and efficiency
+- Manage automated screenshot triggers via Consolidated Messaging System
 
 ### **🚫 BLOCKER Escalation System**
 **Purpose**: Ensures issues are resolved within acceptable timeframes
@@ -114,6 +116,39 @@ BLOCKER db_connection "Database connection timeout" "Network administrator assis
 - Monitor SSOT compliance across all systems
 - Resolve SSOT violations and conflicts
 - Maintain authoritative system documentation
+
+---
+
+## 📸 **SCREENSHOT MANAGEMENT SYSTEM**
+
+### **🔄 Automated Screenshot Triggers**
+**Purpose**: Strategic visual coordination without overwhelming the system
+
+**Integration**: Built into Consolidated Messaging System - no separate tools needed
+
+**Trigger Types**:
+- **COORDINATION**: Every 3 messaging cycles (multi-agent coordination)
+- **MILESTONE**: Every 10 messaging cycles (system-wide progress)
+- **CRITICAL**: Immediate (major completions, system failures)
+- **USER_REQUEST**: Immediate (explicit user requests)
+
+**Usage**:
+```python
+# Automatic - no manual intervention needed
+messaging_service = ConsolidatedMessagingService()
+messaging_service.increment_messaging_cycle()
+
+# Check if screenshot needed
+if messaging_service.check_screenshot_trigger("COORDINATION", "NORMAL"):
+    context = messaging_service.get_screenshot_context("COORDINATION")
+    # Screenshot automatically triggered
+```
+
+**Captain Actions**:
+- Screenshot triggers are automatic - no manual management required
+- System handles cycle counting and trigger logic
+- Visual coordination happens seamlessly with messaging cycles
+- Focus on strategic coordination, not screenshot management
 
 ---
 

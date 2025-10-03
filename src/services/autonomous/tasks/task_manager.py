@@ -167,6 +167,9 @@ class TaskManager:
 
             # Simulate task progress
             current_progress = current_task.get("progress", 0)
+            # Ensure progress is an integer
+            if isinstance(current_progress, str):
+                current_progress = int(current_progress) if current_progress.isdigit() else 0
             new_progress = min(current_progress + 10, 100)
 
             # Update progress
@@ -178,15 +181,10 @@ class TaskManager:
             with open(self.working_tasks_file, "w") as f:
                 json.dump(working_tasks, f, indent=2)
 
-            # Create devlog for task progress
-            await auto_create_devlog(
-                self.agent_id,
-                "Task progress updated",
-                "completed",
-                {"task_title": current_task.get("title"), "progress": new_progress},
-            )
+            # Log task progress
+            logger.info(f"{self.agent_id}: Task progress updated - {new_progress}%")
 
-            return f"Task progress: {new_progress}%"
+            return f"Task progress: {str(new_progress)}%"
 
         except Exception as e:
             logger.error(f"{self.agent_id}: Error continuing task: {e}")

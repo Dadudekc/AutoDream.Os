@@ -87,7 +87,49 @@ class AgentControlCommands:
             """Assign custom task to agent"""
             await self._handle_custom_task(interaction, agent_id, task_title, task_description)
         
+        @tree.command(name="fix_violations", description="Fix V2 compliance violations")
+        async def fix_violations_command(
+            interaction: discord.Interaction
+        ):
+            """Fix V2 compliance violations"""
+            await self._handle_fix_violations(interaction)
+        
         self.logger.info("Agent control commands registered")
+    
+    def register_regular_commands(self, bot):
+        """Register regular commands (help, ping) with Discord bot."""
+        if not DISCORD_AVAILABLE or not bot:
+            return
+        
+        # Add help command
+        @bot.command(name='help')
+        async def help_command(ctx):
+            """Show help information."""
+            help_text = """🤖 Discord Commander - Agent Control Hub
+
+**Available Commands:**
+- `!help` - Show this help message
+- `!ping` - Test bot responsiveness
+- `/send_message <agent_id> <message>` - Send message to agent
+- `/agent_status [agent_id]` - Get agent status
+- `/run_scan [scan_type]` - Run project scanner
+- `/custom_task <agent_id> <title> <description>` - Assign custom task
+- `/fix_violations` - Fix V2 compliance violations
+
+**Examples:**
+- `/send_message Agent-5 Check project status`
+- `/agent_status Agent-4`
+- `/run_scan compliance`
+"""
+            await ctx.send(help_text)
+
+        # Add ping command
+        @bot.command(name='ping')
+        async def ping_command(ctx):
+            """Test bot responsiveness."""
+            await ctx.send("🏓 Pong! Bot is responsive.")
+        
+        self.logger.info("Regular commands (help, ping) registered")
     
     async def _handle_send_message(
         self,
@@ -278,6 +320,51 @@ class AgentControlCommands:
         
         except Exception as e:
             self.logger.error(f"Error in custom_task: {e}")
+            await interaction.followup.send(f"❌ Error: {str(e)}", ephemeral=True)
+    
+    async def _handle_fix_violations(
+        self,
+        interaction: discord.Interaction
+    ):
+        """Handle /fix_violations command"""
+        try:
+            await interaction.response.defer()
+            
+            # Run quality gates to fix violations
+            import subprocess
+            
+            result = subprocess.run([
+                'python', 'quality_gates.py'
+            ], capture_output=True, text=True, timeout=60)
+            
+            if result.returncode == 0:
+                embed = discord.Embed(
+                    title="✅ Violations Fixed",
+                    description="V2 compliance violations have been addressed",
+                    color=discord.Color.green()
+                )
+                
+                # Parse output for summary
+                output_lines = result.stdout.split('\n')[:10]
+                summary_text = '\n'.join(output_lines)
+                
+                embed.add_field(name="Fix Summary", value=f"```{summary_text}```", inline=False)
+                
+                await interaction.followup.send(embed=embed)
+            else:
+                embed = discord.Embed(
+                    title="⚠️ Fix Issues",
+                    description="Some violations could not be automatically fixed",
+                    color=discord.Color.orange()
+                )
+                
+                error_summary = result.stderr[:500] if result.stderr else "Unknown error"
+                embed.add_field(name="Issues", value=f"```{error_summary}```", inline=False)
+                
+                await interaction.followup.send(embed=embed)
+        
+        except Exception as e:
+            self.logger.error(f"Error in fix_violations: {e}")
             await interaction.followup.send(f"❌ Error: {str(e)}", ephemeral=True)
 
 

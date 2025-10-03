@@ -10,8 +10,6 @@ V2 Compliance: ≤400 lines, focused monitoring functionality.
 import asyncio
 import json
 import logging
-import threading
-import weakref
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from pathlib import Path
@@ -90,58 +88,55 @@ class RealTimePerformanceMonitor:
         self.start_time = datetime.now()
         self.total_requests = 0
         self.total_errors = 0
-        self.lock = threading.RLock()
 
-        # Component references
+        # Component references (simplified - no weakref)
         self.workflow_optimizer = None
         self.discord_optimizer = None
 
     def register_component(self, component_name: str, optimizer_ref):
         """Register a component for monitoring."""
-        with self.lock:
-            self.component_metrics[component_name] = ComponentMetrics(
-                component_name=component_name,
-                total_requests=0,
-                successful_requests=0,
-                failed_requests=0,
-                average_response_time=0.0,
-                max_response_time=0.0,
-                min_response_time=float("inf"),
-                last_activity=datetime.now(),
-            )
+        self.component_metrics[component_name] = ComponentMetrics(
+            component_name=component_name,
+            total_requests=0,
+            successful_requests=0,
+            failed_requests=0,
+            average_response_time=0.0,
+            max_response_time=0.0,
+            min_response_time=float("inf"),
+            last_activity=datetime.now(),
+        )
 
-            # Store weak reference to optimizer
-            if component_name == "workflow":
-                self.workflow_optimizer = weakref.ref(optimizer_ref)
-            elif component_name == "discord":
-                self.discord_optimizer = weakref.ref(optimizer_ref)
+        # Store direct reference (simplified - no weakref)
+        if component_name == "workflow":
+            self.workflow_optimizer = optimizer_ref
+        elif component_name == "discord":
+            self.discord_optimizer = optimizer_ref
 
-            logger.info(f"Registered component for monitoring: {component_name}")
+        logger.info(f"Registered component for monitoring: {component_name}")
 
     def record_request(self, component_name: str, success: bool, response_time: float):
         """Record a request for a component."""
-        with self.lock:
-            if component_name not in self.component_metrics:
-                self.register_component(component_name, None)
+        if component_name not in self.component_metrics:
+            self.register_component(component_name, None)
 
-            metrics = self.component_metrics[component_name]
-            metrics.total_requests += 1
-            metrics.last_activity = datetime.now()
+        metrics = self.component_metrics[component_name]
+        metrics.total_requests += 1
+        metrics.last_activity = datetime.now()
 
-            if success:
-                metrics.successful_requests += 1
-            else:
-                metrics.failed_requests += 1
-                self.total_errors += 1
+        if success:
+            metrics.successful_requests += 1
+        else:
+            metrics.failed_requests += 1
+            self.total_errors += 1
 
-            # Update response time metrics
-            metrics.average_response_time = (
-                metrics.average_response_time * (metrics.total_requests - 1) + response_time
-            ) / metrics.total_requests
-            metrics.max_response_time = max(metrics.max_response_time, response_time)
-            metrics.min_response_time = min(metrics.min_response_time, response_time)
+        # Update response time metrics
+        metrics.average_response_time = (
+            metrics.average_response_time * (metrics.total_requests - 1) + response_time
+        ) / metrics.total_requests
+        metrics.max_response_time = max(metrics.max_response_time, response_time)
+        metrics.min_response_time = min(metrics.min_response_time, response_time)
 
-            self.total_requests += 1
+        self.total_requests += 1
 
     async def collect_system_metrics(self) -> PerformanceSnapshot:
         """Collect current system performance metrics."""
@@ -271,12 +266,11 @@ class RealTimePerformanceMonitor:
                 snapshot = await self.collect_system_metrics()
 
                 # Store snapshot
-                with self.lock:
-                    self.performance_history.append(snapshot)
+                self.performance_history.append(snapshot)
 
-                    # Keep only last 1000 snapshots
-                    if len(self.performance_history) > 1000:
-                        self.performance_history = self.performance_history[-1000:]
+                # Keep only last 1000 snapshots
+                if len(self.performance_history) > 1000:
+                    self.performance_history = self.performance_history[-1000:]
 
                 # Check for alerts
                 await self.check_alerts(snapshot)
@@ -341,33 +335,32 @@ class RealTimePerformanceMonitor:
 
     def get_performance_summary(self) -> dict[str, Any]:
         """Get performance summary."""
-        with self.lock:
-            if not self.performance_history:
-                return {"message": "No performance data available"}
+        if not self.performance_history:
+            return {"message": "No performance data available"}
 
-            recent_snapshots = self.performance_history[-10:]  # Last 10 snapshots
+        recent_snapshots = self.performance_history[-10:]  # Last 10 snapshots
 
-            return {
-                "monitoring_duration": (datetime.now() - self.start_time).total_seconds(),
-                "total_snapshots": len(self.performance_history),
-                "recent_averages": {
-                    "cpu_percent": sum(s.cpu_percent for s in recent_snapshots)
-                    / len(recent_snapshots),
-                    "memory_mb": sum(s.memory_mb for s in recent_snapshots) / len(recent_snapshots),
-                    "response_time_ms": sum(s.response_time_ms for s in recent_snapshots)
-                    / len(recent_snapshots),
-                },
-                "component_summary": {
-                    name: {
-                        "total_requests": metrics.total_requests,
-                        "success_rate": metrics.successful_requests / metrics.total_requests
-                        if metrics.total_requests > 0
-                        else 0,
-                        "avg_response_time": metrics.average_response_time,
-                    }
-                    for name, metrics in self.component_metrics.items()
-                },
-            }
+        return {
+            "monitoring_duration": (datetime.now() - self.start_time).total_seconds(),
+            "total_snapshots": len(self.performance_history),
+            "recent_averages": {
+                "cpu_percent": sum(s.cpu_percent for s in recent_snapshots)
+                / len(recent_snapshots),
+                "memory_mb": sum(s.memory_mb for s in recent_snapshots) / len(recent_snapshots),
+                "response_time_ms": sum(s.response_time_ms for s in recent_snapshots)
+                / len(recent_snapshots),
+            },
+            "component_summary": {
+                name: {
+                    "total_requests": metrics.total_requests,
+                    "success_rate": metrics.successful_requests / metrics.total_requests
+                    if metrics.total_requests > 0
+                    else 0,
+                    "avg_response_time": metrics.average_response_time,
+                }
+                for name, metrics in self.component_metrics.items()
+            },
+        }
 
     def save_performance_report(self) -> bool:
         """Save comprehensive performance report."""

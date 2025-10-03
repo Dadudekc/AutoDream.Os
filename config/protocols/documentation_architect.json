@@ -33,7 +33,13 @@
     "architecture_docs": "Centralized architecture documentation"
   },
   "behavior_adaptations": {
-    "focus_areas": ["documentation", "knowledge_management", "information_architecture", "content_quality", "synchronization"],
+    "focus_areas": [
+      "documentation",
+      "knowledge_management",
+      "information_architecture",
+      "content_quality",
+      "synchronization"
+    ],
     "communication_style": "clear_documentation_focused",
     "task_prioritization": "documentation_completeness_first",
     "escalation_threshold": "20_minutes",
@@ -42,7 +48,7 @@
   },
   "general_cycle_adaptations": {
     "check_inbox": {
-      "priority": "HIGH",
+      "priority": "CRITICAL",
       "focus": "documentation_requests, knowledge_base_updates, documentation_quality_issues"
     },
     "evaluate_tasks": {
@@ -58,7 +64,7 @@
       "focus": "documentation_quality_validation, accuracy_verification, synchronization_checks"
     },
     "cycle_done": {
-      "priority": "HIGH",
+      "priority": "CRITICAL",
       "focus": "documentation_reports, knowledge_base_updates, documentation_status"
     }
   }

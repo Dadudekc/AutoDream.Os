@@ -1,424 +1,174 @@
-#!/usr/bin/env python3
 """
+Data Replication System - V2 Compliant Main Interface
 V3-003: Data Replication System
-==============================
 
-Data replication and synchronization system for distributed database architecture.
-V2 Compliant: ≤400 lines, single responsibility, KISS principle.
-
-Features:
-- Multi-master replication
-- Conflict resolution
-- Replication monitoring
-- Data consistency validation
-- Automatic failover
+V2 Compliance: ≤400 lines, single responsibility, KISS principle
 """
 
 import asyncio
-import json
 import logging
-from dataclasses import dataclass
-from datetime import UTC, datetime
-from enum import Enum
-from typing import Any
+from typing import Dict, List, Optional
 
-import asyncpg
+from .data_replication_core import DataReplicationCore
+from .data_replication_models import (
+    ConflictResolutionStrategy,
+    ReplicationConfig,
+    ReplicationMetrics,
+    ReplicationStatus,
+    SyncResult,
+)
 
 logger = logging.getLogger(__name__)
 
 
-class ReplicationStatus(Enum):
-    """Replication status enumeration."""
-
-    ACTIVE = "active"
-    PAUSED = "paused"
-    FAILED = "failed"
-    SYNCING = "syncing"
-    CONFLICT = "conflict"
-
-
-class ConflictResolutionStrategy(Enum):
-    """Conflict resolution strategy enumeration."""
-
-    LAST_WRITE_WINS = "last_write_wins"
-    FIRST_WRITE_WINS = "first_write_wins"
-    MANUAL_RESOLUTION = "manual_resolution"
-    MERGE_STRATEGY = "merge_strategy"
-
-
-@dataclass
-class ReplicationConfig:
-    """Replication configuration."""
-
-    replication_factor: int = 3
-    sync_interval: int = 30  # seconds
-    conflict_resolution: ConflictResolutionStrategy = ConflictResolutionStrategy.LAST_WRITE_WINS
-    auto_failover: bool = True
-    consistency_check_interval: int = 300  # seconds
-    max_retry_attempts: int = 3
-    retry_delay: int = 5  # seconds
-
-
-@dataclass
-class ReplicationNode:
-    """Replication node information."""
-
-    node_id: str
-    host: str
-    port: int
-    database: str
-    username: str
-    password: str
-    is_primary: bool = False
-    is_healthy: bool = True
-    last_sync: datetime | None = None
-    replication_lag: float = 0.0
-
-
-@dataclass
-class ReplicationEvent:
-    """Replication event data."""
-
-    event_id: str
-    node_id: str
-    table_name: str
-    operation: str  # INSERT, UPDATE, DELETE
-    data: dict[str, Any]
-    timestamp: datetime
-    checksum: str
-
-
 class DataReplicationSystem:
-    """Data replication and synchronization system."""
+    """Main data replication system interface."""
 
     def __init__(self, config: ReplicationConfig):
-        """Initialize data replication system."""
         self.config = config
-        self.nodes: dict[str, ReplicationNode] = {}
-        self.replication_log: list[ReplicationEvent] = []
-        self.conflicts: list[dict[str, Any]] = []
-        self.is_running = False
-        self.sync_tasks: dict[str, asyncio.Task] = {}
+        self.core = DataReplicationCore(config)
+        self._running = False
 
-        logger.info("🔄 Data Replication System initialized")
+    async def start_replication(self) -> None:
+        """Start continuous replication."""
+        self._running = True
+        logger.info("Starting data replication system")
 
-    async def add_node(self, node: ReplicationNode) -> bool:
-        """Add a replication node."""
-        try:
-            connection = await self._test_connection(node)
-            if connection:
-                await connection.close()
-                self.nodes[node.node_id] = node
-                logger.info(f"✅ Added replication node: {node.node_id}")
-
-                if self.is_running:
-                    await self._start_node_replication(node.node_id)
-
-                return True
-            else:
-                logger.error(f"❌ Failed to connect to node: {node.node_id}")
-                return False
-
-        except Exception as e:
-            logger.error(f"❌ Error adding node {node.node_id}: {e}")
-            return False
-
-    async def remove_node(self, node_id: str) -> bool:
-        """Remove a replication node."""
-        try:
-            if node_id in self.nodes:
-                if node_id in self.sync_tasks:
-                    self.sync_tasks[node_id].cancel()
-                    del self.sync_tasks[node_id]
-
-                del self.nodes[node_id]
-                logger.info(f"✅ Removed replication node: {node_id}")
-                return True
-            else:
-                logger.warning(f"⚠️ Node not found: {node_id}")
-                return False
-
-        except Exception as e:
-            logger.error(f"❌ Error removing node {node_id}: {e}")
-            return False
-
-    async def start_replication(self) -> bool:
-        """Start replication system."""
-        try:
-            if not self.nodes:
-                logger.error("❌ No replication nodes configured")
-                return False
-
-            self.is_running = True
-
-            for node_id in self.nodes:
-                await self._start_node_replication(node_id)
-
-            asyncio.create_task(self._consistency_checker())
-
-            logger.info("✅ Data replication system started")
-            return True
-
-        except Exception as e:
-            logger.error(f"❌ Error starting replication: {e}")
-            return False
-
-    async def stop_replication(self) -> bool:
-        """Stop replication system."""
-        try:
-            self.is_running = False
-
-            for task in self.sync_tasks.values():
-                task.cancel()
-            self.sync_tasks.clear()
-
-            logger.info("✅ Data replication system stopped")
-            return True
-
-        except Exception as e:
-            logger.error(f"❌ Error stopping replication: {e}")
-            return False
-
-    async def replicate_data(
-        self, source_node_id: str, table_name: str, operation: str, data: dict[str, Any]
-    ) -> bool:
-        """Replicate data to all nodes."""
-        try:
-            event = ReplicationEvent(
-                event_id=f"{source_node_id}_{datetime.now().timestamp()}",
-                node_id=source_node_id,
-                table_name=table_name,
-                operation=operation,
-                data=data,
-                timestamp=datetime.now(UTC),
-                checksum=self._calculate_checksum(data),
-            )
-
-            self.replication_log.append(event)
-
-            success_count = 0
-            for target_node_id, target_node in self.nodes.items():
-                if target_node_id != source_node_id:
-                    if await self._replicate_to_node(target_node, event):
-                        success_count += 1
-                    else:
-                        logger.warning(f"⚠️ Failed to replicate to node: {target_node_id}")
-
-            expected_count = len(self.nodes) - 1
-            if success_count == expected_count:
-                logger.info(f"✅ Data replicated successfully to {success_count} nodes")
-                return True
-            else:
-                logger.error(f"❌ Partial replication failure: {success_count}/{expected_count}")
-                return False
-
-        except Exception as e:
-            logger.error(f"❌ Error replicating data: {e}")
-            return False
-
-    async def resolve_conflict(self, conflict_id: str, resolution: dict[str, Any]) -> bool:
-        """Resolve a replication conflict."""
-        try:
-            conflict = None
-            for c in self.conflicts:
-                if c.get("conflict_id") == conflict_id:
-                    conflict = c
-                    break
-
-            if not conflict:
-                logger.error(f"❌ Conflict not found: {conflict_id}")
-                return False
-
-            if self.config.conflict_resolution == ConflictResolutionStrategy.MANUAL_RESOLUTION:
-                if await self._apply_manual_resolution(conflict, resolution):
-                    self.conflicts.remove(conflict)
-                    logger.info(f"✅ Conflict resolved: {conflict_id}")
-                    return True
+        while self._running:
+            try:
+                result = await self.core.sync_data()
+                if result.success:
+                    logger.info(f"Sync completed: {result.records_processed} records")
                 else:
-                    logger.error(f"❌ Failed to apply manual resolution: {conflict_id}")
-                    return False
-            else:
-                if await self._apply_automatic_resolution(conflict):
-                    self.conflicts.remove(conflict)
-                    logger.info(f"✅ Conflict auto-resolved: {conflict_id}")
-                    return True
-                else:
-                    logger.error(f"❌ Failed to auto-resolve conflict: {conflict_id}")
-                    return False
+                    logger.error(f"Sync failed: {result.errors}")
 
-        except Exception as e:
-            logger.error(f"❌ Error resolving conflict: {e}")
-            return False
-
-    async def get_replication_status(self) -> dict[str, Any]:
-        """Get replication system status."""
-        try:
-            status = {
-                "is_running": self.is_running,
-                "total_nodes": len(self.nodes),
-                "healthy_nodes": sum(1 for node in self.nodes.values() if node.is_healthy),
-                "total_events": len(self.replication_log),
-                "active_conflicts": len(self.conflicts),
-                "nodes": {},
-            }
-
-            for node_id, node in self.nodes.items():
-                status["nodes"][node_id] = {
-                    "host": node.host,
-                    "port": node.port,
-                    "is_primary": node.is_primary,
-                    "is_healthy": node.is_healthy,
-                    "last_sync": node.last_sync.isoformat() if node.last_sync else None,
-                    "replication_lag": node.replication_lag,
-                    "sync_task_active": node_id in self.sync_tasks,
-                }
-
-            return status
-
-        except Exception as e:
-            logger.error(f"❌ Error getting replication status: {e}")
-            return {"error": str(e)}
-
-    async def _test_connection(self, node: ReplicationNode) -> asyncpg.Connection | None:
-        """Test connection to a node."""
-        try:
-            connection = await asyncpg.connect(
-                host=node.host,
-                port=node.port,
-                user=node.username,
-                password=node.password,
-                database=node.database,
-            )
-            return connection
-        except Exception as e:
-            logger.error(f"❌ Connection test failed for {node.node_id}: {e}")
-            return None
-
-    async def _start_node_replication(self, node_id: str):
-        """Start replication for a specific node."""
-        try:
-            task = asyncio.create_task(self._sync_node(node_id))
-            self.sync_tasks[node_id] = task
-            logger.info(f"🔄 Started replication sync for node: {node_id}")
-        except Exception as e:
-            logger.error(f"❌ Error starting replication for node {node_id}: {e}")
-
-    async def _sync_node(self, node_id: str):
-        """Sync data for a specific node."""
-        try:
-            while self.is_running and node_id in self.nodes:
-                node = self.nodes[node_id]
-
-                if not node.is_healthy:
-                    await asyncio.sleep(self.config.retry_delay)
-                    continue
-
-                await self._perform_sync(node)
-                node.last_sync = datetime.now(UTC)
+                # Wait for next sync interval
                 await asyncio.sleep(self.config.sync_interval)
 
-        except asyncio.CancelledError:
-            logger.info(f"🔄 Replication sync cancelled for node: {node_id}")
-        except Exception as e:
-            logger.error(f"❌ Error in sync for node {node_id}: {e}")
-            if node_id in self.nodes:
-                self.nodes[node_id].is_healthy = False
+            except Exception as e:
+                logger.error(f"Replication error: {e}")
+                await asyncio.sleep(60)  # Wait before retry
 
-    async def _perform_sync(self, node: ReplicationNode):
-        """Perform synchronization for a node."""
-        try:
-            recent_events = self._get_recent_events(node.last_sync)
-            for event in recent_events:
-                await self._apply_event_to_node(node, event)
+    def stop_replication(self) -> None:
+        """Stop replication."""
+        self._running = False
+        logger.info("Stopping data replication system")
 
-            logger.debug(f"🔄 Synced {len(recent_events)} events to node: {node.node_id}")
+    async def sync_once(self) -> SyncResult:
+        """Perform a single synchronization."""
+        return await self.core.sync_data()
 
-        except Exception as e:
-            logger.error(f"❌ Error performing sync for node {node.node_id}: {e}")
-            raise
+    def get_status(self) -> ReplicationStatus:
+        """Get current replication status."""
+        return self.core.metrics.status
 
-    async def _replicate_to_node(
-        self, target_node: ReplicationNode, event: ReplicationEvent
-    ) -> bool:
-        """Replicate an event to a specific node."""
-        try:
-            return await self._apply_event_to_node(target_node, event)
-        except Exception as e:
-            logger.error(f"❌ Error replicating to node {target_node.node_id}: {e}")
-            return False
+    def get_metrics(self) -> ReplicationMetrics:
+        """Get replication metrics."""
+        return self.core.get_metrics()
 
-    async def _apply_event_to_node(self, node: ReplicationNode, event: ReplicationEvent) -> bool:
-        """Apply an event to a specific node."""
-        try:
-            connection = await self._test_connection(node)
-            if not connection:
-                return False
+    def pause(self) -> None:
+        """Pause replication."""
+        self.core.pause_replication()
 
-            try:
-                # Apply the operation based on event type
-                if event.operation == "INSERT":
-                    await self._apply_insert(connection, event)
-                elif event.operation == "UPDATE":
-                    await self._apply_update(connection, event)
-                elif event.operation == "DELETE":
-                    await self._apply_delete(connection, event)
+    def resume(self) -> None:
+        """Resume replication."""
+        self.core.resume_replication()
 
-                return True
 
-            finally:
-                await connection.close()
+def create_replication_config(
+    source_db: str,
+    target_db: str,
+    tables: List[str],
+    strategy: ConflictResolutionStrategy = ConflictResolutionStrategy.LAST_WRITE_WINS,
+    batch_size: int = 1000,
+    sync_interval: int = 60,
+) -> ReplicationConfig:
+    """Create replication configuration."""
+    return ReplicationConfig(
+        source_db=source_db,
+        target_db=target_db,
+        tables=tables,
+        strategy=strategy,
+        batch_size=batch_size,
+        sync_interval=sync_interval,
+    )
 
-        except Exception as e:
-            logger.error(f"❌ Error applying event to node {node.node_id}: {e}")
-            return False
 
-    async def _apply_insert(self, connection: asyncpg.Connection, event: ReplicationEvent):
-        """Apply INSERT operation - simplified implementation."""
-        pass
+def create_replication_system(config: ReplicationConfig) -> DataReplicationSystem:
+    """Create data replication system."""
+    return DataReplicationSystem(config)
 
-    async def _apply_update(self, connection: asyncpg.Connection, event: ReplicationEvent):
-        """Apply UPDATE operation - simplified implementation."""
-        pass
 
-    async def _apply_delete(self, connection: asyncpg.Connection, event: ReplicationEvent):
-        """Apply DELETE operation - simplified implementation."""
-        pass
+async def run_replication_demo() -> None:
+    """Run replication system demonstration."""
+    # Demo configuration
+    config = create_replication_config(
+        source_db="postgresql://localhost/source_db",
+        target_db="postgresql://localhost/target_db",
+        tables=["users", "orders", "products"],
+        strategy=ConflictResolutionStrategy.LAST_WRITE_WINS,
+        sync_interval=30,
+    )
 
-    def _get_recent_events(self, last_sync: datetime | None) -> list[ReplicationEvent]:
-        """Get recent events since last sync."""
-        if not last_sync:
-            return self.replication_log[-100:]  # Last 100 events
+    # Create and start replication system
+    replication_system = create_replication_system(config)
+    
+    try:
+        # Run single sync for demo
+        result = await replication_system.sync_once()
+        print(f"Demo sync result: {result}")
+        
+        # Show metrics
+        metrics = replication_system.get_metrics()
+        print(f"Metrics: {metrics}")
+        
+    except Exception as e:
+        print(f"Demo failed: {e}")
 
-        return [event for event in self.replication_log if event.timestamp > last_sync]
 
-    def _calculate_checksum(self, data: dict[str, Any]) -> str:
-        """Calculate checksum for data."""
-        import hashlib
+def main():
+    """CLI entry point for data replication system."""
+    import argparse
 
-        data_str = json.dumps(data, sort_keys=True)
-        return hashlib.md5(data_str.encode()).hexdigest()
+    parser = argparse.ArgumentParser(description="Data Replication System")
+    parser.add_argument("--source", required=True, help="Source database URL")
+    parser.add_argument("--target", required=True, help="Target database URL")
+    parser.add_argument("--tables", nargs="+", required=True, help="Tables to replicate")
+    parser.add_argument("--strategy", choices=["last_write_wins", "first_write_wins", "manual"], 
+                       default="last_write_wins", help="Conflict resolution strategy")
+    parser.add_argument("--interval", type=int, default=60, help="Sync interval in seconds")
+    parser.add_argument("--demo", action="store_true", help="Run demonstration")
 
-    async def _consistency_checker(self):
-        """Background consistency checker."""
-        try:
-            while self.is_running:
-                await asyncio.sleep(self.config.consistency_check_interval)
-                await self._check_consistency()
-        except asyncio.CancelledError:
-            logger.info("🔄 Consistency checker cancelled")
-        except Exception as e:
-            logger.error(f"❌ Error in consistency checker: {e}")
+    args = parser.parse_args()
 
-    async def _check_consistency(self):
-        """Check data consistency across nodes - simplified implementation."""
-        logger.debug("🔄 Running consistency check")
+    if args.demo:
+        asyncio.run(run_replication_demo())
+        return
 
-    async def _apply_manual_resolution(
-        self, conflict: dict[str, Any], resolution: dict[str, Any]
-    ) -> bool:
-        """Apply manual conflict resolution - simplified implementation."""
-        return True
+    # Create configuration
+    strategy_map = {
+        "last_write_wins": ConflictResolutionStrategy.LAST_WRITE_WINS,
+        "first_write_wins": ConflictResolutionStrategy.FIRST_WRITE_WINS,
+        "manual": ConflictResolutionStrategy.MANUAL_RESOLUTION,
+    }
 
-    async def _apply_automatic_resolution(self, conflict: dict[str, Any]) -> bool:
-        """Apply automatic conflict resolution - simplified implementation."""
-        return True
+    config = create_replication_config(
+        source_db=args.source,
+        target_db=args.target,
+        tables=args.tables,
+        strategy=strategy_map[args.strategy],
+        sync_interval=args.interval,
+    )
+
+    # Create and run replication system
+    replication_system = create_replication_system(config)
+    
+    try:
+        asyncio.run(replication_system.start_replication())
+    except KeyboardInterrupt:
+        print("Stopping replication system...")
+        replication_system.stop_replication()
+
+
+if __name__ == "__main__":
+    main()

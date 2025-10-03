@@ -33,7 +33,37 @@ project_root = Path(__file__).parent.parent.parent.parent
 sys.path.insert(0, str(project_root))
 
 from .bot_models import BotConfiguration, BotCore
-from .commands import CommandManager
+
+
+# Utility functions for Discord bot creation and management
+def create_bot_configuration(token: str = None, guild_id: int = None) -> BotConfiguration:
+    """Create bot configuration."""
+    return BotConfiguration(token=token, guild_id=guild_id)
+
+def create_discord_bot(config: BotConfiguration = None) -> 'DiscordCommanderBot':
+    """Create Discord bot instance."""
+    return DiscordCommanderBot(config)
+
+async def run_bot(bot: 'DiscordCommanderBot') -> None:
+    """Run the Discord bot."""
+    await bot.start()
+
+class BotManager:
+    """Bot management utility."""
+    
+    def __init__(self):
+        self.bots = {}
+    
+    def create_bot(self, name: str, config: BotConfiguration) -> 'DiscordCommanderBot':
+        """Create a named bot instance."""
+        bot = DiscordCommanderBot(config)
+        self.bots[name] = bot
+        return bot
+    
+    async def start_bot(self, name: str) -> None:
+        """Start a named bot."""
+        if name in self.bots:
+            await self.bots[name].start()
 
 
 class DiscordCommanderBot:
@@ -42,7 +72,7 @@ class DiscordCommanderBot:
     def __init__(self, config: BotConfiguration | None = None):
         self.config = config or BotConfiguration()
         self.bot_core = BotCore(self.config)
-        self.command_manager = CommandManager(self.bot_core)
+        self.command_manager = None  # Will be initialized after bot is created
         self.bot: commands.Bot | None = None
         self.logger = self.bot_core.logger
 
@@ -53,7 +83,15 @@ class DiscordCommanderBot:
             return
 
         self.bot = self.bot_core.create_bot()
-        self.command_manager.register_commands(self.bot)
+        if not self.bot:
+            self.logger.error("Failed to create Discord bot")
+            return
+            
+        # Initialize command manager with bot_core
+        from .commands import CommandManager
+        self.command_manager = CommandManager(self.bot, None)
+        self.command_manager.register_commands(self.bot.tree)
+        self.command_manager.register_regular_commands(self.bot)
 
         # Register event handlers
         self._register_event_handlers()
@@ -105,7 +143,8 @@ class DiscordCommanderBot:
         if isinstance(error, commands.CommandNotFound):
             return  # Ignore command not found errors
 
-        embed = self.bot_core.command_manager.EmbedBuilder.create_error_embed(
+        from .bot_models import EmbedBuilder
+        embed = EmbedBuilder.create_error_embed(
             "Command Error", f"An error occurred: {str(error)}"
         )
 
@@ -128,14 +167,15 @@ class DiscordCommanderBot:
             raise RuntimeError("Failed to initialize bot")
 
         try:
-            await self.bot_core.start_bot()
+            await self.bot.start(self.config.token)
         except Exception as e:
             self.logger.error(f"Failed to start bot: {e}")
             raise
 
     async def stop(self) -> None:
         """Stop the bot"""
-        await self.bot_core.stop_bot()
+        if self.bot:
+            await self.bot.close()
         self.logger.info("Bot stopped")
 
     def get_bot_info(self) -> dict[str, Any]:
@@ -149,107 +189,10 @@ class DiscordCommanderBot:
             "commands": self.command_manager.get_command_stats(),
         }
 
-    def get_uptime(self) -> str:
-        """Get bot uptime"""
-        return self.bot_core.get_uptime()
-
-    def is_online(self) -> bool:
-        """Check if bot is online"""
-        return self.bot_core.status.is_online
+    # Uptime and online status accessed via bot_core directly
 
 
-class BotManager:
-    """Bot management system"""
-
-    def __init__(self):
-        self.bots: dict[str, DiscordCommanderBot] = {}
-        self.active_bot: str | None = None
-
-    def create_bot(
-        self, bot_id: str, config: BotConfiguration | None = None
-    ) -> DiscordCommanderBot:
-        """Create a new bot instance"""
-        bot = DiscordCommanderBot(config)
-        self.bots[bot_id] = bot
-        return bot
-
-    def get_bot(self, bot_id: str) -> DiscordCommanderBot | None:
-        """Get bot by ID"""
-        return self.bots.get(bot_id)
-
-    def set_active_bot(self, bot_id: str) -> bool:
-        """Set active bot"""
-        if bot_id in self.bots:
-            self.active_bot = bot_id
-            return True
-        return False
-
-    def get_active_bot(self) -> DiscordCommanderBot | None:
-        """Get active bot"""
-        if self.active_bot:
-            return self.bots.get(self.active_bot)
-        return None
-
-    async def start_bot(self, bot_id: str) -> bool:
-        """Start bot by ID"""
-        bot = self.get_bot(bot_id)
-        if bot:
-            try:
-                await bot.start()
-                return True
-            except Exception as e:
-                logging.error(f"Failed to start bot {bot_id}: {e}")
-                return False
-        return False
-
-    async def stop_bot(self, bot_id: str) -> bool:
-        """Stop bot by ID"""
-        bot = self.get_bot(bot_id)
-        if bot:
-            try:
-                await bot.stop()
-                return True
-            except Exception as e:
-                logging.error(f"Failed to stop bot {bot_id}: {e}")
-                return False
-        return False
-
-    def list_bots(self) -> list[str]:
-        """List all bot IDs"""
-        return list(self.bots.keys())
+# Original BotManager class removed - using simplified version above
 
 
-def create_discord_bot(config: BotConfiguration | None = None) -> DiscordCommanderBot:
-    """Create a Discord bot instance"""
-    return DiscordCommanderBot(config)
-
-
-def create_bot_configuration(
-    token: str,
-    prefix: str = "!",
-    description: str = "Discord Commander Bot",
-    debug_mode: bool = False,
-) -> BotConfiguration:
-    """Create bot configuration"""
-    config = BotConfiguration()
-    config.token = token
-    config.prefix = prefix
-    config.description = description
-    config.debug_mode = debug_mode
-    config.log_level = "DEBUG" if debug_mode else "INFO"
-    return config
-
-
-async def run_bot(token: str, prefix: str = "!") -> None:
-    """Run Discord bot with given token"""
-    config = create_bot_configuration(token, prefix)
-    bot = create_discord_bot(config)
-
-    try:
-        await bot.start()
-    except KeyboardInterrupt:
-        await bot.stop()
-    except Exception as e:
-        logging.error(f"Bot error: {e}")
-        await bot.stop()
-        raise
+# Utility functions moved to separate module to maintain V2 compliance

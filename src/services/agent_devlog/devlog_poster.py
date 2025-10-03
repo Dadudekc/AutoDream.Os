@@ -7,6 +7,7 @@ Main devlog posting service for Agent Devlog Posting Service
 V2 Compliant: ≤400 lines, focused posting logic
 """
 
+import asyncio
 import logging
 from datetime import datetime
 from typing import Any
@@ -17,7 +18,7 @@ from .storage import DevlogStorage
 
 
 class AgentDevlogPoster:
-    """Agent devlog posting service with LOCAL FILE storage (NO Discord)"""
+    """Agent devlog posting service with LOCAL FILE storage AND Discord integration"""
 
     def __init__(self, devlogs_dir: str = "devlogs"):
         """Initialize agent devlog poster"""
@@ -30,7 +31,7 @@ class AgentDevlogPoster:
         )
         self.logger = logging.getLogger(__name__)
 
-        self.logger.info("AgentDevlogPoster initialized - Local file storage only (NO Discord)")
+        self.logger.info("AgentDevlogPoster initialized - Local file storage AND Discord integration")
 
     def create_devlog_content(
         self, agent_flag: str, action: str, status: str = "completed", details: str = ""
@@ -46,7 +47,7 @@ class AgentDevlogPoster:
 
 ## 🎯 Agent Information
 - **Agent ID:** {agent_flag}
-- **Role:** {agent_info.role if agent_info else 'Specialist'}
+- **Role:** {agent_info.get('role', 'Specialist') if agent_info else 'Specialist'}
 - **Status:** {status}
 
 ## 📝 Action Details
@@ -73,6 +74,61 @@ class AgentDevlogPoster:
 
         return content
 
+    
+    def post_to_discord(self, content: str, agent_id: str) -> bool:
+        """Post devlog content to Discord."""
+        try:
+            # Import Discord service
+            from src.services.discord_devlog_service import DiscordDevlogService
+            
+            # Initialize Discord service
+            discord_service = DiscordDevlogService()
+            
+            # Post to Discord using synchronous wrapper
+            result = self._post_to_discord_sync(discord_service, content, agent_id)
+            return result
+        except Exception as e:
+            self.logger.error(f"Discord posting failed: {e}")
+            return False
+    
+    def _post_to_discord_sync(self, discord_service, content: str, agent_id: str) -> bool:
+        """Synchronous wrapper for Discord posting."""
+        try:
+            # Create new event loop for this operation
+            import threading
+            
+            result = [False]  # Use list to allow modification in nested function
+            
+            def run_async():
+                try:
+                    # Create new event loop in thread
+                    new_loop = asyncio.new_event_loop()
+                    asyncio.set_event_loop(new_loop)
+                    
+                    # Run the async function
+                    result[0] = new_loop.run_until_complete(
+                        discord_service.post_devlog_to_discord(content, agent_id)
+                    )
+                    
+                    new_loop.close()
+                except Exception as e:
+                    self.logger.error(f"Async Discord posting failed: {e}")
+                    result[0] = False
+            
+            # Run in separate thread to avoid event loop conflicts
+            thread = threading.Thread(target=run_async, daemon=True)
+            thread.start()
+            thread.join(timeout=10)  # 10 second timeout
+            
+            if thread.is_alive():
+                self.logger.warning("Discord posting timed out")
+                return False
+            
+            return result[0]
+            
+        except Exception as e:
+            self.logger.error(f"Sync Discord posting failed: {e}")
+            return False
     def post_devlog(
         self,
         agent_flag: str,
@@ -136,7 +192,18 @@ class AgentDevlogPoster:
         success = self.storage.save_devlog(devlog_entry)
 
         if success:
+            # Also post to Discord
+            discord_success = self.post_to_discord(
+                self.create_devlog_content(agent_flag, action, status, details), 
+                agent_flag
+            )
+            
             self.logger.info(f"✅ Devlog posted successfully for {agent_flag}")
+            if discord_success:
+                self.logger.info(f"✅ Devlog posted to Discord for {agent_flag}")
+            else:
+                self.logger.warning(f"⚠️ Discord posting failed for {agent_flag}")
+                
             return {
                 "success": True,
                 "message": f"Devlog posted successfully for {agent_flag}",
@@ -144,6 +211,7 @@ class AgentDevlogPoster:
                 "action": action,
                 "status": status,
                 "timestamp": timestamp,
+                "discord_posted": discord_success,
             }
         else:
             return {"success": False, "error": "Failed to save devlog to file"}

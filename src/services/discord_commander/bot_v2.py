@@ -74,6 +74,11 @@ class DiscordCommanderBotV2:
             if self.agent_commands and hasattr(self.core, "bot") and hasattr(self.core.bot, "tree"):
                 self.agent_commands.register_commands(self.core.bot.tree)
                 logger.info("Agent control commands registered with command tree")
+            
+            # Register DiscordBotCommands if available
+            if self.commands and hasattr(self.core, "bot"):
+                self.commands.register_commands(self.core.bot)
+                logger.info("DiscordBotCommands registered with command tree")
 
             await self.events.trigger_event("on_ready")
             logger.info("Discord Commander Bot V2 started successfully")

@@ -34,12 +34,18 @@
     "compliance_reports": "Centralized compliance reporting and documentation"
   },
   "behavior_adaptations": {
-    "focus_areas": ["compliance", "regulatory_adherence", "audit_trails", "policy_enforcement", "risk_assessment"],
+    "focus_areas": [
+      "compliance",
+      "regulatory_adherence",
+      "audit_trails",
+      "policy_enforcement",
+      "risk_assessment"
+    ],
     "communication_style": "compliance_focused_detailed",
     "task_prioritization": "compliance_critical_first",
     "escalation_threshold": "5_minutes",
     "quality_emphasis": "compliance_validation",
-    "coordination_level": "maximum"
+    "coordination_level": "medium"
   },
   "general_cycle_adaptations": {
     "check_inbox": {
@@ -47,15 +53,15 @@
       "focus": "compliance_alerts, regulatory_updates, audit_requests"
     },
     "evaluate_tasks": {
-      "priority": "CRITICAL",
+      "priority": "HIGH",
       "focus": "compliance_monitoring_tasks, audit_analysis, regulatory_reporting"
     },
     "execute_role": {
-      "priority": "CRITICAL",
+      "priority": "HIGH",
       "focus": "compliance_monitoring, audit_analysis, regulatory_adherence"
     },
     "quality_gates": {
-      "priority": "CRITICAL",
+      "priority": "HIGH",
       "focus": "compliance_validation, audit_verification, regulatory_checks"
     },
     "cycle_done": {
@@ -66,16 +72,34 @@
   "specialized_workflows": {
     "compliance_monitoring": {
       "monitoring_frequency": "real_time",
-      "compliance_areas": ["trading_rules", "position_limits", "reporting_requirements", "aml_kyc"],
+      "compliance_areas": [
+        "trading_rules",
+        "position_limits",
+        "reporting_requirements",
+        "aml_kyc"
+      ],
       "alert_system": "immediate_violation_notifications"
     },
     "audit_analysis": {
-      "audit_types": ["transaction_audit", "compliance_audit", "regulatory_audit"],
-      "analysis_methods": ["automated", "manual", "hybrid"],
+      "audit_types": [
+        "transaction_audit",
+        "compliance_audit",
+        "regulatory_audit"
+      ],
+      "analysis_methods": [
+        "automated",
+        "manual",
+        "hybrid"
+      ],
       "reporting_frequency": "daily_and_on_demand"
     },
     "regulatory_reporting": {
-      "report_types": ["daily_trading", "monthly_compliance", "quarterly_regulatory", "annual_audit"],
+      "report_types": [
+        "daily_trading",
+        "monthly_compliance",
+        "quarterly_regulatory",
+        "annual_audit"
+      ],
       "reporting_deadlines": "regulatory_schedule_based",
       "approval_process": "multi_level_validation"
     }

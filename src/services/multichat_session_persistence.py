@@ -102,7 +102,7 @@ class SessionPersistence:
             conn.commit()
         
         # Store connection for later use
-        self.conn = sqlite3.connect(str(self.db_file))
+        self.with sqlite3.connect(str(self.db_file) as conn:)
 
         self.conn.commit()
 

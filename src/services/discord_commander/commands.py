@@ -296,17 +296,18 @@ class SwarmCommands:
             return f"Error in swarm coordination: {e}"
 
 
-class CommandManager:
+class DiscordCommandManager:
     """Manages all Discord commands."""
 
-    def __init__(self, messaging_service: ConsolidatedMessagingService):
-        self.messaging_service = messaging_service
+    def __init__(self, bot_core):
+        self.bot_core = bot_core
+        self.messaging_service = ConsolidatedMessagingService()
         self.command_registry = DiscordCommandRegistry()
 
         # Initialize command handlers
-        self.agent_commands = AgentCommands(messaging_service)
+        self.agent_commands = AgentCommands(self.messaging_service)
         self.system_commands = SystemCommands()
-        self.swarm_commands = SwarmCommands(messaging_service)
+        self.swarm_commands = SwarmCommands(self.messaging_service)
 
         # Register commands
         self._register_commands()
@@ -341,6 +342,82 @@ class CommandManager:
             self.swarm_commands.swarm_coordinate,
             "Send coordination message to all agents",
         )
+
+    def register_commands(self, bot):
+        """Register commands with Discord bot."""
+        if not bot:
+            return
+
+        # Add help command
+        @bot.command(name='help')
+        async def help_command(ctx):
+            """Show help information."""
+            help_text = """🤖 Discord Commander - Agent Control Hub
+
+**Available Commands:**
+- `!agent_status [agent_id]` - Get agent status
+- `!send_message <agent_id> <message>` - Send message to agent
+- `!swarm_status` - Get swarm coordination status
+- `!system_status` - Get system status
+- `!project_info` - Get project information
+- `!swarm_coordinate <message>` - Send coordination message to all agents
+- `!help` - Show this help message
+- `!ping` - Test bot responsiveness
+
+**Examples:**
+- `!send_message Agent-5 Check project status`
+- `!agent_status Agent-4`
+- `!swarm_coordinate All agents report status`
+"""
+            await ctx.send(help_text)
+
+        # Add ping command
+        @bot.command(name='ping')
+        async def ping_command(ctx):
+            """Test bot responsiveness."""
+            await ctx.send("🏓 Pong! Bot is responsive.")
+
+        # Add agent_status command
+        @bot.command(name='agent_status')
+        async def agent_status_command(ctx, agent_id: str = None):
+            """Get status of agents."""
+            result = await self.agent_commands.agent_status(ctx, agent_id)
+            await ctx.send(result)
+
+        # Add send_message command
+        @bot.command(name='send_message')
+        async def send_message_command(ctx, agent_id: str, *, message: str):
+            """Send message to an agent."""
+            result = await self.agent_commands.send_message(ctx, agent_id, message)
+            await ctx.send(result)
+
+        # Add swarm_status command
+        @bot.command(name='swarm_status')
+        async def swarm_status_command(ctx):
+            """Get swarm status."""
+            result = await self.swarm_commands.swarm_status(ctx)
+            await ctx.send(result)
+
+        # Add system_status command
+        @bot.command(name='system_status')
+        async def system_status_command(ctx):
+            """Get system status."""
+            result = await self.system_commands.system_status(ctx)
+            await ctx.send(result)
+
+        # Add project_info command
+        @bot.command(name='project_info')
+        async def project_info_command(ctx):
+            """Get project information."""
+            result = await self.system_commands.project_info(ctx)
+            await ctx.send(result)
+
+        # Add swarm_coordinate command
+        @bot.command(name='swarm_coordinate')
+        async def swarm_coordinate_command(ctx, *, message: str):
+            """Send coordination message to all agents."""
+            result = await self.swarm_commands.swarm_coordinate(ctx, message)
+            await ctx.send(result)
 
     def get_command_handler(self, command_name: str):
         """Get command handler by name."""

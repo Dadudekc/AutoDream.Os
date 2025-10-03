@@ -92,7 +92,7 @@ class PriorityScheduler:
         for i in range(self.max_workers):
             worker = threading.Thread(
                 target=self._worker_loop, name=f"PriorityWorker-{i}", daemon=True
-            , daemon=True, daemon=True)
+            , daemon=True, daemon=True, daemon=True)
             worker.start()
             self._workers.append(worker)
 

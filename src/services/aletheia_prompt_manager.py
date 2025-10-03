@@ -1,447 +1,177 @@
 #!/usr/bin/env python3
 """
-AletheiaPromptManager - Advanced Prompt Management System
-========================================================
+Aletheia Prompt Manager - Unified Interface
+===========================================
 
-Advanced prompt management and optimization system for Dream.OS integration.
-Provides prompt storage, optimization, versioning, analytics, and security.
+Unified interface for Aletheia prompt management system.
+Provides backward compatibility and easy access to all prompt management components.
 
-V2 Compliance: < 400 lines, single responsibility
-Author: Agent-1 (Backend & API Specialist)
-License: MIT
+V2 Compliance: ≤400 lines, unified interface module
+Author: Agent-6 (Quality Assurance Specialist)
 """
 
-import hashlib
-import json
 import logging
-import time
-from dataclasses import dataclass, field
-from datetime import UTC, datetime
-from enum import Enum
-from pathlib import Path
+from typing import Any
+
+from .aletheia_prompt_models import PromptMetadata, PromptOptimization, PromptStatus, PromptType
+from .aletheia_prompt_operations import (
+    PromptAnalytics,
+    PromptOptimizer,
+    PromptSecurity,
+    PromptVersionControl,
+)
+from .aletheia_prompt_storage import PromptStorage
 
 logger = logging.getLogger(__name__)
 
 
-class PromptStatus(Enum):
-    """Prompt status enumeration."""
-
-    DRAFT = "draft"
-    ACTIVE = "active"
-    ARCHIVED = "archived"
-    DEPRECATED = "deprecated"
-
-
-class PromptType(Enum):
-    """Prompt type enumeration."""
-
-    SYSTEM = "system"
-    USER = "user"
-    ASSISTANT = "assistant"
-    TEMPLATE = "template"
-
-
-@dataclass
-class PromptMetadata:
-    """Prompt metadata structure."""
-
-    created_at: datetime = field(default_factory=lambda: datetime.now(UTC))
-    updated_at: datetime = field(default_factory=lambda: datetime.now(UTC))
-    version: str = "1.0.0"
-    author: str = "system"
-    tags: list[str] = field(default_factory=list)
-    category: str = "general"
-    priority: int = 1
-    usage_count: int = 0
-    performance_score: float = 0.0
-
-
-@dataclass
-class PromptOptimization:
-    """Prompt optimization data."""
-
-    optimization_id: str
-    original_prompt: str
-    optimized_prompt: str
-    improvement_score: float
-    optimization_type: str
-    created_at: datetime = field(default_factory=lambda: datetime.now(UTC))
-
-
-class PromptStorage:
-    """Prompt storage management."""
-
-    def __init__(self, storage_path: str = "data/prompts"):
-        self.storage_path = Path(storage_path)
-        self.storage_path.mkdir(parents=True, exist_ok=True)
-        self.prompts: dict[str, dict] = {}
-        self._load_prompts()
-
-    def _load_prompts(self) -> None:
-        """Load prompts from storage."""
-        try:
-            for prompt_file in self.storage_path.glob("*.json"):
-                with open(prompt_file, encoding="utf-8") as f:
-                    prompt_data = json.load(f)
-                    self.prompts[prompt_data["id"]] = prompt_data
-            logger.info(f"Loaded {len(self.prompts)} prompts from storage")
-        except Exception as e:
-            logger.error(f"Error loading prompts: {e}")
-
-    def store_prompt(self, prompt_id: str, content: str, metadata: PromptMetadata) -> bool:
-        """Store prompt with metadata."""
-        try:
-            prompt_data = {
-                "id": prompt_id,
-                "content": content,
-                "metadata": {
-                    "created_at": metadata.created_at.isoformat(),
-                    "updated_at": metadata.updated_at.isoformat(),
-                    "version": metadata.version,
-                    "author": metadata.author,
-                    "tags": metadata.tags,
-                    "category": metadata.category,
-                    "priority": metadata.priority,
-                    "usage_count": metadata.usage_count,
-                    "performance_score": metadata.performance_score,
-                },
-            }
-
-            self.prompts[prompt_id] = prompt_data
-
-            # Save to file
-            prompt_file = self.storage_path / f"{prompt_id}.json"
-            with open(prompt_file, "w", encoding="utf-8") as f:
-                json.dump(prompt_data, f, indent=2, ensure_ascii=False)
-
-            logger.info(f"Stored prompt {prompt_id}")
-            return True
-
-        except Exception as e:
-            logger.error(f"Error storing prompt {prompt_id}: {e}")
-            return False
-
-    def get_prompt(self, prompt_id: str) -> dict | None:
-        """Get prompt by ID."""
-        return self.prompts.get(prompt_id)
-
-    def list_prompts(self, category: str | None = None) -> list[dict]:
-        """List prompts, optionally filtered by category."""
-        prompts = list(self.prompts.values())
-        if category:
-            prompts = [p for p in prompts if p["metadata"]["category"] == category]
-        return prompts
-
-
-class PromptOptimizer:
-    """Prompt optimization engine."""
-
-    def __init__(self):
-        self.optimization_history: list[PromptOptimization] = []
-
-    def optimize_prompt(self, prompt_id: str, content: str, context: dict) -> str:
-        """Optimize prompt based on context and performance."""
-        try:
-            # Basic optimization strategies
-            optimized_content = self._apply_optimizations(content, context)
-
-            # Record optimization
-            optimization = PromptOptimization(
-                optimization_id=f"opt_{int(time.time())}",
-                original_prompt=content,
-                optimized_prompt=optimized_content,
-                improvement_score=self._calculate_improvement(content, optimized_content),
-                optimization_type="context_aware",
-            )
-            self.optimization_history.append(optimization)
-
-            logger.info(f"Optimized prompt {prompt_id}")
-            return optimized_content
-
-        except Exception as e:
-            logger.error(f"Error optimizing prompt {prompt_id}: {e}")
-            return content
-
-    def _apply_optimizations(self, content: str, context: dict) -> str:
-        """Apply optimization strategies to prompt content."""
-        optimized = content
-
-        # Context-aware optimization
-        if context.get("urgency") == "high":
-            optimized = f"URGENT: {optimized}"
-
-        if context.get("precision") == "high":
-            optimized = f"Be precise and detailed: {optimized}"
-
-        # Length optimization
-        if context.get("max_length"):
-            max_len = context["max_length"]
-            if len(optimized) > max_len:
-                optimized = optimized[: max_len - 3] + "..."
-
-        return optimized
-
-    def _calculate_improvement(self, original: str, optimized: str) -> float:
-        """Calculate improvement score."""
-        # Simple improvement calculation
-        length_improvement = len(optimized) / len(original) if original else 1.0
-        return min(length_improvement, 2.0)  # Cap at 2x improvement
-
-
-class PromptVersionControl:
-    """Prompt version control system."""
-
-    def __init__(self):
-        self.versions: dict[str, list[dict]] = {}
-
-    def create_version(self, prompt_id: str, content: str, version: str) -> bool:
-        """Create new version of prompt."""
-        try:
-            if prompt_id not in self.versions:
-                self.versions[prompt_id] = []
-
-            version_data = {
-                "version": version,
-                "content": content,
-                "created_at": datetime.now(UTC).isoformat(),
-                "is_current": True,
-            }
-
-            # Mark previous versions as not current
-            for v in self.versions[prompt_id]:
-                v["is_current"] = False
-
-            self.versions[prompt_id].append(version_data)
-            logger.info(f"Created version {version} for prompt {prompt_id}")
-            return True
-
-        except Exception as e:
-            logger.error(f"Error creating version for prompt {prompt_id}: {e}")
-            return False
-
-    def get_version(self, prompt_id: str, version: str) -> dict | None:
-        """Get specific version of prompt."""
-        if prompt_id not in self.versions:
-            return None
-
-        for v in self.versions[prompt_id]:
-            if v["version"] == version:
-                return v
-
-        return None
-
-    def get_current_version(self, prompt_id: str) -> dict | None:
-        """Get current version of prompt."""
-        if prompt_id not in self.versions:
-            return None
-
-        for v in self.versions[prompt_id]:
-            if v.get("is_current", False):
-                return v
-
-        return None
-
-
-class PromptAnalytics:
-    """Prompt analytics and performance tracking."""
-
-    def __init__(self):
-        self.usage_stats: dict[str, dict] = {}
-        self.performance_metrics: dict[str, list[float]] = {}
-
-    def track_usage(self, prompt_id: str, context: dict) -> None:
-        """Track prompt usage."""
-        if prompt_id not in self.usage_stats:
-            self.usage_stats[prompt_id] = {"total_usage": 0, "last_used": None, "contexts": []}
-
-        self.usage_stats[prompt_id]["total_usage"] += 1
-        self.usage_stats[prompt_id]["last_used"] = datetime.now(UTC).isoformat()
-        self.usage_stats[prompt_id]["contexts"].append(context)
-
-        logger.debug(f"Tracked usage for prompt {prompt_id}")
-
-    def record_performance(self, prompt_id: str, score: float) -> None:
-        """Record performance score for prompt."""
-        if prompt_id not in self.performance_metrics:
-            self.performance_metrics[prompt_id] = []
-
-        self.performance_metrics[prompt_id].append(score)
-
-        # Keep only last 100 scores
-        if len(self.performance_metrics[prompt_id]) > 100:
-            self.performance_metrics[prompt_id] = self.performance_metrics[prompt_id][-100:]
-
-        logger.debug(f"Recorded performance {score} for prompt {prompt_id}")
-
-    def get_analytics(self, prompt_id: str) -> dict:
-        """Get analytics for prompt."""
-        usage = self.usage_stats.get(prompt_id, {})
-        performance = self.performance_metrics.get(prompt_id, [])
-
-        return {
-            "usage_stats": usage,
-            "performance_metrics": {
-                "average_score": sum(performance) / len(performance) if performance else 0.0,
-                "total_scores": len(performance),
-                "recent_scores": performance[-10:] if performance else [],
-            },
-        }
-
-
-class PromptSecurity:
-    """Prompt security and access control."""
-
-    def __init__(self):
-        self.access_control: dict[str, list[str]] = {}
-        self.encryption_key = self._generate_key()
-
-    def _generate_key(self) -> str:
-        """Generate encryption key."""
-        return hashlib.sha256(f"prompt_security_{int(time.time())}".encode()).hexdigest()
-
-    def set_access(self, prompt_id: str, users: list[str]) -> bool:
-        """Set access control for prompt."""
-        try:
-            self.access_control[prompt_id] = users
-            logger.info(f"Set access control for prompt {prompt_id}")
-            return True
-        except Exception as e:
-            logger.error(f"Error setting access control for prompt {prompt_id}: {e}")
-            return False
-
-    def check_access(self, prompt_id: str, user: str) -> bool:
-        """Check if user has access to prompt."""
-        if prompt_id not in self.access_control:
-            return True  # No restrictions if not set
-
-        return user in self.access_control[prompt_id]
-
-    def encrypt_content(self, content: str) -> str:
-        """Encrypt prompt content."""
-        # Simple encryption for demonstration
-        encrypted = hashlib.sha256((content + self.encryption_key).encode()).hexdigest()
-        return f"encrypted:{encrypted}"
-
-    def decrypt_content(self, encrypted_content: str) -> str:
-        """Decrypt prompt content."""
-        if not encrypted_content.startswith("encrypted:"):
-            return encrypted_content
-
-        # Simple decryption for demonstration
-        return "Decrypted content"  # In real implementation, proper decryption
-
-
 class AletheiaPromptManager:
-    """Main AletheiaPromptManager class."""
+    """
+    Unified Aletheia prompt management system.
 
-    def __init__(self, storage_path: str = "data/prompts"):
-        self.storage = PromptStorage(storage_path)
+    Integrates storage, optimization, version control, analytics, and security.
+    """
+
+    def __init__(self, storage_dir: str = "prompts"):
+        """Initialize prompt manager."""
+        self.storage = PromptStorage(storage_dir)
         self.optimizer = PromptOptimizer()
         self.version_control = PromptVersionControl()
         self.analytics = PromptAnalytics()
         self.security = PromptSecurity()
-        logger.info("AletheiaPromptManager initialized")
+        self.logger = logging.getLogger(f"{__name__}.AletheiaPromptManager")
 
-    def store_prompt(self, prompt_id: str, content: str, metadata: PromptMetadata) -> bool:
-        """Store prompt with metadata and versioning."""
+    def store_prompt(
+        self,
+        prompt_id: str,
+        content: str,
+        prompt_type: PromptType,
+        metadata: PromptMetadata,
+        status: PromptStatus = PromptStatus.DRAFT,
+    ) -> bool:
+        """Store a prompt with metadata."""
         try:
-            # Check access control
-            if not self.security.check_access(prompt_id, metadata.author):
-                logger.warning(f"Access denied for prompt {prompt_id}")
-                return False
-
-            # Encrypt content if needed
-            if metadata.category == "sensitive":
-                content = self.security.encrypt_content(content)
-
-            # Store prompt
-            success = self.storage.store_prompt(prompt_id, content, metadata)
+            # Store in storage system
+            success = self.storage.store_prompt(prompt_id, content, prompt_type, metadata, status)
 
             if success:
-                # Create version
-                self.version_control.create_version(prompt_id, content, metadata.version)
+                # Create initial version
+                self.version_control.create_version(prompt_id, content, metadata, "Initial version")
 
-                # Track usage
-                self.analytics.track_usage(prompt_id, {"action": "store"})
+                # Set default access
+                self.security.set_access(prompt_id, "read")
+
+                self.logger.info(f"Successfully stored prompt {prompt_id}")
 
             return success
 
         except Exception as e:
-            logger.error(f"Error storing prompt {prompt_id}: {e}")
+            self.logger.error(f"Error storing prompt {prompt_id}: {e}")
             return False
 
-    def get_prompt(self, prompt_id: str, user: str = "system") -> dict | None:
-        """Get prompt by ID with access control."""
+    def get_prompt(self, prompt_id: str, access_key: str = None) -> dict[str, Any] | None:
+        """Get a prompt by ID with optional access control."""
         try:
-            if not self.security.check_access(prompt_id, user):
-                logger.warning(f"Access denied for prompt {prompt_id}")
+            # Check access if key provided
+            if access_key and not self.security.check_access(prompt_id, access_key):
+                self.logger.warning(f"Access denied for prompt {prompt_id}")
                 return None
 
+            # Get prompt from storage
             prompt = self.storage.get_prompt(prompt_id)
+
             if prompt:
                 # Track usage
-                self.analytics.track_usage(prompt_id, {"action": "retrieve", "user": user})
+                self.analytics.track_usage(prompt_id)
 
             return prompt
 
         except Exception as e:
-            logger.error(f"Error getting prompt {prompt_id}: {e}")
+            self.logger.error(f"Error getting prompt {prompt_id}: {e}")
             return None
 
-    def optimize_prompt(self, prompt_id: str, context: dict) -> str | None:
-        """Optimize prompt based on context and performance."""
+    def optimize_prompt(self, prompt_id: str) -> PromptOptimization | None:
+        """Optimize a prompt for better performance."""
         try:
+            # Get current prompt
             prompt = self.storage.get_prompt(prompt_id)
             if not prompt:
                 return None
 
-            content = prompt["content"]
-            optimized_content = self.optimizer.optimize_prompt(prompt_id, content, context)
+            # Optimize the prompt
+            optimization = self.optimizer.optimize_prompt(prompt_id, prompt["content"])
 
             # Record performance
-            improvement_score = self.optimizer._calculate_improvement(content, optimized_content)
-            self.analytics.record_performance(prompt_id, improvement_score)
+            self.analytics.record_performance(prompt_id, optimization.performance_metrics)
 
-            return optimized_content
+            self.logger.info(f"Optimized prompt {prompt_id}")
+            return optimization
 
         except Exception as e:
-            logger.error(f"Error optimizing prompt {prompt_id}: {e}")
+            self.logger.error(f"Error optimizing prompt {prompt_id}: {e}")
             return None
 
-    def get_analytics(self, prompt_id: str) -> dict:
-        """Get analytics for prompt."""
+    def get_analytics(self, prompt_id: str) -> dict[str, Any]:
+        """Get analytics for a prompt."""
         return self.analytics.get_analytics(prompt_id)
 
-    def list_prompts(self, category: str | None = None) -> list[dict]:
-        """List prompts, optionally filtered by category."""
-        return self.storage.list_prompts(category)
+    def list_prompts(
+        self, status: PromptStatus = None, prompt_type: PromptType = None
+    ) -> list[dict[str, Any]]:
+        """List prompts with optional filtering."""
+        return self.storage.list_prompts(status, prompt_type)
 
 
 def main():
     """Main function for testing."""
+    # Example usage
     manager = AletheiaPromptManager()
 
-    # Test prompt storage
+    # Create sample metadata
     metadata = PromptMetadata(
-        author="test_user", category="test", tags=["test", "example"], priority=1
+        author="Agent-6",
+        description="Test prompt for V2 compliance",
+        tags=["test", "v2", "compliance"],
     )
 
-    success = manager.store_prompt("test_prompt_1", "This is a test prompt", metadata)
-    print(f"Prompt storage: {'Success' if success else 'Failed'}")
+    # Store a prompt
+    success = manager.store_prompt(
+        "test_prompt_001",
+        "This is a test prompt for V2 compliance validation.",
+        PromptType.SYSTEM,
+        metadata,
+        PromptStatus.ACTIVE,
+    )
 
-    # Test prompt retrieval
-    prompt = manager.get_prompt("test_prompt_1")
-    print(f"Prompt retrieval: {'Success' if prompt else 'Failed'}")
+    if success:
+        print("✅ Prompt stored successfully")
 
-    # Test optimization
-    context = {"urgency": "high", "precision": "high"}
-    optimized = manager.optimize_prompt("test_prompt_1", context)
-    print(f"Prompt optimization: {'Success' if optimized else 'Failed'}")
+        # Get the prompt
+        prompt = manager.get_prompt("test_prompt_001")
+        if prompt:
+            print(f"📝 Retrieved prompt: {prompt['content'][:50]}...")
 
-    # Test analytics
-    analytics = manager.get_analytics("test_prompt_1")
-    print(f"Analytics: {analytics}")
+        # Get analytics
+        analytics = manager.get_analytics("test_prompt_001")
+        print(f"📊 Analytics: {analytics}")
+    else:
+        print("❌ Failed to store prompt")
 
 
 if __name__ == "__main__":
     main()
+
+
+# Re-export all components for backward compatibility
+__all__ = [
+    "AletheiaPromptManager",
+    "PromptStorage",
+    "PromptOptimizer",
+    "PromptVersionControl",
+    "PromptAnalytics",
+    "PromptSecurity",
+    "PromptStatus",
+    "PromptType",
+    "PromptMetadata",
+    "PromptOptimization",
+]

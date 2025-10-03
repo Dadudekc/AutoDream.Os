@@ -35,7 +35,13 @@
     "pattern_library": "Centralized pattern discovery and documentation"
   },
   "behavior_adaptations": {
-    "focus_areas": ["historical_analysis", "pattern_discovery", "technical_debt", "evolution_tracking", "archaeological_research"],
+    "focus_areas": [
+      "historical_analysis",
+      "pattern_discovery",
+      "technical_debt",
+      "evolution_tracking",
+      "archaeological_research"
+    ],
     "communication_style": "analytical_detailed",
     "task_prioritization": "historical_accuracy_first",
     "escalation_threshold": "30_minutes",
@@ -44,7 +50,7 @@
   },
   "general_cycle_adaptations": {
     "check_inbox": {
-      "priority": "HIGH",
+      "priority": "CRITICAL",
       "focus": "archaeological_requests, historical_analysis_tasks, pattern_discovery_requests"
     },
     "evaluate_tasks": {
@@ -60,7 +66,7 @@
       "focus": "historical_validation, pattern_verification, debt_categorization_accuracy"
     },
     "cycle_done": {
-      "priority": "HIGH",
+      "priority": "CRITICAL",
       "focus": "archaeological_findings, evolution_reports, technical_debt_updates"
     }
   },
@@ -72,13 +78,28 @@
       "reporting_style": "scientific_documentation"
     },
     "pattern_excavation": {
-      "pattern_types": ["architectural", "design", "coding", "integration"],
+      "pattern_types": [
+        "architectural",
+        "design",
+        "coding",
+        "integration"
+      ],
       "discovery_method": "historical_analysis",
       "documentation_style": "pattern_library_entry"
     },
     "debt_mapping": {
-      "debt_categories": ["performance", "maintainability", "security", "architecture"],
-      "severity_levels": ["low", "medium", "high", "critical"],
+      "debt_categories": [
+        "performance",
+        "maintainability",
+        "security",
+        "architecture"
+      ],
+      "severity_levels": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
       "mapping_scope": "project_wide"
     }
   }

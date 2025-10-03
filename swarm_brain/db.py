@@ -31,7 +31,7 @@ class SwarmBrain:
     def __init__(self, path: Path | None = None):
         """Initialize the Swarm Brain database."""
         self.path = Path(path or CONFIG.sqlite_path)
-        self.conn = sqlite3.connect(self.path)
+        self.with sqlite3.connect(self.path) as conn:
         self.conn.row_factory = sqlite3.Row
         self.conn.executescript(SCHEMA_SQL)
         logger.info(f"Swarm Brain database initialized: {self.path}")

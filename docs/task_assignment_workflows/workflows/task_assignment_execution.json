@@ -1,0 +1,91 @@
+{
+  "workflow_id": "task_assignment_execution_001",
+  "category": "task_assignment_execution",
+  "name": "Task Assignment and Execution",
+  "description": "Workflow for assigning tasks to agents and managing execution",
+  "priority": "NORMAL",
+  "steps": [
+    {
+      "step_id": "prepare_task_assignment",
+      "action": "prepare_assignment_package",
+      "inputs": {
+        "task": "prioritized_task",
+        "selected_agent": "matched_agent",
+        "resources": "resource_estimates"
+      },
+      "outputs": ["assignment_package"],
+      "dependencies": [],
+      "timeout_seconds": 30,
+      "retry_count": 2
+    },
+    {
+      "step_id": "send_assignment_message",
+      "action": "send_task_assignment",
+      "inputs": {
+        "assignment": "assignment_package",
+        "target_agent": "selected_agent"
+      },
+      "outputs": ["assignment_sent"],
+      "dependencies": ["prepare_task_assignment"],
+      "timeout_seconds": 60,
+      "retry_count": 3
+    },
+    {
+      "step_id": "track_execution_start",
+      "action": "monitor_execution_start",
+      "inputs": {
+        "assignment": "assignment_package"
+      },
+      "outputs": ["execution_tracking"],
+      "dependencies": ["send_assignment_message"],
+      "timeout_seconds": 120,
+      "retry_count": 2
+    },
+    {
+      "step_id": "manage_dependencies",
+      "action": "handle_task_dependencies",
+      "inputs": {
+        "task": "assignment_package.task",
+        "dependency_status": "dependency_check"
+      },
+      "outputs": ["dependency_resolution"],
+      "dependencies": ["track_execution_start"],
+      "timeout_seconds": 90,
+      "retry_count": 1
+    },
+    {
+      "step_id": "monitor_progress",
+      "action": "track_task_progress",
+      "inputs": {
+        "execution": "execution_tracking"
+      },
+      "outputs": ["progress_updates"],
+      "dependencies": ["manage_dependencies"],
+      "timeout_seconds": 300,
+      "retry_count": 1
+    }
+  ],
+  "validation_rules": [
+    {
+      "rule_id": "assignment_sent",
+      "condition": "assignment_sent.status == 'SUCCESS'",
+      "error_message": "Task assignment failed to send"
+    },
+    {
+      "rule_id": "execution_started",
+      "condition": "execution_tracking.status == 'IN_PROGRESS'",
+      "error_message": "Task execution not started"
+    },
+    {
+      "rule_id": "dependencies_resolved",
+      "condition": "dependency_resolution.all_resolved == true",
+      "error_message": "Task dependencies not resolved"
+    }
+  ],
+  "metadata": {
+    "created_by": "Agent-5",
+    "created_at": "2025-10-02T05:56:00Z",
+    "version": "1.0.0",
+    "tags": ["task_assignment", "execution", "monitoring", "v2_compliant"]
+  }
+}

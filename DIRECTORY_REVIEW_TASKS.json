@@ -1,0 +1,208 @@
+{
+  "summary": {
+    "total_files": 11977,
+    "total_directories": 554,
+    "file_type_breakdown": {
+      ".yaml": 46,
+      "no_extension": 9150,
+      ".cjs": 1,
+      ".example": 1,
+      ".toml": 1,
+      ".md": 528,
+      ".sample": 14,
+      ".legacy": 1,
+      ".idx": 10,
+      ".pack": 10,
+      ".rev": 6,
+      ".conf": 1,
+      ".yml": 9,
+      ".json": 486,
+      ".txt": 559,
+      ".py": 644,
+      ".pyc": 467,
+      ".ps1": 3,
+      ".sh": 6,
+      ".TAG": 3,
+      ".sql": 1,
+      ".sqlite3": 1,
+      ".npy": 2,
+      ".markdown": 1,
+      ".html": 1,
+      ".pkl": 14,
+      ".20250913_210819": 1,
+      ".mdc": 10
+    },
+    "largest_directories": [
+      [
+        "devlogs",
+        331
+      ],
+      [
+        "src\\ml\\data_ingestion_system\\data\\uploads",
+        295
+      ],
+      [
+        "config\\backups",
+        117
+      ],
+      [
+        ".mypy_cache\\3.8",
+        89
+      ],
+      [
+        "src\\core",
+        71
+      ],
+      [
+        "tools",
+        68
+      ],
+      [
+        "agent_workspaces\\Agent-6",
+        65
+      ],
+      [
+        "agent_workspaces\\Agent-4\\inbox",
+        61
+      ],
+      [
+        ".git\\objects\\64",
+        52
+      ],
+      [
+        ".git\\objects\\cb",
+        52
+      ],
+      [
+        ".git\\objects\\bb",
+        51
+      ],
+      [
+        ".git\\objects\\65",
+        51
+      ],
+      [
+        ".git\\objects\\20",
+        50
+      ],
+      [
+        ".git\\objects\\3d",
+        50
+      ],
+      [
+        ".git\\objects\\96",
+        50
+      ],
+      [
+        "agent_workspaces\\Agent-6\\outbox",
+        50
+      ],
+      [
+        "src\\services",
+        50
+      ],
+      [
+        ".git\\objects\\5b",
+        48
+      ],
+      [
+        ".git\\objects\\cd",
+        48
+      ],
+      [
+        ".git\\objects\\da",
+        48
+      ]
+    ],
+    "tasks_created": 6,
+    "tasks_by_agent": {
+      "Agent-6": 0,
+      "Agent-7": 4,
+      "Agent-8": 2
+    }
+  },
+  "tasks": [
+    {
+      "task_id": "CLEANUP_DEVLOGS",
+      "directory": "devlogs",
+      "file_count": 331,
+      "file_types": [
+        ".json",
+        ".md"
+      ],
+      "priority": "HIGH",
+      "agent": "Agent-7",
+      "description": "Review and clean up devlogs directory with 331 files",
+      "action": "REVIEW_AND_CLEANUP"
+    },
+    {
+      "task_id": "CLEANUP_REPORTS",
+      "directory": "reports",
+      "file_count": 32,
+      "file_types": [
+        ".markdown",
+        ".json",
+        ".txt",
+        ".html",
+        ".md"
+      ],
+      "priority": "HIGH",
+      "agent": "Agent-7",
+      "description": "Review and clean up reports directory with 32 files",
+      "action": "REVIEW_AND_CLEANUP"
+    },
+    {
+      "task_id": "CLEANUP_ANALYSIS",
+      "directory": "analysis",
+      "file_count": 6,
+      "file_types": [
+        ".json"
+      ],
+      "priority": "HIGH",
+      "agent": "Agent-7",
+      "description": "Review and clean up analysis directory with 6 files",
+      "action": "REVIEW_AND_CLEANUP"
+    },
+    {
+      "task_id": "CLEANUP_ANALYTICS",
+      "directory": "analytics",
+      "file_count": 12,
+      "file_types": [
+        ".py",
+        ".yaml"
+      ],
+      "priority": "HIGH",
+      "agent": "Agent-7",
+      "description": "Review and clean up analytics directory with 12 files",
+      "action": "REVIEW_AND_CLEANUP"
+    },
+    {
+      "task_id": "ANALYZE_BROWSER_SERVICE",
+      "directory": "browser_service",
+      "file_count": 1,
+      "file_types": [
+        ".py"
+      ],
+      "priority": "LOW",
+      "agent": "Agent-8",
+      "description": "Analyze browser_service directory for integration needs",
+      "action": "ANALYZE_ONLY"
+    },
+    {
+      "task_id": "ANALYZE_SWARM_BRAIN",
+      "directory": "swarm_brain",
+      "file_count": 10,
+      "file_types": [
+        ".sql",
+        ".py",
+        ".md"
+      ],
+      "priority": "LOW",
+      "agent": "Agent-8",
+      "description": "Analyze swarm_brain directory for integration needs",
+      "action": "ANALYZE_ONLY"
+    }
+  ],
+  "created_by": "Agent-4",
+  "created_at": "2025-01-01T00:00:00Z"
+}

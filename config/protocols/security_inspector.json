@@ -34,12 +34,18 @@
     "compliance_framework": "Centralized compliance validation and reporting"
   },
   "behavior_adaptations": {
-    "focus_areas": ["security", "vulnerability", "compliance", "threat_mitigation", "risk_assessment"],
+    "focus_areas": [
+      "security",
+      "vulnerability",
+      "compliance",
+      "threat_mitigation",
+      "risk_assessment"
+    ],
     "communication_style": "security_focused_detailed",
     "task_prioritization": "security_critical_first",
     "escalation_threshold": "5_minutes",
     "quality_emphasis": "security_validation",
-    "coordination_level": "maximum"
+    "coordination_level": "medium"
   },
   "general_cycle_adaptations": {
     "check_inbox": {
@@ -55,7 +61,7 @@
       "focus": "security_analysis, vulnerability_detection, compliance_validation"
     },
     "quality_gates": {
-      "priority": "CRITICAL",
+      "priority": "HIGH",
       "focus": "security_validation, vulnerability_assessment, compliance_verification"
     },
     "cycle_done": {

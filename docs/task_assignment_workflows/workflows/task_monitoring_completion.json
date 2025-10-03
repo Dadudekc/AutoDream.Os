@@ -1,0 +1,105 @@
+{
+  "workflow_id": "task_monitoring_completion_001",
+  "category": "task_monitoring_completion",
+  "name": "Task Monitoring and Completion",
+  "description": "Workflow for monitoring task execution and validating completion",
+  "priority": "NORMAL",
+  "steps": [
+    {
+      "step_id": "setup_monitoring",
+      "action": "initialize_task_monitoring",
+      "inputs": {
+        "task": "assigned_task",
+        "agent": "executing_agent"
+      },
+      "outputs": ["monitoring_config"],
+      "dependencies": [],
+      "timeout_seconds": 30,
+      "retry_count": 2
+    },
+    {
+      "step_id": "monitor_execution",
+      "action": "track_real_time_progress",
+      "inputs": {
+        "monitoring": "monitoring_config"
+      },
+      "outputs": ["execution_metrics"],
+      "dependencies": ["setup_monitoring"],
+      "timeout_seconds": 300,
+      "retry_count": 1
+    },
+    {
+      "step_id": "detect_completion",
+      "action": "identify_completion_signals",
+      "inputs": {
+        "metrics": "execution_metrics",
+        "task": "assigned_task"
+      },
+      "outputs": ["completion_status"],
+      "dependencies": ["monitor_execution"],
+      "timeout_seconds": 60,
+      "retry_count": 1
+    },
+    {
+      "step_id": "validate_completion",
+      "action": "verify_task_completion",
+      "inputs": {
+        "task": "assigned_task",
+        "completion": "completion_status",
+        "deliverables": "expected_deliverables"
+      },
+      "outputs": ["validation_result"],
+      "dependencies": ["detect_completion"],
+      "timeout_seconds": 90,
+      "retry_count": 2
+    },
+    {
+      "step_id": "collect_performance_metrics",
+      "action": "gather_performance_data",
+      "inputs": {
+        "execution": "execution_metrics",
+        "validation": "validation_result"
+      },
+      "outputs": ["performance_data"],
+      "dependencies": ["validate_completion"],
+      "timeout_seconds": 60,
+      "retry_count": 1
+    },
+    {
+      "step_id": "capture_knowledge",
+      "action": "extract_task_knowledge",
+      "inputs": {
+        "task": "assigned_task",
+        "execution": "execution_metrics",
+        "performance": "performance_data"
+      },
+      "outputs": ["knowledge_capture"],
+      "dependencies": ["collect_performance_metrics"],
+      "timeout_seconds": 120,
+      "retry_count": 1
+    }
+  ],
+  "validation_rules": [
+    {
+      "rule_id": "monitoring_active",
+      "condition": "monitoring_config.status == 'ACTIVE'",
+      "error_message": "Task monitoring not initialized"
+    },
+    {
+      "rule_id": "completion_validated",
+      "condition": "validation_result.is_complete == true",
+      "error_message": "Task completion not properly validated"
+    },
+    {
+      "rule_id": "deliverables_present",
+      "condition": "validation_result.deliverables_complete == true",
+      "error_message": "Required deliverables missing"
+    }
+  ],
+  "metadata": {
+    "created_by": "Agent-5",
+    "created_at": "2025-10-02T05:56:00Z",
+    "version": "1.0.0",
+    "tags": ["monitoring", "completion", "validation", "v2_compliant"]
+  }
+}

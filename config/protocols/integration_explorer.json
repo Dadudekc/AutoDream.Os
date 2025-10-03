@@ -33,16 +33,22 @@
     "api_catalog": "Centralized API documentation and mapping"
   },
   "behavior_adaptations": {
-    "focus_areas": ["integration", "dependencies", "services", "apis", "system_mapping"],
+    "focus_areas": [
+      "integration",
+      "dependencies",
+      "services",
+      "apis",
+      "system_mapping"
+    ],
     "communication_style": "system_architecture_focused",
     "task_prioritization": "integration_health_first",
     "escalation_threshold": "15_minutes",
     "quality_emphasis": "integration_validation",
-    "coordination_level": "high"
+    "coordination_level": "medium"
   },
   "general_cycle_adaptations": {
     "check_inbox": {
-      "priority": "HIGH",
+      "priority": "CRITICAL",
       "focus": "integration_requests, service_discovery_tasks, dependency_analysis_requests"
     },
     "evaluate_tasks": {
@@ -58,7 +64,7 @@
       "focus": "integration_validation, service_health_checks, dependency_verification"
     },
     "cycle_done": {
-      "priority": "HIGH",
+      "priority": "CRITICAL",
       "focus": "integration_reports, service_maps, dependency_graphs"
     }
   }

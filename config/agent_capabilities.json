@@ -468,22 +468,3 @@
     ]
   }
 }
-============================================================
-[A2A] MESSAGE
-============================================================
-📤 FROM: Agent-7
-📥 TO: Agent-7
-Priority: NORMAL
-Tags: GENERAL
--------------------------------------------------------------
-SELF_TEST_MESSAGE: Testing the fixed messaging system. This message should paste correctly without Spanish text interference. The clipboard restoration issue has been resolved. All 25 role tools are operational and ready for deployment.
-🎯 QUALITY GATES REMINDER
-============================================================
-📋 V2 COMPLIANCE: ≤400 lines • ≤5 classes • ≤10 functions
-🚫 NO: Abstract classes • Complex inheritance • Threading
-✅ USE: Simple data classes • Direct calls • Basic validation
-🎯 KISS: Keep it simple! • Run `python quality_gates.py`
-============================================================
-📝 DEVLOG: Use 'python src/services/agent_devlog_posting.py --agent <flag> --action <desc>'
-============================================================
--------------------------------------------------------------

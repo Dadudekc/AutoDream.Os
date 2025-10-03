@@ -77,3 +77,8 @@ class DiscordCommanderController:
     def get_socketio(self):
         """Get SocketIO instance"""
         return self.socketio
+
+    def set_bot(self, bot):
+        """Set the Discord bot instance"""
+        self.bot = bot
+        logger.info("Discord bot instance set in web controller")

@@ -56,7 +56,7 @@ class MemoryOptimizer:
             },
             "thread_daemon": {
                 "pattern": r"threading\.Thread\(([^)]+)\)",
-                "replacement": r"threading.Thread(\1, daemon=True)",
+                "replacement": r"threading.Thread(\1, daemon=True, daemon=True)",
                 "description": "Add daemon=True to threads for automatic cleanup"
             },
             "queue_with_limit": {

@@ -68,7 +68,7 @@ class MemoryWatchdog:
             self.monitor_thread = threading.Thread(
                 target=self._monitor_loop,
                 daemon=True
-            )
+            , daemon=True)
             self.monitor_thread.start()
             logger.info(f"Memory watchdog started in {self.enforcement_mode.value} mode")
             return True

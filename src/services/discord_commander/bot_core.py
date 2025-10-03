@@ -12,6 +12,7 @@ V2 Compliance: ≤400 lines, ≤5 classes, ≤10 functions
 
 import logging
 import os
+from datetime import datetime
 
 try:
     import discord
@@ -90,3 +91,59 @@ class DiscordCommanderBotCore:
     def get_swarm_coordinator(self):
         """Get the swarm coordinator"""
         return self.swarm_coordinator
+
+    def record_message_processed(self):
+        """Record that a message was processed"""
+        # Simple message counter for tracking
+        if not hasattr(self, '_message_count'):
+            self._message_count = 0
+        self._message_count += 1
+
+    def stop_bot(self):
+        """Stop the bot (synchronous wrapper)"""
+        if self.bot:
+            # Close bot connection
+            import asyncio
+            try:
+                loop = asyncio.get_event_loop()
+                if loop.is_running():
+                    # Schedule the close operation
+                    asyncio.create_task(self.bot.close())
+                else:
+                    loop.run_until_complete(self.bot.close())
+            except Exception as e:
+                logger.error(f"Error stopping bot: {e}")
+
+    @property
+    def command_prefix(self):
+        """Get command prefix"""
+        return "!"
+
+    def set_status_message(self, message: str):
+        """Set bot status message"""
+        if not hasattr(self, '_status_message'):
+            self._status_message = "Ready"
+        self._status_message = message
+
+    def set_healthy(self, healthy: bool):
+        """Set bot health status"""
+        if not hasattr(self, '_healthy'):
+            self._healthy = True
+        self._healthy = healthy
+
+    def record_error(self):
+        """Record an error occurrence"""
+        if not hasattr(self, '_error_count'):
+            self._error_count = 0
+        self._error_count += 1
+
+    def update_activity(self):
+        """Update bot activity timestamp"""
+        if not hasattr(self, '_last_activity'):
+            self._last_activity = None
+        self._last_activity = datetime.now()
+
+    @property
+    def is_healthy(self):
+        """Check if bot is healthy"""
+        return getattr(self, '_healthy', True)

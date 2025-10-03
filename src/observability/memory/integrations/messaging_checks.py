@@ -39,7 +39,7 @@ class FileResourceGuard:
     def __enter__(self):
         """Open file with resource tracking"""
         try:
-            self.file_handle = open(self.file_path, self.mode, encoding=self.encoding)
+            self.with open(self.file_path, self.mode, encoding=self.encoding) as file_handle:
             self.opened = True
             logger.debug(f"FileResourceGuard: Opened {self.file_path}")
             return self.file_handle

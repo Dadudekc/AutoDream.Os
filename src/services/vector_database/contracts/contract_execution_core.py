@@ -51,7 +51,7 @@ class ContractExecutionCore:
 
         self._running = True
         if self.auto_execution:
-            self._execution_thread = threading.Thread(target=self._execution_loop, daemon=True, daemon=True, daemon=True)
+            self._execution_thread = threading.Thread(target=self._execution_loop, daemon=True, daemon=True, daemon=True, daemon=True)
             self._execution_thread.start()
         logger.info("Contract Execution System started")
 

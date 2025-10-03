@@ -34,14 +34,20 @@ class PredictiveEngineCore:
         self.models = {}
         self.metrics_history = []
         self.anomaly_threshold = 0.8
+        self._max_history_size = 1000  # Limit history to prevent memory bloat
+        self._max_models = 50  # Limit models to prevent memory bloat
 
     def add_performance_metrics(self, metrics: PerformanceMetrics) -> None:
         """Add performance metrics to history."""
         self.metrics_history.append(metrics)
         
-        # Keep only last 1000 metrics to prevent memory issues
-        if len(self.metrics_history) > 1000:
-            self.metrics_history = self.metrics_history[-1000:]
+        # Keep only last N metrics to prevent memory issues
+        if len(self.metrics_history) > self._max_history_size:
+            self.metrics_history = self.metrics_history[-self._max_history_size:]
+        
+        # Clean up models if too many
+        if len(self.models) > self._max_models:
+            self._cleanup_old_models()
 
     def predict_cpu_usage(self, time_horizon: timedelta) -> PredictionResult:
         """Predict CPU usage for given time horizon."""
@@ -572,4 +578,15 @@ class PredictiveEngineCore:
             return f"Monitor {metric_name} closely"
         else:
             return f"Continue monitoring {metric_name}"
+    
+    def _cleanup_old_models(self) -> None:
+        """Clean up old models to prevent memory leaks"""
+        # Remove oldest models if we exceed the limit
+        if len(self.models) > self._max_models:
+            # Convert to list of (key, model) tuples and sort by creation time
+            model_items = list(self.models.items())
+            # Remove oldest 20% of models
+            remove_count = max(1, len(model_items) // 5)
+            for key, _ in model_items[:remove_count]:
+                del self.models[key]
 

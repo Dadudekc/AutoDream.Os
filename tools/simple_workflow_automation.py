@@ -259,6 +259,51 @@ class SimpleWorkflowAutomation:
             logger.error(f"Project coordination failed: {e}")
             return False
 
+    def post_devlog(
+        self,
+        agent_flag: str,
+        action: str,
+        status: str = "completed",
+        details: str = "",
+        dry_run: bool = False,
+    ) -> bool:
+        """Post devlog to Discord and local storage."""
+        try:
+            # Import devlog poster
+            import sys
+            sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
+            from services.agent_devlog.devlog_poster import AgentDevlogPoster
+            
+            # Initialize devlog poster
+            devlog_poster = AgentDevlogPoster()
+            
+            # Post devlog
+            result = devlog_poster.post_devlog(
+                agent_flag=agent_flag,
+                action=action,
+                status=status,
+                details=details,
+                dry_run=dry_run
+            )
+            
+            # Log workflow
+            self._log_workflow(
+                "devlog_posting",
+                {
+                    "agent_flag": agent_flag,
+                    "action": action,
+                    "status": status,
+                    "success": result.get("success", False),
+                },
+            )
+            
+            logger.info(f"Devlog posted: {agent_flag} - {action}")
+            return result.get("success", False)
+            
+        except Exception as e:
+            logger.error(f"Devlog posting failed: {e}")
+            return False
+
     def get_workflow_summary(self) -> dict:
         """Get workflow automation summary."""
         if not self.workflow_log.exists():
@@ -412,6 +457,14 @@ def main():
     project_parser.add_argument("--coordinator", required=True, help="Coordinator agent")
     project_parser.add_argument("--agents", required=True, nargs="+", help="Participating agents")
 
+    # Devlog posting command
+    devlog_parser = subparsers.add_parser("devlog", help="Post devlog to Discord")
+    devlog_parser.add_argument("--agent", required=True, help="Agent flag")
+    devlog_parser.add_argument("--action", required=True, help="Action description")
+    devlog_parser.add_argument("--status", default="completed", help="Status")
+    devlog_parser.add_argument("--details", default="", help="Additional details")
+    devlog_parser.add_argument("--dry-run", action="store_true", help="Dry run mode")
+
     # Summary command
     summary_parser = subparsers.add_parser("summary", help="Get workflow summary")
 
@@ -454,6 +507,16 @@ def main():
             tasks=[],
         )
         print(f"Project coordination: {'SUCCESS' if success else 'FAILED'}")
+
+    elif args.command == "devlog":
+        success = automation.post_devlog(
+            agent_flag=args.agent,
+            action=args.action,
+            status=args.status,
+            details=args.details,
+            dry_run=args.dry_run,
+        )
+        print(f"Devlog posting: {'SUCCESS' if success else 'FAILED'}")
 
     elif args.command == "summary":
         summary = automation.get_workflow_summary()

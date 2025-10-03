@@ -13,6 +13,13 @@ V2 Compliance: ≤400 lines, ≤5 classes, ≤10 functions
 import logging
 from typing import Any, Dict
 
+try:
+    import discord
+    from discord import app_commands
+    DISCORD_AVAILABLE = True
+except ImportError:
+    DISCORD_AVAILABLE = False
+
 logger = logging.getLogger(__name__)
 
 
@@ -125,3 +132,79 @@ Active Agents: {active}/{total}
 Swarm Health: {health:.1f}%
 Status: {"✅ GOOD" if health >= 60 else "⚠️ NEEDS ATTENTION"}
 """
+
+    def register_commands(self, bot):
+        """Register commands with Discord bot command tree."""
+        if not DISCORD_AVAILABLE or not bot:
+            self.logger.warning("Discord not available or bot not provided")
+            return
+        
+        # Register agent_status command
+        @app_commands.command(name="agent_status", description="Get agent status")
+        @app_commands.describe(agent_id="Agent ID to check (optional)")
+        async def agent_status_command(interaction: discord.Interaction, agent_id: str = None):
+            """Handle agent status command"""
+            try:
+                await interaction.response.defer()
+                result = await self.handle_agent_status(interaction, agent_id)
+                await interaction.followup.send(result)
+            except Exception as e:
+                await interaction.followup.send(f"Error: {e}")
+        
+        # Register send_message command
+        @app_commands.command(name="send_message", description="Send message to agent")
+        @app_commands.describe(
+            agent_id="Target agent ID",
+            message="Message content to send"
+        )
+        async def send_message_command(interaction: discord.Interaction, agent_id: str, message: str):
+            """Handle send message command"""
+            try:
+                await interaction.response.defer()
+                result = await self.handle_send_message(interaction, agent_id, message)
+                await interaction.followup.send(result)
+            except Exception as e:
+                await interaction.followup.send(f"Error: {e}")
+        
+        # Register swarm_status command
+        @app_commands.command(name="swarm_status", description="Get swarm status")
+        async def swarm_status_command(interaction: discord.Interaction):
+            """Handle swarm status command"""
+            try:
+                await interaction.response.defer()
+                result = await self.handle_swarm_status(interaction)
+                await interaction.followup.send(result)
+            except Exception as e:
+                await interaction.followup.send(f"Error: {e}")
+        
+        # Register activate_agent command
+        @app_commands.command(name="activate_agent", description="Activate an agent")
+        @app_commands.describe(agent_id="Agent ID to activate")
+        async def activate_agent_command(interaction: discord.Interaction, agent_id: str):
+            """Handle activate agent command"""
+            try:
+                await interaction.response.defer()
+                result = await self.handle_activate_agent(interaction, agent_id)
+                await interaction.followup.send(result)
+            except Exception as e:
+                await interaction.followup.send(f"Error: {e}")
+        
+        # Register help command
+        @app_commands.command(name="help", description="Show help information")
+        async def help_command(interaction: discord.Interaction):
+            """Handle help command"""
+            try:
+                await interaction.response.defer()
+                result = await self.handle_help(interaction)
+                await interaction.followup.send(result)
+            except Exception as e:
+                await interaction.followup.send(f"Error: {e}")
+        
+        # Add commands to bot tree
+        bot.tree.add_command(agent_status_command)
+        bot.tree.add_command(send_message_command)
+        bot.tree.add_command(swarm_status_command)
+        bot.tree.add_command(activate_agent_command)
+        bot.tree.add_command(help_command)
+        
+        self.logger.info("Discord bot commands registered successfully")

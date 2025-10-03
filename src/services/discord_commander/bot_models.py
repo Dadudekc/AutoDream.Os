@@ -53,6 +53,7 @@ class BotCore:
         self.config = config or BotConfiguration()
         self.is_ready = False
         self.error_count = 0
+        self.logger = logger
         logger.info("BotCore initialized")
     
     def start_bot(self) -> bool:
@@ -79,6 +80,33 @@ class BotCore:
         """Record error"""
         self.error_count += 1
         logger.warning(f"Error recorded. Total errors: {self.error_count}")
+    
+    def create_bot(self):
+        """Create Discord bot instance"""
+        try:
+            import discord
+            from discord.ext import commands
+            
+            intents = discord.Intents.default()
+            intents.message_content = True
+            intents.members = True
+            intents.guilds = True
+            
+            bot = commands.Bot(
+                command_prefix=self.config.command_prefix,
+                intents=intents,
+                help_command=None
+            )
+            
+            self.logger.info("Discord bot created successfully")
+            return bot
+            
+        except ImportError:
+            self.logger.error("Discord.py not available")
+            return None
+        except Exception as e:
+            self.logger.error(f"Error creating bot: {e}")
+            return None
     
     def get_status(self) -> Dict[str, Any]:
         """Get bot status"""

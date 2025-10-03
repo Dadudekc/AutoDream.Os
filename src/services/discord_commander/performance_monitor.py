@@ -63,7 +63,7 @@ class DiscordPerformanceMonitor:
                     logger.error(f"Error in performance monitoring: {e}")
                     time.sleep(interval)
 
-        monitor_thread = threading.Thread(target=monitor_loop, daemon=True, daemon=True, daemon=True)
+        monitor_thread = threading.Thread(target=monitor_loop, daemon=True, daemon=True, daemon=True, daemon=True)
         monitor_thread.start()
         logger.info("Performance monitoring started")
 

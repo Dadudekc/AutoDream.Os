@@ -1,0 +1,106 @@
+{
+  "workflow_id": "task_quality_validation_001",
+  "category": "task_quality_validation",
+  "name": "Task Quality Validation and Reporting",
+  "description": "Workflow for validating task quality and generating reports",
+  "priority": "NORMAL",
+  "steps": [
+    {
+      "step_id": "run_quality_gates",
+      "action": "execute_quality_validation",
+      "inputs": {
+        "task": "completed_task",
+        "deliverables": "task_deliverables"
+      },
+      "outputs": ["quality_results"],
+      "dependencies": [],
+      "timeout_seconds": 120,
+      "retry_count": 2
+    },
+    {
+      "step_id": "check_v2_compliance",
+      "action": "validate_v2_standards",
+      "inputs": {
+        "deliverables": "task_deliverables",
+        "standards": "v2_compliance_rules"
+      },
+      "outputs": ["compliance_report"],
+      "dependencies": ["run_quality_gates"],
+      "timeout_seconds": 90,
+      "retry_count": 1
+    },
+    {
+      "step_id": "analyze_performance",
+      "action": "evaluate_task_performance",
+      "inputs": {
+        "execution": "execution_metrics",
+        "quality": "quality_results",
+        "compliance": "compliance_report"
+      },
+      "outputs": ["performance_analysis"],
+      "dependencies": ["check_v2_compliance"],
+      "timeout_seconds": 60,
+      "retry_count": 1
+    },
+    {
+      "step_id": "generate_quality_report",
+      "action": "create_quality_report",
+      "inputs": {
+        "quality": "quality_results",
+        "compliance": "compliance_report",
+        "performance": "performance_analysis"
+      },
+      "outputs": ["quality_report"],
+      "dependencies": ["analyze_performance"],
+      "timeout_seconds": 45,
+      "retry_count": 1
+    },
+    {
+      "step_id": "identify_improvements",
+      "action": "find_optimization_opportunities",
+      "inputs": {
+        "analysis": "performance_analysis",
+        "quality": "quality_results"
+      },
+      "outputs": ["improvement_recommendations"],
+      "dependencies": ["generate_quality_report"],
+      "timeout_seconds": 60,
+      "retry_count": 1
+    },
+    {
+      "step_id": "update_feedback_loops",
+      "action": "integrate_feedback",
+      "inputs": {
+        "recommendations": "improvement_recommendations",
+        "performance": "performance_analysis"
+      },
+      "outputs": ["feedback_integration"],
+      "dependencies": ["identify_improvements"],
+      "timeout_seconds": 30,
+      "retry_count": 1
+    }
+  ],
+  "validation_rules": [
+    {
+      "rule_id": "quality_passed",
+      "condition": "quality_results.overall_score >= 75",
+      "error_message": "Task quality below acceptable threshold"
+    },
+    {
+      "rule_id": "v2_compliant",
+      "condition": "compliance_report.v2_compliant == true",
+      "error_message": "Task deliverables not V2 compliant"
+    },
+    {
+      "rule_id": "report_generated",
+      "condition": "quality_report.status == 'COMPLETE'",
+      "error_message": "Quality report generation failed"
+    }
+  ],
+  "metadata": {
+    "created_by": "Agent-5",
+    "created_at": "2025-10-02T05:56:00Z",
+    "version": "1.0.0",
+    "tags": ["quality_validation", "reporting", "v2_compliance", "v2_compliant"]
+  }
+}

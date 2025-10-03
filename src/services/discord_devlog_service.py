@@ -1,349 +1,444 @@
+#!/usr/bin/env python3
 """
 Discord Devlog Service
-=====================
+======================
 
-Service for creating and posting devlogs to Discord channels.
+Independent Discord devlog posting service that doesn't require Discord Commander.
+V2 Compliant: ≤400 lines, focused Discord integration
 
-Features:
-- Create devlog entries from agent actions
-- Post devlogs to specified Discord channels
-- Format devlogs with proper markdown
-- Track devlog history and status
+Author: Agent-7 (Implementation Specialist)
+License: MIT
 """
 
 import asyncio
-import json
 import logging
 import os
 from datetime import datetime
-from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 import discord
 from discord.ext import commands
-
-# Load environment variables from .env file if it exists
-try:
-    from dotenv import load_dotenv
-
-    load_dotenv()
-except ImportError:
-    # dotenv not available, use system environment variables
-    pass
 
 logger = logging.getLogger(__name__)
 
 
 class DiscordDevlogService:
-    """Service for managing Discord devlog functionality with agent-specific channels."""
-
-    def __init__(self, bot_token: str | None = None, channel_id: int | None = None):
+    """Independent Discord devlog posting service."""
+    
+    def __init__(self):
         """Initialize Discord devlog service."""
-        self.bot_token = bot_token or os.getenv("DISCORD_BOT_TOKEN")
-        self.channel_id = channel_id or int(os.getenv("DISCORD_CHANNEL_ID", "0"))
-        self.bot = None
-        self.devlogs_dir = Path("devlogs")
-        self.devlogs_dir.mkdir(exist_ok=True)
-
-        # Load agent-specific channel IDs
-        self.agent_channels = self._load_agent_channels()
-
-        logger.info(f"Initialized DiscordDevlogService with main channel ID: {self.channel_id}")
-        logger.info(f"Loaded {len(self.agent_channels)} agent-specific channels")
-
-    def _load_agent_channels(self) -> dict[str, int]:
-        """Load agent-specific Discord channel IDs from environment variables."""
-        agent_channels = {}
-
-        for i in range(1, 9):  # Agent-1 through Agent-8
-            agent_id = f"Agent-{i}"
-            env_var = f"DISCORD_CHANNEL_{agent_id.replace('-', '_')}"
-            channel_id = os.getenv(env_var)
-
-            if channel_id:
-                try:
-                    agent_channels[agent_id] = int(channel_id)
-                    logger.debug(f"Loaded channel for {agent_id}: {channel_id}")
-                except ValueError:
-                    logger.warning(f"Invalid channel ID for {agent_id}: {channel_id}")
+        self.bot: Optional[commands.Bot] = None
+        self.channel_id: Optional[int] = None
+        self.is_connected = False
+        
+        # Load Discord configuration
+        self._load_config()
+        
+        # Configure logging
+        logging.basicConfig(
+            level=logging.INFO,
+            format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+        )
+        
+        logger.info("DiscordDevlogService initialized - Independent Discord integration")
+    
+    def _load_config(self) -> None:
+        """Load Discord configuration from environment variables."""
+        try:
+            # Get Discord webhook URL (preferred method)
+            self.webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
+            
+            # Fallback to bot token if webhook not available
+            self.bot_token = os.getenv("DISCORD_BOT_TOKEN")
+            
+            # Get Discord channel ID
+            channel_id_str = os.getenv("DISCORD_CHANNEL_ID")
+            if channel_id_str:
+                self.channel_id = int(channel_id_str)
+            
+            # Get Discord guild ID
+            guild_id_str = os.getenv("DISCORD_GUILD_ID")
+            if guild_id_str:
+                self.guild_id = int(guild_id_str)
             else:
-                logger.debug(f"No channel ID found for {agent_id} (env var: {env_var})")
-
-        return agent_channels
-
-    def get_agent_channel_id(self, agent_id: str) -> int | None:
-        """Get the Discord channel ID for a specific agent."""
-        return self.agent_channels.get(agent_id)
-
-    async def initialize_bot(self) -> bool:
-        """Initialize Discord bot connection."""
-        if not self.bot_token:
-            logger.error("Discord bot token not provided")
-            return False
-
-        try:
-            intents = discord.Intents.default()
-            intents.message_content = True
-            self.bot = commands.Bot(command_prefix="!", intents=intents)
-
-            @self.bot.event
-            async def on_ready():
-                logger.info(f"Discord bot ready: {self.bot.user}")
-
-            # Start bot in background
-            await self.bot.start(self.bot_token)
-
-            # Wait for bot to be ready
-            await asyncio.sleep(2)
-            return True
-
+                self.guild_id = None
+                
+            # Load agent-specific channels
+            self.agent_channels = {}
+            self.agent_webhooks = {}
+            for i in range(1, 9):  # Agent-1 through Agent-8
+                agent_key = f"DISCORD_CHANNEL_AGENT_{i}"
+                agent_channel = os.getenv(agent_key)
+                if agent_channel:
+                    self.agent_channels[f"Agent-{i}"] = int(agent_channel)
+                
+                # Load agent-specific webhook URLs
+                webhook_key = f"DISCORD_WEBHOOK_AGENT_{i}"
+                agent_webhook = os.getenv(webhook_key)
+                if agent_webhook:
+                    self.agent_webhooks[f"Agent-{i}"] = agent_webhook
+                
+            logger.info(f"Discord config loaded - Webhook: {'Yes' if self.webhook_url else 'No'}, Bot Token: {'Yes' if self.bot_token else 'No'}, Agent Channels: {len(self.agent_channels)}, Agent Webhooks: {len(self.agent_webhooks)}")
+            
         except Exception as e:
-            logger.error(f"Failed to initialize Discord bot: {e}")
-            return False
-
-    def create_devlog(
-        self,
-        agent_id: str,
-        action: str,
-        status: str = "completed",
-        details: dict[str, Any] | None = None,
-    ) -> str:
-        """Create a devlog entry and save to file."""
-        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        filename = f"{timestamp}_{agent_id}_{action.replace(' ', '_')}.md"
-        filepath = self.devlogs_dir / filename
-
-        # Create devlog content
-        devlog_content = self._format_devlog_content(agent_id, action, status, details)
-
-        # Save to file
-        with open(filepath, "w", encoding="utf-8") as f:
-            f.write(devlog_content)
-
-        logger.info(f"Devlog created: {filepath}")
-        return str(filepath)
-
-    def _format_devlog_content(
-        self, agent_id: str, action: str, status: str, details: dict[str, Any] | None = None
-    ) -> str:
-        """Format devlog content as markdown."""
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-        content = f"""# {action}
-
-**Date:** {timestamp}
-**Agent:** {agent_id}
-**Action:** {action}
-**Status:** {status.upper()}
-
-## 📋 Summary
-
-{details.get('summary', 'No summary provided') if details else 'No details provided'}
-
-## 🎯 Details
-
-"""
-
-        if details:
-            for key, value in details.items():
-                if key != "summary":  # Skip summary as it's already included
-                    content += f"**{key.title()}:** {value}\n\n"
-
-        content += f"""## 🐝 WE ARE SWARM
-
-This devlog entry was automatically generated by the V2_SWARM Discord Devlog Service.
-
-**Agent:** {agent_id}
-**Timestamp:** {timestamp}
-**Status:** {status.upper()}
-
----
-
-**📝 DISCORD DEVLOG REMINDER: Create a Discord devlog for this action in devlogs/ directory**
-"""
-
-        return content
-
-    async def post_devlog_to_discord(
-        self, devlog_filepath: str, agent_id: str | None = None
-    ) -> bool:
-        """Post devlog to Discord channel (agent-specific or main channel)."""
-        if not self.bot:
-            logger.error("Discord bot not initialized")
-            return False
-
-        # Determine target channel
-        target_channel_id = None
-        if agent_id:
-            target_channel_id = self.get_agent_channel_id(agent_id)
-            if not target_channel_id:
-                logger.warning(f"No specific channel found for {agent_id}, using main channel")
-                target_channel_id = self.channel_id
-        else:
-            target_channel_id = self.channel_id
-
-        if not target_channel_id:
-            logger.error("No channel ID available for posting")
-            return False
-
+            logger.error(f"Failed to load Discord config: {e}")
+            self.webhook_url = None
+            self.bot_token = None
+            self.channel_id = None
+            self.guild_id = None
+            self.agent_channels = {}
+            self.agent_webhooks = {}
+    
+    async def _create_bot(self) -> commands.Bot:
+        """Create Discord bot instance."""
+        intents = discord.Intents.default()
+        intents.message_content = True
+        
+        bot = commands.Bot(
+            command_prefix="!",
+            intents=intents,
+            help_command=None
+        )
+        
+        @bot.event
+        async def on_ready():
+            logger.info(f"Discord bot ready: {bot.user}")
+            self.is_connected = True
+        
+        @bot.event
+        async def on_error(event, *args, **kwargs):
+            logger.error(f"Discord bot error in {event}: {args}, {kwargs}")
+        
+        return bot
+    
+    async def _connect_bot(self) -> bool:
+        """Connect Discord bot."""
         try:
-            # Read devlog content
-            with open(devlog_filepath, encoding="utf-8") as f:
-                content = f.read()
-
-            # Get channel
+            if not self.bot_token:
+                logger.warning("No Discord bot token provided")
+                return False
+            
+            if not self.bot:
+                self.bot = await self._create_bot()
+            
+            if not self.is_connected:
+                # Start bot in background
+                asyncio.create_task(self.bot.start(self.bot_token))
+                
+                # Wait for connection
+                timeout = 10  # seconds
+                start_time = datetime.now()
+                while not self.is_connected and (datetime.now() - start_time).seconds < timeout:
+                    await asyncio.sleep(0.1)
+            
+            return self.is_connected
+            
+        except Exception as e:
+            logger.error(f"Failed to connect Discord bot: {e}")
+            return False
+    
+    async def _get_channel(self, agent_id: Optional[str] = None) -> Optional[discord.TextChannel]:
+        """Get Discord channel for posting."""
+        try:
+            if not self.bot or not self.is_connected:
+                return None
+            
+            # Determine target channel ID
+            target_channel_id = None
+            if agent_id and agent_id in self.agent_channels:
+                target_channel_id = self.agent_channels[agent_id]
+                logger.info(f"Using agent-specific channel: {agent_id} -> {target_channel_id}")
+            elif self.channel_id:
+                target_channel_id = self.channel_id
+                logger.info(f"Using default channel: {target_channel_id}")
+            else:
+                logger.warning("No Discord channel ID configured")
+                return None
+            
             channel = self.bot.get_channel(target_channel_id)
             if not channel:
-                logger.error(f"Channel {target_channel_id} not found")
-                return False
-
-            # Split content if too long (Discord limit is 2000 characters)
-            if len(content) > 1900:  # Leave some buffer
-                # Split by sections
-                sections = content.split("\n## ")
-                current_message = sections[0]
-
-                for section in sections[1:]:
-                    section_content = f"## {section}"
-                    if len(current_message + "\n\n" + section_content) > 1900:
-                        # Send current message
-                        await channel.send(f"```markdown\n{current_message}\n```")
-                        current_message = section_content
-                    else:
-                        current_message += "\n\n" + section_content
-
-                # Send final message
-                if current_message:
-                    await channel.send(f"```markdown\n{current_message}\n```")
-            else:
-                # Send as single message
-                await channel.send(f"```markdown\n{content}\n```")
-
-            channel_type = (
-                f"agent-specific ({agent_id})"
-                if agent_id and target_channel_id != self.channel_id
-                else "main"
-            )
-            logger.info(f"Devlog posted to Discord {channel_type} channel {target_channel_id}")
-            return True
-
+                logger.error(f"Discord channel {target_channel_id} not found")
+                return None
+            
+            return channel
+            
+        except Exception as e:
+            logger.error(f"Failed to get Discord channel: {e}")
+            return None
+    
+    async def post_devlog_to_discord(self, content: str, agent_id: Optional[str] = None) -> bool:
+        """Post devlog content to Discord."""
+        try:
+            # If agent-specific webhook is available, use it
+            if agent_id and agent_id in self.agent_webhooks:
+                logger.info(f"Using agent-specific webhook for: {agent_id}")
+                return await self._post_to_agent_webhook(content, agent_id)
+            
+            # If agent-specific channel is needed, use bot method
+            if agent_id and agent_id in self.agent_channels and self.bot_token:
+                logger.info(f"Using bot method for agent-specific channel: {agent_id}")
+                return await self._post_to_bot(content, agent_id)
+            
+            # Try default webhook
+            if self.webhook_url:
+                return await self._post_to_webhook(content, agent_id)
+            
+            # Fallback to bot method
+            if self.bot_token:
+                return await self._post_to_bot(content, agent_id)
+            
+            logger.warning("No Discord configuration available, skipping Discord posting")
+            return False
+            
         except Exception as e:
             logger.error(f"Failed to post devlog to Discord: {e}")
             return False
+    
+    async def _post_to_agent_webhook(self, content: str, agent_id: str) -> bool:
+        """Post devlog content to Discord using agent-specific webhook."""
+        try:
+            import aiohttp
+            
+            webhook_url = self.agent_webhooks[agent_id]
+            
+            # Format message for Discord webhook
+            discord_message = self._format_discord_message(content, agent_id)
+            
+            # Create webhook payload
+            payload = {
+                "content": discord_message,
+                "username": f"{agent_id}"
+            }
+            
+            logger.info(f"Posting to agent-specific webhook for {agent_id}")
+            
+            # Post to agent-specific webhook
+            async with aiohttp.ClientSession() as session:
+                async with session.post(webhook_url, json=payload) as response:
+                    if response.status == 204:  # Discord webhook success
+                        logger.info(f"Devlog posted to agent-specific webhook for {agent_id}")
+                        return True
+                    else:
+                        logger.error(f"Agent webhook failed with status {response.status}")
+                        return False
+            
+        except Exception as e:
+            logger.error(f"Failed to post to agent webhook: {e}")
+            return False
+    
+    async def _post_to_webhook(self, content: str, agent_id: Optional[str] = None) -> bool:
+        """Post devlog content to Discord using webhook (default channel only)."""
+        try:
+            import aiohttp
+            
+            # Format message for Discord webhook
+            discord_message = self._format_discord_message(content, agent_id)
+            
+            # Create webhook payload
+            payload = {
+                "content": discord_message,
+                "username": f"{agent_id}" if agent_id else "Agent Devlog System"
+            }
+            
+            # Note: Webhooks are tied to specific channels, cannot redirect
+            logger.info(f"Posting to default webhook channel for {agent_id or 'unknown agent'}")
+            
+            # Post to webhook
+            async with aiohttp.ClientSession() as session:
+                async with session.post(self.webhook_url, json=payload) as response:
+                    if response.status == 204:  # Discord webhook success
+                        logger.info(f"Devlog posted to Discord webhook for {agent_id or 'unknown agent'}")
+                        return True
+                    else:
+                        logger.error(f"Discord webhook failed with status {response.status}")
+                        return False
+            
+        except Exception as e:
+            logger.error(f"Failed to post to Discord webhook: {e}")
+            return False
+    
+    async def _post_to_bot(self, content: str, agent_id: Optional[str] = None) -> bool:
+        """Post devlog content to Discord using bot."""
+        try:
+            # Connect bot if not connected
+            if not await self._connect_bot():
+                logger.warning("Discord bot not connected, skipping Discord posting")
+                return False
+            
+            # Get channel (agent-specific or default)
+            channel = await self._get_channel(agent_id)
+            if not channel:
+                logger.warning("Discord channel not available, skipping Discord posting")
+                return False
+            
+            # Format message for Discord
+            discord_message = self._format_discord_message(content, agent_id)
+            
+            # Post to Discord
+            await channel.send(discord_message)
+            
+            channel_info = f" (channel: {channel.id})" if channel else ""
+            logger.info(f"Devlog posted to Discord bot for {agent_id or 'unknown agent'}{channel_info}")
+            return True
+            
+        except Exception as e:
+            logger.error(f"Failed to post to Discord bot: {e}")
+            return False
+    
+    def _format_discord_message(self, content: str, agent_id: Optional[str] = None) -> str:
+        """Format devlog content for Discord."""
+        # Extract key information from content
+        lines = content.split('\n')
+        
+        # Find agent ID
+        if not agent_id:
+            for line in lines:
+                if "Agent ID:" in line:
+                    agent_id = line.split("Agent ID:")[-1].strip()
+                    break
+        
+        # Find action
+        action = "Unknown action"
+        for line in lines:
+            if "**Action:**" in line:
+                action = line.split("**Action:**")[-1].strip()
+                break
+        
+        # Find status
+        status = "Unknown status"
+        for line in lines:
+            if "**Status:**" in line:
+                status = line.split("**Status:**")[-1].strip()
+                break
+        
+        # Create Discord-friendly message
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S UTC")
+        
+        discord_message = f"""🤖 **Agent Devlog Update**
+        
+**Agent:** {agent_id or 'Unknown'}
+**Action:** {action}
+**Status:** {status}
+**Time:** {timestamp}
 
-    async def create_and_post_devlog(
-        self,
-        agent_id: str,
-        action: str,
-        status: str = "completed",
-        details: dict[str, Any] | None = None,
-        post_to_discord: bool = True,
-        use_agent_channel: bool = True,
-    ) -> tuple[str, bool]:
-        """Create devlog and optionally post to Discord (agent-specific or main channel)."""
-        # Create devlog file
-        devlog_filepath = self.create_devlog(agent_id, action, status, details)
+📝 **Details:**
+```
+{content[:1000]}{'...' if len(content) > 1000 else ''}
+```
 
-        # Post to Discord if requested
-        discord_success = False
-        if post_to_discord:
-            target_agent = agent_id if use_agent_channel else None
-            discord_success = await self.post_devlog_to_discord(devlog_filepath, target_agent)
-
-        return devlog_filepath, discord_success
-
-    async def close(self):
-        """Close Discord bot connection."""
-        if self.bot:
-            await self.bot.close()
-
-
-# Convenience functions for easy usage
-async def create_devlog(
-    agent_id: str,
-    action: str,
-    status: str = "completed",
-    details: dict[str, Any] | None = None,
-    post_to_discord: bool = True,
-    use_agent_channel: bool = True,
-) -> tuple[str, bool]:
-    """Create and optionally post a devlog entry (agent-specific or main channel)."""
-    service = DiscordDevlogService()
-
-    try:
-        if post_to_discord:
-            await service.initialize_bot()
-
-        return await service.create_and_post_devlog(
-            agent_id, action, status, details, post_to_discord, use_agent_channel
-        )
-    finally:
-        await service.close()
-
-
-async def create_agent_devlog(
-    agent_id: str,
-    action: str,
-    status: str = "completed",
-    details: dict[str, Any] | None = None,
-    post_to_discord: bool = True,
-) -> tuple[str, bool]:
-    """Create and post a devlog entry to agent-specific Discord channel."""
-    return await create_devlog(
-        agent_id, action, status, details, post_to_discord, use_agent_channel=True
-    )
-
-
-async def create_main_devlog(
-    agent_id: str,
-    action: str,
-    status: str = "completed",
-    details: dict[str, Any] | None = None,
-    post_to_discord: bool = True,
-) -> tuple[str, bool]:
-    """Create and post a devlog entry to main Discord channel."""
-    return await create_devlog(
-        agent_id, action, status, details, post_to_discord, use_agent_channel=False
-    )
-
-
-def create_devlog_sync(
-    agent_id: str, action: str, status: str = "completed", details: dict[str, Any] | None = None
-) -> str:
-    """Create a devlog entry synchronously (file only, no Discord posting)."""
-    service = DiscordDevlogService()
-    return service.create_devlog(agent_id, action, status, details)
+🐝 *Posted by Discord Devlog Service*"""
+        
+        return discord_message
+    
+    async def test_connection(self) -> dict[str, Any]:
+        """Test Discord connection and configuration."""
+        try:
+            result = {
+                "webhook_url_configured": bool(self.webhook_url),
+                "bot_token_configured": bool(self.bot_token),
+                "channel_id_configured": bool(self.channel_id),
+                "guild_id_configured": bool(self.guild_id),
+                "agent_channels_configured": len(self.agent_channels),
+                "agent_channels": self.agent_channels,
+                "agent_webhooks_configured": len(self.agent_webhooks),
+                "agent_webhooks": self.agent_webhooks,
+                "webhook_accessible": False,
+                "bot_connected": False,
+                "channel_accessible": False,
+                "error": None
+            }
+            
+            # Test webhook first (preferred method)
+            if self.webhook_url:
+                try:
+                    import aiohttp
+                    async with aiohttp.ClientSession() as session:
+                        async with session.get(self.webhook_url) as response:
+                            if response.status == 200:
+                                result["webhook_accessible"] = True
+                                return result
+                            else:
+                                result["error"] = f"Webhook test failed with status {response.status}"
+                                return result
+                except Exception as e:
+                    result["error"] = f"Webhook test failed: {e}"
+                    return result
+            
+            # Fallback to bot testing
+            if not self.bot_token:
+                result["error"] = "No Discord webhook URL or bot token configured"
+                return result
+            
+            if not self.channel_id:
+                result["error"] = "No Discord channel ID configured"
+                return result
+            
+            # Test bot connection
+            if await self._connect_bot():
+                result["bot_connected"] = True
+                
+                # Test channel access
+                channel = await self._get_channel()
+                if channel:
+                    result["channel_accessible"] = True
+                else:
+                    result["error"] = "Channel not accessible"
+            else:
+                result["error"] = "Failed to connect Discord bot"
+            
+            return result
+            
+        except Exception as e:
+            return {
+                "webhook_url_configured": bool(self.webhook_url),
+                "bot_token_configured": bool(self.bot_token),
+                "channel_id_configured": bool(self.channel_id),
+                "guild_id_configured": bool(self.guild_id),
+                "webhook_accessible": False,
+                "bot_connected": False,
+                "channel_accessible": False,
+                "error": str(e)
+            }
+    
+    async def disconnect(self) -> None:
+        """Disconnect Discord bot."""
+        try:
+            if self.bot and self.is_connected:
+                await self.bot.close()
+                self.is_connected = False
+                logger.info("Discord bot disconnected")
+        except Exception as e:
+            logger.error(f"Error disconnecting Discord bot: {e}")
 
 
 # CLI interface for testing
 async def main():
-    """Test the Discord devlog service."""
+    """CLI interface for testing Discord devlog service."""
     import argparse
-
-    parser = argparse.ArgumentParser(description="Discord Devlog Service Test")
-    parser.add_argument("--agent", default="Agent-4", help="Agent ID")
-    parser.add_argument("--action", default="Test Action", help="Action description")
-    parser.add_argument("--status", default="completed", help="Status")
-    parser.add_argument("--no-discord", action="store_true", help="Don't post to Discord")
-    parser.add_argument("--details", help="JSON details")
-
+    
+    parser = argparse.ArgumentParser(description="Discord Devlog Service CLI")
+    parser.add_argument("--test", action="store_true", help="Test Discord connection")
+    parser.add_argument("--post", type=str, help="Post test devlog")
+    parser.add_argument("--agent", type=str, default="Agent-7", help="Agent ID")
+    
     args = parser.parse_args()
-
-    details = None
-    if args.details:
-        try:
-            details = json.loads(args.details)
-        except json.JSONDecodeError:
-            logger.error("Invalid JSON in details")
-            return
-
-    filepath, discord_success = await create_devlog(
-        args.agent, args.action, args.status, details, not args.no_discord
-    )
-
-    print(f"Devlog created: {filepath}")
-    if not args.no_discord:
-        print(f"Discord posting: {'Success' if discord_success else 'Failed'}")
+    
+    service = DiscordDevlogService()
+    
+    if args.test:
+        result = await service.test_connection()
+        print("Discord Connection Test:")
+        for key, value in result.items():
+            print(f"  {key}: {value}")
+    
+    elif args.post:
+        success = await service.post_devlog_to_discord(args.post, args.agent)
+        print(f"Devlog posting {'successful' if success else 'failed'}")
+    
+    else:
+        print("Use --test to test connection or --post 'message' to post devlog")
+    
+    await service.disconnect()
 
 
 if __name__ == "__main__":

@@ -1,0 +1,13 @@
+# Discord Bot Configuration Template
+# Copy this file to .env and fill in your actual values
+
+DISCORD_BOT_TOKEN=your_discord_bot_token_here
+DISCORD_CHANNEL_ID=your_main_channel_id_here
+DISCORD_GUILD_ID=your_guild_id_here
+
+# Optional: Agent-specific channels (if you have separate channels per agent)
+DISCORD_CHANNEL_AGENT_4=agent4_channel_id
+DISCORD_CHANNEL_AGENT_5=agent5_channel_id
+DISCORD_CHANNEL_AGENT_6=agent6_channel_id
+DISCORD_CHANNEL_AGENT_7=agent7_channel_id
+DISCORD_CHANNEL_AGENT_8=agent8_channel_id

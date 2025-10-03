@@ -19,7 +19,7 @@
     "integration_failure": "Notify Captain Agent-4 immediately",
     "api_timeout": "Retry with exponential backoff, escalate after 3 failures",
     "webhook_failure": "Fallback to alternative method, notify Captain if no fallback",
-    "service_unavailable": "Check service status, escalate if >15 minutes"
+    "service_unavailable": "10_minutes"
   },
   "ssot_requirements": {
     "config_files": "Single source for all integration configs",
@@ -28,12 +28,18 @@
     "service_registry": "Centralized service discovery"
   },
   "behavior_adaptations": {
-    "focus_areas": ["integration", "apis", "webhooks", "interoperability", "services"],
+    "focus_areas": [
+      "integration",
+      "apis",
+      "webhooks",
+      "interoperability",
+      "services"
+    ],
     "communication_style": "technical_detailed",
     "task_prioritization": "integration_first",
     "escalation_threshold": "15_minutes",
     "quality_emphasis": "integration_testing",
-    "coordination_level": "high"
+    "coordination_level": "medium"
   },
   "general_cycle_adaptations": {
     "check_inbox": {

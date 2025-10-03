@@ -1,1 +1,0 @@
-Testing non-headless mode - please confirm this works and provide a brief response

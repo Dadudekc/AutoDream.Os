@@ -1,0 +1,61 @@
+{
+  "agent": "Agent-7",
+  "tasks": [
+    {
+      "task_id": "CLEANUP_DEVLOGS",
+      "directory": "devlogs",
+      "file_count": 331,
+      "file_types": [
+        ".json",
+        ".md"
+      ],
+      "priority": "HIGH",
+      "agent": "Agent-7",
+      "description": "Review and clean up devlogs directory with 331 files",
+      "action": "REVIEW_AND_CLEANUP"
+    },
+    {
+      "task_id": "CLEANUP_REPORTS",
+      "directory": "reports",
+      "file_count": 32,
+      "file_types": [
+        ".markdown",
+        ".json",
+        ".txt",
+        ".html",
+        ".md"
+      ],
+      "priority": "HIGH",
+      "agent": "Agent-7",
+      "description": "Review and clean up reports directory with 32 files",
+      "action": "REVIEW_AND_CLEANUP"
+    },
+    {
+      "task_id": "CLEANUP_ANALYSIS",
+      "directory": "analysis",
+      "file_count": 6,
+      "file_types": [
+        ".json"
+      ],
+      "priority": "HIGH",
+      "agent": "Agent-7",
+      "description": "Review and clean up analysis directory with 6 files",
+      "action": "REVIEW_AND_CLEANUP"
+    },
+    {
+      "task_id": "CLEANUP_ANALYTICS",
+      "directory": "analytics",
+      "file_count": 12,
+      "file_types": [
+        ".py",
+        ".yaml"
+      ],
+      "priority": "HIGH",
+      "agent": "Agent-7",
+      "description": "Review and clean up analytics directory with 12 files",
+      "action": "REVIEW_AND_CLEANUP"
+    }
+  ],
+  "total_tasks": 4,
+  "assigned_by": "Agent-4"
+}

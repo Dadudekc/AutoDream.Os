@@ -1,6 +1,6 @@
 # Consolidation Scan Report (Scoped: onboarding + discord)
 
-- **Files scanned**: 146
+- **Files scanned**: 126
 - **Exact duplicate groups**: 0
 - **Near-duplicate pairs**: 1
 - **Total duplicates found**: 1
@@ -10,9 +10,9 @@
 
 ## Top Near-Duplicate Pairs (similarity ≥ 86%):
 
-1. **97.8%** similarity:
-   - `tools\discord_commander_launcher_core.py`
-   - `discord_commander_launcher_core.py`
+1. **96.8%** similarity:
+   - `src\services\messaging\providers\discord_provider_core.py`
+   - `src\services\messaging\providers\discord_provider_operations.py`
 
 
 ## Consolidation Recommendations:

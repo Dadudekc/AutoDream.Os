@@ -4,9 +4,12 @@ Runs the ProjectScanner from repo root and stages snapshot artifacts.
 - If files change, pre-commit will halt; commit again to include updates.
 """
 
+import logging
 import subprocess
 import sys
 from pathlib import Path
+
+logger = logging.getLogger(__name__)
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:

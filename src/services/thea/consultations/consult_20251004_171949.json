@@ -1,0 +1,40 @@
+{
+  "id": "consult_20251004_171949",
+  "request": {
+    "question": "Project scanner tool is broken and blocking all agents from analyzing codebase",
+    "template": "crisis_response",
+    "context": "emergency",
+    "timestamp": "2025-10-04T17:19:49.751010",
+    "request_id": "consult_20251004_171949",
+    "template_info": {
+      "name": "Crisis Response",
+      "description": "Emergency consultation for critical issues",
+      "context": "system_health",
+      "output_format": "action_plan"
+    }
+  },
+  "result": {
+    "template": "crisis_response",
+    "question": "Project scanner tool is broken and blocking all agents from analyzing codebase",
+    "response": {
+      "type": "crisis_response",
+      "severity": "medium",
+      "immediate_actions": [
+        "Assess system health and stability",
+        "Identify root cause of crisis",
+        "Implement containment measures",
+        "Activate emergency protocols if needed"
+      ],
+      "recovery_plan": [
+        "Document crisis details and timeline",
+        "Implement fixes and safeguards",
+        "Review and update crisis response procedures",
+        "Conduct post-crisis analysis"
+      ],
+      "confidence": "high"
+    },
+    "timestamp": "2025-10-04T17:19:49.751010",
+    "status": "completed"
+  },
+  "created_at": "2025-10-04T17:19:49.751010"
+}

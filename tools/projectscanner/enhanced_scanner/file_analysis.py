@@ -27,10 +27,11 @@ class FileAnalysisHandler:
 
         try:
             # Check cache first
-            cache_key = str(file_path)
-            cached_result = self.core.caching_system.get(cache_key)
-            if cached_result:
-                return cached_result
+            relative_path = str(file_path.relative_to(self.core.project_root))
+            if self.core.caching_system.is_file_cached(file_path, relative_path):
+                cached_result = self.core.caching_system.get_cached_analysis(relative_path)
+                if cached_result:
+                    return cached_result
 
             # Perform enhanced analysis
             analysis_result = self.core.language_analyzer.analyze_file(file_path)
@@ -38,13 +39,13 @@ class FileAnalysisHandler:
             if analysis_result:
                 # Add additional metadata
                 analysis_result["file_path"] = str(file_path)
-                analysis_result["relative_path"] = str(
-                    file_path.relative_to(self.core.project_root)
-                )
+                analysis_result["relative_path"] = relative_path
                 analysis_result["file_size"] = file_path.stat().st_size
 
                 # Cache the result
-                self.core.caching_system.set(cache_key, analysis_result)
+                self.core.caching_system.update_file_cache(
+                    file_path, relative_path, analysis_result
+                )
 
                 logger.debug(f"📄 Analyzed: {file_path}")
                 return analysis_result
@@ -68,7 +69,7 @@ class FileAnalysisHandler:
                 del self.core.analysis[old_path]
 
             # Update cache
-            self.core.caching_system.remove(old_path)
+            self.core.caching_system.invalidate_file(old_path)
 
             logger.info(f"📁 Moved: {old_path} → {new_path}")
 

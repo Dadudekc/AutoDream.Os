@@ -118,9 +118,7 @@ Examples:
                 return 1
 
             # Initialize messaging service
-            from src.services.messaging_service_main import (
-                ConsolidatedMessagingService,
-            )
+            from src.services.messaging_service_main import ConsolidatedMessagingService
 
             service = ConsolidatedMessagingService()
 
@@ -220,4 +218,3 @@ if __name__ == "__main__":
 
 
 __all__ = ["ConsolidatedMessagingCLI"]
-

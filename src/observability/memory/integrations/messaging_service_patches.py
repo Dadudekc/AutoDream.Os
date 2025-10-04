@@ -11,7 +11,7 @@ V2 Compliance: ≤400 lines, KISS principle
 """
 
 import logging
-from typing import Any, Dict, Optional
+from typing import Any
 
 from .messaging_checks import (
     CoordinationRequestPurger,
@@ -27,12 +27,13 @@ logger = logging.getLogger(__name__)
 # INTEGRATION PATCH FOR CONSOLIDATED MESSAGING SERVICE
 # ============================================================
 
+
 class MessagingServiceMemoryPatch:
     """
     Memory leak prevention patch for ConsolidatedMessagingServiceCore.
     Adds Phase 3 capabilities to existing messaging service.
     """
-    
+
     def __init__(self, messaging_service):
         """Initialize messaging service memory patch"""
         self.messaging_service = messaging_service
@@ -41,61 +42,57 @@ class MessagingServiceMemoryPatch:
         self.purger = CoordinationRequestPurger(max_age_seconds=3600, max_count=1000)
         self.integration = get_messaging_integration()
         logger.info("MessagingServiceMemoryPatch initialized")
-    
-    def validate_message_before_send(self, message: str) -> Dict[str, Any]:
+
+    def validate_message_before_send(self, message: str) -> dict[str, Any]:
         """Validate message before sending"""
         validation_result = self.validator.validate(message)
-        
+
         if not validation_result.is_valid:
             logger.warning(f"Message validation failed: {validation_result.reason}")
             return {
-                'valid': False,
-                'reason': validation_result.reason,
-                'size_bytes': validation_result.message_size_bytes
+                "valid": False,
+                "reason": validation_result.reason,
+                "size_bytes": validation_result.message_size_bytes,
             }
-        
+
         return {
-            'valid': True,
-            'size_bytes': validation_result.message_size_bytes,
-            'metadata': validation_result.metadata
+            "valid": True,
+            "size_bytes": validation_result.message_size_bytes,
+            "metadata": validation_result.metadata,
         }
-    
+
     def instrument_send_operation(self, message: str, operation: str = "send_message"):
         """Get instrumentation context manager for send operation"""
-        message_size = len(message.encode('utf-8'))
+        message_size = len(message.encode("utf-8"))
         return self.instrumentation.instrument_operation(operation, message_size)
-    
-    def purge_coordination_requests(self) -> Dict[str, Any]:
+
+    def purge_coordination_requests(self) -> dict[str, Any]:
         """Purge old coordination requests"""
-        if not hasattr(self.messaging_service, 'coordination_requests'):
-            return {'error': 'No coordination_requests attribute found'}
-        
-        purge_result = self.purger.purge_old_requests(
-            self.messaging_service.coordination_requests
-        )
-        
+        if not hasattr(self.messaging_service, "coordination_requests"):
+            return {"error": "No coordination_requests attribute found"}
+
+        purge_result = self.purger.purge_old_requests(self.messaging_service.coordination_requests)
+
         # Update messaging service coordination requests
-        self.messaging_service.coordination_requests = purge_result['remaining_requests']
-        
+        self.messaging_service.coordination_requests = purge_result["remaining_requests"]
+
         logger.info(f"Purged {purge_result['purged_count']} coordination requests")
-        
+
         return purge_result
-    
-    def get_patch_status(self) -> Dict[str, Any]:
+
+    def get_patch_status(self) -> dict[str, Any]:
         """Get patch status and metrics"""
         return {
-            'patch_active': True,
-            'validator': {
-                'max_size_mb': self.validator.max_size_bytes / (1024 * 1024)
+            "patch_active": True,
+            "validator": {"max_size_mb": self.validator.max_size_bytes / (1024 * 1024)},
+            "instrumentation": self.instrumentation.get_metrics_summary(),
+            "purger": {
+                "max_age_seconds": self.purger.max_age_seconds,
+                "max_count": self.purger.max_count,
+                "current_request_count": len(
+                    getattr(self.messaging_service, "coordination_requests", {})
+                ),
             },
-            'instrumentation': self.instrumentation.get_metrics_summary(),
-            'purger': {
-                'max_age_seconds': self.purger.max_age_seconds,
-                'max_count': self.purger.max_count,
-                'current_request_count': len(
-                    getattr(self.messaging_service, 'coordination_requests', {})
-                )
-            }
         }
 
 
@@ -103,54 +100,55 @@ class MessagingServiceMemoryPatch:
 # HELPER FUNCTIONS FOR INTEGRATION
 # ============================================================
 
+
 def patch_messaging_service(messaging_service) -> MessagingServiceMemoryPatch:
     """
-    Apply memory leak prevention patch to messaging service.
-    
-    Usage:
-from src.services.messaging_service_core import ConsolidatedMessagingServiceCore
-        from src.observability.memory.integrations.messaging_service_patches import patch_messaging_service
-        
-        messaging_service = ConsolidatedMessagingServiceCore()
-        patch = patch_messaging_service(messaging_service)
-        
-        # Validate message before sending
-        validation = patch.validate_message_before_send(message)
-        if validation['valid']:
-            with patch.instrument_send_operation(message):
-                # Send message
-                pass
-        
-        # Periodically purge old requests
-        patch.purge_coordination_requests()
+        Apply memory leak prevention patch to messaging service.
+
+        Usage:
+    from src.services.messaging_service_core import ConsolidatedMessagingServiceCore
+            from src.observability.memory.integrations.messaging_service_patches import patch_messaging_service
+
+            messaging_service = ConsolidatedMessagingServiceCore()
+            patch = patch_messaging_service(messaging_service)
+
+            # Validate message before sending
+            validation = patch.validate_message_before_send(message)
+            if validation['valid']:
+                with patch.instrument_send_operation(message):
+                    # Send message
+                    pass
+
+            # Periodically purge old requests
+            patch.purge_coordination_requests()
     """
     return MessagingServiceMemoryPatch(messaging_service)
 
 
 def create_enhanced_messaging_service(messaging_service_class, *args, **kwargs):
     """
-    Create messaging service with memory leak prevention enabled.
-    
-    Usage:
-from src.services.messaging_service_core import ConsolidatedMessagingServiceCore
-        from src.observability.memory.integrations.messaging_service_patches import create_enhanced_messaging_service
-        
-        messaging_service = create_enhanced_messaging_service(
-            ConsolidatedMessagingServiceCore,
-            coord_path="config/coordinates.json"
-        )
-        
-        # Service now has .memory_patch attribute
-        patch_status = messaging_service.memory_patch.get_patch_status()
+        Create messaging service with memory leak prevention enabled.
+
+        Usage:
+    from src.services.messaging_service_core import ConsolidatedMessagingServiceCore
+            from src.observability.memory.integrations.messaging_service_patches import create_enhanced_messaging_service
+
+            messaging_service = create_enhanced_messaging_service(
+                ConsolidatedMessagingServiceCore,
+                coord_path="config/coordinates.json"
+            )
+
+            # Service now has .memory_patch attribute
+            patch_status = messaging_service.memory_patch.get_patch_status()
     """
     # Create messaging service instance
     service = messaging_service_class(*args, **kwargs)
-    
+
     # Apply memory patch
     service.memory_patch = patch_messaging_service(service)
-    
+
     logger.info("Enhanced messaging service created with memory leak prevention")
-    
+
     return service
 
 
@@ -180,7 +178,7 @@ def send_message(message: str):
     validation = patch.validate_message_before_send(message)
     if not validation['valid']:
         raise ValueError(f"Message validation failed: {validation['reason']}")
-    
+
     # Instrument send operation
     with patch.instrument_send_operation(message, "send_message"):
         # Existing send logic here
@@ -240,8 +238,7 @@ status = integration.get_system_status()
 
 # Export all public classes and functions
 __all__ = [
-    'MessagingServiceMemoryPatch',
-    'patch_messaging_service',
-    'create_enhanced_messaging_service',
+    "MessagingServiceMemoryPatch",
+    "patch_messaging_service",
+    "create_enhanced_messaging_service",
 ]
-

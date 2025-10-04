@@ -44,7 +44,6 @@ except ImportError:
 # Add project root to path
 project_root = Path(__file__).parent.parent.parent.parent
 sys.path.insert(0, str(project_root))
-from src.services.messaging_service import ConsolidatedMessagingService
 from src.services.discord_commander.commands import CommandManager
 from src.services.discord_commander.core import (
     DiscordConfig,
@@ -52,6 +51,7 @@ from src.services.discord_commander.core import (
     DiscordEventManager,
     DiscordStatusMonitor,
 )
+from src.services.messaging_service import ConsolidatedMessagingService
 
 logger = logging.getLogger(__name__)
 

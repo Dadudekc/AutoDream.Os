@@ -17,8 +17,8 @@ from pathlib import Path
 
 project_root = Path(__file__).parent.parent.parent.parent
 sys.path.insert(0, str(project_root))
-from src.services.messaging_service import ConsolidatedMessagingService
 from src.services.discord_commander.core import DiscordCommandRegistry
+from src.services.messaging_service import ConsolidatedMessagingService
 
 logger = logging.getLogger(__name__)
 

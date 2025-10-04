@@ -1,14 +1,14 @@
 {
   "timestamp": "D:\\Agent_Cellphone_V2_Repository",
   "stats": {
-    "total_files": 662,
-    "total_lines": 120464,
-    "total_size": 4373132,
+    "total_files": 636,
+    "total_lines": 115015,
+    "total_size": 4177913,
     "by_directory": {
       "root": {
-        "files": 8,
-        "lines": 2358,
-        "size": 85732
+        "files": 9,
+        "lines": 2429,
+        "size": 88425
       },
       "agent_workspaces\\database_specialist": {
         "files": 10,
@@ -62,8 +62,8 @@
       },
       "tools": {
         "files": 75,
-        "lines": 15772,
-        "size": 572373
+        "lines": 15775,
+        "size": 572435
       },
       "tools\\projectscanner": {
         "files": 6,
@@ -142,8 +142,8 @@
       },
       "src\\core": {
         "files": 70,
-        "lines": 13382,
-        "size": 487897
+        "lines": 13383,
+        "size": 487899
       },
       "src\\core\\security": {
         "files": 4,
@@ -192,8 +192,8 @@
       },
       "src\\services": {
         "files": 47,
-        "lines": 9582,
-        "size": 352338
+        "lines": 9572,
+        "size": 352266
       },
       "src\\services\\messaging": {
         "files": 21,
@@ -495,11 +495,6 @@
         "lines": 134,
         "size": 3036
       },
-      "src\\v3": {
-        "files": 27,
-        "lines": 5511,
-        "size": 197802
-      },
       "src\\aletheia": {
         "files": 2,
         "lines": 156,
@@ -522,8 +517,8 @@
       },
       "src\\observability\\memory\\integrations": {
         "files": 3,
-        "lines": 483,
-        "size": 16999
+        "lines": 480,
+        "size": 16897
       },
       "src\\integrations": {
         "files": 2,
@@ -533,9 +528,9 @@
     },
     "by_file_type": {
       "other": {
-        "files": 531,
-        "lines": 95545,
-        "size": 3462414
+        "files": 505,
+        "lines": 90093,
+        "size": 3267133
       },
       "tests": {
         "files": 7,
@@ -544,8 +539,8 @@
       },
       "tools": {
         "files": 124,
-        "lines": 23905,
-        "size": 872954
+        "lines": 23908,
+        "size": 873016
       }
     },
     "largest_files": [
@@ -566,8 +561,8 @@
       ],
       [
         "simple_thea_communication.py",
-        717,
-        25648
+        720,
+        26407
       ],
       [
         "src\\services\\discord_commander\\web_controller.py",
@@ -655,11 +650,6 @@
         16195
       ],
       [
-        "src\\v3\\v3_009_intent_recognition.py",
-        431,
-        18523
-      ],
-      [
         "tools\\workflow\\optimization.py",
         428,
         15421
@@ -675,11 +665,6 @@
         16356
       ],
       [
-        "src\\v3\\v3_009_command_understanding.py",
-        427,
-        15986
-      ],
-      [
         "src\\services\\discord_commander\\optimization.py",
         425,
         15510
@@ -693,11 +678,6 @@
         "src\\tracing\\distributed_tracing_system.py",
         411,
         13927
-      ],
-      [
-        "src\\v3\\v3_009_nlp_pipeline.py",
-        407,
-        15546
       ],
       [
         "tools\\memory_optimizer.py",
@@ -1115,11 +1095,6 @@
         10487
       ],
       [
-        "src\\v3\\v3_011_api_gateway_core.py",
-        310,
-        9429
-      ],
-      [
         "src\\observability\\memory\\detectors.py",
         310,
         11086
@@ -1143,11 +1118,6 @@
         "src\\integration\\qa_coordination\\core_coordination.py",
         307,
         12902
-      ],
-      [
-        "src\\v3\\v3_012_ui_components.py",
-        307,
-        10218
       ],
       [
         "src\\core\\prompts\\aletheia_manager.py",
@@ -1175,11 +1145,6 @@
         10824
       ],
       [
-        "src\\v3\\v3_012_ui_screens.py",
-        302,
-        10719
-      ],
-      [
         "src\\core\\workflow_innovation_engine.py",
         301,
         12792
@@ -1198,11 +1163,6 @@
         "src\\services\\discord_commander\\webhook_manager.py",
         300,
         11072
-      ],
-      [
-        "src\\v3\\v3_011_api_gateway_advanced.py",
-        300,
-        9909
       ],
       [
         "tools\\screenshot_manager.py",
@@ -1253,11 +1213,6 @@
         "src\\architecture\\repository_layer.py",
         292,
         9819
-      ],
-      [
-        "src\\v3\\web_dashboard_components.py",
-        291,
-        12008
       ],
       [
         "tools\\projectscanner\\enhanced_scanner\\report_generator.py",
@@ -1615,11 +1570,6 @@
         9046
       ],
       [
-        "src\\observability\\memory\\integrations\\messaging_service_patches.py",
-        247,
-        8816
-      ],
-      [
         "tools\\hard_onboarding_executor.py",
         246,
         9124
@@ -1648,6 +1598,11 @@
         "src\\services\\discord_commander\\web_handlers.py",
         244,
         9993
+      ],
+      [
+        "src\\observability\\memory\\integrations\\messaging_service_patches.py",
+        244,
+        8714
       ],
       [
         "tools\\consolidation_manifest_template.py",
@@ -1690,11 +1645,6 @@
         8392
       ],
       [
-        "src\\v3\\v3_009_response_generation_main.py",
-        237,
-        8436
-      ],
-      [
         "tools\\validate_coordinates.py",
         236,
         7494
@@ -1725,11 +1675,6 @@
         9507
       ],
       [
-        "src\\v3\\web_dashboard_api.py",
-        233,
-        8779
-      ],
-      [
         "tools\\consolidation_apply.py",
         232,
         7857
@@ -1753,11 +1698,6 @@
         "src\\services\\ssot\\ssot_validator.py",
         229,
         8629
-      ],
-      [
-        "src\\v3\\v3_009_response_generation_utils.py",
-        229,
-        6932
       ],
       [
         "tools\\multi_agent_file_planning.py",
@@ -1795,14 +1735,14 @@
         8226
       ],
       [
-        "src\\services\\messaging_cli.py",
-        223,
-        8853
-      ],
-      [
         "src\\team_beta\\consolidation_analyzer_cli.py",
         222,
         8134
+      ],
+      [
+        "src\\services\\messaging_cli.py",
+        220,
+        8816
       ],
       [
         "src\\services\\swarm_intelligence_coordination_operations.py",
@@ -1940,11 +1880,6 @@
         7173
       ],
       [
-        "src\\services\\messaging_service_main.py",
-        203,
-        7692
-      ],
-      [
         "src\\services\\discord_bot\\commands\\webhook_setup_commands.py",
         203,
         8212
@@ -1958,11 +1893,6 @@
         "src\\fsm\\captain_dashboard.py",
         203,
         7895
-      ],
-      [
-        "src\\v3\\cloud_infrastructure_security.py",
-        203,
-        8050
       ],
       [
         "src\\memory\\persistent_memory.py",
@@ -2015,11 +1945,6 @@
         7114
       ],
       [
-        "src\\v3\\tracing_observability.py",
-        198,
-        7166
-      ],
-      [
         "src\\services\\vector_database\\contracts\\contract_execution_core.py",
         197,
         7336
@@ -2030,14 +1955,14 @@
         6764
       ],
       [
+        "src\\services\\messaging_service_main.py",
+        196,
+        7655
+      ],
+      [
         "src\\discord\\memory_aware_responses_operations.py",
         195,
         7806
-      ],
-      [
-        "src\\v3\\v3_012_mobile_app_framework_main.py",
-        195,
-        6579
       ],
       [
         "src\\fsm\\activity_monitor.py",
@@ -2068,11 +1993,6 @@
         "src\\domain\\entities\\agent_core.py",
         186,
         7099
-      ],
-      [
-        "src\\v3\\cloud_infrastructure_networking.py",
-        186,
-        7450
       ],
       [
         "src\\tracing\\distributed_tracing_cli.py",
@@ -2145,11 +2065,6 @@
         5428
       ],
       [
-        "src\\v3\\v3_009_response_generation_core.py",
-        177,
-        5333
-      ],
-      [
         "src\\core\\data_synchronizer.py",
         176,
         5910
@@ -2163,11 +2078,6 @@
         "src\\services\\cycle_optimization\\coordination_optimizer.py",
         176,
         6694
-      ],
-      [
-        "src\\v3\\ml_pipeline_operations.py",
-        176,
-        6113
       ],
       [
         "src\\services\\autonomous\\mailbox\\mailbox_manager.py",
@@ -2230,11 +2140,6 @@
         6543
       ],
       [
-        "src\\v3\\ml_pipeline_core.py",
-        171,
-        5934
-      ],
-      [
         "src\\discord\\memory_aware_responses_core.py",
         170,
         6474
@@ -2280,16 +2185,6 @@
         5613
       ],
       [
-        "src\\v3\\cloud_infrastructure_data.py",
-        163,
-        6860
-      ],
-      [
-        "src\\v3\\v3_012_mobile_app_framework_core.py",
-        163,
-        5630
-      ],
-      [
         "tools\\fsm\\fsm_scan.py",
         162,
         5635
@@ -2322,7 +2217,7 @@
       [
         "tools\\quick_fix.py",
         160,
-        5040
+        5048
       ],
       [
         "src\\core\\integration_workflow_optimizer.py",
@@ -2393,11 +2288,6 @@
         "src\\services\\cycle_optimization\\phase_priority_enforcer.py",
         149,
         5580
-      ],
-      [
-        "src\\v3\\tracing_infrastructure.py",
-        149,
-        4976
       ],
       [
         "agent_workspaces\\database_specialist\\migration_core.py",
@@ -3000,11 +2890,6 @@
         2143
       ],
       [
-        "src\\v3\\v3_012_mobile_app_framework.py",
-        70,
-        1886
-      ],
-      [
         "src\\core\\integration_workflow_models.py",
         69,
         1543
@@ -3013,6 +2898,11 @@
         "src\\core\\database\\data_replication_models.py",
         69,
         1405
+      ],
+      [
+        "check_discord_status.py",
+        68,
+        1934
       ],
       [
         "src\\validation\\quality_gates_validator.py",
@@ -3083,11 +2973,6 @@
         "src\\services\\autonomous\\operations\\modular\\executors\\code_review_executor.py",
         61,
         2044
-      ],
-      [
-        "src\\v3\\cloud_infrastructure_models.py",
-        61,
-        1968
       ],
       [
         "tools\\ingest_all_onboarding_docs.py",
@@ -3165,6 +3050,11 @@
         1127
       ],
       [
+        "tools\\import_smoke.py",
+        55,
+        1600
+      ],
+      [
         "src\\services\\coordinate_manager_models.py",
         55,
         1318
@@ -3190,9 +3080,9 @@
         1335
       ],
       [
-        "tools\\import_smoke.py",
-        52,
-        1548
+        "src\\core\\ml_pipeline.py",
+        51,
+        1317
       ],
       [
         "src\\integration\\comprehensive_integration_assessment.py",
@@ -3200,19 +3090,9 @@
         1460
       ],
       [
-        "src\\v3\\web_dashboard_models.py",
-        51,
-        1423
-      ],
-      [
         "analytics\\score_window.py",
         50,
         1809
-      ],
-      [
-        "src\\core\\ml_pipeline.py",
-        50,
-        1315
       ],
       [
         "src\\core\\pr_review_protocol.py",
@@ -3365,11 +3245,6 @@
         1153
       ],
       [
-        "src\\v3\\v3_009_response_generation.py",
-        37,
-        990
-      ],
-      [
         "tools\\analysis\\__init__.py",
         36,
         1054
@@ -3378,11 +3253,6 @@
         "src\\team_beta\\testing_validation_modules\\__init__.py",
         36,
         751
-      ],
-      [
-        "src\\v3\\v3_004_distributed_tracing.py",
-        36,
-        928
       ],
       [
         "agent_workspaces\\database_specialist\\caching\\models\\cache_models.py",
@@ -3517,7 +3387,7 @@
       [
         "tools\\discord_webhook_cli.py",
         20,
-        541
+        543
       ],
       [
         "tools\\projectscanner\\enhanced_scanner\\__init__.py",
@@ -3537,7 +3407,7 @@
       [
         "src\\services\\messaging_core.py",
         20,
-        481
+        483
       ],
       [
         "src\\services\\autonomous\\__init__.py",
@@ -3831,11 +3701,6 @@
       ],
       [
         "src\\integration\\__init__.py",
-        1,
-        31
-      ],
-      [
-        "src\\v3\\__init__.py",
         1,
         31
       ],
@@ -3882,9 +3747,9 @@
         963
       ],
       [
-        "simple_thea_communication.py",
-        717,
-        25648
+        "check_discord_status.py",
+        68,
+        1934
       ],
       [
         "response_detector.py",
@@ -3895,6 +3760,11 @@
         "thea_login_handler.py",
         788,
         30224
+      ],
+      [
+        "simple_thea_communication.py",
+        720,
+        26407
       ],
       [
         "messaging_system.py",
@@ -4172,11 +4042,6 @@
         9946
       ],
       [
-        "tools\\quick_fix.py",
-        160,
-        5040
-      ],
-      [
         "tools\\run_project_scan.py",
         64,
         1901
@@ -4402,14 +4267,19 @@
         5364
       ],
       [
-        "tools\\import_smoke.py",
-        52,
-        1548
-      ],
-      [
         "tools\\discord_webhook_cli.py",
         20,
-        541
+        543
+      ],
+      [
+        "tools\\import_smoke.py",
+        55,
+        1600
+      ],
+      [
+        "tools\\quick_fix.py",
+        160,
+        5048
       ],
       [
         "tools\\projectscanner\\__init__.py",
@@ -5047,11 +4917,6 @@
         6210
       ],
       [
-        "src\\core\\ml_pipeline.py",
-        50,
-        1315
-      ],
-      [
         "src\\core\\coordination_workflow_core.py",
         505,
         18018
@@ -5060,6 +4925,11 @@
         "src\\core\\coordination_workflow_cli.py",
         268,
         9797
+      ],
+      [
+        "src\\core\\ml_pipeline.py",
+        51,
+        1317
       ],
       [
         "src\\core\\security\\oauth2_provider.py",
@@ -5342,11 +5212,6 @@
         5617
       ],
       [
-        "src\\services\\messaging_cli.py",
-        223,
-        8853
-      ],
-      [
         "src\\services\\github_protocol_data_models.py",
         120,
         3091
@@ -5417,19 +5282,9 @@
         31
       ],
       [
-        "src\\services\\messaging_core.py",
-        20,
-        481
-      ],
-      [
         "src\\services\\messaging_service_utils.py",
         207,
         8033
-      ],
-      [
-        "src\\services\\messaging_service_main.py",
-        203,
-        7692
       ],
       [
         "src\\services\\messaging_service.py",
@@ -5440,6 +5295,21 @@
         "src\\services\\messaging_service_core.py",
         345,
         13582
+      ],
+      [
+        "src\\services\\messaging_cli.py",
+        220,
+        8816
+      ],
+      [
+        "src\\services\\messaging_core.py",
+        20,
+        483
+      ],
+      [
+        "src\\services\\messaging_service_main.py",
+        196,
+        7655
       ],
       [
         "src\\services\\messaging\\history.py",
@@ -6167,19 +6037,9 @@
         1178
       ],
       [
-        "src\\services\\discord_commander\\bot.py",
-        521,
-        19324
-      ],
-      [
         "src\\services\\discord_commander\\bot_commands.py",
         285,
         12774
-      ],
-      [
-        "src\\services\\discord_commander\\commands.py",
-        350,
-        12788
       ],
       [
         "src\\services\\discord_commander\\core.py",
@@ -6215,6 +6075,16 @@
         "src\\services\\discord_commander\\webhook_manager.py",
         300,
         11072
+      ],
+      [
+        "src\\services\\discord_commander\\bot.py",
+        521,
+        19324
+      ],
+      [
+        "src\\services\\discord_commander\\commands.py",
+        350,
+        12788
       ],
       [
         "src\\services\\discord_commander\\commands\\__init__.py",
@@ -6932,141 +6802,6 @@
         2028
       ],
       [
-        "src\\v3\\cloud_infrastructure_data.py",
-        163,
-        6860
-      ],
-      [
-        "src\\v3\\cloud_infrastructure_models.py",
-        61,
-        1968
-      ],
-      [
-        "src\\v3\\cloud_infrastructure_networking.py",
-        186,
-        7450
-      ],
-      [
-        "src\\v3\\cloud_infrastructure_security.py",
-        203,
-        8050
-      ],
-      [
-        "src\\v3\\ml_pipeline_core.py",
-        171,
-        5934
-      ],
-      [
-        "src\\v3\\ml_pipeline_operations.py",
-        176,
-        6113
-      ],
-      [
-        "src\\v3\\tracing_infrastructure.py",
-        149,
-        4976
-      ],
-      [
-        "src\\v3\\tracing_observability.py",
-        198,
-        7166
-      ],
-      [
-        "src\\v3\\v3_004_distributed_tracing.py",
-        36,
-        928
-      ],
-      [
-        "src\\v3\\v3_009_command_understanding.py",
-        427,
-        15986
-      ],
-      [
-        "src\\v3\\v3_009_intent_recognition.py",
-        431,
-        18523
-      ],
-      [
-        "src\\v3\\v3_009_nlp_pipeline.py",
-        407,
-        15546
-      ],
-      [
-        "src\\v3\\v3_009_response_generation.py",
-        37,
-        990
-      ],
-      [
-        "src\\v3\\v3_009_response_generation_core.py",
-        177,
-        5333
-      ],
-      [
-        "src\\v3\\v3_009_response_generation_main.py",
-        237,
-        8436
-      ],
-      [
-        "src\\v3\\v3_009_response_generation_utils.py",
-        229,
-        6932
-      ],
-      [
-        "src\\v3\\v3_011_api_gateway_advanced.py",
-        300,
-        9909
-      ],
-      [
-        "src\\v3\\v3_011_api_gateway_core.py",
-        310,
-        9429
-      ],
-      [
-        "src\\v3\\v3_012_mobile_app_framework.py",
-        70,
-        1886
-      ],
-      [
-        "src\\v3\\v3_012_mobile_app_framework_core.py",
-        163,
-        5630
-      ],
-      [
-        "src\\v3\\v3_012_mobile_app_framework_main.py",
-        195,
-        6579
-      ],
-      [
-        "src\\v3\\v3_012_ui_components.py",
-        307,
-        10218
-      ],
-      [
-        "src\\v3\\v3_012_ui_screens.py",
-        302,
-        10719
-      ],
-      [
-        "src\\v3\\web_dashboard_api.py",
-        233,
-        8779
-      ],
-      [
-        "src\\v3\\web_dashboard_components.py",
-        291,
-        12008
-      ],
-      [
-        "src\\v3\\web_dashboard_models.py",
-        51,
-        1423
-      ],
-      [
-        "src\\v3\\__init__.py",
-        1,
-        31
-      ],
-      [
         "src\\aletheia\\aletheia_prompt_manager.py",
         155,
         5333
@@ -7152,14 +6887,14 @@
         574
       ],
       [
-        "src\\observability\\memory\\integrations\\messaging_service_patches.py",
-        247,
-        8816
-      ],
-      [
         "src\\observability\\memory\\integrations\\messaging_checks.py",
         210,
         7609
+      ],
+      [
+        "src\\observability\\memory\\integrations\\messaging_service_patches.py",
+        244,
+        8714
       ],
       [
         "src\\integrations\\hard_onboarding_bridge.py",

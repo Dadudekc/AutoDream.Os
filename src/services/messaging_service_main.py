@@ -27,15 +27,8 @@ except Exception as e:
     pyautogui = None  # type: ignore
     pyperclip = None  # type: ignore
     logging.warning(f"PyAutoGUI import failed: {e}")
-from src.services.messaging_service_core import (
-    ConsolidatedMessagingServiceCore,
-    ScreenshotManager,
-)
-from src.services.messaging_service_utils import (
-    AgentOnboarder,
-    MessageFormatter,
-    MessageSender,
-)
+from src.services.messaging_service_core import ConsolidatedMessagingServiceCore, ScreenshotManager
+from src.services.messaging_service_utils import AgentOnboarder, MessageFormatter, MessageSender
 
 logger = logging.getLogger(__name__)
 

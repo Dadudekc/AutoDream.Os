@@ -52,8 +52,8 @@ class SimpleTheaCommunication:
         # Check if Selenium is available
         try:
             import undetected_chromedriver as uc
-            from selenium.webdriver.chrome.service import Service
             from selenium.webdriver.chrome.options import Options
+            from selenium.webdriver.chrome.service import Service
             from webdriver_manager.chrome import ChromeDriverManager
 
             self.selenium_available = True
@@ -113,7 +113,10 @@ class SimpleTheaCommunication:
                 print(f"⚠️  Undetected Chrome failed: {e}")
                 print("🔄 Falling back to standard Chrome driver...")
                 from selenium import webdriver
-                self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+
+                self.driver = webdriver.Chrome(
+                    service=Service(ChromeDriverManager().install()), options=options
+                )
                 print("✅ Standard Chrome driver initialized")
 
             return True

@@ -101,23 +101,29 @@ class SimpleTheaCommunication:
                 options.add_argument("--disable-gpu")
                 options.add_argument("--window-size=1920,1080")
 
-            # Try undetected Chrome first (better for ChatGPT)
+            # Use webdriver_manager for automatic version matching (better compatibility)
             try:
-                print("🔍 Trying undetected Chrome driver...")
-                if self.headless:
-                    self.driver = uc.Chrome(options=options, headless=True)
-                else:
-                    self.driver = uc.Chrome(options=options)
-                print("✅ Undetected Chrome driver initialized")
-            except Exception as e:
-                print(f"⚠️  Undetected Chrome failed: {e}")
-                print("🔄 Falling back to standard Chrome driver...")
+                print("🔍 Initializing Chrome driver with automatic version matching...")
                 from selenium import webdriver
-
+                from selenium.webdriver.chrome.service import Service
+                from webdriver_manager.chrome import ChromeDriverManager
+                
                 self.driver = webdriver.Chrome(
                     service=Service(ChromeDriverManager().install()), options=options
                 )
-                print("✅ Standard Chrome driver initialized")
+                print("✅ Chrome driver initialized with automatic version matching")
+            except Exception as e:
+                print(f"⚠️  Standard Chrome failed: {e}")
+                print("🔄 Trying undetected Chrome as fallback...")
+                try:
+                    if self.headless:
+                        self.driver = uc.Chrome(options=options, headless=True)
+                    else:
+                        self.driver = uc.Chrome(options=options)
+                    print("✅ Undetected Chrome driver initialized as fallback")
+                except Exception as e2:
+                    print(f"❌ All Chrome drivers failed: {e2}")
+                    raise e2
 
             return True
 

@@ -102,5 +102,92 @@
       ]
     },
     "response_timestamp": "2025-10-04T17:20:49.309009"
+  },
+  {
+    "session_id": "session_20251004_174425",
+    "message": "Agent-4 testing consolidated Selenium + consultation system",
+    "context": "system_integration_test",
+    "timestamp": "2025-10-04T17:44:25.231248",
+    "status": "completed",
+    "type": "autonomous_communication",
+    "message_id": "msg_5_174425",
+    "response": {
+      "type": "autonomous_response",
+      "acknowledged": false,
+      "message": "Autonomous message received but browser automation failed: 'Agent-4 testing consolidated Selenium + consultation system'",
+      "context": "system_integration_test",
+      "browser_automation": false,
+      "selenium_success": false,
+      "error": "No module named 'thea_handlers'",
+      "recommendations": [
+        "Browser automation not available - using fallback mode",
+        "Message has been logged for Thea's review",
+        "Consider using strategic consultation for detailed guidance"
+      ],
+      "next_steps": [
+        "Monitor for Thea's response via other channels",
+        "Use consultation system for immediate needs",
+        "Check communication logs for updates"
+      ]
+    },
+    "response_timestamp": "2025-10-04T17:44:25.235253"
+  },
+  {
+    "session_id": "session_20251004_174456",
+    "message": "Agent-4 testing consolidated Selenium + consultation system - Round 2",
+    "context": "system_integration_test",
+    "timestamp": "2025-10-04T17:44:56.153069",
+    "status": "completed",
+    "type": "autonomous_communication",
+    "message_id": "msg_6_174456",
+    "response": {
+      "type": "autonomous_response",
+      "acknowledged": false,
+      "message": "Autonomous message received but browser automation failed: 'Agent-4 testing consolidated Selenium + consultation system - Round 2'",
+      "context": "system_integration_test",
+      "browser_automation": false,
+      "selenium_success": false,
+      "error": "No module named 'simple_thea_communication'",
+      "recommendations": [
+        "Browser automation not available - using fallback mode",
+        "Message has been logged for Thea's review",
+        "Consider using strategic consultation for detailed guidance"
+      ],
+      "next_steps": [
+        "Monitor for Thea's response via other channels",
+        "Use consultation system for immediate needs",
+        "Check communication logs for updates"
+      ]
+    },
+    "response_timestamp": "2025-10-04T17:44:56.173088"
+  },
+  {
+    "session_id": "session_20251004_174522",
+    "message": "Agent-4 testing fully consolidated Selenium + consultation system - Final Test",
+    "context": "system_integration_test",
+    "timestamp": "2025-10-04T17:45:22.079190",
+    "status": "completed",
+    "type": "autonomous_communication",
+    "message_id": "msg_7_174522",
+    "response": {
+      "type": "autonomous_response",
+      "acknowledged": false,
+      "message": "Autonomous message received but browser automation failed: 'Agent-4 testing fully consolidated Selenium + consultation system - Final Test'",
+      "context": "system_integration_test",
+      "browser_automation": false,
+      "selenium_success": false,
+      "error": "No module named 'simple_thea_communication'",
+      "recommendations": [
+        "Browser automation not available - using fallback mode",
+        "Message has been logged for Thea's review",
+        "Consider using strategic consultation for detailed guidance"
+      ],
+      "next_steps": [
+        "Monitor for Thea's response via other channels",
+        "Use consultation system for immediate needs",
+        "Check communication logs for updates"
+      ]
+    },
+    "response_timestamp": "2025-10-04T17:45:22.109215"
   }
 ]

@@ -2,13 +2,13 @@
   "timestamp": "D:\\Agent_Cellphone_V2_Repository",
   "stats": {
     "total_files": 636,
-    "total_lines": 115015,
-    "total_size": 4177913,
+    "total_lines": 115082,
+    "total_size": 4181257,
     "by_directory": {
       "root": {
         "files": 9,
-        "lines": 2429,
-        "size": 88425
+        "lines": 2435,
+        "size": 88851
       },
       "agent_workspaces\\database_specialist": {
         "files": 10,
@@ -197,8 +197,8 @@
       },
       "src\\services\\messaging": {
         "files": 21,
-        "lines": 4422,
-        "size": 157688
+        "lines": 4426,
+        "size": 157851
       },
       "src\\services\\messaging\\core": {
         "files": 3,
@@ -422,8 +422,8 @@
       },
       "src\\services\\thea": {
         "files": 5,
-        "lines": 1177,
-        "size": 42949
+        "lines": 1234,
+        "size": 45704
       },
       "src\\architecture": {
         "files": 7,
@@ -529,8 +529,8 @@
     "by_file_type": {
       "other": {
         "files": 505,
-        "lines": 90093,
-        "size": 3267133
+        "lines": 90160,
+        "size": 3270477
       },
       "tests": {
         "files": 7,
@@ -561,8 +561,8 @@
       ],
       [
         "simple_thea_communication.py",
-        720,
-        26407
+        726,
+        26833
       ],
       [
         "src\\services\\discord_commander\\web_controller.py",
@@ -748,6 +748,11 @@
         "src\\services\\real_initiatives\\system_health_monitor.py",
         380,
         13068
+      ],
+      [
+        "src\\services\\thea\\thea_autonomous_cli.py",
+        376,
+        14402
       ],
       [
         "src\\discord\\enhanced_bot_engine.py",
@@ -1058,11 +1063,6 @@
         "src\\domain\\domain_events.py",
         320,
         9575
-      ],
-      [
-        "src\\services\\thea\\thea_autonomous_cli.py",
-        319,
-        11647
       ],
       [
         "src\\services\\cycle_optimization\\performance_benchmark.py",
@@ -2950,6 +2950,11 @@
         1599
       ],
       [
+        "src\\services\\messaging\\thea_handlers.py",
+        63,
+        1676
+      ],
+      [
         "src\\services\\discord_bot\\commands\\safe_response_utils.py",
         63,
         2157
@@ -2998,11 +3003,6 @@
         "analytics\\window_loader.py",
         59,
         2238
-      ],
-      [
-        "src\\services\\messaging\\thea_handlers.py",
-        59,
-        1513
       ],
       [
         "src\\services\\vector_database\\status_indexer.py",
@@ -3763,8 +3763,8 @@
       ],
       [
         "simple_thea_communication.py",
-        720,
-        26407
+        726,
+        26833
       ],
       [
         "messaging_system.py",
@@ -5388,8 +5388,8 @@
       ],
       [
         "src\\services\\messaging\\thea_handlers.py",
-        59,
-        1513
+        63,
+        1676
       ],
       [
         "src\\services\\messaging\\workflow_integration.py",
@@ -6348,8 +6348,8 @@
       ],
       [
         "src\\services\\thea\\thea_autonomous_cli.py",
-        319,
-        11647
+        376,
+        14402
       ],
       [
         "src\\services\\thea\\strategic_consultation_cli.py",

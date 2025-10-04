@@ -81,28 +81,85 @@ class TheaAutonomousCommunication:
             return {"success": False, "error": str(e), "session_id": self.session_id}
 
     def _process_autonomous_message(self, message: str, context: str = None) -> dict[str, Any]:
-        """Process autonomous message (placeholder for actual Thea integration)."""
-        # This is a placeholder implementation
-        # In a real system, this would integrate with Thea's AI
-
-        response = {
-            "type": "autonomous_response",
-            "acknowledged": True,
-            "message": f"Autonomous message received: '{message}'",
-            "context": context or "general",
-            "recommendations": [
-                "Message has been logged for Thea's review",
-                "Response will be provided during next consultation cycle",
-                "Consider using strategic consultation for detailed guidance",
-            ],
-            "next_steps": [
-                "Monitor for Thea's response",
-                "Use consultation system for immediate needs",
-                "Check communication logs for updates",
-            ],
-        }
-
-        return response
+        """Process autonomous message using Selenium browser automation."""
+        try:
+            # Try to use the Selenium implementation
+            import sys
+            import os
+            sys.path.append(os.path.join(os.path.dirname(__file__), "..", "messaging"))
+            from thea_handlers import send_to_thea
+            
+            logger.info("Using Selenium browser automation for Thea communication")
+            
+            # Send message using Selenium
+            result = send_to_thea(message, headless=False)
+            
+            if result:
+                response = {
+                    "type": "autonomous_response",
+                    "acknowledged": True,
+                    "message": f"Message sent to Thea via browser automation: '{message}'",
+                    "context": context or "general",
+                    "browser_automation": True,
+                    "selenium_success": True,
+                    "recommendations": [
+                        "Message successfully sent to Thea via browser",
+                        "Response captured via screenshot and text extraction",
+                        "Check thea_responses/ directory for full response",
+                    ],
+                    "next_steps": [
+                        "Review response in thea_responses/ directory",
+                        "Use consultation system for follow-up questions",
+                        "Monitor for additional responses",
+                    ],
+                }
+            else:
+                response = {
+                    "type": "autonomous_response",
+                    "acknowledged": False,
+                    "message": f"Failed to send message to Thea: '{message}'",
+                    "context": context or "general",
+                    "browser_automation": True,
+                    "selenium_success": False,
+                    "recommendations": [
+                        "Browser automation failed - check Chrome/ChromeDriver versions",
+                        "Try manual consultation system as fallback",
+                        "Review error logs for debugging",
+                    ],
+                    "next_steps": [
+                        "Use strategic consultation system for immediate needs",
+                        "Check browser automation setup",
+                        "Consider manual Thea interaction",
+                    ],
+                }
+            
+            return response
+            
+        except Exception as e:
+            logger.error(f"Selenium automation failed: {e}")
+            
+            # Fallback to placeholder response
+            response = {
+                "type": "autonomous_response",
+                "acknowledged": False,
+                "message": f"Autonomous message received but browser automation failed: '{message}'",
+                "context": context or "general",
+                "browser_automation": False,
+                "selenium_success": False,
+                "error": str(e),
+                "recommendations": [
+                    "Browser automation not available - using fallback mode",
+                    "Message has been logged for Thea's review",
+                    "Consider using strategic consultation for detailed guidance",
+                ],
+                "next_steps": [
+                    "Monitor for Thea's response via other channels",
+                    "Use consultation system for immediate needs",
+                    "Check communication logs for updates",
+                ],
+            }
+            
+            return response
 
     def _store_communication(self, communication: dict[str, Any]) -> None:
         """Store communication record."""

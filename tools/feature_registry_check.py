@@ -46,7 +46,7 @@ class FeatureRegistry:
                     "name": "Consolidated Messaging Service",
                     "owner": "Agent 2",
                     "status": "operational",
-                    "files": ["src/services/consolidated_messaging_service.py"],
+                    "files": ["src/services/messaging_service.py"],
                     "description": "PyAutoGUI-based agent coordination system",
                     "last_updated": "2025-09-21",
                 },

@@ -53,9 +53,6 @@ def send_to_thea(
         # SECURITY: Password placeholder - replace with environment variable
         use_selenium=True,
         headless=headless,
-        thread_url=thread_url,
-        resume_last=resume_last,
-        attach_file=attach_file,
     )
     ok = thea.run_communication_cycle(message)
     thea.cleanup()

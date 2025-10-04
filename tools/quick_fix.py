@@ -82,7 +82,7 @@ def test_imports(module_path: str):
 def send_status_update(agent_id: str, message: str):
     """Send status update via messaging service."""
     try:
-        from src.services.consolidated_messaging_service import ConsolidatedMessagingService
+from src.services.messaging_service import ConsolidatedMessagingService
 
         service = ConsolidatedMessagingService()
         success = service.send_message(agent_id, message, "Agent-2", "NORMAL")

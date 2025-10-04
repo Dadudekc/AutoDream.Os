@@ -25,10 +25,10 @@ This document consolidates agent analysis reports from various agents during the
 #### Keep (CRITICAL - ~50 files)
 
 **1. Agent Coordination Core (~15 files)**
-- `src/services/consolidated_messaging_service.py` - Core messaging system
-- `src/services/consolidated_messaging_service_core.py` - Core messaging functionality
-- `src/services/consolidated_messaging_service_main.py` - Main messaging service
-- `src/services/consolidated_messaging_service_utils.py` - Messaging utilities
+- `src/services/messaging_service.py` - Core messaging system
+- `src/services/messaging_service_core.py` - Core messaging functionality
+- `src/services/messaging_service_main.py` - Main messaging service
+- `src/services/messaging_service_utils.py` - Messaging utilities
 - `src/core/system_integration_coordinator.py` - System integration
 - `src/services/autonomous/core/autonomous_workflow.py` - Autonomous workflow
 - `src/services/autonomous_style/swarm_coordination_system.py` - Swarm coordination

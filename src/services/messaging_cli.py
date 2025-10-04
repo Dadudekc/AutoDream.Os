@@ -118,7 +118,7 @@ Examples:
                 return 1
 
             # Initialize messaging service
-            from src.services.consolidated_messaging_service_main import (
+            from src.services.messaging_service_main import (
                 ConsolidatedMessagingService,
             )
 

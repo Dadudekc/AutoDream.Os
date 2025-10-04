@@ -1,6 +1,5 @@
 {
   "redirects": {
-    "src.services.fake_work_elimination.fake_work_eliminator": "src.core.fake_work_eliminator",
     "src.services.messaging.providers.discord_provider_core": "src.services.consolidated_messaging_service",
     "src.services.messaging.providers.discord_provider_operations": "src.services.consolidated_messaging_service",
     "src.services.messaging.onboarding.onboarding_service": "src.services.agent_hard_onboarding",

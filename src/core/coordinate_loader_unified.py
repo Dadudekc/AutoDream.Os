@@ -10,8 +10,8 @@ import time
 from dataclasses import dataclass
 from pathlib import Path
 
-from .unified_coordinate_loader_core import CoordinateLoader
-from .unified_coordinate_loader_models import (
+from .coordinate_loader_core import CoordinateLoader
+from .coordinate_loader_models import (
     AgentCoordinates,
     CoordinateConfig,
     LoadResult,

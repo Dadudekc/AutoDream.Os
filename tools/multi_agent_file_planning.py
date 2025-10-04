@@ -61,7 +61,7 @@ def create_planning_framework():
                 "target_count": 100,
                 "examples": [
                     "src/core/",
-                    "src/services/consolidated_messaging_service.py",
+                    "src/services/messaging_service.py",
                     "agent_workspaces/",
                 ],
             },

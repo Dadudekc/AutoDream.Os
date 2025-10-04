@@ -24,8 +24,7 @@ from pathlib import Path
 
 # Add project root to path
 sys.path.append(str(Path(__file__).parent.parent))
-
-from src.core.agent8_coordination_workflow_core import Agent8CoordinationWorkflowCore
+from src.core.coordination_workflow_core import Agent8CoordinationWorkflowCore
 from src.services.agent_hard_onboarding import AgentHardOnboarder
 from tools.cursor_task_database_integration import CursorTaskIntegrationManager
 

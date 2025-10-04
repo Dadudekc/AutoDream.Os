@@ -16,8 +16,7 @@ project_root = Path(__file__).parent.parent.parent
 import sys
 
 sys.path.insert(0, str(project_root))
-
-from src.core.agent8_coordination_workflow_core import (
+from src.core.coordination_workflow_core import (
     Agent8CoordinationWorkflowCore,
     CoordinationStatus,
     CoordinationTask,
@@ -188,7 +187,7 @@ class Agent8CoordinationWorkflowOperations:
             # Import agent workloads
             for agent_id, workload_data in import_data.get("agent_workloads", {}).items():
                 try:
-                    from src.core.agent8_coordination_workflow_core import AgentWorkload
+                    from src.core.coordination_workflow_core import AgentWorkload
 
                     workload = AgentWorkload(**workload_data)
                     self.workflow.agent_workloads[agent_id] = workload

@@ -9,7 +9,7 @@ import json
 import os
 from pathlib import Path
 
-from .unified_coordinate_loader_models import (
+from .coordinate_loader_models import (
     AgentCoordinates,
     CoordinateConfig,
     CoordinateSource,

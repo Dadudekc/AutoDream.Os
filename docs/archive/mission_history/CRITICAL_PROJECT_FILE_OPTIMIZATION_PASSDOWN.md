@@ -85,7 +85,7 @@
 
 ### **Essential Core (100 files)**
 - Core system files absolutely required for inter-agent coordination
-- Examples: `src/core/`, `src/services/consolidated_messaging_service.py`, `agent_workspaces/`
+- Examples: `src/core/`, `src/services/messaging_service.py`, `agent_workspaces/`
 
 ### **Agent Coordination (50 files)**
 - Files needed for agent-to-agent communication and coordination

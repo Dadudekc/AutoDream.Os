@@ -141,7 +141,7 @@ def demo_agent_coordination():
     print_check("Unified Messaging System", "pass" if messaging_system.exists() else "fail")
 
     # Check agent workflow core
-    agent8_workflow = Path("src/core/agent8_coordination_workflow_core.py")
+    agent8_workflow = Path("src/core/coordination_workflow_core.py")
     print_check("Agent-8 Coordination Core", "pass" if agent8_workflow.exists() else "fail")
 
     # Check devlog posting

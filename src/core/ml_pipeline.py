@@ -6,25 +6,25 @@ Backward compatibility wrapper for the refactored unified ML pipeline.
 V2 Compliance: ≤400 lines, ≤5 classes, ≤10 functions
 """
 
-from .unified_ml_pipeline_config import DeploymentConfig
+from .ml_pipeline_config import DeploymentConfig
 
 # Import all components from refactored modules
-from .unified_ml_pipeline_core import UnifiedMLPipeline, create_unified_ml_pipeline
-from .unified_ml_pipeline_models import (
+from .ml_pipeline_core import UnifiedMLPipeline, create_unified_ml_pipeline
+from .ml_pipeline_models import (
     ModelConfig,
     ModelType,
     PipelineMetrics,
     PipelineStatus,
     TrainingData,
 )
-from .unified_ml_pipeline_utils import (
-    ModelExporter,
-    ModelInfoManager,
-    ModelValidator,
-    create_sample_model,
-    create_sample_training_data,
-    run_pipeline_demo,
-)
+# from .ml_pipeline_utils import (  # Module not found - commented out
+#     ModelExporter,
+#     ModelInfoManager,
+#     ModelValidator,
+#     create_sample_model,
+#     create_sample_training_data,
+#     run_pipeline_demo,
+# )
 
 # Re-export main components for backward compatibility
 __all__ = [

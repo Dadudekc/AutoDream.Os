@@ -39,7 +39,7 @@ def get_agent_coordinates(self, agent_id: str) -> list:
 ```
 
 ### **Technical Details**
-- **File Modified**: `src/services/consolidated_messaging_service_main.py`
+- **File Modified**: `src/services/messaging_service_main.py`
 - **Method Added**: `get_agent_coordinates()` method
 - **Error Handling**: Comprehensive exception handling
 - **V2 Compliance**: Simple, direct implementation (≤10 lines)

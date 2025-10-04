@@ -137,7 +137,7 @@ python tools/captain_cli.py --emergency-broadcast --severity CRITICAL --message 
 
 ```bash
 # Multi-agent coordination
-python src/core/agent8_coordination_workflow_core.py --action coordinate --agents "Agent-6,Agent-7" --task "Quality assurance"
+python src/core/coordination_workflow_core.py --action coordinate --agents "Agent-6,Agent-7" --task "Quality assurance"
 
 # Agent-to-agent communication
 python messaging_system.py Agent-5 Agent-6 "<coordination message>" NORMAL
@@ -185,7 +185,7 @@ python src/services/agent_devlog_posting.py --agent Agent-7 --action "Integratio
 
 ```bash
 # Advanced system integration
-python src/core/agent8_coordination_workflow_core.py --action create-task --description "System integration task"
+python src/core/coordination_workflow_core.py --action create-task --description "System integration task"
 
 # Architecture analysis
 python tools/projectscanner/enhanced_scanner/core.py

@@ -16,7 +16,7 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from swarm_brain import Retriever
+# from swarm_brain import Retriever  # Module not found - commented out
 
 logger = logging.getLogger(__name__)
 

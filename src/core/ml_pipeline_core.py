@@ -13,7 +13,7 @@ import time
 from pathlib import Path
 from typing import Any
 
-from .unified_ml_pipeline_models import (
+from .ml_pipeline_models import (
     ModelConfig,
     ModelType,
     PipelineMetrics,

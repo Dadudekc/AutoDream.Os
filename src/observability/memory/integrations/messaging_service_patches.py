@@ -108,7 +108,7 @@ def patch_messaging_service(messaging_service) -> MessagingServiceMemoryPatch:
     Apply memory leak prevention patch to messaging service.
     
     Usage:
-        from src.services.consolidated_messaging_service_core import ConsolidatedMessagingServiceCore
+from src.services.messaging_service_core import ConsolidatedMessagingServiceCore
         from src.observability.memory.integrations.messaging_service_patches import patch_messaging_service
         
         messaging_service = ConsolidatedMessagingServiceCore()
@@ -132,7 +132,7 @@ def create_enhanced_messaging_service(messaging_service_class, *args, **kwargs):
     Create messaging service with memory leak prevention enabled.
     
     Usage:
-        from src.services.consolidated_messaging_service_core import ConsolidatedMessagingServiceCore
+from src.services.messaging_service_core import ConsolidatedMessagingServiceCore
         from src.observability.memory.integrations.messaging_service_patches import create_enhanced_messaging_service
         
         messaging_service = create_enhanced_messaging_service(
@@ -165,7 +165,7 @@ INTEGRATION GUIDE
 ### Option 1: Patch Existing Service
 
 ```python
-from src.services.consolidated_messaging_service_core import ConsolidatedMessagingServiceCore
+from src.services.messaging_service_core import ConsolidatedMessagingServiceCore
 from src.observability.memory.integrations.messaging_service_patches import patch_messaging_service
 
 # Create standard messaging service
@@ -195,7 +195,7 @@ def cleanup_old_requests():
 ### Option 2: Create Enhanced Service
 
 ```python
-from src.services.consolidated_messaging_service_core import ConsolidatedMessagingServiceCore
+from src.services.messaging_service_core import ConsolidatedMessagingServiceCore
 from src.observability.memory.integrations.messaging_service_patches import create_enhanced_messaging_service
 
 # Create enhanced messaging service with built-in memory leak prevention

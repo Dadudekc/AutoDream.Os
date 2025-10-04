@@ -25,19 +25,19 @@
 #### **Core Messaging Commands**
 ```bash
 # Send message to specific agent
-python src/services/consolidated_messaging_service.py send --agent Agent-8 --message "Task complete" --from-agent Agent-4
+python src/services/messaging_service.py send --agent Agent-8 --message "Task complete" --from-agent Agent-4
 
 # Broadcast message to all agents
-python src/services/consolidated_messaging_service.py broadcast --message "System update" --from-agent Agent-4
+python src/services/messaging_service.py broadcast --message "System update" --from-agent Agent-4
 
 # Check messaging system status
-python src/services/consolidated_messaging_service.py status
+python src/services/messaging_service.py status
 
 # Check protocol compliance
-python src/services/consolidated_messaging_service.py protocol-check
+python src/services/messaging_service.py protocol-check
 
 # Send cued message to multiple agents
-python src/services/consolidated_messaging_service.py cue --agents Agent-5 Agent-6 Agent-7 --message "Coordination task" --cue "TASK_001" --from-agent Agent-4
+python src/services/messaging_service.py cue --agents Agent-5 Agent-6 Agent-7 --message "Coordination task" --cue "TASK_001" --from-agent Agent-4
 ```
 
 #### **Advanced Messaging Features**

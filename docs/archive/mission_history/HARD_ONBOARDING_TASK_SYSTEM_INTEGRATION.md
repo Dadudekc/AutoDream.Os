@@ -20,7 +20,7 @@ The hard onboarding system is now fully integrated with the existing task manage
    - ✅ **FSM State Tracking**: ONBOARDING state management
    - ✅ **Metadata Support**: PyAutoGUI and coordinate-based flags
 
-2. **Agent Coordination Workflow** (`src/core/agent8_coordination_workflow_core.py`)
+2. **Agent Coordination Workflow** (`src/core/coordination_workflow_core.py`)
    - ✅ **Hard Onboarding Task Creation**: `create_hard_onboarding_task()` method
    - ✅ **Priority Queue Management**: CRITICAL priority for onboarding tasks
    - ✅ **Task Assignment**: Automatic assignment to Captain Agent-4
@@ -92,7 +92,7 @@ ONBOARDING → ACTIVE → CONTRACT_EXECUTION_ACTIVE → SURVEY_MISSION_COMPLETED
 ### **Captain Agent-4 Hard Onboarding Command**
 ```python
 from tools.cursor_task_database_integration import CursorTaskIntegrationManager
-from src.core.agent8_coordination_workflow_core import Agent8CoordinationWorkflowCore
+from src.core.coordination_workflow_core import Agent8CoordinationWorkflowCore
 
 # Initialize managers
 task_manager = CursorTaskIntegrationManager()
@@ -172,7 +172,7 @@ if "onboarding" in results:
 python tools/cursor_task_database_integration.py --create-onboarding --agent Agent-1
 
 # Create coordination task
-python src/core/agent8_coordination_workflow_core.py --create-onboarding --agent Agent-1
+python src/core/coordination_workflow_core.py --create-onboarding --agent Agent-1
 ```
 
 ### **2. Task Execution**
@@ -190,7 +190,7 @@ python src/core/agent_cycle_automation.py --agent Agent-1 --full-cycle
 python tools/cursor_task_database_integration.py --status --task-id onboard_Agent-1_20250104_143022
 
 # Monitor coordination workflow
-python src/core/agent8_coordination_workflow_core.py --status --agent Agent-1
+python src/core/coordination_workflow_core.py --status --agent Agent-1
 ```
 
 ---

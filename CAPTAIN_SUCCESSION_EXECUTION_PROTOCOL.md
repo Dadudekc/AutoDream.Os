@@ -25,7 +25,7 @@
 #### **3. Task Management Infrastructure**
 - **Cursor Task Database**: `unified.db` - Task persistence and coordination
 - **FSM Integration**: `src/fsm/` - Agent state management and transitions
-- **Agent Workflows**: `src/core/agent8_coordination_workflow_core.py` - Task assignment and execution
+- **Agent Workflows**: `src/core/coordination_workflow_core.py` - Task assignment and execution
 
 #### **4. Agent Coordination Systems**
 - **Dynamic Role Assignment**: Based on task requirements (Captain assigns roles per task)

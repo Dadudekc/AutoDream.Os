@@ -174,7 +174,7 @@ class IntegrationHealthChecker:
         """Load system definitions."""
         return {
             "messaging": {
-                "files": ["src/services/consolidated_messaging_service.py"],
+                "files": ["src/services/messaging_service.py"],
                 "dependencies": ["coordinate_manager"],
                 "status": "operational",
             },

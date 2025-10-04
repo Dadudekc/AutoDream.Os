@@ -22,8 +22,7 @@ from typing import Any
 # Add project root to path
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
-
-from src.services.consolidated_messaging_service import ConsolidatedMessagingService
+from src.services.messaging_service import ConsolidatedMessagingService
 
 
 class AgentWorkflowAutomation:

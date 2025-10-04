@@ -135,7 +135,7 @@
       "purpose": "Receives role assignments and task instructions from Captain Agent-4"
     },
     "messaging_system": {
-      "source": "src/services/consolidated_messaging_service.py",
+      "source": "src/services/messaging_service.py",
       "purpose": "Reports progress and completion status via PyAutoGUI messaging"
     },
     "project_scanner": {

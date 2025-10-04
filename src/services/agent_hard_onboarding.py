@@ -228,7 +228,7 @@ Technical: INTEGRATION_SPECIALIST, ARCHITECTURE_SPECIALIST, INFRASTRUCTURE_SPECI
 Operational: TASK_EXECUTOR, RESEARCHER, TROUBLESHOOTER, OPTIMIZER, DEVLOG_STORYTELLER, CODE_ARCHAEOLOGIST, DOCUMENTATION_ARCHITECT, MARKET_RESEARCHER
 
 🛠️ TOOL DISCOVERY PROTOCOL:
-1. Core Communication: src/services/consolidated_messaging_service.py
+1. Core Communication: src/services/messaging_service.py
 2. Captain Tools: tools/captain_cli.py, tools/captain_directive_manager.py
 3. Analysis Tools: tools/analysis_cli.py, tools/overengineering_detector.py
 4. Workflow Tools: tools/agent_workflow_manager.py, tools/simple_workflow_automation.py

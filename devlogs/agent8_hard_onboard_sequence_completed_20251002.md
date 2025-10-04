@@ -38,7 +38,7 @@
 - **General Cycle Adaptations**: Role-specific focus areas for each cycle phase
 
 ### **5. ✅ Tool Discovery and Integration**
-- **Core Communication**: `src/services/consolidated_messaging_service.py`
+- **Core Communication**: `src/services/messaging_service.py`
 - **Workflow Automation**: `tools/simple_workflow_automation.py` (with Discord devlog integration)
 - **Quality Gates**: `python quality_gates.py`
 - **Captain Tools**: `tools/captain_cli.py`, `tools/captain_directive_manager.py`

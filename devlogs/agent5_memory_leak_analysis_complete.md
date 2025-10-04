@@ -47,7 +47,7 @@
 - **Risk Level**: **LOW** (down from CRITICAL)
 
 ### **4. Integrated Memory Management**
-- **File**: `src/services/consolidated_messaging_service_core.py`
+- **File**: `src/services/messaging_service_core.py`
 - **Purpose**: Integrated memory management into core messaging service
 - **Features**: Automatic initialization, cleanup methods, status monitoring
 

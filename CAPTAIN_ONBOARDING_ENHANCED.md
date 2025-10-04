@@ -48,7 +48,7 @@ python quality_gates.py
 ### **❌ NON-EXISTENT TOOLS (IGNORE THESE)**
 - `tools/captain_cli.py` - DOESN'T EXIST
 - `tools/captain_directive_manager.py` - DOESN'T EXIST
-- `src/services/consolidated_messaging_service.py` - Too complex, replaced by `messaging_system.py`
+- `src/services/messaging_service.py` - Too complex, replaced by `messaging_system.py`
 
 ---
 

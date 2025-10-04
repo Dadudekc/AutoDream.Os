@@ -9,11 +9,10 @@ Refactored into modular components for V2 compliance.
 Author: Agent-4 (Captain & Operations Coordinator)
 License: MIT
 """
-
-from src.services.consolidated_messaging_cli import ConsolidatedMessagingCLI
+from src.services.messaging_cli import ConsolidatedMessagingCLI
 
 # Import all components from refactored modules
-from src.services.consolidated_messaging_service_core import (
+from src.services.messaging_service_core import (
     ENHANCED_VALIDATION_AVAILABLE,
     AgentCoordinatesLoader,
     AgentStatusChecker,
@@ -23,8 +22,8 @@ from src.services.consolidated_messaging_service_core import (
     ScreenshotManager,
     ScreenshotTrigger,
 )
-from src.services.consolidated_messaging_service_main import ConsolidatedMessagingService
-from src.services.consolidated_messaging_service_utils import (
+from src.services.messaging_service_main import ConsolidatedMessagingService
+from src.services.messaging_service_utils import (
     AgentOnboarder,
     MessageFormatter,
     MessageSender,

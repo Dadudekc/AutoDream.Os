@@ -88,7 +88,7 @@ This documentation has been modularized for V2 compliance. See the following fil
 ### **Key Commands**
 - **Agent Status**: `python tools/captain_cli.py status`
 - **Quality Gates**: `python quality_gates.py --path src`
-- **Messaging**: `python src/services/consolidated_messaging_service.py send --agent [ID] --message "[MSG]"`
+- **Messaging**: `python src/services/messaging_service.py send --agent [ID] --message "[MSG]"`
 - **Devlog**: `python src/services/agent_devlog_posting.py --agent [ID] --action "[DESC]"`
 
 ### **V2 Compliance**

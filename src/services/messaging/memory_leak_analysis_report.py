@@ -65,7 +65,7 @@ class MemoryLeakAnalysisReport:
                 "issue": "Coordination Request Accumulation",
                 "severity": "CRITICAL",
                 "description": "Coordination requests accumulate indefinitely without cleanup",
-                "location": "src/services/consolidated_messaging_service_core.py",
+                "location": "src/services/messaging_service_core.py",
                 "impact": "Memory grows continuously, eventually causing system failure",
                 "evidence": "coordination_requests dictionary grows without bounds",
                 "fix_status": "IMPLEMENTED",
@@ -195,7 +195,7 @@ class MemoryLeakAnalysisReport:
             {
                 "fix": "Integrated Memory Management",
                 "description": "Integrated memory management into core messaging service",
-                "file": "src/services/consolidated_messaging_service_core.py",
+                "file": "src/services/messaging_service_core.py",
                 "status": "COMPLETED",
             },
         ]

@@ -178,7 +178,7 @@ The debate system enables agents to collaboratively introduce and refine:
 ### **Core Communication Systems**
 ```
 📬 Messaging Services:
-  - src/services/consolidated_messaging_service.py (Primary messaging service)
+  - src/services/messaging_service.py (Primary messaging service)
   - src/services/messaging/intelligent_coordinator.py
   - src/services/messaging/core/messaging_service.py
   - src/services/messaging/onboarding/onboarding_service.py
@@ -190,10 +190,10 @@ The debate system enables agents to collaboratively introduce and refine:
   - Active assignments: python src/services/role_assignment/role_assignment_service.py --active-assignments
 
 🎯 Messaging Commands:
-  - Send A2A messages: python src/services/consolidated_messaging_service.py send --agent [TARGET] --message "[MSG]" --from-agent [SENDER]
-  - Broadcast messages: python src/services/consolidated_messaging_service.py broadcast --message "[MSG]" --from-agent [SENDER]
-  - Check status: python src/services/consolidated_messaging_service.py status
-  - Protocol check: python src/services/consolidated_messaging_service.py protocol-check
-  - Cued messaging: python src/services/consolidated_messaging_service.py cue --agents [AGENTS] --message "[MSG]" --cue [CUE_ID]
-  - Hard onboard: python src/services/consolidated_messaging_service.py hard-onboard --agent [AGENT]
-  - Stall/Unstall: python src/services/consolidated_messaging_service.py stall/unstall --agent [AGENT]
+  - Send A2A messages: python src/services/messaging_service.py send --agent [TARGET] --message "[MSG]" --from-agent [SENDER]
+  - Broadcast messages: python src/services/messaging_service.py broadcast --message "[MSG]" --from-agent [SENDER]
+  - Check status: python src/services/messaging_service.py status
+  - Protocol check: python src/services/messaging_service.py protocol-check
+  - Cued messaging: python src/services/messaging_service.py cue --agents [AGENTS] --message "[MSG]" --cue [CUE_ID]
+  - Hard onboard: python src/services/messaging_service.py hard-onboard --agent [AGENT]
+  - Stall/Unstall: python src/services/messaging_service.py stall/unstall --agent [AGENT]

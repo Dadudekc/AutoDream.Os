@@ -23,7 +23,7 @@ import pyperclip
 from response_detector import ResponseDetector, ResponseWaitResult
 
 # Import our modular login handler
-from thea_login_handler import create_thea_login_handler
+from src.services.thea.login_handler import create_thea_login_handler
 
 
 class SimpleTheaCommunication:
@@ -107,7 +107,7 @@ class SimpleTheaCommunication:
                 from selenium import webdriver
                 from selenium.webdriver.chrome.service import Service
                 from webdriver_manager.chrome import ChromeDriverManager
-                
+
                 self.driver = webdriver.Chrome(
                     service=Service(ChromeDriverManager().install()), options=options
                 )

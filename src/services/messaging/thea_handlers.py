@@ -46,11 +46,12 @@ def send_to_thea(
     attach_file: str | None = None,
 ):
     # Thin wrapper around your SimpleTheaCommunication module
-    import sys
     import os
+    import sys
+
     project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
     sys.path.append(project_root)
-    from simple_thea_communication import SimpleTheaCommunication
+    from src.services.thea.simple_communication import SimpleTheaCommunication
 
     thea = SimpleTheaCommunication(
         username=username,

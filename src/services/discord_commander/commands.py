@@ -7,14 +7,15 @@ Command handlers for Discord Commander functionality.
 V2 Compliance: ≤400 lines, focused command functionality.
 """
 
-import json
+import asyncio
 import logging
+from typing import Dict, Any, Optional, List
+from datetime import datetime
+import json
 
 # Add project root to path
 import sys
-from datetime import datetime
 from pathlib import Path
-
 project_root = Path(__file__).parent.parent.parent.parent
 sys.path.insert(0, str(project_root))
 
@@ -26,11 +27,11 @@ logger = logging.getLogger(__name__)
 
 class AgentCommands:
     """Command handlers for agent-related operations."""
-
+    
     def __init__(self, messaging_service: ConsolidatedMessagingService):
         self.messaging_service = messaging_service
         self.logger = logging.getLogger(f"{__name__}.AgentCommands")
-
+    
     async def agent_status(self, ctx, agent_id: str = None) -> str:
         """Get status of agents."""
         try:
@@ -40,16 +41,7 @@ class AgentCommands:
                 return f"Agent {agent_id} status: {status}"
             else:
                 # Get all agents status
-                agents = [
-                    "Agent-1",
-                    "Agent-2",
-                    "Agent-3",
-                    "Agent-4",
-                    "agent-5",
-                    "agent-6",
-                    "Agent-7",
-                    "Agent-8",
-                ]
+                agents = ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "agent-5", "agent-6", "Agent-7", "Agent-8"]
                 statuses = []
                 for agent in agents:
                     status = await self._get_agent_status(agent)
@@ -58,7 +50,7 @@ class AgentCommands:
         except Exception as e:
             self.logger.error(f"Error getting agent status: {e}")
             return f"Error getting agent status: {e}"
-
+    
     async def _get_agent_status(self, agent_id: str) -> str:
         """Get status of a specific agent."""
         try:
@@ -66,7 +58,7 @@ class AgentCommands:
             agent_dir = Path(f"agent_workspaces/{agent_id}")
             if not agent_dir.exists():
                 return "Not found"
-
+            
             # Check for recent activity
             inbox_dir = agent_dir / "inbox"
             if inbox_dir.exists():
@@ -75,18 +67,20 @@ class AgentCommands:
                     latest = max(messages, key=lambda x: x.stat().st_mtime)
                     mtime = datetime.fromtimestamp(latest.stat().st_mtime)
                     return f"Active (last message: {mtime.strftime('%H:%M:%S')})"
-
+            
             return "Inactive"
         except Exception as e:
             return f"Error: {e}"
-
+    
     async def send_message(self, ctx, agent_id: str, message: str) -> str:
         """Send a message to an agent."""
         try:
             result = await self.messaging_service.send_message(
-                agent_id=agent_id, message=message, sender="Discord-Commander"
+                agent_id=agent_id,
+                message=message,
+                sender="Discord-Commander"
             )
-
+            
             if result.get("success"):
                 return f"Message sent to {agent_id}: {message}"
             else:
@@ -94,7 +88,7 @@ class AgentCommands:
         except Exception as e:
             self.logger.error(f"Error sending message: {e}")
             return f"Error sending message: {e}"
-
+    
     async def agent_coordinates(self, ctx, agent_id: str = None) -> str:
         """Get agent coordinates."""
         try:
@@ -106,16 +100,7 @@ class AgentCommands:
                     return f"No coordinates found for {agent_id}"
             else:
                 # Get all coordinates
-                agents = [
-                    "Agent-1",
-                    "Agent-2",
-                    "Agent-3",
-                    "Agent-4",
-                    "agent-5",
-                    "agent-6",
-                    "Agent-7",
-                    "Agent-8",
-                ]
+                agents = ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "agent-5", "agent-6", "Agent-7", "Agent-8"]
                 coords_list = []
                 for agent in agents:
                     coords = await self._get_agent_coordinates(agent)
@@ -125,13 +110,13 @@ class AgentCommands:
         except Exception as e:
             self.logger.error(f"Error getting coordinates: {e}")
             return f"Error getting coordinates: {e}"
-
-    async def _get_agent_coordinates(self, agent_id: str) -> str | None:
+    
+    async def _get_agent_coordinates(self, agent_id: str) -> Optional[str]:
         """Get coordinates for a specific agent."""
         try:
             coords_file = Path("cursor_agent_coords.json")
             if coords_file.exists():
-                with open(coords_file) as f:
+                with open(coords_file, 'r') as f:
                     coords_data = json.load(f)
                 return coords_data.get(agent_id)
         except Exception as e:
@@ -141,10 +126,10 @@ class AgentCommands:
 
 class SystemCommands:
     """Command handlers for system-related operations."""
-
+    
     def __init__(self):
         self.logger = logging.getLogger(f"{__name__}.SystemCommands")
-
+    
     async def system_status(self, ctx) -> str:
         """Get system status."""
         try:
@@ -153,18 +138,18 @@ class SystemCommands:
                 "python_version": f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}",
                 "discord_available": True,
                 "messaging_service": "Available",
-                "agent_workspaces": self._count_agent_workspaces(),
+                "agent_workspaces": self._count_agent_workspaces()
             }
-
+            
             status_text = "System Status:\n"
             for key, value in status.items():
                 status_text += f"{key}: {value}\n"
-
+            
             return status_text
         except Exception as e:
             self.logger.error(f"Error getting system status: {e}")
             return f"Error getting system status: {e}"
-
+    
     def _count_agent_workspaces(self) -> int:
         """Count active agent workspaces."""
         try:
@@ -174,7 +159,7 @@ class SystemCommands:
             return 0
         except Exception:
             return 0
-
+    
     async def project_info(self, ctx) -> str:
         """Get project information."""
         try:
@@ -183,18 +168,18 @@ class SystemCommands:
                 "version": "2.1.0",
                 "description": "Advanced AI Agent System with Code Quality Standards",
                 "total_files": self._count_project_files(),
-                "python_files": self._count_python_files(),
+                "python_files": self._count_python_files()
             }
-
+            
             info_text = "Project Information:\n"
             for key, value in info.items():
                 info_text += f"{key}: {value}\n"
-
+            
             return info_text
         except Exception as e:
             self.logger.error(f"Error getting project info: {e}")
             return f"Error getting project info: {e}"
-
+    
     def _count_project_files(self) -> int:
         """Count total project files."""
         try:
@@ -205,7 +190,7 @@ class SystemCommands:
             return count
         except Exception:
             return 0
-
+    
     def _count_python_files(self) -> int:
         """Count Python files."""
         try:
@@ -220,209 +205,130 @@ class SystemCommands:
 
 class SwarmCommands:
     """Command handlers for swarm-related operations."""
-
+    
     def __init__(self, messaging_service: ConsolidatedMessagingService):
         self.messaging_service = messaging_service
         self.logger = logging.getLogger(f"{__name__}.SwarmCommands")
-
+    
     async def swarm_status(self, ctx) -> str:
         """Get swarm status."""
         try:
-            agents = [
-                "Agent-1",
-                "Agent-2",
-                "Agent-3",
-                "Agent-4",
-                "agent-5",
-                "agent-6",
-                "Agent-7",
-                "Agent-8",
-            ]
+            agents = ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "agent-5", "agent-6", "Agent-7", "Agent-8"]
             swarm_info = []
-
+            
             for agent in agents:
                 status = await self._get_swarm_agent_status(agent)
                 swarm_info.append(f"{agent}: {status}")
-
+            
             return "Swarm Status:\n" + "\n".join(swarm_info)
         except Exception as e:
             self.logger.error(f"Error getting swarm status: {e}")
             return f"Error getting swarm status: {e}"
-
+    
     async def _get_swarm_agent_status(self, agent_id: str) -> str:
         """Get swarm status for a specific agent."""
         try:
             agent_dir = Path(f"agent_workspaces/{agent_id}")
             if not agent_dir.exists():
                 return "Not initialized"
-
+            
             # Check for recent activity
             inbox_dir = agent_dir / "inbox"
             if inbox_dir.exists():
                 messages = list(inbox_dir.glob("*.json"))
                 if messages:
                     return "Active"
-
+            
             return "Standby"
         except Exception:
             return "Unknown"
-
+    
     async def swarm_coordinate(self, ctx, message: str) -> str:
         """Send coordination message to all agents."""
         try:
-            agents = [
-                "Agent-1",
-                "Agent-2",
-                "Agent-3",
-                "Agent-4",
-                "agent-5",
-                "agent-6",
-                "Agent-7",
-                "Agent-8",
-            ]
+            agents = ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "agent-5", "agent-6", "Agent-7", "Agent-8"]
             results = []
-
+            
             for agent in agents:
                 result = await self.messaging_service.send_message(
                     agent_id=agent,
                     message=f"[SWARM COORDINATION] {message}",
-                    sender="Discord-Commander",
+                    sender="Discord-Commander"
                 )
                 results.append(f"{agent}: {'✓' if result.get('success') else '✗'}")
-
+            
             return "Swarm Coordination Results:\n" + "\n".join(results)
         except Exception as e:
             self.logger.error(f"Error in swarm coordination: {e}")
             return f"Error in swarm coordination: {e}"
 
 
-class DiscordCommandManager:
+class CommandManager:
     """Manages all Discord commands."""
-
-    def __init__(self, bot_core):
-        self.bot_core = bot_core
-        self.messaging_service = ConsolidatedMessagingService()
+    
+    def __init__(self, messaging_service: ConsolidatedMessagingService):
+        self.messaging_service = messaging_service
         self.command_registry = DiscordCommandRegistry()
-
+        
         # Initialize command handlers
-        self.agent_commands = AgentCommands(self.messaging_service)
+        self.agent_commands = AgentCommands(messaging_service)
         self.system_commands = SystemCommands()
-        self.swarm_commands = SwarmCommands(self.messaging_service)
-
+        self.swarm_commands = SwarmCommands(messaging_service)
+        
         # Register commands
         self._register_commands()
-
+    
     def _register_commands(self):
         """Register all available commands."""
         # Agent commands
         self.command_registry.register_command(
-            "agent_status", self.agent_commands.agent_status, "Get status of agents"
+            "agent_status", 
+            self.agent_commands.agent_status,
+            "Get status of agents"
         )
         self.command_registry.register_command(
-            "send_message", self.agent_commands.send_message, "Send message to an agent"
+            "send_message",
+            self.agent_commands.send_message,
+            "Send message to an agent"
         )
         self.command_registry.register_command(
-            "agent_coordinates", self.agent_commands.agent_coordinates, "Get agent coordinates"
+            "agent_coordinates",
+            self.agent_commands.agent_coordinates,
+            "Get agent coordinates"
         )
-
+        
         # System commands
         self.command_registry.register_command(
-            "system_status", self.system_commands.system_status, "Get system status"
+            "system_status",
+            self.system_commands.system_status,
+            "Get system status"
         )
         self.command_registry.register_command(
-            "project_info", self.system_commands.project_info, "Get project information"
+            "project_info",
+            self.system_commands.project_info,
+            "Get project information"
         )
-
+        
         # Swarm commands
         self.command_registry.register_command(
-            "swarm_status", self.swarm_commands.swarm_status, "Get swarm status"
+            "swarm_status",
+            self.swarm_commands.swarm_status,
+            "Get swarm status"
         )
         self.command_registry.register_command(
             "swarm_coordinate",
             self.swarm_commands.swarm_coordinate,
-            "Send coordination message to all agents",
+            "Send coordination message to all agents"
         )
-
-    def register_commands(self, bot):
-        """Register commands with Discord bot."""
-        if not bot:
-            return
-
-        # Add help command
-        @bot.command(name="help")
-        async def help_command(ctx):
-            """Show help information."""
-            help_text = """🤖 Discord Commander - Agent Control Hub
-
-**Available Commands:**
-- `!agent_status [agent_id]` - Get agent status
-- `!send_message <agent_id> <message>` - Send message to agent
-- `!swarm_status` - Get swarm coordination status
-- `!system_status` - Get system status
-- `!project_info` - Get project information
-- `!swarm_coordinate <message>` - Send coordination message to all agents
-- `!help` - Show this help message
-- `!ping` - Test bot responsiveness
-
-**Examples:**
-- `!send_message Agent-5 Check project status`
-- `!agent_status Agent-4`
-- `!swarm_coordinate All agents report status`
-"""
-            await ctx.send(help_text)
-
-        # Add ping command
-        @bot.command(name="ping")
-        async def ping_command(ctx):
-            """Test bot responsiveness."""
-            await ctx.send("🏓 Pong! Bot is responsive.")
-
-        # Add agent_status command
-        @bot.command(name="agent_status")
-        async def agent_status_command(ctx, agent_id: str = None):
-            """Get status of agents."""
-            result = await self.agent_commands.agent_status(ctx, agent_id)
-            await ctx.send(result)
-
-        # Add send_message command
-        @bot.command(name="send_message")
-        async def send_message_command(ctx, agent_id: str, *, message: str):
-            """Send message to an agent."""
-            result = await self.agent_commands.send_message(ctx, agent_id, message)
-            await ctx.send(result)
-
-        # Add swarm_status command
-        @bot.command(name="swarm_status")
-        async def swarm_status_command(ctx):
-            """Get swarm status."""
-            result = await self.swarm_commands.swarm_status(ctx)
-            await ctx.send(result)
-
-        # Add system_status command
-        @bot.command(name="system_status")
-        async def system_status_command(ctx):
-            """Get system status."""
-            result = await self.system_commands.system_status(ctx)
-            await ctx.send(result)
-
-        # Add project_info command
-        @bot.command(name="project_info")
-        async def project_info_command(ctx):
-            """Get project information."""
-            result = await self.system_commands.project_info(ctx)
-            await ctx.send(result)
-
-        # Add swarm_coordinate command
-        @bot.command(name="swarm_coordinate")
-        async def swarm_coordinate_command(ctx, *, message: str):
-            """Send coordination message to all agents."""
-            result = await self.swarm_commands.swarm_coordinate(ctx, message)
-            await ctx.send(result)
-
+    
     def get_command_handler(self, command_name: str):
         """Get command handler by name."""
         return self.command_registry.get_command(command_name)
-
-    def list_commands(self) -> list[str]:
+    
+    def list_commands(self) -> List[str]:
         """List all available commands."""
         return self.command_registry.list_commands()
+
+
+
+

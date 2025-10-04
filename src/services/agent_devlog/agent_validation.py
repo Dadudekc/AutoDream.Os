@@ -39,6 +39,10 @@ class AgentValidator:
             self.logger.error("Agent ID cannot be empty")
             return False
 
+        # Special handling for captain flag
+        if agent_id == "captain":
+            return True
+
         if agent_id not in self.valid_agents:
             self.logger.warning(f"Agent {agent_id} not in standard list")
             return True  # Allow custom agents
@@ -86,6 +90,10 @@ class AgentValidator:
 
     def get_agent_info(self, agent_id: str) -> dict[str, str]:
         """Get agent information."""
+        # Handle captain flag
+        if agent_id == "captain":
+            return {"id": "Agent-4", "name": "Captain Agent-4", "role": "CAPTAIN", "status": "active"}
+        
         return {"id": agent_id, "name": agent_id, "role": "AGENT", "status": "active"}
 
     def suggest_devlog_type(self, action: str, status: str) -> DevlogType:
@@ -101,7 +109,7 @@ class AgentValidator:
 
     def is_captain_agent(self, agent_id: str) -> bool:
         """Check if agent is captain."""
-        return agent_id == "Agent-4"
+        return agent_id in ["Agent-4", "captain"]
 
     def get_all_agents(self) -> list[str]:
         """Get all agent IDs."""

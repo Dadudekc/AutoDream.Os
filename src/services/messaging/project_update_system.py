@@ -213,7 +213,6 @@ class ProjectUpdateSystem:
                     value = ", ".join(str(v) for v in value)
                 message += f"\n  • {key}: {value}"
 
-        message += "\n\n📝 DISCORD DEVLOG REMINDER: Create a Discord devlog for this action in devlogs/ directory"
         message += "\n============================================================"
 
         return message

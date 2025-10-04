@@ -1,0 +1,12 @@
+{
+  "proposal_id": "PROP_20251003_185710_Agent-5",
+  "agent_id": "Agent-5",
+  "category": "protocols",
+  "title": "Predictive Task Assignment Protocol",
+  "description": "Use historical data and agent performance patterns to proactively assign tasks before bottlenecks occur",
+  "rationale": "Reactive task assignment creates delays - predictive assignment keeps agents optimally utilized",
+  "priority": "NORMAL",
+  "timestamp": "2025-10-03T18:57:10.769226",
+  "status": "PENDING_CAPTAIN_REVIEW",
+  "category_description": "Communication protocols and coordination procedures"
+}

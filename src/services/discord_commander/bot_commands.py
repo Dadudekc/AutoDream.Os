@@ -21,6 +21,8 @@ try:
 except ImportError:
     DISCORD_AVAILABLE = False
 
+from .webhook_manager import WebhookManager
+
 logger = logging.getLogger(__name__)
 
 
@@ -31,6 +33,13 @@ class DiscordBotCommands:
         """Initialize Discord bot commands"""
         self.bot_core = bot_core
         self.logger = logging.getLogger(__name__)
+        
+        # Initialize webhook manager
+        try:
+            self.webhook_manager = WebhookManager(bot_core.bot) if hasattr(bot_core, 'bot') else None
+        except Exception as e:
+            self.logger.warning(f"Webhook manager not available: {e}")
+            self.webhook_manager = None
 
     async def handle_agent_status(self, ctx, agent_id: str = None) -> str:
         """Handle agent status command"""
@@ -200,11 +209,65 @@ Status: {"✅ GOOD" if health >= 60 else "⚠️ NEEDS ATTENTION"}
             except Exception as e:
                 await interaction.followup.send(f"Error: {e}")
 
+        # Register webhook management commands
+        @app_commands.command(name="create_webhook", description="Create webhook for channel")
+        @app_commands.describe(channel_id="Channel ID", webhook_name="Webhook name (optional)")
+        async def create_webhook_command(interaction: discord.Interaction, channel_id: int, webhook_name: str = None):
+            """Handle create webhook command"""
+            try:
+                await interaction.response.defer()
+                if self.webhook_manager:
+                    webhook_url = await self.webhook_manager.create_webhook(channel_id, webhook_name)
+                    if webhook_url:
+                        await interaction.followup.send(f"✅ Created webhook: {webhook_url[:50]}...")
+                    else:
+                        await interaction.followup.send("❌ Failed to create webhook")
+                else:
+                    await interaction.followup.send("❌ Webhook manager not available")
+            except Exception as e:
+                await interaction.followup.send(f"Error: {e}")
+
+        @app_commands.command(name="provision_agent", description="Provision webhook for agent")
+        @app_commands.describe(agent_id="Agent ID (e.g., Agent-7)")
+        async def provision_agent_command(interaction: discord.Interaction, agent_id: str):
+            """Handle provision agent webhook command"""
+            try:
+                await interaction.response.defer()
+                if self.webhook_manager:
+                    webhook_url = await self.webhook_manager.provision_agent_webhook(agent_id)
+                    if webhook_url:
+                        await interaction.followup.send(f"✅ Provisions webhook for {agent_id}: {webhook_url[:50]}...")
+                    else:
+                        await interaction.followup.send(f"❌ Failed to provision webhook for {agent_id}")
+                else:
+                    await interaction.followup.send("❌ Webhook manager not available")
+            except Exception as e:
+                await interaction.followup.send(f"Error: {e}")
+
+        @app_commands.command(name="provision_all", description="Provision webhooks for all agents")
+        async def provision_all_command(interaction: discord.Interaction):
+            """Handle provision all webhooks command"""
+            try:
+                await interaction.response.defer()
+                if self.webhook_manager:
+                    await interaction.followup.send("🔄 Provisioning webhooks for all agents...")
+                    results = await self.webhook_manager.provision_all_agent_webhooks()
+                    success_count = sum(1 for url in results.values() if url)
+                    await interaction.followup.send(f"✅ Provisioned {success_count}/8 agent webhooks")
+                
+                else:
+                    await interaction.followup.send("❌ Webhook manager not available")
+            except Exception as e:
+                await interaction.followup.send(f"Error: {e}")
+
         # Add commands to bot tree
         bot.tree.add_command(agent_status_command)
         bot.tree.add_command(send_message_command)
         bot.tree.add_command(swarm_status_command)
         bot.tree.add_command(activate_agent_command)
         bot.tree.add_command(help_command)
+        bot.tree.add_command(create_webhook_command)
+        bot.tree.add_command(provision_agent_command)
+        bot.tree.add_command(provision_all_command)
 
         self.logger.info("Discord bot commands registered successfully")

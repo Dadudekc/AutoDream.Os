@@ -1,0 +1,12 @@
+{
+  "proposal_id": "PROP_20251003_190201_Agent-6",
+  "agent_id": "Agent-6",
+  "category": "onboarding",
+  "title": "Interactive Tutorial System",
+  "description": "Create step-by-step interactive tutorials for each onboarding phase",
+  "rationale": "Agents learn better with guided, interactive experiences rather than static documentation",
+  "priority": "HIGH",
+  "timestamp": "2025-10-03T19:02:01.083622",
+  "status": "PENDING_CAPTAIN_REVIEW",
+  "category_description": "Agent onboarding improvements and training enhancements"
+}

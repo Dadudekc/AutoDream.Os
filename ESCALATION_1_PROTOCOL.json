@@ -1,0 +1,109 @@
+{
+  "escalation_1_protocol": {
+    "trigger_conditions": {
+      "false_positive_reports": [
+        "Agent reports task complete but task not actually completed",
+        "Agent reports 'system working' but system broken",
+        "Agent reports 'files removed' but files still present",
+        "Agent reports 'issue fixed' but issue persists"
+      ],
+      "verification_failure": [
+        "Captain verification reveals false reporting",
+        "System testing shows agent report incorrect",
+        "Manual inspection contradicts agent claims"
+      ]
+    },
+    
+    "escalation_procedures": {
+      "level_1": {
+        "name": "False Report Correction",
+        "actions": [
+          "Captain sends immediate correction order",
+          "Agent must acknowledge false report",
+          "Agent must provide actual status",
+          "Agent must re-execute with verification"
+        ],
+        "timeout": "5 minutes",
+        "retry_limit": 2
+      },
+      
+      "level_2": {
+        "name": "Direct Intervention", 
+        "actions": [
+          "Captain takes direct control of task",
+          "Agent demoted to observer status",
+          "Captain executes task personally",
+          "Agent learns from Captain execution"
+        ],
+        "timeout": "10 minutes",
+        "trigger": "Level 1 failure"
+      },
+      
+      "level_3": {
+        "name": "Agent Accountability",
+        "actions": [
+          "Agent capability assessment",
+          "Role reassignment consideration", 
+          "Training protocol activation",
+          "System integrity verification"
+        ],
+        "timeout": "15 minutes",
+        "trigger": "Level 2 failure"
+      }
+    },
+    
+    "verification_requirements": {
+      "devlog_system": {
+        "test_commands": [
+          "python src/services/agent_devlog_posting.py --agent captain --action 'ESCALATION 1 TEST'",
+          "Check devlogs/ directory for new file",
+          "Verify Discord posting status",
+          "Confirm no error messages"
+        ],
+        "success_criteria": [
+          "Devlog file created in devlogs/",
+          "No error messages in output",
+          "Discord webhook responds (if configured)",
+          "File timestamp matches execution time"
+        ]
+      },
+      
+      "file_operations": {
+        "test_commands": [
+          "Count files before operation",
+          "Execute file operation", 
+          "Count files after operation",
+          "Verify specific files removed/added"
+        ],
+        "success_criteria": [
+          "File count changed as expected",
+          "Specific target files absent/present",
+          "No orphaned temporary files",
+          "Directory structure intact"
+        ]
+      }
+    },
+    
+    "reporting_standards": {
+      "required_format": "✅ [QUANTITY] [UNIT] [ACTION] [VERIFICATION]",
+      "examples": [
+        "✅ 1 devlog file created and verified in devlogs/ directory",
+        "✅ 78 CAPTAIN files removed from root, verified by directory scan",
+        "✅ 0 error messages in devlog posting, verified by test execution",
+        "✅ 3 configuration issues fixed, verified by system test"
+      ],
+      "forbidden_format": [
+        "❌ 'Devlog posting works' (no verification)",
+        "❌ 'Task complete' (no details)",
+        "❌ 'Issue resolved' (no evidence)",
+        "❌ 'System operational' (no testing)"
+      ]
+    },
+    
+    "escalation_commands": {
+      "immediate_correction": "ESCALATION 1 - FALSE REPORT DETECTED: Your report contradicted by verification. Acknowledge false report immediately and provide actual status with verification.",
+      "direct_intervention": "ESCALATION 1 LEVEL 2 - CAPTAIN TAKING CONTROL: Agent demoted to observer. Captain executing task directly. Learn from Captain execution.",
+      "accountability": "ESCALATION 1 LEVEL 3 - AGENT ACCOUNTABILITY: Capability assessment required. Role reassignment under consideration."
+    }
+  }
+}

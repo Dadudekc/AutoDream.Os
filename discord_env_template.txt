@@ -1,0 +1,38 @@
+# Discord Configuration Template - Agent-6 QA Fixed
+# ================================================
+# Agent-6 Quality Assurance: Duplicates reduced, Discord IDs fixed, SSOT routing added
+# Copy this to .env and configure your Discord settings
+
+# Primary Discord webhook URL (routes to dreamscape devlog channel)
+DISCORD_WEBHOOK_URL=https://discordapp.com/api/webhooks/1404867570510733339/4oRJJ0cKcNQgFgE7n6B2D9L2N5H8M1Q4Y7U0A3F6I9L2O5R8T1V4X7Z0B3E6H9K2M5P8S1T4W7Z
+
+# Discord Bot Configuration
+DISCORD_BOT_TOKEN=your_bot_token_here
+DISCORD_CHANNEL_ID=1387221819966230528
+DISCORD_GUILD_ID=your_guild_id_here
+
+# Agent-specific Discord channels (FIXED IDs)
+DISCORD_CHANNEL_AGENT_1=1387514611351421079
+DISCORD_CHANNEL_AGENT_2=1387514933041696900
+DISCORD_CHANNEL_AGENT_3=1387515009621430392
+DISCORD_CHANNEL_AGENT_4=1387514978348826664
+DISCORD_CHANNEL_AGENT_5=1415916580910665758
+DISCORD_CHANNEL_AGENT_6=1415916621847072828
+DISCORD_CHANNEL_AGENT_7=1415916665283022980
+DISCORD_CHANNEL_AGENT_8=1415916707704213565
+
+# Agent-specific Discord webhooks (SSOT Priority Routing)
+DISCORD_WEBHOOK_AGENT_7=https://discord.com/api/webhooks/YOUR_AGENT7_WEBHOOK_HERE
+
+# SSOT Discord Manager Integration (Agent-6 QA requirement)
+DEVLOG_POST_VIA_MANAGER=true
+
+# Application Configuration
+APP_NAME=Agent_Cellphone_V2_Repository
+APP_VERSION=2.0
+ENVIRONMENT=development
+DEBUG_MODE=false
+
+# Cursor Task Database (Agent-6 QA implementation)
+CURSOR_DB_PATH=unified.db
+CURSOR_MEMORY_PATH=runtime/memory

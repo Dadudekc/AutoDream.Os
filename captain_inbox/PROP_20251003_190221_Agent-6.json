@@ -1,0 +1,12 @@
+{
+  "proposal_id": "PROP_20251003_190221_Agent-6",
+  "agent_id": "Agent-6",
+  "category": "workcycles",
+  "title": "Automated Progress Tracking",
+  "description": "Implement real-time progress tracking for all workflow cycles with visual indicators",
+  "rationale": "Agents and Captain can better monitor system health and identify bottlenecks immediately",
+  "priority": "NORMAL",
+  "timestamp": "2025-10-03T19:02:21.720290",
+  "status": "PENDING_CAPTAIN_REVIEW",
+  "category_description": "Workflow cycle optimizations and protocol improvements"
+}

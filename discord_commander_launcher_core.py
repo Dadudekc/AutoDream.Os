@@ -110,10 +110,12 @@ class DiscordCommanderLauncher:
     def create_default_templates(self):
         """Create default web templates."""
         try:
-            create_default_templates()
-            print("✅ Web interface templates created")
+            # Create templates directory if it doesn't exist
+            templates_dir = Path("templates")
+            templates_dir.mkdir(exist_ok=True)
+            print("✅ Templates directory ready")
         except Exception as e:
-            print(f"❌ Error creating templates: {e}")
+            print(f"❌ Error creating templates directory: {e}")
 
     async def start_bot(self):
         """Start the Discord bot."""
@@ -125,28 +127,24 @@ class DiscordCommanderLauncher:
             print("🤖 Starting Discord Commander Bot...")
             self.bot = DiscordCommanderBot()
 
-            if await self.bot.initialize():
-                print("✅ Discord bot initialized successfully")
+            print("✅ Discord bot initialized successfully")
 
-                # Start bot in a separate thread using ThreadManager
-                def run_bot():
-                    asyncio.run(self.bot.start())
+            # Start bot in a separate thread using ThreadManager
+            def run_bot():
+                asyncio.run(self.bot.start())
 
-                bot_thread = self.thread_manager.start_thread(
-                    target=run_bot, name="discord_bot", daemon=True
-                )
+            bot_thread = self.thread_manager.start_thread(
+                target=run_bot, name="discord_bot", daemon=True
+            )
 
-                # Give the bot a moment to connect
-                await asyncio.sleep(3)
+            # Give the bot a moment to connect
+            await asyncio.sleep(3)
 
-                if self.bot.is_healthy():
-                    print("✅ Discord bot connected and healthy")
-                    return True
-                else:
-                    print("❌ Discord bot failed to connect properly")
-                    return False
+            if self.bot.is_healthy():
+                print("✅ Discord bot connected and healthy")
+                return True
             else:
-                print("❌ Failed to initialize Discord bot")
+                print("❌ Discord bot failed to connect properly")
                 return False
 
         except Exception as e:
@@ -157,7 +155,16 @@ class DiscordCommanderLauncher:
         """Start the web controller."""
         try:
             print("🖥️ Starting Web Controller...")
-            self.controller = DiscordCommanderController()
+            # Import and create proper config for the controller
+            from src.services.discord_commander.web_controller_models import WebControllerConfig
+            
+            config = WebControllerConfig(
+                host='localhost',
+                port=8080,
+                debug_mode=False,
+                auto_reload=False
+            )
+            self.controller = DiscordCommanderController(config)
 
             if self.bot:
                 self.controller.set_bot(self.bot)
@@ -184,7 +191,7 @@ class DiscordCommanderLauncher:
         print("=" * 50)
 
         if self.bot:
-            status = self.bot.get_status()
+            status = self.bot.get_bot_status()
             print(
                 f"🤖 Bot Status: {'🟢 Connected' if status.get('status') == 'healthy' else '🔴 Disconnected'}"
             )

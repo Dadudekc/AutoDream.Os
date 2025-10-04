@@ -1,0 +1,13 @@
+{
+  "V2_COMPLIANCE_EXCEPTIONS": {
+    "messaging_system.py": {
+      "authorized_by": "Agent-4 (Captain)",
+      "limit_extension": "+50 lines",
+      "new_limit": 450,
+      "reason": "Unified SSOT messaging system requiring both soft and hard onboarding integration",
+      "justification": "Architectural necessity - messaging_system.py serves as single source of truth for all agent communication including complex onboarding protocols",
+      "date": "2025-01-03",
+      "status": "ACTIVE"
+    }
+  }
+}

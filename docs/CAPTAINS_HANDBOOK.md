@@ -1,7 +1,7 @@
 # 📋 Captain Agent-4 Handbook - V2_SWARM Operating Orders
 
-**Version:** 2.1
-**Date:** 2025-10-01
+**Version:** 2.3
+**Date:** 2025-01-03
 **Agent:** Agent-4 (Captain - Strategic Oversight & Emergency Intervention)
 **Status:** ACTIVE
 
@@ -29,6 +29,14 @@
 - **Decision Recording**: Document all major Captain decisions with rationale
 - **Screenshot Management**: Automated visual coordination via Consolidated Messaging System
 
+### **📤 Unified Messaging System (NEW)**
+- **Primary Tool**: `messaging_system.py` (V2 compliant, <400 lines)
+- **Features**: CLI interface, execution mode, PyAutoGUI automation, coordination logging
+- **Usage**: `python messaging_system.py <from_agent> <to_agent> "<message>" <priority> [--execution-mode]`
+- **Agent Instructions**: All messages include embedded response instructions
+- **Execution Mode**: Direct commands without coordination theater
+- **Broadcast Capability**: Send to multiple agents simultaneously
+
 ---
 
 ## 🚀 **OPERATING ORDER v1.0 - UNIVERSAL PROTOCOLS**
@@ -49,6 +57,25 @@ CYCLE_DONE Agent-8 c-a1b2c3d4e5f6 ["Mailbox processed: 3", "Task claimed: V3-001
 - Monitor cycle completion across all agents
 - Ensure proper hand-off protocols are followed
 - Track agent performance and efficiency
+
+### **🎭 EXECUTION_MODE Protocol (NEW)**
+**Purpose**: Prevent coordination theater and enforce direct execution
+
+**Format**: `--execution-mode` flag with messaging_system.py
+
+**When Used**: When agents show signs of coordination loops or theater
+
+**Hard Stop Rules**:
+- Only 1 acknowledgment allowed
+- Next action must be execution (no nested confirms)
+- Reports must contain measurable outcomes
+- Format: `[QUANTITY] [UNIT] [ACTION] [VERIFICATION]`
+
+**Captain Actions**:
+- Monitor for theater violations (>3 confirmations)
+- Deploy Execution Mode when needed
+- Enforce outcome-based reporting
+- Escalate to ESCALATION_1 if false reports detected
 - Manage automated screenshot triggers via Consolidated Messaging System
 
 ### **🚫 BLOCKER Escalation System**
@@ -285,6 +312,140 @@ CAPTAIN_OVERRIDE Agent-8 "SWITCH_TO_SSOT_MANAGER" "Critical SSOT violation" "EME
 
 ---
 
+## 🔧 **DISCORD INFRASTRUCTURE MANAGEMENT (CRITICAL)**
+
+### **Environment Inference Agent Tool**
+**Purpose**: Discord infrastructure validation and agent routing management  
+**Location**: `tools/env_inference_tool.py`  
+**Critical for**: Captain succession, Discord coordination, devlog system validation
+
+#### **Tool Capabilities:**
+- **Environment Analysis**: Reverse-engineers .env configuration using intelligent pattern detection
+- **Discord Routing Validation**: Tests Agent-7 (and all agents) devlog posting functionality  
+- **Configuration Discovery**: Identifies all agent channels, webhooks, and Discord settings
+- **Infrastructure Health Check**: Validates complete Discord coordination network
+- **SSOT Integration Verification**: Confirms Discord Manager routing functionality
+
+#### **When to Use:**
+- **Discord devlog reporting issues**
+- **Agent devlog posting failures** 
+- **Channel routing problems**
+- **New Captain onboarding**
+- **Weekly infrastructure validation**
+- **Emergency Discord troubleshooting**
+
+#### **Command Execution:**
+```bash
+# Set Python path for proper imports
+$env:PYTHONPATH="."
+
+# Run environment inference tool
+python tools/env_inference_tool.py
+```
+
+#### **Expected Success Indicators:**
+- ✅ Agent Channels: 8 configured  
+- ✅ Agent Webhooks: 8 configured
+- ✅ Agent-7 Status: webhook_configured
+- ✅ Routing Test: SUCCESS
+
+### **Comprehensive Agent Channel Testing**
+**Purpose**: Validate all agent Discord channels operational  
+**Location**: `test_all_agent_channels.py`
+
+#### **Execute Complete Test:**
+```bash
+python test_all_agent_channels.py
+```
+
+#### **Success Thresholds:**
+- **🎉 Perfect**: 8/8 agents (100%) - All channels operational
+- **✅ Acceptable**: 6/8 agents (75%) - Most channels operational  
+- **⚠️ Caution**: 3/8 agents (37%) - Partial infrastructure failure
+- **❌ Emergency**: <3/8 agents - Critical infrastructure failure
+
+### **Emergency Response Procedures**
+
+#### **Mass Agent Failure (>5 agents):**
+1. Check Discord server status
+2. Verify bot token validity  
+3. Test default webhook functionality
+4. Escalate to Discord server administrator
+
+#### **Single Agent Failure:**
+1. Check agent-specific webhook configuration
+2. Verify channel permissions
+3. Test webhook URL validity in Discord
+4. Recreate agent webhook if necessary
+
+### **Captain Succession Requirements**
+
+#### **Incoming Captain (First 24 hours):**
+- [ ] Run `tools/env_inference_tool.py`
+- [ ] Verify 8/8 agent channels operational
+- [ ] Test Agent-7 devlog posting specifically  
+- [ ] Confirm SSOT routing working
+- [ ] Document configuration status
+
+#### **Outgoing Captain (Before handoff):**
+- [ ] Document Discord infrastructure status
+- [ ] Provide inference tool execution results
+- [ ] List any known configuration issues
+- [ ] Share webhook recreation procedures
+- [ ] Transfer Discord administrative access
+
+---
+
+## 🎮 **DISCORD SSOT INTEGRATION (NEW)**
+
+### **Single Source of Truth Discord Management**
+- **Primary System**: Discord Manager with SSOT client (`discord_post_client.py`)
+- **Routing Priority**: Agent webhook → Bot method → Default webhook
+- **Legacy Support**: Deprecated `discord_devlog_service.py` with rollback capability
+
+### **Environment Control**
+```bash
+# Enable SSOT Discord routing (recommended)
+DEVLOG_POST_VIA_MANAGER=true
+
+# Disable SSOT (use legacy for rollback)
+DEVLOG_POST_VIA_MANAGER=false
+```
+
+### **Agent-Specific Webhooks**
+- **Agent-7**: `DISCORD_WEBHOOK_AGENT_7=https://discordapp.com/api/webhooks/...`
+- **Captain**: `DISCORD_WEBHOOK_AGENT_4=https://discordapp.com/api/webhooks/...`
+- **All Agents**: Automatic provisioning via CLI tool
+
+### **Channel Routing Resolution**
+- **Problem**: Devlogs routing to "dreamscape devlog" instead of agent channels
+- **Solution**: SSOT client prioritizes agent-specific webhooks
+- **Verification**: Check logs for "SSOT posting" vs "default webhook" routing
+
+### **SSOT Commands**
+```bash
+# Test SSOT routing
+python src/services/discord_commander/discord_post_client.py
+
+# Provision agent webhooks
+python tools/discord_webhook_cli.py provision-agent Agent-7
+
+# Enable SSOT in devlog posting
+export DEVLOG_POST_VIA_MANAGER=true
+python src/services/agent_devlog_posting.py --agent captain --action "Testing SSOT routing"
+```
+
+### **Rollback Procedure**
+```bash
+# Immediate rollback to legacy Discord service
+export DEVLOG_POST_VIA_MANAGER=false
+
+# Verify rollback
+python src/services/agent_devlog_posting.py --agent captain --action "Rollback test"
+```
+
+---
+
 ## 🔧 **CAPTAIN COMMANDS & TOOLS**
 
 ### **Role Assignment Commands**
@@ -465,6 +626,6 @@ CAPTAIN NOTES:
 
 **This handbook provides comprehensive guidance for Captain Agent-4 operations, including Operating Order v1.0 universal protocols and Operating Order v2.0 dynamic role assignment procedures.**
 
-**Last Updated**: 2025-01-16
-**Next Review**: 2025-02-16
+**Last Updated**: 2025-10-03
+**Next Review**: 2025-11-03
 **Authority**: Captain Agent-4

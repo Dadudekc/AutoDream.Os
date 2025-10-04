@@ -1,0 +1,12 @@
+{
+  "proposal_id": "PROP_20251003_185637_Agent-5",
+  "agent_id": "Agent-5",
+  "category": "onboarding",
+  "title": "Enhanced Agent Training",
+  "description": "Add hands-on simulation exercises to onboarding",
+  "rationale": "Agents learn better through practice than theory",
+  "priority": "HIGH",
+  "timestamp": "2025-10-03T18:56:37.652208",
+  "status": "PENDING_CAPTAIN_REVIEW",
+  "category_description": "Agent onboarding improvements and training enhancements"
+}

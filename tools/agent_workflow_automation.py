@@ -155,7 +155,6 @@ __all__ = {python_files}
 
 {content}
 
-📝 **DISCORD DEVLOG REMINDER: Create a Discord devlog for this action in devlogs/ directory**
 """
 
             filepath.write_text(devlog_content)

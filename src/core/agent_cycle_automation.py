@@ -181,7 +181,6 @@ class AgentCycleAutomation:
 - Timestamp generation
 - Status tracking
 
-**📝 DISCORD DEVLOG REMINDER: Create a Discord devlog for this action in devlogs/ directory**
 
 ---
 *Agent-{self.agent_id} - Automated Cycle Complete*

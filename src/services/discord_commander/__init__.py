@@ -16,15 +16,22 @@ Usage:
     await bot.initialize()
 """
 
-from .bot import DiscordCommanderBot
-from .commands import AgentCommands, CommandManager, SwarmCommands, SystemCommands
 from .core import (
-    DiscordCommandRegistry,
     DiscordConfig,
     DiscordConnectionManager,
+    DiscordCommandRegistry,
     DiscordEventManager,
-    DiscordStatusMonitor,
+    DiscordStatusMonitor
 )
+
+from .commands import (
+    AgentCommands,
+    SystemCommands,
+    SwarmCommands,
+    CommandManager
+)
+
+from .bot import DiscordCommanderBot
 
 __all__ = [
     "DiscordConfig",
@@ -33,12 +40,16 @@ __all__ = [
     "DiscordEventManager",
     "DiscordStatusMonitor",
     "AgentCommands",
-    "SystemCommands",
+    "SystemCommands", 
     "SwarmCommands",
     "CommandManager",
-    "DiscordCommanderBot",
+    "DiscordCommanderBot"
 ]
 
 __version__ = "2.0.0"
 __author__ = "Agent-2 (Architecture & Design Specialist)"
 __description__ = "V2 Compliant Discord Commander System"
+
+
+
+

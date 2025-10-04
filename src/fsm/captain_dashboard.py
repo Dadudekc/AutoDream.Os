@@ -193,7 +193,7 @@ Please respond immediately to confirm you are active and operational.
 
 🚨 This message was sent with high priority to bypass normal message queue.
 
-📝 DISCORD DEVLOG REMINDER: Create a Discord devlog for this action in devlogs/ directory"""
+"""
 
 
 def get_captain_dashboard() -> CaptainDashboard:

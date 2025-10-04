@@ -1,0 +1,30 @@
+[
+  {
+    "timestamp": "2025-10-03T17:55:23.207197",
+    "agent": "Agent-7",
+    "message": "Acknowledged acknowledged confirmed",
+    "violation_type": "acknowledgment_chain",
+    "theater_count": 1
+  },
+  {
+    "timestamp": "2025-10-03T18:01:24.396842",
+    "agent": "Agent-7",
+    "message": "Acknowledged acknowledged confirmed",
+    "violation_type": "acknowledgment_chain",
+    "theater_count": 1
+  },
+  {
+    "timestamp": "2025-10-03T18:03:06.549115",
+    "agent": "Agent-7",
+    "message": "Acknowledged acknowledged confirmed",
+    "violation_type": "acknowledgment_chain",
+    "theater_count": 1
+  },
+  {
+    "timestamp": "2025-10-03T18:03:36.847475",
+    "agent": "Agent-7",
+    "message": "Acknowledged acknowledged confirmed",
+    "violation_type": "acknowledgment_chain",
+    "theater_count": 1
+  }
+]

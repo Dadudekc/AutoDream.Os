@@ -139,9 +139,8 @@ validation:
       - "acknowledged acknowledged"
       - "confirmed confirmed"
       - "status status"
-      - "ultimate ultimate"
+      - "ultimate ultimate" 
       - "definitive definitive"
-      
     meta_reporting:
       - "coordination status"
       - "acknowledgment confirmed"

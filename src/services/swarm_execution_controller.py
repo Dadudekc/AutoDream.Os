@@ -51,12 +51,12 @@ class SwarmExecutionController:
         self.theater_violations = 0
         
     def _load_execution_protocol(self) -> Dict[str, Any]:
-        """Load execution mode protocol from YAML config."""
-        protocol_file = self.project_root / "EXECUTION_MODE_PROTOCOL.yaml"
+        """Load execution mode protocol from JSON config."""
+        protocol_file = self.project_root / "execution_protocol_config.json"
         
         if protocol_file.exists():
             with open(protocol_file, 'r') as f:
-                return yaml.safe_load(f)
+                return json.load(f)
         
         # Default protocol if file not found
         return {

@@ -162,7 +162,6 @@ Priority: {priority}
 Tags: GENERAL
 ------------------------------------------------------------
 {message}
-📝 DISCORD DEVLOG REMINDER: Create a Discord devlog for this action in devlogs/ directory
 ------------------------------------------------------------
 {quality_guidelines}
 ------------------------------------------------------------

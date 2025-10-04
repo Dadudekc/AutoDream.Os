@@ -1,0 +1,40 @@
+{
+  "id": "consult_20251003_180146",
+  "request": {
+    "question": "Discord system routing issues affecting agent communication",
+    "template": "crisis_response",
+    "context": "emergency",
+    "timestamp": "2025-10-03T18:01:46.966590",
+    "request_id": "consult_20251003_180146",
+    "template_info": {
+      "name": "Crisis Response",
+      "description": "Emergency consultation for critical issues",
+      "context": "system_health",
+      "output_format": "action_plan"
+    }
+  },
+  "result": {
+    "template": "crisis_response",
+    "question": "Discord system routing issues affecting agent communication",
+    "response": {
+      "type": "crisis_response",
+      "severity": "medium",
+      "immediate_actions": [
+        "Assess system health and stability",
+        "Identify root cause of crisis",
+        "Implement containment measures",
+        "Activate emergency protocols if needed"
+      ],
+      "recovery_plan": [
+        "Document crisis details and timeline",
+        "Implement fixes and safeguards",
+        "Review and update crisis response procedures",
+        "Conduct post-crisis analysis"
+      ],
+      "confidence": "high"
+    },
+    "timestamp": "2025-10-03T18:01:46.966590",
+    "status": "completed"
+  },
+  "created_at": "2025-10-03T18:01:46.966590"
+}

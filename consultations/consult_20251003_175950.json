@@ -1,0 +1,50 @@
+{
+  "id": "consult_20251003_175950",
+  "request": {
+    "question": "What should be our next priority for the project?",
+    "template": "priority_guidance",
+    "context": "general",
+    "timestamp": "2025-10-03T17:59:50.845354",
+    "request_id": "consult_20251003_175950",
+    "template_info": {
+      "name": "Priority Guidance",
+      "description": "Strategic guidance for task prioritization and resource allocation",
+      "context": "project_analysis",
+      "output_format": "recommendations",
+      "use_cases": [
+        "Task prioritization decisions",
+        "Resource allocation planning",
+        "Sprint planning and backlog management",
+        "Agent workload balancing"
+      ],
+      "input_requirements": [
+        "Current project status",
+        "Available resources",
+        "Timeline constraints",
+        "Quality requirements"
+      ]
+    }
+  },
+  "result": {
+    "template": "priority_guidance",
+    "question": "What should be our next priority for the project?",
+    "response": {
+      "type": "priority_guidance",
+      "recommendations": [
+        "Focus on high-impact, low-effort tasks first",
+        "Address critical system issues before feature development",
+        "Prioritize V2 compliance and quality gates",
+        "Consider agent workload balancing"
+      ],
+      "next_steps": [
+        "Review current task backlog",
+        "Assess agent availability and capabilities",
+        "Implement priority matrix for task selection"
+      ],
+      "confidence": "high"
+    },
+    "timestamp": "2025-10-03T17:59:50.845354",
+    "status": "completed"
+  },
+  "created_at": "2025-10-03T17:59:50.845354"
+}

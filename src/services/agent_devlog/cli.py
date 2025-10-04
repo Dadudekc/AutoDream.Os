@@ -8,6 +8,7 @@ V2 Compliant: ≤400 lines, focused CLI logic
 """
 
 import asyncio
+import argparse
 from argparse import ArgumentParser
 
 from .devlog_poster import AgentDevlogPoster
@@ -24,14 +25,20 @@ class AgentDevlogCLI:
         """Create argument parser"""
         parser = ArgumentParser(
             description="Agent Devlog Posting Service - Local File Storage Only",
-            epilog="🐝 WE ARE SWARM - Agent Devlog Posting System (LOCAL ONLY)",
+            epilog="🐝 WE ARE SWARM - Agent Devlog Posting System (LOCAL ONLY)\n\n" +
+                   "📖 CAPTAIN USAGE:\n" +
+                   "python src/services/agent_devlog_posting.py --agent captain --action 'YOUR ACTION HERE'\n" +
+                   "python src/services/agent_devlog_posting.py --agent Agent-4 --action 'YOUR ACTION HERE'\n\n" +
+                   "🔍 For detailed help: --show-help",
+            formatter_class=argparse.RawDescriptionHelpFormatter
         )
 
         # Main action group
-        action_group = parser.add_mutually_exclusive_group(required=True)
+        action_group = parser.add_mutually_exclusive_group(required=False)
 
         # Post devlog
-        action_group.add_argument("--agent", "-a", help="Agent ID (Agent-1 through Agent-8)")
+        action_group.add_argument("--agent", "-a", 
+                                help="Agent ID (Agent-1 through Agent-8, or 'captain' for Agent-4)")
 
         # Search devlogs
         action_group.add_argument("--search", "-s", help="Search devlogs by query")
@@ -80,39 +87,63 @@ class AgentDevlogCLI:
     def show_help(self) -> None:
         """Show detailed help"""
         help_text = """
-🤖 Agent Devlog Posting Service - Detailed Help
-===============================================
+🤖 Agent Devlog Posting Service - CAPTAIN'S GUIDE
+================================================
 
-OVERVIEW:
-This service allows agents to post devlogs to LOCAL FILES only.
-NO Discord dependency - completely independent system.
+🎯 CAPTAIN QUICK START:
+python src/services/agent_devlog_posting.py --agent captain --action "YOUR ACTION DESCRIPTION HERE"
 
-AGENT FLAGS:
+🔧 CAPTAIN USAGE PATTERNS:
+
+1. EXECUTION MODE PROTOCOL (Captain Direct Action):
+   python src/services/agent_devlog_posting.py --agent captain --action "EXECUTION MODE PROTOCOL! Captain Agent-4 taking direct action. [DESCRIBE ACTION]"
+
+2. Mission Reports:
+   python src/services/agent_devlog_posting.py --agent captain --action "Mission Report: [DESCRIBE MISSION STATUS]"
+
+3. Status Updates:
+   python src/services/agent_devlog_posting.py --agent captain --action "Status Update: [DESCRIBE CURRENT STATUS]"
+
+4. Emergency Communications:
+   python src/services/agent_devlog_posting.py --agent captain --action "EMERGENCY: [DESCRIBE EMERGENCY]"
+
+📋 AGENT IDENTIFICATION:
+- captain: Captain Agent-4 (Quality Assurance Specialist) - DEFAULT CAPTAIN FLAG
+- Agent-4: Direct Agent-4 reference (same as captain)
 - Agent-1: Integration & Core Systems Specialist
 - Agent-2: Architecture & Design Specialist
 - Agent-3: Infrastructure & DevOps Specialist
-- Agent-4: Quality Assurance Specialist (CAPTAIN)
 - Agent-5: Business Intelligence Specialist
 - Agent-6: Coordination & Communication Specialist
 - Agent-7: Web Development Specialist
 - Agent-8: Operations & Support Specialist
 
-USAGE EXAMPLES:
+🔧 OPTIONAL PARAMETERS:
+--status: completed, in_progress, failed, pending (default: completed)
+--details: Additional details about the action
+--dry-run: Test without actually saving
 
-1. Post a devlog:
-   python src/services/agent_devlog_posting.py --agent Agent-4 --action "Task completed" --status completed --details "Details here"
+📊 MONITORING COMMANDS:
 
-2. Search devlogs:
+1. Search devlogs:
    python src/services/agent_devlog_posting.py --search "discord dependency"
 
-3. Show statistics:
+2. Show statistics:
    python src/services/agent_devlog_posting.py --stats
 
-4. Dry run:
-   python src/services/agent_devlog_posting.py --agent Agent-4 --action "Test" --dry-run
-
-5. Cleanup old files:
+3. Cleanup old files:
    python src/services/agent_devlog_posting.py --cleanup --days-to-keep 7
+
+💡 CAPTAIN EXAMPLES:
+
+# Execution Mode Protocol
+python src/services/agent_devlog_posting.py --agent captain --action "EXECUTION MODE PROTOCOL! Captain Agent-4 taking direct action since messaging system unresponsive. Executing cleanup missions: Agent-5 (devlog posting fix), Agent-6 (messaging slop cleanup), Agent-7 (root directory cleanup), Agent-8 (misunderstanding analysis). Theater loop prevention active."
+
+# Mission Report
+python src/services/agent_devlog_posting.py --agent captain --action "Mission Report: Discord routing fix completed successfully. All agent messages now route to correct channels. System operational."
+
+# Status Update
+python src/services/agent_devlog_posting.py --agent captain --action "Status Update: Thea consultation system restored and tested. All modules functional. Ready for operational use."
 
 🐝 WE ARE SWARM - Agent Devlog Posting System (LOCAL ONLY)
 """
@@ -214,6 +245,17 @@ USAGE EXAMPLES:
             self.show_help()
             return
 
+        # Check if no action was specified
+        if not any([args.agent, args.search, args.stats, args.cleanup]):
+            print("🎯 CAPTAIN - No action specified! Showing quick help:")
+            print("\n📖 CAPTAIN QUICK START:")
+            print("python src/services/agent_devlog_posting.py --agent captain --action 'YOUR ACTION HERE'")
+            print("\n🔍 For detailed help:")
+            print("python src/services/agent_devlog_posting.py --show-help")
+            print("\n💡 Example:")
+            print('python src/services/agent_devlog_posting.py --agent captain --action "EXECUTION MODE PROTOCOL! Captain taking direct action."')
+            return
+
         if args.agent:
             await self.handle_post_devlog(args)
         elif args.search:
@@ -222,8 +264,6 @@ USAGE EXAMPLES:
             await self.handle_stats(args)
         elif args.cleanup:
             await self.handle_cleanup(args)
-        else:
-            print("❌ No valid action specified. Use --show-help for usage information.")
 
 
 async def main():

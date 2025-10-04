@@ -1,0 +1,12 @@
+{
+  "proposal_id": "PROP_20251003_185630_Agent-5",
+  "agent_id": "Agent-5",
+  "category": "onboarding",
+  "title": "Intelligence-Driven Onboarding Assessment",
+  "description": "Implement capability mapping during onboarding to identify agent strengths and assign specialized roles early",
+  "rationale": "Current onboarding treats all agents identically - we miss individual expertise that could optimize team performance",
+  "priority": "HIGH",
+  "timestamp": "2025-10-03T18:56:30.892629",
+  "status": "PENDING_CAPTAIN_REVIEW",
+  "category_description": "Agent onboarding improvements and training enhancements"
+}

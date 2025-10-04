@@ -16,7 +16,7 @@ Successfully completed soft onboarding protocol for Agent-5 with gentle initiali
 
 ✅ **Reviewed System Overview**: Complete AGENTS.md review and role understanding
 ✅ **Loaded Configuration**: Processed config/agent_capabilities.json
-✅ **Initialized Workspace**: Fully operational agent_workspaces/agent-5/
+✅ **Initialized Workspace**: Fully operational agent_workspaces/Agent-5/
 ✅ **Discovered Tools**: Cataloged 50+ tools across 13 categories
 ✅ **Integrated Tools**: Mapped tools to General Cycle phases
 ✅ **Initialized Autonomous Workflow**: All 4 components operational
@@ -70,15 +70,15 @@ Successfully completed soft onboarding protocol for Agent-5 with gentle initiali
 ## Technical Details
 
 ### Files Created/Updated
-- `agent_workspaces/agent-5/status.json` (updated)
-- `agent_workspaces/agent-5/tool_catalog.json` (created)
-- `agent_workspaces/agent-5/autonomous_workflow_state.json` (created)
-- `agent_workspaces/agent-5/inbox/processed/soft_onboarding_complete.md` (created)
+- `agent_workspaces/Agent-5/status.json` (updated)
+- `agent_workspaces/Agent-5/tool_catalog.json` (created)
+- `agent_workspaces/Agent-5/autonomous_workflow_state.json` (created)
+- `agent_workspaces/Agent-5/inbox/processed/soft_onboarding_complete.md` (created)
 - `agent_workspaces/Agent-4/inbox/agent5_soft_onboarding_complete_20251001.txt` (created)
 
 ### Workspace Structure
 ```
-agent_workspaces/agent-5/
+agent_workspaces/Agent-5/
 ├── inbox/ (7 pending messages)
 ├── outbox/
 ├── processed/

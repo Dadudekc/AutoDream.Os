@@ -1,9 +1,9 @@
 # 🤖 **WE ARE SWARM** - Complete Agent Architecture & Autonomous Development Guide
 ==================================================================================
 
-**Purpose**: Comprehensive agent system documentation for autonomous development machine operation  
-**Version**: 3.0 (Autonomous Development Machine Integrated)  
-**Captain**: Agent-4 (Strategic Oversight & Emergency Intervention)  
+**Purpose**: Comprehensive agent system documentation for autonomous development machine operation
+**Version**: 3.0 (Autonomous Development Machine Integrated)
+**Captain**: Agent-4 (Strategic Oversight & Emergency Intervention)
 **Status**: OPERATIONAL - Discord Infrastructure + Project Scanner + FSM Integration + Cursor Database
 
 ---
@@ -30,8 +30,8 @@
 - **FSM State Management**: Monitors agent state transitions and coordination
 - **Cursor Database Management**: Supervises task assignment and execution tracking
 
-**Current Role**: Captain (Strategic oversight with emergency intervention authority)  
-**Physical Location**: (-308, 1000) (Monitor 1, Bottom Left)  
+**Current Role**: Captain (Strategic oversight with emergency intervention authority)
+**Physical Location**: (-308, 1000) (Monitor 1, Bottom Left)
 **System Status**: ACTIVE with complete autonomous development machine oversight
 
 ---
@@ -111,7 +111,7 @@ python src/services/agent_devlog_posting.py --stats
 ### **🤖 Agent-Specific Operations**
 
 #### **Agent-4 (Captain)** - Strategic Oversight
-**Dynamic Roles Assignable**: SSOT_MANAGER, COORDINATOR, EMERGENCY_MANAGER  
+**Dynamic Roles Assignable**: SSOT_MANAGER, COORDINATOR, EMERGENCY_MANAGER
 **Primary Tools**: Captain CLI, Environment Inference, Discord Manager, Project Scanner
 
 ```bash
@@ -132,7 +132,7 @@ python tools/captain_cli.py --emergency-broadcast --severity CRITICAL --message 
 ```
 
 #### **Agent-5 (Coordinator)** - Inter-Agent Coordination
-**Dynamic Roles Assignable**: COORDINATOR, COMMUNICATION_SPECIALIST, DATA_ANALYST  
+**Dynamic Roles Assignable**: COORDINATOR, COMMUNICATION_SPECIALIST, DATA_ANALYST
 **Primary Tools**: Messaging System, Agent Coordination Workflow, Devlog System
 
 ```bash
@@ -147,7 +147,7 @@ python tools/agent_workflow_automation.py run-tests --test-path tests/
 ```
 
 #### **Agent-6 (Quality)** - Quality Assurance & Analysis
-**Dynamic Roles Assignable**: QUALITY_ASSURANCE, COMPLIANCE_AUDITOR, RESEARCHER  
+**Dynamic Roles Assignable**: QUALITY_ASSURANCE, COMPLIANCE_AUDITOR, RESEARCHER
 **Primary Tools**: Environment Generator (.env.example), Quality Analysis, Code Validation
 
 ```bash
@@ -165,7 +165,7 @@ python tools/env_inference_tool.py
 ```
 
 #### **Agent-7 (Implementation)** - System Development & Integration
-**Dynamic Roles Assignable**: INTEGRATION_SPECIALIST, WEB_DEVELOPER, TASK_EXECUTOR  
+**Dynamic Roles Assignable**: INTEGRATION_SPECIALIST, WEB_DEVELOPER, TASK_EXECUTOR
 **Primary Tools**: Project Implementation, System Integration, Development Workflows
 
 ```bash
@@ -180,7 +180,7 @@ python src/services/agent_devlog_posting.py --agent Agent-7 --action "Integratio
 ```
 
 #### **Agent-8 (Integration)** - Advanced System Integration
-**Dynamic Roles Assignable**: INTEGRATION_SPECIALIST, RISK_MANAGER, ARCHITECTURE_SPECIALIST  
+**Dynamic Roles Assignable**: INTEGRATION_SPECIALIST, RISK_MANAGER, ARCHITECTURE_SPECIALIST
 **Primary Tools**: Advanced Integration, System Architecture, Risk Management
 
 ```bash
@@ -380,11 +380,11 @@ python tools/captain_cli.py --authorize-reset --component "cursor_database" --re
 
 ### **📊 Agent Selection Criteria**
 
-**For Integration Tasks**: Agent-1 (Integration Specialist) or Agent-8 (Advanced Integration)  
-**For Quality Assurance**: Agent-6 (Quality Specialist)  
-**For Implementation**: Agent-7 (Implementation Specialist)  
-**For Coordination**: Agent-5 (Coordinator)  
-**For Architecture**: Agent-8 (Architecture Specialist)  
+**For Integration Tasks**: Agent-1 (Integration Specialist) or Agent-8 (Advanced Integration)
+**For Quality Assurance**: Agent-6 (Quality Specialist)
+**For Implementation**: Agent-7 (Implementation Specialist)
+**For Coordination**: Agent-5 (Coordinator)
+**For Architecture**: Agent-8 (Architecture Specialist)
 **For Emergency**: Agent-4 (Captain) - Direct intervention
 
 ### **⚡ Resource Management Protocol**

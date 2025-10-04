@@ -9,8 +9,8 @@ Author: Agent-7 (Implementation Specialist)
 License: MIT
 """
 
-import sys
 import subprocess
+import sys
 from pathlib import Path
 
 # Add project paths
@@ -22,10 +22,10 @@ if __name__ == "__main__":
     # Run the autonomous CLI using subprocess
     thea_dir = project_root / "src" / "services" / "thea"
     cli_script = thea_dir / "thea_autonomous_cli.py"
-    
+
     # Pass through all command line arguments
     cmd = [sys.executable, str(cli_script)] + sys.argv[1:]
-    
+
     try:
         sys.exit(subprocess.run(cmd, cwd=str(thea_dir)).returncode)
     except Exception as e:

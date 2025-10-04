@@ -7,8 +7,8 @@ Command-line interface for Agent Devlog Posting Service
 V2 Compliant: ≤400 lines, focused CLI logic
 """
 
-import asyncio
 import argparse
+import asyncio
 from argparse import ArgumentParser
 
 from .devlog_poster import AgentDevlogPoster
@@ -25,20 +25,21 @@ class AgentDevlogCLI:
         """Create argument parser"""
         parser = ArgumentParser(
             description="Agent Devlog Posting Service - Local File Storage Only",
-            epilog="🐝 WE ARE SWARM - Agent Devlog Posting System (LOCAL ONLY)\n\n" +
-                   "📖 CAPTAIN USAGE:\n" +
-                   "python src/services/agent_devlog_posting.py --agent captain --action 'YOUR ACTION HERE'\n" +
-                   "python src/services/agent_devlog_posting.py --agent Agent-4 --action 'YOUR ACTION HERE'\n\n" +
-                   "🔍 For detailed help: --show-help",
-            formatter_class=argparse.RawDescriptionHelpFormatter
+            epilog="🐝 WE ARE SWARM - Agent Devlog Posting System (LOCAL ONLY)\n\n"
+            + "📖 CAPTAIN USAGE:\n"
+            + "python src/services/agent_devlog_posting.py --agent captain --action 'YOUR ACTION HERE'\n"
+            + "python src/services/agent_devlog_posting.py --agent Agent-4 --action 'YOUR ACTION HERE'\n\n"
+            + "🔍 For detailed help: --show-help",
+            formatter_class=argparse.RawDescriptionHelpFormatter,
         )
 
         # Main action group
         action_group = parser.add_mutually_exclusive_group(required=False)
 
         # Post devlog
-        action_group.add_argument("--agent", "-a", 
-                                help="Agent ID (Agent-1 through Agent-8, or 'captain' for Agent-4)")
+        action_group.add_argument(
+            "--agent", "-a", help="Agent ID (Agent-1 through Agent-8, or 'captain' for Agent-4)"
+        )
 
         # Search devlogs
         action_group.add_argument("--search", "-s", help="Search devlogs by query")
@@ -249,11 +250,15 @@ python src/services/agent_devlog_posting.py --agent captain --action "Status Upd
         if not any([args.agent, args.search, args.stats, args.cleanup]):
             print("🎯 CAPTAIN - No action specified! Showing quick help:")
             print("\n📖 CAPTAIN QUICK START:")
-            print("python src/services/agent_devlog_posting.py --agent captain --action 'YOUR ACTION HERE'")
+            print(
+                "python src/services/agent_devlog_posting.py --agent captain --action 'YOUR ACTION HERE'"
+            )
             print("\n🔍 For detailed help:")
             print("python src/services/agent_devlog_posting.py --show-help")
             print("\n💡 Example:")
-            print('python src/services/agent_devlog_posting.py --agent captain --action "EXECUTION MODE PROTOCOL! Captain taking direct action."')
+            print(
+                'python src/services/agent_devlog_posting.py --agent captain --action "EXECUTION MODE PROTOCOL! Captain taking direct action."'
+            )
             return
 
         if args.agent:

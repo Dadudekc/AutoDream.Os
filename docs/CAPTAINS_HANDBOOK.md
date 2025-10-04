@@ -315,20 +315,20 @@ CAPTAIN_OVERRIDE Agent-8 "SWITCH_TO_SSOT_MANAGER" "Critical SSOT violation" "EME
 ## 🔧 **DISCORD INFRASTRUCTURE MANAGEMENT (CRITICAL)**
 
 ### **Environment Inference Agent Tool**
-**Purpose**: Discord infrastructure validation and agent routing management  
-**Location**: `tools/env_inference_tool.py`  
+**Purpose**: Discord infrastructure validation and agent routing management
+**Location**: `tools/env_inference_tool.py`
 **Critical for**: Captain succession, Discord coordination, devlog system validation
 
 #### **Tool Capabilities:**
 - **Environment Analysis**: Reverse-engineers .env configuration using intelligent pattern detection
-- **Discord Routing Validation**: Tests Agent-7 (and all agents) devlog posting functionality  
+- **Discord Routing Validation**: Tests Agent-7 (and all agents) devlog posting functionality
 - **Configuration Discovery**: Identifies all agent channels, webhooks, and Discord settings
 - **Infrastructure Health Check**: Validates complete Discord coordination network
 - **SSOT Integration Verification**: Confirms Discord Manager routing functionality
 
 #### **When to Use:**
 - **Discord devlog reporting issues**
-- **Agent devlog posting failures** 
+- **Agent devlog posting failures**
 - **Channel routing problems**
 - **New Captain onboarding**
 - **Weekly infrastructure validation**
@@ -344,13 +344,13 @@ python tools/env_inference_tool.py
 ```
 
 #### **Expected Success Indicators:**
-- ✅ Agent Channels: 8 configured  
+- ✅ Agent Channels: 8 configured
 - ✅ Agent Webhooks: 8 configured
 - ✅ Agent-7 Status: webhook_configured
 - ✅ Routing Test: SUCCESS
 
 ### **Comprehensive Agent Channel Testing**
-**Purpose**: Validate all agent Discord channels operational  
+**Purpose**: Validate all agent Discord channels operational
 **Location**: `test_all_agent_channels.py`
 
 #### **Execute Complete Test:**
@@ -360,7 +360,7 @@ python test_all_agent_channels.py
 
 #### **Success Thresholds:**
 - **🎉 Perfect**: 8/8 agents (100%) - All channels operational
-- **✅ Acceptable**: 6/8 agents (75%) - Most channels operational  
+- **✅ Acceptable**: 6/8 agents (75%) - Most channels operational
 - **⚠️ Caution**: 3/8 agents (37%) - Partial infrastructure failure
 - **❌ Emergency**: <3/8 agents - Critical infrastructure failure
 
@@ -368,7 +368,7 @@ python test_all_agent_channels.py
 
 #### **Mass Agent Failure (>5 agents):**
 1. Check Discord server status
-2. Verify bot token validity  
+2. Verify bot token validity
 3. Test default webhook functionality
 4. Escalate to Discord server administrator
 
@@ -383,7 +383,7 @@ python test_all_agent_channels.py
 #### **Incoming Captain (First 24 hours):**
 - [ ] Run `tools/env_inference_tool.py`
 - [ ] Verify 8/8 agent channels operational
-- [ ] Test Agent-7 devlog posting specifically  
+- [ ] Test Agent-7 devlog posting specifically
 - [ ] Confirm SSOT routing working
 - [ ] Document configuration status
 

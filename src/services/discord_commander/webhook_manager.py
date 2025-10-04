@@ -9,11 +9,9 @@ Handles creation, deletion, and configuration of Discord webhooks.
 V2 Compliant: ≤400 lines, focused webhook management
 """
 
-import asyncio
 import logging
 import os
 from pathlib import Path
-from typing import Dict, Optional, Tuple
 
 try:
     import discord
@@ -35,7 +33,7 @@ class WebhookManager:
         self.project_root = Path(__file__).parent.parent.parent.parent
         self.env_file = self.project_root / ".env"
 
-    async def create_webhook(self, channel_id: int, webhook_name: str = None) -> Optional[str]:
+    async def create_webhook(self, channel_id: int, webhook_name: str = None) -> str | None:
         """Create a webhook for the specified channel."""
         try:
             if not DISCORD_AVAILABLE:
@@ -110,25 +108,25 @@ class WebhookManager:
             logger.error(f"Failed to list webhooks: {e}")
             return []
 
-    async def provision_agent_webhook(self, agent_id: str) -> Optional[str]:
+    async def provision_agent_webhook(self, agent_id: str) -> str | None:
         """Provision webhook for specific agent."""
         try:
             # Get agent channel ID from environment
             channel_key = f"DISCORD_CHANNEL_AGENT_{agent_id.split('-')[1]}"
             channel_id_str = os.getenv(channel_key)
-            
+
             if not channel_id_str:
                 logger.error(f"Channel ID not found for {agent_id}")
                 return None
 
             channel_id = int(channel_id_str)
             webhook_name = f"{agent_id} Devlog Webhook"
-            
+
             webhook_url = await self.create_webhook(channel_id, webhook_name)
             if webhook_url:
                 await self._update_env_file(channel_key.replace("CHANNEL", "WEBHOOK"), webhook_url)
                 logger.info(f"Provisioned webhook for {agent_id}: {webhook_url[:50]}...")
-            
+
             return webhook_url
 
         except Exception as e:
@@ -143,7 +141,7 @@ class WebhookManager:
                 return False
 
             # Read current content
-            with open(self.env_file, 'r') as f:
+            with open(self.env_file) as f:
                 lines = f.readlines()
 
             # Update or add the key-value pair
@@ -158,7 +156,7 @@ class WebhookManager:
                 lines.append(f"{key}={value}\n")
 
             # Write back to file
-            with open(self.env_file, 'w') as f:
+            with open(self.env_file, "w") as f:
                 f.writelines(lines)
 
             logger.info(f"Updated .env file: {key}={value[:50]}...")
@@ -168,14 +166,14 @@ class WebhookManager:
             logger.error(f"Failed to update .env file: {e}")
             return False
 
-    async def provision_all_agent_webhooks(self) -> Dict[str, Optional[str]]:
+    async def provision_all_agent_webhooks(self) -> dict[str, str | None]:
         """Provision webhooks for all configured agents."""
         results = {}
-        
+
         for agent_num in range(1, 9):
             agent_id = f"Agent-{agent_num}"
             channel_key = f"DISCORD_CHANNEL_AGENT_{agent_num}"
-            
+
             if os.getenv(channel_key):
                 webhook_url = await self.provision_agent_webhook(agent_id)
                 results[agent_id] = webhook_url
@@ -185,7 +183,7 @@ class WebhookManager:
 
         return results
 
-    def get_command_handlers(self) -> Dict[str, callable]:
+    def get_command_handlers(self) -> dict[str, callable]:
         """Get command handlers for Discord bot."""
         return {
             "create_webhook": self._cmd_create_webhook,
@@ -198,7 +196,7 @@ class WebhookManager:
     async def _cmd_create_webhook(self, ctx, channel_id: int, webhook_name: str = None):
         """Command handler for creating webhook."""
         webhook_url = await self.create_webhook(channel_id, webhook_name)
-        
+
         if webhook_url:
             await ctx.send(f"✅ Created webhook: {webhook_url[:50]}...")
         else:
@@ -207,7 +205,7 @@ class WebhookManager:
     async def _cmd_delete_webhook(self, ctx, channel_id: int, webhook_name: str = None):
         """Command handler for deleting webhook."""
         success = await self.delete_webhook(channel_id, webhook_name)
-        
+
         if success:
             await ctx.send("✅ Webhook deleted successfully")
         else:
@@ -216,7 +214,7 @@ class WebhookManager:
     async def _cmd_list_webhooks(self, ctx, channel_id: int):
         """Command handler for listing webhooks."""
         webhooks = await self.list_webhooks(channel_id)
-        
+
         if webhooks:
             webhook_list = "\n".join([f"- {w['name']}" for w in webhooks])
             await ctx.send(f"📋 **Webhooks in channel {channel_id}:**\n{webhook_list}")
@@ -226,7 +224,7 @@ class WebhookManager:
     async def _cmd_provision_agent(self, ctx, agent_id: str):
         """Command handler for provisioning agent webhook."""
         webhook_url = await self.provision_agent_webhook(agent_id)
-        
+
         if webhook_url:
             await ctx.send(f"✅ Provisions webhook for {agent_id}: {webhook_url[:50]}...")
         else:
@@ -235,9 +233,9 @@ class WebhookManager:
     async def _cmd_provision_all(self, ctx):
         """Command handler for provisioning all agent webhooks."""
         await ctx.send("🔄 Provisioning webhooks for all agents...")
-        
+
         results = await self.provision_all_agent_webhooks()
-        
+
         success_count = sum(1 for url in results.values() if url)
         await ctx.send(f"✅ Provisioned {success_count}/8 agent webhooks")
 
@@ -260,7 +258,7 @@ class WebhookCLI:
     async def create_webhook_cli(self, channel_id: int, webhook_name: str = None):
         """CLI command to create webhook."""
         webhook_url = await self.manager.create_webhook(channel_id, webhook_name)
-        
+
         if webhook_url:
             print(f"✅ Created webhook: {webhook_url}")
             return True
@@ -271,7 +269,7 @@ class WebhookCLI:
     async def provision_agent_cli(self, agent_id: str):
         """CLI command to provision agent webhook."""
         webhook_url = await self.manager.provision_agent_webhook(agent_id)
-        
+
         if webhook_url:
             print(f"✅ Provisions webhook for {agent_id}: {webhook_url}")
             return True
@@ -282,9 +280,9 @@ class WebhookCLI:
     async def provision_all_cli(self):
         """CLI command to provision all agent webhooks."""
         print("🔄 Provisioning webhooks for all agents...")
-        
+
         results = await self.manager.provision_all_agent_webhooks()
-        
+
         success_count = sum(1 for url in results.values() if url)
         print(f"✅ Provisioned {success_count}/8 agent webhooks")
 
@@ -293,7 +291,7 @@ class WebhookCLI:
                 print(f"✅ {agent_id}: {webhook_url[:50]}...")
             else:
                 print(f"❌ {agent_id}: Failed")
-        
+
         return success_count > 0
 
 

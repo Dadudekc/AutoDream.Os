@@ -26,7 +26,7 @@
 
 ---
 
-### **🧹 Agent-6 (Quality) → PROJECT MESSAGING SLOP CLEANUP**  
+### **🧹 Agent-6 (Quality) → PROJECT MESSAGING SLOP CLEANUP**
 **Task**: Clean project messaging slop and eliminate coordination theater
 **Execution Order**:
 1. **ONE acknowledgment**: "Acknowledged - cleaning messaging coordination slop"
@@ -87,7 +87,7 @@
 Agent Response: "✅ [QUANTITY] [UNIT] [ACTION]"
 Examples:
 - "✅ 187 devlog files consolidated"
-- "✅ 32 messaging coordination files cleaned"  
+- "✅ 32 messaging coordination files cleaned"
 - "✅ 381 root files removed"
 - "✅ 15 misunderstanding patterns identified"
 ```
@@ -95,7 +95,7 @@ Examples:
 ### **Forbidden Responses**:
 ```
 ❌ "Agent-5 coordination status update confirmed"
-❌ "Acknowledged acknowledged understanding"  
+❌ "Acknowledged acknowledged understanding"
 ❌ "Ultimate status coordination confirmed"
 ❌ "Mission coordination acknowledgment acknowledged"
 ```

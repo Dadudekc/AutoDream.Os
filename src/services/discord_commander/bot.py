@@ -17,16 +17,16 @@ Features:
 import asyncio
 import json
 import logging
-import os
 import sys
-from pathlib import Path
-from typing import Dict, Any, Optional
 from datetime import datetime
+from pathlib import Path
+from typing import Any
 
 # Discord imports with error handling
 try:
     import discord
     from discord.ext import commands
+
     DISCORD_AVAILABLE = True
 except ImportError:
     DISCORD_AVAILABLE = False
@@ -34,6 +34,7 @@ except ImportError:
 # Load environment variables
 try:
     from dotenv import load_dotenv
+
     dotenv_path = Path(__file__).parent.parent.parent.parent / ".env"
     if dotenv_path.exists():
         load_dotenv(dotenv_path)
@@ -44,22 +45,25 @@ except ImportError:
 project_root = Path(__file__).parent.parent.parent.parent
 sys.path.insert(0, str(project_root))
 
-from src.services.discord_commander.core import (
-    DiscordConfig, DiscordConnectionManager, DiscordEventManager, DiscordStatusMonitor
-)
-from src.services.discord_commander.commands import CommandManager
 from src.services.consolidated_messaging_service import ConsolidatedMessagingService
+from src.services.discord_commander.commands import CommandManager
+from src.services.discord_commander.core import (
+    DiscordConfig,
+    DiscordConnectionManager,
+    DiscordEventManager,
+    DiscordStatusMonitor,
+)
 
 logger = logging.getLogger(__name__)
 
 
 class DiscordCommanderBot:
     """Main Discord Commander Bot implementation."""
-    
+
     def __init__(self):
         """Initialize the Discord Commander Bot."""
         self.logger = logging.getLogger(__name__)
-        
+
         # Initialize components
         self.config = DiscordConfig()
         self.connection_manager = DiscordConnectionManager(self.config)
@@ -67,41 +71,41 @@ class DiscordCommanderBot:
         self.status_monitor = DiscordStatusMonitor()
         self.messaging_service = ConsolidatedMessagingService()
         self.command_manager = CommandManager(self.messaging_service)
-        
+
         # Bot instance
         self.bot = None
-        
+
         # Register event handlers
         self._register_event_handlers()
-    
+
     def _register_event_handlers(self):
         """Register event handlers."""
         self.event_manager.register_event_handler("on_ready", self._on_ready)
         self.event_manager.register_event_handler("on_message", self._on_message)
         self.event_manager.register_event_handler("on_command", self._on_command)
-    
+
     async def initialize(self) -> bool:
         """Initialize the bot."""
         self.logger.info("Initializing Discord Commander Bot...")
-        
+
         # Validate configuration
         config_issues = self.config.validate()
         if config_issues:
             self.logger.error(f"Configuration issues: {config_issues}")
             return False
-        
+
         # Create bot
         self.bot = await self.connection_manager.create_bot()
         if not self.bot:
             self.logger.error("Failed to create Discord bot")
             return False
-        
+
         # Register commands
         await self._register_discord_commands()
-        
+
         self.logger.info("Discord Commander Bot initialized successfully")
         return True
-    
+
     async def _register_discord_commands(self):
         """Register Discord commands."""
         if not self.bot:
@@ -118,7 +122,16 @@ class DiscordCommanderBot:
                     await ctx.send(f"🤖 Agent {agent_id} status: {status}")
                 else:
                     # Get all agents status
-                    agents = ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
+                    agents = [
+                        "Agent-1",
+                        "Agent-2",
+                        "Agent-3",
+                        "Agent-4",
+                        "Agent-5",
+                        "Agent-6",
+                        "Agent-7",
+                        "Agent-8",
+                    ]
                     status_text = "🤖 **Agent Status:**\n"
                     for agent in agents:
                         status = await self._get_agent_status(agent)
@@ -132,16 +145,14 @@ class DiscordCommanderBot:
             """Send a message to an agent."""
             try:
                 result = await self.messaging_service.send_message(
-                    agent_id=agent_id,
-                    message=message,
-                    sender="Discord-Commander"
+                    agent_id=agent_id, message=message, sender="Discord-Commander"
                 )
 
                 if result.get("success"):
                     embed = discord.Embed(
                         title="✅ Message Sent",
                         description=f"Message sent to **{agent_id}**",
-                        color=0x00ff00
+                        color=0x00FF00,
                     )
                     embed.add_field(name="Content", value=message[:1000], inline=False)
                     embed.set_footer(text=f"Sent by {ctx.author}")
@@ -150,9 +161,11 @@ class DiscordCommanderBot:
                     embed = discord.Embed(
                         title="❌ Message Failed",
                         description=f"Failed to send message to **{agent_id}**",
-                        color=0xff0000
+                        color=0xFF0000,
                     )
-                    embed.add_field(name="Error", value=result.get('error', 'Unknown error'), inline=False)
+                    embed.add_field(
+                        name="Error", value=result.get("error", "Unknown error"), inline=False
+                    )
                     await ctx.send(embed=embed)
             except Exception as e:
                 await ctx.send(f"❌ Error sending message: {e}")
@@ -166,7 +179,7 @@ class DiscordCommanderBot:
                     await ctx.send("❌ Coordinates file not found")
                     return
 
-                with open(coords_file, 'r') as f:
+                with open(coords_file) as f:
                     coords_data = json.load(f)
 
                 if agent_id:
@@ -179,7 +192,7 @@ class DiscordCommanderBot:
                     embed = discord.Embed(
                         title="📍 Agent Coordinates",
                         description="Current agent positions",
-                        color=0x0099ff
+                        color=0x0099FF,
                     )
                     for agent, coords in coords_data.items():
                         embed.add_field(name=agent, value=f"`{coords}`", inline=True)
@@ -197,16 +210,16 @@ class DiscordCommanderBot:
                     "active_agents": self._count_active_agents(),
                     "project_files": self._count_project_files(),
                     "discord_bot": "Connected",
-                    "messaging_service": "Operational"
+                    "messaging_service": "Operational",
                 }
 
                 embed = discord.Embed(
-                    title="🔧 System Status",
-                    description="Current system status",
-                    color=0x00ff00
+                    title="🔧 System Status", description="Current system status", color=0x00FF00
                 )
                 for key, value in status.items():
-                    embed.add_field(name=key.replace("_", " ").title(), value=str(value), inline=True)
+                    embed.add_field(
+                        name=key.replace("_", " ").title(), value=str(value), inline=True
+                    )
 
                 await ctx.send(embed=embed)
             except Exception as e:
@@ -222,16 +235,18 @@ class DiscordCommanderBot:
                     "description": "Advanced AI Agent System with Code Quality Standards",
                     "total_files": self._count_project_files(),
                     "python_files": self._count_python_files(),
-                    "agents": "8 Active Agents"
+                    "agents": "8 Active Agents",
                 }
 
                 embed = discord.Embed(
                     title="📋 Project Information",
                     description="Agent Cellphone V2 System",
-                    color=0x0099ff
+                    color=0x0099FF,
                 )
                 for key, value in info.items():
-                    embed.add_field(name=key.replace("_", " ").title(), value=str(value), inline=True)
+                    embed.add_field(
+                        name=key.replace("_", " ").title(), value=str(value), inline=True
+                    )
 
                 embed.set_footer(text="🐝 WE ARE SWARM - Multi-Agent Intelligence System")
                 await ctx.send(embed=embed)
@@ -243,7 +258,16 @@ class DiscordCommanderBot:
         async def swarm_status(ctx):
             """Get swarm status."""
             try:
-                agents = ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
+                agents = [
+                    "Agent-1",
+                    "Agent-2",
+                    "Agent-3",
+                    "Agent-4",
+                    "Agent-5",
+                    "Agent-6",
+                    "Agent-7",
+                    "Agent-8",
+                ]
                 swarm_info = []
 
                 for agent in agents:
@@ -251,9 +275,7 @@ class DiscordCommanderBot:
                     swarm_info.append(f"• {agent}: {status}")
 
                 embed = discord.Embed(
-                    title="🐝 Swarm Status",
-                    description="Current swarm activity",
-                    color=0xffaa00
+                    title="🐝 Swarm Status", description="Current swarm activity", color=0xFFAA00
                 )
                 embed.add_field(name="Agents", value="\n".join(swarm_info), inline=False)
                 embed.set_footer(text="Multi-Agent Coordination Active")
@@ -266,21 +288,30 @@ class DiscordCommanderBot:
         async def swarm_coordinate(ctx, *, message: str):
             """Send coordination message to all agents."""
             try:
-                agents = ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
+                agents = [
+                    "Agent-1",
+                    "Agent-2",
+                    "Agent-3",
+                    "Agent-4",
+                    "Agent-5",
+                    "Agent-6",
+                    "Agent-7",
+                    "Agent-8",
+                ]
                 results = []
 
                 for agent in agents:
                     result = await self.messaging_service.send_message(
                         agent_id=agent,
                         message=f"[SWARM COORDINATION] {message}",
-                        sender="Discord-Commander"
+                        sender="Discord-Commander",
                     )
                     results.append(f"• {agent}: {'✅' if result.get('success') else '❌'}")
 
                 embed = discord.Embed(
                     title="🐝 Swarm Coordination",
                     description="Coordination message sent to all agents",
-                    color=0xffaa00
+                    color=0xFFAA00,
                 )
                 embed.add_field(name="Message", value=message, inline=False)
                 embed.add_field(name="Results", value="\n".join(results), inline=False)
@@ -297,36 +328,36 @@ class DiscordCommanderBot:
             embed = discord.Embed(
                 title="🤖 Discord Commander Help",
                 description="Available commands for the Agent Swarm system",
-                color=0x0099ff
+                color=0x0099FF,
             )
 
             embed.add_field(
                 name="🤖 Agent Commands",
                 value="• `!agent_status [agent_id]` - Get agent status\n• `!send_message <agent_id> <message>` - Send message to agent\n• `!agent_coordinates [agent_id]` - Get agent coordinates",
-                inline=False
+                inline=False,
             )
 
             embed.add_field(
                 name="🔧 System Commands",
                 value="• `!system_status` - Get system status\n• `!project_info` - Get project information",
-                inline=False
+                inline=False,
             )
 
             embed.add_field(
                 name="🐝 Swarm Commands",
                 value="• `!swarm_status` - Get swarm status\n• `!swarm_coordinate <message>` - Send coordination message to all agents",
-                inline=False
+                inline=False,
             )
 
             embed.set_footer(text="🐝 WE ARE SWARM - Use the web interface for advanced control")
             await ctx.send(embed=embed)
-    
+
     async def start(self) -> bool:
         """Start the bot."""
         if not self.bot:
             self.logger.error("Bot not initialized")
             return False
-        
+
         try:
             self.logger.info("Starting Discord Commander Bot...")
             await self.connection_manager.connect()
@@ -334,51 +365,52 @@ class DiscordCommanderBot:
         except Exception as e:
             self.logger.error(f"Error starting bot: {e}")
             return False
-    
+
     async def stop(self):
         """Stop the bot."""
         self.logger.info("Stopping Discord Commander Bot...")
         await self.connection_manager.disconnect()
-    
+
     async def _on_ready(self):
         """Handle bot ready event."""
         self.logger.info(f"Discord Commander Bot ready: {self.bot.user}")
         self.status_monitor.record_heartbeat()
-        
+
         # Set bot status
         activity = discord.Activity(
-            type=discord.ActivityType.watching,
-            name="Agent Swarm Coordination"
+            type=discord.ActivityType.watching, name="Agent Swarm Coordination"
         )
         await self.bot.change_presence(activity=activity)
-    
+
     async def _on_message(self, message):
         """Handle message events."""
         if message.author == self.bot.user:
             return
-        
+
         self.status_monitor.record_message()
-        
+
         # Process commands
         if message.content.startswith(self.config.command_prefix):
             await self.bot.process_commands(message)
-    
+
     async def _on_command(self, ctx):
         """Handle command events."""
         self.status_monitor.record_command()
         self.logger.info(f"Command executed: {ctx.command} by {ctx.author}")
-    
-    def get_status(self) -> Dict[str, Any]:
+
+    def get_status(self) -> dict[str, Any]:
         """Get bot status."""
         status = self.status_monitor.get_status()
-        status.update({
-            "bot_user": str(self.bot.user) if self.bot and self.bot.user else None,
-            "guild_count": len(self.bot.guilds) if self.bot else 0,
-            "command_count": len(self.command_manager.list_commands()),
-            "config_valid": len(self.config.validate()) == 0
-        })
+        status.update(
+            {
+                "bot_user": str(self.bot.user) if self.bot and self.bot.user else None,
+                "guild_count": len(self.bot.guilds) if self.bot else 0,
+                "command_count": len(self.command_manager.list_commands()),
+                "config_valid": len(self.config.validate()) == 0,
+            }
+        )
         return status
-    
+
     def is_healthy(self) -> bool:
         """Check if bot is healthy."""
         return self.status_monitor.is_healthy()
@@ -459,17 +491,16 @@ async def main():
     """Main function to run the Discord Commander Bot."""
     # Set up logging
     logging.basicConfig(
-        level=logging.INFO,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     )
-    
+
     if not DISCORD_AVAILABLE:
         print("❌ Discord.py not installed! Please install: pip install discord.py")
         return
-    
+
     # Create and start bot
     bot = DiscordCommanderBot()
-    
+
     try:
         if await bot.initialize():
             await bot.start()
@@ -489,7 +520,3 @@ if __name__ == "__main__":
 
 # Export for external use
 __all__ = ["DiscordCommanderBot"]
-
-
-
-

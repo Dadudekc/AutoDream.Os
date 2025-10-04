@@ -9,8 +9,7 @@ Author: Agent-7 (Implementation Specialist)
 License: MIT
 """
 
-from typing import Any, Dict
-
+from typing import Any
 
 # Strategic Consultation Templates
 STRATEGIC_TEMPLATES = {
@@ -23,16 +22,15 @@ STRATEGIC_TEMPLATES = {
             "Task prioritization decisions",
             "Resource allocation planning",
             "Sprint planning and backlog management",
-            "Agent workload balancing"
+            "Agent workload balancing",
         ],
         "input_requirements": [
             "Current project status",
             "Available resources",
             "Timeline constraints",
-            "Quality requirements"
-        ]
+            "Quality requirements",
+        ],
     },
-    
     "crisis_response": {
         "name": "Crisis Response",
         "description": "Emergency consultation for critical system issues and crisis management",
@@ -42,16 +40,15 @@ STRATEGIC_TEMPLATES = {
             "System failures and outages",
             "Security incidents",
             "Performance degradation",
-            "Critical bugs and errors"
+            "Critical bugs and errors",
         ],
         "input_requirements": [
             "Crisis description",
             "Impact assessment",
             "Current system state",
-            "Available resources"
-        ]
+            "Available resources",
+        ],
     },
-    
     "strategic_planning": {
         "name": "Strategic Planning",
         "description": "Long-term strategic planning and roadmap development",
@@ -61,16 +58,15 @@ STRATEGIC_TEMPLATES = {
             "Long-term project planning",
             "Architecture decisions",
             "Technology stack selection",
-            "Team structure planning"
+            "Team structure planning",
         ],
         "input_requirements": [
             "Project goals and objectives",
             "Current capabilities",
             "Market conditions",
-            "Resource constraints"
-        ]
+            "Resource constraints",
+        ],
     },
-    
     "quality_assessment": {
         "name": "Quality Assessment",
         "description": "Quality and compliance assessment with improvement recommendations",
@@ -80,16 +76,15 @@ STRATEGIC_TEMPLATES = {
             "Code quality reviews",
             "V2 compliance assessment",
             "Performance evaluation",
-            "Security audit"
+            "Security audit",
         ],
         "input_requirements": [
             "Quality metrics data",
             "Compliance requirements",
             "Performance benchmarks",
-            "Security standards"
-        ]
+            "Security standards",
+        ],
     },
-    
     "architecture_review": {
         "name": "Architecture Review",
         "description": "System architecture analysis and improvement recommendations",
@@ -99,16 +94,15 @@ STRATEGIC_TEMPLATES = {
             "System design reviews",
             "Architecture optimization",
             "Scalability planning",
-            "Technical debt assessment"
+            "Technical debt assessment",
         ],
         "input_requirements": [
             "Current architecture documentation",
             "Performance requirements",
             "Scalability needs",
-            "Technology constraints"
-        ]
+            "Technology constraints",
+        ],
     },
-    
     "team_coordination": {
         "name": "Team Coordination",
         "description": "Agent coordination and team management guidance",
@@ -118,16 +112,15 @@ STRATEGIC_TEMPLATES = {
             "Agent role assignment",
             "Workflow optimization",
             "Communication protocols",
-            "Conflict resolution"
+            "Conflict resolution",
         ],
         "input_requirements": [
             "Team composition",
             "Current workflows",
             "Communication patterns",
-            "Performance metrics"
-        ]
+            "Performance metrics",
+        ],
     },
-    
     "performance_optimization": {
         "name": "Performance Optimization",
         "description": "System performance analysis and optimization recommendations",
@@ -137,16 +130,15 @@ STRATEGIC_TEMPLATES = {
             "Performance bottleneck analysis",
             "Resource optimization",
             "Scalability improvements",
-            "Efficiency enhancements"
+            "Efficiency enhancements",
         ],
         "input_requirements": [
             "Performance metrics",
             "System load data",
             "Resource utilization",
-            "Performance goals"
-        ]
+            "Performance goals",
+        ],
     },
-    
     "risk_assessment": {
         "name": "Risk Assessment",
         "description": "Risk analysis and mitigation strategy development",
@@ -156,24 +148,24 @@ STRATEGIC_TEMPLATES = {
             "Project risk evaluation",
             "Technical risk analysis",
             "Security risk assessment",
-            "Operational risk planning"
+            "Operational risk planning",
         ],
         "input_requirements": [
             "Risk indicators",
             "Historical data",
             "Current vulnerabilities",
-            "Impact assessments"
-        ]
-    }
+            "Impact assessments",
+        ],
+    },
 }
 
 
-def get_template(template_name: str) -> Dict[str, Any]:
+def get_template(template_name: str) -> dict[str, Any]:
     """Get a specific consultation template."""
     return STRATEGIC_TEMPLATES.get(template_name, {})
 
 
-def list_templates() -> Dict[str, Dict[str, Any]]:
+def list_templates() -> dict[str, dict[str, Any]]:
     """List all available consultation templates."""
     return STRATEGIC_TEMPLATES.copy()
 
@@ -188,45 +180,45 @@ def validate_template(template_name: str) -> bool:
     return template_name in STRATEGIC_TEMPLATES
 
 
-def get_template_info(template_name: str) -> Dict[str, Any]:
+def get_template_info(template_name: str) -> dict[str, Any]:
     """Get template information for display."""
     template = get_template(template_name)
     if not template:
         return {}
-    
+
     return {
         "name": template["name"],
         "description": template["description"],
         "use_cases": template["use_cases"],
-        "input_requirements": template["input_requirements"]
+        "input_requirements": template["input_requirements"],
     }
 
 
 def format_template_help() -> str:
     """Format template help information for CLI display."""
     help_text = "📚 Available Strategic Consultation Templates:\n\n"
-    
+
     for name, template in STRATEGIC_TEMPLATES.items():
         help_text += f"🎯 {name}\n"
         help_text += f"   Name: {template['name']}\n"
         help_text += f"   Description: {template['description']}\n"
         help_text += f"   Context: {template['context']}\n"
         help_text += f"   Output: {template['output_format']}\n"
-        
-        if template['use_cases']:
-            help_text += f"   Use Cases:\n"
-            for use_case in template['use_cases'][:3]:  # Show first 3
+
+        if template["use_cases"]:
+            help_text += "   Use Cases:\n"
+            for use_case in template["use_cases"][:3]:  # Show first 3
                 help_text += f"     • {use_case}\n"
-            if len(template['use_cases']) > 3:
+            if len(template["use_cases"]) > 3:
                 help_text += f"     • ... and {len(template['use_cases']) - 3} more\n"
-        
+
         help_text += "\n"
-    
+
     help_text += "💡 Usage Examples:\n"
     help_text += "   python strategic_consultation_cli.py consult --template priority_guidance --question 'What should be our next priority?'\n"
     help_text += "   python strategic_consultation_cli.py consult --template crisis_response --question 'System is experiencing performance issues'\n"
     help_text += "   python strategic_consultation_cli.py consult --template strategic_planning --question 'How should we plan our next development phase?'\n"
-    
+
     return help_text
 
 
@@ -234,28 +226,28 @@ def main():
     """Test the strategic consultation templates."""
     print("📚 Strategic Consultation Templates Test")
     print("=" * 50)
-    
+
     # Test template listing
     templates = list_templates()
     print(f"✅ Available templates: {len(templates)}")
-    
+
     # Test template validation
     for template_name in ["priority_guidance", "crisis_response", "invalid_template"]:
         is_valid = validate_template(template_name)
         print(f"   • {template_name}: {'✅ Valid' if is_valid else '❌ Invalid'}")
-    
+
     # Test template info
     template_info = get_template_info("priority_guidance")
     if template_info:
-        print(f"\n📋 Priority Guidance Template:")
+        print("\n📋 Priority Guidance Template:")
         print(f"   Name: {template_info['name']}")
         print(f"   Description: {template_info['description']}")
         print(f"   Use Cases: {len(template_info['use_cases'])}")
-    
+
     # Test help formatting
     help_text = format_template_help()
     print(f"\n📖 Help text length: {len(help_text)} characters")
-    
+
     print("\n🎉 Strategic Consultation Templates test completed!")
 
 

@@ -20,14 +20,13 @@ sys.path.insert(0, str(project_root / "src"))
 if __name__ == "__main__":
     # Run the CLI using subprocess
     import subprocess
-    import os
-    
+
     thea_dir = project_root / "src" / "services" / "thea"
     cli_script = thea_dir / "strategic_consultation_cli.py"
-    
+
     # Pass through all command line arguments
     cmd = [sys.executable, str(cli_script)] + sys.argv[1:]
-    
+
     try:
         sys.exit(subprocess.run(cmd, cwd=str(thea_dir)).returncode)
     except Exception as e:

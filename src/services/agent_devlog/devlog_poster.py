@@ -85,7 +85,7 @@ class AgentDevlogPoster:
         try:
             # Check if SSOT routing is enabled
             use_manager = os.getenv("DEVLOG_POST_VIA_MANAGER", "false").lower() == "true"
-            
+
             if use_manager:
                 # Use SSOT client (Discord Manager routing)
                 return self._post_to_discord_via_manager(content, agent_id)
@@ -102,19 +102,19 @@ class AgentDevlogPoster:
         try:
             # Import SSOT client
             from src.services.discord_commander.discord_post_client import post_devlog_via_ssot
-            
+
             self.logger.info(f"🔄 Using SSOT Discord Manager routing for {agent_id}")
-            
+
             # Post via SSOT (asynchronous)
             result = asyncio.run(post_devlog_via_ssot(agent_id, content))
-            
+
             if result:
                 self.logger.info(f"✅ Devlog posted via SSOT for {agent_id}")
             else:
                 self.logger.warning(f"⚠️ SSOT posting failed for {agent_id}")
-                
+
             return result
-            
+
         except Exception as e:
             self.logger.error(f"SSOT posting failed: {e}")
             return False
@@ -130,12 +130,14 @@ class AgentDevlogPoster:
 
             # Post to Discord using synchronous wrapper
             result = self._post_to_discord_sync(discord_service, content, agent_id)
-            
+
             # If legacy service fails, try webhook fallback
             if not result:
-                self.logger.info(f"Legacy Discord service failed, trying webhook fallback for {agent_id}")
+                self.logger.info(
+                    f"Legacy Discord service failed, trying webhook fallback for {agent_id}"
+                )
                 result = self._post_to_discord_via_webhook_fallback(content, agent_id)
-            
+
             return result
 
         except Exception as e:
@@ -186,50 +188,50 @@ class AgentDevlogPoster:
     def _post_to_discord_via_webhook_fallback(self, content: str, agent_id: str) -> bool:
         """Post devlog content via webhook fallback when Discord service fails."""
         try:
-            import aiohttp
             from pathlib import Path
-            
+
             # Load webhook URL from .env
-            env_file = Path('.env')
+            env_file = Path(".env")
             webhook_url = None
             if env_file.exists():
-                with open(env_file, 'r') as f:
+                with open(env_file) as f:
                     for line in f:
                         line = line.strip()
-                        if line and not line.startswith('#') and '=' in line:
-                            key, value = line.split('=', 1)
-                            value = value.strip('"\'')
+                        if line and not line.startswith("#") and "=" in line:
+                            key, value = line.split("=", 1)
+                            value = value.strip("\"'")
                             os.environ[key] = value
-                            if key == 'DISCORD_WEBHOOK_URL':
+                            if key == "DISCORD_WEBHOOK_URL":
                                 webhook_url = value
-            
+
             if not webhook_url:
                 self.logger.warning("No webhook URL available for fallback")
                 return False
-            
+
             # Format message with minimal spam filtering
             discord_message = self._format_discord_message_simple(content, agent_id)
             if discord_message is None:
                 self.logger.info(f"Spam filter triggered for webhook fallback: {agent_id}")
                 return False
-            
+
             # Create payload
             payload = {
                 "content": discord_message,
-                "username": f"{agent_id}" if agent_id else "Agent Devlog System"
+                "username": f"{agent_id}" if agent_id else "Agent Devlog System",
             }
-            
+
             # Post to webhook synchronously
             import requests
+
             response = requests.post(webhook_url, json=payload, timeout=10)
-            
+
             if response.status_code == 204:
                 self.logger.info(f"✅ Webhook fallback successful for {agent_id}")
                 return True
             else:
                 self.logger.error(f"Webhook fallback failed with status {response.status_code}")
                 return False
-                
+
         except Exception as e:
             self.logger.error(f"Webhook fallback failed: {e}")
             return False
@@ -239,32 +241,32 @@ class AgentDevlogPoster:
         # MINIMAL SPAM FILTER: Only block extreme patterns
         if "📝 DISCORD DEVLOG REMINDER:" in content and content.count("📝") > 3:
             return None  # Block only excessive reminder spam
-        
+
         # Extract action and status
         lines = content.split("\n")
         action = "Agent Communication"
         status = "Communication Active"
-        
+
         for line in lines:
             if "**Action:**" in line:
                 action = line.split("**Action:**")[-1].strip()
             elif "Action:" in line:
                 action = line.split("Action:")[-1].strip()
-            
+
             if "**Status:**" in line:
                 status = line.split("**Status:**")[-1].strip()
             elif "- **Status:**" in line:
                 status = line.split("- **Status:**")[-1].strip()
             elif "Status:" in line:
                 status = line.split("Status:")[-1].strip()
-        
+
         # Create Discord message
         timestamp = datetime.now().strftime("%H:%M:%S")
         discord_message = f"""🤖 **{agent_id or 'Agent'}**: {action}
 Status: {status} | {timestamp}
 
 🐝 *Devlog Service*"""
-        
+
         return discord_message
 
     def post_devlog(

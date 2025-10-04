@@ -25,7 +25,7 @@ The Discord devlog system has two main issues:
    ```bash
    # Copy the template
    cp discord_env_template.txt .env
-   
+
    # Edit .env file and add your webhook URL
    DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/YOUR_WEBHOOK_URL
    ```

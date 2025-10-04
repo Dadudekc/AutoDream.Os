@@ -219,6 +219,44 @@ class Agent8CoordinationWorkflowCore:
         self.save_workflow_state()
         return task_id
 
+    def create_hard_onboarding_task(
+        self,
+        agent_id: str,
+        onboarding_type: str = "hard_onboard",
+        priority: TaskPriority = TaskPriority.CRITICAL,
+    ) -> str:
+        """Create hard onboarding coordination task"""
+        task_id = f"onboard_{agent_id}_{int(datetime.now().timestamp())}"
+
+        task = CoordinationTask(
+            task_id=task_id,
+            agent_id=agent_id,
+            description=f"Hard onboarding sequence for {agent_id}",
+            priority=priority,
+            status=CoordinationStatus.PENDING,
+            created_at=datetime.now().isoformat(),
+            assigned_at="",
+            completed_at="",
+            dependencies=[],
+            metadata={
+                "onboarding_type": onboarding_type,
+                "hard_onboard": True,
+                "requires_pyautogui": True,
+                "coordinate_based": True,
+                "general_cycle_integration": True,
+                "onboarding_priority": "CRITICAL",
+            },
+        )
+
+        self.tasks[task_id] = task
+
+        # Hard onboarding tasks go to front of queue
+        self.task_queue.insert(0, task_id)
+        self._sort_task_queue()
+
+        self.save_workflow_state()
+        return task_id
+
     def assign_task(self, task_id: str, agent_id: str = None) -> bool:
         """Assign task to agent"""
         if task_id not in self.tasks:
@@ -461,3 +499,7 @@ class Agent8CoordinationWorkflowCore:
                 assigned_count += 1
 
         return assigned_count
+
+    def get_agent_tasks(self, agent_id: str) -> list[CoordinationTask]:
+        """Get all tasks for a specific agent."""
+        return [task for task in self.tasks.values() if task.agent_id == agent_id]

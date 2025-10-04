@@ -14,7 +14,7 @@
 ```
 🧠 SWARM INTELLIGENCE COORDINATION:
 ├── Agent-4 (Captain): Strategic oversight and decision making
-├── Agent-5 (Coordinator): Task distribution and workflow management  
+├── Agent-5 (Coordinator): Task distribution and workflow management
 ├── Agent-6 (Quality): Testing and compliance enforcement
 ├── Agent-7 (Implementation): Code development and execution
 └── Agent-8 (Integration): System integration and deployment

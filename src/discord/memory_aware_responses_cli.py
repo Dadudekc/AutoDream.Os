@@ -113,10 +113,10 @@ def handle_test_command(args):
     response_generator = ResponseGenerator(context_manager)
 
     test_cases = [
-        ("user1", "agent-6", "Test status update", ResponseType.STATUS_UPDATE),
+        ("user1", "Agent-6", "Test status update", ResponseType.STATUS_UPDATE),
         ("user2", "agent-7", "Test coordination", ResponseType.COORDINATION_REQUEST),
         ("user3", "agent-8", "Test completion", ResponseType.TASK_COMPLETION),
-        ("user4", "agent-6", "Test alert", ResponseType.SYSTEM_ALERT),
+        ("user4", "Agent-6", "Test alert", ResponseType.SYSTEM_ALERT),
         ("user5", "agent-7", "Test swarm", ResponseType.SWARM_COORDINATION),
     ]
 

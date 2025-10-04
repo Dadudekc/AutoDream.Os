@@ -159,6 +159,6 @@ The Thea consultation system integrates with:
 
 ---
 
-**Author**: Agent-7 (Implementation Specialist)  
-**License**: MIT  
+**Author**: Agent-7 (Implementation Specialist)
+**License**: MIT
 **V2 Compliant**: ✅ All modules ≤400 lines

@@ -92,8 +92,13 @@ class AgentValidator:
         """Get agent information."""
         # Handle captain flag
         if agent_id == "captain":
-            return {"id": "Agent-4", "name": "Captain Agent-4", "role": "CAPTAIN", "status": "active"}
-        
+            return {
+                "id": "Agent-4",
+                "name": "Captain Agent-4",
+                "role": "CAPTAIN",
+                "status": "active",
+            }
+
         return {"id": agent_id, "name": agent_id, "role": "AGENT", "status": "active"}
 
     def suggest_devlog_type(self, action: str, status: str) -> DevlogType:

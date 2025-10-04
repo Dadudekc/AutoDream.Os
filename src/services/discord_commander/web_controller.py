@@ -15,16 +15,15 @@ Features:
 """
 
 import asyncio
-import json
 import logging
 import threading
-from pathlib import Path
-from typing import Dict, Any, Optional, List
 from datetime import datetime
+from pathlib import Path
 
 try:
-    from flask import Flask, render_template, request, jsonify
+    from flask import Flask, jsonify, render_template, request
     from flask_socketio import SocketIO, emit
+
     FLASK_AVAILABLE = True
 except ImportError:
     FLASK_AVAILABLE = False
@@ -32,6 +31,7 @@ except ImportError:
 from .bot import DiscordCommanderBot
 
 logger = logging.getLogger(__name__)
+
 
 class DiscordCommanderController:
     """Web controller for Discord Commander system."""
@@ -45,16 +45,20 @@ class DiscordCommanderController:
         self.socketio = None
 
         if not FLASK_AVAILABLE:
-            logger.error("Flask and Flask-SocketIO not available. Install: pip install flask flask-socketio")
+            logger.error(
+                "Flask and Flask-SocketIO not available. Install: pip install flask flask-socketio"
+            )
             return
 
         self._setup_flask_app()
 
     def _setup_flask_app(self):
         """Set up the Flask application."""
-        self.app = Flask(__name__,
-                        template_folder=Path(__file__).parent / "templates",
-                        static_folder=Path(__file__).parent / "static")
+        self.app = Flask(
+            __name__,
+            template_folder=Path(__file__).parent / "templates",
+            static_folder=Path(__file__).parent / "static",
+        )
         self.socketio = SocketIO(self.app, cors_allowed_origins="*")
 
         # Register routes
@@ -66,165 +70,181 @@ class DiscordCommanderController:
     def _register_routes(self):
         """Register Flask routes."""
 
-        @self.app.route('/')
+        @self.app.route("/")
         def index():
             """Serve the main dashboard."""
-            return render_template('discord_commander.html')
+            return render_template("discord_commander.html")
 
-        @self.app.route('/api/agents')
+        @self.app.route("/api/agents")
         def get_agents():
             """Get agent status."""
             if not self.bot:
                 return jsonify({"error": "Bot not initialized"}), 503
 
-            agents = ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
+            agents = [
+                "Agent-1",
+                "Agent-2",
+                "Agent-3",
+                "Agent-4",
+                "Agent-5",
+                "Agent-6",
+                "Agent-7",
+                "Agent-8",
+            ]
             agent_status = {}
 
             for agent in agents:
                 status = asyncio.run(self.bot._get_agent_status(agent))
-                agent_status[agent] = {
-                    "status": status,
-                    "last_seen": "Unknown"
-                }
+                agent_status[agent] = {"status": status, "last_seen": "Unknown"}
 
-            return jsonify({
-                "agents": agent_status,
-                "timestamp": datetime.now().isoformat()
-            })
+            return jsonify({"agents": agent_status, "timestamp": datetime.now().isoformat()})
 
-        @self.app.route('/api/send_message', methods=['POST'])
+        @self.app.route("/api/send_message", methods=["POST"])
         def send_message():
             """Send a message to an agent."""
             if not self.bot:
                 return jsonify({"error": "Bot not initialized"}), 503
 
             data = request.get_json()
-            agent_id = data.get('agent_id')
-            message = data.get('message')
+            agent_id = data.get("agent_id")
+            message = data.get("message")
 
             if not agent_id or not message:
                 return jsonify({"error": "Missing agent_id or message"}), 400
 
             try:
-                result = asyncio.run(self.bot.messaging_service.send_message(
-                    agent_id=agent_id,
-                    message=message,
-                    sender="Web-Controller"
-                ))
+                result = asyncio.run(
+                    self.bot.messaging_service.send_message(
+                        agent_id=agent_id, message=message, sender="Web-Controller"
+                    )
+                )
 
-                return jsonify({
-                    "success": result.get("success", False),
-                    "message": result.get("message", "No response"),
-                    "timestamp": datetime.now().isoformat()
-                })
+                return jsonify(
+                    {
+                        "success": result.get("success", False),
+                        "message": result.get("message", "No response"),
+                        "timestamp": datetime.now().isoformat(),
+                    }
+                )
             except Exception as e:
                 logger.error(f"Error sending message: {e}")
                 return jsonify({"error": str(e)}), 500
 
-        @self.app.route('/api/swarm_coordinate', methods=['POST'])
+        @self.app.route("/api/swarm_coordinate", methods=["POST"])
         def swarm_coordinate():
             """Send coordination message to all agents."""
             if not self.bot:
                 return jsonify({"error": "Bot not initialized"}), 503
 
             data = request.get_json()
-            message = data.get('message')
+            message = data.get("message")
 
             if not message:
                 return jsonify({"error": "Missing message"}), 400
 
             try:
-                agents = ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
+                agents = [
+                    "Agent-1",
+                    "Agent-2",
+                    "Agent-3",
+                    "Agent-4",
+                    "Agent-5",
+                    "Agent-6",
+                    "Agent-7",
+                    "Agent-8",
+                ]
                 results = []
 
                 for agent in agents:
-                    result = asyncio.run(self.bot.messaging_service.send_message(
-                        agent_id=agent,
-                        message=f"[SWARM COORDINATION] {message}",
-                        sender="Web-Controller"
-                    ))
-                    results.append({
-                        "agent": agent,
-                        "success": result.get("success", False)
-                    })
+                    result = asyncio.run(
+                        self.bot.messaging_service.send_message(
+                            agent_id=agent,
+                            message=f"[SWARM COORDINATION] {message}",
+                            sender="Web-Controller",
+                        )
+                    )
+                    results.append({"agent": agent, "success": result.get("success", False)})
 
-                return jsonify({
-                    "results": results,
-                    "timestamp": datetime.now().isoformat()
-                })
+                return jsonify({"results": results, "timestamp": datetime.now().isoformat()})
             except Exception as e:
                 logger.error(f"Error in swarm coordination: {e}")
                 return jsonify({"error": str(e)}), 500
 
-        @self.app.route('/api/system_status')
+        @self.app.route("/api/system_status")
         def get_system_status():
             """Get system status."""
             if not self.bot:
                 return jsonify({"error": "Bot not initialized"}), 503
 
             status = self.bot.get_status()
-            return jsonify({
-                "status": status,
-                "timestamp": datetime.now().isoformat()
-            })
+            return jsonify({"status": status, "timestamp": datetime.now().isoformat()})
 
     def _register_socket_events(self):
         """Register SocketIO events."""
 
-        @self.socketio.on('connect')
+        @self.socketio.on("connect")
         def handle_connect():
             """Handle client connection."""
             logger.info("Client connected to Discord Commander Controller")
-            emit('status', {'message': 'Connected to Discord Commander Controller'})
+            emit("status", {"message": "Connected to Discord Commander Controller"})
 
-        @self.socketio.on('get_agent_status')
+        @self.socketio.on("get_agent_status")
         def handle_get_agent_status():
             """Handle request for agent status."""
             if not self.bot:
-                emit('error', {'message': 'Bot not initialized'})
+                emit("error", {"message": "Bot not initialized"})
                 return
 
-            agents = ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
+            agents = [
+                "Agent-1",
+                "Agent-2",
+                "Agent-3",
+                "Agent-4",
+                "Agent-5",
+                "Agent-6",
+                "Agent-7",
+                "Agent-8",
+            ]
             agent_status = {}
 
             for agent in agents:
                 status = asyncio.run(self.bot._get_agent_status(agent))
                 agent_status[agent] = status
 
-            emit('agent_status', {
-                'agents': agent_status,
-                'timestamp': datetime.now().isoformat()
-            })
+            emit("agent_status", {"agents": agent_status, "timestamp": datetime.now().isoformat()})
 
-        @self.socketio.on('send_message')
+        @self.socketio.on("send_message")
         def handle_send_message(data):
             """Handle message sending via socket."""
             if not self.bot:
-                emit('error', {'message': 'Bot not initialized'})
+                emit("error", {"message": "Bot not initialized"})
                 return
 
-            agent_id = data.get('agent_id')
-            message = data.get('message')
+            agent_id = data.get("agent_id")
+            message = data.get("message")
 
             if not agent_id or not message:
-                emit('error', {'message': 'Missing agent_id or message'})
+                emit("error", {"message": "Missing agent_id or message"})
                 return
 
             try:
-                result = asyncio.run(self.bot.messaging_service.send_message(
-                    agent_id=agent_id,
-                    message=message,
-                    sender="Web-Controller-Socket"
-                ))
+                result = asyncio.run(
+                    self.bot.messaging_service.send_message(
+                        agent_id=agent_id, message=message, sender="Web-Controller-Socket"
+                    )
+                )
 
-                emit('message_sent', {
-                    'agent_id': agent_id,
-                    'success': result.get("success", False),
-                    'message': result.get("message", "No response"),
-                    'timestamp': datetime.now().isoformat()
-                })
+                emit(
+                    "message_sent",
+                    {
+                        "agent_id": agent_id,
+                        "success": result.get("success", False),
+                        "message": result.get("message", "No response"),
+                        "timestamp": datetime.now().isoformat(),
+                    },
+                )
             except Exception as e:
-                emit('error', {'message': str(e)})
+                emit("error", {"message": str(e)})
 
     def set_bot(self, bot: DiscordCommanderBot):
         """Set the Discord bot instance."""
@@ -680,7 +700,9 @@ def create_default_templates():
     with open(templates_dir / "discord_commander.html", "w") as f:
         f.write(dashboard_html)
 
-    print(f"✅ Created Discord Commander web interface at {templates_dir / 'discord_commander.html'}")
+    print(
+        f"✅ Created Discord Commander web interface at {templates_dir / 'discord_commander.html'}"
+    )
 
 
 if __name__ == "__main__":

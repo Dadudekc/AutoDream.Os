@@ -22,20 +22,20 @@
 execution_mode:
   enabled: true
   strict_mode: true
-  
+
   # HARD STOP RULES
   hard_stops:
     max_acknowledgments: 1
     max_confirmations: 1
     max_status_reports: 1
     loop_detection_threshold: 3
-    
+
   # EXECUTOR AUTHORITY
   executor_assignment:
     primary_executor: "Agent-7"
     secondary_executor: "Agent-5"
     captain_override: "Agent-4"
-    
+
   # OUTCOME REQUIREMENTS
   outcome_enforcement:
     require_measurable_results: true
@@ -46,14 +46,14 @@ execution_mode:
       - "lines of code reduced"
       - "bytes removed"
       - "tests passing"
-      
+
   # ANTI-THEATER FILTERS
   suppression_rules:
     suppress_acknowledgment_chains: true
     suppress_meta_status: true
     suppress_circular_confirmations: true
     suppress_redundant_reporting: true
-    
+
   # TERMINATION CONDITIONS
   termination_triggers:
     execution_complete_signals:
@@ -61,13 +61,13 @@ execution_mode:
       - "Mission accomplished"
       - "Files removed successfully"
       - "Cleanup completed"
-      
+
     theater_detection_signals:
       - "Acknowledged acknowledged"
       - "Confirmed confirmed"
       - "Status status"
       - "Report report"
-      
+
 # EXECUTION WORKFLOW TEMPLATES
 workflow_templates:
   file_cleanup:
@@ -75,15 +75,15 @@ workflow_templates:
       - step: "task_assignment"
         captain_action: "Issue direct order"
         agent_response: "Single acknowledgment only"
-        
+
       - step: "execution"
         executor_action: "Perform task (delete files)"
         other_agents: "Silent until execution complete"
-        
+
       - step: "completion_report"
         executor_report: "Measurable outcome required"
         format: "✅ [QUANTITY] files deleted from [LOCATION]"
-        
+
       - step: "mission_end"
         captain_review: "Accept or request additional action"
         agents_status: "Standing by for next task"
@@ -93,15 +93,15 @@ workflow_templates:
       - phase: "ACKNOWLEDGE"
         duration: "30 seconds max"
         actions: ["Single acknowledgment", "No nested confirms"]
-        
+
       - phase: "EXECUTE"
         duration: "Task dependent"
         actions: ["Primary executor performs task", "Others silent"]
-        
+
       - phase: "REPORT"
         duration: "60 seconds max"
         actions: ["Measurable outcome", "No meta-status"]
-        
+
       - phase: "TERMINATE"
         duration: "15 seconds max"
         actions: ["Captain review", "Mission end"]
@@ -111,16 +111,16 @@ validation:
   outcome_metrics:
     file_operations:
       - "files_deleted"
-      - "files_removed" 
+      - "files_removed"
       - "directories_cleaned"
       - "storage_freed_bytes"
-      
+
     code_operations:
       - "lines_added"
       - "lines_removed"
       - "functions_created"
       - "tests_passing"
-      
+
     system_operations:
       - "services_deployed"
       - "components_integrated"
@@ -133,13 +133,13 @@ validation:
       - "✅ 433 files deleted from ML components"
       - "✅ 274 files removed (10.1% reduction)"
       - "✅ 24 directories cleaned successfully"
-      
+
   forbidden_phrases:
     theater_indicators:
       - "acknowledged acknowledged"
       - "confirmed confirmed"
       - "status status"
-      - "ultimate ultimate" 
+      - "ultimate ultimate"
       - "definitive definitive"
     meta_reporting:
       - "coordination status"

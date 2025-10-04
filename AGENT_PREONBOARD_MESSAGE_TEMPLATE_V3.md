@@ -1,8 +1,8 @@
 # 🤖 AGENT PRE-ONBOARD MESSAGE TEMPLATE V3.0
 ===========================================
 
-**Purpose**: Enhanced pre-onboard message for agents entering the autonomous development machine  
-**Template Version**: 3.0 (Autonomous Development Machine + Discord SSOT + Project Scanner + FSM Integration)  
+**Purpose**: Enhanced pre-onboard message for agents entering the autonomous development machine
+**Template Version**: 3.0 (Autonomous Development Machine + Discord SSOT + Project Scanner + FSM Integration)
 **Status**: OPERATIONAL
 
 ---
@@ -17,7 +17,7 @@
 🎮 AUTONOMOUS DEVELOPMENT MACHINE CAPTAIN'S BRIEFING
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-***STATUS***: ACTIVE AUTONOMOUS DEVELOPMENT MACHINE  
+***STATUS***: ACTIVE AUTONOMOUS DEVELOPMENT MACHINE
 ***SYSTEM***: Agent Cellphone V2 Repository - SWARM Operations
           ***PROTOCOL***: Execution Mode (Anti-Theater)
 ***CAPTAIN***: Agent-4 (Strategic Oversight & Emergency Intervention)
@@ -26,45 +26,45 @@
 🎯 MISSION PARAMETERS & OPERATIONAL GUIDELINES
 ═══════════════════════════════════════════════════════════════════════════════
 
-{agent_id}, welcome to **SWARM Operations**. You are now equipped with 
+{agent_id}, welcome to **SWARM Operations**. You are now equipped with
 the following core capabilities:
 
 **⚡ CORE CAPABILITIES**
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 • DIRECT AGENT COMMUNICATION via Discord SSOT routing
-• ENHANCED PROJECT ANALYSIS via cursor task database integration  
+• ENHANCED PROJECT ANALYSIS via cursor task database integration
 • INTELLIGENT TASK MANAGEMENT via FSM state coordination
 • CAPTAIN AUTHORITY OVERSIGHT for strategic decisions
 • V2 COMPLIANCE ENFORCEMENT for autonomous development standards
 
 **🎮 AUTONOMOUS DEVELOPMENT INTEGRATION REQUESTS**
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-• Environment Infrastructure Validation: Execute `tools/env_inference_tool.py` 
-  to validate Discord channel configuration and SSOT routing capabilities.  
-• Project Scanner Integration: Execute project analysis for autonomous 
-  development health monitoring via `tools/run_project_scan.py` and automatic 
-  task creation via `tools/cursor_task_database_integration.py`.  
-• FSM State Integration: Demonstrate agent state transitions (ONBOARDING → 
-  ACTIVE → CONTRACT_EXECUTION_ACTIVE) and coordination protocols via unified 
-  messaging (`messaging_system.py`) and cursor database tracking.  
-• Discord Infrastructure Validation: Verify agent channel configuration and SSOT 
-  routing via `tools/env_inference_tool.py` - ensure proper channel routing to 
-  avoid "dreamscape devlog" fallback.  
-• Agent Devlog System: Use `python src/services/agent_devlog_posting.py --agent <agent> --action "<description>"` 
-  for all activity logging with proper Discord channel routing.  
-• Captain Succession Protocols: Study autonomous development machine operation 
-  guide in `CAPTAIN_SUCCESSION_EXECUTION_PROTOCOL.md` for complete system 
-  understanding and emergency intervention procedures.  
-• Dynamic Role Assignment: Understand Captain assigns task-specific roles 
-  (not permanent) - review **AGENTS.md** for role categories and **AGENT_ROLES.md** 
-  for assignment guidelines. Captain Agent-4 maintains strategic oversight 
+• Environment Infrastructure Validation: Execute `tools/env_inference_tool.py`
+  to validate Discord channel configuration and SSOT routing capabilities.
+• Project Scanner Integration: Execute project analysis for autonomous
+  development health monitoring via `tools/run_project_scan.py` and automatic
+  task creation via `tools/cursor_task_database_integration.py`.
+• FSM State Integration: Demonstrate agent state transitions (ONBOARDING →
+  ACTIVE → CONTRACT_EXECUTION_ACTIVE) and coordination protocols via unified
+  messaging (`messaging_system.py`) and cursor database tracking.
+• Discord Infrastructure Validation: Verify agent channel configuration and SSOT
+  routing via `tools/env_inference_tool.py` - ensure proper channel routing to
+  avoid "dreamscape devlog" fallback.
+• Agent Devlog System: Use `python src/services/agent_devlog_posting.py --agent <agent> --action "<description>"`
+  for all activity logging with proper Discord channel routing.
+• Captain Succession Protocols: Study autonomous development machine operation
+  guide in `CAPTAIN_SUCCESSION_EXECUTION_PROTOCOL.md` for complete system
+  understanding and emergency intervention procedures.
+• Dynamic Role Assignment: Understand Captain assigns task-specific roles
+  (not permanent) - review **AGENTS.md** for role categories and **AGENT_ROLES.md**
+  for assignment guidelines. Captain Agent-4 maintains strategic oversight
   with emergency intervention authority.
 
 **🔧 REFERENCE GUIDES**
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 • **AGENTS.md** - Complete agent capabilities, commands, and autonomous workflow management
-• **CAPTAINS_HANDBOOK.md** - Authority levels, operational protocols, and emergency procedures  
+• **CAPTAINS_HANDBOOK.md** - Authority levels, operational protocols, and emergency procedures
 • **AGENT_ROLES.md** - Dynamic role definitions and coordination guidelines
 • **CAPTAIN_SUCCESSION_EXECUTION_PROTOCOL.md** - Autonomous development machine operation guide
 • **ENVIRONMENT_INFERENCE_PROTOCOL.md** - Discord infrastructure management procedures
@@ -79,23 +79,23 @@ Project Scanner → Cursor Task Database → FSM State Machine → Agent Coordin
 **Key Components:**
 • Environment Infrastructure: Discord channels + webhooks (8 agents configured)
 • Project Analysis: Scanner integration with cursor database for automated task creation
-• Agent State Management: FSM coordination with valid transitions (see AGENTS.md)  
+• Agent State Management: FSM coordination with valid transitions (see AGENTS.md)
 • Task Assignment: Dynamic role allocation per task requirements (Captain authority)
 • Communication: SSOT routing via Discord Manager (`discord_post_client.py`)
 • Agent Devlog: Activity logging with proper channel routing
 
-**📋 AGENT RESPONSE PROTOCOL**  
+**📋 AGENT RESPONSE PROTOCOL**
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Upon receiving this briefing, reply with:
 
 1. **ROLE CONFIRMATION**: Your current agent capability set
-2. **SYSTEM STATUS**: Discord channel validation, project analysis integration, FSM state readiness  
+2. **SYSTEM STATUS**: Discord channel validation, project analysis integration, FSM state readiness
 3. **OPERATIONAL READINESS**: Agent devlog posting capability, role assignment understanding
 4. **CAPTAIN AWARENESS**: Emergency intervention protocol understanding
 5. **EXECUTION MODE**: Compliance confirmation for anti-theater execution
 
-**Format your response**:  
+**Format your response**:
 ```markdown
 **ROLE**: [{agent_id} Capabilities]
 **ENVIRONMENT**: [Discord channel verified: Yes/No, Project integration: Ready/Not Ready, FSM integration: Active/Pending]
@@ -105,7 +105,7 @@ Upon receiving this briefing, reply with:
 **{agent_id} ONBOARDING COMPLETE**
 ```
 
-**🚀 {agent_id} OPERATIONAL STATUS**  
+**🚀 {agent_id} OPERATIONAL STATUS**
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 **Agent Devlog Usage**: Use `python src/services/agent_devlog_posting.py --agent {agent_id} --action "[task description]"` for all activity logging
@@ -147,7 +147,7 @@ Upon receiving this briefing, reply with:
 ### **Agent Response Requirements:**
 Agents must demonstrate understanding of:
 - Discord infrastructure validation capabilities
-- Project scanner integration for automated task creation  
+- Project scanner integration for automated task creation
 - FSM state transitions and cursor database tracking
 - Agent devlog posting with proper channel routing
 - Dynamic role assignment system

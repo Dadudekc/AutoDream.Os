@@ -1,0 +1,2273 @@
+{
+  "root": "D:\\Agent_Cellphone_V2_Repository",
+  "focus_keywords": [
+    "onboard",
+    "onboarding",
+    "discord",
+    "devlog",
+    "webhook",
+    "post",
+    "messaging"
+  ],
+  "scan_dirs": [
+    "D:\\Agent_Cellphone_V2_Repository\\src\\services",
+    "D:\\Agent_Cellphone_V2_Repository\\tools"
+  ],
+  "exact_groups": [],
+  "near_pairs": [
+    {
+      "a": "tools\\discord_commander_launcher_core.py",
+      "b": "discord_commander_launcher_core.py",
+      "similarity": 0.9777
+    }
+  ],
+  "meta": {
+    "src\\services\\consolidated_messaging_core.py": {
+      "functions": 8,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_send_via_pyautogui",
+        "get_agent_status",
+        "get_messaging_metrics",
+        "send_message",
+        "stall_agent",
+        "unstall_agent",
+        "update_agent_status",
+        "ConsolidatedMessagingService"
+      ],
+      "size": 4514,
+      "lines": 128
+    },
+    "src\\services\\discord_bot_integrated.py": {
+      "functions": 3,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_load_configuration",
+        "get_status",
+        "IntegratedDiscordBotService"
+      ],
+      "size": 9715,
+      "lines": 279
+    },
+    "src\\services\\discord_line_emitter.py": {
+      "functions": 2,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_get_webhook",
+        "DiscordLineEmitter"
+      ],
+      "size": 2783,
+      "lines": 83
+    },
+    "src\\services\\enhanced_onboarding.py": {
+      "functions": 7,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_load_coordinates",
+        "create_onboarding_message",
+        "execute_enhanced_onboarding",
+        "get_agent_coordinates",
+        "main",
+        "onboard_all_active_agents",
+        "EnhancedOnboardingService"
+      ],
+      "size": 10314,
+      "lines": 264
+    },
+    "src\\services\\messaging_models.py": {
+      "functions": 0,
+      "classes": 6,
+      "symbols": [
+        "AgentStatus",
+        "Message",
+        "MessagePriority",
+        "MessageStatus",
+        "MessageType",
+        "MessagingMetrics"
+      ],
+      "size": 1453,
+      "lines": 71
+    },
+    "src\\services\\soft_onboarding.py": {
+      "functions": 7,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_load_coordinates",
+        "create_soft_onboarding_message",
+        "execute_soft_onboarding",
+        "get_agent_coordinates",
+        "main",
+        "soft_onboard_all_active_agents",
+        "SoftOnboardingService"
+      ],
+      "size": 10195,
+      "lines": 263
+    },
+    "src\\services\\agent_devlog_posting.py": {
+      "functions": 0,
+      "classes": 0,
+      "symbols": [],
+      "size": 432,
+      "lines": 20
+    },
+    "src\\services\\captain_onboarding_core.py": {
+      "functions": 6,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_generate_basic_guide",
+        "create_basic_onboarding",
+        "main",
+        "setup_captain_workspace",
+        "validate_captain_tools",
+        "CaptainOnboardingCore"
+      ],
+      "size": 7903,
+      "lines": 251
+    },
+    "src\\services\\captain_onboarding_system.py": {
+      "functions": 7,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_create_onboarding_markdown",
+        "_format_list",
+        "create_training_materials",
+        "generate_onboarding_documentation",
+        "generate_system_integration_guide",
+        "main",
+        "CaptainOnboardingSystem"
+      ],
+      "size": 13526,
+      "lines": 388
+    },
+    "src\\services\\consolidated_messaging_service.py": {
+      "functions": 0,
+      "classes": 0,
+      "symbols": [],
+      "size": 1882,
+      "lines": 66
+    },
+    "src\\services\\consolidated_messaging_service_core.py": {
+      "functions": 18,
+      "classes": 7,
+      "symbols": [
+        "__init__",
+        "__post_init__",
+        "_get_expected_content",
+        "_get_screenshot_type",
+        "check_response_protocol",
+        "check_violations",
+        "cleanup_memory",
+        "get_agent_coordinates",
+        "get_memory_status",
+        "get_screenshot_context",
+        "get_service_status",
+        "increment_cycle",
+        "is_active",
+        "is_agent_active",
+        "load",
+        "should_take_screenshot",
+        "to_dict",
+        "track_coordination_request",
+        "AgentCoordinatesLoader",
+        "AgentStatusChecker",
+        "ConsolidatedMessagingServiceCore",
+        "CoordinationRequest",
+        "MessageProtocolChecker",
+        "ScreenshotManager",
+        "ScreenshotTrigger"
+      ],
+      "size": 13237,
+      "lines": 345
+    },
+    "src\\services\\consolidated_messaging_service_main.py": {
+      "functions": 15,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_create_devlog_entry",
+        "broadcast_message",
+        "check_protocol_compliance",
+        "check_screenshot_trigger",
+        "get_agent_coordinates",
+        "get_screenshot_context",
+        "get_status",
+        "hard_onboard_agent",
+        "hard_onboard_all_agents",
+        "increment_messaging_cycle",
+        "send_cued_message",
+        "send_message",
+        "stall_agent",
+        "unstall_agent",
+        "ConsolidatedMessagingService"
+      ],
+      "size": 7514,
+      "lines": 204
+    },
+    "src\\services\\consolidated_messaging_service_utils.py": {
+      "functions": 14,
+      "classes": 4,
+      "symbols": [
+        "__init__",
+        "create_agent_onboarder",
+        "create_message_formatter",
+        "create_message_sender",
+        "create_message_validator",
+        "create_onboarding_message",
+        "format_a2a_message",
+        "get_agent_default_role",
+        "get_quality_guidelines",
+        "hard_onboard_agent",
+        "hard_onboard_all_agents",
+        "paste_to_coords",
+        "remove_from_recent",
+        "validate_before_paste",
+        "AgentOnboarder",
+        "MessageFormatter",
+        "MessageSender",
+        "MessageValidator"
+      ],
+      "size": 14448,
+      "lines": 357
+    },
+    "src\\services\\devlog_storytelling_service.py": {
+      "functions": 14,
+      "classes": 3,
+      "symbols": [
+        "__init__",
+        "_create_bug_fix_story",
+        "_create_error_story",
+        "_create_feature_story",
+        "_create_generic_story",
+        "_create_optimization_story",
+        "_create_task_completion_story",
+        "_determine_story_type",
+        "_parse_devlog_content",
+        "create_story_from_devlog",
+        "get_story_statistics",
+        "load_story",
+        "main",
+        "save_story",
+        "DevlogStory",
+        "DevlogStorytellingService",
+        "StoryElement"
+      ],
+      "size": 15736,
+      "lines": 433
+    },
+    "src\\services\\ssot_discord_integration.py": {
+      "functions": 6,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "create_ssot_validation_report",
+        "integrate_with_discord_commander",
+        "load_ssot_protocols",
+        "main",
+        "validate_agent_directory_system",
+        "SSOTDiscordIntegration"
+      ],
+      "size": 5688,
+      "lines": 158
+    },
+    "src\\services\\agent_hard_onboarding.py": {
+      "functions": 15,
+      "classes": 3,
+      "symbols": [
+        "__init__",
+        "_cooldown_release",
+        "_load_and_validate_coords",
+        "_run_sequence",
+        "_throttle",
+        "click",
+        "create_onboarding_message",
+        "get_agent_default_role",
+        "hard_onboard_agent",
+        "hard_onboard_all_agents",
+        "hotkey",
+        "paste_text",
+        "press",
+        "process_hard_onboard_command",
+        "typewrite",
+        "AgentCoords",
+        "AgentHardOnboarder",
+        "UI"
+      ],
+      "size": 11465,
+      "lines": 297
+    },
+    "src\\services\\consolidated_messaging_cli.py": {
+      "functions": 3,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "build_parser",
+        "main",
+        "ConsolidatedMessagingCLI"
+      ],
+      "size": 8601,
+      "lines": 223
+    },
+    "src\\services\\discord_devlog_bypass.py": {
+      "functions": 5,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_format_bypass_message",
+        "_load_webhook_url",
+        "main",
+        "post_message_sync",
+        "DiscordDevlogBypass"
+      ],
+      "size": 5655,
+      "lines": 164
+    },
+    "src\\services\\discord_devlog_service.py": {
+      "functions": 3,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_format_discord_message",
+        "_load_config",
+        "DiscordDevlogService"
+      ],
+      "size": 23884,
+      "lines": 581
+    },
+    "src\\services\\enhanced_onboarding_coordinator.py": {
+      "functions": 7,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_format_approved_proposals",
+        "execute_enhanced_onboarding",
+        "initiate_agent_integration",
+        "main",
+        "review_agent_proposals",
+        "validate_onboarding_completion",
+        "EnhancedOnboardingCoordinator"
+      ],
+      "size": 16282,
+      "lines": 390
+    },
+    "src\\services\\messaging\\history.py": {
+      "functions": 1,
+      "classes": 0,
+      "symbols": [
+        "show"
+      ],
+      "size": 881,
+      "lines": 42
+    },
+    "src\\services\\messaging\\onboarding_bridge.py": {
+      "functions": 1,
+      "classes": 0,
+      "symbols": [
+        "hard_onboarding"
+      ],
+      "size": 955,
+      "lines": 37
+    },
+    "src\\services\\messaging\\task_handlers.py": {
+      "functions": 3,
+      "classes": 0,
+      "symbols": [
+        "claim_task",
+        "handle_claim",
+        "handle_complete"
+      ],
+      "size": 2784,
+      "lines": 96
+    },
+    "src\\services\\messaging\\__init__.py": {
+      "functions": 0,
+      "classes": 0,
+      "symbols": [],
+      "size": 745,
+      "lines": 26
+    },
+    "src\\services\\messaging\\agent_context.py": {
+      "functions": 14,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_detect_agent_context",
+        "_detect_from_config",
+        "_detect_from_environment",
+        "_detect_from_process",
+        "_detect_from_workspace",
+        "_extract_agent_from_path",
+        "_extract_agent_from_string",
+        "_is_valid_agent_id",
+        "_read_agent_from_config",
+        "clear_agent_context",
+        "clear_context",
+        "get_current_agent",
+        "set_agent_context",
+        "AgentContextDetector"
+      ],
+      "size": 10173,
+      "lines": 310
+    },
+    "src\\services\\messaging\\coordinates.py": {
+      "functions": 7,
+      "classes": 1,
+      "symbols": [
+        "get_agent_coordinates",
+        "get_all_agents",
+        "get_chat_coordinates",
+        "get_coordinate_loader",
+        "is_agent_active",
+        "list_agents",
+        "load_all_active_coords",
+        "Mock"
+      ],
+      "size": 2238,
+      "lines": 88
+    },
+    "src\\services\\messaging\\enhanced_message_validator.py": {
+      "functions": 9,
+      "classes": 2,
+      "symbols": [
+        "__init__",
+        "enhance_pyautogui_handler_with_validation",
+        "get_paste_alternative_strategy",
+        "get_validation_summary",
+        "send_message_content_with_validation",
+        "test_clipboard_functionality",
+        "validate_and_prepare_for_paste",
+        "validate_coordinates",
+        "validate_message_for_paste",
+        "EnhancedMessageValidator",
+        "EnhancedPyAutoGUIHandler"
+      ],
+      "size": 11731,
+      "lines": 308
+    },
+    "src\\services\\messaging\\enhanced_pyautogui_handler.py": {
+      "functions": 16,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_send_message_by_typing",
+        "_try_clear_and_paste",
+        "_try_direct_paste",
+        "_try_select_all_and_paste",
+        "_type_with_line_breaks",
+        "clear_input_area",
+        "create_new_tab",
+        "focus_agent_window",
+        "get_screen_info",
+        "is_available",
+        "send_bulk_messages_with_validation",
+        "send_message_content_with_validation",
+        "send_message_to_agent_with_validation",
+        "test_messaging_functionality",
+        "validate_coordinates",
+        "EnhancedPyAutoGUIHandler"
+      ],
+      "size": 14302,
+      "lines": 393
+    },
+    "src\\services\\messaging\\intelligent_coordinator.py": {
+      "functions": 10,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "analyze_coordination_patterns",
+        "coordinate_task",
+        "get_agent_profile",
+        "get_coordination_status",
+        "get_performance_metrics",
+        "optimize_coordination",
+        "recommend_coordination_strategy",
+        "route_task",
+        "update_agent_capabilities",
+        "IntelligentAgentCoordinator"
+      ],
+      "size": 6114,
+      "lines": 172
+    },
+    "src\\services\\messaging\\intelligent_coordinator_core.py": {
+      "functions": 17,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_calculate_metrics",
+        "_calculate_pattern_success_rate",
+        "_calculate_success_probability",
+        "_determine_strategy",
+        "_estimate_duration",
+        "_generate_recommendations",
+        "_get_current_time",
+        "_has_required_skills",
+        "_monitor_coordination",
+        "_select_best_agents",
+        "_send_coordination_message",
+        "create_coordination_plan",
+        "execute_coordination",
+        "find_expert_agents",
+        "get_coordination_patterns",
+        "optimize_coordination",
+        "IntelligentCoordinatorCore"
+      ],
+      "size": 8659,
+      "lines": 235
+    },
+    "src\\services\\messaging\\intelligent_coordinator_models.py": {
+      "functions": 0,
+      "classes": 7,
+      "symbols": [
+        "AgentProfile",
+        "CoordinationPlan",
+        "CoordinationResult",
+        "CoordinationTask",
+        "PerformanceMetrics",
+        "SwarmIntelligence",
+        "TaskRouting"
+      ],
+      "size": 1776,
+      "lines": 82
+    },
+    "src\\services\\messaging\\memory_leak_analyzer.py": {
+      "functions": 19,
+      "classes": 4,
+      "symbols": [
+        "__init__",
+        "_analyze_coordination_tracker",
+        "_analyze_enhanced_validator",
+        "_analyze_message_validator",
+        "_analyze_messaging_components",
+        "_analyze_pyautogui_handler",
+        "_generate_recommendations",
+        "_get_memory_usage",
+        "analyze_messaging_system",
+        "cleanup_expired_resources",
+        "cleanup_stale_handles",
+        "cleanup_system",
+        "detect_leaks",
+        "get_handle_stats",
+        "get_resource_stats",
+        "managed_file",
+        "register_resource",
+        "take_snapshot",
+        "unregister_resource",
+        "FileHandleManager",
+        "MemoryLeakDetector",
+        "MessagingSystemMemoryAnalyzer",
+        "ResourceManager"
+      ],
+      "size": 12887,
+      "lines": 361
+    },
+    "src\\services\\messaging\\models_optimized.py": {
+      "functions": 6,
+      "classes": 7,
+      "symbols": [
+        "__init__",
+        "create_message",
+        "format_message",
+        "map_priority",
+        "map_tag",
+        "validate_message",
+        "Message",
+        "MessageConfig",
+        "MessagePriority",
+        "MessageResult",
+        "MessageTag",
+        "MessageType",
+        "MessageUtils"
+      ],
+      "size": 3897,
+      "lines": 145
+    },
+    "src\\services\\messaging\\project_update_cli.py": {
+      "functions": 4,
+      "classes": 0,
+      "symbols": [
+        "build_parser",
+        "main",
+        "parse_agents",
+        "parse_metadata"
+      ],
+      "size": 10793,
+      "lines": 272
+    },
+    "src\\services\\messaging\\project_update_system.py": {
+      "functions": 11,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_format_update_message",
+        "_record_update",
+        "get_update_history",
+        "get_update_statistics",
+        "send_documentation_cleanup_update",
+        "send_feature_announcement",
+        "send_milestone_notification",
+        "send_project_update",
+        "send_system_status_update",
+        "send_v2_compliance_update",
+        "ProjectUpdateSystem"
+      ],
+      "size": 10212,
+      "lines": 308
+    },
+    "src\\services\\messaging\\pyautogui_handler.py": {
+      "functions": 9,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "clear_input_area",
+        "create_new_tab",
+        "focus_agent_window",
+        "get_screen_info",
+        "is_available",
+        "send_bulk_messages",
+        "send_message_content",
+        "send_message_to_agent",
+        "PyAutoGUIHandler"
+      ],
+      "size": 6613,
+      "lines": 201
+    },
+    "src\\services\\messaging\\thea_handlers.py": {
+      "functions": 1,
+      "classes": 0,
+      "symbols": [
+        "send_to_thea"
+      ],
+      "size": 1551,
+      "lines": 62
+    },
+    "src\\services\\messaging\\workflow_integration.py": {
+      "functions": 6,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "workflow_coordinate_task",
+        "workflow_request_help",
+        "workflow_send_message",
+        "workflow_status_update",
+        "workflow_task_completion",
+        "MessagingWorkflowIntegration"
+      ],
+      "size": 12582,
+      "lines": 359
+    },
+    "src\\services\\messaging\\coordination_tracker.py": {
+      "functions": 16,
+      "classes": 3,
+      "symbols": [
+        "__init__",
+        "_cleanup_old_requests",
+        "get_coordination_stats",
+        "get_coordination_tracker",
+        "get_enhanced_validator",
+        "get_pending_requests",
+        "get_request_stats",
+        "get_stats",
+        "mark_coordination_response",
+        "mark_response",
+        "mark_response_received",
+        "to_dict",
+        "track_request",
+        "validate_coordination_protocol",
+        "validate_coordination_request",
+        "validate_request",
+        "CoordinationRequest",
+        "CoordinationTracker",
+        "EnhancedCoordinationValidator"
+      ],
+      "size": 9942,
+      "lines": 272
+    },
+    "src\\services\\messaging\\memory_leak_analysis_report.py": {
+      "functions": 9,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_analyze_critical_leaks",
+        "_analyze_minor_issues",
+        "_analyze_moderate_issues",
+        "_document_fixes",
+        "_generate_recommendations",
+        "_generate_summary",
+        "generate_memory_leak_report",
+        "generate_report",
+        "MemoryLeakAnalysisReport"
+      ],
+      "size": 10119,
+      "lines": 252
+    },
+    "src\\services\\messaging\\memory_leak_fixes.py": {
+      "functions": 19,
+      "classes": 4,
+      "symbols": [
+        "__init__",
+        "_cleanup_loop",
+        "_cleanup_old_requests",
+        "_cleanup_session",
+        "_create_session",
+        "add_request",
+        "cleanup_memory_resources",
+        "cleanup_stale_files",
+        "cleanup_stale_sessions",
+        "force_cleanup",
+        "get_memory_stats",
+        "get_memory_status",
+        "get_request",
+        "initialize_memory_management",
+        "managed_file",
+        "managed_session",
+        "periodic_cleanup",
+        "start_cleanup_service",
+        "stop_cleanup_service",
+        "CoordinationRequestManager",
+        "FileResourceManager",
+        "MemoryLeakFixer",
+        "PyAutoGUIResourceManager"
+      ],
+      "size": 10075,
+      "lines": 290
+    },
+    "src\\services\\messaging\\message_validator.py": {
+      "functions": 0,
+      "classes": 0,
+      "symbols": [],
+      "size": 1060,
+      "lines": 36
+    },
+    "src\\services\\messaging\\messaging_core.py": {
+      "functions": 0,
+      "classes": 0,
+      "symbols": [],
+      "size": 1073,
+      "lines": 38
+    },
+    "src\\services\\messaging\\multichat_response_core.py": {
+      "functions": 6,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_format_response_with_context",
+        "_learn_from_response",
+        "_track_response",
+        "get_response_history",
+        "respond_to_message",
+        "MultichatResponseCore"
+      ],
+      "size": 5099,
+      "lines": 151
+    },
+    "src\\services\\messaging\\core\\coordinate_loader.py": {
+      "functions": 9,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_get_default_coordinates",
+        "_load_coordinates",
+        "get_agent_coordinates",
+        "get_agent_ids",
+        "get_all_coordinates",
+        "get_coords",
+        "load",
+        "validate_all",
+        "CoordinateLoader"
+      ],
+      "size": 3617,
+      "lines": 90
+    },
+    "src\\services\\messaging\\core\\messaging_service.py": {
+      "functions": 8,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_format_a2a_message",
+        "_get_quality_guidelines",
+        "_is_agent_active",
+        "_paste_to_coords",
+        "broadcast_message",
+        "get_available_agents",
+        "send_message",
+        "MessagingService"
+      ],
+      "size": 6977,
+      "lines": 204
+    },
+    "src\\services\\messaging\\cli\\messaging_cli_clean.py": {
+      "functions": 6,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "broadcast_message",
+        "create_parser",
+        "run_cli",
+        "send_message",
+        "show_history",
+        "MessagingCLI"
+      ],
+      "size": 6365,
+      "lines": 171
+    },
+    "src\\services\\messaging\\delivery\\inbox_delivery.py": {
+      "functions": 1,
+      "classes": 0,
+      "symbols": [
+        "send_message_inbox"
+      ],
+      "size": 1000,
+      "lines": 39
+    },
+    "src\\services\\messaging\\delivery\\fallback.py": {
+      "functions": 2,
+      "classes": 0,
+      "symbols": [
+        "broadcast",
+        "send_with_fallback"
+      ],
+      "size": 1934,
+      "lines": 71
+    },
+    "src\\services\\messaging\\delivery\\pyautogui_delivery.py": {
+      "functions": 4,
+      "classes": 0,
+      "symbols": [
+        "_focus_and_clear",
+        "_lazy_import",
+        "_paste_or_type",
+        "deliver_message_pyautogui"
+      ],
+      "size": 3391,
+      "lines": 124
+    },
+    "src\\services\\messaging\\interfaces\\messaging_interfaces.py": {
+      "functions": 5,
+      "classes": 5,
+      "symbols": [
+        "get_inbox_messages",
+        "get_message_history",
+        "is_available",
+        "save_message",
+        "send_message",
+        "FileBasedMessageHistoryProvider",
+        "InboxDeliveryProvider",
+        "MessageDeliveryProvider",
+        "MessageHistoryProvider",
+        "PyAutoGUIDeliveryProvider"
+      ],
+      "size": 2968,
+      "lines": 102
+    },
+    "src\\services\\messaging\\interfaces\\__init__.py": {
+      "functions": 0,
+      "classes": 0,
+      "symbols": [],
+      "size": 572,
+      "lines": 26
+    },
+    "src\\services\\messaging\\models\\messaging_enums.py": {
+      "functions": 0,
+      "classes": 6,
+      "symbols": [
+        "DeliveryMethod",
+        "MessageStatus",
+        "RecipientType",
+        "UnifiedMessagePriority",
+        "UnifiedMessageTag",
+        "UnifiedMessageType"
+      ],
+      "size": 1729,
+      "lines": 81
+    },
+    "src\\services\\messaging\\models\\__init__.py": {
+      "functions": 0,
+      "classes": 0,
+      "symbols": [],
+      "size": 746,
+      "lines": 35
+    },
+    "src\\services\\messaging\\models\\messaging_models.py": {
+      "functions": 5,
+      "classes": 4,
+      "symbols": [
+        "from_dict",
+        "from_tuple",
+        "to_dict",
+        "to_tuple",
+        "update_delivery",
+        "AgentCoordinates",
+        "MessageHistory",
+        "MessagingMetrics",
+        "UnifiedMessage"
+      ],
+      "size": 5510,
+      "lines": 162
+    },
+    "src\\services\\messaging\\providers\\discord_provider_cli.py": {
+      "functions": 1,
+      "classes": 0,
+      "symbols": [
+        "create_argument_parser"
+      ],
+      "size": 6022,
+      "lines": 183
+    },
+    "src\\services\\messaging\\providers\\discord_provider_core.py": {
+      "functions": 5,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_format_agent_message",
+        "_format_broadcast_message",
+        "_format_channel_message",
+        "get_provider_status",
+        "DiscordMessagingProvider"
+      ],
+      "size": 6867,
+      "lines": 177
+    },
+    "src\\services\\messaging\\providers\\discord_provider_operations.py": {
+      "functions": 5,
+      "classes": 3,
+      "symbols": [
+        "__init__",
+        "cleanup_old_logs",
+        "manage_channels",
+        "manage_logging",
+        "manage_provider_operations",
+        "DiscordChannelManager",
+        "DiscordMessageLogger",
+        "DiscordProviderService"
+      ],
+      "size": 6965,
+      "lines": 195
+    },
+    "src\\services\\messaging\\onboarding\\onboarding_service.py": {
+      "functions": 9,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_configure_agent_permissions",
+        "_perform_onboarding",
+        "_setup_agent_communication",
+        "_setup_agent_workspace",
+        "_validate_agent_data",
+        "get_agent_status",
+        "list_onboarded_agents",
+        "onboard_agent",
+        "OnboardingService"
+      ],
+      "size": 7113,
+      "lines": 193
+    },
+    "src\\services\\messaging\\status\\status_monitor.py": {
+      "functions": 6,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_get_agent_task_statuses",
+        "_get_fsm_status",
+        "_get_project_scanner_status",
+        "_get_system_health",
+        "get_comprehensive_status",
+        "StatusMonitor"
+      ],
+      "size": 6496,
+      "lines": 164
+    },
+    "src\\services\\discord_bot\\commands\\basic_commands.py": {
+      "functions": 4,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "get_command_help",
+        "get_command_list",
+        "setup_basic_commands",
+        "BasicCommandHandler"
+      ],
+      "size": 8843,
+      "lines": 229
+    },
+    "src\\services\\discord_bot\\commands\\basic_commands_modular.py": {
+      "functions": 1,
+      "classes": 0,
+      "symbols": [
+        "setup"
+      ],
+      "size": 774,
+      "lines": 28
+    },
+    "src\\services\\discord_bot\\commands\\button_handlers.py": {
+      "functions": 1,
+      "classes": 0,
+      "symbols": [
+        "create_main_interface_view"
+      ],
+      "size": 5954,
+      "lines": 167
+    },
+    "src\\services\\discord_bot\\commands\\help_command.py": {
+      "functions": 1,
+      "classes": 0,
+      "symbols": [
+        "setup_help_command"
+      ],
+      "size": 2682,
+      "lines": 67
+    },
+    "src\\services\\discord_bot\\commands\\main_interface.py": {
+      "functions": 3,
+      "classes": 3,
+      "symbols": [
+        "__init__",
+        "_is_admin",
+        "set_agent_coordination",
+        "MainInterface",
+        "RestartModal",
+        "ShutdownModal"
+      ],
+      "size": 11388,
+      "lines": 270
+    },
+    "src\\services\\discord_bot\\commands\\modal_handlers.py": {
+      "functions": 1,
+      "classes": 2,
+      "symbols": [
+        "__init__",
+        "RestartModal",
+        "ShutdownModal"
+      ],
+      "size": 2988,
+      "lines": 87
+    },
+    "src\\services\\discord_bot\\commands\\ping_command.py": {
+      "functions": 1,
+      "classes": 0,
+      "symbols": [
+        "setup_ping_command"
+      ],
+      "size": 1441,
+      "lines": 38
+    },
+    "src\\services\\discord_bot\\commands\\response_utils.py": {
+      "functions": 1,
+      "classes": 0,
+      "symbols": [
+        "is_admin"
+      ],
+      "size": 1270,
+      "lines": 38
+    },
+    "src\\services\\discord_bot\\commands\\safe_response_utils.py": {
+      "functions": 1,
+      "classes": 0,
+      "symbols": [
+        "safe_log_info"
+      ],
+      "size": 2094,
+      "lines": 63
+    },
+    "src\\services\\discord_bot\\commands\\social_media_commands.py": {
+      "functions": 2,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_get_sentiment_color",
+        "SocialMediaCommands"
+      ],
+      "size": 10987,
+      "lines": 272
+    },
+    "src\\services\\discord_bot\\commands\\webhook_setup_commands.py": {
+      "functions": 2,
+      "classes": 0,
+      "symbols": [
+        "is_admin",
+        "setup_webhook_setup_commands"
+      ],
+      "size": 7945,
+      "lines": 203
+    },
+    "src\\services\\discord_bot\\commands\\agent_coordination\\core.py": {
+      "functions": 4,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_is_admin",
+        "get_team_description",
+        "set_main_interface_callback",
+        "AgentCoordinationCore"
+      ],
+      "size": 7293,
+      "lines": 209
+    },
+    "src\\services\\discord_bot\\commands\\agent_coordination\\messaging.py": {
+      "functions": 1,
+      "classes": 3,
+      "symbols": [
+        "__init__",
+        "AgentMessagingHandler",
+        "MessageInputModal",
+        "MessagePriorityView"
+      ],
+      "size": 6112,
+      "lines": 173
+    },
+    "src\\services\\discord_bot\\commands\\agent_coordination\\onboarding.py": {
+      "functions": 1,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "AgentOnboardingHandler"
+      ],
+      "size": 6611,
+      "lines": 188
+    },
+    "src\\services\\discord_bot\\commands\\agent_coordination\\status.py": {
+      "functions": 3,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "get_agent_status",
+        "get_status_color",
+        "AgentStatusHandler"
+      ],
+      "size": 5557,
+      "lines": 162
+    },
+    "src\\services\\discord_bot\\core\\discord_agent_interface.py": {
+      "functions": 8,
+      "classes": 2,
+      "symbols": [
+        "__init__",
+        "_get_all_agent_statuses",
+        "_get_single_agent_status",
+        "activate_agent",
+        "broadcast_message",
+        "get_agent_status",
+        "get_swarm_status",
+        "send_message_to_agent",
+        "DiscordAgentInterface",
+        "DiscordSwarmCoordinator"
+      ],
+      "size": 5864,
+      "lines": 168
+    },
+    "src\\services\\discord_bot\\core\\discord_bot.py": {
+      "functions": 2,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "create_discord_bot",
+        "EnhancedDiscordAgentBot"
+      ],
+      "size": 3003,
+      "lines": 100
+    },
+    "src\\services\\discord_bot\\core\\discord_bot_core.py": {
+      "functions": 6,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_setup_event_handlers",
+        "create_command_context",
+        "get_metrics",
+        "get_status",
+        "increment_command_count",
+        "DiscordBotCore"
+      ],
+      "size": 3719,
+      "lines": 118
+    },
+    "src\\services\\discord_bot\\core\\discord_bot_models.py": {
+      "functions": 0,
+      "classes": 5,
+      "symbols": [
+        "BotConfiguration",
+        "BotMetrics",
+        "BotStatus",
+        "CommandContext",
+        "CommandType"
+      ],
+      "size": 1071,
+      "lines": 56
+    },
+    "src\\services\\discord_bot\\core\\commands\\social_media_commands.py": {
+      "functions": 1,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "SocialMediaCommands"
+      ],
+      "size": 6500,
+      "lines": 168
+    },
+    "src\\services\\discord_bot\\ui\\discord_ui.py": {
+      "functions": 4,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "create_broadcast_modal",
+        "create_message_agent_modal",
+        "create_social_media_post_modal",
+        "DiscordUI"
+      ],
+      "size": 2356,
+      "lines": 74
+    },
+    "src\\services\\discord_bot\\ui\\discord_ui_core.py": {
+      "functions": 2,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_create_error_embed",
+        "DiscordUICore"
+      ],
+      "size": 4162,
+      "lines": 124
+    },
+    "src\\services\\discord_bot\\ui\\discord_ui_modals.py": {
+      "functions": 1,
+      "classes": 3,
+      "symbols": [
+        "__init__",
+        "BroadcastModal",
+        "MessageAgentModal",
+        "SocialMediaPostModal"
+      ],
+      "size": 10018,
+      "lines": 283
+    },
+    "src\\services\\discord_bot\\ui\\discord_ui_views.py": {
+      "functions": 1,
+      "classes": 3,
+      "symbols": [
+        "__init__",
+        "AgentControlView",
+        "SocialMediaView",
+        "SystemControlView"
+      ],
+      "size": 9182,
+      "lines": 235
+    },
+    "src\\services\\discord_bot\\tools\\webhook_provisioner.py": {
+      "functions": 2,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "channel_from_id",
+        "DiscordWebhookProvisioner"
+      ],
+      "size": 6567,
+      "lines": 197
+    },
+    "src\\services\\discord_commander\\bot_config.py": {
+      "functions": 7,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_load_env",
+        "get_guild_id",
+        "get_log_level",
+        "get_prefix",
+        "get_token",
+        "is_debug_mode",
+        "BotConfig"
+      ],
+      "size": 1351,
+      "lines": 48
+    },
+    "src\\services\\discord_commander\\optimization_utils.py": {
+      "functions": 5,
+      "classes": 5,
+      "symbols": [
+        "__init__",
+        "disable_optimizations",
+        "enable_optimizations",
+        "measure_execution_time",
+        "wrapper",
+        "BatchProcessor",
+        "MessageCache",
+        "PerformanceOptimizer",
+        "RateLimiter",
+        "ResourceManager"
+      ],
+      "size": 9234,
+      "lines": 267
+    },
+    "src\\services\\discord_commander\\performance_metrics.py": {
+      "functions": 8,
+      "classes": 4,
+      "symbols": [
+        "__init__",
+        "calculate_metrics",
+        "check_for_alerts",
+        "check_metrics",
+        "from_dict",
+        "get_performance_score",
+        "is_healthy",
+        "to_dict",
+        "DiscordPerformanceMetrics",
+        "PerformanceAlert",
+        "PerformanceMetricsCalculator",
+        "PerformanceThresholds"
+      ],
+      "size": 9498,
+      "lines": 248
+    },
+    "src\\services\\discord_commander\\social_media_poster.py": {
+      "functions": 2,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "get_supported_platforms",
+        "SocialMediaPoster"
+      ],
+      "size": 3743,
+      "lines": 101
+    },
+    "src\\services\\discord_commander\\socket_events.py": {
+      "functions": 13,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "broadcast_agent_update",
+        "broadcast_system_message",
+        "get_connection_count",
+        "get_message_count",
+        "handle_agent_status_request",
+        "handle_connect",
+        "handle_disconnect",
+        "handle_get_message_history",
+        "handle_join_room",
+        "handle_leave_room",
+        "handle_send_message",
+        "register_events",
+        "SocketEventHandler"
+      ],
+      "size": 6096,
+      "lines": 172
+    },
+    "src\\services\\discord_commander\\web_controller_core.py": {
+      "functions": 9,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_get_timestamp",
+        "get_agent_status",
+        "get_status",
+        "get_system_health",
+        "send_message",
+        "set_bot",
+        "start",
+        "stop",
+        "WebControllerCore"
+      ],
+      "size": 2389,
+      "lines": 79
+    },
+    "src\\services\\discord_commander\\web_controller_models.py": {
+      "functions": 0,
+      "classes": 4,
+      "symbols": [
+        "AgentStatus",
+        "MessageData",
+        "SystemHealth",
+        "WebControllerConfig"
+      ],
+      "size": 813,
+      "lines": 49
+    },
+    "src\\services\\discord_commander\\web_controller_refactored.py": {
+      "functions": 10,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_register_additional_routes",
+        "api_platforms",
+        "api_post_social",
+        "broadcast_agent_update",
+        "broadcast_system_message",
+        "get_status",
+        "run",
+        "set_bot",
+        "stop",
+        "DiscordCommanderController"
+      ],
+      "size": 3800,
+      "lines": 105
+    },
+    "src\\services\\discord_commander\\web_handlers.py": {
+      "functions": 9,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "handle_get_agents",
+        "handle_get_quality_metrics",
+        "handle_get_social_media_status",
+        "handle_get_system_status",
+        "handle_health_check",
+        "handle_post_to_social_media",
+        "handle_send_message",
+        "handle_swarm_coordinate",
+        "WebHandlers"
+      ],
+      "size": 9747,
+      "lines": 244
+    },
+    "src\\services\\discord_commander\\web_models.py": {
+      "functions": 0,
+      "classes": 11,
+      "symbols": [
+        "AgentStatus",
+        "AgentWorkspaceInfo",
+        "CoordinationRequest",
+        "MessageRequest",
+        "QualityMetrics",
+        "SocialMediaStatus",
+        "SwarmCoordinateRequest",
+        "SystemStatus",
+        "TemplateData",
+        "WebControllerConfig",
+        "WebSocketEvent"
+      ],
+      "size": 3476,
+      "lines": 172
+    },
+    "src\\services\\discord_commander\\web_routes.py": {
+      "functions": 8,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_register_routes",
+        "get_agent",
+        "get_agents",
+        "get_health",
+        "get_status",
+        "index",
+        "send_message",
+        "WebRoutes"
+      ],
+      "size": 4031,
+      "lines": 123
+    },
+    "src\\services\\discord_commander\\web_utils.py": {
+      "functions": 9,
+      "classes": 0,
+      "symbols": [
+        "calculate_system_status",
+        "create_template_data",
+        "format_agent_response",
+        "get_agent_workspace_info",
+        "load_agent_status",
+        "load_all_agents",
+        "load_quality_metrics",
+        "load_social_media_status",
+        "validate_message_request"
+      ],
+      "size": 8600,
+      "lines": 259
+    },
+    "src\\services\\discord_commander\\bot_core.py": {
+      "functions": 13,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_create_bot",
+        "command_prefix",
+        "get_agent_interface",
+        "get_bot",
+        "get_swarm_coordinator",
+        "is_healthy",
+        "record_error",
+        "record_message_processed",
+        "set_healthy",
+        "set_status_message",
+        "stop_bot",
+        "update_activity",
+        "DiscordCommanderBotCore"
+      ],
+      "size": 4560,
+      "lines": 150
+    },
+    "src\\services\\discord_commander\\bot_events.py": {
+      "functions": 11,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_register_default_events",
+        "create_custom_event",
+        "get_event_handlers",
+        "get_event_stats",
+        "get_event_summary",
+        "list_registered_events",
+        "register_event",
+        "remove_custom_event",
+        "unregister_event",
+        "validate_event_system",
+        "DiscordBotEvents"
+      ],
+      "size": 8321,
+      "lines": 218
+    },
+    "src\\services\\discord_commander\\bot_main.py": {
+      "functions": 6,
+      "classes": 2,
+      "symbols": [
+        "__init__",
+        "_register_event_handlers",
+        "create_bot",
+        "create_bot_configuration",
+        "create_discord_bot",
+        "get_bot_info",
+        "BotManager",
+        "DiscordCommanderBot"
+      ],
+      "size": 6379,
+      "lines": 200
+    },
+    "src\\services\\discord_commander\\bot_models.py": {
+      "functions": 9,
+      "classes": 4,
+      "symbols": [
+        "__init__",
+        "add_field",
+        "build",
+        "create_bot",
+        "create_embed",
+        "get_status",
+        "record_error",
+        "start_bot",
+        "stop_bot",
+        "BotConfiguration",
+        "BotCore",
+        "CommandContext",
+        "EmbedBuilder"
+      ],
+      "size": 3961,
+      "lines": 143
+    },
+    "src\\services\\discord_commander\\bot_v2.py": {
+      "functions": 6,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "get_bot_status",
+        "get_integration_status",
+        "get_quality_metrics",
+        "is_healthy",
+        "validate_bot_integrity",
+        "DiscordCommanderBotV2"
+      ],
+      "size": 8821,
+      "lines": 242
+    },
+    "src\\services\\discord_commander\\optimization_core.py": {
+      "functions": 12,
+      "classes": 3,
+      "symbols": [
+        "__init__",
+        "analyze_performance",
+        "apply_optimizations",
+        "calculate_average_metrics",
+        "clear",
+        "get",
+        "get_cache_stats",
+        "get_current_metrics",
+        "get_metrics_history",
+        "get_optimization_history",
+        "set",
+        "update_metrics",
+        "DiscordCacheManager",
+        "DiscordOptimizationEngine",
+        "DiscordPerformanceMonitor"
+      ],
+      "size": 10641,
+      "lines": 265
+    },
+    "src\\services\\discord_commander\\optimization_models.py": {
+      "functions": 1,
+      "classes": 3,
+      "symbols": [
+        "to_dict",
+        "DiscordPerformanceMetrics",
+        "OptimizationConfig",
+        "PerformanceThresholds"
+      ],
+      "size": 1825,
+      "lines": 63
+    },
+    "src\\services\\discord_commander\\performance_monitor.py": {
+      "functions": 15,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_collect_metrics",
+        "_get_memory_usage",
+        "_trigger_alert",
+        "add_alert_callback",
+        "get_current_metrics",
+        "get_metrics_history",
+        "get_performance_summary",
+        "monitor_loop",
+        "record_command_executed",
+        "record_error",
+        "record_message_processed",
+        "reset_metrics",
+        "start_monitoring",
+        "update_thresholds",
+        "DiscordPerformanceMonitor"
+      ],
+      "size": 7103,
+      "lines": 201
+    },
+    "src\\services\\discord_commander\\web_controller_main.py": {
+      "functions": 10,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_register_socket_events",
+        "_setup_app",
+        "get_app",
+        "get_socketio",
+        "handle_agent_status_request",
+        "handle_connect",
+        "handle_disconnect",
+        "run",
+        "set_bot",
+        "DiscordCommanderController"
+      ],
+      "size": 2489,
+      "lines": 84
+    },
+    "src\\services\\discord_commander\\web_controller_v2.py": {
+      "functions": 10,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_create_default_templates",
+        "_run_server",
+        "_setup_flask_app",
+        "broadcast_update",
+        "create_web_controller",
+        "get_status",
+        "set_bot",
+        "start",
+        "stop",
+        "DiscordCommanderControllerV2"
+      ],
+      "size": 8830,
+      "lines": 266
+    },
+    "src\\services\\discord_commander\\__init__.py": {
+      "functions": 0,
+      "classes": 0,
+      "symbols": [],
+      "size": 1134,
+      "lines": 44
+    },
+    "src\\services\\discord_commander\\bot.py": {
+      "functions": 7,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_count_active_agents",
+        "_count_project_files",
+        "_count_python_files",
+        "_register_event_handlers",
+        "get_status",
+        "is_healthy",
+        "DiscordCommanderBot"
+      ],
+      "size": 18718,
+      "lines": 522
+    },
+    "src\\services\\discord_commander\\bot_commands.py": {
+      "functions": 4,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_format_agent_status",
+        "_format_swarm_status",
+        "register_commands",
+        "DiscordBotCommands"
+      ],
+      "size": 12437,
+      "lines": 285
+    },
+    "src\\services\\discord_commander\\commands.py": {
+      "functions": 7,
+      "classes": 4,
+      "symbols": [
+        "__init__",
+        "_count_agent_workspaces",
+        "_count_project_files",
+        "_count_python_files",
+        "_register_commands",
+        "get_command_handler",
+        "list_commands",
+        "AgentCommands",
+        "CommandManager",
+        "SwarmCommands",
+        "SystemCommands"
+      ],
+      "size": 12446,
+      "lines": 351
+    },
+    "src\\services\\discord_commander\\core.py": {
+      "functions": 15,
+      "classes": 5,
+      "symbols": [
+        "__init__",
+        "_get_intents",
+        "get_command",
+        "get_event_handlers",
+        "get_status",
+        "is_healthy",
+        "list_commands",
+        "record_command",
+        "record_error",
+        "record_heartbeat",
+        "record_message",
+        "register_command",
+        "register_event_handler",
+        "unregister_command",
+        "validate",
+        "DiscordCommandRegistry",
+        "DiscordConfig",
+        "DiscordConnectionManager",
+        "DiscordEventManager",
+        "DiscordStatusMonitor"
+      ],
+      "size": 8290,
+      "lines": 261
+    },
+    "src\\services\\discord_commander\\discord_post_client.py": {
+      "functions": 7,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_load_config",
+        "_normalize_agent_id",
+        "get_discord_post_client",
+        "get_routing_info",
+        "set_discord_bot",
+        "set_discord_bot_for_ssot",
+        "DiscordPostClient"
+      ],
+      "size": 9210,
+      "lines": 248
+    },
+    "src\\services\\discord_commander\\optimization.py": {
+      "functions": 23,
+      "classes": 6,
+      "symbols": [
+        "__init__",
+        "_evict_expired",
+        "_evict_oldest",
+        "_generate_cache_key",
+        "cache_command_result",
+        "can_execute_command",
+        "clear",
+        "clear_cache",
+        "disable_optimization",
+        "enable_optimization",
+        "get_active_task_count",
+        "get_command_result",
+        "get_current_metrics",
+        "get_optimization_stats",
+        "get_stats",
+        "get_task_names",
+        "get_wait_time",
+        "record_command_execution",
+        "record_error",
+        "record_event_handling",
+        "record_message_processing",
+        "reset_rate_limiter",
+        "to_dict",
+        "DiscordAsyncPool",
+        "DiscordCommandCache",
+        "DiscordOptimizer",
+        "DiscordPerformanceMetrics",
+        "DiscordPerformanceMonitor",
+        "DiscordRateLimiter"
+      ],
+      "size": 15083,
+      "lines": 425
+    },
+    "src\\services\\discord_commander\\web_controller.py": {
+      "functions": 17,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_register_routes",
+        "_register_socket_events",
+        "_setup_flask_app",
+        "create_default_templates",
+        "get_agents",
+        "get_system_status",
+        "handle_connect",
+        "handle_get_agent_status",
+        "handle_send_message",
+        "index",
+        "run",
+        "run_app",
+        "send_message",
+        "set_bot",
+        "stop",
+        "swarm_coordinate",
+        "DiscordCommanderController"
+      ],
+      "size": 22966,
+      "lines": 714
+    },
+    "src\\services\\discord_commander\\webhook_manager.py": {
+      "functions": 2,
+      "classes": 2,
+      "symbols": [
+        "__init__",
+        "get_command_handlers",
+        "WebhookCLI",
+        "WebhookManager"
+      ],
+      "size": 10726,
+      "lines": 300
+    },
+    "src\\services\\discord_commander\\commands\\__init__.py": {
+      "functions": 0,
+      "classes": 0,
+      "symbols": [],
+      "size": 1141,
+      "lines": 46
+    },
+    "src\\services\\discord_commander\\commands\\agent_control.py": {
+      "functions": 3,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "register_commands",
+        "register_regular_commands",
+        "AgentControlCommands"
+      ],
+      "size": 13882,
+      "lines": 368
+    },
+    "src\\services\\agent_devlog\\__init__.py": {
+      "functions": 0,
+      "classes": 0,
+      "symbols": [],
+      "size": 751,
+      "lines": 39
+    },
+    "src\\services\\agent_devlog\\models.py": {
+      "functions": 0,
+      "classes": 7,
+      "symbols": [
+        "AgentInfo",
+        "DevlogConfig",
+        "DevlogEntry",
+        "DevlogStats",
+        "DevlogStatus",
+        "DevlogType",
+        "SearchResult"
+      ],
+      "size": 1668,
+      "lines": 89
+    },
+    "src\\services\\agent_devlog\\storage.py": {
+      "functions": 10,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_get_current_file",
+        "_load_devlogs",
+        "_save_devlogs",
+        "cleanup_old_files",
+        "compress_file",
+        "get_devlog_stats",
+        "get_file_info",
+        "save_devlog",
+        "search_devlogs",
+        "DevlogStorage"
+      ],
+      "size": 6717,
+      "lines": 203
+    },
+    "src\\services\\agent_devlog\\agent_validation.py": {
+      "functions": 12,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "get_agent_info",
+        "get_agent_statistics",
+        "get_all_agents",
+        "is_captain_agent",
+        "suggest_devlog_type",
+        "validate_action",
+        "validate_agent",
+        "validate_agent_flag",
+        "validate_all",
+        "validate_details",
+        "validate_status",
+        "AgentValidator"
+      ],
+      "size": 3892,
+      "lines": 125
+    },
+    "src\\services\\agent_devlog\\cli.py": {
+      "functions": 3,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "create_parser",
+        "show_help",
+        "AgentDevlogCLI"
+      ],
+      "size": 10580,
+      "lines": 284
+    },
+    "src\\services\\agent_devlog\\devlog_poster.py": {
+      "functions": 15,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_format_discord_message_simple",
+        "_post_to_discord_sync",
+        "_post_to_discord_via_legacy",
+        "_post_to_discord_via_manager",
+        "_post_to_discord_via_webhook_fallback",
+        "cleanup_old_devlogs",
+        "create_devlog_content",
+        "get_agent_info",
+        "get_all_agents",
+        "get_devlog_stats",
+        "post_devlog",
+        "post_to_discord",
+        "run_async",
+        "search_devlogs",
+        "AgentDevlogPoster"
+      ],
+      "size": 15842,
+      "lines": 442
+    },
+    "src\\services\\devlog_storytelling\\__init__.py": {
+      "functions": 4,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "create_story_from_devlogs",
+        "get_storytelling_tools",
+        "process_devlog_batch",
+        "DevlogStorytellingService"
+      ],
+      "size": 3538,
+      "lines": 93
+    },
+    "src\\services\\devlog_storytelling\\integration\\role_integration.py": {
+      "functions": 5,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "create_role_tool_guide",
+        "get_available_tools_for_role",
+        "register_storytelling_tools",
+        "update_agent_tool_registry",
+        "RoleIntegration"
+      ],
+      "size": 9139,
+      "lines": 214
+    },
+    "tools\\post_major_update.py": {
+      "functions": 1,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "MajorUpdatePoster"
+      ],
+      "size": 7365,
+      "lines": 227
+    },
+    "tools\\agent_onboard_cli.py": {
+      "functions": 5,
+      "classes": 0,
+      "symbols": [
+        "create_onboarding_message",
+        "load_coordinates",
+        "main",
+        "onboard_agent",
+        "onboard_all_agents"
+      ],
+      "size": 5530,
+      "lines": 174
+    },
+    "tools\\discord_commander_launcher_core.py": {
+      "functions": 9,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "create_default_templates",
+        "run",
+        "run_bot",
+        "run_controller",
+        "show_status",
+        "start_controller",
+        "stop",
+        "validate_environment",
+        "DiscordCommanderLauncher"
+      ],
+      "size": 9777,
+      "lines": 293
+    },
+    "tools\\enhanced_agent_onboarding.py": {
+      "functions": 13,
+      "classes": 3,
+      "symbols": [
+        "__init__",
+        "_create_enhanced_onboarding_message",
+        "_save_to_inbox",
+        "build_onboarding_context",
+        "create_context_summary",
+        "get_agent_statuses",
+        "get_critical_files",
+        "get_current_initiatives",
+        "get_quality_status",
+        "get_system_health",
+        "main",
+        "onboard_agent",
+        "save_context_package",
+        "EnhancedOnboardingService",
+        "OnboardingContextBuilder",
+        "ProjectContextLoader"
+      ],
+      "size": 13129,
+      "lines": 360
+    },
+    "tools\\ingest_all_onboarding_docs.py": {
+      "functions": 1,
+      "classes": 0,
+      "symbols": [
+        "main"
+      ],
+      "size": 2111,
+      "lines": 60
+    },
+    "tools\\test_discord_commander.py": {
+      "functions": 1,
+      "classes": 0,
+      "symbols": [
+        "main"
+      ],
+      "size": 1811,
+      "lines": 71
+    },
+    "tools\\discord_webhook_cli.py": {
+      "functions": 1,
+      "classes": 0,
+      "symbols": [
+        "main"
+      ],
+      "size": 6438,
+      "lines": 194
+    },
+    "tools\\hard_onboarding_executor.py": {
+      "functions": 6,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "cleanup_failed_onboarding",
+        "execute_batch_onboarding",
+        "execute_hard_onboarding",
+        "get_onboarding_status",
+        "main",
+        "HardOnboardingExecutor"
+      ],
+      "size": 8900,
+      "lines": 249
+    },
+    "tools\\captain_onboard_cli.py": {
+      "functions": 1,
+      "classes": 0,
+      "symbols": [
+        "main"
+      ],
+      "size": 4083,
+      "lines": 139
+    },
+    "discord_commander_launcher_core.py": {
+      "functions": 9,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "create_default_templates",
+        "run",
+        "run_bot",
+        "run_controller",
+        "show_status",
+        "start_controller",
+        "stop",
+        "validate_environment",
+        "DiscordCommanderLauncher"
+      ],
+      "size": 9654,
+      "lines": 290
+    },
+    "discord_manager.py": {
+      "functions": 7,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_get_discord_service",
+        "_load_environment",
+        "list_channels",
+        "main",
+        "show_help",
+        "status",
+        "DiscordManager"
+      ],
+      "size": 17095,
+      "lines": 494
+    },
+    "discord_server_manager.py": {
+      "functions": 4,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_load_environment",
+        "main",
+        "show_help",
+        "DiscordServerManager"
+      ],
+      "size": 28811,
+      "lines": 772
+    },
+    "messaging_system.py": {
+      "functions": 8,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_format_a2a_message",
+        "_format_execution_message",
+        "hard_onboard_handler",
+        "load_coordinates",
+        "main",
+        "send_message",
+        "soft_onboard_handler",
+        "MessagingSystem"
+      ],
+      "size": 11882,
+      "lines": 325
+    },
+    "run_discord_commander.py": {
+      "functions": 10,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "create_default_templates",
+        "main",
+        "run",
+        "run_bot",
+        "run_controller",
+        "show_status",
+        "start_controller",
+        "stop",
+        "validate_environment",
+        "DiscordCommanderLauncher"
+      ],
+      "size": 9169,
+      "lines": 295
+    },
+    "test_devlog_env_loading.py": {
+      "functions": 8,
+      "classes": 0,
+      "symbols": [
+        "load_env_file",
+        "main",
+        "test_agent_devlog_posting",
+        "test_devlog_cli",
+        "test_devlog_environment_variables",
+        "test_devlog_integration",
+        "test_devlog_storage",
+        "test_discord_devlog_service"
+      ],
+      "size": 9949,
+      "lines": 285
+    },
+    "test_discord_env_loading.py": {
+      "functions": 7,
+      "classes": 0,
+      "symbols": [
+        "create_sample_env_file",
+        "main",
+        "test_config_file_loading",
+        "test_discord_commander_config_loading",
+        "test_discord_commander_with_config",
+        "test_env_file_loading",
+        "test_environment_variable_loading"
+      ],
+      "size": 7651,
+      "lines": 239
+    },
+    "test_discord_with_dotenv.py": {
+      "functions": 5,
+      "classes": 0,
+      "symbols": [
+        "load_env_file",
+        "main",
+        "test_discord_commander_connection",
+        "test_discord_commander_with_real_config",
+        "test_discord_environment_loading"
+      ],
+      "size": 7159,
+      "lines": 201
+    },
+    "discord_commander_core.py": {
+      "functions": 4,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "create_discord_bot",
+        "get_bot_status",
+        "setup_additional_slash_commands",
+        "DiscordCommanderCore"
+      ],
+      "size": 7391,
+      "lines": 195
+    },
+    "discord_commander_fixed.py": {
+      "functions": 2,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "get_status",
+        "DiscordCommanderBot"
+      ],
+      "size": 2808,
+      "lines": 94
+    },
+    "discord_commander_working_demo.py": {
+      "functions": 3,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_count_compliance",
+        "_is_function_def",
+        "DiscordCommanderWorking"
+      ],
+      "size": 11475,
+      "lines": 329
+    }
+  },
+  "totals": {
+    "files_scanned": 146,
+    "exact_dup_groups": 0,
+    "near_dup_pairs": 1,
+    "total_duplicates": 1
+  }
+}

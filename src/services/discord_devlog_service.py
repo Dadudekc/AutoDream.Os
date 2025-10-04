@@ -51,14 +51,14 @@ class DiscordDevlogService:
             # Load .env file manually like Discord Manager does
             env_file = Path(__file__).parent.parent.parent.parent / ".env"
             if env_file.exists():
-                with open(env_file, 'r') as f:
+                with open(env_file) as f:
                     for line in f:
                         line = line.strip()
-                        if line and not line.startswith('#') and '=' in line:
-                            key, value = line.split('=', 1)
-                            value = value.strip('"\'')
+                        if line and not line.startswith("#") and "=" in line:
+                            key, value = line.split("=", 1)
+                            value = value.strip("\"'")
                             os.environ[key] = value
-            
+
             # Get Discord webhook URL (preferred method)
             self.webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
             logger.debug(f"Webhook URL loaded: {'Yes' if self.webhook_url else 'No'}")
@@ -86,7 +86,11 @@ class DiscordDevlogService:
             for i in range(1, 9):  # Agent-1 through Agent-8
                 agent_key = f"DISCORD_CHANNEL_AGENT_{i}"
                 agent_channel = os.getenv(agent_key)
-                if agent_channel and agent_channel.strip() and not agent_channel.startswith('your_'):
+                if (
+                    agent_channel
+                    and agent_channel.strip()
+                    and not agent_channel.startswith("your_")
+                ):
                     try:
                         self.agent_channels[f"Agent-{i}"] = int(agent_channel)
                     except ValueError:
@@ -95,7 +99,11 @@ class DiscordDevlogService:
                 # Load agent-specific webhook URLs
                 webhook_key = f"DISCORD_WEBHOOK_AGENT_{i}"
                 agent_webhook = os.getenv(webhook_key)
-                if agent_webhook and agent_webhook.strip() and not agent_webhook.startswith('your_'):
+                if (
+                    agent_webhook
+                    and agent_webhook.strip()
+                    and not agent_webhook.startswith("your_")
+                ):
                     self.agent_webhooks[f"Agent-{i}"] = agent_webhook
 
             logger.info(
@@ -113,27 +121,31 @@ class DiscordDevlogService:
                 # Load .env file manually for fallback
                 env_file = Path(__file__).parent.parent.parent.parent / ".env"
                 if env_file.exists():
-                    with open(env_file, 'r') as f:
+                    with open(env_file) as f:
                         for line in f:
                             line = line.strip()
-                            if line and not line.startswith('#') and '=' in line:
-                                key, value = line.split('=', 1)
-                                value = value.strip('"\'')
+                            if line and not line.startswith("#") and "=" in line:
+                                key, value = line.split("=", 1)
+                                value = value.strip("\"'")
                                 os.environ[key] = value
-                
+
                 self.webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
                 self.bot_token = os.getenv("DISCORD_BOT_TOKEN")
-                logger.info(f"Fallback config loaded - Webhook: {'Yes' if self.webhook_url else 'No'}, Bot: {'Yes' if self.bot_token else 'No'}")
+                logger.info(
+                    f"Fallback config loaded - Webhook: {'Yes' if self.webhook_url else 'No'}, Bot: {'Yes' if self.bot_token else 'No'}"
+                )
                 logger.info(f"Bot token length: {len(self.bot_token) if self.bot_token else 0}")
-                
+
                 # DEPRECATION WARNING
-                logger.warning("⚠️ LEGACY DISCORD_DEVLOG_SERVICE: This service is deprecated. Use Discord Manager (discord_post_client) as SSOT.")
+                logger.warning(
+                    "⚠️ LEGACY DISCORD_DEVLOG_SERVICE: This service is deprecated. Use Discord Manager (discord_post_client) as SSOT."
+                )
                 logger.info("💡 Enable DEVLOG_POST_VIA_MANAGER=true to use new SSOT routing")
             except Exception as fallback_error:
                 logger.error(f"Fallback config loading also failed: {fallback_error}")
                 self.webhook_url = None
                 self.bot_token = None
-            
+
             self.channel_id = None
             self.guild_id = None
             self.agent_channels = {}
@@ -220,17 +232,21 @@ class DiscordDevlogService:
             if formatted_message is None:
                 logger.info(f"Spam filter triggered for {agent_id}, content suppressed")
                 return False  # Successfully suppressed spam
-            
+
             # SPECIAL HANDLING: Agent-4 (Captain) and captain flag should ALWAYS use major channel
             if agent_id and agent_id in ["Agent-4", "agent4", "captain"] and self.bot_token:
                 # Normalize captain flag to Agent-4
                 normalized_agent_id = "Agent-4" if agent_id == "captain" else agent_id
-                logger.info(f"FORCING {normalized_agent_id} to use major channel - NO webhook fallback")
+                logger.info(
+                    f"FORCING {normalized_agent_id} to use major channel - NO webhook fallback"
+                )
                 result = await self._post_to_bot(formatted_message, normalized_agent_id)
                 if result:
                     return result
                 else:
-                    logger.error(f"{normalized_agent_id} bot method failed - NOT falling back to webhook")
+                    logger.error(
+                        f"{normalized_agent_id} bot method failed - NOT falling back to webhook"
+                    )
                     return False
 
             # FORCE BOT METHOD: Prefer bot method for agent-specific channels
@@ -255,7 +271,9 @@ class DiscordDevlogService:
             # Last resort: Try default webhook for all agents including captain
             if self.webhook_url:
                 logger.info(f"Using default webhook as last resort for: {agent_id}")
-                logger.warning(f"⚠️  WARNING: Default webhook routes to 'dreamscape devlog' channel, not agent-specific channel!")
+                logger.warning(
+                    "⚠️  WARNING: Default webhook routes to 'dreamscape devlog' channel, not agent-specific channel!"
+                )
                 return await self._post_to_webhook(formatted_message, agent_id)
 
             logger.warning("No Discord configuration available, skipping Discord posting")
@@ -312,7 +330,9 @@ class DiscordDevlogService:
             }
 
             # Note: Webhooks are tied to specific channels, cannot redirect
-            logger.info(f"Posting to default webhook channel for {agent_id or 'unknown agent'} (spam filtered)")
+            logger.info(
+                f"Posting to default webhook channel for {agent_id or 'unknown agent'} (spam filtered)"
+            )
 
             # Post to webhook
             async with aiohttp.ClientSession() as session:
@@ -364,19 +384,25 @@ class DiscordDevlogService:
         """Format devlog content for Discord with minimal spam prevention."""
         # MINIMAL SPAM FILTER: Only block extreme spam patterns
         # Block only the most obvious automated reminder spam loops
-        if "📝 DISCORD DEVLOG REMINDER:" in content and "devlogs/ directory" in content and content.count("📝") > 2:
+        if (
+            "📝 DISCORD DEVLOG REMINDER:" in content
+            and "devlogs/ directory" in content
+            and content.count("📝") > 2
+        ):
             return None  # Suppress only repeated automated Discord reminder spam
-            
+
         # Block only extreme coordination theater patterns (very specific)
-        if ("coordination status update confirmed" in content.lower() and 
-            "acknowledgment acknowledged" in content.lower() and 
-            "acknowledgment acknowledged" in content.lower()):
+        if (
+            "coordination status update confirmed" in content.lower()
+            and "acknowledgment acknowledged" in content.lower()
+            and "acknowledgment acknowledged" in content.lower()
+        ):
             return None  # Suppress only circular acknowledgment loops
-            
+
         # Block only excessive "ultimate" spam (5+ occurrences)
         if content.count("ultimate") >= 5 and "coordination" in content.lower():
             return None  # Suppress only extreme ultimate coordination theater
-            
+
         # Extract key information from content
         lines = content.split("\n")
 
@@ -398,7 +424,7 @@ class DiscordDevlogService:
                 if len(action) > 1:
                     action = action[-1].strip()
                 break
-        
+
         # Extract action from content if no structured format found
         if action == "Agent Communication":
             # Try to extract meaningful action from message content
@@ -420,10 +446,13 @@ class DiscordDevlogService:
                 break
 
         # MINIMAL ANTI-SPAM: Only block extreme coordination theater in action
-        if ("acknowledgment" in action.lower() and "coordination" in action.lower() and 
-            action.lower().count("acknowledgment") >= 3):
+        if (
+            "acknowledgment" in action.lower()
+            and "coordination" in action.lower()
+            and action.lower().count("acknowledgment") >= 3
+        ):
             return None  # Only block excessive acknowledgment spam
-            
+
         # Create Discord-friendly message (condensed format)
         timestamp = datetime.now().strftime("%H:%M:%S")
 

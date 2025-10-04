@@ -196,7 +196,7 @@ def handle_test_command(args):
 
     # Test creating a decision
     decision = core.create_decision(
-        DecisionType.TASK_ASSIGNMENT, "Test Decision", "Testing the coordination system", "agent-6"
+        DecisionType.TASK_ASSIGNMENT, "Test Decision", "Testing the coordination system", "Agent-6"
     )
 
     print(f"✅ Created test decision: {decision.decision_id}")
@@ -209,7 +209,7 @@ def handle_test_command(args):
     print("✅ Test voting completed")
 
     # Test agent status
-    core.update_agent_status("agent-6", "active", "testing")
+    core.update_agent_status("Agent-6", "active", "testing")
 
     print("✅ Test agent status update completed")
 

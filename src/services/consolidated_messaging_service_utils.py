@@ -9,9 +9,7 @@ Author: Agent-4 (Captain & Operations Coordinator)
 License: MIT
 """
 
-import json
 import logging
-import threading
 import time
 
 # Lazy import to prevent hard dep at import time
@@ -185,156 +183,8 @@ class MessageSender:
             return False
 
 
-class AgentOnboarder:
-    """Handle agent onboarding operations."""
-
-    def __init__(self, coord_path: str = "config/coordinates.json"):
-        """Initialize agent onboarder."""
-        self.coord_path = coord_path
-        self.recently_onboarded = set()  # Track recently onboarded agents
-        self._onboarding_lock = threading.Lock()
-
-    def get_agent_default_role(self, agent_id: str) -> str:
-        """Get agent's default role from capabilities."""
-        try:
-            with open("config/agent_capabilities.json") as f:
-                capabilities = json.load(f)
-
-            if agent_id in capabilities["agents"]:
-                default_roles = capabilities["agents"][agent_id]["default_roles"]
-                return default_roles[0] if default_roles else "TASK_EXECUTOR"
-            return "TASK_EXECUTOR"
-        except:
-            return "TASK_EXECUTOR"
-
-    def create_onboarding_message(self, agent_id: str, default_role: str) -> str:
-        """Create comprehensive onboarding message with role assignment and tool discovery."""
-        return f"""🔔 HARD ONBOARD SEQUENCE INITIATED
-============================================================
-🤖 AGENT: {agent_id}
-🎭 DEFAULT ROLE: {default_role}
-📋 STATUS: ACTIVATING
-============================================================
-
-📖 IMMEDIATE ACTIONS REQUIRED:
-1. Review AGENTS.md for complete system overview
-2. Understand your role: {default_role}
-3. Initialize agent workspace and inbox
-4. Load role-specific protocols from config/protocols/
-5. Discover and integrate available tools
-6. Begin autonomous workflow cycle
-
-🎯 COORDINATION PROTOCOL:
-- Monitor inbox for role assignments from Captain Agent-4
-- Execute General Cycle: CHECK_INBOX → EVALUATE_TASKS → EXECUTE_ROLE → QUALITY_GATES → CYCLE_DONE
-- Maintain V2 compliance standards (≤400 lines, proper structure)
-- Use PyAutoGUI messaging for agent coordination
-
-📊 AVAILABLE ROLES (25 total):
-Core: CAPTAIN, SSOT_MANAGER, COORDINATOR
-Technical: INTEGRATION_SPECIALIST, ARCHITECTURE_SPECIALIST, INFRASTRUCTURE_SPECIALIST, WEB_DEVELOPER, DATA_ANALYST, QUALITY_ASSURANCE, PERFORMANCE_DETECTIVE, SECURITY_INSPECTOR, INTEGRATION_EXPLORER, FINANCIAL_ANALYST, TRADING_STRATEGIST, RISK_MANAGER, PORTFOLIO_OPTIMIZER, COMPLIANCE_AUDITOR
-Operational: TASK_EXECUTOR, RESEARCHER, TROUBLESHOOTER, OPTIMIZER, DEVLOG_STORYTELLER, CODE_ARCHAEOLOGIST, DOCUMENTATION_ARCHITECT, MARKET_RESEARCHER
-
-🛠️ TOOL DISCOVERY PROTOCOL:
-1. Core Communication: src/services/consolidated_messaging_service.py
-2. Captain Tools: tools/captain_cli.py, tools/captain_directive_manager.py
-3. Analysis Tools: tools/analysis_cli.py, tools/overengineering_detector.py
-4. Workflow Tools: tools/agent_workflow_manager.py, tools/simple_workflow_automation.py
-5. Static Analysis: tools/static_analysis/ (code_quality_analyzer.py, dependency_scanner.py, security_scanner.py)
-6. Protocol Tools: tools/protocol_compliance_checker.py, tools/protocol_governance_system.py
-7. DevOps Tools: scripts/deployment_dashboard.py, tools/performance_detective_cli.py
-8. Specialized Tools: tools/financial_analyst_cli.py, tools/trading_strategist_cli.py, tools/risk_manager_cli.py
-9. THEA Integration: src/services/thea/ (strategic_consultation_cli.py, thea_autonomous_system.py)
-10. Alerting Tools: tools/intelligent_alerting_cli.py, tools/predictive_analytics_cli.py
-
-🔧 TOOL INTEGRATION IN GENERAL CYCLE:
-- PHASE 1 (CHECK_INBOX): Use messaging tools, check tool status
-- PHASE 2 (EVALUATE_TASKS): Use analysis tools, workflow tools
-- PHASE 3 (EXECUTE_ROLE): Use role-specific tools, specialized tools
-- PHASE 4 (QUALITY_GATES): Use quality tools, static analysis tools
-- PHASE 5 (CYCLE_DONE): Use reporting tools, update tool status
-
-📚 REQUIRED READING FOR TOOL DISCOVERY:
-- AGENTS.md (complete tool integration in General Cycle)
-- tools/ directory (all available CLI tools)
-- src/services/ directory (all available services)
-- config/protocols/ (role-specific tool protocols)
-
-🚀 BEGIN ONBOARDING PROTOCOLS
-============================================================
-🐝 WE ARE SWARM - {agent_id} Activation Complete"""
-
-    def hard_onboard_agent(self, agent_id: str) -> bool:
-        """Hard onboard specific agent with PyAutoGUI messaging."""
-        try:
-            # Check if recently onboarded to prevent duplicates
-            if agent_id in self.recently_onboarded:
-                logger.warning(f"Agent {agent_id} recently onboarded, skipping duplicate")
-                return True
-
-            # Get agent coordinates
-            with open(self.coord_path) as f:
-                coords = json.load(f)
-
-            if agent_id not in coords["agents"]:
-                logger.error(f"Agent {agent_id} not found in coordinates")
-                return False
-
-            # Get default role
-            default_role = self.get_agent_default_role(agent_id)
-
-            # Create onboarding message
-            message = self.create_onboarding_message(agent_id, default_role)
-
-            # Send via PyAutoGUI
-            if pyautogui and pyperclip:
-                pyperclip.copy(message)
-                agent_coords = coords["agents"][agent_id]["chat_input_coordinates"]
-                pyautogui.click(agent_coords[0], agent_coords[1])
-                pyautogui.hotkey("ctrl", "v")
-                pyautogui.press("enter")
-                logger.info(f"Hard onboarded agent {agent_id} with role {default_role}")
-
-                # Mark as recently onboarded
-                self.recently_onboarded.add(agent_id)
-                # Remove from recently onboarded after 5 minutes
-                import threading
-
-                def remove_from_recent():
-                    import time
-
-                    time.sleep(300)  # 5 minutes
-                    self.recently_onboarded.discard(agent_id)
-
-                threading.Thread(target=remove_from_recent, daemon=True).start()
-
-                return True
-            else:
-                logger.warning(f"PyAutoGUI not available, cannot hard onboard {agent_id}")
-                return False
-
-        except Exception as e:
-            logger.error(f"Error hard onboarding agent {agent_id}: {e}")
-            return False
-
-    def hard_onboard_all_agents(self) -> bool:
-        """Hard onboard all agents."""
-        try:
-            with open(self.coord_path) as f:
-                coords = json.load(f)
-
-            success_count = 0
-            for agent_id in coords["agents"]:
-                if self.hard_onboard_agent(agent_id):
-                    success_count += 1
-                    time.sleep(1)  # Brief delay between onboardings
-
-            logger.info(f"Hard onboarded {success_count}/{len(coords['agents'])} agents")
-            return success_count > 0
-
-        except Exception as e:
-            logger.error(f"Error hard onboarding all agents: {e}")
-            return False
+# Import canonical AgentHardOnboarder as AgentOnboarder for backward compatibility
+from src.services.agent_hard_onboarding import AgentHardOnboarder as AgentOnboarder
 
 
 def create_message_formatter() -> MessageFormatter:

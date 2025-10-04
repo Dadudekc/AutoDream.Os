@@ -1,9 +1,9 @@
 {
   "timestamp": "D:\\Agent_Cellphone_V2_Repository",
   "stats": {
-    "total_files": 697,
-    "total_lines": 125579,
-    "total_size": 4568002,
+    "total_files": 698,
+    "total_lines": 125546,
+    "total_size": 4565165,
     "by_directory": {
       "root": {
         "files": 5,
@@ -61,24 +61,24 @@
         "size": 703
       },
       "tools": {
-        "files": 71,
-        "lines": 15493,
-        "size": 564080
+        "files": 72,
+        "lines": 15553,
+        "size": 565073
       },
       "tools\\projectscanner": {
         "files": 6,
-        "lines": 1006,
-        "size": 35791
+        "lines": 1004,
+        "size": 35715
       },
       "tools\\projectscanner\\enhanced_scanner": {
         "files": 8,
-        "lines": 1124,
-        "size": 41607
+        "lines": 1126,
+        "size": 41647
       },
       "tools\\projectscanner\\enhanced_analyzer": {
         "files": 7,
-        "lines": 1037,
-        "size": 40589
+        "lines": 1042,
+        "size": 40663
       },
       "tools\\analysis": {
         "files": 4,
@@ -197,8 +197,8 @@
       },
       "src\\services": {
         "files": 47,
-        "lines": 9792,
-        "size": 360370
+        "lines": 9694,
+        "size": 356502
       },
       "src\\services\\messaging": {
         "files": 23,
@@ -549,8 +549,8 @@
     "by_file_type": {
       "other": {
         "files": 569,
-        "lines": 100942,
-        "size": 3665569
+        "lines": 100844,
+        "size": 3661701
       },
       "tests": {
         "files": 7,
@@ -558,9 +558,9 @@
         "size": 37764
       },
       "tools": {
-        "files": 121,
-        "lines": 23623,
-        "size": 864669
+        "files": 122,
+        "lines": 23688,
+        "size": 865700
       }
     },
     "largest_files": [
@@ -840,6 +840,11 @@
         13805
       ],
       [
+        "src\\services\\agent_hard_onboarding.py",
+        364,
+        15212
+      ],
+      [
         "src\\services\\vector_database\\record_time_migration.py",
         364,
         14038
@@ -878,11 +883,6 @@
         "tools\\database_cleanup.py",
         358,
         14018
-      ],
-      [
-        "src\\services\\consolidated_messaging_service_utils.py",
-        357,
-        14923
       ],
       [
         "src\\services\\agent_directory\\agent_health_monitor.py",
@@ -1116,11 +1116,6 @@
       ],
       [
         "runtime\\consolidation\\backups\\agent_hard_onboarding.py",
-        314,
-        12221
-      ],
-      [
-        "src\\services\\agent_hard_onboarding.py",
         314,
         12221
       ],
@@ -1530,11 +1525,6 @@
         9503
       ],
       [
-        "tools\\projectscanner\\enhanced_analyzer\\language_analyzer.py",
-        266,
-        9427
-      ],
-      [
         "src\\services\\discord_commander\\web_controller_v2.py",
         266,
         9098
@@ -1780,6 +1770,11 @@
         7494
       ],
       [
+        "tools\\projectscanner\\enhanced_analyzer\\language_analyzer.py",
+        236,
+        8574
+      ],
+      [
         "tools\\content_hash_system.py",
         235,
         8637
@@ -1905,6 +1900,11 @@
         7053
       ],
       [
+        "tools\\projectscanner\\enhanced_analyzer\\report_generator.py",
+        216,
+        8897
+      ],
+      [
         "src\\services\\devlog_storytelling\\integration\\role_integration.py",
         214,
         9368
@@ -1955,9 +1955,9 @@
         7869
       ],
       [
-        "tools\\projectscanner\\enhanced_analyzer\\report_generator.py",
+        "src\\services\\consolidated_messaging_service_utils.py",
         209,
-        8847
+        8064
       ],
       [
         "src\\services\\discord_bot\\commands\\agent_coordination\\core.py",
@@ -2295,6 +2295,11 @@
         6333
       ],
       [
+        "tools\\projectscanner\\enhanced_analyzer\\python_analyzer.py",
+        172,
+        7257
+      ],
+      [
         "tools\\coverage\\mutation_gate.py",
         172,
         6419
@@ -2525,6 +2530,11 @@
         6095
       ],
       [
+        "tools\\loc_report.py",
+        148,
+        5024
+      ],
+      [
         "src\\core\\integration_workflow_optimizer_utils.py",
         148,
         5362
@@ -2552,12 +2562,7 @@
       [
         "tools\\projectscanner\\analyzers.py",
         144,
-        5613
-      ],
-      [
-        "tools\\projectscanner\\enhanced_analyzer\\python_analyzer.py",
-        144,
-        6379
+        5553
       ],
       [
         "src\\services\\vector_database\\contracts\\contract_quality_validator.py",
@@ -2580,11 +2585,6 @@
         4104
       ],
       [
-        "tools\\consolidation_apply_v2.py",
-        142,
-        5185
-      ],
-      [
         "tools\\memory_monitor.py",
         141,
         4490
@@ -2593,11 +2593,6 @@
         "agent_workspaces\\database_specialist\\caching\\strategies\\cache_strategies.py",
         139,
         5380
-      ],
-      [
-        "tools\\loc_report.py",
-        138,
-        5095
       ],
       [
         "src\\core\\service_connector.py",
@@ -2815,6 +2810,11 @@
         3678
       ],
       [
+        "tools\\consolidation_apply_v2.py",
+        102,
+        3447
+      ],
+      [
         "src\\services\\messaging\\interfaces\\messaging_interfaces.py",
         102,
         3070
@@ -2865,6 +2865,11 @@
         2166
       ],
       [
+        "tools\\projectscanner\\enhanced_scanner\\file_analysis.py",
+        97,
+        3336
+      ],
+      [
         "src\\core\\resource_management\\sqlite_manager.py",
         96,
         2804
@@ -2878,11 +2883,6 @@
         "src\\integration\\agent7_interface_testing\\models.py",
         96,
         2028
-      ],
-      [
-        "tools\\projectscanner\\enhanced_scanner\\file_analysis.py",
-        95,
-        3296
       ],
       [
         "src\\core\\tracing\\error_tracker.py",
@@ -2905,11 +2905,6 @@
         3085
       ],
       [
-        "tools\\projectscanner\\cli.py",
-        93,
-        2685
-      ],
-      [
         "tools\\projectscanner\\enhanced_scanner\\report_generation.py",
         93,
         3459
@@ -2923,6 +2918,16 @@
         "src\\team_beta\\testing_validation_modules\\models.py",
         93,
         1797
+      ],
+      [
+        "tools\\gen_shim.py",
+        91,
+        2832
+      ],
+      [
+        "tools\\projectscanner\\cli.py",
+        91,
+        2669
       ],
       [
         "src\\core\\api_router.py",
@@ -3135,14 +3140,14 @@
         1405
       ],
       [
-        "tools\\shim_burn_list.py",
-        68,
-        1985
-      ],
-      [
         "src\\validation\\quality_gates_validator.py",
         68,
         2373
+      ],
+      [
+        "tools\\shim_burn_list.py",
+        67,
+        1973
       ],
       [
         "src\\core\\vibe_check_patterns.py",
@@ -3222,7 +3227,7 @@
       [
         "tools\\canonical_coverage.py",
         60,
-        1635
+        1617
       ],
       [
         "src\\core\\knowledge_base_core.py",
@@ -3622,7 +3627,7 @@
       [
         "tools\\projectscanner\\enhanced_analyzer\\__init__.py",
         24,
-        695
+        694
       ],
       [
         "src\\core\\database\\monitoring\\__init__.py",
@@ -4502,11 +4507,6 @@
         4001
       ],
       [
-        "tools\\loc_report.py",
-        138,
-        5095
-      ],
-      [
         "tools\\consolidation_apply.py",
         232,
         7857
@@ -4553,18 +4553,28 @@
       ],
       [
         "tools\\shim_burn_list.py",
-        68,
-        1985
+        67,
+        1973
       ],
       [
         "tools\\canonical_coverage.py",
         60,
-        1635
+        1617
       ],
       [
         "tools\\consolidation_apply_v2.py",
-        142,
-        5185
+        102,
+        3447
+      ],
+      [
+        "tools\\loc_report.py",
+        148,
+        5024
+      ],
+      [
+        "tools\\gen_shim.py",
+        91,
+        2832
       ],
       [
         "tools\\projectscanner\\__init__.py",
@@ -4589,12 +4599,12 @@
       [
         "tools\\projectscanner\\analyzers.py",
         144,
-        5613
+        5553
       ],
       [
         "tools\\projectscanner\\cli.py",
-        93,
-        2685
+        91,
+        2669
       ],
       [
         "tools\\projectscanner\\enhanced_scanner\\__init__.py",
@@ -4618,8 +4628,8 @@
       ],
       [
         "tools\\projectscanner\\enhanced_scanner\\file_analysis.py",
-        95,
-        3296
+        97,
+        3336
       ],
       [
         "tools\\projectscanner\\enhanced_scanner\\file_discovery.py",
@@ -4642,24 +4652,19 @@
         4511
       ],
       [
-        "tools\\projectscanner\\enhanced_analyzer\\__init__.py",
-        24,
-        695
-      ],
-      [
         "tools\\projectscanner\\enhanced_analyzer\\caching_system.py",
         157,
         6283
       ],
       [
         "tools\\projectscanner\\enhanced_analyzer\\language_analyzer.py",
-        266,
-        9427
+        236,
+        8574
       ],
       [
         "tools\\projectscanner\\enhanced_analyzer\\report_generator.py",
-        209,
-        8847
+        216,
+        8897
       ],
       [
         "tools\\projectscanner\\enhanced_analyzer\\core_analyzer.py",
@@ -4668,8 +4673,13 @@
       ],
       [
         "tools\\projectscanner\\enhanced_analyzer\\python_analyzer.py",
-        144,
-        6379
+        172,
+        7257
+      ],
+      [
+        "tools\\projectscanner\\enhanced_analyzer\\__init__.py",
+        24,
+        694
       ],
       [
         "tools\\analysis\\__init__.py",
@@ -5668,8 +5678,8 @@
       ],
       [
         "src\\services\\consolidated_messaging_service_utils.py",
-        357,
-        14923
+        209,
+        8064
       ],
       [
         "src\\services\\coordinate_manager.py",
@@ -5678,8 +5688,8 @@
       ],
       [
         "src\\services\\agent_hard_onboarding.py",
-        314,
-        12221
+        364,
+        15212
       ],
       [
         "src\\services\\agent_passdown.py",

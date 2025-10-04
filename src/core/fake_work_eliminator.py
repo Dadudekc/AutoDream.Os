@@ -6,9 +6,14 @@ Identifies and eliminates fake work processes that don't add value.
 V2 Compliance: ≤400 lines, single responsibility, KISS principle
 """
 
+import logging
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 class FakeWorkType(Enum):
@@ -35,10 +40,40 @@ class FakeWorkDetection:
 class FakeWorkEliminator:
     """Eliminates fake work processes."""
 
-    def __init__(self):
+    def __init__(self, work_log_dir: str = "work_logs"):
         """Initialize fake work eliminator."""
         self.detections = []
         self.eliminated_processes = []
+        
+        # Enhanced logging from services version
+        self.work_log_dir = Path(work_log_dir)
+        self.work_log_dir.mkdir(exist_ok=True)
+        self.log_file = self.work_log_dir / "work_log.json"
+        self.work_log = self._load_work_log()
+        
+        # Fake work patterns to detect (from services version)
+        self.fake_work_patterns = {
+            "redundant_analysis": {
+                "keywords": ["analysis", "review", "examine", "investigate"],
+                "threshold": 3,  # Max 3 analysis cycles per day
+                "time_limit": 30,  # Max 30 minutes per analysis
+            },
+            "proposal_only": {
+                "keywords": ["proposal", "plan", "strategy", "recommendation"],
+                "threshold": 2,  # Max 2 proposals per day
+                "time_limit": 20,  # Max 20 minutes per proposal
+            },
+            "status_only": {
+                "keywords": ["status", "update", "report", "check"],
+                "threshold": 5,  # Max 5 status updates per day
+                "time_limit": 5,  # Max 5 minutes per status
+            },
+            "documentation_bloat": {
+                "keywords": ["documentation", "document", "write", "create"],
+                "threshold": 10,  # Max 10 docs per day
+                "time_limit": 15,  # Max 15 minutes per doc
+            },
+        }
 
     def detect_redundant_analysis(self) -> FakeWorkDetection:
         """Detect and eliminate redundant analysis cycles."""

@@ -172,21 +172,33 @@ class AgentHardOnboarder:
         return parsed
 
     def get_agent_default_role(self, agent_id: str) -> str:
+        """Get agent's default role from capabilities file with fallback to hardcoded defaults."""
         try:
-            default_roles = {
-                "Agent-1": "INTEGRATION_SPECIALIST",
-                "Agent-2": "ARCHITECTURE_SPECIALIST",
-                "Agent-3": "WEB_DEVELOPER",
-                "Agent-4": "CAPTAIN",
-                "Agent-5": "COORDINATOR",
-                "Agent-6": "QUALITY_ASSURANCE",
-                "Agent-7": "IMPLEMENTATION_SPECIALIST",
-                "Agent-8": "INTEGRATION_SPECIALIST",
-            }
-            return default_roles.get(agent_id, "TASK_EXECUTOR")
+            # Try to read from capabilities file first
+            capabilities_path = Path("config/agent_capabilities.json")
+            if capabilities_path.exists():
+                with open(capabilities_path) as f:
+                    capabilities = json.load(f)
+
+                if agent_id in capabilities.get("agents", {}):
+                    default_roles = capabilities["agents"][agent_id].get("default_roles", [])
+                    if default_roles:
+                        return default_roles[0]
         except Exception as e:
-            logger.warning(f"Could not determine default role for {agent_id}: {e}")
-            return "TASK_EXECUTOR"
+            logger.warning(f"Could not read capabilities file for {agent_id}: {e}")
+
+        # Fallback to hardcoded defaults
+        default_roles = {
+            "Agent-1": "INTEGRATION_SPECIALIST",
+            "Agent-2": "ARCHITECTURE_SPECIALIST",
+            "Agent-3": "WEB_DEVELOPER",
+            "Agent-4": "CAPTAIN",
+            "Agent-5": "COORDINATOR",
+            "Agent-6": "QUALITY_ASSURANCE",
+            "Agent-7": "IMPLEMENTATION_SPECIALIST",
+            "Agent-8": "INTEGRATION_SPECIALIST",
+        }
+        return default_roles.get(agent_id, "TASK_EXECUTOR")
 
     def create_onboarding_message(self, agent_id: str, default_role: str) -> str:
         return f"""🔔 HARD ONBOARD SEQUENCE INITIATED
@@ -210,7 +222,36 @@ class AgentHardOnboarder:
 - Maintain V2 compliance standards (≤400 lines, proper structure)
 - Use PyAutoGUI messaging for agent coordination
 
-🛠️ TOOL DISCOVERY PROTOCOL: See tools/, src/services/, config/protocols/
+📊 AVAILABLE ROLES (25 total):
+Core: CAPTAIN, SSOT_MANAGER, COORDINATOR
+Technical: INTEGRATION_SPECIALIST, ARCHITECTURE_SPECIALIST, INFRASTRUCTURE_SPECIALIST, WEB_DEVELOPER, DATA_ANALYST, QUALITY_ASSURANCE, PERFORMANCE_DETECTIVE, SECURITY_INSPECTOR, INTEGRATION_EXPLORER, FINANCIAL_ANALYST, TRADING_STRATEGIST, RISK_MANAGER, PORTFOLIO_OPTIMIZER, COMPLIANCE_AUDITOR
+Operational: TASK_EXECUTOR, RESEARCHER, TROUBLESHOOTER, OPTIMIZER, DEVLOG_STORYTELLER, CODE_ARCHAEOLOGIST, DOCUMENTATION_ARCHITECT, MARKET_RESEARCHER
+
+🛠️ TOOL DISCOVERY PROTOCOL:
+1. Core Communication: src/services/consolidated_messaging_service.py
+2. Captain Tools: tools/captain_cli.py, tools/captain_directive_manager.py
+3. Analysis Tools: tools/analysis_cli.py, tools/overengineering_detector.py
+4. Workflow Tools: tools/agent_workflow_manager.py, tools/simple_workflow_automation.py
+5. Static Analysis: tools/static_analysis/ (code_quality_analyzer.py, dependency_scanner.py, security_scanner.py)
+6. Protocol Tools: tools/protocol_compliance_checker.py, tools/protocol_governance_system.py
+7. DevOps Tools: scripts/deployment_dashboard.py, tools/performance_detective_cli.py
+8. Specialized Tools: tools/financial_analyst_cli.py, tools/trading_strategist_cli.py, tools/risk_manager_cli.py
+9. THEA Integration: src/services/thea/ (strategic_consultation_cli.py, thea_autonomous_system.py)
+10. Alerting Tools: tools/intelligent_alerting_cli.py, tools/predictive_analytics_cli.py
+
+🔧 TOOL INTEGRATION IN GENERAL CYCLE:
+- PHASE 1 (CHECK_INBOX): Use messaging tools, check tool status
+- PHASE 2 (EVALUATE_TASKS): Use analysis tools, workflow tools
+- PHASE 3 (EXECUTE_ROLE): Use role-specific tools, specialized tools
+- PHASE 4 (QUALITY_GATES): Use quality tools, static analysis tools
+- PHASE 5 (CYCLE_DONE): Use reporting tools, update tool status
+
+📚 REQUIRED READING FOR TOOL DISCOVERY:
+- AGENTS.md (complete tool integration in General Cycle)
+- tools/ directory (all available CLI tools)
+- src/services/ directory (all available services)
+- config/protocols/ (role-specific tool protocols)
+
 🚀 BEGIN ONBOARDING PROTOCOLS
 ============================================================
 🐝 WE ARE SWARM - {agent_id} Activation Complete"""
@@ -267,13 +308,22 @@ class AgentHardOnboarder:
         self.recently_onboarded.discard(agent_id)
 
     def hard_onboard_all_agents(self) -> bool:
-        success = 0
-        for agent_id in self._coords.keys():
-            if self.hard_onboard_agent(agent_id):
-                success += 1
-                time.sleep(1.0)  # brief spacing
-        logger.info(f"Hard onboarded {success}/{len(self._coords)} agents")
-        return success > 0
+        """Hard onboard all agents defined in coordinates file."""
+        try:
+            success_count = 0
+            total_agents = len(self._coords)
+
+            for agent_id in self._coords:
+                if self.hard_onboard_agent(agent_id):
+                    success_count += 1
+                    time.sleep(1)  # Brief delay between onboardings
+
+            logger.info(f"Hard onboarded {success_count}/{total_agents} agents")
+            return success_count > 0
+
+        except Exception as e:
+            logger.error(f"Error hard onboarding all agents: {e}")
+            return False
 
 
 def process_hard_onboard_command(

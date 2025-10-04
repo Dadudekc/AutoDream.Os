@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "groups": [
+    {
+      "name": "unified-prefix",
+      "moves": [
+        ["src/core/unified_coordinate_loader_models.py", "src/core/coordinate_loader_models.py"],
+        ["src/core/unified_coordinate_loader_core.py", "src/core/coordinate_loader_core.py"],
+        ["src/core/unified_coordinate_loader.py", "src/core/coordinate_loader.py"],
+        ["src/services/system_efficiency/unified_status_tracking_system.py", "src/services/system_efficiency/status_tracking_system.py"],
+        ["src/core/unified_ml_pipeline_models.py", "src/core/ml_pipeline_models.py"],
+        ["src/core/unified_ml_pipeline.py", "src/core/ml_pipeline.py"],
+        ["src/core/unified_ml_pipeline_config.py", "src/core/ml_pipeline_config.py"],
+        ["src/core/unified_ml_pipeline_core.py", "src/core/ml_pipeline_core.py"],
+        ["tools/unified_database_search.py", "tools/database_search.py"],
+        ["src/architecture/unified_architecture_core.py", "src/architecture/architecture_core.py"],
+        ["src/core/config/unified_config_manager.py", "src/core/config/config_manager.py"]
+      ]
+    },
+    {
+      "name": "consolidated-prefix",
+      "moves": [
+        ["src/services/consolidated_messaging_service_utils.py", "src/services/messaging_service_utils.py"],
+        ["src/services/consolidated_messaging_cli.py", "src/services/messaging_cli.py"],
+        ["src/services/consolidated_messaging_service_main.py", "src/services/messaging_service_main.py"],
+        ["src/services/consolidated_messaging_service.py", "src/services/messaging_service.py"],
+        ["src/services/consolidated_messaging_service_core.py", "src/services/messaging_service_core.py"],
+        ["src/services/consolidated_messaging_core.py", "src/services/messaging_core.py"]
+      ]
+    },
+    {
+      "name": "agent8-prefix",
+      "moves": [
+        ["src/core/agent8_coordination_workflow_core.py", "src/core/coordination_workflow_core.py"],
+        ["src/core/agent8_coordination_workflow_operations.py", "src/core/coordination_workflow_operations.py"],
+        ["src/core/agent8_coordination_workflow_cli.py", "src/core/coordination_workflow_cli.py"]
+      ]
+    }
+  ]
+}

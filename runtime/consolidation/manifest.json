@@ -1,213 +1,139 @@
 {
   "version": 1,
-  "description": "Consolidation manifest for onboarding + discord systems",
-  "targets": {
-    "onboarding": {
-      "canonical": "src/services/agent_hard_onboarding.py",
-      "description": "Primary hard onboarding service with PyAutoGUI integration",
-      "aliases": [
-        "tools/agent_onboard_cli.py",
-        "tools/enhanced_agent_onboarding.py",
-        "src/services/messaging/onboarding/onboarding_service.py",
-        "src/services/discord_bot/commands/agent_coordination/onboarding.py",
-        "src/services/enhanced_onboarding_coordinator.py",
-        "src/services/captain_onboarding_core.py",
-        "src/services/captain_onboarding_system.py",
-        "src/services/soft_onboarding.py",
-        "src/services/enhanced_onboarding.py",
-        "src/services/messaging/onboarding_bridge.py"
-      ]
-    },
-    "discord": {
-      "canonical": "src/services/discord_commander/discord_post_client.py",
-      "description": "SSOT Discord posting service with webhook and bot support",
-      "aliases": [
-        "src/services/discord_devlog_service.py",
-        "src/services/discord_devlog_bypass.py",
-        "src/services/messaging/providers/discord_provider_core.py",
-        "src/services/messaging/providers/discord_provider_operations.py",
-        "src/services/messaging/providers/discord_provider_cli.py",
-        "src/services/discord_bot_integrated.py",
-        "src/services/discord_line_emitter.py",
-        "src/services/ssot_discord_integration.py",
-        "discord_manager.py",
-        "discord_server_manager.py",
-        "tools/discord_webhook_cli.py"
-      ]
-    },
-    "discord_commander": {
-      "canonical": "src/services/discord_commander/core.py",
-      "description": "Core Discord commander functionality",
-      "aliases": [
-        "discord_commander_core.py",
-        "run_discord_commander.py",
-        "tools/discord_commander_launcher_core.py"
-      ]
-    }
+  "canonicals": {
+    "onboarding": "src/services/agent_hard_onboarding.py",
+    "discord_messaging": "src/services/discord_commander/discord_post_client.py",
+    "messaging_core": "src/services/consolidated_messaging_service.py",
+    "fake_work_eliminator": "src/core/fake_work_eliminator.py",
+    "coordinator_base": "src/services/swarm_intelligence_coordination_core.py"
   },
   "actions": [
     {
-      "file": "tools/agent_onboard_cli.py",
-      "action": "shim",
-      "module": "src.services.agent_hard_onboarding",
-      "symbol_map": {
-        "onboard_agent": "hard_onboard_agent"
-      },
-      "reason": "Legacy CLI interface - redirect to canonical service"
+      "file": "src/services/fake_work_elimination/fake_work_eliminator.py",
+      "action": "merge",
+      "into": "src/core/fake_work_eliminator.py",
+      "description": "Merge services fake work eliminator into core canonical"
     },
     {
-      "file": "tools/enhanced_agent_onboarding.py",
-      "action": "delete",
-      "reason": "Functionality merged into agent_hard_onboarding.py"
+      "file": "src/services/messaging/providers/discord_provider_core.py",
+      "action": "merge",
+      "into": "src/services/consolidated_messaging_service.py",
+      "description": "Merge Discord provider core into messaging service"
+    },
+    {
+      "file": "src/services/messaging/onboarding/onboarding_service.py",
+      "action": "merge",
+      "into": "src/services/agent_hard_onboarding.py",
+      "description": "Merge messaging onboarding service into canonical onboarding"
+    },
+    {
+      "file": "tools/agent_onboard_cli.py",
+      "action": "merge",
+      "into": "src/services/agent_hard_onboarding.py",
+      "description": "Merge agent onboard CLI into canonical onboarding"
+    },
+    {
+      "file": "tools/discord_webhook_cli.py",
+      "action": "merge",
+      "into": "src/services/discord_commander/discord_post_client.py",
+      "description": "Merge Discord webhook CLI into canonical Discord service"
+    },
+    {
+      "file": "src/services/messaging/messaging_core.py",
+      "action": "merge",
+      "into": "src/services/consolidated_messaging_service.py",
+      "description": "Merge messaging core wrapper into canonical messaging service"
+    },
+    {
+      "file": "src/services/messaging/message_validator.py",
+      "action": "merge",
+      "into": "src/services/consolidated_messaging_service.py",
+      "description": "Merge message validator stub into canonical messaging service"
+    },
+    {
+      "file": "src/services/consolidated_messaging_core.py",
+      "action": "merge",
+      "into": "src/services/consolidated_messaging_service.py",
+      "description": "Merge consolidated messaging core into main service"
+    }
+  ],
+  "duplicate_init_files": [
+    "src/services/messaging/core/__init__.py",
+    "src/services/messaging/cli/__init__.py",
+    "src/services/messaging/delivery/__init__.py",
+    "src/services/messaging/providers/__init__.py",
+    "src/services/messaging/onboarding/__init__.py",
+    "src/services/messaging/status/__init__.py",
+    "src/services/discord_bot/commands/__init__.py",
+    "src/services/discord_bot/commands/agent_coordination/__init__.py",
+    "src/services/discord_bot/core/__init__.py",
+    "src/services/discord_bot/core/commands/__init__.py",
+    "src/services/discord_bot/ui/__init__.py",
+    "src/services/discord_bot/tools/__init__.py",
+    "src/services/devlog_storytelling/integration/__init__.py"
+  ],
+  "shim_actions": [
+    {
+      "file": "src/services/fake_work_elimination/fake_work_eliminator.py",
+      "action": "shim",
+      "module": "src.core.fake_work_eliminator",
+      "symbol_map": {
+        "FakeWorkEliminator": "FakeWorkEliminator"
+      }
+    },
+    {
+      "file": "src/services/messaging/providers/discord_provider_core.py",
+      "action": "shim",
+      "module": "src.services.consolidated_messaging_service",
+      "symbol_map": {}
+    },
+    {
+      "file": "src/services/messaging/providers/discord_provider_operations.py",
+      "action": "shim",
+      "module": "src.services.consolidated_messaging_service",
+      "symbol_map": {}
     },
     {
       "file": "src/services/messaging/onboarding/onboarding_service.py",
       "action": "shim",
       "module": "src.services.agent_hard_onboarding",
-      "symbol_map": {
-        "OnboardingService": "AgentHardOnboarder"
-      },
-      "reason": "Legacy service interface - redirect to canonical"
+      "symbol_map": {}
     },
     {
-      "file": "src/services/discord_bot/commands/agent_coordination/onboarding.py",
+      "file": "tools/agent_onboard_cli.py",
       "action": "shim",
       "module": "src.services.agent_hard_onboarding",
-      "symbol_map": {
-        "AgentOnboardingHandler": "AgentHardOnboarder"
-      },
-      "reason": "Discord bot handler - redirect to canonical"
-    },
-    {
-      "file": "src/services/enhanced_onboarding_coordinator.py",
-      "action": "delete",
-      "reason": "Redundant coordinator functionality"
-    },
-    {
-      "file": "src/services/captain_onboarding_core.py",
-      "action": "delete",
-      "reason": "Redundant captain onboarding functionality"
-    },
-    {
-      "file": "src/services/captain_onboarding_system.py",
-      "action": "delete",
-      "reason": "Redundant captain onboarding functionality"
-    },
-    {
-      "file": "src/services/soft_onboarding.py",
-      "action": "delete",
-      "reason": "Soft onboarding deprecated in favor of hard onboarding"
-    },
-    {
-      "file": "src/services/enhanced_onboarding.py",
-      "action": "delete",
-      "reason": "Enhanced onboarding functionality merged into canonical"
-    },
-    {
-      "file": "src/services/messaging/onboarding_bridge.py",
-      "action": "delete",
-      "reason": "Bridge functionality integrated into canonical service"
-    },
-    {
-      "file": "src/services/discord_devlog_bypass.py",
-      "action": "delete",
-      "reason": "Redundant with discord_post_client SSOT routing"
-    },
-    {
-      "file": "src/services/messaging/providers/discord_provider_core.py",
-      "action": "shim",
-      "module": "src.services.discord_commander.discord_post_client",
-      "symbol_map": {
-        "DiscordMessagingProvider": "DiscordPostClient"
-      },
-      "reason": "Legacy provider interface - redirect to canonical"
-    },
-    {
-      "file": "src/services/messaging/providers/discord_provider_operations.py",
-      "action": "shim",
-      "module": "src.services.discord_commander.discord_post_client",
-      "symbol_map": {
-        "DiscordProviderService": "DiscordPostClient"
-      },
-      "reason": "Legacy operations interface - redirect to canonical"
-    },
-    {
-      "file": "src/services/messaging/providers/discord_provider_cli.py",
-      "action": "delete",
-      "reason": "CLI functionality redundant with webhook CLI"
-    },
-    {
-      "file": "src/services/discord_bot_integrated.py",
-      "action": "delete",
-      "reason": "Integrated bot functionality merged into discord_commander"
-    },
-    {
-      "file": "src/services/discord_line_emitter.py",
-      "action": "delete",
-      "reason": "Line emitter functionality integrated into canonical"
-    },
-    {
-      "file": "src/services/ssot_discord_integration.py",
-      "action": "delete",
-      "reason": "SSOT integration functionality merged into canonical"
-    },
-    {
-      "file": "discord_manager.py",
-      "action": "move",
-      "to": "src/services/discord_commander/legacy_manager.py",
-      "reason": "Legacy manager - move to commander directory"
-    },
-    {
-      "file": "discord_server_manager.py",
-      "action": "move",
-      "to": "src/services/discord_commander/server_manager.py",
-      "reason": "Server manager - move to commander directory"
+      "symbol_map": {}
     },
     {
       "file": "tools/discord_webhook_cli.py",
       "action": "shim",
       "module": "src.services.discord_commander.discord_post_client",
-      "symbol_map": {
-        "main": "DiscordPostClient"
-      },
-      "reason": "CLI interface - redirect to canonical service"
+      "symbol_map": {}
     },
     {
-      "file": "discord_commander_core.py",
-      "action": "delete",
-      "reason": "Root level duplicate - functionality in src/services/discord_commander/"
+      "file": "src/services/messaging/messaging_core.py",
+      "action": "shim",
+      "module": "src.services.consolidated_messaging_service",
+      "symbol_map": {}
     },
     {
-      "file": "run_discord_commander.py",
-      "action": "move",
-      "to": "src/services/discord_commander/launcher.py",
-      "reason": "Launcher script - move to commander directory"
+      "file": "src/services/messaging/message_validator.py",
+      "action": "shim",
+      "module": "src.services.consolidated_messaging_service",
+      "symbol_map": {}
     },
     {
-      "file": "tools/discord_commander_launcher_core.py",
-      "action": "delete",
-      "reason": "Duplicate launcher functionality"
-    },
-    {
-      "file": "src/services/discord_devlog_service.py",
-      "action": "merge",
-      "into": "src/services/discord_commander/discord_post_client.py",
-      "note": "Manual merge required - defer to pass-2",
-      "reason": "Devlog service functionality to be merged into canonical"
+      "file": "src/services/consolidated_messaging_core.py",
+      "action": "shim",
+      "module": "src.services.consolidated_messaging_service",
+      "symbol_map": {}
     }
   ],
-  "pass2_candidates": [
-    {
-      "file": "src/services/discord_devlog_service.py",
-      "action": "manual_merge",
-      "target": "src/services/discord_commander/discord_post_client.py",
-      "reason": "Complex merge requiring manual code integration"
-    }
-  ],
-  "expected_reduction": {
-    "files_deleted": 15,
-    "files_moved": 3,
-    "shims_created": 6,
-    "total_files_removed": 12
+  "rules": {
+    "keep_headers": true,
+    "preserve_loggers": true,
+    "v2_compliance_max_loc": 400,
+    "method_equivalence_threshold": 0.86
   }
 }

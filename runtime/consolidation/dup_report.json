@@ -13,12 +13,413 @@
     "D:\\Agent_Cellphone_V2_Repository\\src\\services",
     "D:\\Agent_Cellphone_V2_Repository\\tools"
   ],
-  "exact_groups": [],
+  "exact_groups": [
+    [
+      "src\\services\\messaging\\core\\__init__.py",
+      "src\\services\\messaging\\cli\\__init__.py",
+      "src\\services\\messaging\\delivery\\__init__.py",
+      "src\\services\\messaging\\providers\\__init__.py",
+      "src\\services\\messaging\\onboarding\\__init__.py",
+      "src\\services\\messaging\\status\\__init__.py",
+      "src\\services\\discord_bot\\commands\\__init__.py",
+      "src\\services\\discord_bot\\commands\\agent_coordination\\__init__.py",
+      "src\\services\\discord_bot\\core\\__init__.py",
+      "src\\services\\discord_bot\\core\\commands\\__init__.py",
+      "src\\services\\discord_bot\\ui\\__init__.py",
+      "src\\services\\discord_bot\\tools\\__init__.py",
+      "src\\services\\devlog_storytelling\\integration\\__init__.py"
+    ]
+  ],
   "near_pairs": [
     {
-      "a": "src\\services\\messaging\\providers\\discord_provider_core.py",
-      "b": "src\\services\\messaging\\providers\\discord_provider_operations.py",
-      "similarity": 0.9676
+      "a": "src\\services\\messaging\\core\\__init__.py",
+      "b": "src\\services\\messaging\\cli\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\core\\__init__.py",
+      "b": "src\\services\\messaging\\delivery\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\core\\__init__.py",
+      "b": "src\\services\\messaging\\providers\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\core\\__init__.py",
+      "b": "src\\services\\messaging\\onboarding\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\core\\__init__.py",
+      "b": "src\\services\\messaging\\status\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\core\\__init__.py",
+      "b": "src\\services\\discord_bot\\commands\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\core\\__init__.py",
+      "b": "src\\services\\discord_bot\\commands\\agent_coordination\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\core\\__init__.py",
+      "b": "src\\services\\discord_bot\\core\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\core\\__init__.py",
+      "b": "src\\services\\discord_bot\\core\\commands\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\core\\__init__.py",
+      "b": "src\\services\\discord_bot\\ui\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\core\\__init__.py",
+      "b": "src\\services\\discord_bot\\tools\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\core\\__init__.py",
+      "b": "src\\services\\devlog_storytelling\\integration\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\cli\\__init__.py",
+      "b": "src\\services\\messaging\\delivery\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\cli\\__init__.py",
+      "b": "src\\services\\messaging\\providers\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\cli\\__init__.py",
+      "b": "src\\services\\messaging\\onboarding\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\cli\\__init__.py",
+      "b": "src\\services\\messaging\\status\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\cli\\__init__.py",
+      "b": "src\\services\\discord_bot\\commands\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\cli\\__init__.py",
+      "b": "src\\services\\discord_bot\\commands\\agent_coordination\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\cli\\__init__.py",
+      "b": "src\\services\\discord_bot\\core\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\cli\\__init__.py",
+      "b": "src\\services\\discord_bot\\core\\commands\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\cli\\__init__.py",
+      "b": "src\\services\\discord_bot\\ui\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\cli\\__init__.py",
+      "b": "src\\services\\discord_bot\\tools\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\cli\\__init__.py",
+      "b": "src\\services\\devlog_storytelling\\integration\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\delivery\\__init__.py",
+      "b": "src\\services\\messaging\\providers\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\delivery\\__init__.py",
+      "b": "src\\services\\messaging\\onboarding\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\delivery\\__init__.py",
+      "b": "src\\services\\messaging\\status\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\delivery\\__init__.py",
+      "b": "src\\services\\discord_bot\\commands\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\delivery\\__init__.py",
+      "b": "src\\services\\discord_bot\\commands\\agent_coordination\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\delivery\\__init__.py",
+      "b": "src\\services\\discord_bot\\core\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\delivery\\__init__.py",
+      "b": "src\\services\\discord_bot\\core\\commands\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\delivery\\__init__.py",
+      "b": "src\\services\\discord_bot\\ui\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\delivery\\__init__.py",
+      "b": "src\\services\\discord_bot\\tools\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\delivery\\__init__.py",
+      "b": "src\\services\\devlog_storytelling\\integration\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\providers\\__init__.py",
+      "b": "src\\services\\messaging\\onboarding\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\providers\\__init__.py",
+      "b": "src\\services\\messaging\\status\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\providers\\__init__.py",
+      "b": "src\\services\\discord_bot\\commands\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\providers\\__init__.py",
+      "b": "src\\services\\discord_bot\\commands\\agent_coordination\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\providers\\__init__.py",
+      "b": "src\\services\\discord_bot\\core\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\providers\\__init__.py",
+      "b": "src\\services\\discord_bot\\core\\commands\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\providers\\__init__.py",
+      "b": "src\\services\\discord_bot\\ui\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\providers\\__init__.py",
+      "b": "src\\services\\discord_bot\\tools\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\providers\\__init__.py",
+      "b": "src\\services\\devlog_storytelling\\integration\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\onboarding\\__init__.py",
+      "b": "src\\services\\messaging\\status\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\onboarding\\__init__.py",
+      "b": "src\\services\\discord_bot\\commands\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\onboarding\\__init__.py",
+      "b": "src\\services\\discord_bot\\commands\\agent_coordination\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\onboarding\\__init__.py",
+      "b": "src\\services\\discord_bot\\core\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\onboarding\\__init__.py",
+      "b": "src\\services\\discord_bot\\core\\commands\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\onboarding\\__init__.py",
+      "b": "src\\services\\discord_bot\\ui\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\onboarding\\__init__.py",
+      "b": "src\\services\\discord_bot\\tools\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\onboarding\\__init__.py",
+      "b": "src\\services\\devlog_storytelling\\integration\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\status\\__init__.py",
+      "b": "src\\services\\discord_bot\\commands\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\status\\__init__.py",
+      "b": "src\\services\\discord_bot\\commands\\agent_coordination\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\status\\__init__.py",
+      "b": "src\\services\\discord_bot\\core\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\status\\__init__.py",
+      "b": "src\\services\\discord_bot\\core\\commands\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\status\\__init__.py",
+      "b": "src\\services\\discord_bot\\ui\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\status\\__init__.py",
+      "b": "src\\services\\discord_bot\\tools\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\messaging\\status\\__init__.py",
+      "b": "src\\services\\devlog_storytelling\\integration\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\discord_bot\\commands\\__init__.py",
+      "b": "src\\services\\discord_bot\\commands\\agent_coordination\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\discord_bot\\commands\\__init__.py",
+      "b": "src\\services\\discord_bot\\core\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\discord_bot\\commands\\__init__.py",
+      "b": "src\\services\\discord_bot\\core\\commands\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\discord_bot\\commands\\__init__.py",
+      "b": "src\\services\\discord_bot\\ui\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\discord_bot\\commands\\__init__.py",
+      "b": "src\\services\\discord_bot\\tools\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\discord_bot\\commands\\__init__.py",
+      "b": "src\\services\\devlog_storytelling\\integration\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\discord_bot\\commands\\agent_coordination\\__init__.py",
+      "b": "src\\services\\discord_bot\\core\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\discord_bot\\commands\\agent_coordination\\__init__.py",
+      "b": "src\\services\\discord_bot\\core\\commands\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\discord_bot\\commands\\agent_coordination\\__init__.py",
+      "b": "src\\services\\discord_bot\\ui\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\discord_bot\\commands\\agent_coordination\\__init__.py",
+      "b": "src\\services\\discord_bot\\tools\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\discord_bot\\commands\\agent_coordination\\__init__.py",
+      "b": "src\\services\\devlog_storytelling\\integration\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\discord_bot\\core\\__init__.py",
+      "b": "src\\services\\discord_bot\\core\\commands\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\discord_bot\\core\\__init__.py",
+      "b": "src\\services\\discord_bot\\ui\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\discord_bot\\core\\__init__.py",
+      "b": "src\\services\\discord_bot\\tools\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\discord_bot\\core\\__init__.py",
+      "b": "src\\services\\devlog_storytelling\\integration\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\discord_bot\\core\\commands\\__init__.py",
+      "b": "src\\services\\discord_bot\\ui\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\discord_bot\\core\\commands\\__init__.py",
+      "b": "src\\services\\discord_bot\\tools\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\discord_bot\\core\\commands\\__init__.py",
+      "b": "src\\services\\devlog_storytelling\\integration\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\discord_bot\\ui\\__init__.py",
+      "b": "src\\services\\discord_bot\\tools\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\discord_bot\\ui\\__init__.py",
+      "b": "src\\services\\devlog_storytelling\\integration\\__init__.py",
+      "similarity": 1.0
+    },
+    {
+      "a": "src\\services\\discord_bot\\tools\\__init__.py",
+      "b": "src\\services\\devlog_storytelling\\integration\\__init__.py",
+      "similarity": 1.0
     }
   ],
   "meta": {
@@ -210,8 +611,8 @@
         "AgentHardOnboarder",
         "UI"
       ],
-      "size": 11465,
-      "lines": 297
+      "size": 11570,
+      "lines": 314
     },
     "src\\services\\discord_devlog_service.py": {
       "functions": 3,
@@ -661,6 +1062,13 @@
       "size": 6977,
       "lines": 204
     },
+    "src\\services\\messaging\\core\\__init__.py": {
+      "functions": 0,
+      "classes": 0,
+      "symbols": [],
+      "size": 30,
+      "lines": 1
+    },
     "src\\services\\messaging\\cli\\messaging_cli_clean.py": {
       "functions": 6,
       "classes": 1,
@@ -675,6 +1083,13 @@
       ],
       "size": 6365,
       "lines": 171
+    },
+    "src\\services\\messaging\\cli\\__init__.py": {
+      "functions": 0,
+      "classes": 0,
+      "symbols": [],
+      "size": 30,
+      "lines": 1
     },
     "src\\services\\messaging\\delivery\\inbox_delivery.py": {
       "functions": 1,
@@ -706,6 +1121,13 @@
       ],
       "size": 3391,
       "lines": 124
+    },
+    "src\\services\\messaging\\delivery\\__init__.py": {
+      "functions": 0,
+      "classes": 0,
+      "symbols": [],
+      "size": 30,
+      "lines": 1
     },
     "src\\services\\messaging\\interfaces\\messaging_interfaces.py": {
       "functions": 5,
@@ -774,22 +1196,22 @@
       "functions": 0,
       "classes": 0,
       "symbols": [],
-      "size": 859,
-      "lines": 24
+      "size": 751,
+      "lines": 23
     },
-    "src\\services\\messaging\\providers\\discord_provider_operations.py": {
+    "src\\services\\messaging\\providers\\__init__.py": {
       "functions": 0,
       "classes": 0,
       "symbols": [],
-      "size": 869,
-      "lines": 24
+      "size": 30,
+      "lines": 1
     },
-    "src\\services\\messaging\\onboarding\\onboarding_service.py": {
+    "src\\services\\messaging\\onboarding\\__init__.py": {
       "functions": 0,
       "classes": 0,
       "symbols": [],
-      "size": 769,
-      "lines": 24
+      "size": 30,
+      "lines": 1
     },
     "src\\services\\messaging\\status\\status_monitor.py": {
       "functions": 6,
@@ -805,6 +1227,13 @@
       ],
       "size": 6496,
       "lines": 164
+    },
+    "src\\services\\messaging\\status\\__init__.py": {
+      "functions": 0,
+      "classes": 0,
+      "symbols": [],
+      "size": 30,
+      "lines": 1
     },
     "src\\services\\discord_bot\\commands\\basic_commands.py": {
       "functions": 4,
@@ -919,6 +1348,13 @@
       "size": 7945,
       "lines": 203
     },
+    "src\\services\\discord_bot\\commands\\__init__.py": {
+      "functions": 0,
+      "classes": 0,
+      "symbols": [],
+      "size": 30,
+      "lines": 1
+    },
     "src\\services\\discord_bot\\commands\\agent_coordination\\core.py": {
       "functions": 4,
       "classes": 1,
@@ -956,12 +1392,12 @@
       "size": 5557,
       "lines": 162
     },
-    "src\\services\\discord_bot\\commands\\agent_coordination\\onboarding.py": {
+    "src\\services\\discord_bot\\commands\\agent_coordination\\__init__.py": {
       "functions": 0,
       "classes": 0,
       "symbols": [],
-      "size": 796,
-      "lines": 24
+      "size": 30,
+      "lines": 1
     },
     "src\\services\\discord_bot\\core\\discord_agent_interface.py": {
       "functions": 8,
@@ -1020,6 +1456,13 @@
       "size": 1071,
       "lines": 56
     },
+    "src\\services\\discord_bot\\core\\__init__.py": {
+      "functions": 0,
+      "classes": 0,
+      "symbols": [],
+      "size": 30,
+      "lines": 1
+    },
     "src\\services\\discord_bot\\core\\commands\\social_media_commands.py": {
       "functions": 1,
       "classes": 1,
@@ -1029,6 +1472,13 @@
       ],
       "size": 6500,
       "lines": 168
+    },
+    "src\\services\\discord_bot\\core\\commands\\__init__.py": {
+      "functions": 0,
+      "classes": 0,
+      "symbols": [],
+      "size": 30,
+      "lines": 1
     },
     "src\\services\\discord_bot\\ui\\discord_ui.py": {
       "functions": 4,
@@ -1078,6 +1528,13 @@
       "size": 9182,
       "lines": 235
     },
+    "src\\services\\discord_bot\\ui\\__init__.py": {
+      "functions": 0,
+      "classes": 0,
+      "symbols": [],
+      "size": 30,
+      "lines": 1
+    },
     "src\\services\\discord_bot\\tools\\webhook_provisioner.py": {
       "functions": 2,
       "classes": 1,
@@ -1088,6 +1545,13 @@
       ],
       "size": 6567,
       "lines": 197
+    },
+    "src\\services\\discord_bot\\tools\\__init__.py": {
+      "functions": 0,
+      "classes": 0,
+      "symbols": [],
+      "size": 30,
+      "lines": 1
     },
     "src\\services\\discord_commander\\bot_config.py": {
       "functions": 7,
@@ -1656,8 +2120,8 @@
         "DiscordOptimizationEngine",
         "DiscordPerformanceMonitor"
       ],
-      "size": 10641,
-      "lines": 265
+      "size": 10640,
+      "lines": 264
     },
     "src\\services\\discord_commander\\optimization_models.py": {
       "functions": 1,
@@ -1668,8 +2132,8 @@
         "OptimizationConfig",
         "PerformanceThresholds"
       ],
-      "size": 1825,
-      "lines": 63
+      "size": 1824,
+      "lines": 62
     },
     "src\\services\\discord_commander\\web_controller.py": {
       "functions": 17,
@@ -1823,8 +2287,8 @@
         "search_devlogs",
         "AgentDevlogPoster"
       ],
-      "size": 15842,
-      "lines": 442
+      "size": 15841,
+      "lines": 441
     },
     "src\\services\\devlog_storytelling\\__init__.py": {
       "functions": 4,
@@ -1852,6 +2316,13 @@
       ],
       "size": 9139,
       "lines": 214
+    },
+    "src\\services\\devlog_storytelling\\integration\\__init__.py": {
+      "functions": 0,
+      "classes": 0,
+      "symbols": [],
+      "size": 30,
+      "lines": 1
     },
     "tools\\post_major_update.py": {
       "functions": 1,
@@ -1881,6 +2352,15 @@
       "size": 1811,
       "lines": 71
     },
+    "tools\\captain_onboard_cli.py": {
+      "functions": 1,
+      "classes": 0,
+      "symbols": [
+        "main"
+      ],
+      "size": 3851,
+      "lines": 132
+    },
     "tools\\hard_onboarding_executor.py": {
       "functions": 6,
       "classes": 1,
@@ -1893,31 +2373,8 @@
         "main",
         "HardOnboardingExecutor"
       ],
-      "size": 8900,
-      "lines": 249
-    },
-    "tools\\captain_onboard_cli.py": {
-      "functions": 1,
-      "classes": 0,
-      "symbols": [
-        "main"
-      ],
-      "size": 4083,
-      "lines": 139
-    },
-    "tools\\agent_onboard_cli.py": {
-      "functions": 0,
-      "classes": 0,
-      "symbols": [],
-      "size": 707,
-      "lines": 24
-    },
-    "tools\\discord_webhook_cli.py": {
-      "functions": 0,
-      "classes": 0,
-      "symbols": [],
-      "size": 781,
-      "lines": 24
+      "size": 8880,
+      "lines": 247
     },
     "messaging_system.py": {
       "functions": 8,
@@ -1938,9 +2395,9 @@
     }
   },
   "totals": {
-    "files_scanned": 126,
-    "exact_dup_groups": 0,
-    "near_dup_pairs": 1,
-    "total_duplicates": 1
+    "files_scanned": 134,
+    "exact_dup_groups": 1,
+    "near_dup_pairs": 78,
+    "total_duplicates": 79
   }
 }

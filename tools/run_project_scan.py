@@ -31,12 +31,20 @@ def run() -> None:
         os.chdir(repo_root)
     except Exception:
         pass
+    
+    print("🔍 Initializing ProjectScanner...")
     scanner = ProjectScanner(project_root=".")
+    print("📊 Running project scan...")
     scanner.scan_project()
+    print("📁 Generating init files...")
     scanner.generate_init_files(overwrite=True)
+    print("🤖 Categorizing agents...")
     scanner.categorize_agents()
+    print("📝 Saving reports...")
     scanner.report_generator.save_report()
+    print("💬 Exporting ChatGPT context...")
     scanner.export_chatgpt_context()
+    print("📋 Generating modular reports...")
     scanner.modular_reporter.generate_modular_reports()
     artifacts = [
         "project_analysis.json",

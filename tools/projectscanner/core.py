@@ -30,7 +30,7 @@ class ProjectScanner:
         if self._report_generator is None:
             from .reporters import ReportGenerator
 
-            self._report_generator = ReportGenerator(self.project_root)
+            self._report_generator = ReportGenerator(self.project_root, self.analysis_data)
         return self._report_generator
 
     @property
@@ -44,15 +44,19 @@ class ProjectScanner:
 
     def scan_project(self) -> None:
         """Perform comprehensive project scan."""
-        logger.info("🔍 Starting project scan...")
+        print("🔍 Starting project scan...")
 
         # Basic project structure analysis
+        print("📁 Analyzing project structure...")
         self._analyze_project_structure()
+        print("🐍 Analyzing Python files...")
         self._analyze_python_files()
+        print("📦 Analyzing dependencies...")
         self._analyze_dependencies()
+        print("🧪 Analyzing test coverage...")
         self._analyze_test_coverage()
 
-        logger.info("✅ Project scan completed")
+        print("✅ Project scan completed")
 
     def _analyze_project_structure(self) -> None:
         """Analyze basic project structure."""

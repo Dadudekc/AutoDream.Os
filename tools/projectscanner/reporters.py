@@ -16,9 +16,10 @@ logger = logging.getLogger(__name__)
 class ReportGenerator:
     """Generates comprehensive project analysis reports."""
 
-    def __init__(self, output_dir: Path = Path(".")):
+    def __init__(self, output_dir: Path = Path("."), analysis_data: dict[str, Any] = None):
         """Initialize report generator."""
         self.output_dir = output_dir
+        self.analysis_data = analysis_data or {}
         self.reports_generated = 0
 
         logger.info(f"Initialized ReportGenerator with output dir: {output_dir}")
@@ -42,27 +43,40 @@ class ReportGenerator:
 
     def _generate_report_data(self) -> dict[str, Any]:
         """Generate the main report data structure."""
+        from datetime import datetime
+        
+        # Get structure data from analysis
+        structure = self.analysis_data.get("structure", {})
+        python_analysis = self.analysis_data.get("python_analysis", {})
+        dependencies = self.analysis_data.get("dependencies", {})
+        
+        # Calculate compliance rate
+        total_python = python_analysis.get("total_python_files", 0)
+        compliant = python_analysis.get("v2_compliant_files", 0)
+        compliance_rate = (compliant / total_python * 100) if total_python > 0 else 0.0
+        
         return {
             "project_info": {
                 "name": "Agent Cellphone V2",
                 "version": "2.1.0",
                 "description": "Advanced AI Agent System with Code Quality Standards",
-                "scan_timestamp": "2025-01-15T00:00:00Z",
+                "scan_timestamp": datetime.now().isoformat() + "Z",
             },
             "file_statistics": {
-                "total_files": 0,
-                "python_files": 0,
-                "rust_files": 0,
-                "javascript_files": 0,
-                "other_files": 0,
+                "total_files": structure.get("total_files", 0),
+                "python_files": structure.get("python_files", 0),
+                "rust_files": structure.get("file_types", {}).get(".rs", 0),
+                "javascript_files": structure.get("file_types", {}).get(".js", 0) + structure.get("file_types", {}).get(".ts", 0),
+                "other_files": structure.get("total_files", 0) - structure.get("python_files", 0),
             },
             "code_metrics": {
-                "total_lines": 0,
-                "average_file_size": 0,
-                "largest_file": "",
-                "complexity_score": 0,
+                "total_lines": sum(python_analysis.get("file_sizes", {}).values()),
+                "average_file_size": sum(python_analysis.get("file_sizes", {}).values()) // max(total_python, 1),
+                "largest_file": max(python_analysis.get("file_sizes", {}).items(), key=lambda x: x[1], default=("", 0))[0],
+                "complexity_score": sum(python_analysis.get("complexity_scores", {}).values()) // max(total_python, 1),
             },
-            "v2_compliance": {"compliant_files": 0, "violation_files": 0, "compliance_rate": 0.0},
+            "v2_compliance": {"compliant_files": compliant, "violation_files": total_python - compliant, "compliance_rate": compliance_rate},
+            "dependencies": dependencies,
             "recommendations": [
                 "Maintain V2 compliance standards",
                 "Regular code quality reviews",

@@ -1,360 +1,179 @@
 #!/usr/bin/env python3
 """
-Thea Autonomous CLI
-==================
-Autonomous communication interface for Thea consultation system.
-V2 Compliant: ≤400 lines, focused autonomous communication
+Thea Autonomous CLI - Command Line Interface for Agent-Friendly Thea
+====================================================================
 
-Author: Agent-7 (Implementation Specialist)
-License: MIT
+A simple command-line interface for the autonomous Thea system.
+Allows agents to interact with Thea without human intervention.
+
+Usage:
+    python -m src.services.thea.thea_autonomous_cli send "Hello Thea!"
+    python -m src.services.thea.thea_autonomous_cli status
+    python -m src.services.thea.thea_autonomous_cli test
 """
 
 import argparse
-import json
-import logging
 import sys
-from datetime import datetime
 from pathlib import Path
-from typing import Any
 
-# Add project root to Python path
-project_root = Path(__file__).parent.parent.parent.parent.parent
+# Add project root to path
+project_root = Path(__file__).parent.parent.parent.parent
 sys.path.insert(0, str(project_root))
-sys.path.insert(0, str(project_root / "src"))
 
-logger = logging.getLogger(__name__)
+from src.services.thea.thea_autonomous_system import (
+    TheaAutonomousSystem,
+    send_thea_message_autonomous,
+)
 
 
-class TheaAutonomousCommunication:
-    """Autonomous communication with Thea consultation system."""
+def send_message_command(message: str, headless: bool = True):
+    """Send a message to Thea autonomously."""
+    print("🤖 Sending autonomous message to Thea...")
+    print(f"📤 Message: {message}")
+    print(f"🫥 Headless mode: {headless}")
+    print("-" * 50)
 
-    def __init__(self, project_root: str = "."):
-        """Initialize autonomous communication."""
-        self.project_root = Path(project_root)
-        self.communication_log = self.project_root / "thea_communications.json"
-        self.session_id = f"session_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+    response = send_thea_message_autonomous(message, headless=headless)
 
-        logger.info(f"TheaAutonomousCommunication initialized - Session: {self.session_id}")
+    if response:
+        print("✅ SUCCESS: Received response from Thea")
+        print(f"📝 Response length: {len(response)} characters")
+        print(f"📄 Response preview: {response[:300]}...")
+        return True
+    else:
+        print("❌ FAILED: No response received from Thea")
+        return False
 
-    def send_message(self, message: str, context: str = None) -> dict[str, Any]:
-        """Send autonomous message to Thea."""
-        try:
-            logger.info(f"Sending autonomous message: {message[:50]}...")
 
-            # Create communication record
-            communication = {
-                "session_id": self.session_id,
-                "message": message,
-                "context": context or "general",
-                "timestamp": datetime.now().isoformat(),
-                "status": "sent",
-                "type": "autonomous_communication",
-            }
+def status_command():
+    """Get system status."""
+    print("📊 Thea Autonomous System Status")
+    print("=" * 40)
 
-            # Store communication
-            self._store_communication(communication)
+    try:
+        thea = TheaAutonomousSystem(headless=True)
+        status = thea.get_system_status()
 
-            # Process message (in a real implementation, this would communicate with Thea)
-            response = self._process_autonomous_message(message, context)
+        print(f"🔧 Initialized: {status['initialized']}")
+        print(f"🫥 Headless mode: {status['headless_mode']}")
+        print(f"🍪 Valid cookies: {status['has_valid_cookies']}")
+        print(f"🌐 Browser available: {status['browser_available']}")
+        print(f"⏰ Last activity: {status['last_activity']}")
+        print(f"🔄 Max retries: {status['max_retries']}")
+        print(f"⏳ Retry delay: {status['retry_delay']}s")
 
-            # Update communication with response
-            communication.update(
-                {
-                    "response": response,
-                    "status": "completed",
-                    "response_timestamp": datetime.now().isoformat(),
-                }
-            )
+        return True
 
-            self._update_communication(communication)
+    except Exception as e:
+        print(f"❌ Error getting status: {e}")
+        return False
 
-            logger.info("Autonomous message sent successfully")
-            return {
-                "success": True,
-                "session_id": self.session_id,
-                "message_id": communication.get("message_id"),
-                "response": response,
-            }
 
-        except Exception as e:
-            logger.error(f"Autonomous message failed: {e}")
-            return {"success": False, "error": str(e), "session_id": self.session_id}
+def test_command():
+    """Run a test message to verify system functionality."""
+    test_message = "Hello Thea! This is an autonomous test from Agent-2. Please respond with a brief acknowledgment."
 
-    def _process_autonomous_message(self, message: str, context: str = None) -> dict[str, Any]:
-        """Process autonomous message using Selenium browser automation."""
-        try:
-            # Try to use the Selenium implementation
-            import sys
-            import os
-            sys.path.append(os.path.join(os.path.dirname(__file__), "..", "messaging"))
-            from thea_handlers import send_to_thea
-            
-            logger.info("Using Selenium browser automation for Thea communication")
-            
-            # Send message using Selenium
-            result = send_to_thea(message, headless=False)
-            
-            if result:
-                response = {
-                    "type": "autonomous_response",
-                    "acknowledged": True,
-                    "message": f"Message sent to Thea via browser automation: '{message}'",
-                    "context": context or "general",
-                    "browser_automation": True,
-                    "selenium_success": True,
-                    "recommendations": [
-                        "Message successfully sent to Thea via browser",
-                        "Response captured via screenshot and text extraction",
-                        "Check thea_responses/ directory for full response",
-                    ],
-                    "next_steps": [
-                        "Review response in thea_responses/ directory",
-                        "Use consultation system for follow-up questions",
-                        "Monitor for additional responses",
-                    ],
-                }
-            else:
-                response = {
-                    "type": "autonomous_response",
-                    "acknowledged": False,
-                    "message": f"Failed to send message to Thea: '{message}'",
-                    "context": context or "general",
-                    "browser_automation": True,
-                    "selenium_success": False,
-                    "recommendations": [
-                        "Browser automation failed - check Chrome/ChromeDriver versions",
-                        "Try manual consultation system as fallback",
-                        "Review error logs for debugging",
-                    ],
-                    "next_steps": [
-                        "Use strategic consultation system for immediate needs",
-                        "Check browser automation setup",
-                        "Consider manual Thea interaction",
-                    ],
-                }
-            
-            return response
-            
-        except Exception as e:
-            logger.error(f"Selenium automation failed: {e}")
-            
-            # Fallback to placeholder response
-            response = {
-                "type": "autonomous_response",
-                "acknowledged": False,
-                "message": f"Autonomous message received but browser automation failed: '{message}'",
-                "context": context or "general",
-                "browser_automation": False,
-                "selenium_success": False,
-                "error": str(e),
-                "recommendations": [
-                    "Browser automation not available - using fallback mode",
-                    "Message has been logged for Thea's review",
-                    "Consider using strategic consultation for detailed guidance",
-                ],
-                "next_steps": [
-                    "Monitor for Thea's response via other channels",
-                    "Use consultation system for immediate needs",
-                    "Check communication logs for updates",
-                ],
-            }
-            
-            return response
+    print("🧪 Running Thea Autonomous System Test")
+    print("=" * 45)
 
-    def _store_communication(self, communication: dict[str, Any]) -> None:
-        """Store communication record."""
-        try:
-            # Load existing communications
-            communications = []
-            if self.communication_log.exists():
-                with open(self.communication_log) as f:
-                    communications = json.load(f)
+    return send_message_command(test_message, headless=True)
 
-            # Add message ID
-            communication[
-                "message_id"
-            ] = f"msg_{len(communications) + 1}_{datetime.now().strftime('%H%M%S')}"
 
-            # Add new communication
-            communications.append(communication)
+def interactive_command():
+    """Run in interactive mode for testing."""
+    print("🎮 Thea Autonomous Interactive Mode")
+    print("=" * 40)
+    print("Type messages to send to Thea (or 'quit' to exit)")
+    print("-" * 40)
 
-            # Save updated communications
-            with open(self.communication_log, "w") as f:
-                json.dump(communications, f, indent=2)
+    try:
+        with TheaAutonomousSystem(headless=False) as thea:
+            while True:
+                message = input("\n📤 Enter message: ").strip()
 
-        except Exception as e:
-            logger.error(f"Failed to store communication: {e}")
-
-    def _update_communication(self, communication: dict[str, Any]) -> None:
-        """Update existing communication record."""
-        try:
-            # Load existing communications
-            communications = []
-            if self.communication_log.exists():
-                with open(self.communication_log) as f:
-                    communications = json.load(f)
-
-            # Update the communication
-            for i, comm in enumerate(communications):
-                if comm.get("message_id") == communication.get("message_id"):
-                    communications[i] = communication
+                if message.lower() in ["quit", "exit", "q"]:
+                    print("👋 Goodbye!")
                     break
 
-            # Save updated communications
-            with open(self.communication_log, "w") as f:
-                json.dump(communications, f, indent=2)
+                if not message:
+                    print("⚠️  Please enter a message")
+                    continue
 
-        except Exception as e:
-            logger.error(f"Failed to update communication: {e}")
+                print(f"📤 Sending: {message}")
+                response = thea.send_message_autonomous(message)
 
-    def get_communication_history(self, limit: int = 10) -> list[dict[str, Any]]:
-        """Get communication history."""
-        try:
-            if not self.communication_log.exists():
-                return []
+                if response:
+                    print(f"✅ Response: {response[:500]}...")
+                else:
+                    print("❌ No response received")
 
-            with open(self.communication_log) as f:
-                communications = json.load(f)
-
-            # Return recent communications
-            return communications[-limit:] if communications else []
-
-        except Exception as e:
-            logger.error(f"Failed to get communication history: {e}")
-            return []
-
-    def get_session_status(self) -> dict[str, Any]:
-        """Get current session status."""
-        try:
-            history = self.get_communication_history()
-            session_communications = [
-                comm for comm in history if comm.get("session_id") == self.session_id
-            ]
-
-            return {
-                "session_id": self.session_id,
-                "total_messages": len(session_communications),
-                "pending_responses": len(
-                    [comm for comm in session_communications if comm.get("status") == "sent"]
-                ),
-                "completed_communications": len(
-                    [comm for comm in session_communications if comm.get("status") == "completed"]
-                ),
-                "session_start": session_communications[0]["timestamp"]
-                if session_communications
-                else None,
-                "last_activity": session_communications[-1]["timestamp"]
-                if session_communications
-                else None,
-            }
-
-        except Exception as e:
-            logger.error(f"Failed to get session status: {e}")
-            return {"session_id": self.session_id, "error": str(e)}
-
-
-def send_command_handler(args: argparse.Namespace) -> int:
-    """Handle send command."""
-    print("🤖 Thea Autonomous Communication")
-    print("=" * 50)
-
-    try:
-        thea = TheaAutonomousCommunication()
-
-        result = thea.send_message(message=args.message, context=args.context)
-
-        if result["success"]:
-            print("✅ Message sent successfully!")
-            print(f"📋 Session ID: {result['session_id']}")
-            print(f"📨 Message ID: {result['message_id']}")
-
-            # Display response
-            response = result["response"]
-            print("\n📊 Thea Response:")
-            print(f"Type: {response['type']}")
-            print(f"Message: {response['message']}")
-
-            if "recommendations" in response:
-                print("\n💡 Recommendations:")
-                for i, rec in enumerate(response["recommendations"], 1):
-                    print(f"   {i}. {rec}")
-
-            if "next_steps" in response:
-                print("\n🎯 Next Steps:")
-                for i, step in enumerate(response["next_steps"], 1):
-                    print(f"   {i}. {step}")
-
-            return 0
-        else:
-            print(f"❌ Message failed: {result.get('error', 'Unknown error')}")
-            return 1
-
+    except KeyboardInterrupt:
+        print("\n👋 Interrupted by user")
     except Exception as e:
-        print(f"❌ Send command error: {e}")
-        return 1
-
-
-def status_command_handler(args: argparse.Namespace) -> int:
-    """Handle status command."""
-    print("📊 Thea Autonomous Communication Status")
-    print("=" * 50)
-
-    try:
-        thea = TheaAutonomousCommunication()
-
-        # Get session status
-        status = thea.get_session_status()
-        print("📋 Session Status:")
-        print(f"   Session ID: {status['session_id']}")
-        print(f"   Total Messages: {status.get('total_messages', 0)}")
-        print(f"   Pending Responses: {status.get('pending_responses', 0)}")
-        print(f"   Completed: {status.get('completed_communications', 0)}")
-
-        if status.get("session_start"):
-            print(f"   Session Start: {status['session_start']}")
-        if status.get("last_activity"):
-            print(f"   Last Activity: {status['last_activity']}")
-
-        # Get communication history
-        history = thea.get_communication_history(limit=5)
-        print(f"\n📋 Recent Communications: {len(history)}")
-
-        if history:
-            for comm in history:
-                status_icon = (
-                    "✅"
-                    if comm.get("status") == "completed"
-                    else "⏳"
-                    if comm.get("status") == "sent"
-                    else "❌"
-                )
-                print(
-                    f"   {status_icon} {comm.get('message_id', 'N/A')}: {comm.get('message', '')[:50]}{'...' if len(comm.get('message', '')) > 50 else ''}"
-                )
-
-        return 0
-
-    except Exception as e:
-        print(f"❌ Status command error: {e}")
-        return 1
+        print(f"❌ Error in interactive mode: {e}")
 
 
 def main():
-    """Main CLI function."""
+    """Main CLI entry point."""
     parser = argparse.ArgumentParser(
-        description="Thea Autonomous Communication System",
+        description="Thea Autonomous System CLI",
         formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  %(prog)s send "Hello Thea!"
+  %(prog)s status
+  %(prog)s test
+  %(prog)s interactive
+        """,
     )
 
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
 
     # Send command
-    send_parser = subparsers.add_parser("send", help="Send autonomous message to Thea")
+    send_parser = subparsers.add_parser("send", help="Send a message to Thea")
     send_parser.add_argument("message", help="Message to send to Thea")
-    send_parser.add_argument("--context", help="Additional context for the message")
+    send_parser.add_argument(
+        "--visible", action="store_true", help="Run browser in visible mode (default: headless)"
+    )
 
     # Status command
-    status_parser = subparsers.add_parser("status", help="Show communication status and history")
+    subparsers.add_parser("status", help="Get system status")
+
+    # Test command
+    subparsers.add_parser("test", help="Run a test message")
+
+    # Interactive command
+    subparsers.add_parser("interactive", help="Run in interactive mode")
+
+    # Conversation management commands
+    conv_parser = subparsers.add_parser("conversation", help="Manage conversations")
+    conv_subparsers = conv_parser.add_subparsers(dest="conv_action", required=True)
+
+    # List conversations
+    conv_subparsers.add_parser("list", help="List all conversations")
+
+    # Show active conversation
+    conv_subparsers.add_parser("active", help="Show active conversation info")
+
+    # Start new conversation
+    conv_subparsers.add_parser("new", help="Start a new conversation")
+
+    # Load specific conversation
+    load_parser = conv_subparsers.add_parser("load", help="Load a specific conversation")
+    load_parser.add_argument("conversation_link", help="Conversation link to load")
+
+    # Analytics reporting commands
+    analytics_parser = subparsers.add_parser("analytics", help="Send analytics reports to Thea")
+    analytics_parser.add_argument(
+        "--report", action="store_true", help="Send comprehensive analytics report"
+    )
+    analytics_parser.add_argument(
+        "--new-conversation", action="store_true", help="Start new conversation for report"
+    )
+    analytics_parser.add_argument(
+        "--status", action="store_true", help="Show analytics reporter status"
+    )
+    # Removed --visible flag - agents should run headless by default
 
     args = parser.parse_args()
 
@@ -362,13 +181,171 @@ def main():
         parser.print_help()
         return 1
 
-    # Route to appropriate handler
-    if args.command == "send":
-        return send_command_handler(args)
-    elif args.command == "status":
-        return status_command_handler(args)
+    try:
+        if args.command == "send":
+            headless = not args.visible
+            success = send_message_command(args.message, headless=headless)
+            return 0 if success else 1
+
+        elif args.command == "status":
+            success = status_command()
+            return 0 if success else 1
+
+        elif args.command == "test":
+            success = test_command()
+            return 0 if success else 1
+
+        elif args.command == "interactive":
+            interactive_command()
+            return 0
+
+        elif args.command == "conversation":
+            return conversation_command(args)
+
+        elif args.command == "analytics":
+            return analytics_command(args)
+
+        else:
+            print(f"❌ Unknown command: {args.command}")
+            return 1
+
+    except KeyboardInterrupt:
+        print("\n👋 Interrupted by user")
+        return 1
+    except Exception as e:
+        print(f"❌ Error: {e}")
+        return 1
+
+
+def conversation_command(args):
+    """Handle conversation management commands."""
+    from src.services.thea.thea_conversation_manager import TheaConversationManager
+
+    manager = TheaConversationManager()
+
+    if args.conv_action == "list":
+        print("📚 Thea Conversation History")
+        print("=" * 50)
+
+        history = manager.get_conversation_history()
+        if not history:
+            print("No conversations found.")
+            return 0
+
+        for i, conv in enumerate(history, 1):
+            print(f"{i}. {conv['conversation_id']}")
+            print(f"   Topic: {conv['topic']}")
+            print(f"   Status: {conv['status']}")
+            print(f"   Messages: {conv['message_count']}")
+            print(f"   Created: {conv['created_at']}")
+            print(f"   Last Accessed: {conv['last_accessed']}")
+            print(f"   Link: {conv['link']}")
+            print()
+
+        return 0
+
+    elif args.conv_action == "active":
+        print("🔄 Active Conversation Status")
+        print("=" * 50)
+
+        status = manager.get_status()
+        if status["active_conversation"]:
+            active = status["active_conversation"]
+            print(f"Active Conversation: {active['conversation_id']}")
+            print(f"Topic: {active['topic']}")
+            print(f"Messages: {active['message_count']}")
+            print(f"Last Accessed: {active['last_accessed']}")
+            print(f"Link: {active['link']}")
+        else:
+            print("No active conversation.")
+
+        print(f"\nTotal Conversations: {status['total_conversations']}")
+        return 0
+
+    elif args.conv_action == "new":
+        print("🆕 Starting New Conversation")
+        print("=" * 50)
+
+        # This would require browser interaction, so we'll just clear the active conversation
+        manager.active_conversation_id = None
+        manager._save_conversations()
+        print("✅ Cleared active conversation. Next message will start a new conversation.")
+        return 0
+
+    elif args.conv_action == "load":
+        print("🔄 Loading Conversation")
+        print("=" * 50)
+
+        success = manager.load_conversation(args.conversation_link)
+        if success:
+            print(f"✅ Loaded conversation: {args.conversation_link}")
+        else:
+            print(f"❌ Failed to load conversation: {args.conversation_link}")
+            return 1
+
+        return 0
+
     else:
-        print(f"❌ Unknown command: {args.command}")
+        print(f"❌ Unknown conversation action: {args.conv_action}")
+        return 1
+
+
+def analytics_command(args):
+    """Handle analytics reporting commands."""
+    from src.services.thea.thea_analytics_reporter import TheaAnalyticsReporter
+
+    reporter = TheaAnalyticsReporter()
+
+    if args.status:
+        print("📊 Thea Analytics Reporter Status")
+        print("=" * 50)
+
+        status = reporter.get_report_status()
+
+        print(f"Analytics Available: {'✅ Yes' if status['analytics_available'] else '❌ No'}")
+        print(f"Last Scan: {status['last_scan_timestamp'] or 'Never'}")
+        print(f"V2 Compliance: {status['v2_compliance']:.1f}%")
+        print(f"Violations: {status['violations_count']}")
+        print(f"Reporter Ready: {'✅ Yes' if status['reporter_ready'] else '❌ No'}")
+
+        if status["conversation_status"]["active_conversation"]:
+            active = status["conversation_status"]["active_conversation"]
+            print(f"\nActive Conversation: {active['conversation_id']}")
+            print(f"Topic: {active['topic']}")
+            print(f"Messages: {active['message_count']}")
+
+        return 0
+
+    elif args.report:
+        print("📊 Sending Analytics Report to Commander Thea")
+        print("=" * 50)
+
+        # Check if reporter is ready
+        status = reporter.get_report_status()
+        if not status["reporter_ready"]:
+            print("❌ Analytics reporter not ready - missing project analysis or analytics data")
+            print("Please run a project scan first: python tools/run_project_scan.py")
+            return 1
+
+        print("🔄 Generating comprehensive analytics report...")
+        print("📤 Sending to Commander Thea...")
+
+        # Send report autonomously (headless by default for agents)
+        success = reporter.send_analytics_report(
+            force_new_conversation=args.new_conversation, visible=False
+        )
+
+        if success:
+            print("✅ Analytics report sent successfully to Commander Thea")
+            print("📋 Thea will provide strategic guidance based on current project analytics")
+        else:
+            print("❌ Failed to send analytics report")
+            return 1
+
+        return 0
+
+    else:
+        print("❌ Please specify --report, --status, or --help")
         return 1
 
 

@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "actions": [
+    {
+      "files": [
+        "thea_login_handler.py",
+        "thea_login_handler_working.py"
+      ],
+      "action": "merge_working_into_main",
+      "description": "Merge working version into main thea login handler, remove duplicate"
+    },
+    {
+      "files": [
+        "simple_thea_communication.py", 
+        "simple_thea_communication_working.py"
+      ],
+      "action": "merge_working_into_main",
+      "description": "Merge working version into main communication, remove duplicate"
+    },
+    {
+      "files": [
+        "src/services/discord_commander/bot.py",
+        "src/services/discord_commander/web_controller_templates.py"
+      ],
+      "action": "review_consolidation",
+      "description": "Review discord commander files for potential consolidation"
+    },
+    {
+      "files": [
+        "src/services/discord_devlog_service.py",
+        "tools/simple_workflow_automation.py"
+      ],
+      "action": "review_consolidation", 
+      "description": "Review service files for potential consolidation"
+    }
+  ],
+  "target_metrics": {
+    "current_files": 672,
+    "target_files": 600,
+    "current_violations": 9,
+    "target_violations": 0
+  }
+}

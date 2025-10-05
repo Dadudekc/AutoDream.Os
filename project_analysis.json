@@ -7,21 +7,21 @@
   },
   "file_statistics": {
     "total_files": 1810,
-    "python_files": 672,
+    "python_files": 638,
     "rust_files": 0,
     "javascript_files": 0,
-    "other_files": 1138
+    "other_files": 1172
   },
   "code_metrics": {
-    "total_lines": 97393,
-    "average_file_size": 144,
+    "total_lines": 127420,
+    "average_file_size": 199,
     "largest_file": "D:\\Agent_Cellphone_V2_Repository\\thea_login_handler.py",
     "complexity_score": 0
   },
   "v2_compliance": {
-    "compliant_files": 663,
+    "compliant_files": 629,
     "violation_files": 9,
-    "compliance_rate": 98.66071428571429
+    "compliance_rate": 98.58934169278997
   },
   "dependencies": {
     "requirements_files": [

@@ -133,17 +133,50 @@ def format_message_for_delivery(message: UnifiedMessage) -> str:
             agent_tag = "[ONBOARDING]"
         else:
             agent_tag = "[TEXT]"
+        template = "compact"
+        if isinstance(message.metadata, dict):
+            template = message.metadata.get("template", "compact")
+
         formatted = f"{agent_tag} {message.sender} → {message.recipient}\n"
         formatted += f"Priority: {message.priority.value.upper()}\n"
         if message.tags:
             tag_values = ", ".join(tag.value for tag in message.tags)
             formatted += f"Tags: {tag_values}\n"
         formatted += f"\n{message.content}\n"
+
+        # Inject template-specific reminders
+        if template == "full":
+            formatted += (
+                "\n🎯 QUALITY GATES REMINDER\n"
+                "============================================================\n"
+                "📋 V2 COMPLIANCE: ≤400 lines • ≤5 classes • ≤10 functions\n"
+                "🚫 NO: Abstract classes • Complex inheritance • Threading\n"
+                "✅ USE: Simple data classes • Direct calls • Basic validation\n"
+                "🎯 KISS: Keep it simple! • Run `python quality_gates.py`\n"
+                "============================================================\n"
+                "🗃️ DATABASES: Swarm Brain (Retriever.search), Unified (sqlite3), Vector (VectorDatabaseIntegration)\n"
+                "🔄 TOOLS: scan_tools.py • find_tool.py • run_project_scan.py\n"
+                "🚀 MESSAGING: unified messaging core • Discord\n"
+                "============================================================\n"
+                "🔄 AGENT CYCLE: CHECK_INBOX → EVALUATE_TASKS → EXECUTE_ROLE → QUALITY_GATES → CYCLE_DONE\n"
+                "🚀 KICKOFF: Start with PHASE 1 (CHECK_INBOX)\n"
+            )
+        elif template == "minimal":
+            formatted += (
+                "\n🎯 QUALITY GATES: V2 compliance • Run quality_gates.py\n"
+                "🗃️ DB: Swarm Brain • Unified • Vector\n"
+                "🔄 CYCLE: CHECK_INBOX → EVALUATE_TASKS → EXECUTE_ROLE → QUALITY_GATES → CYCLE_DONE\n"
+            )
+        else:  # compact
+            formatted += (
+                "\n🎯 QUALITY GATES REMINDER\n"
+                "🗃️ DB: Swarm Brain(r.search) • Unified(sqlite3) • Vector(VDI)\n"
+                "🔄 TOOLS: scan_tools.py • find_tool.py • run_project_scan.py\n"
+                "🔄 CYCLE: CHECK_INBOX → EVALUATE_TASKS → EXECUTE_ROLE → QUALITY_GATES → CYCLE_DONE\n"
+            )
+
         formatted += f"\nYou are {message.recipient}\n"
         formatted += f"Timestamp: {message.timestamp}\n"
-        formatted += f"\n📝 DISCORD DEVLOG REMINDER: Create a Discord devlog for this action in devlogs/ directory\n"
-        formatted += f"📬 INBOX CHECK REMINDER: Check your inbox at agent_workspaces/{message.recipient}/inbox/ for new messages\n"
-        formatted += f"📊 STATUS UPDATE REMINDER: Update your status and report progress to maintain swarm coordination"
         return formatted
     except Exception as e:
         logging.error(f"Error formatting message: {e}")

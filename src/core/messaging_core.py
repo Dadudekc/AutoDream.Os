@@ -160,6 +160,35 @@ class UnifiedMessagingCore:
     def send_message_object(self, message: UnifiedMessage) -> bool:
         """Send a UnifiedMessage object."""
         try:
+            # Role- and channel-aware template resolution hook
+            # Attach selected template into metadata for downstream delivery/formatting layers
+            try:
+                from ..services.messaging.policy_loader import (
+                    load_template_policy,
+                    resolve_template_by_channel,
+                    resolve_template_by_roles,
+                )
+            except Exception:
+                load_template_policy = None  # type: ignore
+                resolve_template_by_channel = None  # type: ignore
+                resolve_template_by_roles = None  # type: ignore
+
+            template = message.metadata.get("template") if isinstance(message.metadata, dict) else None
+            channel = (message.metadata or {}).get("channel", "standard") if isinstance(message.metadata, dict) else "standard"
+            sender_role = (message.metadata or {}).get("sender_role", "AGENT") if isinstance(message.metadata, dict) else "AGENT"
+            receiver_role = (message.metadata or {}).get("receiver_role", "AGENT") if isinstance(message.metadata, dict) else "AGENT"
+
+            if not template and load_template_policy and resolve_template_by_channel and resolve_template_by_roles:
+                policy = load_template_policy()
+                # Channel overrides first
+                if channel in ("onboarding", "passdown", "standard"):
+                    template = resolve_template_by_channel(policy, channel)
+                # If not forced by channel, resolve by roles
+                if not template or template == "compact":
+                    template = resolve_template_by_roles(policy, str(sender_role), str(receiver_role))
+
+                message.metadata["template"] = template  # type: ignore[index]
+
             if self.delivery_service:
                 return self.delivery_service.send_message(message)
             else:

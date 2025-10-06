@@ -1,0 +1,52 @@
+[
+  {
+    "domain": ".chatgpt.com",
+    "expiry": 1791157085,
+    "httpOnly": true,
+    "name": "cf_clearance",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "HnprgNNVcXXQ5EDI65zBL39i6p5Adlk9g._hGV.HhYk-1759621085-1.2.1.1-2GgfBBFglQLmtYnSDD8J5jLPjRsOcnjYJJBQN1QwqQgXRmIRoPajE_JppY37nlVOxyo4Pt2oL_fOFbddSG_is88XHlmjp90xyJGu6JBsv9Xlzu4Y.I_muTAd8.6QBtefl4KHkoK0jFLKICGFvT63ea5S4CSzp_Sg1IszHahhbwk7YgGGA3og8TtRRPtturXyKaw1PjXWdCtvCYFb6LakACD22dNLr842cRisydUyyN4"
+  },
+  {
+    "domain": "chatgpt.com",
+    "expiry": 1759624684,
+    "httpOnly": true,
+    "name": "__cflb",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "0H28vzvP5FJafnkHxj4E2STJwzoq4JTVMkcJsX61p2w"
+  },
+  {
+    "domain": "chatgpt.com",
+    "expiry": 1791157085,
+    "httpOnly": false,
+    "name": "_dd_s",
+    "path": "/",
+    "sameSite": "Strict",
+    "secure": false,
+    "value": "aid=33207a53-eb1b-4712-9533-a034eaa82c7e&rum=0&expire=1759621985566&logs=1&id=8b440586-b4b0-4f0a-a671-a10bbc15421c&created=1759621085566"
+  },
+  {
+    "domain": ".chatgpt.com",
+    "expiry": 1790725085,
+    "httpOnly": false,
+    "name": "oai-did",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "2d5e4a13-0e21-4254-a01b-6dfd062e6cb3"
+  },
+  {
+    "domain": ".chatgpt.com",
+    "expiry": 1759622884,
+    "httpOnly": true,
+    "name": "__cf_bm",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "m.M4KOg4dBkEh_wzfbtZkutgRBzl2PQQmiDXJBlcgWA-1759621084-1.0.1.1-Pi5JM01rax8WU7joFCSHhVca5jT9pLinNom9Nam_iOsfftgdTvITJa5NTwh6Kn87GXkXntsuA6RBqEmOj_tMnhMWGq8hWU_bJbn2au3i68c"
+  }
+]

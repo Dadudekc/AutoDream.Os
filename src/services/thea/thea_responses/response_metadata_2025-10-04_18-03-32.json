@@ -1,0 +1,13 @@
+{
+  "timestamp": "2025-10-04T18:03:32.631461",
+  "screenshot_path": "thea_responses\\thea_response_2025-10-04_18-03-32.png",
+  "sent_message_path": "thea_responses\\sent_message_2025-10-04_18-02-42.txt",
+  "sent_message_preview": "Agent-4 testing fully autonomous system - no manual input required!",
+  "extracted_response": "",
+  "thea_url": "https://chatgpt.com/g/g-67f437d96d7c81918b2dbc12f0423867-thea-manager",
+  "user_observation": "automated_extraction_used",
+  "status": "response_captured",
+  "detection_method": "automated_dom_polling",
+  "character_count": 67,
+  "response_extracted": false
+}

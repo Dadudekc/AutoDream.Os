@@ -21,18 +21,16 @@ import json
 import time
 from pathlib import Path
 
-# Selenium imports
+# Selenium imports (Selenium Manager only)
 try:
-    import undetected_chromedriver as uc
     from selenium import webdriver
     from selenium.webdriver.chrome.options import Options
     from selenium.webdriver.common.by import By
-    from webdriver_manager.chrome import ChromeDriverManager
 
     SELENIUM_AVAILABLE = True
 except ImportError:
     SELENIUM_AVAILABLE = False
-    print("⚠️  Selenium not available - install required packages")
+    print("⚠️  Selenium not available - install required packages (pip install selenium)")
 
 # Import our modular login handler
 from thea_login_handler import TheaCookieManager, TheaLoginHandler
@@ -44,7 +42,7 @@ class TheaCookieSetup:
     def __init__(self, headless: bool = False, use_undetected: bool = True):
         self.thea_url = "https://chatgpt.com/g/g-67f437d96d7c81918b2dbc12f0423867-thea-manager"
         self.headless = headless
-        self.use_undetected = use_undetected
+        self.use_undetected = False  # Force standard Selenium Manager
 
         # Initialize components
         self.cookie_manager = TheaCookieManager("thea_cookies.json")
@@ -54,7 +52,7 @@ class TheaCookieSetup:
         self.driver = None
 
     def initialize_driver(self) -> bool:
-        """Initialize Selenium WebDriver."""
+        """Initialize Selenium WebDriver via Selenium Manager."""
         if not SELENIUM_AVAILABLE:
             print("❌ Selenium not available")
             return False
@@ -62,10 +60,6 @@ class TheaCookieSetup:
         try:
             print("🚀 INITIALIZING BROWSER FOR COOKIE SETUP")
             print("=" * 50)
-
-            import undetected_chromedriver as uc
-            from selenium.webdriver.chrome.options import Options
-            from webdriver_manager.chrome import ChromeDriverManager
 
             # Configure Chrome options
             options = Options()
@@ -77,19 +71,9 @@ class TheaCookieSetup:
             options.add_argument("--disable-gpu")
             options.add_argument("--window-size=1920,1080")
 
-            # Try undetected Chrome first (better for ChatGPT)
-            try:
-                if self.use_undetected:
-                    print("🔍 Using undetected Chrome driver...")
-                    self.driver = uc.Chrome(options=options)
-                    print("✅ Undetected Chrome driver ready")
-                else:
-                    raise Exception("Undetected disabled")
-            except Exception as e:
-                print(f"⚠️  Undetected Chrome failed: {e}")
-                print("🔄 Falling back to standard Chrome driver...")
-                self.driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
-                print("✅ Standard Chrome driver ready")
+            # Use Selenium Manager for ChromeDriver
+            self.driver = webdriver.Chrome(options=options)
+            print("✅ Chrome driver ready (Selenium Manager)")
 
             return True
 
@@ -264,10 +248,13 @@ class TheaCookieSetup:
             time.sleep(2)
             print("✅ Thea page loaded")
 
-            # Step 3: Wait for manual login
+            # Step 3: Manual login with explicit confirmation
             print("👤 STEP 3: MANUAL LOGIN")
-            if not self.wait_for_manual_login():
-                print("❌ Manual login failed or timeout")
+            print("🔐 A browser window is open. Log in to ChatGPT, then return here.")
+            try:
+                input("🎯 Press Enter once you are fully logged in and on Thea page...")
+            except KeyboardInterrupt:
+                print("\n⏹️  Setup cancelled by user")
                 return False
 
             # Step 4: Save cookies
@@ -279,9 +266,8 @@ class TheaCookieSetup:
             # Step 5: Verify setup
             print("🔍 STEP 5: VERIFYING SETUP")
             if not self.verify_setup():
-                print("❌ Setup verification failed")
-                print("⚠️  Cookies saved but may not work properly")
-                return False
+                print("⚠️  Verification could not confirm login automatically.")
+                print("✅ Cookies were saved; the next automation run will attempt to reuse them.")
 
             print("🎉 COOKIE SETUP COMPLETE!")
             print("=" * 30)

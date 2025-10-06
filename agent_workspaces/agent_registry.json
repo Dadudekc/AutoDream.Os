@@ -1,0 +1,135 @@
+{
+  "last_updated": "2025-10-02T23:23:35.241298",
+  "agents": {
+    "Agent-7": {
+      "agent_id": "Agent-7",
+      "name": "Web Development Implementation Specialist",
+      "status": "ACTIVE",
+      "coordinates": [
+        920,
+        851
+      ],
+      "capabilities": [
+        "web_development",
+        "frontend",
+        "implementation",
+        "api_development"
+      ],
+      "current_role": null,
+      "last_seen": "2025-10-02T23:23:35.139203",
+      "health_status": "healthy"
+    },
+    "Agent-8": {
+      "agent_id": "Agent-8",
+      "name": "SSOT & System Integration Specialist",
+      "status": "ACTIVE",
+      "coordinates": [
+        1611,
+        941
+      ],
+      "capabilities": [
+        "ssot_management",
+        "system_integration",
+        "quality_assurance",
+        "coordination",
+        "compliance",
+        "discord_commander_integration"
+      ],
+      "current_role": "SSOT_MANAGER",
+      "discord_commander_enabled": true,
+      "last_seen": "2025-10-02T23:35:00.000000",
+      "health_status": "healthy"
+    },
+    "Agent-1": {
+      "agent_id": "Agent-1",
+      "name": "Integration & Core Systems Specialist",
+      "status": "INACTIVE",
+      "coordinates": [
+        -1269,
+        481
+      ],
+      "capabilities": [
+        "integration",
+        "core_systems",
+        "troubleshooting",
+        "coordination"
+      ],
+      "current_role": null,
+      "last_seen": "2025-10-02T23:23:35.164228",
+      "health_status": "healthy"
+    },
+    "Agent-2": {
+      "agent_id": "Agent-2",
+      "name": "Architecture & Design Specialist",
+      "status": "INACTIVE",
+      "coordinates": [
+        -308,
+        480
+      ],
+      "capabilities": [
+        "architecture",
+        "design",
+        "research",
+        "optimization",
+        "quality_assurance"
+      ],
+      "current_role": null,
+      "last_seen": "2025-10-02T23:23:35.175238",
+      "health_status": "healthy"
+    },
+    "Agent-4": {
+      "agent_id": "Agent-4",
+      "name": "Captain - Strategic Leadership",
+      "status": "ACTIVE",
+      "coordinates": [
+        -308,
+        1000
+      ],
+      "capabilities": [
+        "strategic_oversight",
+        "emergency_intervention",
+        "role_assignment",
+        "coordination"
+      ],
+      "current_role": null,
+      "last_seen": "2025-10-02T23:23:35.187246",
+      "health_status": "healthy"
+    },
+    "Agent-5": {
+      "agent_id": "Agent-5",
+      "name": "Business Intelligence Coordinator",
+      "status": "ACTIVE",
+      "coordinates": [
+        652,
+        421
+      ],
+      "capabilities": [
+        "data_analysis",
+        "research",
+        "optimization",
+        "business_intelligence"
+      ],
+      "current_role": null,
+      "last_seen": "2025-10-02T23:23:35.220277",
+      "health_status": "healthy"
+    },
+    "Agent-6": {
+      "agent_id": "Agent-6",
+      "name": "Quality Assurance Specialist",
+      "status": "ACTIVE",
+      "coordinates": [
+        1612,
+        419
+      ],
+      "capabilities": [
+        "communication",
+        "coordination",
+        "quality_assurance",
+        "team_management"
+      ],
+      "current_role": null,
+      "last_seen": "2025-10-02T23:23:35.241298",
+      "health_status": "healthy"
+    }
+  }
+}

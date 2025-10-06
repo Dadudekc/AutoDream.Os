@@ -49,18 +49,15 @@ class SimpleTheaCommunication:
         self.driver = None
         self.detector: ResponseDetector | None = None
 
-        # Check if Selenium is available
+        # Check if Selenium is available (automation required; no manual fallback)
         try:
-            import undetected_chromedriver as uc
-            from selenium.webdriver.chrome.service import Service
-            from selenium.webdriver.chrome.options import Options
-            from webdriver_manager.chrome import ChromeDriverManager
-
+            from selenium import webdriver  # noqa: F401
+            from selenium.webdriver.chrome.options import Options  # noqa: F401
             self.selenium_available = True
         except ImportError:
             self.selenium_available = False
             if use_selenium:
-                print("⚠️  Selenium not available - falling back to manual mode")
+                print("❌ Selenium not available - automation required (pip install selenium)")
                 self.use_selenium = False
 
     def initialize_driver(self):
@@ -69,9 +66,8 @@ class SimpleTheaCommunication:
             return False
 
         try:
-            import undetected_chromedriver as uc
+            from selenium import webdriver
             from selenium.webdriver.chrome.options import Options
-            from webdriver_manager.chrome import ChromeDriverManager
 
             print("🚀 INITIALIZING SELENIUM DRIVER")
             print("-" * 35)
@@ -84,38 +80,21 @@ class SimpleTheaCommunication:
                 options.add_argument("--disable-gpu")
                 options.add_argument("--no-sandbox")
                 options.add_argument("--disable-dev-shm-usage")
-                # Additional headless-specific options
                 options.add_argument("--disable-extensions")
                 options.add_argument("--disable-plugins")
                 options.add_argument("--disable-images")
                 options.add_argument("--disable-web-security")
                 options.add_argument("--disable-features=VizDisplayCompositor")
-                # Critical for headless mode
                 options.add_argument("--remote-debugging-port=9222")
-                options.add_argument(
-                    "--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-                )
             else:
                 options.add_argument("--no-sandbox")
                 options.add_argument("--disable-dev-shm-usage")
                 options.add_argument("--disable-gpu")
                 options.add_argument("--window-size=1920,1080")
 
-            # Try undetected Chrome first (better for ChatGPT)
-            try:
-                print("🔍 Trying undetected Chrome driver...")
-                if self.headless:
-                    self.driver = uc.Chrome(options=options, headless=True)
-                else:
-                    self.driver = uc.Chrome(options=options)
-                print("✅ Undetected Chrome driver initialized")
-            except Exception as e:
-                print(f"⚠️  Undetected Chrome failed: {e}")
-                print("🔄 Falling back to standard Chrome driver...")
-                from selenium import webdriver
-                self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
-                print("✅ Standard Chrome driver initialized")
-
+            # Use Selenium Manager to auto-resolve ChromeDriver
+            self.driver = webdriver.Chrome(options=options)
+            print("✅ Chrome driver initialized (Selenium Manager)")
             return True
 
         except Exception as e:
@@ -126,12 +105,12 @@ class SimpleTheaCommunication:
     def ensure_authenticated(self) -> bool:
         """Ensure user is authenticated with Thea."""
         if not self.use_selenium:
-            print("🔄 USING MANUAL MODE")
-            return self._manual_authentication()
+            print("❌ Automation required; manual mode disabled")
+            return False
 
         if not self.driver:
             if not self.initialize_driver():
-                return self._manual_authentication()
+                return False
 
         print("🔐 AUTOMATED AUTHENTICATION")
         print("-" * 30)
@@ -167,34 +146,12 @@ class SimpleTheaCommunication:
             return True
         else:
             print("❌ AUTOMATED AUTHENTICATION FAILED")
-            if self.headless:
-                print("🫥 HEADLESS MODE: Manual authentication not possible")
-                print("💡 Try running without --headless flag for manual auth")
-                return False
-            else:
-                print("🔄 FALLING BACK TO MANUAL MODE")
-                return self._manual_authentication()
+            return False
 
     def _manual_authentication(self) -> bool:
         """Handle manual authentication."""
-        print("👤 Manual authentication required - opening browser...")
-        try:
-            # Open browser to Thea URL
-            import webbrowser
-
-            webbrowser.open(self.thea_url)
-            print(f"✅ Browser opened to: {self.thea_url}")
-            print("🔐 Please log in manually, then return to terminal")
-            input("🎯 Press Enter when ready to continue...")
-        except Exception as e:
-            print(f"⚠️  Could not open browser: {e}")
-            print(f"🔗 Please manually navigate to: {self.thea_url}")
-            input("🎯 Press Enter when you're logged in...")
-
-        print("⏳ Waiting 5 seconds for page to load...")
-        time.sleep(5)
-
-        return True
+        # Manual authentication disabled
+        return False
 
     def send_message_to_thea(self, message: str):
         """Send a message to Thea via browser."""
@@ -214,7 +171,8 @@ class SimpleTheaCommunication:
         if self.use_selenium and self.driver:
             return self._send_message_selenium(message)
         else:
-            return self._send_message_manual(message)
+            print("❌ Automation required; manual send disabled")
+            return False
 
     def _send_message_selenium(self, message: str) -> bool:
         """Send message using Selenium automation."""
@@ -285,40 +243,20 @@ class SimpleTheaCommunication:
 
         except Exception as e:
             print(f"❌ Selenium message sending failed: {e}")
-            print("🔄 Falling back to manual mode...")
-            return self._send_message_manual(message)
+            return False
 
     def _send_message_manual(self, message: str) -> bool:
         """Send message using manual user interaction."""
-        print("👤 MANUAL MESSAGE SENDING")
-        print("-" * 30)
-
-        # Open Thea in browser if not already open
-        try:
-            if not self.driver or not self.use_selenium:
-                webbrowser.open(self.thea_url, new=1)
-                print("✅ Browser opened to Thea page")
-        except Exception as e:
-            print(f"⚠️  Could not open browser automatically: {e}")
-
-        print("\n📝 MANUAL STEPS REQUIRED:")
-        print("1. Make sure you're on the Thea page")
-        print("2. Click on the input field")
-        print("3. Press Ctrl+V (or Cmd+V on Mac) to paste")
-        print("4. Press Enter to send the message")
-
-        input("\n🎯 Press Enter AFTER you have sent the message to Thea...")
-
-        print("✅ Message should now be sent to Thea!")
-        return True
+        # Manual send disabled
+        return False
 
     def wait_for_thea_response(self, timeout: int = 120) -> bool:
         """Wait for Thea to finish responding using robust DOM polling."""
         print("🔍 Detecting Thea's response...")
 
         if not self.use_selenium or not self.driver:
-            print("⚠️  Selenium not available - switching to manual mode")
-            return self._wait_for_response_manual()
+            print("❌ Automation required; manual response detection disabled")
+            return False
 
         # Use robust, quorum-based detector
         if not self.detector:
@@ -336,22 +274,19 @@ class SimpleTheaCommunication:
             print("✅ Thea's response detected (stable & finished).")
             return True
         elif result == ResponseWaitResult.CONTINUE_REQUIRED:
-            print("⚠️ Continue required but not auto-clicked; falling back to manual confirmation.")
-            return self._wait_for_response_manual()
+            print("⚠️ Continue required but not auto-clicked.")
+            return False
         elif result == ResponseWaitResult.TIMEOUT:
             print(f"⏰ Timeout after {timeout} seconds.")
-            return self._wait_for_response_manual()
+            return False
         else:  # NO_TURN
-            print("⚠️ No assistant turn detected; switching to manual confirmation.")
-            return self._wait_for_response_manual()
+            print("⚠️ No assistant turn detected.")
+            return False
 
     def _wait_for_response_manual(self) -> bool:
         """Fallback to manual waiting for response."""
-        print("👤 MANUAL RESPONSE DETECTION")
-        print("-" * 35)
-        print("Please wait for Thea to finish responding, then press Enter")
-        input("🎯 Press Enter when Thea has finished responding...")
-        return True
+        # Manual response detection disabled
+        return False
 
     def capture_thea_response(self):
         """Capture Thea's response via screenshot and extract response text."""

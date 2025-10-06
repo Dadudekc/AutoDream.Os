@@ -1,0 +1,1 @@
+Agent-4 SYNC DRIFT RESOLVED - All fixes applied: ChromeDriver + cookie domain + boolean iteration

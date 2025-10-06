@@ -26,15 +26,21 @@ from typing import Any
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-try:
-    import pyautogui
-    import pyperclip
+import sys  # noqa: E402
 
-    PYAUTOGUI_AVAILABLE = True
-except Exception:
-    pyautogui = None  # type: ignore
-    pyperclip = None  # type: ignore
-    PYAUTOGUI_AVAILABLE = False
+# Use UI Ops facade for PyAutoGUI operations
+
+# Add project root to path for imports
+project_root = Path(__file__).parent.parent.parent
+sys.path.insert(0, str(project_root))
+
+try:
+    from src.libs.uiops import UI as UIOpsFacade
+
+    UI_OPS_AVAILABLE = True
+except ImportError:
+    UIOpsFacade = None
+    UI_OPS_AVAILABLE = False
 
 
 # ---------- Small config block (tweak without code changes) ----------
@@ -54,11 +60,12 @@ class AgentCoords:
 
 
 class UI:
-    """Minimal UI adapter for PyAutoGUI with dry-run fallback."""
+    """UI adapter using UI Ops facade for reliability and testability."""
 
     def __init__(self, dry_run: bool = False):
-        self.dry_run = dry_run or (not PYAUTOGUI_AVAILABLE)
+        self.dry_run = dry_run or (not UI_OPS_AVAILABLE)
         self._last_op_ts = 0.0
+        self._ui_ops = UIOpsFacade if UI_OPS_AVAILABLE else None
 
     def _throttle(self) -> None:
         now = time.time()
@@ -71,62 +78,85 @@ class UI:
         if self.dry_run:
             logger.info(f"[dry-run] click({x},{y})")
             return
-        for i in range(RETRY_ATTEMPTS):
-            try:
-                pyautogui.click(x, y)  # type: ignore
+
+        if self._ui_ops:
+            # Use UI Ops facade with built-in retry logic
+            success = self._ui_ops.click(x, y)
+            if success:
                 time.sleep(CLICK_PAUSE)
                 return
-            except Exception as e:
-                if i == RETRY_ATTEMPTS - 1:
-                    raise
-                time.sleep(CLICK_PAUSE + i * RETRY_BACKOFF)
-                logger.warning(f"click retry {i+1}/{RETRY_ATTEMPTS}: {e}")
+            else:
+                raise RuntimeError(f"UI Ops click({x}, {y}) failed")
+        else:
+            raise RuntimeError("UI Ops facade not available")
 
     def hotkey(self, *keys: str) -> None:
         self._throttle()
         if self.dry_run:
             logger.info(f"[dry-run] hotkey{keys}")
             return
-        for i in range(RETRY_ATTEMPTS):
-            try:
-                pyautogui.hotkey(*keys)  # type: ignore
+
+        if self._ui_ops:
+            # Use UI Ops facade with built-in retry logic
+            success = self._ui_ops.hotkey(*keys)
+            if success:
                 time.sleep(CLICK_PAUSE)
                 return
-            except Exception as e:
-                if i == RETRY_ATTEMPTS - 1:
-                    raise
-                time.sleep(CLICK_PAUSE + i * RETRY_BACKOFF)
-                logger.warning(f"hotkey retry {i+1}/{RETRY_ATTEMPTS}: {e}")
+            else:
+                raise RuntimeError(f"UI Ops hotkey({', '.join(keys)}) failed")
+        else:
+            raise RuntimeError("UI Ops facade not available")
 
     def press(self, key: str) -> None:
         self._throttle()
         if self.dry_run:
             logger.info(f"[dry-run] press({key})")
             return
-        pyautogui.press(key)  # type: ignore
-        time.sleep(CLICK_PAUSE)
+
+        if self._ui_ops:
+            # Use UI Ops facade
+            success = self._ui_ops.press(key)
+            if success:
+                time.sleep(CLICK_PAUSE)
+                return
+            else:
+                raise RuntimeError(f"UI Ops press('{key}') failed")
+        else:
+            raise RuntimeError("UI Ops facade not available")
 
     def paste_text(self, text: str) -> None:
         self._throttle()
         if self.dry_run:
             logger.info(f"[dry-run] paste_text(len={len(text)})")
             return
-        try:
-            pyperclip.copy(text)  # type: ignore
-        except Exception as e:
-            logger.warning(f"Clipboard not available; simulating paste: {e}")
-            # Fall back to typing (slower, but keeps going)
-            self.typewrite(text)
-            return
-        self.hotkey("ctrl", "v")
+
+        if self._ui_ops:
+            # Use UI Ops facade with built-in clipboard fallback
+            success = self._ui_ops.paste(text)
+            if success:
+                time.sleep(CLICK_PAUSE)
+                return
+            else:
+                raise RuntimeError(f"UI Ops paste({len(text)} chars) failed")
+        else:
+            raise RuntimeError("UI Ops facade not available")
 
     def typewrite(self, text: str) -> None:
         self._throttle()
         if self.dry_run:
             logger.info(f"[dry-run] typewrite(len={len(text)})")
             return
-        pyautogui.typewrite(text)  # type: ignore
-        time.sleep(CLICK_PAUSE)
+
+        if self._ui_ops:
+            # Use UI Ops facade
+            success = self._ui_ops.type(text)
+            if success:
+                time.sleep(CLICK_PAUSE)
+                return
+            else:
+                raise RuntimeError(f"UI Ops type({len(text)} chars) failed")
+        else:
+            raise RuntimeError("UI Ops facade not available")
 
 
 class AgentHardOnboarder:
@@ -224,33 +254,40 @@ class AgentHardOnboarder:
 
 📊 AVAILABLE ROLES (25 total):
 Core: CAPTAIN, SSOT_MANAGER, COORDINATOR
-Technical: INTEGRATION_SPECIALIST, ARCHITECTURE_SPECIALIST, INFRASTRUCTURE_SPECIALIST, WEB_DEVELOPER, DATA_ANALYST, QUALITY_ASSURANCE, PERFORMANCE_DETECTIVE, SECURITY_INSPECTOR, INTEGRATION_EXPLORER, FINANCIAL_ANALYST, TRADING_STRATEGIST, RISK_MANAGER, PORTFOLIO_OPTIMIZER, COMPLIANCE_AUDITOR
-Operational: TASK_EXECUTOR, RESEARCHER, TROUBLESHOOTER, OPTIMIZER, DEVLOG_STORYTELLER, CODE_ARCHAEOLOGIST, DOCUMENTATION_ARCHITECT, MARKET_RESEARCHER
+Technical: INTEGRATION_SPECIALIST, ARCHITECTURE_SPECIALIST, INFRASTRUCTURE_SPECIALIST,
+  WEB_DEVELOPER,
+  DATA_ANALYST, QUALITY_ASSURANCE, PERFORMANCE_DETECTIVE, SECURITY_INSPECTOR, INTEGRATION_EXPLORER,
+  FINANCIAL_ANALYST, TRADING_STRATEGIST, RISK_MANAGER, PORTFOLIO_OPTIMIZER, COMPLIANCE_AUDITOR
+Operational: TASK_EXECUTOR, RESEARCHER, TROUBLESHOOTER, OPTIMIZER, DEVLOG_STORYTELLER,
+  CODE_ARCHAEOLOGIST, DOCUMENTATION_ARCHITECT, MARKET_RESEARCHER
 
 🛠️ TOOL DISCOVERY PROTOCOL:
-1. Core Communication: src/services/messaging_service.py
-2. Captain Tools: tools/captain_cli.py, tools/captain_directive_manager.py
-3. Analysis Tools: tools/analysis_cli.py, tools/overengineering_detector.py
-4. Workflow Tools: tools/agent_workflow_manager.py, tools/simple_workflow_automation.py
-5. Static Analysis: tools/static_analysis/ (code_quality_analyzer.py, dependency_scanner.py, security_scanner.py)
-6. Protocol Tools: tools/protocol_compliance_checker.py, tools/protocol_governance_system.py
-7. DevOps Tools: scripts/deployment_dashboard.py, tools/performance_detective_cli.py
-8. Specialized Tools: tools/financial_analyst_cli.py, tools/trading_strategist_cli.py, tools/risk_manager_cli.py
-9. THEA Integration: src/services/thea/ (strategic_consultation_cli.py, thea_autonomous_system.py)
-10. Alerting Tools: tools/intelligent_alerting_cli.py, tools/predictive_analytics_cli.py
+1. Core: src/services/messaging_service.py
+2. Captain: tools/captain_cli.py, tools/captain_directive_manager.py
+3. Analysis: tools/analysis_cli.py, tools/overengineering_detector.py
+4. Workflow: tools/agent_workflow_manager.py, tools/simple_workflow_automation.py
+5. Static Analysis: tools/static_analysis/ (code_quality_analyzer.py, dependency_scanner.py,
+   security_scanner.py)
+6. Protocol: tools/protocol_compliance_checker.py, tools/protocol_governance_system.py
+7. DevOps: scripts/deployment_dashboard.py, tools/performance_detective_cli.py
+8. Specialized: tools/financial_analyst_cli.py, tools/trading_strategist_cli.py,
+   tools/risk_manager_cli.py
+9. THEA: src/services/thea/ (strategic_consultation_cli.py, thea_autonomous_system.py)
+10. Alerting: tools/intelligent_alerting_cli.py, tools/predictive_analytics_cli.py
 
-🔧 TOOL INTEGRATION IN GENERAL CYCLE:
-- PHASE 1 (CHECK_INBOX): Use messaging tools, check tool status
-- PHASE 2 (EVALUATE_TASKS): Use analysis tools, workflow tools
-- PHASE 3 (EXECUTE_ROLE): Use role-specific tools, specialized tools
-- PHASE 4 (QUALITY_GATES): Use quality tools, static analysis tools
-- PHASE 5 (CYCLE_DONE): Use reporting tools, update tool status
+🗃️ DATABASE INTEGRATION PROTOCOL (CRITICAL):
+🧠 Swarm Brain (.swarm_brain/brain.sqlite3): Pattern recognition, knowledge storage
+🔧 Unified (unified.db): Task management, agent coordination, project operations  
+🧠 Vector (.swarm_brain/index/): Semantic search, similarity matching
+🤖 ML Model (dream_os_predictor_v1.0.0-*.pkl): SSOT violation prediction
+⚡ Usage: Query databases every cycle phase for patterns, tasks, and knowledge
 
-📚 REQUIRED READING FOR TOOL DISCOVERY:
-- AGENTS.md (complete tool integration in General Cycle)
-- tools/ directory (all available CLI tools)
-- src/services/ directory (all available services)
-- config/protocols/ (role-specific tool protocols)
+🔧 TOOL INTEGRATION: See AGENTS.md for detailed cycle phase tool usage
+
+📚 REQUIRED READING:
+- AGENTS.md (tool integration and database usage)
+- tools/ directory (available CLI tools)
+
 
 🚀 BEGIN ONBOARDING PROTOCOLS
 ============================================================

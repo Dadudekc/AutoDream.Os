@@ -277,17 +277,20 @@ Operational: TASK_EXECUTOR, RESEARCHER, TROUBLESHOOTER, OPTIMIZER, DEVLOG_STORYT
 
 🗃️ DATABASE INTEGRATION PROTOCOL (CRITICAL):
 🧠 Swarm Brain (.swarm_brain/brain.sqlite3): Pattern recognition, knowledge storage
-🔧 Unified (unified.db): Task management, agent coordination, project operations  
+🔧 Unified (unified.db): Task management, agent coordination, project operations
 🧠 Vector (.swarm_brain/index/): Semantic search, similarity matching
 🤖 ML Model (dream_os_predictor_v1.0.0-*.pkl): SSOT violation prediction
 ⚡ Usage: Query databases every cycle phase for patterns, tasks, and knowledge
 
-🔧 TOOL INTEGRATION: See AGENTS.md for detailed cycle phase tool usage
+🔄 DYNAMIC TOOL DISCOVERY:
+📁 Scan tools: python tools/scan_tools.py
+🔍 Find tools: python tools/find_tool.py --query "need"
+🧠 Swarm Brain: r.search("tool for X", k=5)
+⚡ Update: Store successful patterns in databases
 
 📚 REQUIRED READING:
 - AGENTS.md (tool integration and database usage)
 - tools/ directory (available CLI tools)
-
 
 🚀 BEGIN ONBOARDING PROTOCOLS
 ============================================================

@@ -72,7 +72,8 @@ class EnhancedMessagingService:
         from_agent: str = "Agent-4",
         priority: str = "NORMAL",
         coordinates: Tuple[int, int] = None,
-        compact: bool = False
+        compact: bool = False,
+        minimal: bool = False
     ) -> Tuple[bool, str]:
         """
         Send message to agent with full validation and queuing.
@@ -84,6 +85,7 @@ class EnhancedMessagingService:
             priority: Message priority (LOW, NORMAL, HIGH, CRITICAL)
             coordinates: Agent coordinates (if None, will be looked up)
             compact: Use compact template format (default: False)
+            minimal: Use minimal template format (default: False)
             
         Returns:
             Tuple of (success: bool, message_id: str)
@@ -103,7 +105,7 @@ class EnhancedMessagingService:
             
             # Step 3: Format message
             formatted_message = self._message_formatter.format_a2a_message(
-                from_agent, agent_id, message, priority, compact
+                from_agent, agent_id, message, priority, compact, minimal
             )
             
             # Step 4: Convert priority string to enum

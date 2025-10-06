@@ -28,11 +28,13 @@ class MessageFormatter:
     """Format A2A messages with proper headers and guidelines."""
 
     @staticmethod
-    def format_a2a_message(from_agent: str, to_agent: str, content: str, priority: str, compact: bool = False) -> str:
+    def format_a2a_message(from_agent: str, to_agent: str, content: str, priority: str, compact: bool = False, minimal: bool = False) -> str:
         """Format A2A message with proper headers."""
         priority_indicator = "🚨 " if priority.upper() == "URGENT" else ""
 
-        if compact:
+        if minimal:
+            guidelines = MessageFormatter.get_minimal_guidelines()
+        elif compact:
             guidelines = MessageFormatter.get_compact_guidelines()
         else:
             guidelines = MessageFormatter.get_quality_guidelines()
@@ -81,7 +83,15 @@ Tags: GENERAL
 📋 Captain Directives: tools/captain_directive_manager.py
 🔄 Workflow Manager: tools/agent_workflow_manager.py
 ============================================================
-💡 REMEMBER: Query databases every cycle phase for patterns, tasks, and knowledge!"""
+💡 REMEMBER: Query databases every cycle phase for patterns, tasks, and knowledge!
+============================================================
+🔄 AGENT CYCLE EXECUTION ORDER (2-5 min cycles):
+PHASE 1: CHECK_INBOX → Query Swarm Brain + Vector DB for patterns
+PHASE 2: EVALUATE_TASKS → Check task status in Unified DB  
+PHASE 3: EXECUTE_ROLE → Store work in databases + run project scanner
+PHASE 4: QUALITY_GATES → Store results in databases + run quality_gates.py
+PHASE 5: CYCLE_DONE → Update all databases + report to Captain
+🚀 KICKOFF: Start with PHASE 1 (CHECK_INBOX) to begin autonomous cycle!"""
 
     @staticmethod
     def get_compact_guidelines() -> str:
@@ -97,7 +107,19 @@ Tags: GENERAL
 🗃️ DATABASES: Swarm Brain (r.search), Unified (sqlite3), Vector (VectorDatabaseIntegration)
 🔄 TOOLS: Scan (scan_tools.py), Find (find_tool.py), Project (run_project_scan.py)
 🚀 MESSAGING: messaging_service.py, Discord (run_discord_messaging.py)
-💡 REMEMBER: Query databases every cycle phase for patterns and knowledge!"""
+💡 REMEMBER: Query databases every cycle phase for patterns and knowledge!
+============================================================
+🔄 AGENT CYCLE: CHECK_INBOX → EVALUATE_TASKS → EXECUTE_ROLE → QUALITY_GATES → CYCLE_DONE
+🚀 KICKOFF: Start with PHASE 1 (CHECK_INBOX) to begin autonomous cycle!"""
+
+    @staticmethod
+    def get_minimal_guidelines() -> str:
+        """Get minimal essential reminders for very space-limited communications."""
+        return """🎯 QUALITY GATES: V2 compliance • Run quality_gates.py
+📝 DEVLOG: agent_devlog_posting.py --agent <flag> --action <desc>
+🗃️ DATABASES: Swarm Brain (r.search) • Unified (sqlite3) • Vector (VectorDatabaseIntegration)
+🔄 AGENT CYCLE: CHECK_INBOX → EVALUATE_TASKS → EXECUTE_ROLE → QUALITY_GATES → CYCLE_DONE
+🚀 KICKOFF: Start with PHASE 1 (CHECK_INBOX) to begin autonomous cycle!"""
 
 
 class MessageValidator:

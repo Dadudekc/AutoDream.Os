@@ -1,0 +1,102 @@
+{
+  "consolidation_targets": {
+    "analysis_date": "2025-10-04",
+    "current_file_count": 1782,
+    "target_file_count": 500,
+    "files_to_remove": 1282,
+    "priority_targets": [
+      {
+        "category": "agent_workspaces",
+        "file_count": 95,
+        "priority": "HIGH",
+        "description": "Agent workspace logs and temporary files",
+        "action": "Archive old logs, consolidate duplicates",
+        "estimated_reduction": 70
+      },
+      {
+        "category": "src_duplicates",
+        "file_count": 50,
+        "priority": "HIGH", 
+        "description": "Duplicate Python files (core.py, models.py, etc.)",
+        "action": "Merge duplicates, consolidate logic",
+        "estimated_reduction": 40
+      },
+      {
+        "category": "tools_utilities",
+        "file_count": 207,
+        "priority": "MEDIUM",
+        "description": "Development tools and utilities",
+        "action": "Remove deprecated tools, consolidate utilities",
+        "estimated_reduction": 100
+      },
+      {
+        "category": "src_orphaned",
+        "file_count": 200,
+        "priority": "MEDIUM",
+        "description": "Orphaned modules and unused code",
+        "action": "Remove unused imports, delete orphaned files",
+        "estimated_reduction": 150
+      },
+      {
+        "category": "devlogs_archives",
+        "file_count": 4,
+        "priority": "LOW",
+        "description": "Development logs",
+        "action": "Archive old logs, implement rotation",
+        "estimated_reduction": 2
+      },
+      {
+        "category": "empty_directories",
+        "file_count": 10,
+        "priority": "LOW",
+        "description": "Empty directories",
+        "action": "Remove empty directories",
+        "estimated_reduction": 10
+      }
+    ],
+    "batch_execution_plan": [
+      {
+        "batch": 1,
+        "name": "Agent Workspaces Cleanup",
+        "target_files": 70,
+        "description": "Archive old agent logs, consolidate status files"
+      },
+      {
+        "batch": 2,
+        "name": "Duplicate File Consolidation", 
+        "target_files": 40,
+        "description": "Merge core.py, models.py, messaging_service.py duplicates"
+      },
+      {
+        "batch": 3,
+        "name": "Tools Directory Cleanup",
+        "target_files": 100,
+        "description": "Remove deprecated tools, consolidate utilities"
+      },
+      {
+        "batch": 4,
+        "name": "Orphaned Code Removal",
+        "target_files": 150,
+        "description": "Remove unused modules and dead code"
+      },
+      {
+        "batch": 5,
+        "name": "Final Cleanup",
+        "target_files": 50,
+        "description": "Remove empty directories, archive remaining logs"
+      }
+    ],
+    "v2_compliance_check": {
+      "files_over_400_lines": 0,
+      "files_without_tests": 0,
+      "files_without_type_hints": 0,
+      "files_without_ownership_tags": 0
+    },
+    "success_criteria": {
+      "file_count_target": 500,
+      "v2_compliance": "100%",
+      "test_coverage_maintained": ">=84%",
+      "zero_broken_imports": true
+    }
+  }
+}

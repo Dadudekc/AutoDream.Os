@@ -32,48 +32,46 @@ class AgentControlCommands:
         self.messaging_service = messaging_service
         self.logger = logger
 
-    def register_commands(self, tree: app_commands.CommandTree):
+    def register_commands(self, tree):
         """Register all agent control commands"""
         if not DISCORD_AVAILABLE:
             return
 
         @tree.command(name="send_message", description="Send message to an agent")
-        @app_commands.describe(
+        @discord.app_commands.describe(
             agent_id="Target agent (Agent-4, Agent-5, Agent-6, Agent-7, Agent-8)",
             message="Message content to send",
         )
-        async def send_message_command(
-            interaction: discord.Interaction, agent_id: str, message: str
-        ):
+        async def send_message_command(interaction, agent_id: str, message: str):
             """Send custom message to agent"""
             await self._handle_send_message(interaction, agent_id, message)
 
         @tree.command(name="run_scan", description="Run project scanner")
-        @app_commands.describe(scan_type="Type of scan (full, compliance, dependencies, health)")
-        async def run_scan_command(interaction: discord.Interaction, scan_type: str = "full"):
+        @discord.app_commands.describe(
+            scan_type="Type of scan (full, compliance, dependencies, health)"
+        )
+        async def run_scan_command(interaction, scan_type: str = "full"):
             """Run project scanner"""
             await self._handle_run_scan(interaction, scan_type)
 
         @tree.command(name="agent_status", description="Get agent status")
-        @app_commands.describe(agent_id="Agent to check (leave empty for all agents)")
-        async def agent_status_command(
-            interaction: discord.Interaction, agent_id: str | None = None
-        ):
+        @discord.app_commands.describe(agent_id="Agent to check (leave empty for all agents)")
+        async def agent_status_command(interaction, agent_id: str | None = None):
             """Get agent status information"""
             await self._handle_agent_status(interaction, agent_id)
 
         @tree.command(name="custom_task", description="Assign custom task to agent")
-        @app_commands.describe(
+        @discord.app_commands.describe(
             agent_id="Target agent", task_title="Task title", task_description="Task description"
         )
         async def custom_task_command(
-            interaction: discord.Interaction, agent_id: str, task_title: str, task_description: str
+            interaction, agent_id: str, task_title: str, task_description: str
         ):
             """Assign custom task to agent"""
             await self._handle_custom_task(interaction, agent_id, task_title, task_description)
 
         @tree.command(name="fix_violations", description="Fix V2 compliance violations")
-        async def fix_violations_command(interaction: discord.Interaction):
+        async def fix_violations_command(interaction):
             """Fix V2 compliance violations"""
             await self._handle_fix_violations(interaction)
 
@@ -114,9 +112,7 @@ class AgentControlCommands:
 
         self.logger.info("Regular commands (help, ping) registered")
 
-    async def _handle_send_message(
-        self, interaction: discord.Interaction, agent_id: str, message: str
-    ):
+    async def _handle_send_message(self, interaction, agent_id: str, message: str):
         """Handle /send_message command"""
         try:
             await interaction.response.defer()
@@ -172,7 +168,7 @@ class AgentControlCommands:
             self.logger.error(f"Error in send_message: {e}")
             await interaction.followup.send(f"❌ Error: {str(e)}", ephemeral=True)
 
-    async def _handle_run_scan(self, interaction: discord.Interaction, scan_type: str):
+    async def _handle_run_scan(self, interaction, scan_type: str):
         """Handle /run_scan command"""
         try:
             await interaction.response.defer()
@@ -219,7 +215,7 @@ class AgentControlCommands:
             self.logger.error(f"Error in run_scan: {e}")
             await interaction.followup.send(f"❌ Error running scan: {str(e)}", ephemeral=True)
 
-    async def _handle_agent_status(self, interaction: discord.Interaction, agent_id: str | None):
+    async def _handle_agent_status(self, interaction, agent_id: str | None):
         """Handle /agent_status command"""
         try:
             await interaction.response.defer()
@@ -259,7 +255,7 @@ class AgentControlCommands:
 
     async def _handle_custom_task(
         self,
-        interaction: discord.Interaction,
+        interaction,
         agent_id: str,
         task_title: str,
         task_description: str,
@@ -319,7 +315,7 @@ class AgentControlCommands:
             self.logger.error(f"Error in custom_task: {e}")
             await interaction.followup.send(f"❌ Error: {str(e)}", ephemeral=True)
 
-    async def _handle_fix_violations(self, interaction: discord.Interaction):
+    async def _handle_fix_violations(self, interaction):
         """Handle /fix_violations command"""
         try:
             await interaction.response.defer()

@@ -13,19 +13,8 @@
     "D:\\Agent_Cellphone_V2_Repository\\src\\services",
     "D:\\Agent_Cellphone_V2_Repository\\tools"
   ],
-  "exact_groups": [
-    [
-      "src\\services\\messaging_service_utils.py",
-      "src\\services\\consolidated_messaging_service_utils.py"
-    ]
-  ],
-  "near_pairs": [
-    {
-      "a": "src\\services\\messaging_service_utils.py",
-      "b": "src\\services\\consolidated_messaging_service_utils.py",
-      "similarity": 1.0
-    }
-  ],
+  "exact_groups": [],
+  "near_pairs": [],
   "meta": {
     "src\\services\\messaging_models.py": {
       "functions": 0,
@@ -96,20 +85,19 @@
         "AgentHardOnboarder",
         "UI"
       ],
-      "size": 14421,
-      "lines": 364
+      "size": 15273,
+      "lines": 393
     },
     "src\\services\\discord_devlog_service.py": {
-      "functions": 3,
+      "functions": 2,
       "classes": 1,
       "symbols": [
         "__init__",
-        "_format_discord_message",
-        "_load_config",
+        "get_status",
         "DiscordDevlogService"
       ],
-      "size": 23884,
-      "lines": 581
+      "size": 6282,
+      "lines": 156
     },
     "src\\services\\messaging_service_utils.py": {
       "functions": 9,
@@ -183,13 +171,6 @@
       "size": 8554,
       "lines": 220
     },
-    "src\\services\\messaging_core.py": {
-      "functions": 0,
-      "classes": 0,
-      "symbols": [],
-      "size": 463,
-      "lines": 20
-    },
     "src\\services\\messaging_service_main.py": {
       "functions": 15,
       "classes": 1,
@@ -214,25 +195,72 @@
       "size": 7457,
       "lines": 196
     },
-    "src\\services\\consolidated_messaging_service_utils.py": {
-      "functions": 9,
-      "classes": 3,
+    "src\\services\\consolidated_messaging_service.py": {
+      "functions": 0,
+      "classes": 0,
+      "symbols": [],
+      "size": 2010,
+      "lines": 82
+    },
+    "src\\services\\discord_devlog_config.py": {
+      "functions": 8,
+      "classes": 1,
       "symbols": [
         "__init__",
-        "create_agent_onboarder",
-        "create_message_formatter",
-        "create_message_sender",
-        "create_message_validator",
-        "format_a2a_message",
-        "get_quality_guidelines",
-        "paste_to_coords",
-        "validate_before_paste",
-        "MessageFormatter",
-        "MessageSender",
-        "MessageValidator"
+        "_load_agent_channels",
+        "_load_agent_webhooks",
+        "_load_config",
+        "_parse_int",
+        "create_discord_config",
+        "get_config_summary",
+        "is_configured",
+        "DiscordDevlogConfig"
       ],
-      "size": 7756,
-      "lines": 207
+      "size": 6932,
+      "lines": 171
+    },
+    "src\\services\\discord_bot_manager.py": {
+      "functions": 4,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "create_discord_bot_manager",
+        "get_status",
+        "is_available",
+        "DiscordBotManager"
+      ],
+      "size": 6128,
+      "lines": 182
+    },
+    "src\\services\\discord_message_formatter.py": {
+      "functions": 9,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_format_content",
+        "_is_spam",
+        "_track_message",
+        "create_embed_message",
+        "create_message_formatter",
+        "create_progress_message",
+        "create_status_message",
+        "format_message",
+        "DiscordMessageFormatter"
+      ],
+      "size": 7182,
+      "lines": 195
+    },
+    "src\\services\\discord_webhook_manager.py": {
+      "functions": 3,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "create_webhook_manager",
+        "get_webhook_summary",
+        "DiscordWebhookManager"
+      ],
+      "size": 6619,
+      "lines": 179
     },
     "src\\services\\messaging\\history.py": {
       "functions": 1,
@@ -258,8 +286,8 @@
       "functions": 0,
       "classes": 0,
       "symbols": [],
-      "size": 745,
-      "lines": 26
+      "size": 890,
+      "lines": 35
     },
     "src\\services\\messaging\\agent_context.py": {
       "functions": 14,
@@ -506,15 +534,6 @@
       "size": 6613,
       "lines": 201
     },
-    "src\\services\\messaging\\thea_handlers.py": {
-      "functions": 1,
-      "classes": 0,
-      "symbols": [
-        "send_to_thea"
-      ],
-      "size": 1454,
-      "lines": 59
-    },
     "src\\services\\messaging\\workflow_integration.py": {
       "functions": 6,
       "classes": 1,
@@ -621,6 +640,89 @@
       "size": 5099,
       "lines": 151
     },
+    "src\\services\\messaging\\thea_handlers.py": {
+      "functions": 1,
+      "classes": 0,
+      "symbols": [
+        "send_to_thea"
+      ],
+      "size": 1614,
+      "lines": 64
+    },
+    "src\\services\\messaging\\enhanced_message_queue.py": {
+      "functions": 19,
+      "classes": 5,
+      "symbols": [
+        "__init__",
+        "__lt__",
+        "_get_priority_value",
+        "_process_loop",
+        "_send_message",
+        "_validate_coordinates",
+        "clear",
+        "dequeue",
+        "enqueue",
+        "get_message_coordinator",
+        "get_stats",
+        "initialize",
+        "initialize_message_coordinator",
+        "requeue",
+        "send_message",
+        "shutdown",
+        "shutdown_message_coordinator",
+        "start",
+        "stop",
+        "EnhancedMessageCoordinator",
+        "MessagePriority",
+        "MessageQueue",
+        "MessageQueueProcessor",
+        "QueuedMessage"
+      ],
+      "size": 10355,
+      "lines": 312
+    },
+    "src\\services\\messaging\\enhanced_message_sender.py": {
+      "functions": 10,
+      "classes": 3,
+      "symbols": [
+        "__init__",
+        "_restore_clipboard",
+        "_save_current_clipboard",
+        "_send_message_with_ui_ops",
+        "get_clipboard_status",
+        "get_coordinate_status",
+        "get_enhanced_sender",
+        "send_to_coordinates",
+        "validate_clipboard_content",
+        "validate_coordinates",
+        "ClipboardValidator",
+        "CoordinateValidator",
+        "EnhancedMessageSender"
+      ],
+      "size": 8762,
+      "lines": 240
+    },
+    "src\\services\\messaging\\enhanced_messaging_service.py": {
+      "functions": 11,
+      "classes": 2,
+      "symbols": [
+        "__init__",
+        "_create_message_formatter",
+        "_get_agent_coordinates",
+        "format_a2a_message",
+        "get_clipboard_status",
+        "get_enhanced_messaging_service",
+        "get_service_status",
+        "send_message",
+        "shutdown",
+        "shutdown_enhanced_messaging_service",
+        "validate_coordinates",
+        "EnhancedMessagingService",
+        "MessageFormatter"
+      ],
+      "size": 7184,
+      "lines": 201
+    },
     "src\\services\\messaging\\core\\coordinate_loader.py": {
       "functions": 9,
       "classes": 1,
@@ -655,13 +757,6 @@
       ],
       "size": 6977,
       "lines": 204
-    },
-    "src\\services\\messaging\\core\\__init__.py": {
-      "functions": 0,
-      "classes": 0,
-      "symbols": [],
-      "size": 30,
-      "lines": 1
     },
     "src\\services\\messaging\\cli\\messaging_cli_clean.py": {
       "functions": 6,
@@ -1151,22 +1246,21 @@
       "lines": 172
     },
     "src\\services\\discord_commander\\web_controller_core.py": {
-      "functions": 9,
+      "functions": 8,
       "classes": 1,
       "symbols": [
         "__init__",
-        "_get_timestamp",
-        "get_agent_status",
-        "get_status",
-        "get_system_health",
-        "send_message",
+        "_register_routes",
+        "_register_socket_events",
+        "_setup_flask_app",
+        "run",
+        "run_app",
         "set_bot",
-        "start",
         "stop",
-        "WebControllerCore"
+        "DiscordCommanderController"
       ],
-      "size": 2389,
-      "lines": 79
+      "size": 3296,
+      "lines": 111
     },
     "src\\services\\discord_commander\\web_controller_models.py": {
       "functions": 0,
@@ -1349,17 +1443,11 @@
       "lines": 494
     },
     "src\\services\\discord_commander\\server_manager.py": {
-      "functions": 4,
-      "classes": 1,
-      "symbols": [
-        "__init__",
-        "_load_environment",
-        "main",
-        "show_help",
-        "DiscordServerManager"
-      ],
-      "size": 28811,
-      "lines": 772
+      "functions": 0,
+      "classes": 0,
+      "symbols": [],
+      "size": 1327,
+      "lines": 46
     },
     "src\\services\\discord_commander\\launcher.py": {
       "functions": 10,
@@ -1611,30 +1699,11 @@
       "lines": 62
     },
     "src\\services\\discord_commander\\web_controller.py": {
-      "functions": 17,
-      "classes": 1,
-      "symbols": [
-        "__init__",
-        "_register_routes",
-        "_register_socket_events",
-        "_setup_flask_app",
-        "create_default_templates",
-        "get_agents",
-        "get_system_status",
-        "handle_connect",
-        "handle_get_agent_status",
-        "handle_send_message",
-        "index",
-        "run",
-        "run_app",
-        "send_message",
-        "set_bot",
-        "stop",
-        "swarm_coordinate",
-        "DiscordCommanderController"
-      ],
-      "size": 22966,
-      "lines": 714
+      "functions": 0,
+      "classes": 0,
+      "symbols": [],
+      "size": 1201,
+      "lines": 41
     },
     "src\\services\\discord_commander\\webhook_manager.py": {
       "functions": 2,
@@ -1649,20 +1718,11 @@
       "lines": 300
     },
     "src\\services\\discord_commander\\bot.py": {
-      "functions": 7,
-      "classes": 1,
-      "symbols": [
-        "__init__",
-        "_count_active_agents",
-        "_count_project_files",
-        "_count_python_files",
-        "_register_event_handlers",
-        "get_status",
-        "is_healthy",
-        "DiscordCommanderBot"
-      ],
-      "size": 18704,
-      "lines": 521
+      "functions": 0,
+      "classes": 0,
+      "symbols": [],
+      "size": 1277,
+      "lines": 51
     },
     "src\\services\\discord_commander\\commands.py": {
       "functions": 7,
@@ -1683,6 +1743,146 @@
       "size": 12432,
       "lines": 350
     },
+    "src\\services\\discord_commander\\server_manager_commands.py": {
+      "functions": 1,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "DiscordServerCommands"
+      ],
+      "size": 13734,
+      "lines": 370
+    },
+    "src\\services\\discord_commander\\server_manager_utils.py": {
+      "functions": 2,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "show_help",
+        "DiscordServerUtils"
+      ],
+      "size": 8201,
+      "lines": 217
+    },
+    "src\\services\\discord_commander\\server_manager_core.py": {
+      "functions": 4,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_load_environment",
+        "main",
+        "show_help",
+        "DiscordServerManager"
+      ],
+      "size": 10831,
+      "lines": 298
+    },
+    "src\\services\\discord_commander\\web_controller_routes.py": {
+      "functions": 16,
+      "classes": 0,
+      "symbols": [
+        "broadcast_message",
+        "get_agents",
+        "get_channels",
+        "handle_broadcast_message",
+        "handle_connect",
+        "handle_disconnect",
+        "handle_get_agent_status",
+        "handle_get_channels",
+        "handle_get_system_status",
+        "handle_send_message",
+        "index",
+        "register_routes",
+        "register_socket_events",
+        "send_message",
+        "send_to_channel",
+        "system_status"
+      ],
+      "size": 10366,
+      "lines": 314
+    },
+    "src\\services\\discord_commander\\web_controller_templates.py": {
+      "functions": 1,
+      "classes": 0,
+      "symbols": [
+        "create_default_templates"
+      ],
+      "size": 16365,
+      "lines": 540
+    },
+    "src\\services\\discord_commander\\messaging_controller.py": {
+      "functions": 6,
+      "classes": 6,
+      "symbols": [
+        "__init__",
+        "_create_agent_options",
+        "_load_agent_list",
+        "create_agent_messaging_view",
+        "create_swarm_status_view",
+        "get_agent_status",
+        "AgentMessagingView",
+        "BroadcastModal",
+        "DiscordMessagingController",
+        "MessageModal",
+        "QuickMessagingView",
+        "SwarmStatusView"
+      ],
+      "size": 15860,
+      "lines": 413
+    },
+    "src\\services\\discord_commander\\messaging_commands.py": {
+      "functions": 1,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "MessagingCommands"
+      ],
+      "size": 12258,
+      "lines": 308
+    },
+    "src\\services\\discord_commander\\enhanced_bot.py": {
+      "functions": 2,
+      "classes": 2,
+      "symbols": [
+        "__init__",
+        "get_bot_status",
+        "EnhancedBotManager",
+        "EnhancedDiscordCommanderBot"
+      ],
+      "size": 8044,
+      "lines": 232
+    },
+    "src\\services\\discord_commander\\command_definitions.py": {
+      "functions": 9,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_count_active_agents",
+        "_count_project_files",
+        "_count_python_files",
+        "_register_agent_commands",
+        "_register_commands",
+        "_register_swarm_commands",
+        "_register_system_commands",
+        "create_command_definitions",
+        "DiscordCommandDefinitions"
+      ],
+      "size": 11396,
+      "lines": 304
+    },
+    "src\\services\\discord_commander\\bot_manager.py": {
+      "functions": 4,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "_setup_event_handlers",
+        "get_config_summary",
+        "get_status",
+        "DiscordCommanderBot"
+      ],
+      "size": 6249,
+      "lines": 196
+    },
     "src\\services\\discord_commander\\commands\\__init__.py": {
       "functions": 0,
       "classes": 0,
@@ -1699,30 +1899,15 @@
         "register_regular_commands",
         "AgentControlCommands"
       ],
-      "size": 13882,
+      "size": 13678,
       "lines": 368
     },
     "src\\services\\agent_devlog\\__init__.py": {
       "functions": 0,
       "classes": 0,
       "symbols": [],
-      "size": 751,
-      "lines": 39
-    },
-    "src\\services\\agent_devlog\\models.py": {
-      "functions": 0,
-      "classes": 7,
-      "symbols": [
-        "AgentInfo",
-        "DevlogConfig",
-        "DevlogEntry",
-        "DevlogStats",
-        "DevlogStatus",
-        "DevlogType",
-        "SearchResult"
-      ],
-      "size": 1668,
-      "lines": 89
+      "size": 710,
+      "lines": 36
     },
     "src\\services\\agent_devlog\\storage.py": {
       "functions": 10,
@@ -1740,7 +1925,7 @@
         "search_devlogs",
         "DevlogStorage"
       ],
-      "size": 6717,
+      "size": 6727,
       "lines": 203
     },
     "src\\services\\agent_devlog\\agent_validation.py": {
@@ -1761,7 +1946,7 @@
         "validate_status",
         "AgentValidator"
       ],
-      "size": 3892,
+      "size": 3915,
       "lines": 125
     },
     "src\\services\\agent_devlog\\cli.py": {
@@ -1797,8 +1982,8 @@
         "search_devlogs",
         "AgentDevlogPoster"
       ],
-      "size": 15841,
-      "lines": 441
+      "size": 15904,
+      "lines": 442
     },
     "src\\services\\devlog_storytelling\\__init__.py": {
       "functions": 4,
@@ -1879,21 +2064,55 @@
       "size": 8872,
       "lines": 246
     },
-    "tools\\discord_webhook_cli.py": {
-      "functions": 0,
+    "tools\\import_smoke_messaging.py": {
+      "functions": 2,
       "classes": 0,
-      "symbols": [],
-      "size": 523,
-      "lines": 20
+      "symbols": [
+        "main",
+        "test_import"
+      ],
+      "size": 2733,
+      "lines": 101
     },
-    "check_discord_status.py": {
-      "functions": 0,
-      "classes": 0,
-      "symbols": [],
-      "size": 1827,
-      "lines": 68
+    "tools\\integrate_discord_views.py": {
+      "functions": 4,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "generate_integration_report",
+        "test_messaging_controller",
+        "test_views_creation",
+        "DiscordViewsIntegrator"
+      ],
+      "size": 6544,
+      "lines": 180
     },
-    "messaging_system.py": {
+    "tools\\launch_discord_views_controller.py": {
+      "functions": 4,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "display_startup_info",
+        "get_status",
+        "validate_environment",
+        "DiscordViewsControllerLauncher"
+      ],
+      "size": 6668,
+      "lines": 179
+    },
+    "tools\\launch_discord_views_fixed.py": {
+      "functions": 2,
+      "classes": 2,
+      "symbols": [
+        "__init__",
+        "validate_environment",
+        "DiscordViewsControllerBot",
+        "DiscordViewsControllerLauncher"
+      ],
+      "size": 15347,
+      "lines": 400
+    },
+    "tools\\messaging_system.py": {
       "functions": 8,
       "classes": 1,
       "symbols": [
@@ -1907,14 +2126,49 @@
         "soft_onboard_handler",
         "MessagingSystem"
       ],
-      "size": 11882,
-      "lines": 325
+      "size": 11860,
+      "lines": 327
+    },
+    "tools\\run_discord_messaging.py": {
+      "functions": 0,
+      "classes": 0,
+      "symbols": [],
+      "size": 2238,
+      "lines": 84
+    },
+    "tools\\discord_commander_restoration.py": {
+      "functions": 2,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "generate_restoration_report",
+        "DiscordCommanderRestoration"
+      ],
+      "size": 11813,
+      "lines": 294
+    },
+    "tools\\test_discord_bot.py": {
+      "functions": 1,
+      "classes": 1,
+      "symbols": [
+        "__init__",
+        "TestBot"
+      ],
+      "size": 2004,
+      "lines": 61
+    },
+    "run_discord_messaging.py": {
+      "functions": 0,
+      "classes": 0,
+      "symbols": [],
+      "size": 1538,
+      "lines": 47
     }
   },
   "totals": {
-    "files_scanned": 122,
-    "exact_dup_groups": 1,
-    "near_dup_pairs": 1,
-    "total_duplicates": 2
+    "files_scanned": 142,
+    "exact_dup_groups": 0,
+    "near_dup_pairs": 0,
+    "total_duplicates": 0
   }
 }

@@ -61,3 +61,4 @@ class ErrorSummary:
     errors_by_service: dict[str, int]
     recent_errors: list[ErrorInfo]
     critical_errors: list[ErrorInfo]
+

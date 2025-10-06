@@ -54,7 +54,17 @@ class TestHardOnboardingIntegration(unittest.TestCase):
         """Clean up test environment."""
         # Remove temporary database file
         if os.path.exists(self.db_path):
-            os.unlink(self.db_path)
+            try:
+                os.unlink(self.db_path)
+            except PermissionError:
+                # File still in use, try again after a delay
+                import time
+                time.sleep(0.5)
+                try:
+                    os.unlink(self.db_path)
+                except PermissionError:
+                    # Give up if still can't delete
+                    pass
 
     def test_database_schema_creation(self):
         """Test that database schema is created correctly."""
@@ -241,8 +251,27 @@ class TestCursorTaskIntegrationManager(unittest.TestCase):
 
     def tearDown(self):
         """Clean up test environment."""
+        # Close any open database connections first
+        try:
+            self.temp_db.close()
+        except:
+            pass
+        
+        # Wait a moment for file handles to be released
+        import time
+        time.sleep(0.1)
+        
         if os.path.exists(self.db_path):
-            os.unlink(self.db_path)
+            try:
+                os.unlink(self.db_path)
+            except PermissionError:
+                # File still in use, try again after a longer delay
+                time.sleep(0.5)
+                try:
+                    os.unlink(self.db_path)
+                except PermissionError:
+                    # Give up if still can't delete
+                    pass
 
     def test_manager_initialization(self):
         """Test manager initialization and database creation."""
@@ -319,3 +348,4 @@ def run_smoke_tests():
 if __name__ == "__main__":
     success = run_smoke_tests()
     sys.exit(0 if success else 1)
+

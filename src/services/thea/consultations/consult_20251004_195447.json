@@ -1,0 +1,38 @@
+{
+  "id": "consult_20251004_195447",
+  "request": {
+    "question": "Test consultation to verify system works",
+    "template": "priority_guidance",
+    "context": "general",
+    "timestamp": "2025-10-04T19:54:47.736149",
+    "request_id": "consult_20251004_195447",
+    "template_info": {
+      "name": "Priority Guidance",
+      "description": "Strategic guidance for task prioritization",
+      "context": "project_analysis",
+      "output_format": "recommendations"
+    }
+  },
+  "result": {
+    "template": "priority_guidance",
+    "question": "Test consultation to verify system works",
+    "response": {
+      "type": "priority_guidance",
+      "recommendations": [
+        "Focus on high-impact, low-effort tasks first",
+        "Address critical system issues before feature development",
+        "Prioritize V2 compliance and quality gates",
+        "Consider agent workload balancing"
+      ],
+      "next_steps": [
+        "Review current task backlog",
+        "Assess agent availability and capabilities",
+        "Implement priority matrix for task selection"
+      ],
+      "confidence": "high"
+    },
+    "timestamp": "2025-10-04T19:54:47.736149",
+    "status": "completed"
+  },
+  "created_at": "2025-10-04T19:54:47.736149"
+}

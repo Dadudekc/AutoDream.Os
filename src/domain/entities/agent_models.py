@@ -81,3 +81,4 @@ class AgentConfig:
     updated_at: datetime = field(default_factory=datetime.now)
     metadata: dict[str, Any] = field(default_factory=dict)
     metrics: AgentMetrics = field(default_factory=AgentMetrics)
+

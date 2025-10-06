@@ -8,3 +8,4 @@ files=$(git diff --name-only "$base"..HEAD -- '*.py' || true)
 ruff --fix $files || true
 python -m black $files || true
 pytest -q || true
+

@@ -184,3 +184,4 @@ class AgentManager:
 
         logger.info(f"Cleaned up {cleaned_count} inactive agents")
         return cleaned_count
+

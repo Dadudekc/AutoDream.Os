@@ -144,3 +144,4 @@ class ErrorTrackerCore:
         self.severity_counts[error_info.severity.value] += 1
         self.category_counts[error_info.category.value] += 1
         self.service_counts[error_info.service_name] += 1
+

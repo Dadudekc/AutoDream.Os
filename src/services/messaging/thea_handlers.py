@@ -51,7 +51,7 @@ def send_to_thea(
 
     project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
     sys.path.append(project_root)
-    from src.services.thea.simple_communication import SimpleTheaCommunication
+    from simple_thea_communication import SimpleTheaCommunication
 
     thea = SimpleTheaCommunication(
         username=username,

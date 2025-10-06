@@ -70,3 +70,4 @@ class AntiPattern:
 
 __all__ = ["PrincipleCategory", "DesignPrinciple", "CodePattern", "AntiPattern"]
 
+

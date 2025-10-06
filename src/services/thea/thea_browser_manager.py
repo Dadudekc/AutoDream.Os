@@ -65,7 +65,19 @@ class TheaBrowserManager:
             # Configure Chrome options
             options = self._configure_chrome_options()
 
-            # Try undetected Chrome first (better for ChatGPT)
+            # Try explicit driver path first (our deterministic location)
+            try:
+                print("🔍 Trying explicit driver path...")
+                from src.services.thea.driver_path import chromedriver_path
+                driver = webdriver.Chrome(
+                    service=Service(chromedriver_path()), options=options
+                )
+                print("✅ Explicit driver path initialized")
+                return driver
+            except Exception as e:
+                print(f"⚠️  Explicit driver path failed: {e}")
+                
+            # Try undetected Chrome (better for ChatGPT)
             try:
                 print("🔍 Trying undetected Chrome driver...")
                 if self.headless:
@@ -76,11 +88,11 @@ class TheaBrowserManager:
                 return driver
             except Exception as e:
                 print(f"⚠️  Undetected Chrome failed: {e}")
-                print("🔄 Falling back to standard Chrome driver...")
+                print("🔄 Falling back to webdriver-manager...")
                 driver = webdriver.Chrome(
                     service=Service(ChromeDriverManager().install()), options=options
                 )
-                print("✅ Standard Chrome driver initialized")
+                print("✅ WebDriver Manager initialized")
                 return driver
 
         except Exception as e:

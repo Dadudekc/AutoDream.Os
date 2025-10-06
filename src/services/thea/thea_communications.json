@@ -189,5 +189,547 @@
       ]
     },
     "response_timestamp": "2025-10-04T17:45:22.109215"
+  },
+  {
+    "session_id": "session_20251004_175620",
+    "message": "Agent-4 testing consolidated Selenium + consultation system - Final Integration Test",
+    "context": "consolidated_system_test",
+    "timestamp": "2025-10-04T17:56:20.318928",
+    "status": "completed",
+    "type": "autonomous_communication",
+    "message_id": "msg_8_175620",
+    "response": {
+      "type": "autonomous_response",
+      "acknowledged": false,
+      "message": "Autonomous message received but browser automation failed: 'Agent-4 testing consolidated Selenium + consultation system - Final Integration Test'",
+      "context": "consolidated_system_test",
+      "browser_automation": false,
+      "selenium_success": false,
+      "error": "No module named 'thea_login_handler'",
+      "recommendations": [
+        "Browser automation not available - using fallback mode",
+        "Message has been logged for Thea's review",
+        "Consider using strategic consultation for detailed guidance"
+      ],
+      "next_steps": [
+        "Monitor for Thea's response via other channels",
+        "Use consultation system for immediate needs",
+        "Check communication logs for updates"
+      ]
+    },
+    "response_timestamp": "2025-10-04T17:56:20.677260"
+  },
+  {
+    "session_id": "session_20251004_175710",
+    "message": "Agent-4 testing consolidated system with fixed imports",
+    "context": "import_fix_test",
+    "timestamp": "2025-10-04T17:57:10.828862",
+    "status": "completed",
+    "type": "autonomous_communication",
+    "message_id": "msg_9_175710",
+    "response": {
+      "type": "autonomous_response",
+      "acknowledged": false,
+      "message": "Autonomous message received but browser automation failed: 'Agent-4 testing consolidated system with fixed imports'",
+      "context": "import_fix_test",
+      "browser_automation": false,
+      "selenium_success": false,
+      "error": "No module named 'thea_login_handler'",
+      "recommendations": [
+        "Browser automation not available - using fallback mode",
+        "Message has been logged for Thea's review",
+        "Consider using strategic consultation for detailed guidance"
+      ],
+      "next_steps": [
+        "Monitor for Thea's response via other channels",
+        "Use consultation system for immediate needs",
+        "Check communication logs for updates"
+      ]
+    },
+    "response_timestamp": "2025-10-04T17:57:11.329321"
+  },
+  {
+    "session_id": "session_20251004_175806",
+    "message": "Agent-4 testing with restored login handler",
+    "context": "login_handler_test",
+    "timestamp": "2025-10-04T17:58:06.913042",
+    "status": "completed",
+    "type": "autonomous_communication",
+    "message_id": "msg_10_175806",
+    "response": {
+      "type": "autonomous_response",
+      "acknowledged": false,
+      "message": "Autonomous message received but browser automation failed: 'Agent-4 testing with restored login handler'",
+      "context": "login_handler_test",
+      "browser_automation": false,
+      "selenium_success": false,
+      "error": "EOF when reading a line",
+      "recommendations": [
+        "Browser automation not available - using fallback mode",
+        "Message has been logged for Thea's review",
+        "Consider using strategic consultation for detailed guidance"
+      ],
+      "next_steps": [
+        "Monitor for Thea's response via other channels",
+        "Use consultation system for immediate needs",
+        "Check communication logs for updates"
+      ]
+    },
+    "response_timestamp": "2025-10-04T18:01:45.876867"
+  },
+  {
+    "session_id": "session_20251004_180241",
+    "message": "Agent-4 testing fully autonomous system - no manual input required!",
+    "context": "autonomous_test",
+    "timestamp": "2025-10-04T18:02:41.978618",
+    "status": "completed",
+    "type": "autonomous_communication",
+    "message_id": "msg_11_180241",
+    "response": {
+      "type": "autonomous_response",
+      "acknowledged": true,
+      "message": "Message sent to Thea via browser automation: 'Agent-4 testing fully autonomous system - no manual input required!'",
+      "context": "autonomous_test",
+      "browser_automation": true,
+      "selenium_success": true,
+      "recommendations": [
+        "Message successfully sent to Thea via browser",
+        "Response captured via screenshot and text extraction",
+        "Check thea_responses/ directory for full response"
+      ],
+      "next_steps": [
+        "Review response in thea_responses/ directory",
+        "Use consultation system for follow-up questions",
+        "Monitor for additional responses"
+      ]
+    },
+    "response_timestamp": "2025-10-04T18:03:32.649479"
+  },
+  {
+    "session_id": "session_20251004_180756",
+    "message": "Agent-4 testing with corrected Thea URL and fixed ChromeDriver",
+    "context": "url_fix_test",
+    "timestamp": "2025-10-04T18:07:56.217144",
+    "status": "completed",
+    "type": "autonomous_communication",
+    "message_id": "msg_12_180756",
+    "response": {
+      "type": "autonomous_response",
+      "acknowledged": true,
+      "message": "Message sent to Thea via browser automation: 'Agent-4 testing with corrected Thea URL and fixed ChromeDriver'",
+      "context": "url_fix_test",
+      "browser_automation": true,
+      "selenium_success": true,
+      "recommendations": [
+        "Message successfully sent to Thea via browser",
+        "Response captured via screenshot and text extraction",
+        "Check thea_responses/ directory for full response"
+      ],
+      "next_steps": [
+        "Review response in thea_responses/ directory",
+        "Use consultation system for follow-up questions",
+        "Monitor for additional responses"
+      ]
+    },
+    "response_timestamp": "2025-10-04T18:08:26.293151"
+  },
+  {
+    "session_id": "session_20251004_180937",
+    "message": "Agent-4 testing with fixed Service import and updated URL",
+    "context": "service_fix_test",
+    "timestamp": "2025-10-04T18:09:37.806989",
+    "status": "completed",
+    "type": "autonomous_communication",
+    "message_id": "msg_13_180937",
+    "response": {
+      "type": "autonomous_response",
+      "acknowledged": true,
+      "message": "Message sent to Thea via browser automation: 'Agent-4 testing with fixed Service import and updated URL'",
+      "context": "service_fix_test",
+      "browser_automation": true,
+      "selenium_success": true,
+      "recommendations": [
+        "Message successfully sent to Thea via browser",
+        "Response captured via screenshot and text extraction",
+        "Check thea_responses/ directory for full response"
+      ],
+      "next_steps": [
+        "Review response in thea_responses/ directory",
+        "Use consultation system for follow-up questions",
+        "Monitor for additional responses"
+      ]
+    },
+    "response_timestamp": "2025-10-04T18:11:35.929424"
+  },
+  {
+    "session_id": "session_20251004_181830",
+    "message": "Agent-4 testing with corrected URL and proper #prompt-textarea selector",
+    "context": "selector_fix_test",
+    "timestamp": "2025-10-04T18:18:30.090841",
+    "status": "completed",
+    "type": "autonomous_communication",
+    "message_id": "msg_14_181830",
+    "response": {
+      "type": "autonomous_response",
+      "acknowledged": true,
+      "message": "Message sent to Thea via browser automation: 'Agent-4 testing with corrected URL and proper #prompt-textarea selector'",
+      "context": "selector_fix_test",
+      "browser_automation": true,
+      "selenium_success": true,
+      "recommendations": [
+        "Message successfully sent to Thea via browser",
+        "Response captured via screenshot and text extraction",
+        "Check thea_responses/ directory for full response"
+      ],
+      "next_steps": [
+        "Review response in thea_responses/ directory",
+        "Use consultation system for follow-up questions",
+        "Monitor for additional responses"
+      ]
+    },
+    "response_timestamp": "2025-10-04T18:20:50.890585"
+  },
+  {
+    "session_id": "session_20251004_182431",
+    "message": "Agent-4 testing with webdriver_manager auto-download of correct ChromeDriver version",
+    "context": "webdriver_manager_test",
+    "timestamp": "2025-10-04T18:24:31.181050",
+    "status": "completed",
+    "type": "autonomous_communication",
+    "message_id": "msg_15_182431",
+    "response": {
+      "type": "autonomous_response",
+      "acknowledged": false,
+      "message": "Failed to send message to Thea: 'Agent-4 testing with webdriver_manager auto-download of correct ChromeDriver version'",
+      "context": "webdriver_manager_test",
+      "browser_automation": true,
+      "selenium_success": false,
+      "recommendations": [
+        "Browser automation failed - check Chrome/ChromeDriver versions",
+        "Try manual consultation system as fallback",
+        "Review error logs for debugging"
+      ],
+      "next_steps": [
+        "Use strategic consultation system for immediate needs",
+        "Check browser automation setup",
+        "Consider manual Thea interaction"
+      ]
+    },
+    "response_timestamp": "2025-10-04T18:26:37.136978"
+  },
+  {
+    "session_id": "session_20251004_183024",
+    "message": "Agent-4 testing with fixed boolean iteration error in login status checking",
+    "context": "boolean_fix_test",
+    "timestamp": "2025-10-04T18:30:24.731898",
+    "status": "completed",
+    "type": "autonomous_communication",
+    "message_id": "msg_16_183024",
+    "response": {
+      "type": "autonomous_response",
+      "acknowledged": true,
+      "message": "Message sent to Thea via browser automation: 'Agent-4 testing with fixed boolean iteration error in login status checking'",
+      "context": "boolean_fix_test",
+      "browser_automation": true,
+      "selenium_success": true,
+      "recommendations": [
+        "Message successfully sent to Thea via browser",
+        "Response captured via screenshot and text extraction",
+        "Check thea_responses/ directory for full response"
+      ],
+      "next_steps": [
+        "Review response in thea_responses/ directory",
+        "Use consultation system for follow-up questions",
+        "Monitor for additional responses"
+      ]
+    },
+    "response_timestamp": "2025-10-04T18:34:15.425524"
+  },
+  {
+    "session_id": "session_20251004_190456",
+    "message": "Agent-4 testing with undetected Chrome - should bypass login detection",
+    "context": "undetected_chrome_test",
+    "timestamp": "2025-10-04T19:04:56.029712",
+    "status": "completed",
+    "type": "autonomous_communication",
+    "message_id": "msg_17_190456",
+    "response": {
+      "type": "autonomous_response",
+      "acknowledged": true,
+      "message": "Message sent to Thea via browser automation: 'Agent-4 testing with undetected Chrome - should bypass login detection'",
+      "context": "undetected_chrome_test",
+      "browser_automation": true,
+      "selenium_success": true,
+      "recommendations": [
+        "Message successfully sent to Thea via browser",
+        "Response captured via screenshot and text extraction",
+        "Check thea_responses/ directory for full response"
+      ],
+      "next_steps": [
+        "Review response in thea_responses/ directory",
+        "Use consultation system for follow-up questions",
+        "Monitor for additional responses"
+      ]
+    },
+    "response_timestamp": "2025-10-04T19:06:29.266152"
+  },
+  {
+    "session_id": "session_20251004_190724",
+    "message": "Agent-4 testing undetected Chrome with auto-download of correct ChromeDriver",
+    "context": "undetected_chrome_auto_test",
+    "timestamp": "2025-10-04T19:07:24.691768",
+    "status": "completed",
+    "type": "autonomous_communication",
+    "message_id": "msg_18_190724",
+    "response": {
+      "type": "autonomous_response",
+      "acknowledged": false,
+      "message": "Failed to send message to Thea: 'Agent-4 testing undetected Chrome with auto-download of correct ChromeDriver'",
+      "context": "undetected_chrome_auto_test",
+      "browser_automation": true,
+      "selenium_success": false,
+      "recommendations": [
+        "Browser automation failed - check Chrome/ChromeDriver versions",
+        "Try manual consultation system as fallback",
+        "Review error logs for debugging"
+      ],
+      "next_steps": [
+        "Use strategic consultation system for immediate needs",
+        "Check browser automation setup",
+        "Consider manual Thea interaction"
+      ]
+    },
+    "response_timestamp": "2025-10-04T19:09:04.699837"
+  },
+  {
+    "session_id": "session_20251004_192430",
+    "message": "Agent-4 testing restored working Thea implementation",
+    "context": "working_version_test",
+    "timestamp": "2025-10-04T19:24:30.235722",
+    "status": "completed",
+    "type": "autonomous_communication",
+    "message_id": "msg_19_192430",
+    "response": {
+      "type": "autonomous_response",
+      "acknowledged": false,
+      "message": "Autonomous message received but browser automation failed: 'Agent-4 testing restored working Thea implementation'",
+      "context": "working_version_test",
+      "browser_automation": false,
+      "selenium_success": false,
+      "error": "EOF when reading a line",
+      "recommendations": [
+        "Browser automation not available - using fallback mode",
+        "Message has been logged for Thea's review",
+        "Consider using strategic consultation for detailed guidance"
+      ],
+      "next_steps": [
+        "Monitor for Thea's response via other channels",
+        "Use consultation system for immediate needs",
+        "Check communication logs for updates"
+      ]
+    },
+    "response_timestamp": "2025-10-04T19:25:04.266473"
+  },
+  {
+    "session_id": "session_20251004_192520",
+    "message": "Agent-4 testing fixed working Thea implementation with proper ChromeDriver",
+    "context": "fixed_working_test",
+    "timestamp": "2025-10-04T19:25:20.174189",
+    "status": "completed",
+    "type": "autonomous_communication",
+    "message_id": "msg_20_192520",
+    "response": {
+      "type": "autonomous_response",
+      "acknowledged": false,
+      "message": "Autonomous message received but browser automation failed: 'Agent-4 testing fixed working Thea implementation with proper ChromeDriver'",
+      "context": "fixed_working_test",
+      "browser_automation": false,
+      "selenium_success": false,
+      "error": "EOF when reading a line",
+      "recommendations": [
+        "Browser automation not available - using fallback mode",
+        "Message has been logged for Thea's review",
+        "Consider using strategic consultation for detailed guidance"
+      ],
+      "next_steps": [
+        "Monitor for Thea's response via other channels",
+        "Use consultation system for immediate needs",
+        "Check communication logs for updates"
+      ]
+    },
+    "response_timestamp": "2025-10-04T19:27:23.259190"
+  },
+  {
+    "session_id": "session_20251004_192646",
+    "message": "Agent-4 testing restored working Thea implementation",
+    "context": "working_version_test",
+    "timestamp": "2025-10-04T19:26:46.358639",
+    "status": "completed",
+    "type": "autonomous_communication",
+    "message_id": "msg_21_192646",
+    "response": {
+      "type": "autonomous_response",
+      "acknowledged": true,
+      "message": "Message sent to Thea via browser automation: 'Agent-4 testing restored working Thea implementation'",
+      "context": "working_version_test",
+      "browser_automation": true,
+      "selenium_success": true,
+      "recommendations": [
+        "Message successfully sent to Thea via browser",
+        "Response captured via screenshot and text extraction",
+        "Check thea_responses/ directory for full response"
+      ],
+      "next_steps": [
+        "Review response in thea_responses/ directory",
+        "Use consultation system for follow-up questions",
+        "Monitor for additional responses"
+      ]
+    },
+    "response_timestamp": "2025-10-04T19:34:28.180147"
+  },
+  {
+    "session_id": "session_20251004_193711",
+    "message": "Agent-4 testing fixed cookie domain handling - should now authenticate properly",
+    "context": "cookie_fix_test",
+    "timestamp": "2025-10-04T19:37:11.351563",
+    "status": "completed",
+    "type": "autonomous_communication",
+    "message_id": "msg_22_193711",
+    "response": {
+      "type": "autonomous_response",
+      "acknowledged": false,
+      "message": "Autonomous message received but browser automation failed: 'Agent-4 testing fixed cookie domain handling - should now authenticate properly'",
+      "context": "cookie_fix_test",
+      "browser_automation": false,
+      "selenium_success": false,
+      "error": "EOF when reading a line",
+      "recommendations": [
+        "Browser automation not available - using fallback mode",
+        "Message has been logged for Thea's review",
+        "Consider using strategic consultation for detailed guidance"
+      ],
+      "next_steps": [
+        "Monitor for Thea's response via other channels",
+        "Use consultation system for immediate needs",
+        "Check communication logs for updates"
+      ]
+    },
+    "response_timestamp": "2025-10-04T19:41:43.462205"
+  },
+  {
+    "session_id": "session_20251004_194255",
+    "message": "Agent-4 testing complete Sync Drift fix - cookie domain handling + ChromeDriver version resolved",
+    "context": "sync_drift_resolved",
+    "timestamp": "2025-10-04T19:42:55.382651",
+    "status": "completed",
+    "type": "autonomous_communication",
+    "message_id": "msg_23_194255",
+    "response": {
+      "type": "autonomous_response",
+      "acknowledged": false,
+      "message": "Autonomous message received but browser automation failed: 'Agent-4 testing complete Sync Drift fix - cookie domain handling + ChromeDriver version resolved'",
+      "context": "sync_drift_resolved",
+      "browser_automation": false,
+      "selenium_success": false,
+      "error": "EOF when reading a line",
+      "recommendations": [
+        "Browser automation not available - using fallback mode",
+        "Message has been logged for Thea's review",
+        "Consider using strategic consultation for detailed guidance"
+      ],
+      "next_steps": [
+        "Monitor for Thea's response via other channels",
+        "Use consultation system for immediate needs",
+        "Check communication logs for updates"
+      ]
+    },
+    "response_timestamp": "2025-10-04T19:44:38.308149"
+  },
+  {
+    "session_id": "session_20251004_194605",
+    "message": "Agent-4 final test - Sync Drift resolved with direct Selenium + cookie domain fix",
+    "context": "final_sync_test",
+    "timestamp": "2025-10-04T19:46:05.334722",
+    "status": "completed",
+    "type": "autonomous_communication",
+    "message_id": "msg_24_194605",
+    "response": {
+      "type": "autonomous_response",
+      "acknowledged": false,
+      "message": "Autonomous message received but browser automation failed: 'Agent-4 final test - Sync Drift resolved with direct Selenium + cookie domain fix'",
+      "context": "final_sync_test",
+      "browser_automation": false,
+      "selenium_success": false,
+      "error": "EOF when reading a line",
+      "recommendations": [
+        "Browser automation not available - using fallback mode",
+        "Message has been logged for Thea's review",
+        "Consider using strategic consultation for detailed guidance"
+      ],
+      "next_steps": [
+        "Monitor for Thea's response via other channels",
+        "Use consultation system for immediate needs",
+        "Check communication logs for updates"
+      ]
+    },
+    "response_timestamp": "2025-10-04T19:50:33.638429"
+  },
+  {
+    "session_id": "session_20251004_195119",
+    "message": "Agent-4 SYNC DRIFT RESOLVED - All fixes applied: ChromeDriver + cookie domain + boolean iteration",
+    "context": "sync_drift_final",
+    "timestamp": "2025-10-04T19:51:19.703321",
+    "status": "completed",
+    "type": "autonomous_communication",
+    "message_id": "msg_25_195119",
+    "response": {
+      "type": "autonomous_response",
+      "acknowledged": false,
+      "message": "Autonomous message received but browser automation failed: 'Agent-4 SYNC DRIFT RESOLVED - All fixes applied: ChromeDriver + cookie domain + boolean iteration'",
+      "context": "sync_drift_final",
+      "browser_automation": false,
+      "selenium_success": false,
+      "error": "EOF when reading a line",
+      "recommendations": [
+        "Browser automation not available - using fallback mode",
+        "Message has been logged for Thea's review",
+        "Consider using strategic consultation for detailed guidance"
+      ],
+      "next_steps": [
+        "Monitor for Thea's response via other channels",
+        "Use consultation system for immediate needs",
+        "Check communication logs for updates"
+      ]
+    },
+    "response_timestamp": "2025-10-04T19:53:04.648292"
+  },
+  {
+    "session_id": "session_20251004_195500",
+    "message": "Test message to verify autonomous communication works",
+    "context": "general",
+    "timestamp": "2025-10-04T19:55:00.565693",
+    "status": "completed",
+    "type": "autonomous_communication",
+    "message_id": "msg_26_195500",
+    "response": {
+      "type": "autonomous_response",
+      "acknowledged": false,
+      "message": "Autonomous message received but browser automation failed: 'Test message to verify autonomous communication works'",
+      "context": "general",
+      "browser_automation": false,
+      "selenium_success": false,
+      "error": "EOF when reading a line",
+      "recommendations": [
+        "Browser automation not available - using fallback mode",
+        "Message has been logged for Thea's review",
+        "Consider using strategic consultation for detailed guidance"
+      ],
+      "next_steps": [
+        "Monitor for Thea's response via other channels",
+        "Use consultation system for immediate needs",
+        "Check communication logs for updates"
+      ]
+    },
+    "response_timestamp": "2025-10-04T19:56:33.362419"
   }
 ]

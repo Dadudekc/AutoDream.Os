@@ -51,3 +51,4 @@ class BottleneckSummary:
     total_manual_steps_removed: int
     automation_scripts_created: list[AutomationScript]
     efficiency_gain_percentage: float
+

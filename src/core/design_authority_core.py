@@ -124,3 +124,4 @@ def review_code_complexity(requester: str, component_name: str, code_snippet: st
     """Review code complexity."""
     authority = DesignAuthorityCore()
     return authority.review_code_complexity(requester, component_name, code_snippet)
+

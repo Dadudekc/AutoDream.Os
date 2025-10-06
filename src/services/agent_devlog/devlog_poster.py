@@ -14,7 +14,7 @@ from datetime import datetime
 from typing import Any
 
 from .agent_validation import AgentValidator
-from .models import DevlogEntry, DevlogStatus
+from src.shared.models import DevlogEntry, DevlogStatus
 from .storage import DevlogStorage
 
 
@@ -308,6 +308,7 @@ Status: {status} | {timestamp}
             agent_id=agent_flag,
             action=action,
             status=DevlogStatus(status),
+            message=action,  # Use action as message
             details=details,
             timestamp=timestamp,
             devlog_type=devlog_type,

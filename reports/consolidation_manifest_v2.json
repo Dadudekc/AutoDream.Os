@@ -1,0 +1,133 @@
+{
+  "consolidation_metadata": {
+    "timestamp": "2025-10-04T20:45:00Z",
+    "agent": "Agent-6",
+    "cycle": "c-dup-001",
+    "version": "2.0"
+  },
+  "scan_results": {
+    "files_scanned": 139,
+    "exact_duplicates": 1,
+    "near_duplicates": 55,
+    "total_duplicates": 56
+  },
+  "priority_1_duplicates": {
+    "core.py": {
+      "count": 10,
+      "strategy": "MERGE",
+      "canonical": "src/services/consolidated_messaging_service.py",
+      "action": "Create shims for all 9 duplicates, merge functionality into canonical",
+      "risk": "MEDIUM",
+      "files_affected": 15
+    },
+    "models.py": {
+      "count": 4,
+      "strategy": "MERGE", 
+      "canonical": "src/services/consolidated_messaging_service.py",
+      "action": "Merge all model definitions into canonical service",
+      "risk": "LOW",
+      "files_affected": 8
+    },
+    "README.md": {
+      "count": 5,
+      "strategy": "DELETE",
+      "canonical": "README.md",
+      "action": "Keep only root README, delete all subdirectory READMEs",
+      "risk": "LOW",
+      "files_affected": 5
+    }
+  },
+  "priority_2_duplicates": {
+    "__init__.py": {
+      "count": 11,
+      "strategy": "SHIM",
+      "canonical": "src/services/messaging/core/__init__.py",
+      "action": "Create shims for all other __init__.py files",
+      "risk": "LOW",
+      "files_affected": 11
+    },
+    "caching_system.py": {
+      "count": 3,
+      "strategy": "MERGE",
+      "canonical": "src/services/caching_system.py",
+      "action": "Merge functionality, create shims",
+      "risk": "MEDIUM",
+      "files_affected": 6
+    },
+    "cli.py": {
+      "count": 3,
+      "strategy": "SHIM",
+      "canonical": "tools/cli.py",
+      "action": "Create shims for service-specific CLIs",
+      "risk": "LOW",
+      "files_affected": 3
+    },
+    "performance_monitor.py": {
+      "count": 3,
+      "strategy": "MERGE",
+      "canonical": "src/services/performance_monitor.py",
+      "action": "Merge monitoring functionality",
+      "risk": "MEDIUM",
+      "files_affected": 5
+    }
+  },
+  "consolidation_strategies": {
+    "MERGE": {
+      "description": "Combine functionality into single canonical file",
+      "count": 4,
+      "files": ["core.py", "models.py", "caching_system.py", "performance_monitor.py"]
+    },
+    "SHIM": {
+      "description": "Create backward compatibility layer",
+      "count": 2,
+      "files": ["__init__.py", "cli.py"]
+    },
+    "DELETE": {
+      "description": "Safe to remove completely",
+      "count": 1,
+      "files": ["README.md"]
+    }
+  },
+  "impact_analysis": {
+    "high_risk": [],
+    "medium_risk": [
+      "core.py consolidation - may break imports",
+      "caching_system.py - performance impact",
+      "performance_monitor.py - monitoring disruption"
+    ],
+    "low_risk": [
+      "models.py - simple data structures",
+      "__init__.py - empty files",
+      "cli.py - standalone tools",
+      "README.md - documentation only"
+    ]
+  },
+  "test_requirements": {
+    "before_consolidation": [
+      "Run all existing tests",
+      "Document current functionality",
+      "Create backup of all files"
+    ],
+    "after_consolidation": [
+      "Test all imports work",
+      "Verify functionality preserved",
+      "Test shim compatibility",
+      "Performance regression testing"
+    ]
+  },
+  "execution_plan": {
+    "phase_1": "Backup and preparation",
+    "phase_2": "Create canonical files",
+    "phase_3": "Generate shims",
+    "phase_4": "Update imports",
+    "phase_5": "Delete duplicates",
+    "phase_6": "Testing and validation"
+  },
+  "success_criteria": {
+    "all_duplicates_documented": true,
+    "resolution_strategies_defined": true,
+    "impact_analysis_complete": true,
+    "test_requirements_defined": true,
+    "execution_plan_created": true
+  }
+}

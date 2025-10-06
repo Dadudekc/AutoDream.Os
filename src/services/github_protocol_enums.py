@@ -54,3 +54,4 @@ class GitHubOperationStatus(Enum):
 
 __all__ = ["GitHubOperationType", "GitHubPermissionLevel", "GitHubOperationStatus"]
 
+

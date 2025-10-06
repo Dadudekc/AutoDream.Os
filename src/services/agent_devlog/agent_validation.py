@@ -9,7 +9,7 @@ V2 Compliant: Simple validation with clear error messages.
 
 import logging
 
-from .models import DevlogType
+from src.shared.models import DevlogEntry, DevlogType
 
 logger = logging.getLogger(__name__)
 

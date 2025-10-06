@@ -35,3 +35,4 @@ python tools/loc_report.py | tee runtime/consolidation/metrics_pass2.txt
 
 git add -A
 git commit -m "consolidation(pass-2): imports rewired + shim burn (safe set) + metrics"
+

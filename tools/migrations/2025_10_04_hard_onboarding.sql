@@ -57,3 +57,4 @@ CREATE INDEX IF NOT EXISTS idx_scanner_status ON scanner_tasks(status);
 
 -- Ensure JSON1 extension is available (graceful fallback if not)
 -- This allows json_set() operations for metadata updates
+

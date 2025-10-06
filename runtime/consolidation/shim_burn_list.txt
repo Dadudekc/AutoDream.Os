@@ -1,7 +1,0 @@
-D:\Agent_Cellphone_V2_Repository\tools\consolidation_apply.py
-D:\Agent_Cellphone_V2_Repository\tools\agent_onboard_cli.py
-D:\Agent_Cellphone_V2_Repository\tools\discord_webhook_cli.py
-D:\Agent_Cellphone_V2_Repository\tools\shim_burn_list.py
-D:\Agent_Cellphone_V2_Repository\src\services\messaging\providers\discord_provider_operations.py
-D:\Agent_Cellphone_V2_Repository\src\services\messaging\onboarding\onboarding_service.py
-D:\Agent_Cellphone_V2_Repository\src\services\discord_bot\commands\agent_coordination\onboarding.py

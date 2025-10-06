@@ -378,3 +378,4 @@ class CoordinateBatchProcessor:
     def get_processing_stats(self) -> dict[str, Any]:
         """Get processing statistics."""
         return self.processing_stats.copy()
+

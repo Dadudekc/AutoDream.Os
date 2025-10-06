@@ -1,114 +1,89 @@
-<!-- 3cb63732-2581-4a03-83a4-d8c3a4069a71 2e5a30a9-5446-4f8d-a3f1-e1817e32cc45 -->
-# Hard-Onboarding Readiness — Complete Integration
+<!-- 3cb63732-2581-4a03-83a4-d8c3a4069a71 29e54d8a-f62c-4407-9171-b194b2c78cc4 -->
+# Final Validation Report Generation
 
 ## Overview
 
-Unify task DB, FSM, Onboarder, and Workflow systems with closure-first approach for production-ready agent hard onboarding.
+Generate comprehensive mission report documenting Agent-1's 4-batch aggressive consolidation, including metrics, achievements, remaining work, and production readiness assessment.
+
+## Current Status
+
+- **Starting point:** 738 Python files (Phase 1 baseline)
+- **Current state:** 701 Python files
+- **Files removed:** 37 files (5% reduction)
+- **Original target:** 500 files (201 files still to remove)
+- **Batches completed:** 4/5
+
+## Batch Results Summary
+
+- **Batch-1:** Agent Workspaces Cleanup (16 files removed, 95→79)
+- **Batch-2:** Duplicate File Consolidation (status unclear from messages)
+- **Batch-3:** Archive Old Files (3 files archived)
+- **Batch-4:** Nested Module Cleanup (10 files removed)
 
 ## Implementation Steps
 
-### 1. Database Schema & Migration
+### 1. Generate Comprehensive Metrics Report
 
-**File**: `tools/migrations/2025_10_04_hard_onboarding.sql`
+Create `reports/consolidation_mission_final_report.md` with:
 
-- Create idempotent SQL migration with JSON1-safe defaults
-- Add `cursor_tasks_integrated`, `scanner_tasks`, `fsm_task_tracking` tables
-- Create performance indexes for status, agent_id, and fsm_state queries
-- Enable WAL mode and foreign keys for data integrity
+- Starting baseline (738 Python files, 131,719 LOC)
+- Current state (701 Python files, 128,450 LOC)
+- Batch-by-batch breakdown with actions taken
+- File type analysis (Python, JSON, Markdown, other)
+- Directory-level changes
+- V2 compliance status (still 10+ files >400 lines)
 
-### 2. Integration Bridge Module
+### 2. Assess Production Readiness
 
-**File**: `src/integrations/hard_onboarding_bridge.py` (new)
+Document in report:
 
-- Implement `ensure_db()` for schema bootstrapping
-- Create `create_and_assign_onboarding(agent_id)` for task creation + assignment
-- Add `execute_hard_onboarding(agent_id, dry_run)` wrapper for PyAutoGUI execution
-- Implement `mark_onboarding_result(task_id, success)` for status updates
-- Build `captain_hard_onboard(agent_id, dry_run)` orchestrator (one-shot flow)
+- **Achieved:** 37 files removed, workspace cleanup, nested module consolidation
+- **Remaining:** 201 files to reach 500 target (40% more reduction needed)
+- **V2 Violations:** 10+ large files still need splitting
+- **Test Coverage:** Still at 1% (7 test files)
+- **Documentation:** Phase 1 gaps still exist
 
-Key integration points:
+### 3. Identify Next Steps
 
-- `CursorTaskIntegrationManager` for DB operations
-- `process_hard_onboard_command` from `agent_hard_onboarding.py`
-- FSM state transitions: CREATED → ASSIGNED → ACTIVE → COMPLETED/FAILED
+- **Option A:** Continue with Batch-5 (aggressive final cleanup to hit 500 target)
+- **Option B:** Shift focus to V2 compliance (split large files)
+- **Option C:** Hybrid approach (some cleanup + some compliance work)
 
-### 3. Captain CLI Tool
+### 4. Captain Coordination Messages
 
-**File**: `tools/captain_onboard_cli.py` (new)
+- Send final batch summary to Agent-1
+- Request Agent-1's recommendation for Batch-5 strategy
+- Coordinate with other agents if needed for specialized work
 
-- Argparse interface: `--agent`, `--dry-run`, `--report` flags
-- Call `captain_hard_onboard()` orchestrator
-- Print JSON summary with task_id, success status, execution orders
-- Optional integration report export for Captain review
+### 5. Update Project Todos
 
-### 4. Coordinates Validator
+- Mark Batch-1 through Batch-4 as completed
+- Create new todos for remaining work based on assessment
 
-**File**: `tools/validate_coordinates.py` (new)
+## Key Files to Create/Update
 
-- Pre-flight validation of `config/coordinates.json` schema
-- Check `chat_input_coordinates` and `onboarding_coordinates` format
-- Validate all required agents have valid integer coordinate pairs
-- Exit with error codes for CI integration
-
-### 5. Update Existing Integration Manager
-
-**File**: `tools/cursor_task_database_integration.py`
-
-- Verify `create_hard_onboarding_task()` method exists (already present)
-- Confirm `assign_task_with_workflow_integration()` works correctly
-- Validate `update_task_fsm_state()` handles JSON1 safely with COALESCE
-- Ensure `generate_captain_execution_orders()` includes onboarding tasks
-
-### 6. Smoke Tests
-
-**File**: `tests/test_hard_onboarding_smoke.py` (new)
-
-- Test dry-run flow end-to-end without PyAutoGUI clicks
-- Verify task creation, assignment, FSM transitions in test DB
-- Validate JSON report structure and execution orders
-- CI-friendly headless execution
-
-### 7. Captain Runbook Documentation
-
-**File**: `docs/CAPTAIN_HARD_ONBOARDING_RUNBOOK.md` (new)
-
-- Pre-flight checklist: migration, validation, dry-run
-- Execution commands with examples
-- Troubleshooting guide for common issues
-- Emergency rollback procedures
-
-## Files to Create
-
-1. `tools/migrations/2025_10_04_hard_onboarding.sql` - DB schema
-2. `src/integrations/hard_onboarding_bridge.py` - Integration glue
-3. `tools/captain_onboard_cli.py` - CLI interface
-4. `tools/validate_coordinates.py` - Pre-flight validator
-5. `tests/test_hard_onboarding_smoke.py` - Smoke tests
-6. `docs/CAPTAIN_HARD_ONBOARDING_RUNBOOK.md` - Operations guide
-
-## Files to Update
-
-1. `tools/cursor_task_database_integration.py` - Verify integration points
-2. `src/services/agent_hard_onboarding.py` - Ensure compatibility
-
-## Verification Steps
-
-1. Run migration: `sqlite3 unified.db < tools/migrations/2025_10_04_hard_onboarding.sql`
-2. Validate coordinates: `python tools/validate_coordinates.py`
-3. Dry-run test: `python tools/captain_onboard_cli.py --agent Agent-6 --dry-run`
-4. Execute real onboarding: `python tools/captain_onboard_cli.py --agent Agent-6 --report`
-5. Run smoke tests: `pytest tests/test_hard_onboarding_smoke.py`
+- `reports/consolidation_mission_final_report.md` (new)
+- Project todos (update)
+- Captain devlog entry (update)
 
 ## Success Criteria
 
-- Database schema created with proper indexes
-- CLI can execute dry-run without errors
-- Coordinates validation passes for all agents
-- Task lifecycle tracked: CREATED → ASSIGNED → ACTIVE → COMPLETED
-- FSM state transitions logged correctly
-- Smoke tests pass in CI environment
-- Captain can onboard agents with single command
+- Comprehensive report generated with all metrics
+- Clear assessment of production readiness
+- Actionable recommendations for next phase
+- Agent-1 coordination for Batch-5 or pivot strategy
 
-## Note on Workflow Integration
+### To-dos
 
-The `simple_workflow_automation.py` integration (auto-assign follow-up tasks after onboarding) is deferred to avoid increasing file count during the current optimization phase. Can be added later as a post-onboarding task seeder.
+- [ ] Agent-3: Run project scanner - Execute: python tools/projectscanner/cli.py --full-scan --output reports/scan.json && python tools/projectscanner/enhanced_scanner/core.py && python tools/loc_report.py > reports/loc_baseline.txt - Deliverables: scan.json, enhanced_scan_report.md, loc_baseline.txt, critical_issues.md - Success: All 2362 files scanned, 26 duplicates found, 15 V2 violations documented - Time: 30min
+- [ ] Agent-6: Analyze duplicates - Execute: python tools/consolidation_scan.py && cat dup_report.md && grep -r 'core.py' src/ --include='*.py' | wc -l - Deliverables: dup_report.json, dup_report.md, consolidation_manifest_v2.json, duplicate_impact_analysis.md - Success: All 26 duplicates documented with resolution strategy (10 MERGE, 12 SHIM, 4 DELETE), impact analysis complete - Time: 45min - Depends: C1
+- [ ] Agent-2: Workspace analysis - Execute: Get-ChildItem agent_workspaces -Recurse -File | Group-Object Extension | Sort-Object Count -Descending > reports/workspace_by_type.txt && analyze by age >30 days - Deliverables: workspace_analysis.json, workspace_cleanup_plan.md, workspace_retention_policy.md, old_workspace_files.csv - Success: All 801 files categorized (200 KEEP, 600 ARCHIVE, 1 DELETE), storage savings calculated (75% reduction) - Time: 40min
+- [ ] Agent-5: Documentation baseline - Execute: mkdir -p docs/baseline && tree -L 3 > docs/baseline/DIRECTORY_STRUCTURE.txt && find src/ -name '*.py' > docs/baseline/PYTHON_MODULES.txt - Deliverables: CURRENT_STATE.md, COMPONENTS.md, AGENTS.md, GAPS.md, production doc structure - Success: Current state documented (2362 files, 8 agents, major systems), 15 doc gaps identified - Time: 60min
+- [ ] Agent-2: Execute workspace cleanup - Execute: $timestamp=Get-Date -Format 'yyyyMMdd_HHmmss' && Copy-Item agent_workspaces agent_workspaces_backup_$timestamp -Recurse && Move old files >30 days to archive/ - Deliverables: backup (801 files), archive (600+ files), cleaned workspace (≤200 files), cleanup_report.md - Success: 75% reduction achieved, no data loss, backup verified - Time: 30min - Depends: C3, Captain approval
+- [ ] Agent-6: Consolidate core.py (10 copies) - Execute: Identify canonical, create consolidation manifest, python tools/consolidation_apply.py --file core.py --strategy shim, test imports - Deliverables: 1 canonical core.py, 9 BC shims, consolidation report, test results - Success: All imports green, no breaking changes, tests pass - Time: 45min - Depends: C2, Captain approval
+- [ ] Agent-7: Discord Commander audit - Execute: python -c 'from src.services.discord_commander.bot import DiscordCommanderBot' && test all commands && grep -r 'async def' src/services/discord_commander/ - Deliverables: discord_features.md (all working features), discord_gaps.md (7 gaps), discord_enhancement_plan.md (prioritized), test_results.md - Success: 12 commands tested (8 PASS, 4 FAIL), enhancement plan created - Time: 60min
+- [ ] Agent-5: Create professional README.md - Content: Project overview, 8-agent roster, features, quick start, architecture diagram, documentation links, testing guide, contributing, license - Deliverables: README.md (12 sections), screenshots/, architecture_diagram.png - Success: Professional quality, all sections complete, links verified, reviewed by Captain - Time: 90min - Depends: C4
+- [ ] Agent-4 (Captain): Daily morning cycle - Execute: Review all agent devlogs, check CYCLE_DONE messages, identify blockers, assign today's cycles, update progress tracker - Deliverable: Daily task assignments to all agents - Success: All agents have clear tasks, blockers addressed, progress tracked - Time: 30min - Frequency: Daily 9AM
+- [ ] Agent-4 (Captain): Daily evening cycle - Execute: Collect CYCLE_DONE from all agents, update Captain's Log, calculate progress metrics, identify tomorrow's priorities, send status update - Deliverable: Progress report and tomorrow's plan - Success: All cycles reviewed, metrics updated, next day planned - Time: 30min - Frequency: Daily 5PM
+- [ ] Create cycle_progress_tracker.py - Features: Parse CYCLE_DONE from devlogs, calculate completion percentage, show phase progress, identify blockers, generate dashboard - Usage: python tools/cycle_progress_tracker.py --format dashboard - Output: Real-time progress visualization
+- [ ] Generate all 70 cycle prompts - Structure: prompts/phase1_discovery/ (C1-C8), prompts/phase2_cleanup/ (C9-C20), prompts/phase3_enhancement/ (C21-C40), prompts/phase4_documentation/ (C41-C55), prompts/phase5_testing/ (C56-C70) - Each prompt includes: task description, commands, deliverables, success criteria, time estimate, CYCLE_DONE format

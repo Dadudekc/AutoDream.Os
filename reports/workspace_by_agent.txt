@@ -1,0 +1,11 @@
+Agent-1: 7 files
+Agent-2: 6 files
+Agent-3: 5 files
+Agent-4: 6 files
+Agent-5: 6 files
+Agent-6: 5 files
+Agent-7: 4 files
+Agent-8: 19 files
+coordination_specialist: 6 files
+database_specialist: 26 files
+infrastructure_specialist: 7 files

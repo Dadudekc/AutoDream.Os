@@ -13,7 +13,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from .models import DevlogEntry, DevlogStats
+from src.shared.models import DevlogEntry, DevlogStats
 
 
 class DevlogStorage:

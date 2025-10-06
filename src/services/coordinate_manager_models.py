@@ -53,3 +53,4 @@ class CoordinateBatch:
     operation: CoordinateOperation
     parameters: dict[str, Any] = field(default_factory=dict)
     timestamp: datetime = field(default_factory=lambda: datetime.now(UTC))
+

@@ -250,3 +250,4 @@ if __name__ == "__main__":
     print(f"Cache result: {result}")
     print(f"Cache stats: {cache.get_stats()}")
 
+

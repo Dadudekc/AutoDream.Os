@@ -208,3 +208,4 @@ class DataReplicationCore:
             last_sync_time=datetime.now(UTC),
             status=self.metrics.status,
         )
+

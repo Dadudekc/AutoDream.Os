@@ -18,20 +18,20 @@ class RefactoringMetrics:
 
 class MetricsManager:
     """Manages refactoring metrics collection and reporting."""
-    
+
     def __init__(self):
         self.metrics = RefactoringMetrics()
-    
+
     def update_metrics(self, **kwargs):
         """Update metrics with new values."""
         for key, value in kwargs.items():
             if hasattr(self.metrics, key):
                 setattr(self.metrics, key, value)
-    
+
     def get_metrics(self) -> RefactoringMetrics:
         """Get current metrics."""
         return self.metrics
-    
+
     def reset_metrics(self):
         """Reset all metrics to zero."""
         self.metrics = RefactoringMetrics()

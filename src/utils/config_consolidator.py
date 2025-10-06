@@ -18,7 +18,6 @@ License: MIT
 """
 from pathlib import Path
 from typing import Dict, List, Optional
-from .config_core import config_manager
 from .config_scanners import (
     ConfigurationScanner,
     EnvironmentVariableScanner,

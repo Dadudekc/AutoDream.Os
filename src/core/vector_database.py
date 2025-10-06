@@ -36,7 +36,7 @@ class SearchType(Enum):
 
 class SearchResult:
     """Result of vector database search."""
-    
+
     def __init__(self, document_id: str, content: str, similarity_score: float, metadata: Dict[str, Any]):
         self.document_id = document_id
         self.content = content
@@ -46,7 +46,7 @@ class SearchResult:
 
 class VectorDocument:
     """Vector document representation."""
-    
+
     def __init__(self, id: str, content: str, embedding: list, metadata: Dict[str, Any]):
         self.id = id
         self.content = content
@@ -64,7 +64,7 @@ class EmbeddingModel(Enum):
 
 class VectorDatabaseStats:
     """Vector database statistics."""
-    
+
     def __init__(self):
         self.total_documents = 0
         self.collections = {}
@@ -79,7 +79,7 @@ AGENT_STATUS_TABLE = "agent_status_embeddings"
 @dataclass
 class CollectionConfig:
     """Configuration for vector database collections."""
-    
+
     name: str
     description: str
     embedding_dimension: int

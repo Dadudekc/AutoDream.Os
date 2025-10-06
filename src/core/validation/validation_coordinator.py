@@ -12,24 +12,24 @@ License: MIT
 from __future__ import annotations
 
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 logger = logging.getLogger(__name__)
 
 
 class ValidationCoordinator:
     """Coordinates different validation engines."""
-    
+
     def __init__(self):
         """Initialize validation coordinator."""
         self.logger = logger
         self.engines = {}
-    
+
     def register_engine(self, name: str, engine: Any) -> None:
         """Register a validation engine."""
         self.engines[name] = engine
         self.logger.info(f"Registered validation engine: {name}")
-    
+
     def validate(self, data: Any, rules: Dict[str, Any]) -> Dict[str, Any]:
         """Validate data using registered engines."""
         results = {
@@ -37,7 +37,7 @@ class ValidationCoordinator:
             "errors": [],
             "warnings": []
         }
-        
+
         for rule_name, rule_config in rules.items():
             try:
                 if rule_name in self.engines:
@@ -53,9 +53,9 @@ class ValidationCoordinator:
                 self.logger.error(f"Validation error for rule {rule_name}: {e}")
                 results["valid"] = False
                 results["errors"].append(f"Validation error: {e}")
-        
+
         return results
-    
+
     def get_available_engines(self) -> List[str]:
         """Get list of available validation engines."""
         return list(self.engines.keys())

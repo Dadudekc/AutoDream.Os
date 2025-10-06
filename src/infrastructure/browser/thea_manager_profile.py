@@ -17,7 +17,6 @@ License: MIT
 """
 
 import logging
-from typing import Optional, Dict, List, Any
 
 # Import modular components
 from .thea_modules import (

@@ -53,7 +53,7 @@ class CoordinateHandler:
         """
         try:
             current_time = time.time()
-            if (self.last_coordinate_load and self.coordinates_cache and 
+            if (self.last_coordinate_load and self.coordinates_cache and
                 current_time - self.last_coordinate_load < self.
                 cache_ttl_seconds):
                 return {'success': True, 'coordinates': self.

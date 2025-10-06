@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import logging
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 try:
     import yaml
@@ -20,7 +20,7 @@ except Exception:  # pragma: no cover
 logger = logging.getLogger(__name__)
 
 
-DEFAULT_POLICY: Dict[str, Any] = {
+DEFAULT_POLICY: dict[str, Any] = {
     "version": 1,
     "roles": {
         "defaults": {"fallback": "compact"},
@@ -40,7 +40,9 @@ DEFAULT_POLICY: Dict[str, Any] = {
 }
 
 
-def load_template_policy(policy_path: str = "config/messaging/template_policy.yaml") -> Dict[str, Any]:
+def load_template_policy(
+    policy_path: str = "config/messaging/template_policy.yaml",
+) -> dict[str, Any]:
     """Load the messaging template policy YAML with defaults if missing.
 
     Returns a merged policy dict.
@@ -59,7 +61,7 @@ def load_template_policy(policy_path: str = "config/messaging/template_policy.ya
         return DEFAULT_POLICY
 
 
-def _merge_policy(base: Dict[str, Any], override: Dict[str, Any]) -> Dict[str, Any]:
+def _merge_policy(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:
     merged = dict(base)
     for k, v in override.items():
         if isinstance(v, dict) and isinstance(merged.get(k), dict):
@@ -69,7 +71,7 @@ def _merge_policy(base: Dict[str, Any], override: Dict[str, Any]) -> Dict[str, A
     return merged
 
 
-def resolve_template_by_roles(policy: Dict[str, Any], sender_role: str, receiver_role: str) -> str:
+def resolve_template_by_roles(policy: dict[str, Any], sender_role: str, receiver_role: str) -> str:
     """Resolve template from role×role matrix with sensible fallbacks."""
     matrix = policy.get("role_matrix", {})
 
@@ -86,14 +88,18 @@ def resolve_template_by_roles(policy: Dict[str, Any], sender_role: str, receiver
     if receiver_is_captain and (tpl := get("ANY->CAPTAIN")):
         return tpl
 
-    if (tpl := get("NON_CAPTAIN->NON_CAPTAIN")) and not sender_is_captain and not receiver_is_captain:
+    if (
+        (tpl := get("NON_CAPTAIN->NON_CAPTAIN"))
+        and not sender_is_captain
+        and not receiver_is_captain
+    ):
         return tpl
 
-    return matrix.get("ANY->ANY", policy.get("roles", {}).get("defaults", {}).get("fallback", "compact"))
+    return matrix.get(
+        "ANY->ANY", policy.get("roles", {}).get("defaults", {}).get("fallback", "compact")
+    )
 
 
-def resolve_template_by_channel(policy: Dict[str, Any], channel: str) -> str:
+def resolve_template_by_channel(policy: dict[str, Any], channel: str) -> str:
     channels = policy.get("channels", {})
     return str(channels.get(channel, channels.get("standard", "compact")))
-
-

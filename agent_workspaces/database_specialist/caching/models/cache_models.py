@@ -6,14 +6,15 @@ Cache Models
 Data models for caching system.
 """
 
-from datetime import datetime
-from typing import Any, Optional
 from dataclasses import dataclass
+from datetime import datetime
 from enum import Enum
+from typing import Any
 
 
 class CacheStrategy(Enum):
     """Cache strategy types."""
+
     LRU = "lru"  # Least Recently Used
     LFU = "lfu"  # Least Frequently Used
     TTL = "ttl"  # Time To Live
@@ -24,12 +25,11 @@ class CacheStrategy(Enum):
 @dataclass
 class CacheEntry:
     """Cache entry data structure."""
+
     key: str
     value: Any
     created_at: datetime
     last_accessed: datetime
     access_count: int
-    ttl: Optional[int] = None
+    ttl: int | None = None
     strategy: CacheStrategy = CacheStrategy.TTL
-
-

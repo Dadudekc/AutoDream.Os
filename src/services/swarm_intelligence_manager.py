@@ -13,7 +13,7 @@ from typing import Any
 from datetime import datetime
 
 from .vector_database import get_vector_database_service, search_vector_database
-from .vector_database.vector_database_models import SearchQuery, DocumentType
+from .vector_database.vector_database_models import SearchQuery
 
 
 class SwarmIntelligenceManager:
@@ -23,10 +23,10 @@ class SwarmIntelligenceManager:
         """Initialize swarm intelligence manager."""
         self.agent_id = agent_id
         self.logger = logging.getLogger(__name__)
-        
+
         # Initialize configuration
         self.config = self._load_config(config_path)
-        
+
         # Initialize vector integration
         try:
             self.vector_db = get_vector_database_service()
@@ -34,7 +34,7 @@ class SwarmIntelligenceManager:
         except Exception as e:
             self.logger.warning(f"Vector DB not available: {e}")
             self.vector_integration = {"status": "disconnected", "error": str(e)}
-    
+
     def _load_config(self, config_path: str | None) -> dict[str, Any]:
         """Load swarm intelligence configuration."""
         return {
@@ -49,12 +49,12 @@ class SwarmIntelligenceManager:
         try:
             if self.vector_integration["status"] != "connected":
                 return self._get_fallback_intelligence(query)
-            
+
             # Search for collective knowledge
             collective_insights = self._search_collective_knowledge(query)
             coordination_opportunities = self._find_coordination_opportunities(query)
             swarm_patterns = self._analyze_swarm_patterns(query)
-            
+
             return {
                 "query": query,
                 "insights": collective_insights,
@@ -75,76 +75,76 @@ class SwarmIntelligenceManager:
             if self.vector_integration["status"] != "connected":
                 self.logger.warning("Vector DB not connected, skipping swarm sync")
                 return False
-            
+
             # Share agent's knowledge with swarm
             shared_count = self._share_knowledge_with_swarm()
-            
+
             # Update from swarm knowledge
             updated_count = self._update_from_swarm_knowledge()
-            
+
             self.logger.info(f"Swarm sync completed: shared {shared_count}, updated {updated_count}")
             return True
 
         except Exception as e:
             self.logger.error(f"Error syncing with swarm: {e}")
             return False
-    
+
     def _search_collective_knowledge(self, query: str) -> list[str]:
         """Search for collective knowledge across all agents."""
         try:
             insights = []
-            
+
             # Search across all agents' work
             for agent in self.config["swarm_agents"]:
                 if agent == self.agent_id:
                     continue
-                    
+
                 query_obj = SearchQuery(
                     query=f"agent:{agent} {query}",
                     collection_name="agent_work",
                     limit=3
                 )
                 results = search_vector_database(query_obj)
-                
+
                 for result in results:
                     if hasattr(result, 'document'):
                         insights.append(f"From {agent}: {result.document.content[:100]}...")
-            
+
             return insights[:5]  # Limit to top 5 insights
         except Exception as e:
             self.logger.error(f"Error searching collective knowledge: {e}")
             return []
-    
+
     def _find_coordination_opportunities(self, query: str) -> list[str]:
         """Find opportunities for coordination with other agents."""
         try:
             opportunities = []
-            
+
             # Look for similar work by other agents
             for agent in self.config["swarm_agents"]:
                 if agent == self.agent_id:
                     continue
-                    
+
                 query_obj = SearchQuery(
                     query=f"agent:{agent} {query}",
                     collection_name="agent_work",
                     limit=2
                 )
                 results = search_vector_database(query_obj)
-                
+
                 if results:
                     opportunities.append(f"Coordinate with {agent} on similar work")
-            
+
             return opportunities[:3]  # Limit to top 3 opportunities
         except Exception as e:
             self.logger.error(f"Error finding coordination opportunities: {e}")
             return []
-    
+
     def _analyze_swarm_patterns(self, query: str) -> list[str]:
         """Analyze patterns across the swarm."""
         try:
             patterns = []
-            
+
             # Look for common patterns in swarm work
             query_obj = SearchQuery(
                 query=query,
@@ -152,30 +152,30 @@ class SwarmIntelligenceManager:
                 limit=20
             )
             results = search_vector_database(query_obj)
-            
+
             # Analyze common tags and approaches
             all_tags = []
             for result in results:
                 if hasattr(result, 'document') and result.document.tags:
                     all_tags.extend(result.document.tags)
-            
+
             if all_tags:
                 from collections import Counter
                 common_tags = Counter(all_tags).most_common(3)
                 for tag, count in common_tags:
                     patterns.append(f"Common approach: {tag} (used by {count} agents)")
-            
+
             return patterns
         except Exception as e:
             self.logger.error(f"Error analyzing swarm patterns: {e}")
             return []
-    
+
     def _calculate_confidence(self, insights: list[str]) -> float:
         """Calculate confidence based on number of insights."""
         if not insights:
             return 0.3
         return min(0.9, 0.5 + (len(insights) * 0.1))
-    
+
     def _get_contributing_agents(self, insights: list[str]) -> list[str]:
         """Get list of agents contributing to insights."""
         agents = set()
@@ -184,7 +184,7 @@ class SwarmIntelligenceManager:
                 agent = insight.split("From ")[1].split(":")[0]
                 agents.add(agent)
         return list(agents)[:5]  # Limit to top 5
-    
+
     def _share_knowledge_with_swarm(self) -> int:
         """Share this agent's knowledge with the swarm."""
         try:
@@ -195,13 +195,13 @@ class SwarmIntelligenceManager:
                 limit=10
             )
             results = search_vector_database(query)
-            
+
             # TODO: Implement actual knowledge sharing mechanism
             return len(results)
         except Exception as e:
             self.logger.error(f"Error sharing knowledge: {e}")
             return 0
-    
+
     def _update_from_swarm_knowledge(self) -> int:
         """Update from swarm knowledge."""
         try:
@@ -210,7 +210,7 @@ class SwarmIntelligenceManager:
         except Exception as e:
             self.logger.error(f"Error updating from swarm: {e}")
             return 0
-    
+
     def _get_fallback_intelligence(self, query: str) -> dict[str, Any]:
         """Get fallback intelligence when vector DB is unavailable."""
         return {

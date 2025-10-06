@@ -18,11 +18,10 @@ License: MIT
 
 import asyncio
 import json
-import os
 import requests
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Any, Optional, Union
+from typing import Dict, List, Any, Optional
 from dataclasses import dataclass, field
 from enum import Enum
 

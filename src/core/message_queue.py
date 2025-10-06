@@ -31,7 +31,6 @@ from .message_queue_interfaces import (
     IMessageQueue,
     IQueuePersistence,
     IQueueProcessor,
-    IQueueConfig,
     IMessageQueueLogger,
     IQueueEntry
 )

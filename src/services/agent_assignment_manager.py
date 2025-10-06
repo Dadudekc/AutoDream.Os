@@ -11,7 +11,7 @@ License: MIT
 import json
 import os
 from typing import Dict, Optional
-from .architectural_models import ArchitecturalPrinciple, AgentAssignment
+from .architectural_models import ArchitecturalPrinciple
 
 
 class AgentAssignmentManager:

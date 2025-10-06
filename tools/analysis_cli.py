@@ -18,12 +18,11 @@ Usage:
 from __future__ import annotations
 import logging
 import ast
-import os
 import sys
 import json
 import argparse
 from pathlib import Path
-from typing import Dict, List, Any, Tuple
+from typing import Dict, Any, Tuple
 
 logger = logging.getLogger(__name__)
 MAX_FILE_LOC = 400

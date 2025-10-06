@@ -113,7 +113,7 @@ class UnifiedArchitectureCore:
         total_components = len(self.components)
         active_components = len([c for c in self.components.values() if c.
             status == ComponentStatus.ACTIVE])
-        health_percentage = (active_components / total_components * 100 if 
+        health_percentage = (active_components / total_components * 100 if
             total_components > 0 else 0)
         return {'total_components': total_components, 'active_components':
             active_components, 'health_percentage': health_percentage,

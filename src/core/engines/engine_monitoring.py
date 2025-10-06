@@ -8,10 +8,8 @@ Author: Agent-1 (System Recovery Specialist)
 License: MIT
 """
 
-import threading
 from datetime import datetime
-from typing import Any, Dict, List, Optional
-from .contracts import EngineResult
+from typing import Any, Dict, List
 
 try:
     import psutil

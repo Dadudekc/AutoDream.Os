@@ -10,10 +10,9 @@ License: MIT
 """
 
 import re
-import json
 import logging
 import time
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Any
 from dataclasses import dataclass
 
 logger = logging.getLogger(__name__)

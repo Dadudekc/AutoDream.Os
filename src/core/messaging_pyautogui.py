@@ -23,8 +23,6 @@ from typing import Dict, List, Optional, Tuple
 
 from .messaging_core import (
     UnifiedMessage,
-    UnifiedMessagePriority,
-    UnifiedMessageType,
 )
 
 logger = logging.getLogger(__name__)
@@ -227,7 +225,7 @@ class PyAutoGUIMessagingDelivery:
 
     def send_message(self, message: UnifiedMessage) -> bool:
         return self.send_message_via_pyautogui(message)
-    
+
     def deliver_message(self, message: UnifiedMessage) -> bool:
         """Alias for send_message to match expected interface."""
         return self.send_message_via_pyautogui(message)

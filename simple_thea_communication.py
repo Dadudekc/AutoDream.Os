@@ -13,7 +13,6 @@ Usage:
 import argparse
 import json
 import time
-import webbrowser
 from datetime import datetime
 from pathlib import Path
 
@@ -53,6 +52,7 @@ class SimpleTheaCommunication:
         try:
             from selenium import webdriver  # noqa: F401
             from selenium.webdriver.chrome.options import Options  # noqa: F401
+
             self.selenium_available = True
         except ImportError:
             self.selenium_available = False

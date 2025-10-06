@@ -13,7 +13,7 @@ from typing import Any
 from collections import Counter
 
 from .vector_database import get_vector_database_service, search_vector_database
-from .vector_database.vector_database_models import SearchQuery, DocumentType
+from .vector_database.vector_database_models import SearchQuery
 
 
 class RecommendationEngine:
@@ -23,7 +23,7 @@ class RecommendationEngine:
         """Initialize recommendation engine."""
         self.agent_id = agent_id
         self.logger = logging.getLogger(__name__)
-        
+
         # Initialize vector integration
         try:
             self.vector_db = get_vector_database_service()
@@ -45,11 +45,11 @@ class RecommendationEngine:
         try:
             if self.vector_integration["status"] != "connected":
                 return self._get_fallback_recommendations(context)
-            
+
             # Search for similar contexts and solutions
             similar_contexts = self._search_similar_contexts(context)
             recommendations = self._generate_recommendations_from_contexts(similar_contexts, context)
-            
+
             return recommendations
 
         except Exception as e:
@@ -69,11 +69,11 @@ class RecommendationEngine:
         try:
             if self.vector_integration["status"] != "connected":
                 return self._get_fallback_optimization(workflow_data)
-            
+
             # Analyze workflow patterns from vector database
             workflow_patterns = self._analyze_workflow_patterns(workflow_data)
             optimizations = self._generate_workflow_optimizations(workflow_patterns, workflow_data)
-            
+
             return {
                 "workflow_id": workflow_data.get("workflow_id", "unknown"),
                 "optimizations": optimizations,
@@ -84,7 +84,7 @@ class RecommendationEngine:
         except Exception as e:
             self.logger.error(f"Error optimizing workflow: {e}")
             return {"error": "Optimization failed", "details": str(e)}
-    
+
     def _search_similar_contexts(self, context: str) -> list[Any]:
         """Search for similar contexts in vector database."""
         try:
@@ -96,20 +96,20 @@ class RecommendationEngine:
             return search_vector_database(query)
         except Exception:
             return []
-    
+
     def _generate_recommendations_from_contexts(self, contexts: list[Any], original_context: str) -> list[dict[str, Any]]:
         """Generate recommendations from similar contexts."""
         recommendations = []
-        
+
         if not contexts:
             return self._get_fallback_recommendations(original_context)
-        
+
         # Extract common patterns and tags
         all_tags = []
         for context in contexts:
             if hasattr(context, 'document') and context.document.tags:
                 all_tags.extend(context.document.tags)
-        
+
         # Generate recommendations based on common patterns
         if all_tags:
             common_tags = Counter(all_tags).most_common(3)
@@ -121,7 +121,7 @@ class RecommendationEngine:
                     "source": "vector_database",
                     "type": "pattern_based"
                 })
-        
+
         # Add general recommendations
         recommendations.extend([
             {
@@ -139,9 +139,9 @@ class RecommendationEngine:
                 "type": "best_practice"
             }
         ])
-        
+
         return recommendations[:5]  # Limit to top 5 recommendations
-    
+
     def _get_fallback_recommendations(self, context: str) -> list[dict[str, Any]]:
         """Get fallback recommendations when vector DB is unavailable."""
         return [
@@ -153,7 +153,7 @@ class RecommendationEngine:
                 "type": "general"
             }
         ]
-    
+
     def _analyze_workflow_patterns(self, workflow_data: dict[str, Any]) -> list[Any]:
         """Analyze workflow patterns from vector database."""
         try:
@@ -166,11 +166,11 @@ class RecommendationEngine:
             return search_vector_database(query)
         except Exception:
             return []
-    
+
     def _generate_workflow_optimizations(self, patterns: list[Any], workflow_data: dict[str, Any]) -> list[dict[str, Any]]:
         """Generate workflow optimizations based on patterns."""
         optimizations = []
-        
+
         if patterns:
             optimizations.append({
                 "optimization_type": "task_prioritization",
@@ -191,9 +191,9 @@ class RecommendationEngine:
                 "estimated_improvement": "10%",
                 "confidence": 0.6
             })
-        
+
         return optimizations
-    
+
     def _get_fallback_optimization(self, workflow_data: dict[str, Any]) -> dict[str, Any]:
         """Get fallback optimization when vector DB is unavailable."""
         return {

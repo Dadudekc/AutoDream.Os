@@ -13,7 +13,6 @@ License: MIT
 import logging
 import logging.config
 import json
-import os
 from datetime import datetime
 from typing import Dict, Any, Optional
 from pathlib import Path

@@ -15,9 +15,7 @@ Outputs:
 """
 from __future__ import annotations
 import ast
-import os
 import json
-import textwrap
 from pathlib import Path
 from typing import Dict, List, Any
 MAX_FILE_LOC = 400
@@ -156,7 +154,7 @@ def generate_function_split_suggestion(path: Path, func_node: ast.FunctionDef
 def generate_refactor_plan() ->Dict[str, Any]:
     """Generate complete refactor plan."""
     issues = []
-    summary = {'files_analyzed': 0, 'syntax_errors': 0, 'file_violations': 
+    summary = {'files_analyzed': 0, 'syntax_errors': 0, 'file_violations':
         0, 'class_violations': 0, 'function_violations': 0,
         'total_violations': 0}
     logger.info('Scanning for LOC violations...')

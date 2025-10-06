@@ -11,7 +11,6 @@ License: MIT
 
 import logging
 from abc import ABC
-from typing import Optional
 
 try:
     from ...utils.unified_utilities import get_unified_utility

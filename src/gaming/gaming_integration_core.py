@@ -15,10 +15,9 @@ License: MIT
 """
 
 import logging
-from typing import Dict, Any, Optional, Callable, List, Protocol
+from typing import Dict, Any, Optional, List, Protocol
 from datetime import datetime
 from enum import Enum
-from abc import ABC, abstractmethod
 
 logger = logging.getLogger(__name__)
 

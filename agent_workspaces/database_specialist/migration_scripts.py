@@ -9,26 +9,24 @@ for V2 compliance and modular architecture.
 V2 Compliance: This file is designed to be under 400 lines and follows modular architecture.
 """
 
-import json
 import logging
-from datetime import datetime
-from typing import Dict, List, Any, Optional
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 class MigrationScripts:
     """Migration script definitions and execution functionality."""
-    
+
     def __init__(self):
         """Initialize the migration scripts."""
         self.scripts = self._define_migration_scripts()
-    
-    def _define_migration_scripts(self) -> Dict[str, str]:
+
+    def _define_migration_scripts(self) -> dict[str, str]:
         """Define migration scripts."""
         return {
-            'create_agent_workspaces_table': """
+            "create_agent_workspaces_table": """
                 CREATE TABLE IF NOT EXISTS agent_workspaces (
                     agent_id TEXT PRIMARY KEY,
                     team TEXT NOT NULL,
@@ -48,7 +46,7 @@ class MigrationScripts:
                     integration_tests_total INTEGER DEFAULT 0
                 );
             """,
-            'create_agent_messages_table': """
+            "create_agent_messages_table": """
                 CREATE TABLE IF NOT EXISTS agent_messages (
                     message_id TEXT PRIMARY KEY,
                     from_agent TEXT NOT NULL,
@@ -65,7 +63,7 @@ class MigrationScripts:
                     error_message TEXT
                 );
             """,
-            'create_discord_commands_table': """
+            "create_discord_commands_table": """
                 CREATE TABLE IF NOT EXISTS discord_commands (
                     command_id TEXT PRIMARY KEY,
                     agent_id TEXT NOT NULL,
@@ -79,7 +77,7 @@ class MigrationScripts:
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 );
             """,
-            'create_v2_compliance_audit_table': """
+            "create_v2_compliance_audit_table": """
                 CREATE TABLE IF NOT EXISTS v2_compliance_audit (
                     audit_id TEXT PRIMARY KEY,
                     component_name TEXT NOT NULL,
@@ -95,7 +93,7 @@ class MigrationScripts:
                     estimated_refactoring_cycles INTEGER DEFAULT 1
                 );
             """,
-            'create_integration_tests_table': """
+            "create_integration_tests_table": """
                 CREATE TABLE IF NOT EXISTS integration_tests (
                     test_id TEXT PRIMARY KEY,
                     test_name TEXT NOT NULL,
@@ -112,7 +110,7 @@ class MigrationScripts:
                     v2_compliance_check BOOLEAN DEFAULT FALSE
                 );
             """,
-            'create_core_systems_status_table': """
+            "create_core_systems_status_table": """
                 CREATE TABLE IF NOT EXISTS core_systems_status (
                     system_id TEXT PRIMARY KEY,
                     system_name TEXT NOT NULL,
@@ -126,17 +124,17 @@ class MigrationScripts:
                     last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 );
-            """
+            """,
         }
-    
-    def get_migration_script(self, script_name: str) -> Optional[str]:
+
+    def get_migration_script(self, script_name: str) -> str | None:
         """Get specific migration script."""
         return self.scripts.get(script_name)
-    
-    def get_all_migration_scripts(self) -> Dict[str, str]:
+
+    def get_all_migration_scripts(self) -> dict[str, str]:
         """Get all migration scripts."""
         return self.scripts.copy()
-    
+
     def create_performance_indexes_script(self) -> str:
         """Create performance indexes script."""
         return """
@@ -171,7 +169,7 @@ class MigrationScripts:
             CREATE INDEX IF NOT EXISTS idx_core_systems_status ON core_systems_status(status);
             CREATE INDEX IF NOT EXISTS idx_core_systems_health_score ON core_systems_status(health_score);
         """
-    
+
     def create_useful_views_script(self) -> str:
         """Create useful views script."""
         return """
@@ -229,9 +227,7 @@ class MigrationScripts:
             FROM core_systems_status
             ORDER BY health_score DESC;
         """
-    
-    def get_migration_script_names(self) -> List[str]:
+
+    def get_migration_script_names(self) -> list[str]:
         """Get list of migration script names."""
         return list(self.scripts.keys())
-
-

@@ -20,12 +20,12 @@ License: MIT
 import logging
 import sys
 from abc import ABC, abstractmethod
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime, timezone, timedelta
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
-from logging.handlers import RotatingFileHandler, TimedRotatingFileHandler
+from typing import Any, Dict, Optional
+from logging.handlers import RotatingFileHandler
 
 logger = logging.getLogger(__name__)
 

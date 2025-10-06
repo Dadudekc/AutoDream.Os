@@ -9,7 +9,7 @@ License: MIT
 """
 
 from typing import Any, Dict, List
-from datetime import datetime as dt, timedelta
+from datetime import datetime as dt
 
 
 class QueueStatisticsCalculator:

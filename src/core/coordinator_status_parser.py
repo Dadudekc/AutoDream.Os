@@ -8,7 +8,7 @@ Author: Agent-1 (System Recovery Specialist)
 License: MIT
 """
 
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 from .coordinator_interfaces import ICoordinatorStatusParser
 
 

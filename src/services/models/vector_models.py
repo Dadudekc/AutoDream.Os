@@ -92,7 +92,7 @@ class EmbeddingResult:
 @dataclass
 class SearchQuery:
     """Search query for vector database."""
-    
+
     query_text: str
     search_type: SearchType = SearchType.SIMILARITY
     limit: int = 10
@@ -103,7 +103,7 @@ class SearchQuery:
 @dataclass
 class SearchResult:
     """Result of vector database search."""
-    
+
     document_id: str
     content: str
     similarity_score: float

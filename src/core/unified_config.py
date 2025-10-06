@@ -16,14 +16,13 @@ import logging
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 # Consolidated into src/core/config_core.py - Single Source of Truth
 from .config_core import get_config, get_agent_config, get_timeout_config, get_threshold_config, get_test_config
 
 
 # Enums moved to config_core.py - Single Source of Truth
-from .config_core import ConfigEnvironment, ConfigSource
 
 
 @dataclass
@@ -32,13 +31,13 @@ class TimeoutConfig:
     # Browser/UI timeouts
     scrape_timeout: float = get_config("SCRAPE_TIMEOUT", 30.0)
     response_wait_timeout: float = get_config("RESPONSE_WAIT_TIMEOUT", 120.0)
-    
+
     # Quality monitoring timeouts
     quality_check_interval: float = get_config("QUALITY_CHECK_INTERVAL", 30.0)
-    
+
     # Performance monitoring timeouts
     metrics_collection_interval: float = get_config("METRICS_COLLECTION_INTERVAL", 60.0)
-    
+
     # Test timeouts
     smoke_test_timeout: int = get_config("SMOKE_TEST_TIMEOUT", 60)
     unit_test_timeout: int = get_config("UNIT_TEST_TIMEOUT", 120)
@@ -57,7 +56,7 @@ class AgentConfig:
     captain_id: str = get_config("CAPTAIN_ID", "Agent-4")
     default_mode: str = get_config("DEFAULT_MODE", "pyautogui")
     coordinate_mode: str = get_config("COORDINATE_MODE", "8-agent")
-    
+
     @property
     def agent_ids(self) -> List[str]:
         """Get list of all agent IDs."""
@@ -69,14 +68,14 @@ class FilePatternConfig:
     """Centralized file pattern configurations."""
     # Test file patterns
     test_file_pattern: str = get_config("TEST_FILE_PATTERN", "test_*.py")
-    
+
     # Project file patterns
     architecture_files: str = get_config("ARCHITECTURE_FILES", r'\.(py|js|ts|java|cpp|h|md)$')
     config_files: str = get_config("CONFIG_FILES", r'(config|settings|env|yml|yaml|json|toml|ini)$')
     test_files: str = get_config("TEST_FILES", r'(test|spec)\.(py|js|ts|java)$')
     docs_files: str = get_config("DOCS_FILES", r'(README|CHANGELOG|CONTRIBUTING|docs?)\.md$')
     build_files: str = get_config("BUILD_FILES", r'(Dockerfile|docker-compose|\.gitlab-ci|\.github|Makefile|build\.gradle|pom\.xml)$')
-    
+
     @property
     def project_patterns(self) -> Dict[str, str]:
         """Get all project file patterns."""
@@ -96,21 +95,21 @@ class ThresholdConfig:
     test_failure_threshold: int = get_config("TEST_FAILURE_THRESHOLD", 0)
     performance_degradation_threshold: float = get_config("PERFORMANCE_DEGRADATION_THRESHOLD", 100.0)
     coverage_threshold: float = get_config("COVERAGE_THRESHOLD", 80.0)
-    
+
     # Performance benchmark targets
     response_time_target: float = get_config("RESPONSE_TIME_TARGET", 100.0)  # ms
     throughput_target: float = get_config("THROUGHPUT_TARGET", 1000.0)  # ops/sec
     scalability_target: int = get_config("SCALABILITY_TARGET", 100)  # concurrent users
     reliability_target: float = get_config("RELIABILITY_TARGET", 99.9)  # %
     latency_target: float = get_config("LATENCY_TARGET", 50.0)  # ms
-    
+
     # Messaging performance thresholds
     single_message_timeout: float = get_config("SINGLE_MESSAGE_TIMEOUT", 1.0)
     bulk_message_timeout: float = get_config("BULK_MESSAGE_TIMEOUT", 10.0)
     concurrent_message_timeout: float = get_config("CONCURRENT_MESSAGE_TIMEOUT", 5.0)
     min_throughput: float = get_config("MIN_THROUGHPUT", 10.0)
     max_memory_per_message: int = get_config("MAX_MEMORY_PER_MESSAGE", 1024)
-    
+
     @property
     def alert_rules(self) -> Dict[str, Dict[str, Any]]:
         """Get quality alert rules."""
@@ -131,7 +130,7 @@ class ThresholdConfig:
                 "message": "Test coverage below threshold",
             },
         }
-    
+
     @property
     def benchmark_targets(self) -> Dict[str, Dict[str, Any]]:
         """Get performance benchmark targets."""
@@ -150,13 +149,13 @@ class BrowserConfig:
     # URLs
     gpt_url: str = get_config("GPT_URL", 'https://chatgpt.com/g/g-67f437d96d7c81918b2dbc12f0423867-thea-manager')
     conversation_url: str = get_config("CONVERSATION_URL", 'https://chatgpt.com/c/68bf1b1b-37b8-8324-be55-e3ccf20af737')
-    
+
     # Primary selectors
     input_selector: str = get_config("INPUT_SELECTOR", "textarea[data-testid='prompt-textarea']")
     send_button_selector: str = get_config("SEND_BUTTON_SELECTOR", "button[data-testid='send-button']")
     response_selector: str = get_config("RESPONSE_SELECTOR", "[data-testid='conversation-turn']:last-child .markdown")
     thinking_indicator: str = get_config("THINKING_INDICATOR", "[data-testid='thinking-indicator']")
-    
+
     # Fallback selectors
     input_fallback_selectors: List[str] = field(default_factory=lambda: [
         "textarea[placeholder*='Message']", "textarea[placeholder*='Ask']",
@@ -164,18 +163,18 @@ class BrowserConfig:
         "div[contenteditable='true']", 'p[data-placeholder]',
         "[data-placeholder='Ask anything']"
     ])
-    
+
     send_fallback_selectors: List[str] = field(default_factory=lambda: [
         "button[data-testid='send-button']", "button[type='submit']",
         "button:has-text('Send')"
     ])
-    
+
     response_fallback_selectors: List[str] = field(default_factory=lambda: [
         "[data-testid='conversation-turn']:last-child .markdown",
         '.message-content:last-child', '.markdown:last-child',
         '[data-message-id]:last-child'
     ])
-    
+
     # Retry configuration
     max_scrape_retries: int = get_config("MAX_SCRAPE_RETRIES", 3)
 
@@ -256,7 +255,7 @@ class TestConfig:
             "directory": "learning",
         },
     })
-    
+
     # Coverage configuration
     coverage_report_precision: int = get_config("COVERAGE_REPORT_PRECISION", 2)
     history_window: int = get_config("HISTORY_WINDOW", 100)
@@ -272,13 +271,13 @@ class ReportConfig:
         HTML = "html"
         CSV = "csv"
         CONSOLE = "console"
-    
+
     # Default settings
     reports_dir: Path = Path(get_config("REPORTS_DIR", "reports"))
     default_format: ReportFormat = ReportFormat.JSON
     include_metadata: bool = get_config("INCLUDE_METADATA", True)
     include_recommendations: bool = get_config("INCLUDE_RECOMMENDATIONS", True)
-    
+
     # Templates
     html_template: str = """<!DOCTYPE html>
 <html>
@@ -286,14 +285,14 @@ class ReportConfig:
 <body>{content}</body>
 </html>
 """
-    
+
     markdown_template: str = """# Error Analytics Report\n\n{content}\n"""
 
 
 @dataclass
 class UnifiedConfig:
     """Unified configuration system consolidating all config.py files."""
-    
+
     timeouts: TimeoutConfig = field(default_factory=TimeoutConfig)
     agents: AgentConfig = field(default_factory=AgentConfig)
     file_patterns: FilePatternConfig = field(default_factory=FilePatternConfig)
@@ -301,16 +300,16 @@ class UnifiedConfig:
     browser: BrowserConfig = field(default_factory=BrowserConfig)
     tests: TestConfig = field(default_factory=TestConfig)
     reports: ReportConfig = field(default_factory=ReportConfig)
-    
+
     def __post_init__(self):
         """Initialize configuration after creation."""
         self.logger = logging.getLogger(__name__)
         self.logger.info("Unified configuration system initialized")
-    
+
     def validate(self) -> List[str]:
         """Validate all configurations and return any issues."""
         issues = []
-        
+
         # Validate timeouts
         if self.timeouts.scrape_timeout <= 0:
             issues.append("Scrape timeout must be positive")
@@ -320,7 +319,7 @@ class UnifiedConfig:
             issues.append("Quality check interval must be positive")
         if self.timeouts.metrics_collection_interval <= 0:
             issues.append("Metrics collection interval must be positive")
-        
+
         # Validate agent configuration
         if self.agents.agent_count <= 0 or self.agents.agent_count > 20:
             issues.append("Agent count must be between 1 and 20")
@@ -330,7 +329,7 @@ class UnifiedConfig:
             issues.append("Captain ID must start with 'Agent-'")
         if self.agents.default_mode not in ['pyautogui', 'selenium', 'manual']:
             issues.append("Default mode must be one of: pyautogui, selenium, manual")
-        
+
         # Validate browser configuration
         if not self.browser.gpt_url.startswith('https://'):
             issues.append("GPT URL must be HTTPS")
@@ -342,7 +341,7 @@ class UnifiedConfig:
             issues.append("Send button selector cannot be empty")
         if self.browser.max_scrape_retries < 0:
             issues.append("Max scrape retries must be non-negative")
-        
+
         # Validate thresholds
         if self.thresholds.coverage_threshold < 0 or self.thresholds.coverage_threshold > 100:
             issues.append("Coverage threshold must be between 0 and 100")
@@ -356,25 +355,25 @@ class UnifiedConfig:
             issues.append("Scalability target must be positive")
         if self.thresholds.latency_target <= 0:
             issues.append("Latency target must be positive")
-        
+
         # Validate file patterns
         if not self.file_patterns.test_file_pattern.strip():
             issues.append("Test file pattern cannot be empty")
         if not self.file_patterns.architecture_files.strip():
             issues.append("Architecture files pattern cannot be empty")
-        
+
         # Validate test configuration
         if self.tests.coverage_report_precision < 0 or self.tests.coverage_report_precision > 10:
             issues.append("Coverage report precision must be between 0 and 10")
         if self.tests.history_window <= 0:
             issues.append("History window must be positive")
-        
+
         # Validate report configuration
         if not self.reports.reports_dir.exists() and not self.reports.reports_dir.parent.exists():
             issues.append("Reports directory parent must exist")
-        
+
         return issues
-    
+
     def get_config_summary(self) -> Dict[str, Any]:
         """Get a summary of all configurations."""
         return {

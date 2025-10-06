@@ -175,7 +175,7 @@ class ContractStorage:
                 TaskStatus.COMPLETED])
             total_points = sum(c.total_points for c in contracts)
             completed_points = sum(c.completed_points for c in contracts)
-            completion_rate = (completed_points / total_points * 100 if 
+            completion_rate = (completed_points / total_points * 100 if
                 total_points > 0 else 0)
             current_tasks = []
             for contract in contracts:

@@ -4,15 +4,15 @@ Compute coverage on changed files only; gate PRs on per-file threshold.
 Usage:
   python tools/coverage/changed_file_report.py --base HEAD~1 --min 95 --strict
 """
+
 import argparse
+import pathlib
 import subprocess
 import sys
 import xml.etree.ElementTree as ET
-import pathlib
-from typing import List, Dict, Tuple
 
 
-def changed_files(base: str) -> List[str]:
+def changed_files(base: str) -> list[str]:
     """Get list of changed Python files in src/ directory."""
     cmd = ["git", "diff", "--name-only", base, "--", "src"]
     try:
@@ -23,27 +23,27 @@ def changed_files(base: str) -> List[str]:
         return []
 
 
-def load_cov(xml_path: str = "coverage.xml") -> Dict[str, float]:
+def load_cov(xml_path: str = "coverage.xml") -> dict[str, float]:
     """Load coverage data from XML file."""
     try:
         tree = ET.parse(xml_path)
         root = tree.getroot()
         byfile = {}
-        
+
         for cls in root.iter("class"):
             fname = cls.attrib["filename"]
             lines_total = lines_covered = 0
-            
+
             for ln in cls.iter("line"):
                 lines_total += 1
                 if int(ln.attrib.get("hits", "0")) > 0:
                     lines_covered += 1
-            
+
             if lines_total > 0:
                 byfile[fname] = 100.0 * lines_covered / lines_total
             else:
                 byfile[fname] = 0.0
-                
+
         return byfile
     except (ET.ParseError, FileNotFoundError) as e:
         print(f"Error loading coverage XML: {e}")
@@ -71,17 +71,17 @@ def main() -> int:
         return 1
 
     # Check each changed file
-    fails: List[Tuple[str, float]] = []
+    fails: list[tuple[str, float]] = []
     print(f"Checking coverage on {len(changed)} changed files (min {args.min}%):")
-    
+
     for f in changed:
         # Try exact match first, then normalized path
         key = f if f in cov else str(pathlib.Path(f))
         pct = cov.get(key, 0.0)
-        
+
         status = "✅" if pct >= args.min else "❌"
         print(f"{status} {f}: {pct:.1f}% (min {args.min}%)")
-        
+
         if pct < args.min:
             fails.append((f, pct))
 
@@ -90,7 +90,7 @@ def main() -> int:
         print(f"\n⚠️  {len(fails)} files below threshold:")
         for f, p in fails:
             print(f"   - {f}: {p:.1f}%")
-        
+
         if args.strict:
             print("\n❌ FAIL: Coverage below threshold")
             return 2
@@ -104,6 +104,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-
-
-

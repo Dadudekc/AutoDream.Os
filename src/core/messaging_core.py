@@ -16,14 +16,12 @@ License: MIT
 from __future__ import annotations
 
 import logging
-import os
-import time
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Protocol
 from pathlib import Path
+from typing import Any, Protocol
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -31,6 +29,7 @@ logger = logging.getLogger(__name__)
 
 class DeliveryMethod(Enum):
     """Delivery methods for messages."""
+
     INBOX = "inbox"
     PYAUTOGUI = "pyautogui"
     BROADCAST = "broadcast"
@@ -38,6 +37,7 @@ class DeliveryMethod(Enum):
 
 class UnifiedMessageType(Enum):
     """Message types for unified messaging."""
+
     TEXT = "text"
     BROADCAST = "broadcast"
     ONBOARDING = "onboarding"
@@ -49,12 +49,14 @@ class UnifiedMessageType(Enum):
 
 class UnifiedMessagePriority(Enum):
     """Message priorities for unified messaging."""
+
     REGULAR = "regular"
     URGENT = "urgent"
 
 
 class UnifiedMessageTag(Enum):
     """Message tags for unified messaging."""
+
     CAPTAIN = "captain"
     ONBOARDING = "onboarding"
     WRAPUP = "wrapup"
@@ -64,6 +66,7 @@ class UnifiedMessageTag(Enum):
 
 class RecipientType(Enum):
     """Recipient types for unified messaging."""
+
     AGENT = "agent"
     CAPTAIN = "captain"
     SYSTEM = "system"
@@ -72,6 +75,7 @@ class RecipientType(Enum):
 
 class SenderType(Enum):
     """Sender types for unified messaging."""
+
     AGENT = "agent"
     CAPTAIN = "captain"
     SYSTEM = "system"
@@ -81,13 +85,14 @@ class SenderType(Enum):
 @dataclass
 class UnifiedMessage:
     """Core message structure for unified messaging."""
+
     content: str
     sender: str
     recipient: str
     message_type: UnifiedMessageType
     priority: UnifiedMessagePriority = UnifiedMessagePriority.REGULAR
-    tags: List[UnifiedMessageTag] = field(default_factory=list)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    tags: list[UnifiedMessageTag] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
     message_id: str = field(default_factory=lambda: str(uuid.uuid4()))
     timestamp: datetime = field(default_factory=datetime.now)
     sender_type: SenderType = SenderType.SYSTEM
@@ -96,6 +101,7 @@ class UnifiedMessage:
 
 class IMessageDelivery(Protocol):
     """Interface for message delivery mechanisms."""
+
     def send_message(self, message: UnifiedMessage) -> bool:
         """Send a message."""
         ...
@@ -103,6 +109,7 @@ class IMessageDelivery(Protocol):
 
 class IOnboardingService(Protocol):
     """Interface for onboarding operations."""
+
     def generate_onboarding_message(self, agent_id: str, style: str) -> str:
         """Generate onboarding message."""
         ...
@@ -111,8 +118,11 @@ class IOnboardingService(Protocol):
 class UnifiedMessagingCore:
     """SINGLE SOURCE OF TRUTH for all messaging functionality."""
 
-    def __init__(self, delivery_service: Optional[IMessageDelivery] = None,
-                 onboarding_service: Optional[IOnboardingService] = None):
+    def __init__(
+        self,
+        delivery_service: IMessageDelivery | None = None,
+        onboarding_service: IOnboardingService | None = None,
+    ):
         """Initialize the unified messaging core."""
         self.delivery_service = delivery_service
         self.onboarding_service = onboarding_service
@@ -126,6 +136,7 @@ class UnifiedMessagingCore:
         # Import and initialize delivery services
         try:
             from .messaging_pyautogui import PyAutoGUIMessagingDelivery
+
             if not self.delivery_service:
                 self.delivery_service = PyAutoGUIMessagingDelivery()
         except ImportError:
@@ -134,16 +145,22 @@ class UnifiedMessagingCore:
         # Import and initialize onboarding service
         try:
             from .onboarding_service import OnboardingService
+
             if not self.onboarding_service:
                 self.onboarding_service = OnboardingService()
         except ImportError:
             self.logger.warning("Onboarding service not available")
 
-    def send_message(self, content: str, sender: str, recipient: str,
-                    message_type: UnifiedMessageType,
-                    priority: UnifiedMessagePriority = UnifiedMessagePriority.REGULAR,
-                    tags: Optional[List[UnifiedMessageTag]] = None,
-                    metadata: Optional[Dict[str, Any]] = None) -> bool:
+    def send_message(
+        self,
+        content: str,
+        sender: str,
+        recipient: str,
+        message_type: UnifiedMessageType,
+        priority: UnifiedMessagePriority = UnifiedMessagePriority.REGULAR,
+        tags: list[UnifiedMessageTag] | None = None,
+        metadata: dict[str, Any] | None = None,
+    ) -> bool:
         """Send a message using the unified messaging system."""
         message = UnifiedMessage(
             content=content,
@@ -152,7 +169,7 @@ class UnifiedMessagingCore:
             message_type=message_type,
             priority=priority,
             tags=tags or [],
-            metadata=metadata or {}
+            metadata=metadata or {},
         )
 
         return self.send_message_object(message)
@@ -173,19 +190,40 @@ class UnifiedMessagingCore:
                 resolve_template_by_channel = None  # type: ignore
                 resolve_template_by_roles = None  # type: ignore
 
-            template = message.metadata.get("template") if isinstance(message.metadata, dict) else None
-            channel = (message.metadata or {}).get("channel", "standard") if isinstance(message.metadata, dict) else "standard"
-            sender_role = (message.metadata or {}).get("sender_role", "AGENT") if isinstance(message.metadata, dict) else "AGENT"
-            receiver_role = (message.metadata or {}).get("receiver_role", "AGENT") if isinstance(message.metadata, dict) else "AGENT"
+            template = (
+                message.metadata.get("template") if isinstance(message.metadata, dict) else None
+            )
+            channel = (
+                (message.metadata or {}).get("channel", "standard")
+                if isinstance(message.metadata, dict)
+                else "standard"
+            )
+            sender_role = (
+                (message.metadata or {}).get("sender_role", "AGENT")
+                if isinstance(message.metadata, dict)
+                else "AGENT"
+            )
+            receiver_role = (
+                (message.metadata or {}).get("receiver_role", "AGENT")
+                if isinstance(message.metadata, dict)
+                else "AGENT"
+            )
 
-            if not template and load_template_policy and resolve_template_by_channel and resolve_template_by_roles:
+            if (
+                not template
+                and load_template_policy
+                and resolve_template_by_channel
+                and resolve_template_by_roles
+            ):
                 policy = load_template_policy()
                 # Channel overrides first
                 if channel in ("onboarding", "passdown", "standard"):
                     template = resolve_template_by_channel(policy, channel)
                 # If not forced by channel, resolve by roles
                 if not template or template == "compact":
-                    template = resolve_template_by_roles(policy, str(sender_role), str(receiver_role))
+                    template = resolve_template_by_roles(
+                        policy, str(sender_role), str(receiver_role)
+                    )
 
                 message.metadata["template"] = template  # type: ignore[index]
 
@@ -207,21 +245,31 @@ class UnifiedMessagingCore:
 
             filepath = inbox_dir / f"{message.recipient}_inbox.txt"
 
-            with open(filepath, 'a', encoding='utf-8') as f:
+            with open(filepath, "a", encoding="utf-8") as f:
                 # Handle both enum and string values
-                msg_type = message.message_type.value if hasattr(message.message_type, 'value') else str(message.message_type).upper()
-                priority = message.priority.value if hasattr(message.priority, 'value') else str(message.priority)
+                msg_type = (
+                    message.message_type.value
+                    if hasattr(message.message_type, "value")
+                    else str(message.message_type).upper()
+                )
+                priority = (
+                    message.priority.value
+                    if hasattr(message.priority, "value")
+                    else str(message.priority)
+                )
 
-                f.write(f'# 🚨 CAPTAIN MESSAGE - {msg_type}\n\n')
-                f.write(f'**From**: {message.sender}\n')
-                f.write(f'**To**: {message.recipient}\n')
-                f.write(f'**Priority**: {priority}\n')
-                f.write(f'**Timestamp**: {message.timestamp}\n')
+                f.write(f"# 🚨 CAPTAIN MESSAGE - {msg_type}\n\n")
+                f.write(f"**From**: {message.sender}\n")
+                f.write(f"**To**: {message.recipient}\n")
+                f.write(f"**Priority**: {priority}\n")
+                f.write(f"**Timestamp**: {message.timestamp}\n")
                 if message.tags:
-                    f.write(f'**Tags**: {", ".join(tag.value if hasattr(tag, "value") else str(tag) for tag in message.tags)}\n')
-                f.write('\n')
-                f.write(f'{message.content}\n')
-                f.write('\n' + '='*50 + '\n\n')
+                    f.write(
+                        f'**Tags**: {", ".join(tag.value if hasattr(tag, "value") else str(tag) for tag in message.tags)}\n'
+                    )
+                f.write("\n")
+                f.write(f"{message.content}\n")
+                f.write("\n" + "=" * 50 + "\n\n")
 
             self.logger.info(f"Message sent to inbox: {message.recipient}")
             return True
@@ -248,7 +296,12 @@ class UnifiedMessagingCore:
         else:
             return f"Welcome {agent_id}! You have been onboarded to the Agent Cellphone V2 system."
 
-    def broadcast_message(self, content: str, sender: str, priority: UnifiedMessagePriority = UnifiedMessagePriority.REGULAR) -> bool:
+    def broadcast_message(
+        self,
+        content: str,
+        sender: str,
+        priority: UnifiedMessagePriority = UnifiedMessagePriority.REGULAR,
+    ) -> bool:
         """Broadcast message to all agents."""
         message = UnifiedMessage(
             content=content,
@@ -256,7 +309,7 @@ class UnifiedMessagingCore:
             recipient="ALL_AGENTS",
             message_type=UnifiedMessageType.BROADCAST,
             priority=priority,
-            tags=[UnifiedMessageTag.SYSTEM]
+            tags=[UnifiedMessageTag.SYSTEM],
         )
 
         return self.send_message_object(message)
@@ -264,7 +317,16 @@ class UnifiedMessagingCore:
     def list_agents(self):
         """List all available agents."""
         # This would integrate with agent registry
-        agents = ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
+        agents = [
+            "Agent-1",
+            "Agent-2",
+            "Agent-3",
+            "Agent-4",
+            "Agent-5",
+            "Agent-6",
+            "Agent-7",
+            "Agent-8",
+        ]
         self.logger.info("🤖 Available Agents:")
         for agent in agents:
             self.logger.info(f"  • {agent}")
@@ -280,13 +342,19 @@ def get_messaging_core() -> UnifiedMessagingCore:
     return messaging_core
 
 
-def send_message(content: str, sender: str, recipient: str,
-                message_type: UnifiedMessageType,
-                priority: UnifiedMessagePriority = UnifiedMessagePriority.REGULAR,
-                tags: Optional[List[UnifiedMessageTag]] = None,
-                metadata: Optional[Dict[str, Any]] = None) -> bool:
+def send_message(
+    content: str,
+    sender: str,
+    recipient: str,
+    message_type: UnifiedMessageType,
+    priority: UnifiedMessagePriority = UnifiedMessagePriority.REGULAR,
+    tags: list[UnifiedMessageTag] | None = None,
+    metadata: dict[str, Any] | None = None,
+) -> bool:
     """Send message using the SINGLE SOURCE OF TRUTH."""
-    return messaging_core.send_message(content, sender, recipient, message_type, priority, tags, metadata)
+    return messaging_core.send_message(
+        content, sender, recipient, message_type, priority, tags, metadata
+    )
 
 
 def send_message_object(message: UnifiedMessage) -> bool:
@@ -294,7 +362,9 @@ def send_message_object(message: UnifiedMessage) -> bool:
     return messaging_core.send_message_object(message)
 
 
-def broadcast_message(content: str, sender: str, priority: UnifiedMessagePriority = UnifiedMessagePriority.REGULAR) -> bool:
+def broadcast_message(
+    content: str, sender: str, priority: UnifiedMessagePriority = UnifiedMessagePriority.REGULAR
+) -> bool:
     """Broadcast message using the SINGLE SOURCE OF TRUTH."""
     return messaging_core.broadcast_message(content, sender, priority)
 
@@ -325,7 +395,6 @@ __all__ = [
     # Core classes
     "UnifiedMessagingCore",
     "UnifiedMessage",
-
     # Enums
     "DeliveryMethod",
     "UnifiedMessageType",
@@ -333,11 +402,9 @@ __all__ = [
     "UnifiedMessageTag",
     "RecipientType",
     "SenderType",
-
     # Interfaces
     "IMessageDelivery",
     "IOnboardingService",
-
     # Public API functions
     "get_messaging_core",
     "send_message",
@@ -346,7 +413,6 @@ __all__ = [
     "generate_onboarding_message",
     "show_message_history",
     "list_agents",
-
     # Legacy compatibility
     "get_messaging_logger",
 ]
@@ -366,7 +432,7 @@ def validate_messaging_system() -> bool:
             content="System validation test",
             sender="SYSTEM",
             recipient="TEST_AGENT",
-            message_type=UnifiedMessageType.TEXT
+            message_type=UnifiedMessageType.TEXT,
         )
 
         logger.info("✅ Messaging system validation passed")

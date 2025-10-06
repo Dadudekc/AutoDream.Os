@@ -363,7 +363,9 @@ class TheaLoginHandler:
                     else:
                         elements = driver.find_elements(By.CSS_SELECTOR, indicator)
 
-                    visible_elements = [elem for elem in elements if getattr(elem, 'is_displayed', lambda: False)()]
+                    visible_elements = [
+                        elem for elem in elements if getattr(elem, "is_displayed", lambda: False)()
+                    ]
                     if visible_elements:
                         found_indicators.append(f"{indicator} ({len(visible_elements)} found)")
                         logger.debug(
@@ -394,7 +396,7 @@ class TheaLoginHandler:
             for indicator in login_indicators:
                 try:
                     element = driver.find_element(By.XPATH, indicator)
-                    if getattr(element, 'is_displayed', lambda: False)():
+                    if getattr(element, "is_displayed", lambda: False)():
                         logger.debug(f"🔒 Found login page indicator: {indicator}")
                         login_page_found = True
                         break
@@ -560,9 +562,17 @@ class TheaLoginHandler:
 
             # Treat visible sign-up/log-in prompts as not logged in
             try:
-                signup_cta = driver.find_elements(By.XPATH, "//div[contains(text(), 'Sign up to chat') or contains(text(), 'Sign up')]")
-                buttons = driver.find_elements(By.XPATH, "//button//div[contains(text(), 'Sign up') or contains(text(), 'Log in')]")
-                any_visible_cta = any(getattr(e, 'is_displayed', lambda: False)() for e in signup_cta + buttons)
+                signup_cta = driver.find_elements(
+                    By.XPATH,
+                    "//div[contains(text(), 'Sign up to chat') or contains(text(), 'Sign up')]",
+                )
+                buttons = driver.find_elements(
+                    By.XPATH,
+                    "//button//div[contains(text(), 'Sign up') or contains(text(), 'Log in')]",
+                )
+                any_visible_cta = any(
+                    getattr(e, "is_displayed", lambda: False)() for e in signup_cta + buttons
+                )
                 if any_visible_cta:
                     logger.info("🔒 Login/signup CTA visible - NOT logged in")
                     return False
@@ -571,7 +581,9 @@ class TheaLoginHandler:
 
             # Final fallback: if we're on the Thea URL and couldn't confirm login, assume not logged in
             if "thea-manager" in current_url:
-                logger.warning("On Thea page but couldn't confirm login status - assuming not logged in")
+                logger.warning(
+                    "On Thea page but couldn't confirm login status - assuming not logged in"
+                )
                 return False
 
             logger.warning("⚠️ Could not definitively determine login status")

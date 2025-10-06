@@ -10,7 +10,6 @@ Author: Agent-7 - Web Development Specialist
 License: MIT
 """
 
-import os
 import shutil
 from pathlib import Path
 from typing import List, Optional

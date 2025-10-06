@@ -13,7 +13,7 @@ License: MIT
 from typing import Any, Dict, Optional
 
 from .unified_logging_system import get_logger
-from .coordinator_interfaces import ICoordinatorRegistry, ICoordinator
+from .coordinator_interfaces import ICoordinatorRegistry
 
 
 class CoordinatorRegistry(ICoordinatorRegistry):

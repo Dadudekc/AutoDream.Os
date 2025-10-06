@@ -9,8 +9,6 @@ Usage:
     python tools/codemods/replace_prints_with_logger.py
 """
 from __future__ import annotations
-import os
-import sys
 import ast
 import astor
 from pathlib import Path

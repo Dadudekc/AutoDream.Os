@@ -417,7 +417,8 @@ def main():
         with open(report_file, 'w', encoding='utf-8') as f:
             f.write(report)
 
-        print("✅ Comprehensive analysis complete"        print(f"📄 Report saved to: {report_file}")
+        print("✅ Comprehensive analysis complete")
+        print(f"📄 Report saved to: {report_file}")
 
         # Print summary
         plan = analysis['consolidation_plan']

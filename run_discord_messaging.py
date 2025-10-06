@@ -1,19 +1,8 @@
 #!/usr/bin/env python3
 """
-Discord Messaging Bot Launcher
-===============================
-
-Easy launcher for the enhanced Discord messaging bot.
-Provides seamless agent communication through Discord interface.
-
-Usage:
-    python run_discord_messaging.py
-
-Features:
-- Interactive agent messaging with Discord views
-- Real-time swarm status monitoring
-- Broadcast messaging capabilities
-- Easy agent selection and communication
+Launcher script for the Enhanced Discord Commander Bot.
+This script initializes and starts the Discord bot, integrating it
+with the Consolidated Messaging Service for agent interaction.
 """
 
 import asyncio
@@ -22,63 +11,68 @@ import sys
 from pathlib import Path
 
 # Add project root to path
-project_root = Path(__file__).resolve().parent
+project_root = Path(__file__).parent
 sys.path.insert(0, str(project_root))
 
-from src.services.discord_commander.enhanced_bot import EnhancedBotManager
+# Import after path setup
+from src.services.discord_commander.enhanced_bot import EnhancedBotManager  # noqa: E402
 
-# Setup logging
+# Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.StreamHandler(sys.stdout),
-        logging.FileHandler('discord_messaging.log')
-    ]
+    stream=sys.stdout,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
 )
-
 logger = logging.getLogger(__name__)
 
 
 async def main():
-    """Main launcher function."""
+    """Main function to initialize and run the bot."""
     print("🤖 Enhanced Discord Messaging Bot Launcher")
     print("=" * 50)
     print("Starting Discord bot with messaging controller...")
     print("Features:")
     print("• Interactive agent messaging with Discord views")
-    print("• Real-time swarm status monitoring") 
+    print("• Real-time swarm status monitoring")
     print("• Broadcast messaging capabilities")
     print("• Easy agent selection and communication")
     print("=" * 50)
-    
+
+    logger.info("Starting Enhanced Discord Messaging Bot...")
+
+    # Use EnhancedBotManager which handles configuration properly
     manager = EnhancedBotManager()
-    
-    try:
-        # Start the bot
-        logger.info("Starting Enhanced Discord Messaging Bot...")
-        await manager.start_bot()
-        
-    except KeyboardInterrupt:
-        print("\n🛑 Bot stopped by user (Ctrl+C)")
-        logger.info("Bot stopped by user")
-        
-    except Exception as e:
-        print(f"\n❌ Bot crashed: {e}")
-        logger.error(f"Bot crashed: {e}")
-        
-    finally:
-        print("🔄 Shutting down bot...")
-        await manager.stop_bot()
-        print("✅ Bot shutdown complete")
+
+    # Check configuration before starting
+    config_issues = manager.config.validate()
+    if config_issues:
+        print("\n❌ Configuration Issues Found:")
+        for issue in config_issues:
+            print(f"  • {issue}")
+        print("\n📋 Setup Instructions:")
+        print("1. Create a .env file in the project root")
+        print("2. Add the following environment variables:")
+        print("   DISCORD_BOT_TOKEN=your_bot_token_here")
+        print("   DISCORD_GUILD_ID=your_guild_id_here")
+        print("3. Get your Discord bot token from: https://discord.com/developers/applications")
+        print(
+            "4. Get your Guild ID by enabling Developer Mode in Discord and "
+            "right-clicking your server"
+        )
+        print("\n💡 Example .env file:")
+        print("DISCORD_BOT_TOKEN=your_actual_bot_token_here")
+        print("DISCORD_GUILD_ID=123456789012345678")
+        print("DISCORD_COMMAND_PREFIX=!")
+        return
+
+    await manager.start_bot()
 
 
 if __name__ == "__main__":
     try:
         asyncio.run(main())
     except KeyboardInterrupt:
-        print("\n👋 Goodbye!")
+        logger.info("Discord bot stopped by user.")
     except Exception as e:
-        print(f"\n💥 Fatal error: {e}")
-        logger.error(f"Fatal error: {e}")
+        logger.error(f"An unhandled error occurred: {e}")
         sys.exit(1)

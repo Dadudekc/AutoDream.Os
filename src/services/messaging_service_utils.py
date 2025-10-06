@@ -28,9 +28,14 @@ class MessageFormatter:
     """Format A2A messages with proper headers and guidelines."""
 
     @staticmethod
-    def format_a2a_message(from_agent: str, to_agent: str, content: str, priority: str) -> str:
+    def format_a2a_message(from_agent: str, to_agent: str, content: str, priority: str, compact: bool = False) -> str:
         """Format A2A message with proper headers."""
         priority_indicator = "🚨 " if priority.upper() == "URGENT" else ""
+
+        if compact:
+            guidelines = MessageFormatter.get_compact_guidelines()
+        else:
+            guidelines = MessageFormatter.get_quality_guidelines()
 
         return f"""============================================================
 [A2A] MESSAGE
@@ -41,13 +46,13 @@ Priority: {priority.upper()}
 Tags: GENERAL
 -------------------------------------------------------------
 {content}
-{MessageFormatter.get_quality_guidelines()}
+{guidelines}
 ============================================================
 -------------------------------------------------------------"""
 
     @staticmethod
     def get_quality_guidelines() -> str:
-        """Get concise quality guidelines reminder for all agent communications."""
+        """Get comprehensive tool reminders for all agent communications."""
         return """🎯 QUALITY GATES REMINDER
 ============================================================
 📋 V2 COMPLIANCE: ≤400 lines • ≤5 classes • ≤10 functions
@@ -55,7 +60,44 @@ Tags: GENERAL
 ✅ USE: Simple data classes • Direct calls • Basic validation
 🎯 KISS: Keep it simple! • Run `python quality_gates.py`
 ============================================================
-📝 DEVLOG: Use 'python src/services/agent_devlog_posting.py --agent <flag> --action <desc>'"""
+📝 DEVLOG: Use 'python src/services/agent_devlog_posting.py --agent <flag> --action <desc>'
+============================================================
+🗃️ DATABASE INTEGRATION REMINDERS:
+🧠 Swarm Brain: from swarm_brain import Retriever; r = Retriever(); r.search("query", k=5)
+🔧 Unified DB: import sqlite3; conn = sqlite3.connect("unified.db")
+🧠 Vector DB: from src.services.vector_database import VectorDatabaseIntegration
+🤖 ML Model: Automated SSOT violation prevention via PredictiveSSOTEngine
+============================================================
+🔄 DYNAMIC TOOL DISCOVERY:
+📁 Scan Tools: python tools/scan_tools.py
+🔍 Find Tools: python tools/find_tool.py --query "need"
+📊 Project Analysis: python tools/run_project_scan.py
+🎯 Captain Tools: python tools/captain_cli.py
+📈 Analysis Tools: python tools/analysis_cli.py
+============================================================
+🚀 MESSAGING & COORDINATION:
+📨 Messaging Service: src/services/messaging_service.py
+🤖 Discord Bot: python run_discord_messaging.py
+📋 Captain Directives: tools/captain_directive_manager.py
+🔄 Workflow Manager: tools/agent_workflow_manager.py
+============================================================
+💡 REMEMBER: Query databases every cycle phase for patterns, tasks, and knowledge!"""
+
+    @staticmethod
+    def get_compact_guidelines() -> str:
+        """Get compact tool reminders for space-limited communications."""
+        return """🎯 QUALITY GATES REMINDER
+============================================================
+📋 V2 COMPLIANCE: ≤400 lines • ≤5 classes • ≤10 functions
+🚫 NO: Abstract classes • Complex inheritance • Threading
+✅ USE: Simple data classes • Direct calls • Basic validation
+🎯 KISS: Keep it simple! • Run `python quality_gates.py`
+============================================================
+📝 DEVLOG: 'python src/services/agent_devlog_posting.py --agent <flag> --action <desc>'
+🗃️ DATABASES: Swarm Brain (r.search), Unified (sqlite3), Vector (VectorDatabaseIntegration)
+🔄 TOOLS: Scan (scan_tools.py), Find (find_tool.py), Project (run_project_scan.py)
+🚀 MESSAGING: messaging_service.py, Discord (run_discord_messaging.py)
+💡 REMEMBER: Query databases every cycle phase for patterns and knowledge!"""
 
 
 class MessageValidator:

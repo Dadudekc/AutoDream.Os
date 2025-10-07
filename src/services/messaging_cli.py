@@ -69,7 +69,8 @@ python -m src.services.messaging_cli --message "Start survey" --agent Agent-1
 # Broadcast to all agents
 python -m src.services.messaging_cli --message "SWARM ALERT!" --broadcast
 # Send with priority and tags
-python -m src.services.messaging_cli --message "URGENT: Fix issue" --agent Agent-2 --priority urgent --tags bug critical
+python -m src.services.messaging_cli --message "URGENT: Fix issue" \\
+    --agent Agent-2 --priority urgent --tags bug critical
 
 🐝 WE. ARE. SWARM - COORDINATE THROUGH PYAUTOGUI!
 """
@@ -280,7 +281,7 @@ class MessagingCLI:
             else:
                 self.parser.print_help()
                 return 0
-        except:
+        except Exception:
             return 1
 
     def _handle_message(self, args):
@@ -332,14 +333,16 @@ class MessagingCLI:
                     status = (
                         "✅ ACTIVE" if coord_loader.is_agent_active(agent_id) else "❌ INACTIVE"
                     )
-                    print(
-                        f"🤖 {agent_id}\n   📍 Coordinates: {coords}\n   📝 {desc}\n   🔄 {status}\n"
+                    coord_info = (
+                        f"🤖 {agent_id}\n   📍 Coordinates: {coords}\n"
+                        f"   📝 {desc}\n   🔄 {status}\n"
                     )
-                except Exception:
-                    pass
+                    print(coord_info)
+                except Exception as e:
+                    logger.debug(f"Could not display {agent_id}: {e}")
             print("🎯 COORDINATE SYSTEM READY FOR SWARM COORDINATION!")
             return 0
-        except:
+        except Exception:
             return 1
 
 

@@ -23,15 +23,10 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 try:
     from src.core.coordinate_loader import get_coordinate_loader
     from src.core.messaging_core import (
-        UnifiedMessage,
         UnifiedMessagePriority,
         UnifiedMessageTag,
         UnifiedMessageType,
-        broadcast_message,
-        get_messaging_core,
-        list_agents,
         send_message,
-        show_message_history,
     )
     from src.services.messaging_pyautogui import send_message_pyautogui
 
@@ -151,7 +146,7 @@ class MessageCoordinator:
                     tags=[UnifiedMessageTag.SYSTEM],
                 )
             )
-        except:
+        except Exception:
             return False
 
     @staticmethod
@@ -340,7 +335,7 @@ class MessagingCLI:
                     print(
                         f"🤖 {agent_id}\n   📍 Coordinates: {coords}\n   📝 {desc}\n   🔄 {status}\n"
                     )
-                except:
+                except Exception:
                     pass
             print("🎯 COORDINATE SYSTEM READY FOR SWARM COORDINATION!")
             return 0

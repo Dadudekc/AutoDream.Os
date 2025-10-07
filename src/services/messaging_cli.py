@@ -76,12 +76,6 @@ python -m src.services.messaging_cli --message "SWARM ALERT!" --broadcast
 # Send with priority and tags
 python -m src.services.messaging_cli --message "URGENT: Fix issue" --agent Agent-2 --priority urgent --tags bug critical
 
-📝 DISCORD DEVLOG REMINDER: All agents should create Discord devlogs for every significant action in devlogs/ directory, just like we remind agents of their identity.
-
-📬 INBOX CHECK REMINDER: All agents should check their inbox at agent_workspaces/[Agent]/inbox/ for new messages and updates.
-
-📊 STATUS UPDATE REMINDER: All agents should update their status and report progress to maintain swarm coordination.
-
 🐝 WE. ARE. SWARM - COORDINATE THROUGH PYAUTOGUI!
 """
 
@@ -101,12 +95,6 @@ SURVEY_MESSAGE_TEMPLATE = """
 **COORDINATION:** Real-time via PyAutoGUI messaging system
 **COMMANDER:** Captain Agent-4 (Quality Assurance Specialist)
 
-📝 DISCORD DEVLOG REMINDER: Create a Discord devlog for this survey action in devlogs/ directory
-
-📬 INBOX CHECK REMINDER: Check your inbox at agent_workspaces/[Agent]/inbox/ for new messages
-
-📊 STATUS UPDATE REMINDER: Update your status and report progress to maintain swarm coordination
-
 🐝 WE ARE SWARM - UNITED IN ANALYSIS!
 """
 
@@ -125,12 +113,6 @@ ASSIGNMENT_MESSAGE_TEMPLATE = """
 **TIMELINE:** 8 days total survey
 **COORDINATION:** Real-time via PyAutoGUI
 
-📝 DISCORD DEVLOG REMINDER: Create a Discord devlog for this assignment in devlogs/ directory
-
-📬 INBOX CHECK REMINDER: Check your inbox at agent_workspaces/{agent}/inbox/ for new messages
-
-📊 STATUS UPDATE REMINDER: Update your status and report progress to maintain swarm coordination
-
 🐝 YOUR EXPERTISE IS CRUCIAL FOR SUCCESSFUL CONSOLIDATION!
 """
 
@@ -144,12 +126,6 @@ CONSOLIDATION_MESSAGE_TEMPLATE = """
 
 **COORDINATION:** Real-time swarm coordination active
 **COMMANDER:** Captain Agent-4
-
-📝 DISCORD DEVLOG REMINDER: Create a Discord devlog for this consolidation update in devlogs/ directory
-
-📬 INBOX CHECK REMINDER: Check your inbox at agent_workspaces/[Agent]/inbox/ for new messages
-
-📊 STATUS UPDATE REMINDER: Update your status and report progress to maintain swarm coordination
 
 🔧 CONSOLIDATION PROGRESS CONTINUES...
 """

@@ -1,0 +1,84 @@
+# Agent Cellphone V2 - ChatGPT Integration Configuration
+# Precedence: CLI flags → ENV vars → this file → hardcoded defaults
+
+chatgpt:
+  # Navigation settings
+  navigation:
+    default_url: "https://chat.openai.com/"
+    timeout: 60000  # milliseconds
+    wait_for_selector: "textarea"
+    retry_attempts: 3
+    retry_delay: 2.0  # seconds
+    
+  # Browser settings
+  browser:
+    headless: false  # set to true for headless operation
+    user_data_dir: "runtime/browser_profiles/chatgpt"
+    viewport:
+      width: 1280
+      height: 720
+    user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+    
+  # Session management
+  session:
+    persistent: true
+    cookie_storage: "runtime/browser_profiles/chatgpt/cookies"
+    cache_enabled: true
+    cache_size: 100  # MB
+    
+  # Conversation extraction
+  extraction:
+    message_selector: "[data-message-author-role]"
+    text_selector: "[data-message-text]"
+    timestamp_selector: "time"
+    max_messages: 1000
+    save_format: "json"
+    
+  # Authentication
+  authentication:
+    auto_login: false  # requires manual login
+    session_validation: true
+    reauth_on_failure: true
+
+# Integration with existing browser infrastructure
+browser_integration:
+  # Use existing browser service
+  base_service: "src.infrastructure.unified_browser_service"
+  extend_existing: true
+  
+  # Playwright settings
+  playwright:
+    browser_type: "chromium"
+    launch_options:
+      headless: false
+      slow_mo: 100  # milliseconds between actions
+    context_options:
+      viewport: null  # use default
+      user_agent: null  # use default
+
+# Agent integration
+agent_integration:
+  # Messaging integration
+  messaging:
+    enabled: true
+    command_prefix: "chatgpt:"
+    response_format: "structured"
+    
+  # Workflow integration
+  workflow:
+    enabled: true
+    auto_extract: false
+    extraction_triggers: ["conversation_complete"]
+
+# V2 Compliance
+v2_compliance:
+  file_size_limit: 400
+  solid_principles: true
+  logging_level: "INFO"
+  error_handling: "comprehensive"
+  
+# Performance settings
+performance:
+  max_concurrent_sessions: 2
+  session_timeout: 3600  # seconds
+  cleanup_interval: 600  # seconds

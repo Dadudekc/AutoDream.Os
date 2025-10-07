@@ -1,0 +1,54 @@
+# Agent Cellphone V2 - Advanced Workflows Configuration
+# Precedence: CLI flags → ENV vars → this file → hardcoded defaults
+
+workflows:
+  # Workflow state management
+  state_directory: "workflow_states"
+  state_persistence: true
+  state_cleanup_days: 7
+  
+  # Execution settings
+  max_iterations: 10
+  default_timeout: 300  # seconds
+  retry_count: 3
+  retry_delay: 1.0  # seconds
+  
+  # Response monitoring
+  response_check_interval: 1  # seconds
+  response_timeout: 60  # seconds
+  
+  # Workflow patterns
+  patterns:
+    conversation_loop:
+      default_iterations: 3
+      timeout_per_round: 300
+    multi_agent_orchestration:
+      default_strategy: "parallel"
+      coordination_timeout: 600
+    decision_tree:
+      analysis_timeout: 180
+      branch_timeout: 300
+    autonomous_loop:
+      max_iterations: 10
+      assessment_timeout: 120
+      action_timeout: 300
+
+# Agent coordination
+agents:
+  default_target: "Agent-1"
+  coordination_timeout: 30
+  message_delay: 0.5  # seconds between messages
+  
+# Devlog integration
+devlog:
+  enabled: true
+  webhook_env_var: "DISCORD_WEBHOOK_URL"
+  username: "Workflow Engine"
+  use_embed: true
+  
+# V2 Compliance
+v2_compliance:
+  cycle_based_tracking: true
+  file_size_limit: 400
+  solid_principles: true
+  logging_level: "INFO"

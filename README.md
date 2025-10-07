@@ -108,6 +108,11 @@ AutoDream OS is a **production-grade, V2 compliant** platform for building sophi
 - **Vector Database Integration**: Semantic search for intelligent recommendations
 - **Contract System**: Automated agent agreements and task management
 - **FSM-Driven Development**: Finite state machine for complex workflows
+- **Advanced Workflows**: Production-grade multi-agent workflow orchestration
+- **Vision System**: Screen capture, OCR, and visual analysis capabilities
+- **ChatGPT Integration**: Browser automation for ChatGPT interaction
+- **Overnight Runner**: 24/7 autonomous operations with cycle-based scheduling
+- **Desktop GUI**: Optional visual interface for agent management (PyQt5)
 
 ### 🔄 **Developer Experience**
 - **CLI-First Design**: Command-line interfaces for all major functions
@@ -130,8 +135,14 @@ skipped.
 git clone <repository-url>
 cd AutoDream.Os
 
-# Install dependencies
+# Install core dependencies
 pip install -r requirements.txt
+
+# Install Priority 1 feature dependencies
+pip install pytesseract opencv-python pillow  # Vision system
+pip install playwright                         # ChatGPT integration
+playwright install chromium                    # Browser for ChatGPT
+pip install PyQt5                              # GUI (optional)
 
 # Optional: Install development dependencies
 pip install -r requirements-dev.txt
@@ -178,6 +189,70 @@ pytest --cov=src --cov-report=html
 pytest tests/ -k "role" -v          # Role management tests
 pytest tests/ -k "messaging" -v     # Messaging system tests
 pytest tests/ -k "integration" -v   # Integration tests
+pytest tests/ -k "workflows" -v     # Workflow system tests
+pytest tests/ -k "vision" -v        # Vision system tests
+pytest tests/ -k "chatgpt" -v       # ChatGPT integration tests
+pytest tests/ -k "overnight" -v     # Overnight runner tests
+```
+
+### 🔥 **Priority 1 Features - Quick Start**
+
+#### **Advanced Workflows**
+```bash
+# Create a conversation loop
+python -m src.workflows.cli create --name agent_discussion --type conversation \
+  --agent-a Agent-1 --agent-b Agent-2 --topic "code architecture" --iterations 3
+
+# Execute workflow
+python -m src.workflows.cli execute --name agent_discussion
+
+# List workflows
+python -m src.workflows.cli list
+```
+
+#### **Vision System**
+```bash
+# Capture agent screen region with OCR
+python -m src.vision.cli capture --agent Agent-1 --output agent1.png --ocr --analyze
+
+# Start continuous monitoring
+python -m src.vision.cli monitor --agent Agent-1 --duration 60
+
+# Show vision capabilities
+python -m src.vision.cli info
+```
+
+#### **ChatGPT Integration**
+```bash
+# Navigate to ChatGPT
+python -m src.services.chatgpt.cli navigate
+
+# Send message and wait for response
+python -m src.services.chatgpt.cli send --message "Explain async/await in Python" --wait
+
+# Extract conversation
+python -m src.services.chatgpt.cli extract --output conversation.json
+
+# List saved conversations
+python -m src.services.chatgpt.cli list
+```
+
+#### **Overnight Runner**
+```bash
+# Start overnight autonomous operations
+python -m src.orchestrators.overnight.cli start --cycles 60 --interval 10 --workflow
+
+# Monitor progress
+python -m src.orchestrators.overnight.cli monitor --interval 60
+
+# Check system capabilities
+python -m src.orchestrators.overnight.cli info
+```
+
+#### **Desktop GUI (Optional)**
+```bash
+# Launch GUI application
+python -m src.gui.app
 ```
 
 ## 🎯 **Agent Cellphone V2 - Production-Grade Multi-Agent System**

@@ -41,9 +41,7 @@ try:
 
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 
-    from src.core.messaging_core import (
-        UnifiedMessagingCore,
-    )
+    from src.core.messaging_core import UnifiedMessagingCore
 
     print("✅ Messaging Core: LOADED")
 

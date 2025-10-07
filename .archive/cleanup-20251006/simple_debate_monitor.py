@@ -12,10 +12,11 @@ Usage:
 Author: V2_SWARM_CAPTAIN
 """
 
+import json
 import os
 import time
-import json
 from pathlib import Path
+
 
 def load_coordinates():
     """Load agent coordinates."""

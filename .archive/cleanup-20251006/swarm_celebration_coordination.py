@@ -6,8 +6,9 @@ Swarm Celebration & Coordination Update
 Celebrate agent contributions and provide final coordination status.
 """
 
-import os
 import json
+import os
+
 
 def analyze_final_debate_status():
     """Analyze the final debate status after recent contributions."""
@@ -60,9 +61,10 @@ def analyze_final_debate_status():
 def send_swarm_celebration():
     """Send celebration message to all agents."""
     try:
+        import time
+
         import pyautogui
         import pyperclip
-        import time
 
         # Load all agent coordinates
         with open("cursor_agent_coords.json", 'r', encoding='utf-8') as f:

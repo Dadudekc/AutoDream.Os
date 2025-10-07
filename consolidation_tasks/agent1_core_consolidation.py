@@ -151,12 +151,61 @@ def execute_task(task_id: str, **kwargs) -> bool:
     logger.info(f"Executing task {task_id}")
     return True
 """
+            elif func_name == "load_config":
+                functions_code += """
+def load_config(config_path: str) -> Dict[str, Any]:
+    \"\"\"Load configuration from file.\"\"\"
+    import json
+    try:
+        with open(config_path, 'r') as f:
+            config = json.load(f)
+        _config_store.update(config)
+        logger.info(f"Loaded configuration from {config_path}")
+        return config
+    except Exception as e:
+        logger.error(f"Failed to load config: {e}")
+        return {}
+"""
+            elif func_name == "monitor_status":
+                functions_code += """
+def monitor_status() -> Dict[str, Any]:
+    \"\"\"Monitor system status.\"\"\"
+    return {
+        'services': len(_service_registry),
+        'tasks_pending': len(_task_queue),
+        'config_items': len(_config_store),
+        'status': 'operational'
+    }
+"""
+            elif func_name == "handle_error":
+                functions_code += """
+def handle_error(error: Exception, context: str = "") -> None:
+    \"\"\"Handle and log errors.\"\"\"
+    logger.error(f"Error in {context}: {type(error).__name__}: {str(error)}")
+"""
+            elif func_name == "register_service":
+                functions_code += """
+def register_service(service_name: str, service_instance: Any) -> None:
+    \"\"\"Register a service in the registry.\"\"\"
+    _service_registry[service_name] = service_instance
+    logger.info(f"Registered service: {service_name}")
+"""
+            elif func_name == "unregister_service":
+                functions_code += """
+def unregister_service(service_name: str) -> bool:
+    \"\"\"Unregister a service from the registry.\"\"\"
+    if service_name in _service_registry:
+        del _service_registry[service_name]
+        logger.info(f"Unregistered service: {service_name}")
+        return True
+    return False
+"""
             else:
                 functions_code += f"""
-{placeholder}
-    \"\"\"Placeholder for consolidated {func_name} functionality.\"\"\"
-    # TODO: Implement consolidated logic
-    pass
+def {func_name}(*args, **kwargs) -> Any:
+    \"\"\"Consolidated {func_name} functionality.\"\"\"
+    logger.warning(f"Function {func_name} called but not fully implemented")
+    return None
 """
 
         return header + functions_code + footer
@@ -235,7 +284,49 @@ def analyze_performance() -> Dict[str, Any]:
         except Exception as e:
             print(f"❌ Consolidation failed: {e}")
             print("🔄 Rolling back changes...")
-            # TODO: Implement rollback logic
+            self.rollback_consolidation()
+
+    def rollback_consolidation(self) -> None:
+        """Rollback consolidation changes by restoring from backup."""
+        try:
+            print("🔄 Starting rollback process...")
+
+            # Restore managers directory
+            managers_backup = self.backup_dir / "src_core_managers"
+            managers_target = self.project_root / "src/core/managers"
+            if managers_backup.exists():
+                if managers_target.exists():
+                    shutil.rmtree(managers_target)
+                shutil.copytree(managers_backup, managers_target)
+                print("✅ Restored managers directory")
+
+                # Remove consolidated file
+                consolidated_managers = self.project_root / "src/core/managers.py"
+                if consolidated_managers.exists():
+                    consolidated_managers.unlink()
+                    print("✅ Removed consolidated managers.py")
+
+            # Restore analytics directory
+            analytics_backup = self.backup_dir / "src_core_analytics"
+            analytics_target = self.project_root / "src/core/analytics"
+            if analytics_backup.exists():
+                if analytics_target.exists():
+                    shutil.rmtree(analytics_target)
+                shutil.copytree(analytics_backup, analytics_target)
+                print("✅ Restored analytics directory")
+
+                # Remove consolidated file
+                consolidated_analytics = self.project_root / "src/core/analytics.py"
+                if consolidated_analytics.exists():
+                    consolidated_analytics.unlink()
+                    print("✅ Removed consolidated analytics.py")
+
+            print("✅ Rollback completed successfully")
+
+        except Exception as rollback_error:
+            print(f"❌ Rollback failed: {rollback_error}")
+            print("⚠️ Manual intervention required!")
+            print(f"📁 Backup location: {self.backup_dir}")
 
 if __name__ == "__main__":
     agent = CoreConsolidationAgent()

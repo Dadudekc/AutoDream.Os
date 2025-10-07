@@ -187,7 +187,7 @@ print('✅ CoordinatorRegistry initialized')
 ### **3. Test Messaging Integration:**
 ```bash
 python -c "
-from src.services.messaging_core import UnifiedMessagingCore
+from src.core.messaging_core import UnifiedMessagingCore
 
 # Test messaging system
 core = UnifiedMessagingCore()

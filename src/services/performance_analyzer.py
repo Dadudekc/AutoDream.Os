@@ -110,11 +110,17 @@ class PerformanceAnalyzer:
                 health_status = "warning"
                 issues.append("No recent activity detected")
 
+            # Check swarm synchronization status
+            swarm_sync_status = self._check_swarm_sync_status()
+            if swarm_sync_status != "up_to_date":
+                health_status = "warning" if health_status == "healthy" else health_status
+                issues.append(f"Swarm sync: {swarm_sync_status}")
+
             return {
                 "agent_id": self.agent_id,
                 "health_status": health_status,
                 "vector_db_connection": vector_db_status,
-                "swarm_sync": "up_to_date",  # TODO: Implement actual swarm sync check
+                "swarm_sync": swarm_sync_status,
                 "last_update": datetime.now().isoformat(),
                 "issues": issues,
                 "recent_activity": recent_activity
@@ -222,6 +228,40 @@ class PerformanceAnalyzer:
             return len(recent_work) > 0
         except Exception:
             return False
+
+    def _check_swarm_sync_status(self) -> str:
+        """Check swarm synchronization status."""
+        try:
+            if self.vector_integration["status"] != "connected":
+                return "unavailable"
+
+            # Check for recent coordination messages
+            query = SearchQuery(
+                query=f"agent:{self.agent_id} swarm coordination",
+                collection_name="agent_work",
+                limit=5
+            )
+            coordination_msgs = search_vector_database(query)
+
+            # Check for shared knowledge updates
+            shared_query = SearchQuery(
+                query="swarm shared knowledge",
+                collection_name="agent_work",
+                limit=10
+            )
+            shared_knowledge = search_vector_database(shared_query)
+
+            # Determine sync status based on activity
+            if len(coordination_msgs) > 2 and len(shared_knowledge) > 5:
+                return "up_to_date"
+            elif len(coordination_msgs) > 0 or len(shared_knowledge) > 0:
+                return "partial"
+            else:
+                return "out_of_sync"
+
+        except Exception as e:
+            self.logger.error(f"Error checking swarm sync: {e}")
+            return "error"
 
     def _get_fallback_performance(self) -> dict[str, Any]:
         """Get fallback performance when vector DB is unavailable."""

@@ -196,8 +196,22 @@ class SwarmIntelligenceManager:
             )
             results = search_vector_database(query)
 
-            # TODO: Implement actual knowledge sharing mechanism
-            return len(results)
+            # Share knowledge by tagging with swarm identifiers
+            shared_count = 0
+            for result in results:
+                if hasattr(result, 'document'):
+                    # Add swarm-shared tag to make knowledge discoverable
+                    if result.document.tags:
+                        if "swarm-shared" not in result.document.tags:
+                            result.document.tags.append("swarm-shared")
+                            result.document.tags.append(f"from:{self.agent_id}")
+                            shared_count += 1
+                    else:
+                        result.document.tags = ["swarm-shared", f"from:{self.agent_id}"]
+                        shared_count += 1
+
+            self.logger.info(f"Shared {shared_count} knowledge items with swarm")
+            return shared_count
         except Exception as e:
             self.logger.error(f"Error sharing knowledge: {e}")
             return 0
@@ -205,11 +219,47 @@ class SwarmIntelligenceManager:
     def _update_from_swarm_knowledge(self) -> int:
         """Update from swarm knowledge."""
         try:
-            # TODO: Implement actual knowledge update mechanism
-            return 0
+            # Search for knowledge shared by other agents
+            query = SearchQuery(
+                query="swarm-shared",
+                collection_name="agent_work",
+                limit=50
+            )
+            swarm_knowledge = search_vector_database(query)
+
+            # Filter out this agent's own contributions
+            updated_count = 0
+            for result in swarm_knowledge:
+                if hasattr(result, 'document'):
+                    # Skip own knowledge
+                    if result.document.tags and f"from:{self.agent_id}" in result.document.tags:
+                        continue
+
+                    # Process relevant knowledge
+                    if self._is_relevant_to_agent(result.document):
+                        # Mark as integrated
+                        if "integrated" not in result.document.tags:
+                            result.document.tags.append(f"integrated-by:{self.agent_id}")
+                            updated_count += 1
+
+            self.logger.info(f"Integrated {updated_count} knowledge items from swarm")
+            return updated_count
         except Exception as e:
             self.logger.error(f"Error updating from swarm: {e}")
             return 0
+
+    def _is_relevant_to_agent(self, document: Any) -> bool:
+        """Check if document is relevant to this agent."""
+        try:
+            # Check if document tags match agent's areas of interest
+            if not document.tags:
+                return False
+
+            # Simple relevance check based on tags
+            relevant_tags = ["coordination", "architecture", "testing", "deployment"]
+            return any(tag in document.tags for tag in relevant_tags)
+        except Exception:
+            return False
 
     def _get_fallback_intelligence(self, query: str) -> dict[str, Any]:
         """Get fallback intelligence when vector DB is unavailable."""

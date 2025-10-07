@@ -57,7 +57,8 @@ class DiscordWebhookIntegration:
             payload = {
                 "embeds": [embed],
                 "username": "V2_SWARM DevLog Monitor",
-                "avatar_url": "https://i.imgur.com/XXXXXXX.png"  # Add swarm avatar URL
+                # Avatar URL placeholder - configure via DISCORD_AVATAR_URL env var
+                "avatar_url": os.getenv("DISCORD_AVATAR_URL", None)
             }
 
             response = self.session.post(self.webhook_url, json=payload)
@@ -85,7 +86,7 @@ class DiscordWebhookIntegration:
             payload = {
                 "embeds": [embed],
                 "username": "V2_SWARM Status Monitor",
-                "avatar_url": "https://i.imgur.com/YYYYYYY.png"
+                "avatar_url": os.getenv("DISCORD_AVATAR_URL", None)
             }
 
             response = self.session.post(self.webhook_url, json=payload)
@@ -113,7 +114,7 @@ class DiscordWebhookIntegration:
             payload = {
                 "embeds": [embed],
                 "username": "V2_SWARM Coordinator",
-                "avatar_url": "https://i.imgur.com/ZZZZZZZ.png"
+                "avatar_url": os.getenv("DISCORD_AVATAR_URL", None)
             }
 
             response = self.session.post(self.webhook_url, json=payload)
@@ -169,7 +170,7 @@ class DiscordWebhookIntegration:
             ],
             "footer": {
                 "text": "V2_SWARM DevLog Monitor",
-                "icon_url": "https://i.imgur.com/AAAAAAA.png"
+                "icon_url": os.getenv("DISCORD_FOOTER_ICON_URL", None)
             }
         }
 
@@ -211,7 +212,7 @@ class DiscordWebhookIntegration:
             ],
             "footer": {
                 "text": "V2_SWARM Status Monitor",
-                "icon_url": "https://i.imgur.com/BBBBBBB.png"
+                "icon_url": os.getenv("DISCORD_FOOTER_ICON_URL", None)
             }
         }
 
@@ -254,7 +255,7 @@ class DiscordWebhookIntegration:
             ],
             "footer": {
                 "text": "V2_SWARM Coordinator",
-                "icon_url": "https://i.imgur.com/CCCCCCC.png"
+                "icon_url": os.getenv("DISCORD_FOOTER_ICON_URL", None)
             }
         }
 

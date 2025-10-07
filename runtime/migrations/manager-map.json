@@ -1,7 +1,7 @@
 {
   "from src.core.utility_system.managers.file_manager import FileManager": "from src.core.managers.adapters.legacy_manager_adapter import create_legacy_manager_adapter as FileManager",
   "from src.core.agent_context_manager import AgentContextManager": "from src.core.managers.adapters.legacy_manager_adapter import create_legacy_manager_adapter as AgentContextManager",
-  "from src.utils.config_core import ConfigurationManager": "from src.core.managers.adapters.legacy_manager_adapter import create_legacy_manager_adapter as ConfigurationManager",
+  "from src.core.config_core import ConfigurationManager": "from src.core.managers.adapters.legacy_manager_adapter import create_legacy_manager_adapter as ConfigurationManager",
   "from src.discord_commander.configuration_manager import DiscordConfigurationManager": "from src.core.managers.adapters.legacy_manager_adapter import create_legacy_manager_adapter as DiscordConfigurationManager",
   "from src.core.integration_coordinators.unified_integration.coordinators.config_manager import ConfigManager": "from src.core.managers.adapters.legacy_manager_adapter import create_legacy_manager_adapter as ConfigManager",
   "from src.core.ssot.unified_ssot.execution.execution_manager import ExecutionManager": "from src.core.managers.adapters.legacy_manager_adapter import create_legacy_manager_adapter as ExecutionManager",

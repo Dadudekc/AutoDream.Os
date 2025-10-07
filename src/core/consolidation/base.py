@@ -5,7 +5,7 @@ from typing import Iterable
 import os
 import shutil
 
-from ...utils.config_core import get_config
+from ..config_core import get_config
 
 """Base utilities for consolidation tasks.
 

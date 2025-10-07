@@ -115,16 +115,88 @@ class ExtractionTools:
         return rules
 
     def _extract_models(self, tree: ast.AST) -> str:
-        """Extract model-related code."""
-        # Simplified extraction - in practice, you'd parse AST more carefully
-        return "# Models extracted from refactoring\n# TODO: Implement proper model extraction\n"
+        """Extract model-related code (dataclasses, TypedDict, Pydantic models)."""
+        imports = []
+        models = []
+
+        for node in ast.walk(tree):
+            # Extract dataclass and model class definitions
+            if isinstance(node, ast.ClassDef):
+                # Check if it's a model (has dataclass decorator or inherits from BaseModel)
+                is_model = False
+                for decorator in node.decorator_list:
+                    if isinstance(decorator, ast.Name) and decorator.id == 'dataclass':
+                        is_model = True
+                    elif isinstance(decorator, ast.Call):
+                        if isinstance(decorator.func, ast.Name) and decorator.func.id == 'dataclass':
+                            is_model = True
+
+                # Check for Pydantic BaseModel inheritance
+                for base in node.bases:
+                    if isinstance(base, ast.Name) and 'Model' in base.id:
+                        is_model = True
+
+                if is_model:
+                    models.append(ast.unparse(node))
+
+            # Extract relevant imports
+            elif isinstance(node, (ast.Import, ast.ImportFrom)):
+                module_str = ast.unparse(node)
+                if any(key in module_str for key in ['dataclass', 'TypedDict', 'BaseModel', 'pydantic']):
+                    imports.append(module_str)
+
+        header = '"""Extracted models from refactoring."""\n\n'
+        imports_str = '\n'.join(imports) + '\n\n' if imports else ''
+        models_str = '\n\n'.join(models) if models else '# No models found\n'
+
+        return header + imports_str + models_str
 
     def _extract_utils(self, tree: ast.AST) -> str:
-        """Extract utility-related code."""
-        # Simplified extraction - in practice, you'd parse AST more carefully
-        return "# Utils extracted from refactoring\n# TODO: Implement proper utility extraction\n"
+        """Extract utility functions (standalone functions, helper methods)."""
+        imports = []
+        utils = []
+
+        for node in ast.walk(tree):
+            # Extract standalone functions (not class methods)
+            if isinstance(node, ast.FunctionDef):
+                # Check if it's a utility function (not in a class, starts with lowercase)
+                if not any(isinstance(parent, ast.ClassDef) for parent in ast.walk(tree)):
+                    if node.name[0].islower() and not node.name.startswith('_'):
+                        utils.append(ast.unparse(node))
+
+            # Extract relevant imports
+            elif isinstance(node, (ast.Import, ast.ImportFrom)):
+                imports.append(ast.unparse(node))
+
+        header = '"""Extracted utility functions from refactoring."""\n\n'
+        imports_str = '\n'.join(set(imports)) + '\n\n' if imports else ''
+        utils_str = '\n\n'.join(utils) if utils else '# No utility functions found\n'
+
+        return header + imports_str + utils_str
 
     def _extract_core(self, tree: ast.AST) -> str:
-        """Extract core-related code."""
-        # Simplified extraction - in practice, you'd parse AST more carefully
-        return "# Core extracted from refactoring\n# TODO: Implement proper core extraction\n"
+        """Extract core business logic (service classes, main logic)."""
+        imports = []
+        core_classes = []
+
+        for node in ast.walk(tree):
+            # Extract core class definitions (services, managers, handlers)
+            if isinstance(node, ast.ClassDef):
+                # Check if it's a core class
+                is_core = any(keyword in node.name for keyword in [
+                    'Service', 'Manager', 'Handler', 'Controller', 'Repository',
+                    'Orchestrator', 'Coordinator', 'Processor'
+                ])
+
+                if is_core:
+                    core_classes.append(ast.unparse(node))
+
+            # Extract relevant imports
+            elif isinstance(node, (ast.Import, ast.ImportFrom)):
+                imports.append(ast.unparse(node))
+
+        header = '"""Extracted core business logic from refactoring."""\n\n'
+        imports_str = '\n'.join(set(imports)) + '\n\n' if imports else ''
+        core_str = '\n\n'.join(core_classes) if core_classes else '# No core classes found\n'
+
+        return header + imports_str + core_str

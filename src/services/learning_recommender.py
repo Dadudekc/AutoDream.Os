@@ -53,7 +53,34 @@ class LearningRecommender:
             "min_confidence": 0.6
         }
 
-        # TODO: Load from config file if provided
+        # Load from config file if provided
+        if config_path:
+            try:
+                import json
+                import yaml
+                from pathlib import Path
+
+                config_file = Path(config_path)
+                if config_file.exists():
+                    with open(config_file, 'r') as f:
+                        if config_path.endswith('.json'):
+                            custom_config = json.load(f)
+                        elif config_path.endswith(('.yml', '.yaml')):
+                            custom_config = yaml.safe_load(f)
+                        else:
+                            self.logger.warning(f"Unsupported config format: {config_path}")
+                            return default_config
+
+                        # Merge custom config with defaults
+                        merged_config = default_config.copy()
+                        merged_config.update(custom_config)
+                        self.logger.info(f"Loaded config from {config_path}")
+                        return merged_config
+                else:
+                    self.logger.warning(f"Config file not found: {config_path}")
+            except Exception as e:
+                self.logger.error(f"Error loading config from {config_path}: {e}")
+
         return default_config
 
     def get_learning_recommendations(self) -> list[dict[str, Any]]:

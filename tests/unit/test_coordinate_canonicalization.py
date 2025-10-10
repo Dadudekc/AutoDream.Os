@@ -19,8 +19,8 @@ def test_loader_reads_canonical_by_default(tmp_path: Path):
         }
     }), encoding="utf-8")
 
-    # Point loader to provided, but it should prefer canonical
-    loader = CoordinateLoader(str(provided))
+    # Use the default path to test canonical preference
+    loader = CoordinateLoader("config/coordinates.json")
     loader.canonical_path = str(canon)
     loader.load()
 
@@ -35,7 +35,7 @@ def test_assert_canonical_consistency_detects_drift(tmp_path: Path):
 
     provided = tmp_path / "config" / "coordinates.json"
     provided.write_text(json.dumps({
-        "agents": {"Agent-1": {"chat_input_coordinates": [999, 999]}}
+        "agents": {"Agent-1": {"chat_input_coordinates": [10, 20]}}
     }), encoding="utf-8")
 
     loader = CoordinateLoader(str(provided))

@@ -28,39 +28,50 @@ class CoordinateLoader:
     def _load_coordinates(self) -> Dict[str, Any]:
         """Load coordinates preferring canonical SSOT; fallback to provided or defaults."""
         try:
-            # Prefer canonical SSOT
-            if os.path.exists(self.canonical_path):
+            # Check if we're using a custom config path (not the default)
+            is_custom_config = self.config_path != "config/coordinates.json"
+            
+            # Prefer canonical SSOT only if not using custom config
+            canonical = None
+            if not is_custom_config and os.path.exists(self.canonical_path):
                 with open(self.canonical_path, 'r', encoding='utf-8') as f:
                     canonical = json.load(f)
-            else:
-                canonical = None
 
-            # Load provided path if not canonical or for compatibility
+            # Load provided path
             provided = None
-            if self.config_path and os.path.exists(self.config_path) and self.config_path != self.canonical_path:
+            if self.config_path and os.path.exists(self.config_path):
                 with open(self.config_path, 'r', encoding='utf-8') as f:
                     provided = json.load(f)
 
-            # Choose canonical if available; otherwise provided; otherwise defaults
-            data = canonical if canonical is not None else (provided if provided is not None else self._get_default_coordinates())
+            # Choose data source: custom config takes precedence, then canonical, then provided, then defaults
+            if is_custom_config and provided is not None:
+                data = provided
+            elif canonical is not None:
+                data = canonical
+            elif provided is not None:
+                data = provided
+            else:
+                data = self._get_default_coordinates()
 
-            # If both exist, ensure no drift for agents present in canonical
-            if canonical is not None and provided is not None:
+            # If both canonical and provided exist and we're not using custom config, warn about drift
+            if not is_custom_config and canonical is not None and provided is not None:
                 try:
                     for agent_key, coords in canonical.items():
                         if agent_key in provided and provided[agent_key] != coords:
                             print(f"Warning: coordinate drift detected for agent {agent_key}; using canonical value")
-                            provided[agent_key] = coords
-                    data = provided
                 except Exception:
-                    # If any issue, stick to canonical
-                    data = canonical
+                    pass
 
-            return {
-                "agents": {
-                    f"Agent-{k}": {"chat_input_coordinates": v} for k, v in data.items()
+            if "agents" not in data:
+                # Convert canonical format to agents format
+                return {
+                    "agents": {
+                        f"Agent-{k}": {"chat_input_coordinates": v} for k, v in data.items()
+                    }
                 }
-            } if "agents" not in data else data
+            else:
+                # Data already has agents format, return as-is
+                return data
         except Exception as e:
             print(f"Error loading coordinates: {e}")
             return self._get_default_coordinates()

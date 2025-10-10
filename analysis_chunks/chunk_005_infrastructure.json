@@ -27,7 +27,271 @@
       }
     },
     {
-      "file_path": "src\\infrastructure\\logging\\std_logger.py",
+      "file_path": "src\\infrastructure\\unified_browser_service.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\infrastructure\\unified_logging_time.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\infrastructure\\unified_persistence.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\infrastructure\\browser\\__init__.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\infrastructure\\browser\\browser_models.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\infrastructure\\browser\\thea_browser_service.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\infrastructure\\browser\\thea_session_management.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\infrastructure\\browser\\thea_content_operations.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\infrastructure\\browser\\unified\\driver_manager.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\infrastructure\\browser\\unified\\legacy_driver.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\infrastructure\\browser\\unified\\config.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\infrastructure\\browser\\unified\\__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -52,6 +316,78 @@
     },
     {
       "file_path": "src\\infrastructure\\logging\\__init__.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\infrastructure\\logging\\std_logger.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\infrastructure\\logging\\unified_logger.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\infrastructure\\persistence\\__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -123,7 +459,7 @@
       }
     },
     {
-      "file_path": "src\\infrastructure\\persistence\\__init__.py",
+      "file_path": "src\\infrastructure\\persistence\\persistence_models.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -147,7 +483,103 @@
       }
     },
     {
-      "file_path": "src\\infrastructure\\time\\system_clock.py",
+      "file_path": "src\\infrastructure\\persistence\\database_connection.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\infrastructure\\persistence\\base_repository.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\infrastructure\\persistence\\agent_repository.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\infrastructure\\persistence\\task_repository.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\infrastructure\\persistence\\persistence_statistics.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -195,7 +627,7 @@
       }
     },
     {
-      "file_path": "src\\infrastructure\\browser\\chrome_undetected.py",
+      "file_path": "src\\infrastructure\\time\\system_clock.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -219,7 +651,7 @@
       }
     },
     {
-      "file_path": "src\\infrastructure\\browser\\thea_login_handler.py",
+      "file_path": "src\\infrastructure\\browser_backup\\__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -243,7 +675,7 @@
       }
     },
     {
-      "file_path": "src\\infrastructure\\browser\\thea_cookie_manager.py",
+      "file_path": "src\\infrastructure\\browser_backup\\thea_manager_profile.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -267,7 +699,7 @@
       }
     },
     {
-      "file_path": "src\\infrastructure\\browser\\thea_session_manager.py",
+      "file_path": "src\\infrastructure\\browser_backup\\thea_session_manager.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -291,7 +723,7 @@
       }
     },
     {
-      "file_path": "src\\infrastructure\\browser\\thea_manager_profile.py",
+      "file_path": "src\\infrastructure\\browser_backup\\thea_cookie_manager.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -315,7 +747,7 @@
       }
     },
     {
-      "file_path": "src\\infrastructure\\browser\\__init__.py",
+      "file_path": "src\\infrastructure\\browser_backup\\thea_login_handler.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -339,7 +771,7 @@
       }
     },
     {
-      "file_path": "src\\infrastructure\\browser\\thea_modules\\response_collector.py",
+      "file_path": "src\\infrastructure\\browser_backup\\chrome_undetected.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -363,7 +795,7 @@
       }
     },
     {
-      "file_path": "src\\infrastructure\\browser\\thea_modules\\browser_ops.py",
+      "file_path": "src\\infrastructure\\browser_backup\\browser_models.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -387,7 +819,7 @@
       }
     },
     {
-      "file_path": "src\\infrastructure\\browser\\thea_modules\\content_scraper.py",
+      "file_path": "src\\infrastructure\\browser_backup\\browser_adapter.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -411,7 +843,7 @@
       }
     },
     {
-      "file_path": "src\\infrastructure\\browser\\thea_modules\\profile.py",
+      "file_path": "src\\infrastructure\\browser_backup\\cookie_manager.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -435,7 +867,151 @@
       }
     },
     {
-      "file_path": "src\\infrastructure\\browser\\thea_modules\\__init__.py",
+      "file_path": "src\\infrastructure\\browser_backup\\session_manager.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\infrastructure\\browser_backup\\browser_operations.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\infrastructure\\browser_backup\\thea_modules\\__init__.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\infrastructure\\browser_backup\\thea_modules\\browser_ops.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\infrastructure\\browser_backup\\thea_modules\\content_scraper.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\infrastructure\\browser_backup\\thea_modules\\profile.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\infrastructure\\browser_backup\\thea_modules\\response_collector.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -460,13 +1036,13 @@
     }
   ],
   "summary": {
-    "total_files": 19,
+    "total_files": 43,
     "total_lines": 0,
     "total_functions": 0,
     "total_classes": 0,
     "total_imports": 0,
     "file_types": {
-      ".py": 19
+      ".py": 43
     },
     "avg_complexity_by_type": {
       ".py": 0.0
@@ -479,12 +1055,82 @@
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\infrastructure\\logging\\std_logger.py",
+      "file_path": "src\\infrastructure\\unified_browser_service.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\infrastructure\\unified_logging_time.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\infrastructure\\unified_persistence.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\infrastructure\\browser\\__init__.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\infrastructure\\browser\\browser_models.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\infrastructure\\browser\\thea_browser_service.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\infrastructure\\browser\\thea_session_management.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\infrastructure\\browser\\thea_content_operations.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\infrastructure\\browser\\unified\\driver_manager.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\infrastructure\\browser\\unified\\legacy_driver.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\infrastructure\\browser\\unified\\config.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\infrastructure\\browser\\unified\\__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
       "file_path": "src\\infrastructure\\logging\\__init__.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\infrastructure\\logging\\std_logger.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\infrastructure\\logging\\unified_logger.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\infrastructure\\persistence\\__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
@@ -499,12 +1145,32 @@
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\infrastructure\\persistence\\__init__.py",
+      "file_path": "src\\infrastructure\\persistence\\persistence_models.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\infrastructure\\time\\system_clock.py",
+      "file_path": "src\\infrastructure\\persistence\\database_connection.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\infrastructure\\persistence\\base_repository.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\infrastructure\\persistence\\agent_repository.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\infrastructure\\persistence\\task_repository.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\infrastructure\\persistence\\persistence_statistics.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
@@ -514,57 +1180,87 @@
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\infrastructure\\browser\\chrome_undetected.py",
+      "file_path": "src\\infrastructure\\time\\system_clock.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\infrastructure\\browser\\thea_login_handler.py",
+      "file_path": "src\\infrastructure\\browser_backup\\__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\infrastructure\\browser\\thea_cookie_manager.py",
+      "file_path": "src\\infrastructure\\browser_backup\\thea_manager_profile.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\infrastructure\\browser\\thea_session_manager.py",
+      "file_path": "src\\infrastructure\\browser_backup\\thea_session_manager.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\infrastructure\\browser\\thea_manager_profile.py",
+      "file_path": "src\\infrastructure\\browser_backup\\thea_cookie_manager.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\infrastructure\\browser\\__init__.py",
+      "file_path": "src\\infrastructure\\browser_backup\\thea_login_handler.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\infrastructure\\browser\\thea_modules\\response_collector.py",
+      "file_path": "src\\infrastructure\\browser_backup\\chrome_undetected.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\infrastructure\\browser\\thea_modules\\browser_ops.py",
+      "file_path": "src\\infrastructure\\browser_backup\\browser_models.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\infrastructure\\browser\\thea_modules\\content_scraper.py",
+      "file_path": "src\\infrastructure\\browser_backup\\browser_adapter.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\infrastructure\\browser\\thea_modules\\profile.py",
+      "file_path": "src\\infrastructure\\browser_backup\\cookie_manager.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\infrastructure\\browser\\thea_modules\\__init__.py",
+      "file_path": "src\\infrastructure\\browser_backup\\session_manager.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\infrastructure\\browser_backup\\browser_operations.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\infrastructure\\browser_backup\\thea_modules\\__init__.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\infrastructure\\browser_backup\\thea_modules\\browser_ops.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\infrastructure\\browser_backup\\thea_modules\\content_scraper.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\infrastructure\\browser_backup\\thea_modules\\profile.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\infrastructure\\browser_backup\\thea_modules\\response_collector.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     }

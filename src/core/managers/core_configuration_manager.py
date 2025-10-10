@@ -1,12 +1,8 @@
 """
 Core Configuration Manager - Phase-2 Manager Consolidation
 =========================================================
-
 Consolidates ConfigurationManager, DiscordConfigurationManager, and ConfigManager.
-Handles all configuration management operations (SSOT).
-
-Author: Agent-3 (Infrastructure & DevOps Specialist)
-License: MIT
+Author: Agent-3 (Infrastructure & DevOps Specialist) | License: MIT
 """
 
 from __future__ import annotations
@@ -16,6 +12,12 @@ import os
 from pathlib import Path
 from typing import Any
 
+from .config_defaults import (
+    get_default_app_config,
+    get_default_db_config,
+    get_default_discord_config,
+    get_validation_rules,
+)
 from .contracts import ConfigurationManager, ManagerContext, ManagerResult
 
 
@@ -268,71 +270,15 @@ class CoreConfigurationManager(ConfigurationManager):
     def _load_default_configs(self) -> None:
         """Load default configurations."""
         try:
-            # Discord configuration
-            discord_config = {
-                "type": "discord",
-                "token": self.environment_vars.get("DISCORD_TOKEN", ""),
-                "guild_id": self.environment_vars.get("DISCORD_GUILD_ID", ""),
-                "command_channel": self.environment_vars.get("DISCORD_COMMAND_CHANNEL", ""),
-                "status_channel": self.environment_vars.get("DISCORD_STATUS_CHANNEL", ""),
-                "log_channel": self.environment_vars.get("DISCORD_LOG_CHANNEL", ""),
-                "enable_discord": (
-                    self.environment_vars.get("DISCORD_ENABLE", "false").lower() == "true"
-                ),
-            }
-            self.configs["discord"] = discord_config
-
-            # Application configuration
-            app_config = {
-                "type": "application",
-                "debug": self.environment_vars.get("DEBUG", "false").lower() == "true",
-                "log_level": self.environment_vars.get("LOG_LEVEL", "INFO"),
-                "max_workers": int(self.environment_vars.get("MAX_WORKERS", "4")),
-                "timeout": int(self.environment_vars.get("TIMEOUT", "30")),
-            }
-            self.configs["application"] = app_config
-
-            # Database configuration
-            db_config = {
-                "type": "database",
-                "host": self.environment_vars.get("DB_HOST", "localhost"),
-                "port": int(self.environment_vars.get("DB_PORT", "5432")),
-                "name": self.environment_vars.get("DB_NAME", "agent_cellphone"),
-                "user": self.environment_vars.get("DB_USER", "postgres"),
-                "password": self.environment_vars.get("DB_PASSWORD", ""),
-            }
-            self.configs["database"] = db_config
-
+            self.configs["discord"] = get_default_discord_config(self.environment_vars)
+            self.configs["application"] = get_default_app_config(self.environment_vars)
+            self.configs["database"] = get_default_db_config(self.environment_vars)
         except Exception:
             pass  # Ignore default config loading errors
 
     def _setup_validation_rules(self) -> None:
         """Setup configuration validation rules."""
-        self.validation_rules = {
-            "discord": {
-                "token": {"required": True, "type": str, "min_length": 1},
-                "guild_id": {"required": True, "type": str, "min_length": 1},
-                "command_channel": {"required": True, "type": str, "min_length": 1},
-                "enable_discord": {"required": True, "type": bool},
-            },
-            "application": {
-                "debug": {"required": True, "type": bool},
-                "log_level": {"required": True, "type": str, "min_length": 1},
-                "max_workers": {"required": True, "type": int, "min_value": 1},
-                "timeout": {"required": True, "type": int, "min_value": 1},
-            },
-            "database": {
-                "host": {"required": True, "type": str, "min_length": 1},
-                "port": {
-                    "required": True,
-                    "type": int,
-                    "min_value": 1,
-                    "max_value": 65535,
-                },
-                "name": {"required": True, "type": str, "min_length": 1},
-                "user": {"required": True, "type": str, "min_length": 1},
-            },
-        }
+        self.validation_rules = get_validation_rules()
 
     def _get_all_configs(self, context: ManagerContext) -> ManagerResult:
         """Get all configurations."""

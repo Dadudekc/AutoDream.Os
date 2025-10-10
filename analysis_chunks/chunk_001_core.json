@@ -3,7 +3,31 @@
   "directory": "src/core",
   "files_analyzed": [
     {
-      "file_path": "src\\core\\coordinate_loader.py",
+      "file_path": "src\\core\\__init__.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\core\\agent_context_manager.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -75,7 +99,31 @@
       }
     },
     {
-      "file_path": "src\\core\\workspace_agent_registry.py",
+      "file_path": "src\\core\\config_core.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\core\\coordinate_loader.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -171,6 +219,30 @@
       }
     },
     {
+      "file_path": "src\\core\\coordinator_status_parser.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
       "file_path": "src\\core\\documentation_indexing_service.py",
       "analysis": {
         "language": ".py",
@@ -220,198 +292,6 @@
     },
     {
       "file_path": "src\\core\\message_queue.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "src\\core\\metrics.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "src\\core\\search_history_service.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "src\\core\\unified_data_processing_system.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "src\\core\\unified_import_system.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "src\\core\\unified_logging_system_engine.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "src\\core\\unified_logging_system_models.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "src\\core\\vector_database.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "src\\core\\coordinator_status_parser.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -507,7 +387,7 @@
       }
     },
     {
-      "file_path": "src\\core\\agent_context_manager.py",
+      "file_path": "src\\core\\messaging_core.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -531,7 +411,7 @@
       }
     },
     {
-      "file_path": "src\\core\\unified_config.py",
+      "file_path": "src\\core\\metrics.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -555,55 +435,7 @@
       }
     },
     {
-      "file_path": "src\\core\\__init__.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "src\\core\\env_loader.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "src\\core\\unified_logging_system.py",
+      "file_path": "src\\core\\search_history_service.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -651,6 +483,174 @@
       }
     },
     {
+      "file_path": "src\\core\\unified_config.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\core\\unified_data_processing_system.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\core\\unified_import_system.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\core\\unified_logging_system.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\core\\unified_logging_system_engine.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\core\\unified_logging_system_models.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\core\\vector_database.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
       "file_path": "src\\core\\vector_integration_analytics.py",
       "analysis": {
         "language": ".py",
@@ -675,7 +675,7 @@
       }
     },
     {
-      "file_path": "src\\core\\config_core.py",
+      "file_path": "src\\core\\workspace_agent_registry.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -699,7 +699,7 @@
       }
     },
     {
-      "file_path": "src\\core\\messaging_core.py",
+      "file_path": "src\\core\\test_categories_config.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -724,6 +724,54 @@
     },
     {
       "file_path": "src\\core\\messaging_pyautogui.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\core\\messaging_inbox_rotation.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\core\\analytics\\coordinators\\__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -795,7 +843,7 @@
       }
     },
     {
-      "file_path": "src\\core\\analytics\\coordinators\\__init__.py",
+      "file_path": "src\\core\\analytics\\engines\\__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -939,7 +987,7 @@
       }
     },
     {
-      "file_path": "src\\core\\analytics\\engines\\__init__.py",
+      "file_path": "src\\core\\analytics\\intelligence\\__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -964,6 +1012,30 @@
     },
     {
       "file_path": "src\\core\\analytics\\intelligence\\anomaly_detection_engine.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\core\\analytics\\intelligence\\business_intelligence_engine.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -1083,31 +1155,7 @@
       }
     },
     {
-      "file_path": "src\\core\\analytics\\intelligence\\business_intelligence_engine.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "src\\core\\analytics\\intelligence\\__init__.py",
+      "file_path": "src\\core\\analytics\\intelligence\\pattern_analysis\\__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -1132,54 +1180,6 @@
     },
     {
       "file_path": "src\\core\\analytics\\intelligence\\pattern_analysis\\anomaly_detector.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "src\\core\\analytics\\intelligence\\pattern_analysis\\pattern_extractor.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "src\\core\\analytics\\intelligence\\pattern_analysis\\__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -1218,7 +1218,12 @@
   },
   "consolidation_opportunities": [
     {
-      "file_path": "src\\core\\coordinate_loader.py",
+      "file_path": "src\\core\\__init__.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\core\\agent_context_manager.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
@@ -1233,7 +1238,12 @@
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\workspace_agent_registry.py",
+      "file_path": "src\\core\\config_core.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\core\\coordinate_loader.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
@@ -1253,6 +1263,11 @@
       "priority": "MEDIUM"
     },
     {
+      "file_path": "src\\core\\coordinator_status_parser.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
       "file_path": "src\\core\\documentation_indexing_service.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
@@ -1264,46 +1279,6 @@
     },
     {
       "file_path": "src\\core\\message_queue.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
-      "file_path": "src\\core\\metrics.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
-      "file_path": "src\\core\\search_history_service.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
-      "file_path": "src\\core\\unified_data_processing_system.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
-      "file_path": "src\\core\\unified_import_system.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
-      "file_path": "src\\core\\unified_logging_system_engine.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
-      "file_path": "src\\core\\unified_logging_system_models.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
-      "file_path": "src\\core\\vector_database.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
-      "file_path": "src\\core\\coordinator_status_parser.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
@@ -1323,27 +1298,17 @@
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\agent_context_manager.py",
+      "file_path": "src\\core\\messaging_core.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\unified_config.py",
+      "file_path": "src\\core\\metrics.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\__init__.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
-      "file_path": "src\\core\\env_loader.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
-      "file_path": "src\\core\\unified_logging_system.py",
+      "file_path": "src\\core\\search_history_service.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
@@ -1353,22 +1318,67 @@
       "priority": "MEDIUM"
     },
     {
+      "file_path": "src\\core\\unified_config.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\core\\unified_data_processing_system.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\core\\unified_import_system.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\core\\unified_logging_system.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\core\\unified_logging_system_engine.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\core\\unified_logging_system_models.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\core\\vector_database.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
       "file_path": "src\\core\\vector_integration_analytics.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\config_core.py",
+      "file_path": "src\\core\\workspace_agent_registry.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\messaging_core.py",
+      "file_path": "src\\core\\test_categories_config.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
       "file_path": "src\\core\\messaging_pyautogui.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\core\\messaging_inbox_rotation.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\core\\analytics\\coordinators\\__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
@@ -1383,7 +1393,7 @@
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\analytics\\coordinators\\__init__.py",
+      "file_path": "src\\core\\analytics\\engines\\__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
@@ -1413,12 +1423,17 @@
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\analytics\\engines\\__init__.py",
+      "file_path": "src\\core\\analytics\\intelligence\\__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
       "file_path": "src\\core\\analytics\\intelligence\\anomaly_detection_engine.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\core\\analytics\\intelligence\\business_intelligence_engine.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
@@ -1443,27 +1458,12 @@
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\analytics\\intelligence\\business_intelligence_engine.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
-      "file_path": "src\\core\\analytics\\intelligence\\__init__.py",
+      "file_path": "src\\core\\analytics\\intelligence\\pattern_analysis\\__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
       "file_path": "src\\core\\analytics\\intelligence\\pattern_analysis\\anomaly_detector.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
-      "file_path": "src\\core\\analytics\\intelligence\\pattern_analysis\\pattern_extractor.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
-      "file_path": "src\\core\\analytics\\intelligence\\pattern_analysis\\__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     }

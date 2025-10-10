@@ -22,3 +22,10 @@ repos:
         entry: python tools/analysis_cli.py --ci-gate
         language: system
         pass_filenames: false
+      - id: v2-compliance-checker
+        name: V2 Compliance Checker (Quality Gate)
+        entry: python tools/v2_compliance_checker.py --fail-on-major
+        language: system
+        types: [python]
+        pass_filenames: false
+        stages: [commit]

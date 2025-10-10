@@ -140,13 +140,6 @@ class OptimizationTools:
 
     def _apply_optimizations(self, content: str, plan: OptimizationPlan) -> str:
         """Apply optimizations to content."""
-        # Simplified optimization - in practice, you'd implement more sophisticated logic
-        optimized_content = content
-
-        # Apply basic optimizations
-        for rule in plan.optimization_rules:
-            if "Split large file" in rule:
-                # Add comment about splitting
-                optimized_content = f"# TODO: {rule}\n{optimized_content}"
-
-        return optimized_content
+        # Return content as-is - optimizations should be applied through proper refactoring
+        # rather than automated modifications to preserve code integrity
+        return content

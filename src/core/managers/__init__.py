@@ -15,6 +15,9 @@ from . import core_resource_manager
 from . import core_results_manager
 from . import core_service_coordinator
 from . import core_service_manager
+from . import manager_lifecycle
+from . import manager_metrics
+from . import manager_state
 from . import registry
 from . import unified_configuration_manager
 
@@ -33,6 +36,9 @@ __all__ = [
     'core_results_manager',
     'core_service_coordinator',
     'core_service_manager',
+    'manager_lifecycle',
+    'manager_metrics',
+    'manager_state',
     'registry',
     'unified_configuration_manager',
 ]

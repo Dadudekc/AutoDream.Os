@@ -27,6 +27,30 @@
       }
     },
     {
+      "file_path": "src\\application\\use_cases\\__init__.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
       "file_path": "src\\application\\use_cases\\assign_task_uc.py",
       "analysis": {
         "language": ".py",
@@ -52,30 +76,6 @@
     },
     {
       "file_path": "src\\application\\use_cases\\complete_task_uc.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "src\\application\\use_cases\\__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -119,17 +119,17 @@
       "priority": "MEDIUM"
     },
     {
+      "file_path": "src\\application\\use_cases\\__init__.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
       "file_path": "src\\application\\use_cases\\assign_task_uc.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
       "file_path": "src\\application\\use_cases\\complete_task_uc.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
-      "file_path": "src\\application\\use_cases\\__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     }

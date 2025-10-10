@@ -6,18 +6,19 @@ Test Discord Integration
 Simple test script to verify Discord Commander functionality.
 """
 
-import sys
 import os
+import sys
 
 # Add src to path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
+
 
 def test_discord_imports():
     """Test that Discord Commander can be imported."""
     try:
+        from discord_commander.agent_communication_engine_refactored import AgentCommunicationEngine
         from discord_commander.discord_commander import DiscordCommander
         from discord_commander.discord_webhook_integration import DiscordWebhookIntegration
-        from discord_commander.agent_communication_engine_refactored import AgentCommunicationEngine
 
         print("✅ All Discord Commander imports successful!")
         return True
@@ -25,6 +26,7 @@ def test_discord_imports():
     except ImportError as e:
         print(f"❌ Import error: {e}")
         return False
+
 
 def test_discord_commander_creation():
     """Test creating Discord Commander instance."""
@@ -39,6 +41,7 @@ def test_discord_commander_creation():
         print(f"❌ Error creating Discord Commander: {e}")
         return False
 
+
 def test_webhook_integration():
     """Test Discord webhook integration."""
     try:
@@ -52,6 +55,7 @@ def test_webhook_integration():
     except Exception as e:
         print(f"❌ Error creating webhook integration: {e}")
         return False
+
 
 def main():
     """Run all tests."""
@@ -74,16 +78,17 @@ def main():
         else:
             print(f"❌ {test_name} failed")
 
-    print("
-📊 Test Results:"    print(f"   ✅ Passed: {passed}/{total}")
+    print("\n📊 Test Results:")
+    print(f"   ✅ Passed: {passed}/{total}")
     print(f"   ❌ Failed: {total - passed}/{total}")
 
     if passed == total:
-        print("
-🎉 ALL TESTS PASSED! Discord integration is working!"        print("🐝 Ready for DevLog monitoring and agent coordination!")
+        print("\n🎉 ALL TESTS PASSED! Discord integration is working!")
+        print("🐝 Ready for DevLog monitoring and agent coordination!")
     else:
-        print("
-⚠️  Some tests failed. Discord integration needs debugging."        print("🔧 Check import paths and dependencies.")
+        print("\n⚠️  Some tests failed. Discord integration needs debugging.")
+        print("🔧 Check import paths and dependencies.")
+
 
 if __name__ == "__main__":
     main()

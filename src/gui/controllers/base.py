@@ -14,24 +14,16 @@ License: MIT
 import logging
 from typing import Any, Callable
 
-# V2 Integration imports
+# V2 Integration imports (uses shared utils for fallbacks)
+from ..utils import get_coordinate_loader, get_logger
+
+# Messaging integration
 try:
-    from ...core.coordinate_loader import get_coordinate_loader
     from ...core.messaging_pyautogui import send_message_to_agent
-    from ...core.unified_logging_system import get_logger
-except ImportError as e:
-    logging.warning(f"V2 integration imports failed: {e}")
-
-    # Fallback implementations
-    def get_coordinate_loader():
-        return None
-
+except ImportError:
     def send_message_to_agent(*args, **kwargs):
         logging.info(f"Mock message send: {args}, {kwargs}")
         return True
-
-    def get_logger(name):
-        return logging.getLogger(name)
 
 
 class BaseGUIController:
@@ -209,6 +201,7 @@ class BaseGUIController:
         # This would be implemented by subclasses using their GUI framework
         self.logger.info(f"Status updates configured: {update_interval}ms interval")
 
+    # Agent action shortcuts (delegated to generic execute/broadcast methods)
     def ping_selected_agents(self) -> None:
         """Ping selected agents."""
         self.execute_selected_agents_action("ping", "Ping")
@@ -224,34 +217,6 @@ class BaseGUIController:
     def pause_selected_agents(self) -> None:
         """Pause selected agents."""
         self.execute_selected_agents_action("pause", "Pause")
-
-    def sync_selected_agents(self) -> None:
-        """Sync selected agents."""
-        self.execute_selected_agents_action("sync", "Sync")
-
-    def assign_task_selected_agents(self) -> None:
-        """Assign task to selected agents."""
-        self.execute_selected_agents_action("task", "Assign Task")
-
-    def broadcast_message(self) -> None:
-        """Broadcast message to all agents."""
-        self.broadcast_action("message", "Broadcast Message", "Hello from GUI")
-
-    def broadcast_ping(self) -> None:
-        """Broadcast ping to all agents."""
-        self.broadcast_action("ping", "Broadcast Ping")
-
-    def broadcast_status(self) -> None:
-        """Broadcast status request to all agents."""
-        self.broadcast_action("status", "Broadcast Status")
-
-    def broadcast_resume(self) -> None:
-        """Broadcast resume to all agents."""
-        self.broadcast_action("resume", "Broadcast Resume")
-
-    def broadcast_task(self) -> None:
-        """Broadcast task to all agents."""
-        self.broadcast_action("task", "Broadcast Task")
 
     def clear_log(self) -> None:
         """Clear the log display."""

@@ -10,10 +10,10 @@ License: MIT
 """
 
 import pytest
-from src.orchestrators.overnight.orchestrator import OvernightOrchestrator
-from src.orchestrators.overnight.scheduler import TaskScheduler, Task
-from src.orchestrators.overnight.monitor import ProgressMonitor
-from src.orchestrators.overnight.recovery import RecoverySystem
+from orchestrators.overnight.orchestrator import OvernightOrchestrator
+from orchestrators.overnight.scheduler import TaskScheduler, Task
+from orchestrators.overnight.monitor import ProgressMonitor
+from orchestrators.overnight.recovery import RecoverySystem
 
 
 class TestOvernightOrchestrator:

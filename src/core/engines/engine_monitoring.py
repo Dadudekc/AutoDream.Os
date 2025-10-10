@@ -67,10 +67,10 @@ class EngineMetrics:
             self.cpu_usage_history.append(cpu_percent)
             self.memory_usage_history.append(memory_info.percent)
 
-            # Keep only last 100 readings
+            # Prevent memory leak: keep only last 100 readings (more efficient trimming)
             if len(self.cpu_usage_history) > 100:
-                self.cpu_usage_history.pop(0)
-                self.memory_usage_history.pop(0)
+                self.cpu_usage_history = self.cpu_usage_history[-100:]
+                self.memory_usage_history = self.memory_usage_history[-100:]
 
             # Update peak memory
             if memory_info.percent > self.peak_memory_usage:

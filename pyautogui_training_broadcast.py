@@ -8,8 +8,8 @@ Training script to teach all agents how to respond via PyAutoGUI messaging.
 
 import logging
 import time
-from src.services.messaging_pyautogui import PyAutoGUIMessagingDelivery
-from src.core.messaging_core import UnifiedMessage, UnifiedMessageType, UnifiedMessagePriority, UnifiedMessageTag
+from services.messaging_pyautogui import PyAutoGUIMessagingDelivery
+from core.messaging_core import UnifiedMessage, UnifiedMessageType, UnifiedMessagePriority, UnifiedMessageTag
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)

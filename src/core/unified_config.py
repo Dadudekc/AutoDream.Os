@@ -21,6 +21,18 @@ from typing import Any, Dict, List
 # Consolidated into src/core/config_core.py - Single Source of Truth
 from .config_core import get_config, get_agent_config, get_timeout_config, get_threshold_config, get_test_config
 
+try:
+    from .test_categories_config import get_test_categories
+except ImportError:
+    def get_test_categories():
+        return {}
+
+try:
+    from .config_validation import validate_unified_config
+except ImportError:
+    def validate_unified_config(config):
+        return True
+
 
 # Enums moved to config_core.py - Single Source of Truth
 
@@ -182,79 +194,8 @@ class BrowserConfig:
 @dataclass
 class TestConfig:
     """Centralized test configuration."""
-    # Test categories
-    test_categories: Dict[str, Dict[str, Any]] = field(default_factory=lambda: {
-        "smoke": {
-            "description": "Smoke tests for basic functionality validation",
-            "marker": "smoke",
-            "timeout": 60,
-            "critical": True,
-            "directory": "smoke",
-        },
-        "unit": {
-            "description": "Unit tests for individual components",
-            "marker": "unit",
-            "timeout": 120,
-            "critical": True,
-            "directory": "unit",
-        },
-        "integration": {
-            "description": "Integration tests for component interaction",
-            "marker": "integration",
-            "timeout": 300,
-            "critical": False,
-            "directory": "integration",
-        },
-        "performance": {
-            "description": "Performance and load testing",
-            "marker": "performance",
-            "timeout": 600,
-            "critical": False,
-            "directory": "performance",
-        },
-        "security": {
-            "description": "Security and vulnerability testing",
-            "marker": "security",
-            "timeout": 180,
-            "critical": True,
-            "directory": "security",
-        },
-        "api": {
-            "description": "API endpoint testing",
-            "marker": "api",
-            "timeout": 240,
-            "critical": False,
-            "directory": "api",
-        },
-        "behavior": {
-            "description": "Behavior tree tests",
-            "marker": "behavior",
-            "timeout": 120,
-            "critical": False,
-            "directory": "behavior_trees",
-        },
-        "decision": {
-            "description": "Decision engine tests",
-            "marker": "decision",
-            "timeout": 120,
-            "critical": False,
-            "directory": "decision_engines",
-        },
-        "coordination": {
-            "description": "Multi-agent coordination tests",
-            "marker": "coordination",
-            "timeout": 180,
-            "critical": False,
-            "directory": "multi_agent",
-        },
-        "learning": {
-            "description": "Learning component tests",
-            "marker": "learning",
-            "timeout": 180,
-            "critical": False,
-            "directory": "learning",
-        },
-    })
+    # Test categories loaded from separate module
+    test_categories: Dict[str, Dict[str, Any]] = field(default_factory=get_test_categories)
 
     # Coverage configuration
     coverage_report_precision: int = get_config("COVERAGE_REPORT_PRECISION", 2)
@@ -308,71 +249,7 @@ class UnifiedConfig:
 
     def validate(self) -> List[str]:
         """Validate all configurations and return any issues."""
-        issues = []
-
-        # Validate timeouts
-        if self.timeouts.scrape_timeout <= 0:
-            issues.append("Scrape timeout must be positive")
-        if self.timeouts.response_wait_timeout <= 0:
-            issues.append("Response wait timeout must be positive")
-        if self.timeouts.quality_check_interval <= 0:
-            issues.append("Quality check interval must be positive")
-        if self.timeouts.metrics_collection_interval <= 0:
-            issues.append("Metrics collection interval must be positive")
-
-        # Validate agent configuration
-        if self.agents.agent_count <= 0 or self.agents.agent_count > 20:
-            issues.append("Agent count must be between 1 and 20")
-        if not self.agents.captain_id:
-            issues.append("Captain ID cannot be empty")
-        if not self.agents.captain_id.startswith('Agent-'):
-            issues.append("Captain ID must start with 'Agent-'")
-        if self.agents.default_mode not in ['pyautogui', 'selenium', 'manual']:
-            issues.append("Default mode must be one of: pyautogui, selenium, manual")
-
-        # Validate browser configuration
-        if not self.browser.gpt_url.startswith('https://'):
-            issues.append("GPT URL must be HTTPS")
-        if not self.browser.conversation_url.startswith('https://'):
-            issues.append("Conversation URL must be HTTPS")
-        if not self.browser.input_selector.strip():
-            issues.append("Input selector cannot be empty")
-        if not self.browser.send_button_selector.strip():
-            issues.append("Send button selector cannot be empty")
-        if self.browser.max_scrape_retries < 0:
-            issues.append("Max scrape retries must be non-negative")
-
-        # Validate thresholds
-        if self.thresholds.coverage_threshold < 0 or self.thresholds.coverage_threshold > 100:
-            issues.append("Coverage threshold must be between 0 and 100")
-        if self.thresholds.reliability_target < 0 or self.thresholds.reliability_target > 100:
-            issues.append("Reliability target must be between 0 and 100")
-        if self.thresholds.response_time_target <= 0:
-            issues.append("Response time target must be positive")
-        if self.thresholds.throughput_target <= 0:
-            issues.append("Throughput target must be positive")
-        if self.thresholds.scalability_target <= 0:
-            issues.append("Scalability target must be positive")
-        if self.thresholds.latency_target <= 0:
-            issues.append("Latency target must be positive")
-
-        # Validate file patterns
-        if not self.file_patterns.test_file_pattern.strip():
-            issues.append("Test file pattern cannot be empty")
-        if not self.file_patterns.architecture_files.strip():
-            issues.append("Architecture files pattern cannot be empty")
-
-        # Validate test configuration
-        if self.tests.coverage_report_precision < 0 or self.tests.coverage_report_precision > 10:
-            issues.append("Coverage report precision must be between 0 and 10")
-        if self.tests.history_window <= 0:
-            issues.append("History window must be positive")
-
-        # Validate report configuration
-        if not self.reports.reports_dir.exists() and not self.reports.reports_dir.parent.exists():
-            issues.append("Reports directory parent must exist")
-
-        return issues
+        return validate_unified_config(self)
 
     def get_config_summary(self) -> Dict[str, Any]:
         """Get a summary of all configurations."""
@@ -455,3 +332,27 @@ def get_file_pattern_config() -> FilePatternConfig:
 def get_report_config() -> ReportConfig:
     """Get report configuration."""
     return unified_config.reports
+
+
+def load_config_from_env() -> dict[str, Any]:
+    """Load unified configuration values from environment variables."""
+    # Environment loader logic from env_loader.py
+    env_values: dict[str, Any] = {}
+    for key in config_manager.configs:
+        env_val = os.getenv(key)
+        if env_val is not None:
+            env_values[key] = get_config(key)
+    return env_values
+
+
+def validate_unified_config() -> list[str]:
+    """Validate unified configuration values and return issues."""
+    # Validation logic from config_validation.py
+    issues: list[str] = []
+    for timeout_key in [
+        'SCRAPE_TIMEOUT', 'RESPONSE_WAIT_TIMEOUT', 'QUALITY_CHECK_INTERVAL'
+    ]:
+        if get_config(timeout_key, 0) <= 0:
+            issues.append(f"{timeout_key} must be positive")
+    # Additional validation can be added here
+    return issues

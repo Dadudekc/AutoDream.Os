@@ -1,8 +1,21 @@
 #!/usr/bin/env python3
 """
-Thea Login Handler - Modular Authentication System
-==================================================
+Thea Login Handler - DEPRECATED (V2 VIOLATION FIXED)
+====================================================
 
+⚠️ DEPRECATED: This file exceeded V2 limits (671 lines).
+Refactored into V2-compliant modules:
+  - thea_cookie_manager.py (115 lines)
+  - thea_login_detector.py (171 lines)
+  - thea_authentication_handler.py (167 lines)
+  - thea_login_handler_refactored.py (46 lines facade)
+
+Use thea_login_handler_refactored.py instead.
+
+DEPRECATED BY: Agent-1 (V2 Critical Fix)
+DATE: 2025-10-10
+
+Original: Modular Authentication System
 Extracted and adapted from DreamVault's authentication system.
 Handles automated login detection and cookie management for Thea communication.
 

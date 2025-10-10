@@ -1,19 +1,17 @@
 """
-Base Manager - Phase 2 Manager Consolidation
-============================================
-
+Base Manager - Phase 2 Manager Consolidation (V2 Compliant)
+===========================================================
 Unified base class for all managers implementing SSOT principles.
-Consolidates 43+ manager classes into unified framework using Phase 1 shared utilities.
+Refactored for V2 compliance while maintaining Agent-2's architecture.
 
 Author: Agent-2 (Architecture & Design Specialist)
+Refactored: Agent-5 (V2 Compliance)
 License: MIT
 """
 
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from datetime import datetime
-from enum import Enum
 from typing import Any
 
 from ..shared_utilities import (
@@ -27,214 +25,117 @@ from ..shared_utilities import (
     ValidationManager,
 )
 from .contracts import Manager, ManagerContext, ManagerResult
-
-
-class ManagerType(Enum):
-    """Manager type enumeration for specialization."""
-
-    CONFIGURATION = "configuration"
-    EXECUTION = "execution"
-    MONITORING = "monitoring"
-    ONBOARDING = "onboarding"
-    RECOVERY = "recovery"
-    RESOURCE = "resource"
-    RESULTS = "results"
-    SERVICE = "service"
-    COORDINATION = "coordination"
-    PERFORMANCE = "performance"
-    SECURITY = "security"
-
-
-class ManagerState(Enum):
-    """Manager lifecycle states."""
-
-    UNINITIALIZED = "uninitialized"
-    INITIALIZING = "initializing"
-    READY = "ready"
-    ACTIVE = "active"
-    DEGRADED = "degraded"
-    ERROR = "error"
-    CLEANING_UP = "cleaning_up"
-    TERMINATED = "terminated"
+from .manager_lifecycle import ManagerLifecycleHelper
+from .manager_metrics import ManagerMetricsTracker
+from .manager_state import ManagerState, ManagerStateTracker, ManagerType
 
 
 class BaseManager(Manager, ABC):
     """
     Unified base class for all managers - SSOT implementation.
 
-    Consolidates common functionality using Phase 1 shared utilities:
-    - StatusManager: Centralized status reporting
-    - ErrorHandler: Centralized error handling
-    - LoggingManager: Centralized logging
-    - ResultManager: Standardized result objects
-    - ValidationManager: Unified validation
-    - ConfigurationManager: Centralized configuration
-    - InitializationManager: Standardized initialization
-    - CleanupManager: Standardized cleanup
+    Consolidates common functionality using Phase 1 shared utilities and
+    extracted state/metrics/lifecycle components for V2 compliance.
     """
 
     def __init__(self, manager_type: ManagerType, manager_name: str = None):
-        """Initialize base manager with shared utilities."""
-
-        # Core identity
-        self.manager_type = manager_type
-        self.manager_name = manager_name or f"{manager_type.value}_manager"
-        self.manager_id = f"{self.manager_name}_{id(self)}"
-
-        # Lifecycle state
-        self.state = ManagerState.UNINITIALIZED
-        self.initialized_at: datetime | None = None
-        self.last_operation_at: datetime | None = None
+        """Initialize base manager with shared utilities and extracted components."""
+        
+        # V2: Use extracted state tracker
+        self.state_tracker = ManagerStateTracker(manager_type, manager_name)
+        self.metrics_tracker = ManagerMetricsTracker()
 
         # Phase 1 shared utilities integration
         self.status_manager = StatusManager()
         self.error_handler = ErrorHandler()
-        self.logging_manager = LoggingManager(self.manager_name)
+        self.logging_manager = LoggingManager(self.state_tracker.manager_name)
         self.result_manager = ResultManager()
         self.validation_manager = ValidationManager()
         self.configuration_manager = ConfigurationManager()
         self.initialization_manager = InitializationManager()
         self.cleanup_manager = CleanupManager()
 
-        # Operation tracking
-        self.operation_count = 0
-        self.success_count = 0
-        self.error_count = 0
-        self.last_error: str | None = None
-
-        # Context and configuration
-        self.context: ManagerContext | None = None
-        self.config: dict[str, Any] = {}
+        # V2: Lifecycle helper
+        self.lifecycle_helper = ManagerLifecycleHelper(
+            self.state_tracker,
+            self.initialization_manager,
+            self.cleanup_manager,
+            self.status_manager,
+            self.logging_manager.get_logger(),
+        )
 
         # Initialize logging
         self.logger = self.logging_manager.get_logger()
+        
+        # Backward compatibility properties
+        self.manager_type = self.state_tracker.manager_type
+        self.manager_name = self.state_tracker.manager_name
+        self.manager_id = self.state_tracker.manager_id
+        self.state = self.state_tracker.state
+        self.initialized_at = self.state_tracker.initialized_at
+        self.last_operation_at = self.state_tracker.last_operation_at
+        self.last_error = self.state_tracker.last_error
+        self.context = self.state_tracker.context
+        self.config = self.state_tracker.config
+        self.operation_count = self.metrics_tracker.operation_count
+        self.success_count = self.metrics_tracker.success_count
+        self.error_count = self.metrics_tracker.error_count
 
     def initialize(self, context: ManagerContext) -> bool:
-        """
-        Standard initialization using Phase 1 InitializationManager.
-
-        Args:
-            context: Manager context with configuration and dependencies
-
-        Returns:
-            bool: True if initialization successful
-        """
-        try:
-            self.state = ManagerState.INITIALIZING
-            self.context = context
-            self.config = context.config.copy()
-
-            # Log initialization start
-            self.logger.info(f"Initializing {self.manager_name} manager")
-
-            # Use InitializationManager for standardized initialization
-            init_context = {
-                "manager_id": self.manager_id,
-                "manager_type": self.manager_type.value,
-                "config": self.config,
-                "timestamp": context.timestamp,
-            }
-
-            success = self.initialization_manager.initialize_component(
-                component_id=self.manager_id, component_type="manager", context=init_context
-            )
-
-            if success:
-                self.state = ManagerState.READY
-                self.initialized_at = datetime.now()
-
-                # Register with StatusManager
-                self.status_manager.register_component(
-                    component_id=self.manager_id,
-                    component_type=self.manager_type.value,
-                    metadata={
-                        "manager_name": self.manager_name,
-                        "initialized_at": self.initialized_at.isoformat(),
-                        "config_keys": list(self.config.keys()),
-                    },
-                )
-
-                self.logger.info(f"{self.manager_name} manager initialized successfully")
-                return True
-            else:
-                self.state = ManagerState.ERROR
-                self.last_error = "Initialization failed"
-                self.logger.error(f"Failed to initialize {self.manager_name} manager")
-                return False
-
-        except Exception as e:
-            self.state = ManagerState.ERROR
-            self.last_error = str(e)
-
-            # Use ErrorHandler for standardized error handling
-            self.error_handler.handle_error(
-                error=e,
-                context={
-                    "operation": "initialize",
-                    "manager_id": self.manager_id,
-                    "manager_type": self.manager_type.value,
-                },
-                component_id=self.manager_id,
-                severity="high",
-            )
-
-            return False
+        """Standard initialization using lifecycle helper."""
+        success = self.lifecycle_helper.initialize(context, ManagerState)
+        # Sync metrics tracker
+        if success:
+            self.metrics_tracker.set_initialized_at(self.state_tracker.initialized_at)
+        # Update backward compatibility properties
+        self._sync_properties()
+        return success
 
     def execute(
         self, context: ManagerContext, operation: str, payload: dict[str, Any]
     ) -> ManagerResult:
-        """
-        Standard execution using Phase 1 utilities.
-
-        Args:
-            context: Manager context
-            operation: Operation to execute
-            payload: Operation payload
-
-        Returns:
-            ManagerResult: Standardized result object
-        """
+        """Standard execution using Phase 1 utilities."""
         try:
-            self.operation_count += 1
-            self.last_operation_at = datetime.now()
-            self.state = ManagerState.ACTIVE
+            self.metrics_tracker.record_operation_start()
+            self.state_tracker.mark_operation()
 
             # Validate input using ValidationManager
             validation_result = self.validation_manager.validate_operation(
-                operation=operation, payload=payload, component_type=self.manager_type.value
+                operation=operation,
+                payload=payload,
+                component_type=self.state_tracker.manager_type.value,
             )
 
             if not validation_result.is_valid:
-                self.error_count += 1
+                self.metrics_tracker.record_error()
                 return self.result_manager.create_error_result(
                     error=f"Validation failed: {validation_result.errors}",
                     operation=operation,
-                    component_id=self.manager_id,
+                    component_id=self.state_tracker.manager_id,
                 )
 
             # Execute operation (implemented by subclasses)
             result = self._execute_operation(context, operation, payload)
 
             if result.success:
-                self.success_count += 1
+                self.metrics_tracker.record_success()
             else:
-                self.error_count += 1
-                self.last_error = result.error
+                self.metrics_tracker.record_error()
+                self.state_tracker.last_error = result.error
 
             # Create standardized result using ResultManager
             return self.result_manager.create_result(
                 data=result.data if result.success else {},
                 operation=operation,
-                component_id=self.manager_id,
+                component_id=self.state_tracker.manager_id,
                 success=result.success,
                 error=result.error,
                 metrics=result.metrics,
             )
 
         except Exception as e:
-            self.error_count += 1
-            self.state = ManagerState.ERROR
-            self.last_error = str(e)
+            self.metrics_tracker.record_error()
+            self.state_tracker.mark_error(str(e))
 
             # Use ErrorHandler for standardized error handling
             self.error_handler.handle_error(
@@ -242,117 +143,44 @@ class BaseManager(Manager, ABC):
                 context={
                     "operation": operation,
                     "payload": payload,
-                    "manager_id": self.manager_id,
+                    "manager_id": self.state_tracker.manager_id,
                 },
-                component_id=self.manager_id,
+                component_id=self.state_tracker.manager_id,
                 severity="medium",
             )
 
             return self.result_manager.create_error_result(
-                error=str(e), operation=operation, component_id=self.manager_id
+                error=str(e), operation=operation, component_id=self.state_tracker.manager_id
             )
 
         finally:
-            self.state = ManagerState.READY
+            self.state_tracker.mark_ready()
+            self._sync_properties()
 
     @abstractmethod
     def _execute_operation(
         self, context: ManagerContext, operation: str, payload: dict[str, Any]
     ) -> ManagerResult:
-        """
-        Execute manager-specific operation.
-
-        Must be implemented by subclasses to provide specialized functionality.
-        """
+        """Execute manager-specific operation. Must be implemented by subclasses."""
         pass
 
     def cleanup(self, context: ManagerContext) -> bool:
-        """
-        Standard cleanup using Phase 1 CleanupManager.
-
-        Args:
-            context: Manager context
-
-        Returns:
-            bool: True if cleanup successful
-        """
-        try:
-            self.state = ManagerState.CLEANING_UP
-
-            # Log cleanup start
-            self.logger.info(f"Cleaning up {self.manager_name} manager")
-
-            # Use CleanupManager for standardized cleanup
-            cleanup_context = {
-                "manager_id": self.manager_id,
-                "manager_type": self.manager_type.value,
-                "operation_count": self.operation_count,
-                "success_count": self.success_count,
-                "error_count": self.error_count,
-            }
-
-            success = self.cleanup_manager.cleanup_component(
-                component_id=self.manager_id, component_type="manager", context=cleanup_context
-            )
-
-            if success:
-                self.state = ManagerState.TERMINATED
-
-                # Unregister from StatusManager
-                self.status_manager.unregister_component(self.manager_id)
-
-                self.logger.info(f"{self.manager_name} manager cleaned up successfully")
-                return True
-            else:
-                self.state = ManagerState.ERROR
-                self.logger.error(f"Failed to cleanup {self.manager_name} manager")
-                return False
-
-        except Exception as e:
-            self.state = ManagerState.ERROR
-            self.last_error = str(e)
-
-            # Use ErrorHandler for cleanup errors
-            self.error_handler.handle_error(
-                error=e,
-                context={
-                    "operation": "cleanup",
-                    "manager_id": self.manager_id,
-                },
-                component_id=self.manager_id,
-                severity="medium",
-            )
-
-            return False
+        """Standard cleanup using lifecycle helper."""
+        success = self.lifecycle_helper.cleanup(context, ManagerState)
+        self._sync_properties()
+        return success
 
     def get_status(self) -> dict[str, Any]:
-        """
-        Get comprehensive manager status using StatusManager.
-
-        Returns:
-            Dict containing status information
-        """
+        """Get comprehensive manager status."""
         try:
             # Get status from StatusManager
-            base_status = self.status_manager.get_component_status(self.manager_id)
-
-            # Add manager-specific status
-            manager_status = {
-                "manager_id": self.manager_id,
-                "manager_name": self.manager_name,
-                "manager_type": self.manager_type.value,
-                "state": self.state.value,
-                "initialized_at": self.initialized_at.isoformat() if self.initialized_at else None,
-                "last_operation_at": (
-                    self.last_operation_at.isoformat() if self.last_operation_at else None
-                ),
-                "operation_count": self.operation_count,
-                "success_count": self.success_count,
-                "error_count": self.error_count,
-                "success_rate": (self.success_count / max(self.operation_count, 1)) * 100,
-                "last_error": self.last_error,
-                "config_keys": list(self.config.keys()),
-            }
+            base_status = self.status_manager.get_component_status(self.state_tracker.manager_id)
+            
+            # Get state status
+            manager_status = self.state_tracker.get_status_dict()
+            
+            # Add metrics
+            manager_status.update(self.metrics_tracker.get_metrics_for_status())
 
             # Merge with base status
             if base_status:
@@ -361,37 +189,24 @@ class BaseManager(Manager, ABC):
             return manager_status
 
         except Exception as e:
-            self.logger.error(f"Error getting status for {self.manager_name}: {e}")
+            self.logger.error(f"Error getting status for {self.state_tracker.manager_name}: {e}")
             return {
-                "manager_id": self.manager_id,
+                "manager_id": self.state_tracker.manager_id,
                 "state": "error",
                 "error": str(e),
                 "last_error": str(e),
             }
 
     def get_health_check(self) -> dict[str, Any]:
-        """
-        Get health check using StatusManager.
-
-        Returns:
-            Dict containing health status
-        """
-        return self.status_manager.get_health_check_for_component(self.manager_id)
+        """Get health check using StatusManager."""
+        return self.status_manager.get_health_check_for_component(self.state_tracker.manager_id)
 
     def update_configuration(self, updates: dict[str, Any]) -> bool:
-        """
-        Update manager configuration using ConfigurationManager.
-
-        Args:
-            updates: Configuration updates
-
-        Returns:
-            bool: True if update successful
-        """
+        """Update manager configuration using ConfigurationManager."""
         try:
             # Validate configuration updates
             validation_result = self.validation_manager.validate_config(
-                config_data=updates, component_type=self.manager_type.value
+                config_data=updates, component_type=self.state_tracker.manager_type.value
             )
 
             if not validation_result.is_valid:
@@ -400,75 +215,59 @@ class BaseManager(Manager, ABC):
 
             # Update configuration using ConfigurationManager
             success = self.configuration_manager.update_component_config(
-                component_id=self.manager_id, updates=updates
+                component_id=self.state_tracker.manager_id, updates=updates
             )
 
             if success:
                 # Update local config
-                self.config.update(updates)
-                self.logger.info(f"Configuration updated for {self.manager_name}")
+                self.state_tracker.config.update(updates)
+                self.logger.info(f"Configuration updated for {self.state_tracker.manager_name}")
+                self._sync_properties()
                 return True
             else:
-                self.logger.error(f"Failed to update configuration for {self.manager_name}")
+                self.logger.error(
+                    f"Failed to update configuration for {self.state_tracker.manager_name}"
+                )
                 return False
 
         except Exception as e:
-            self.logger.error(f"Error updating configuration for {self.manager_name}: {e}")
+            self.logger.error(
+                f"Error updating configuration for {self.state_tracker.manager_name}: {e}"
+            )
             return False
 
     def get_metrics(self) -> dict[str, Any]:
-        """
-        Get manager metrics.
-
-        Returns:
-            Dict containing performance metrics
-        """
-        return {
-            "operation_count": self.operation_count,
-            "success_count": self.success_count,
-            "error_count": self.error_count,
-            "success_rate": (self.success_count / max(self.operation_count, 1)) * 100,
-            "average_operations_per_hour": self._calculate_ops_per_hour(),
-            "uptime_seconds": self._calculate_uptime(),
-            "error_rate": (self.error_count / max(self.operation_count, 1)) * 100,
-        }
-
-    def _calculate_ops_per_hour(self) -> float:
-        """Calculate average operations per hour."""
-        if not self.initialized_at:
-            return 0.0
-
-        uptime_hours = (datetime.now() - self.initialized_at).total_seconds() / 3600
-        return self.operation_count / max(uptime_hours, 0.01)
-
-    def _calculate_uptime(self) -> float:
-        """Calculate uptime in seconds."""
-        if not self.initialized_at:
-            return 0.0
-
-        return (datetime.now() - self.initialized_at).total_seconds()
+        """Get manager metrics."""
+        return self.metrics_tracker.get_metrics()
 
     def reset_metrics(self) -> bool:
-        """
-        Reset manager metrics.
-
-        Returns:
-            bool: True if reset successful
-        """
+        """Reset manager metrics."""
         try:
-            self.operation_count = 0
-            self.success_count = 0
-            self.error_count = 0
-            self.last_error = None
-            self.last_operation_at = None
-
-            self.logger.info(f"Metrics reset for {self.manager_name}")
-            return True
-
+            success = self.metrics_tracker.reset()
+            if success:
+                self.logger.info(f"Metrics reset for {self.state_tracker.manager_name}")
+                self._sync_properties()
+            return success
         except Exception as e:
-            self.logger.error(f"Error resetting metrics for {self.manager_name}: {e}")
+            self.logger.error(f"Error resetting metrics for {self.state_tracker.manager_name}: {e}")
             return False
+
+    def _sync_properties(self) -> None:
+        """Sync backward compatibility properties with trackers."""
+        self.state = self.state_tracker.state
+        self.initialized_at = self.state_tracker.initialized_at
+        self.last_operation_at = self.state_tracker.last_operation_at
+        self.last_error = self.state_tracker.last_error
+        self.context = self.state_tracker.context
+        self.config = self.state_tracker.config
+        self.operation_count = self.metrics_tracker.operation_count
+        self.success_count = self.metrics_tracker.success_count
+        self.error_count = self.metrics_tracker.error_count
 
     def __repr__(self) -> str:
         """String representation of the manager."""
-        return f"{self.__class__.__name__}(id={self.manager_id}, type={self.manager_type.value}, state={self.state.value})"
+        return (
+            f"{self.__class__.__name__}(id={self.state_tracker.manager_id}, "
+            f"type={self.state_tracker.manager_type.value}, "
+            f"state={self.state_tracker.state.value})"
+        )

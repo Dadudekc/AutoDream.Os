@@ -256,22 +256,6 @@ class ThemeManager:
         """Get list of available theme names."""
         return list(self.themes.keys())
 
-
-else:
-    # Fallback when PyQt5 is not available
-    class StatusPanel:
-        """Fallback status panel (PyQt5 not available)."""
-
-        def __init__(self, parent: Any = None):
-            self.logger = logging.getLogger(__name__)
-            self.logger.warning("PyQt5 not available - StatusPanel disabled")
-
-    class DarkTheme:
-        pass
-
-    class LightTheme:
-        pass
-
     class ThemeManager:
         pass
 

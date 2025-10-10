@@ -14,7 +14,7 @@ try:
     import os
     sys.path.insert(0, 'src')
     
-    from src.core.messaging_core import UnifiedMessagingCore, UnifiedMessage, UnifiedMessageType, UnifiedMessagePriority
+    from core.messaging_core import UnifiedMessagingCore, UnifiedMessage, UnifiedMessageType, UnifiedMessagePriority
     
     # Initialize messaging
     messaging = UnifiedMessagingCore()
@@ -41,7 +41,7 @@ try:
     print("\n📡 SENDING TO ALL AGENT WORKSPACES...")
     
     # Get all agents
-    from src.core.coordinate_loader import get_coordinate_loader
+    from core.coordinate_loader import get_coordinate_loader
     loader = get_coordinate_loader()
     agents = loader.get_all_agents()
     

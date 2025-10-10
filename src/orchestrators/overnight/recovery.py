@@ -17,21 +17,19 @@ import logging
 
 # V2 Integration imports
 try:
-    from ...core.messaging_pyautogui import send_message_to_agent
     from ...core.unified_config import get_unified_config
     from ...core.unified_logging_system import get_logger
 except ImportError as e:
     logging.warning(f"V2 integration imports failed: {e}")
     # Fallback implementations
-    def send_message_to_agent(*args, **kwargs):
-        logging.info(f"Mock message send: {args}, {kwargs}")
-        return True
-    
     def get_unified_config():
         return type('MockConfig', (), {'get_env': lambda x, y=None: y})()
     
     def get_logger(name):
         return logging.getLogger(name)
+
+# Recovery messaging helper
+from .recovery_messaging import RecoveryMessaging
 
 
 class RecoverySystem:
@@ -58,6 +56,7 @@ class RecoverySystem:
         
         # V2 Integration
         self.unified_config = get_unified_config()
+        self.messaging = RecoveryMessaging(self.logger)
         
         # Recovery settings
         recovery_config = self.config.get('overnight', {}).get('recovery', {})
@@ -204,31 +203,9 @@ class RecoverySystem:
         """Attempt to recover from cycle failure."""
         try:
             self.logger.info(f"Attempting cycle {cycle_number} recovery")
-            
-            # Send recovery message to all agents
-            recovery_message = f"""
-[RECOVERY] Cycle {cycle_number} Recovery
-Error: {error_message}
-Action: Continue with next cycle, report any issues.
-Timestamp: {time.time()}
-"""
-            
-            # Send to all agents
-            for i in range(1, 9):
-                agent_id = f"Agent-{i}"
-                try:
-                    await asyncio.get_event_loop().run_in_executor(
-                        None,
-                        send_message_to_agent,
-                        agent_id,
-                        recovery_message
-                    )
-                except Exception as e:
-                    self.logger.error(f"Failed to send recovery message to {agent_id}: {e}")
-            
+            await self.messaging.send_cycle_recovery_message(cycle_number, error_message)
             self.last_recovery_time = time.time()
             self.logger.info("Cycle recovery attempt completed")
-            
         except Exception as e:
             self.logger.error(f"Cycle recovery failed: {e}")
 
@@ -241,24 +218,7 @@ Timestamp: {time.time()}
         """Attempt to recover from task failure."""
         try:
             self.logger.info(f"Attempting task recovery: {task_id}")
-            
-            # Send recovery message to agent
-            recovery_message = f"""
-[RECOVERY] Task {task_id} Recovery
-Error: {error_message}
-Action: Retry task or report if impossible.
-Timestamp: {time.time()}
-"""
-            
-            await asyncio.get_event_loop().run_in_executor(
-                None,
-                send_message_to_agent,
-                agent_id,
-                recovery_message
-            )
-            
-            self.logger.info(f"Task recovery message sent to {agent_id}")
-            
+            await self.messaging.send_task_recovery_message(task_id, agent_id, error_message)
         except Exception as e:
             self.logger.error(f"Task recovery failed: {e}")
 
@@ -266,9 +226,7 @@ Timestamp: {time.time()}
         """Rescue a stalled or failing agent."""
         try:
             self.recovery_attempts[agent_id] = 0
-            msg = f"[RESCUE] {agent_id} - Reset and resume operations. Report status."
-            await asyncio.get_event_loop().run_in_executor(None, send_message_to_agent, agent_id, msg)
-            
+            await self.messaging.send_agent_rescue_message(agent_id)
             self.failure_history.append({
                 'type': 'agent_rescue',
                 'agent_id': agent_id,
@@ -282,31 +240,8 @@ Timestamp: {time.time()}
         """Handle a specific health issue."""
         try:
             self.logger.info(f"Handling health issue: {issue}")
-            
-            # Create issue ID for tracking
             issue_id = f"health_{int(time.time())}"
-            
-            # Send health alert to all agents
-            health_message = f"""
-[HEALTH ALERT] System Issue Detected
-Issue: {issue}
-Action: Monitor and report status.
-Issue ID: {issue_id}
-Timestamp: {time.time()}
-"""
-            
-            # Send to all agents
-            for i in range(1, 9):
-                agent_id = f"Agent-{i}"
-                try:
-                    await asyncio.get_event_loop().run_in_executor(
-                        None,
-                        send_message_to_agent,
-                        agent_id,
-                        health_message
-                    )
-                except Exception as e:
-                    self.logger.error(f"Failed to send health alert to {agent_id}: {e}")
+            await self.messaging.send_health_alert(issue, issue_id)
             
             # Record health issue
             health_record = {
@@ -317,7 +252,6 @@ Timestamp: {time.time()}
                 'agents_notified': True,
             }
             self.failure_history.append(health_record)
-            
         except Exception as e:
             self.logger.error(f"Failed to handle health issue: {e}")
 
@@ -341,36 +275,17 @@ Timestamp: {time.time()}
         """Escalate issues when threshold is reached."""
         try:
             self.logger.error(f"Escalating {len(recent_failures)} recent failures")
-            
-            # Create escalation summary
             escalation_id = f"escalation_{int(time.time())}"
             failure_summary = self._summarize_failures(recent_failures)
             
-            escalation_message = f"""
-[ESCALATION] Critical System Issues
-Escalation ID: {escalation_id}
-Recent Failures: {len(recent_failures)}
-Summary: {failure_summary}
-Action: Manual intervention required.
-Timestamp: {time.time()}
-"""
-            
-            # Send escalation to all agents
-            for i in range(1, 9):
-                agent_id = f"Agent-{i}"
-                try:
-                    await asyncio.get_event_loop().run_in_executor(
-                        None,
-                        send_message_to_agent,
-                        agent_id,
-                        escalation_message
-                    )
-                except Exception as e:
-                    self.logger.error(f"Failed to send escalation to {agent_id}: {e}")
+            await self.messaging.send_escalation_alert(
+                escalation_id,
+                len(recent_failures),
+                failure_summary
+            )
             
             # Record escalation
             self.escalated_issues.add(escalation_id)
-            
             escalation_record = {
                 'type': 'escalation',
                 'escalation_id': escalation_id,
@@ -380,7 +295,6 @@ Timestamp: {time.time()}
                 'agents_notified': True,
             }
             self.failure_history.append(escalation_record)
-            
         except Exception as e:
             self.logger.error(f"Failed to escalate issues: {e}")
 

@@ -1,50 +1,45 @@
-# Discord Commander V2 - Complete Integration
-# ===========================================
+# Discord Commander V2 - Consolidated Integration
+# ================================================
+# Consolidated from 9→4 files (Agent-3, C-003 Consolidation)
+
+import sys
+from pathlib import Path
+
+# Ensure src is in path for imports
+if str(Path(__file__).parent.parent.parent) not in sys.path:
+    sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 try:
-    from .agent_communication_engine_base import AgentCommunicationEngineBase
-    from .agent_communication_engine_core import AgentCommunicationEngineCore
-    from .agent_communication_engine_operations import AgentCommunicationEngineOperations
-    from .agent_communication_engine_refactored import AgentCommunicationEngine, create_agent_communication_engine
-    from .discord_commander_models import CommandResult, create_command_result, DiscordMessage, AgentCommand, CommunicationStats
-    from .discord_webhook_integration import DiscordWebhookIntegration
-    from .discord_commander import DiscordCommander, get_discord_commander, start_discord_devlog_monitoring
-except ImportError:
-    # Fallback for direct execution
-    from agent_communication_engine_base import AgentCommunicationEngineBase
-    from agent_communication_engine_core import AgentCommunicationEngineCore
-    from agent_communication_engine_operations import AgentCommunicationEngineOperations
-    from agent_communication_engine_refactored import AgentCommunicationEngine, create_agent_communication_engine
-    from discord_commander_models import CommandResult, create_command_result, DiscordMessage, AgentCommand, CommunicationStats
-    from discord_webhook_integration import DiscordWebhookIntegration
-    from discord_commander import DiscordCommander, get_discord_commander, start_discord_devlog_monitoring
+    # Consolidated modules (V2 compliant)
+    from src.discord_commander.discord_agent_communication import AgentCommunicationEngine, create_agent_communication_engine
+    from src.discord_commander.discord_models import CommandResult, create_command_result, DiscordMessage, AgentCommand, CommunicationStats
+    from src.discord_commander.discord_service import DiscordService, get_discord_service, start_discord_devlog_monitoring
+except ImportError as e:
+    # Try relative imports
+    try:
+        from .discord_agent_communication import AgentCommunicationEngine, create_agent_communication_engine
+        from .discord_models import CommandResult, create_command_result, DiscordMessage, AgentCommand, CommunicationStats
+        from .discord_service import DiscordService, get_discord_service, start_discord_devlog_monitoring
+    except ImportError:
+        # Last resort: direct imports
+        from discord_agent_communication import AgentCommunicationEngine, create_agent_communication_engine
+        from discord_models import CommandResult, create_command_result, DiscordMessage, AgentCommand, CommunicationStats
+        from discord_service import DiscordService, get_discord_service, start_discord_devlog_monitoring
 
 __all__ = [
-    # Base classes
-    'AgentCommunicationEngineBase',
-
-    # Core engines
-    'AgentCommunicationEngineCore',
-    'AgentCommunicationEngineOperations',
+    # Agent Communication
     'AgentCommunicationEngine',
-
-    # Factory functions
     'create_agent_communication_engine',
-
-    # Data models
+    
+    # Data Models
     'CommandResult',
     'DiscordMessage',
     'AgentCommand',
     'CommunicationStats',
-
-    # Factory functions for models
     'create_command_result',
-
-    # Discord integration
-    'DiscordWebhookIntegration',
-    'DiscordCommander',
-
-    # Global access functions
-    'get_discord_commander',
+    
+    # Discord Service
+    'DiscordService',
+    'get_discord_service',
     'start_discord_devlog_monitoring',
 ]

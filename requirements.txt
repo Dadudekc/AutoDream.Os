@@ -4,8 +4,19 @@ pytest-asyncio
 black
 ruff
 pre-commit
-pyyaml
+pyyaml>=6.0
 python-dotenv
+
+# Dream.OS + DreamVault dependencies (C-074-3)
+beautifulsoup4>=4.12.0
+lxml>=4.9.0
+sqlalchemy>=2.0.0
+alembic>=1.12.0
+
+# Chat_Mate browser automation dependencies (C-064)
+selenium>=4.0.0
+undetected-chromedriver>=3.5.0
+webdriver-manager>=4.0.0
 
 # Vision system dependencies
 pytesseract

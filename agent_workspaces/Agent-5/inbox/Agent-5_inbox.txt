@@ -46,3 +46,15 @@
 
 ==================================================
 
+# 🚨 CAPTAIN MESSAGE - captain_to_agent
+
+**From**: CAPTAIN
+**To**: Agent-5
+**Priority**: urgent
+**Timestamp**: 2025-10-10 00:37:29.568492
+**Tags**: system
+
+PROTOCOL: You are Agent-5 NOT Captain. Use [A2A] AGENT-5 format NOT [C2A]. Execute analytics support for Agent-2.
+
+==================================================
+

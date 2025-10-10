@@ -14,7 +14,7 @@ try:
     import os
     sys.path.insert(0, 'src')
     
-    from src.core.messaging_core import UnifiedMessagingCore, UnifiedMessage, UnifiedMessageType, UnifiedMessagePriority
+    from core.messaging_core import UnifiedMessagingCore, UnifiedMessage, UnifiedMessageType, UnifiedMessagePriority
     
     # Initialize messaging
     messaging = UnifiedMessagingCore()

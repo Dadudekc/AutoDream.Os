@@ -51,6 +51,7 @@ class CoordinationValidator:
         self.rules_dir = rules_dir
         self.rules = self._load_validation_rules()
         self.validation_history: list[ValidationIssue] = []
+        self.max_history_size = 1000  # Prevent unbounded memory growth
 
     def _load_validation_rules(self) ->dict[str, Any]:
         """Load validation rules from YAML files."""
@@ -197,6 +198,10 @@ class CoordinationValidator:
         all_issues.extend(self.validate_security_compliance(validation_data
             .get('security', {})))
         self.validation_history.extend(all_issues)
+        
+        # Prevent memory leak: trim history if too large
+        if len(self.validation_history) > self.max_history_size:
+            self.validation_history = self.validation_history[-self.max_history_size:]
         errors = [issue for issue in all_issues if issue.severity ==
             ValidationSeverity.ERROR]
         warnings = [issue for issue in all_issues if issue.severity ==

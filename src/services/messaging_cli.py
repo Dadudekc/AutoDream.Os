@@ -13,6 +13,12 @@ import argparse
 import logging
 import sys
 from pathlib import Path
+import subprocess
+import os
+import pyautogui
+import time
+from src.core.coordinate_loader import get_coordinate_loader
+from src.core.gamification.autonomous_competition_system import get_competition_system
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
@@ -21,15 +27,12 @@ logger = logging.getLogger(__name__)
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 try:
-    from src.core.coordinate_loader import get_coordinate_loader
     from src.core.messaging_core import (
         UnifiedMessagePriority,
         UnifiedMessageTag,
         UnifiedMessageType,
         send_message,
     )
-    from src.services.messaging_pyautogui import send_message_pyautogui
-
     MESSAGING_AVAILABLE = True
 except ImportError as e:
     logger.error(f"❌ Messaging system not available: {e}")
@@ -135,17 +138,14 @@ class MessageCoordinator:
         agent: str, message: str, priority=UnifiedMessagePriority.REGULAR, use_pyautogui=False
     ):
         try:
-            return (
-                send_message_pyautogui(agent_id=agent, message=message, timeout=30)
-                if use_pyautogui
-                else send_message(
-                    content=message,
-                    sender="CAPTAIN",
-                    recipient=agent,
-                    message_type=UnifiedMessageType.CAPTAIN_TO_AGENT,
-                    priority=priority,
-                    tags=[UnifiedMessageTag.SYSTEM],
-                )
+            # Always use inbox delivery since PyAutoGUI module missing
+            return send_message(
+                content=message,
+                sender="CAPTAIN",
+                recipient=agent,
+                message_type=UnifiedMessageType.CAPTAIN_TO_AGENT,
+                priority=priority,
+                tags=[UnifiedMessageTag.SYSTEM],
             )
         except Exception:
             return False
@@ -174,7 +174,7 @@ class MessageCoordinator:
         if success_count > 0:
             for agent, assignment in AGENT_ASSIGNMENTS.items():
                 msg = ASSIGNMENT_MESSAGE_TEMPLATE.format(agent=agent, assignment=assignment)
-                send_message_pyautogui(agent_id=agent, message=msg, timeout=60)
+                send_message_pyautogui(agent, msg, timeout=60)
         return success_count
 
     @staticmethod
@@ -263,6 +263,22 @@ class MessagingCLI:
             "--coordinates", action="store_true", help="Display agent coordinates and configuration"
         )
 
+        # Agent start flag
+        parser.add_argument(
+            "--start",
+            nargs="+",
+            type=int,
+            metavar="N",
+            help="Start agents (1-8, e.g., --start 1 2 3) - sends to onboarding coordinates",
+        )
+
+        parser.add_argument(
+            "--save", action="store_true", help="Send message to all agents' chat input coords and press Ctrl+Enter to save changes"
+        )
+        parser.add_argument(
+            "--leaderboard", action="store_true", help="Display the autonomous competition leaderboard"
+        )
+
         return parser
 
     def execute(self, args=None):
@@ -278,6 +294,31 @@ class MessagingCLI:
                 return self._handle_consolidation(parsed_args)
             elif parsed_args.coordinates:
                 return self._handle_coordinates()
+            elif parsed_args.start:
+                return self._handle_start_agents(parsed_args)
+            elif parsed_args.save:
+                if not parsed_args.message:
+                    self.parser.error("--save requires --message MESSAGE")
+                coords_loader = get_coordinate_loader()
+                for agent in SWARM_AGENTS:
+                    x, y = coords_loader.get_chat_coordinates(agent)
+                    pyautogui.moveTo(x, y, duration=0.5)
+                    pyautogui.click()
+                    time.sleep(0.5)
+                    if parsed_args.pyautogui: # Use parsed_args.pyautogui for consistency
+                        pyautogui.hotkey('ctrl', 'v')
+                        time.sleep(1.0)
+                    else:
+                        pyautogui.write(parsed_args.message, interval=0.01)
+                    pyautogui.hotkey('ctrl', 'enter')
+                    time.sleep(1.0)  # inter-agent delay
+                return 0
+            elif parsed_args.leaderboard:
+                system = get_competition_system()
+                leaderboard = system.get_leaderboard()
+                for score in leaderboard:
+                    print(f"#{score.rank} {score.agent_name}: {score.total_points} pts")
+                return
             else:
                 self.parser.print_help()
                 return 0
@@ -344,6 +385,42 @@ class MessagingCLI:
             return 0
         except Exception:
             return 1
+
+    def _handle_start_agents(self, args):
+        """Send start message to specified agents via onboarding coordinates."""
+        # Validate agent numbers
+        valid_agents = []
+        for num in args.start:
+            if 1 <= num <= 8:
+                valid_agents.append(f"Agent-{num}")
+            else:
+                logger.warning(f"⚠️ Invalid agent number: {num} (must be 1-8)")
+
+        if not valid_agents:
+            logger.error("❌ No valid agents specified")
+            return 1
+
+        # Send start message to each agent via onboarding coordinates
+        start_msg = "🚀 START: Begin your assigned work cycle. Review your workspace and inbox."
+        success_count = 0
+
+        logger.info(f"🚀 Starting {len(valid_agents)} agent(s) via onboarding coordinates...")
+        for agent_id in valid_agents:
+            try:
+                # Send directly to onboarding coordinates
+                if send_message_to_onboarding_coords(agent_id, start_msg, timeout=30):
+                    success_count += 1
+                    logger.info(f"  ✅ {agent_id} (onboarding coordinates)")
+                else:
+                    logger.warning(f"  ❌ {agent_id}")
+            except Exception as e:
+                logger.error(f"  ❌ {agent_id}: {e}")
+
+        logger.info(
+            f"✅ Started {success_count}/{len(valid_agents)} agents "
+            "via onboarding coordinates"
+        )
+        return 0 if success_count > 0 else 1
 
 
 def main() -> int:

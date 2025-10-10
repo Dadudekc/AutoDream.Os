@@ -81,27 +81,27 @@ class ServicesOrchestrator {
      * Initialize all service modules
      */
     async initializeModules() {
-        // Import and initialize core modules
+        // Import and initialize core modules from services/ subdirectory (Phase 2 consolidation)
         const [
-            { DataService },
-            { SocketService },
-            { PerformanceService },
-            { ValidationService },
-            { UtilityService }
+            { DashboardDataService },
+            { SocketEventHandlers },
+            { PerformanceAnalysisModule },
+            { ComponentValidationModule },
+            { UtilityFunctionService }
         ] = await Promise.all([
-            import('./services-data.js'),
-            import('./services-socket.js'),
-            import('./services-performance.js'),
-            import('./services-validation.js'),
-            import('./services-utilities.js')
+            import('./services/dashboard-data-service.js'),
+            import('./services/socket-event-handlers.js'),
+            import('./services/performance-analysis-module.js'),
+            import('./services/component-validation-module.js'),
+            import('./services/utility-function-service.js')
         ]);
 
-        // Create service instances
-        this.dataService = new DataService(this.config);
-        this.socketService = new SocketService(this.config);
-        this.performanceService = new PerformanceService(this.config);
-        this.validationService = new ValidationService(this.config);
-        this.utilityService = new UtilityService(this.config);
+        // Create service instances (using subdirectory services)
+        this.dataService = new DashboardDataService(this.config);
+        this.socketService = new SocketEventHandlers(this.config);
+        this.performanceService = new PerformanceAnalysisModule(this.config);
+        this.validationService = new ComponentValidationModule(this.config);
+        this.utilityService = new UtilityFunctionService(this.config);
 
         // Register modules
         this.modules.set('data', this.dataService);

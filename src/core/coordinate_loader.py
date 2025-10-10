@@ -17,8 +17,10 @@ def _load_coordinates() -> Dict[str, Dict[str, Any]]:
     agents: Dict[str, Dict[str, Any]] = {}
     for agent_id, info in data.get("agents", {}).items():
         chat = info.get("chat_input_coordinates", [0, 0])
+        onboarding = info.get("onboarding_input_coords", chat)  # Fallback to chat if not present
         agents[agent_id] = {
             "coords": tuple(chat),  # Store as tuple for coordinate loader
+            "onboarding_coords": tuple(onboarding),  # Onboarding coordinates
             "x": chat[0],
             "y": chat[1],
             "description": info.get("description", ""),
@@ -52,9 +54,9 @@ class CoordinateLoader:
 
     def get_onboarding_coordinates(self, agent_id: str) -> Tuple[int, int]:
         """Get onboarding coordinates for agent."""
-        # For now, use the same coordinates as chat coordinates
-        # In a real implementation, this would be different onboarding-specific coordinates
-        return self.get_chat_coordinates(agent_id)
+        if agent_id in self.coordinates:
+            return self.coordinates[agent_id]["onboarding_coords"]
+        raise ValueError(f"No onboarding coordinates found for agent {agent_id}")
 
     def get_agent_description(self, agent_id: str) -> str:
         """Get agent description."""

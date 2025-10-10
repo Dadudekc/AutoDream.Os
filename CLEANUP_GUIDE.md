@@ -235,3 +235,5 @@ python thea_automation.py --message "Hello Thea - clean implementation!"
 
 **🐝 V2_SWARM - One File. No Complexity. Just Works.**
 
+
+

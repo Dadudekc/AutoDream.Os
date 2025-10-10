@@ -230,7 +230,7 @@ class UnifiedMessagingCore:
             if self.delivery_service:
                 return self.delivery_service.send_message(message)
             else:
-                self.logger.error("No delivery service configured")
+                self.logger.error("No delivery service configured - PyAutoGUI required")
                 return False
         except Exception as e:
             self.logger.error(f"Failed to send message: {e}")
@@ -244,6 +244,14 @@ class UnifiedMessagingCore:
             inbox_dir.mkdir(parents=True, exist_ok=True)
 
             filepath = inbox_dir / f"{message.recipient}_inbox.txt"
+
+            # Check if rotation needed (prevent memory leak)
+            try:
+                from .messaging_inbox_rotation import get_rotation_manager
+                rotation_manager = get_rotation_manager()
+                rotation_manager.check_and_rotate(filepath)
+            except Exception as e:
+                self.logger.debug(f"Inbox rotation check skipped: {e}")
 
             with open(filepath, "a", encoding="utf-8") as f:
                 # Handle both enum and string values

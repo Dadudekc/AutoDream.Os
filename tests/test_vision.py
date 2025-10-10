@@ -11,10 +11,10 @@ License: MIT
 
 import pytest
 import numpy as np
-from src.vision.capture import ScreenCapture
-from src.vision.ocr import TextExtractor
-from src.vision.analysis import VisualAnalyzer
-from src.vision.integration import VisionSystem
+from vision.capture import ScreenCapture
+from vision.ocr import TextExtractor
+from vision.analysis import VisualAnalyzer
+from vision.integration import VisionSystem
 
 
 class TestScreenCapture:

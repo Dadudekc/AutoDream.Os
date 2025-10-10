@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gamification UI - Dream.OS Integration</title>
+    <link rel="stylesheet" href="../static/css/gamification.css">
+</head>
+<body>
+    <div id="gamificationContainer"></div>
+    
+    <script type="module">
+        import { initializeGamificationUI } from '../static/js/gaming/gamification-ui.js';
+        
+        // Initialize gamification UI on load
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const ui = await initializeGamificationUI('gamificationContainer');
+                console.log('✅ Gamification UI loaded successfully');
+            } catch (error) {
+                console.error('❌ Failed to load Gamification UI:', error);
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+

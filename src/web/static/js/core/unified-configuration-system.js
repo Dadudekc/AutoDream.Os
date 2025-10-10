@@ -31,7 +31,12 @@ export class UnifiedConfiguration {
         this.config.integrations = {
             websocket: { enabled: true, url: 'ws://localhost:8080' },
             api: { baseUrl: 'http://localhost:3000/api', timeout: 10000 },
-            analytics: { enabled: true, trackingId: 'GA-XXXXX-X' }
+            analytics: { 
+                enabled: this.config.environment === 'production',
+                trackingId: this.config.environment === 'production' ? 'AGENT-CELLPHONE-V2' : 'dev-disabled',
+                anonymizeIp: true,
+                respectDoNotTrack: true
+            }
         };
 
         this.setupConfigSync();

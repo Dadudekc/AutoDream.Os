@@ -1,7 +1,8 @@
 # AUTO-GENERATED __init__.py
 # DO NOT EDIT MANUALLY - changes may be overwritten
+# Updated by Agent-1 C-009: Consolidated coordinate_agent_registry into core.coordinate_loader
 
-from . import coordinate_agent_registry as agent_registry
+from .core import coordinate_loader as agent_registry
 from . import commandresult
 from . import swarmstatus
 

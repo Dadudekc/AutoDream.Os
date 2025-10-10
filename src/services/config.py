@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from ..core.config_core import get_config
+from src.core.config_core import get_config
 
 # Default messaging settings from SINGLE SOURCE OF TRUTH
 DEFAULT_MODE: str = get_config("DEFAULT_MODE", "coordinated")

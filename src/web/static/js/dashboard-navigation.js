@@ -7,7 +7,7 @@
  * @license MIT
  */
 
-import { loadDashboardData } from './dashboard-core.js';
+import { loadDashboardData } from './dashboard-data-manager.js';
 
 /**
  * Setup navigation functionality

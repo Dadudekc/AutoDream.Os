@@ -3,6 +3,30 @@
   "directory": "src/trading_robot",
   "files_analyzed": [
     {
+      "file_path": "src\\trading_robot\\core\\__init__.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
       "file_path": "src\\trading_robot\\core\\dependency_injection.py",
       "analysis": {
         "language": ".py",
@@ -27,7 +51,7 @@
       }
     },
     {
-      "file_path": "src\\trading_robot\\core\\__init__.py",
+      "file_path": "src\\trading_robot\\repositories\\__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -75,7 +99,7 @@
       }
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\__init__.py",
+      "file_path": "src\\trading_robot\\repositories\\implementations\\__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -147,7 +171,7 @@
       }
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\implementations\\__init__.py",
+      "file_path": "src\\trading_robot\\repositories\\interfaces\\__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -243,7 +267,7 @@
       }
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\interfaces\\__init__.py",
+      "file_path": "src\\trading_robot\\repositories\\models\\__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -363,7 +387,7 @@
       }
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\models\\__init__.py",
+      "file_path": "src\\trading_robot\\services\\__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -435,7 +459,7 @@
       }
     },
     {
-      "file_path": "src\\trading_robot\\services\\__init__.py",
+      "file_path": "src\\trading_robot\\services\\analytics\\__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -556,30 +580,6 @@
     },
     {
       "file_path": "src\\trading_robot\\services\\analytics\\trading_bi_orchestrator.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "src\\trading_robot\\services\\analytics\\__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -618,12 +618,17 @@
   },
   "consolidation_opportunities": [
     {
+      "file_path": "src\\trading_robot\\core\\__init__.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
       "file_path": "src\\trading_robot\\core\\dependency_injection.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\trading_robot\\core\\__init__.py",
+      "file_path": "src\\trading_robot\\repositories\\__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
@@ -633,7 +638,7 @@
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\__init__.py",
+      "file_path": "src\\trading_robot\\repositories\\implementations\\__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
@@ -648,7 +653,7 @@
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\implementations\\__init__.py",
+      "file_path": "src\\trading_robot\\repositories\\interfaces\\__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
@@ -668,7 +673,7 @@
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\interfaces\\__init__.py",
+      "file_path": "src\\trading_robot\\repositories\\models\\__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
@@ -693,7 +698,7 @@
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\trading_robot\\repositories\\models\\__init__.py",
+      "file_path": "src\\trading_robot\\services\\__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
@@ -708,7 +713,7 @@
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\trading_robot\\services\\__init__.py",
+      "file_path": "src\\trading_robot\\services\\analytics\\__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
@@ -734,11 +739,6 @@
     },
     {
       "file_path": "src\\trading_robot\\services\\analytics\\trading_bi_orchestrator.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
-      "file_path": "src\\trading_robot\\services\\analytics\\__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     }

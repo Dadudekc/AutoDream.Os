@@ -36,27 +36,12 @@ except ImportError:
     PYQT5_AVAILABLE = False
     logging.warning("PyQt5 not available - GUI disabled")
 
-# V2 Integration imports
-try:
-    from ..core.coordinate_loader import get_coordinate_loader
-    from ..core.unified_config import get_unified_config
-    from ..core.unified_logging_system import get_logger
-except ImportError as e:
-    logging.warning(f"V2 integration imports failed: {e}")
-
-    def get_coordinate_loader():
-        return None
-
-    def get_unified_config():
-        return type("MockConfig", (), {"get_env": lambda x, y=None: y})()
-
-    def get_logger(name):
-        return logging.getLogger(name)
-
-from .components.agent_card import AgentCard
+# V2 Integration imports (uses shared utils for fallbacks)
+from .utils import get_coordinate_loader, get_unified_config, get_logger
 from .components.status_panel import StatusPanel
 from .controllers.base import BaseGUIController
-from .styles.themes import DarkTheme, ThemeManager
+from .styles.themes import ThemeManager
+from .ui_builders import create_header, create_left_panel, create_right_panel
 
 
 if PYQT5_AVAILABLE:
@@ -107,18 +92,29 @@ if PYQT5_AVAILABLE:
             main_layout.setSpacing(20)
 
             # Header
-            self._create_header(main_layout)
+            system_status_ref = [None]  # Reference to store label
+            create_header(main_layout, self.theme, system_status_ref)
+            self.system_status_label = system_status_ref[0]
 
             # Main content area
             content_splitter = QSplitter(Qt.Horizontal)
             main_layout.addWidget(content_splitter)
 
             # Left panel - Agent grid and controls
-            left_panel = self._create_left_panel()
+            callbacks = {
+                'parent': self,
+                'select_all': self.select_all_agents,
+                'clear_selection': self.clear_selection,
+                'ping': self.ping_selected_agents,
+                'get_status': self.get_status_selected_agents,
+                'resume': self.resume_selected_agents,
+                'pause': self.pause_selected_agents
+            }
+            left_panel = create_left_panel(self.theme, self.agent_widgets, callbacks)
             content_splitter.addWidget(left_panel)
 
             # Right panel - Status and logs
-            right_panel = self._create_right_panel()
+            right_panel = create_right_panel(self.status_panel)
             content_splitter.addWidget(right_panel)
 
             # Set splitter proportions
@@ -126,129 +122,6 @@ if PYQT5_AVAILABLE:
 
             # Status bar
             self.statusBar().showMessage("Ready - Dream.OS Cell Phone v2.0")
-
-        def _create_header(self, layout: QVBoxLayout) -> None:
-            """Create header section."""
-            header_frame = QFrame()
-            header_frame.setStyleSheet(
-                """
-                QFrame {
-                    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
-                        stop:0 #2C3E50, stop:1 #3498DB);
-                    border-radius: 10px;
-                    padding: 15px;
-                }
-            """
-            )
-
-            header_layout = QHBoxLayout(header_frame)
-
-            # Title
-            title_label = QLabel("📱 Dream.OS Cell Phone v2.0")
-            title_label.setStyleSheet(
-                """
-                QLabel {
-                    font-size: 24px;
-                    font-weight: bold;
-                    color: white;
-                }
-            """
-            )
-            header_layout.addWidget(title_label)
-
-            header_layout.addStretch()
-
-            # System status
-            self.system_status_label = QLabel("🟢 System Online")
-            self.system_status_label.setStyleSheet(
-                """
-                QLabel {
-                    font-size: 14px;
-                    color: #27AE60;
-                    font-weight: bold;
-                }
-            """
-            )
-            header_layout.addWidget(self.system_status_label)
-
-            layout.addWidget(header_frame)
-
-        def _create_left_panel(self) -> QWidget:
-            """Create left panel with agent grid and controls."""
-            panel = QWidget()
-            panel.setMaximumWidth(450)
-            layout = QVBoxLayout(panel)
-
-            # Agent selection group
-            agents_group = QGroupBox("Agents")
-            agents_group.setStyleSheet(self.theme.get_style("group_box"))
-            agents_layout = QVBoxLayout(agents_group)
-
-            # Agent grid (4x2 for 8 agents)
-            from PyQt5.QtWidgets import QGridLayout
-
-            agent_grid = QGridLayout()
-            for i in range(1, 9):
-                agent_id = f"Agent-{i}"
-                agent_card = AgentCard(agent_id, self)
-                self.agent_widgets[agent_id] = agent_card
-
-                row = (i - 1) // 4
-                col = (i - 1) % 4
-                agent_grid.addWidget(agent_card, row, col)
-
-            agents_layout.addLayout(agent_grid)
-
-            # Selection controls
-            controls_layout = QHBoxLayout()
-
-            select_all_btn = QPushButton("Select All")
-            select_all_btn.setStyleSheet(self.theme.get_style("button"))
-            select_all_btn.clicked.connect(self.select_all_agents)
-            controls_layout.addWidget(select_all_btn)
-
-            clear_btn = QPushButton("Clear")
-            clear_btn.setStyleSheet(self.theme.get_style("button_error"))
-            clear_btn.clicked.connect(self.clear_selection)
-            controls_layout.addWidget(clear_btn)
-
-            agents_layout.addLayout(controls_layout)
-            layout.addWidget(agents_group)
-
-            # Action buttons group
-            actions_group = QGroupBox("Actions")
-            actions_group.setStyleSheet(self.theme.get_style("group_box"))
-            actions_layout = QVBoxLayout(actions_group)
-
-            actions = [
-                ("🔍 Ping", self.ping_selected_agents),
-                ("📊 Status", self.get_status_selected_agents),
-                ("▶️ Resume", self.resume_selected_agents),
-                ("⏸️ Pause", self.pause_selected_agents),
-            ]
-
-            for text, callback in actions:
-                btn = QPushButton(text)
-                btn.setStyleSheet(self.theme.get_style("button"))
-                btn.clicked.connect(callback)
-                actions_layout.addWidget(btn)
-
-            layout.addWidget(actions_group)
-            layout.addStretch()
-
-            return panel
-
-        def _create_right_panel(self) -> QWidget:
-            """Create right panel with status and logs."""
-            panel = QWidget()
-            layout = QVBoxLayout(panel)
-
-            # Status panel
-            self.status_panel = StatusPanel(self)
-            self.log_display = self.status_panel.log_display
-            layout.addWidget(self.status_panel)
-
-            return panel
 
         def _setup_status_updates(self) -> None:
             """Setup periodic status updates."""

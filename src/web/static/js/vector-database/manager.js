@@ -12,7 +12,7 @@
  */
 
 import { VectorDatabaseCore } from './core.js';
-import { VectorDatabaseUI } from './ui.js';
+import { VectorDatabaseUIOptimized as VectorDatabaseUI } from './ui-optimized.js';
 import { VectorDatabaseSearch } from './search.js';
 import { VectorDatabaseAnalytics } from './analytics.js';
 

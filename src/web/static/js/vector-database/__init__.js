@@ -12,7 +12,7 @@
  */
 
 export { VectorDatabaseCore } from './core.js';
-export { VectorDatabaseUI } from './ui.js';
+export { VectorDatabaseUIOptimized as VectorDatabaseUI } from './ui-optimized.js';
 export { VectorDatabaseSearch } from './search.js';
 export { VectorDatabaseAnalytics } from './analytics.js';
 export { VectorDatabaseManager } from './manager.js';

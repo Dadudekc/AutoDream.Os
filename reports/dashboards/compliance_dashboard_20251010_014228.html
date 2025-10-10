@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V2 Compliance Dashboard - 2025-10-10 01:42:28</title>
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .scan-date {
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        .score-card {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .score-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .score-circle.excellent { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); }
+        .score-circle.good { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .score-circle.poor { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+
+        .score-value {
+            font-size: 4em;
+            font-weight: bold;
+            color: white;
+        }
+
+        .score-label {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .metric-card h3 {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .metric-value {
+            font-size: 3em;
+            font-weight: bold;
+        }
+
+        .violations-section, .complexity-section, .top-violators-section, .suggestions-section {
+            margin: 40px 0;
+        }
+
+        h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .violations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .violation-card {
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .violation-card.critical { background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%); color: white; }
+        .violation-card.major { background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%); color: #333; }
+        .violation-card.minor { background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%); color: white; }
+        .violation-card.high { background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%); color: white; }
+        .violation-card.medium { background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%); color: #333; }
+        .violation-card.low { background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%); color: white; }
+
+        .violation-card h4 {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .violation-count {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        tbody tr:hover {
+            background: #e9ecef;
+        }
+
+        .badge {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+
+        .badge.high { background: #dc3545; color: white; }
+        .badge.medium { background: #ffc107; color: #333; }
+        .badge.low { background: #28a745; color: white; }
+        .badge.yes { background: #17a2b8; color: white; }
+        .badge.no { background: #6c757d; color: white; }
+
+        .confidence-bar {
+            width: 100px;
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #56ab2f 0%, #a8e063 100%);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 2px solid #e9ecef;
+            color: #999;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🐝 V2 Compliance Dashboard</h1>
+            <p class="subtitle">Agent_Cellphone_V2 Quality Gates Report</p>
+            <p class="scan-date">Scan Date: 2025-10-10 01:42:28</p>
+        </header>
+
+        <div class="score-card">
+            <div class="score-circle poor">
+                <div class="score-value">28.8</div>
+                <div class="score-label">Overall Quality Score</div>
+            </div>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <h3>📁 Files Scanned</h3>
+                <div class="metric-value">644</div>
+            </div>
+            <div class="metric-card">
+                <h3>✅ V2 Compliance</h3>
+                <div class="metric-value">59.0%</div>
+            </div>
+            <div class="metric-card">
+                <h3>🧠 Complexity</h3>
+                <div class="metric-value">92.5%</div>
+            </div>
+        </div>
+
+        <div class="violations-section">
+            <h2>🚨 Violations Summary</h2>
+            <div class="violations-grid">
+                <div class="violation-card critical">
+                    <h4>🔴 CRITICAL</h4>
+                    <div class="violation-count">1</div>
+                    <p>Files >600 lines</p>
+                </div>
+                <div class="violation-card major">
+                    <h4>🟡 MAJOR</h4>
+                    <div class="violation-count">523</div>
+                    <p>V2 rule violations</p>
+                </div>
+                <div class="violation-card minor">
+                    <h4>🟢 MINOR</h4>
+                    <div class="violation-count">69</div>
+                    <p>Guideline violations</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="complexity-section">
+            <h2>📊 Complexity Violations</h2>
+            <div class="violations-grid">
+                <div class="violation-card high">
+                    <h4>🔴 HIGH</h4>
+                    <div class="violation-count">21</div>
+                    <p>≥2x threshold</p>
+                </div>
+                <div class="violation-card medium">
+                    <h4>🟡 MEDIUM</h4>
+                    <div class="violation-count">28</div>
+                    <p>1.5-2x threshold</p>
+                </div>
+                <div class="violation-card low">
+                    <h4>🟢 LOW</h4>
+                    <div class="violation-count">72</div>
+                    <p>1-1.5x threshold</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="top-violators-section">
+            <h2>🎯 Top Violators</h2>
+            <table class="violators-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>File</th>
+                        <th>V2 Issues</th>
+                        <th>Complexity</th>
+                        <th>Suggestion</th>
+                        <th>Priority</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                <tr>
+                    <td>1</td>
+                    <td><strong>base_monitoring_manager.py</strong></td>
+                    <td>11</td>
+                    <td>8</td>
+                    <td><span class="badge yes">Yes</span></td>
+                    <td><span class="badge high">HIGH</span></td>
+                </tr>
+            
+
+                <tr>
+                    <td>2</td>
+                    <td><strong>core_monitoring_manager.py</strong></td>
+                    <td>9</td>
+                    <td>6</td>
+                    <td><span class="badge yes">Yes</span></td>
+                    <td><span class="badge high">HIGH</span></td>
+                </tr>
+            
+
+                <tr>
+                    <td>3</td>
+                    <td><strong>base_manager.py</strong></td>
+                    <td>9</td>
+                    <td>0</td>
+                    <td><span class="badge yes">Yes</span></td>
+                    <td><span class="badge high">HIGH</span></td>
+                </tr>
+            
+
+                <tr>
+                    <td>4</td>
+                    <td><strong>core_configuration_manager.py</strong></td>
+                    <td>7</td>
+                    <td>5</td>
+                    <td><span class="badge yes">Yes</span></td>
+                    <td><span class="badge high">HIGH</span></td>
+                </tr>
+            
+
+                <tr>
+                    <td>5</td>
+                    <td><strong>vector_database_service_unified.py</strong></td>
+                    <td>9</td>
+                    <td>0</td>
+                    <td><span class="badge yes">Yes</span></td>
+                    <td><span class="badge high">HIGH</span></td>
+                </tr>
+            
+
+                <tr>
+                    <td>6</td>
+                    <td><strong>base_execution_manager.py</strong></td>
+                    <td>7</td>
+                    <td>2</td>
+                    <td><span class="badge no">No</span></td>
+                    <td><span class="badge high">HIGH</span></td>
+                </tr>
+            
+
+                <tr>
+                    <td>7</td>
+                    <td><strong>performance_cli.py</strong></td>
+                    <td>4</td>
+                    <td>8</td>
+                    <td><span class="badge no">No</span></td>
+                    <td><span class="badge high">HIGH</span></td>
+                </tr>
+            
+
+                <tr>
+                    <td>8</td>
+                    <td><strong>capture.py</strong></td>
+                    <td>7</td>
+                    <td>0</td>
+                    <td><span class="badge no">No</span></td>
+                    <td><span class="badge high">HIGH</span></td>
+                </tr>
+            
+
+                <tr>
+                    <td>9</td>
+                    <td><strong>message_queue.py</strong></td>
+                    <td>8</td>
+                    <td>0</td>
+                    <td><span class="badge no">No</span></td>
+                    <td><span class="badge high">HIGH</span></td>
+                </tr>
+            
+
+                <tr>
+                    <td>10</td>
+                    <td><strong>simple_onboarding.py</strong></td>
+                    <td>6</td>
+                    <td>1</td>
+                    <td><span class="badge yes">Yes</span></td>
+                    <td><span class="badge high">HIGH</span></td>
+                </tr>
+            
+                </tbody>
+            </table>
+        </div>
+
+        <div class="suggestions-section">
+            <h2>💡 Refactoring Suggestions</h2>
+            <table class="suggestions-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>File</th>
+                        <th>Current Lines</th>
+                        <th>Estimated Result</th>
+                        <th>Modules</th>
+                        <th>Confidence</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                <tr>
+                    <td>1</td>
+                    <td><strong>core_monitoring_manager.py</strong></td>
+                    <td>549</td>
+                    <td>327 <span style="color: #28a745;">(-40%)</span></td>
+                    <td>2</td>
+                    <td>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: 75.0%"></div>
+                        </div>
+                        75%
+                    </td>
+                </tr>
+            
+
+                <tr>
+                    <td>2</td>
+                    <td><strong>base_monitoring_manager.py</strong></td>
+                    <td>531</td>
+                    <td>316 <span style="color: #28a745;">(-40%)</span></td>
+                    <td>2</td>
+                    <td>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: 76.0%"></div>
+                        </div>
+                        76%
+                    </td>
+                </tr>
+            
+
+                <tr>
+                    <td>3</td>
+                    <td><strong>base_manager.py</strong></td>
+                    <td>475</td>
+                    <td>494 <span style="color: #28a745;">(--4%)</span></td>
+                    <td>0</td>
+                    <td>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: 30.0%"></div>
+                        </div>
+                        30%
+                    </td>
+                </tr>
+            
+
+                <tr>
+                    <td>4</td>
+                    <td><strong>vector_integration_unified.py</strong></td>
+                    <td>471</td>
+                    <td>471 <span style="color: #28a745;">(-0%)</span></td>
+                    <td>0</td>
+                    <td>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: 30.0%"></div>
+                        </div>
+                        30%
+                    </td>
+                </tr>
+            
+
+                <tr>
+                    <td>5</td>
+                    <td><strong>messaging_core.py</strong></td>
+                    <td>464</td>
+                    <td>434 <span style="color: #28a745;">(-6%)</span></td>
+                    <td>1</td>
+                    <td>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: 30.0%"></div>
+                        </div>
+                        30%
+                    </td>
+                </tr>
+            
+
+                <tr>
+                    <td>6</td>
+                    <td><strong>unified_onboarding_service.py</strong></td>
+                    <td>463</td>
+                    <td>367 <span style="color: #28a745;">(-21%)</span></td>
+                    <td>2</td>
+                    <td>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: 72.0%"></div>
+                        </div>
+                        72%
+                    </td>
+                </tr>
+            
+
+                <tr>
+                    <td>7</td>
+                    <td><strong>simple_onboarding.py</strong></td>
+                    <td>445</td>
+                    <td>165 <span style="color: #28a745;">(-63%)</span></td>
+                    <td>2</td>
+                    <td>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: 88.0%"></div>
+                        </div>
+                        88%
+                    </td>
+                </tr>
+            
+
+                <tr>
+                    <td>8</td>
+                    <td><strong>vector_database_service_unified.py</strong></td>
+                    <td>437</td>
+                    <td>444 <span style="color: #28a745;">(--2%)</span></td>
+                    <td>0</td>
+                    <td>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: 30.0%"></div>
+                        </div>
+                        30%
+                    </td>
+                </tr>
+            
+
+                <tr>
+                    <td>9</td>
+                    <td><strong>onboarding_service_unified.py</strong></td>
+                    <td>428</td>
+                    <td>323 <span style="color: #28a745;">(-25%)</span></td>
+                    <td>2</td>
+                    <td>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: 76.0%"></div>
+                        </div>
+                        76%
+                    </td>
+                </tr>
+            
+
+                <tr>
+                    <td>10</td>
+                    <td><strong>core_configuration_manager.py</strong></td>
+                    <td>414</td>
+                    <td>274 <span style="color: #28a745;">(-34%)</span></td>
+                    <td>1</td>
+                    <td>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: 79.0%"></div>
+                        </div>
+                        79%
+                    </td>
+                </tr>
+            
+                </tbody>
+            </table>
+        </div>
+
+        <footer>
+            <p>Generated by Agent-6 Quality Gates Suite</p>
+            <p>🐝 WE ARE SWARM - Intelligent Quality Automation</p>
+        </footer>
+    </div>
+</body>
+</html>

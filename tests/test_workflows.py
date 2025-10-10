@@ -10,7 +10,7 @@ License: MIT
 """
 
 import pytest
-from src.workflows.models import (
+from workflows.models import (
     WorkflowState,
     WorkflowStep,
     AIResponse,
@@ -18,13 +18,13 @@ from src.workflows.models import (
     ResponseType,
     CoordinationStrategy,
 )
-from src.workflows.engine import WorkflowEngine
-from src.workflows.steps import (
+from workflows.engine import WorkflowEngine
+from workflows.steps import (
     WorkflowStepBuilder,
     ConversationLoopBuilder,
     MultiAgentOrchestrationBuilder,
 )
-from src.workflows.strategies import ParallelStrategy, SequentialStrategy
+from workflows.strategies import ParallelStrategy, SequentialStrategy
 
 
 class TestWorkflowModels:

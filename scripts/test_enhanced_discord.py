@@ -283,8 +283,8 @@ class EnhancedDiscordTester:
         # Channel information
         if 'channel_config_info' in self.test_results:
             info = self.test_results['channel_config_info']
-            print("
-📺 Channel Information:"            print(f"   Total Channels: {info['total_channels']}")
+            print("\n📺 Channel Information:")
+            print(f"   Total Channels: {info['total_channels']}")
             print(f"   Configured Webhooks: {info['configured_webhooks']}")
             print(f"   Agents with Channels: {len(info['agents_with_channels'])}")
 

@@ -171,6 +171,30 @@
       }
     },
     {
+      "file_path": "src\\domain\\ports\\browser.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
       "file_path": "src\\domain\\ports\\clock.py",
       "analysis": {
         "language": ".py",
@@ -244,30 +268,6 @@
     },
     {
       "file_path": "src\\domain\\ports\\task_repository.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "src\\domain\\ports\\browser.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -437,6 +437,11 @@
       "priority": "MEDIUM"
     },
     {
+      "file_path": "src\\domain\\ports\\browser.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
       "file_path": "src\\domain\\ports\\clock.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
@@ -453,11 +458,6 @@
     },
     {
       "file_path": "src\\domain\\ports\\task_repository.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
-      "file_path": "src\\domain\\ports\\browser.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },

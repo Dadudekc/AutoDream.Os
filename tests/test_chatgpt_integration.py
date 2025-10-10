@@ -10,9 +10,9 @@ License: MIT
 """
 
 import pytest
-from src.services.chatgpt.navigator import ChatGPTNavigator
-from src.services.chatgpt.session import BrowserSessionManager
-from src.services.chatgpt.extractor import ConversationExtractor
+from services.chatgpt.navigator import ChatGPTNavigator
+from services.chatgpt.session import BrowserSessionManager
+from services.chatgpt.extractor import ConversationExtractor
 
 
 class TestChatGPTNavigator:

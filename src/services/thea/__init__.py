@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #!/usr/bin/env python3
 """
 Thea Services Package - V3 Autonomous Agent Communication
@@ -87,3 +88,18 @@ __all__ = [
     "create_login_detector", 
     "create_browser_manager"
 ]
+=======
+"""
+Thea Service - V2 Compliant
+===========================
+
+Autonomous Thea Manager communication service.
+"""
+
+from .thea_service import TheaService, create_thea_service
+
+__all__ = ['TheaService', 'create_thea_service']
+
+
+
+>>>>>>> origin/agent-3-v2-infrastructure-optimization

@@ -1,0 +1,59 @@
+# Agent Cellphone V2 - Vision System Configuration
+# Precedence: CLI flags → ENV vars → this file → hardcoded defaults
+
+vision:
+  # Screen capture settings
+  capture:
+    frequency: 1.0  # seconds between captures
+    full_screen: false  # default to region capture
+    region: null  # (x, y, width, height) - null for coordinate-based
+    format: "RGB"  # RGB, RGBA, L (grayscale)
+    quality: 95  # JPEG quality (1-100)
+    
+  # OCR settings
+  ocr:
+    language: "eng"  # Tesseract language code
+    confidence_threshold: 60  # minimum confidence for text detection
+    preprocessing:
+      denoise: true
+      threshold: "otsu"  # otsu, adaptive, binary
+      scale_factor: 2.0  # upscale for better OCR
+      
+  # Visual analysis
+  analysis:
+    ui_element_detection: true
+    min_element_area: 100  # minimum area for UI elements
+    contour_approximation: 0.02  # contour simplification factor
+    edge_detection:
+      low_threshold: 50
+      high_threshold: 150
+      
+  # Integration settings
+  integration:
+    coordinate_based_regions: true  # use agent coordinates for screen regions
+    callback_enabled: true
+    data_persistence: true
+    max_analysis_history: 100  # number of analyses to keep in memory
+
+# Coordinate integration
+coordinates:
+  # Use existing coordinate system
+  source: "config/coordinates.json"
+  fallback_regions:
+    Agent-1: [100, 100, 400, 300]
+    Agent-2: [500, 100, 400, 300]
+    # Add more fallback regions as needed
+
+# Performance settings
+performance:
+  max_concurrent_captures: 3
+  capture_queue_size: 10
+  analysis_cache_size: 50
+  cleanup_interval: 300  # seconds
+
+# V2 Compliance
+v2_compliance:
+  file_size_limit: 400
+  solid_principles: true
+  logging_level: "INFO"
+  error_handling: "comprehensive"

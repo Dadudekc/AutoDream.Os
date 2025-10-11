@@ -1,0 +1,13 @@
+{
+  "timestamp": "2025-10-04T18:20:50.870567",
+  "screenshot_path": "thea_responses\\thea_response_2025-10-04_18-20-50.png",
+  "sent_message_path": "thea_responses\\sent_message_2025-10-04_18-18-31.txt",
+  "sent_message_preview": "Agent-4 testing with corrected URL and proper #prompt-textarea selector",
+  "extracted_response": "",
+  "thea_url": "https://chatgpt.com/g/g-67f437d96d7c81918b2dbc12f0423867-thea-manager?model=gpt-5",
+  "user_observation": "automated_extraction_used",
+  "status": "response_captured",
+  "detection_method": "automated_dom_polling",
+  "character_count": 71,
+  "response_extracted": false
+}

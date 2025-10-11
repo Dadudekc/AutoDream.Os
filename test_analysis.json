@@ -1,0 +1,512 @@
+{
+    "test_discord_integration.py": {
+        "language": ".py",
+        "functions": [
+            "test_discord_imports",
+            "test_discord_commander_creation",
+            "test_webhook_integration",
+            "main"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 4
+    },
+    "test_unified_system.py": {
+        "language": ".py",
+        "functions": [
+            "test_imports",
+            "test_initialization",
+            "test_cookie_methods",
+            "test_api",
+            "test_context_manager",
+            "main"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 6
+    },
+    "tests\\test_chatgpt_integration.py": {
+        "language": ".py",
+        "functions": [
+            "test_navigator_initialization",
+            "test_navigation_info",
+            "test_session_manager_initialization",
+            "test_session_info",
+            "test_clear_session",
+            "test_extractor_initialization",
+            "test_extraction_info",
+            "test_list_conversations",
+            "test_cleanup_old_conversations"
+        ],
+        "classes": {
+            "TestChatGPTNavigator": {
+                "methods": [
+                    "test_navigator_initialization",
+                    "test_navigation_info"
+                ],
+                "docstring": "Test ChatGPT navigator.",
+                "base_classes": []
+            },
+            "TestBrowserSessionManager": {
+                "methods": [
+                    "test_session_manager_initialization",
+                    "test_session_info",
+                    "test_clear_session"
+                ],
+                "docstring": "Test browser session manager.",
+                "base_classes": []
+            },
+            "TestConversationExtractor": {
+                "methods": [
+                    "test_extractor_initialization",
+                    "test_extraction_info",
+                    "test_list_conversations",
+                    "test_cleanup_old_conversations"
+                ],
+                "docstring": "Test conversation extractor.",
+                "base_classes": []
+            }
+        },
+        "routes": [],
+        "complexity": 18
+    },
+    "tests\\test_workflows.py": {
+        "language": ".py",
+        "functions": [
+            "test_workflow_state_enum",
+            "test_workflow_step_creation",
+            "test_workflow_step_dependencies",
+            "test_ai_response_creation",
+            "test_workflow_progress_calculation",
+            "test_engine_initialization",
+            "test_add_step",
+            "test_find_next_step",
+            "test_conversation_loop_builder",
+            "test_multi_agent_orchestration_builder"
+        ],
+        "classes": {
+            "TestWorkflowModels": {
+                "methods": [
+                    "test_workflow_state_enum",
+                    "test_workflow_step_creation",
+                    "test_workflow_step_dependencies",
+                    "test_ai_response_creation",
+                    "test_workflow_progress_calculation"
+                ],
+                "docstring": "Test workflow data models.",
+                "base_classes": []
+            },
+            "TestWorkflowEngine": {
+                "methods": [
+                    "test_engine_initialization",
+                    "test_add_step",
+                    "test_find_next_step"
+                ],
+                "docstring": "Test workflow engine.",
+                "base_classes": []
+            },
+            "TestWorkflowStepBuilders": {
+                "methods": [
+                    "test_conversation_loop_builder",
+                    "test_multi_agent_orchestration_builder"
+                ],
+                "docstring": "Test workflow step builders.",
+                "base_classes": []
+            },
+            "TestWorkflowStrategies": {
+                "methods": [],
+                "docstring": "Test workflow strategies.",
+                "base_classes": []
+            }
+        },
+        "routes": [],
+        "complexity": 20
+    },
+    "tests\\test_vision.py": {
+        "language": ".py",
+        "functions": [
+            "test_screen_capture_initialization",
+            "test_capture_info",
+            "test_text_extractor_initialization",
+            "test_language_setting",
+            "test_confidence_threshold_setting",
+            "test_ocr_info",
+            "test_visual_analyzer_initialization",
+            "test_analysis_info",
+            "test_vision_system_initialization",
+            "test_get_capabilities",
+            "test_cleanup_old_data"
+        ],
+        "classes": {
+            "TestScreenCapture": {
+                "methods": [
+                    "test_screen_capture_initialization",
+                    "test_capture_info"
+                ],
+                "docstring": "Test screen capture functionality.",
+                "base_classes": []
+            },
+            "TestTextExtractor": {
+                "methods": [
+                    "test_text_extractor_initialization",
+                    "test_language_setting",
+                    "test_confidence_threshold_setting",
+                    "test_ocr_info"
+                ],
+                "docstring": "Test OCR text extraction.",
+                "base_classes": []
+            },
+            "TestVisualAnalyzer": {
+                "methods": [
+                    "test_visual_analyzer_initialization",
+                    "test_analysis_info"
+                ],
+                "docstring": "Test visual analysis functionality.",
+                "base_classes": []
+            },
+            "TestVisionSystem": {
+                "methods": [
+                    "test_vision_system_initialization",
+                    "test_get_capabilities",
+                    "test_cleanup_old_data"
+                ],
+                "docstring": "Test vision system integration.",
+                "base_classes": []
+            }
+        },
+        "routes": [],
+        "complexity": 22
+    },
+    "tests\\test_analytics_framework.py": {
+        "language": ".py",
+        "functions": [
+            "test_caching_engine",
+            "test_module_pass_throughs",
+            "test_analytics_engine_core_execute"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 3
+    },
+    "tests\\test_overnight_runner.py": {
+        "language": ".py",
+        "functions": [
+            "test_orchestrator_initialization",
+            "test_orchestrator_status",
+            "test_scheduler_initialization",
+            "test_add_task",
+            "test_task_priority_ordering",
+            "test_scheduler_status",
+            "test_monitor_initialization",
+            "test_start_stop_monitoring",
+            "test_monitor_status",
+            "test_performance_metrics",
+            "test_recovery_initialization",
+            "test_recovery_status"
+        ],
+        "classes": {
+            "TestOvernightOrchestrator": {
+                "methods": [
+                    "test_orchestrator_initialization",
+                    "test_orchestrator_status"
+                ],
+                "docstring": "Test overnight orchestrator.",
+                "base_classes": []
+            },
+            "TestTaskScheduler": {
+                "methods": [
+                    "test_scheduler_initialization",
+                    "test_add_task",
+                    "test_task_priority_ordering",
+                    "test_scheduler_status"
+                ],
+                "docstring": "Test task scheduler.",
+                "base_classes": []
+            },
+            "TestProgressMonitor": {
+                "methods": [
+                    "test_monitor_initialization",
+                    "test_start_stop_monitoring",
+                    "test_monitor_status",
+                    "test_performance_metrics"
+                ],
+                "docstring": "Test progress monitor.",
+                "base_classes": []
+            },
+            "TestRecoverySystem": {
+                "methods": [
+                    "test_recovery_initialization",
+                    "test_recovery_status"
+                ],
+                "docstring": "Test recovery system.",
+                "base_classes": []
+            }
+        },
+        "routes": [],
+        "complexity": 24
+    },
+    "tests\\test_browser_unified.py": {
+        "language": ".py",
+        "functions": [
+            "browser_config",
+            "thea_config",
+            "cleanup_test_files",
+            "test_suite_metadata",
+            "test_various_screen_sizes",
+            "test_headless_modes",
+            "test_singleton_same_instance",
+            "test_config_singleton_pattern",
+            "test_thread_safety_basic",
+            "test_thread_safety_concurrent_operations",
+            "test_mobile_emulation_config",
+            "test_mobile_user_agent",
+            "test_cookie_save_load_thea_automation",
+            "test_cookie_expiry_validation",
+            "test_chatgpt_url_configuration",
+            "test_browser_context_manager",
+            "create_adapter",
+            "safe_append",
+            "__init__",
+            "__init__",
+            "has_valid_cookies",
+            "cleanup",
+            "cleanup"
+        ],
+        "classes": {
+            "TestSingletonPattern": {
+                "methods": [
+                    "test_singleton_same_instance",
+                    "test_config_singleton_pattern",
+                    "test_thread_safety_basic",
+                    "test_thread_safety_concurrent_operations"
+                ],
+                "docstring": "Test singleton pattern implementation.",
+                "base_classes": []
+            },
+            "TestMobileEmulation": {
+                "methods": [
+                    "test_mobile_emulation_config",
+                    "test_mobile_user_agent"
+                ],
+                "docstring": "Test mobile emulation capabilities.",
+                "base_classes": []
+            },
+            "TestCookiePersistence": {
+                "methods": [
+                    "test_cookie_save_load_thea_automation",
+                    "test_cookie_expiry_validation"
+                ],
+                "docstring": "Test cookie persistence functionality.",
+                "base_classes": []
+            },
+            "TestChatGPTIntegration": {
+                "methods": [
+                    "test_chatgpt_url_configuration"
+                ],
+                "docstring": "Test ChatGPT/Thea integration compatibility.",
+                "base_classes": []
+            },
+            "TestBrowserLifecycle": {
+                "methods": [
+                    "test_browser_context_manager"
+                ],
+                "docstring": "Test browser lifecycle management.",
+                "base_classes": []
+            },
+            "BrowserConfig": {
+                "methods": [],
+                "docstring": null,
+                "base_classes": []
+            },
+            "TheaConfig": {
+                "methods": [],
+                "docstring": null,
+                "base_classes": []
+            },
+            "SessionInfo": {
+                "methods": [],
+                "docstring": null,
+                "base_classes": []
+            },
+            "ChromeBrowserAdapter": {
+                "methods": [
+                    "__init__"
+                ],
+                "docstring": null,
+                "base_classes": []
+            },
+            "TheaAutoConfig": {
+                "methods": [],
+                "docstring": null,
+                "base_classes": []
+            },
+            "TheaAutomation": {
+                "methods": [
+                    "__init__",
+                    "has_valid_cookies",
+                    "cleanup"
+                ],
+                "docstring": null,
+                "base_classes": []
+            },
+            "TestAutomation": {
+                "methods": [
+                    "cleanup"
+                ],
+                "docstring": null,
+                "base_classes": [
+                    "TheaAutomation"
+                ]
+            }
+        },
+        "routes": [],
+        "complexity": 38
+    },
+    "tools\\test_imports.py": {
+        "language": ".py",
+        "functions": [
+            "test_imports"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 1
+    },
+    "trading_robot\\backtesting\\backtester.py": {
+        "language": ".py",
+        "functions": [
+            "run_sample_backtest",
+            "__init__",
+            "calculate_metrics",
+            "print_summary",
+            "__init__",
+            "run_backtest",
+            "_execute_trade",
+            "_calculate_portfolio_value",
+            "_close_all_positions",
+            "run_walk_forward_optimization",
+            "plot_portfolio_value",
+            "plot_drawdown",
+            "plot_trade_distribution"
+        ],
+        "classes": {
+            "BacktestResult": {
+                "methods": [
+                    "__init__",
+                    "calculate_metrics",
+                    "print_summary"
+                ],
+                "docstring": "Results of a backtest",
+                "base_classes": []
+            },
+            "Backtester": {
+                "methods": [
+                    "__init__",
+                    "run_backtest",
+                    "_execute_trade",
+                    "_calculate_portfolio_value",
+                    "_close_all_positions",
+                    "run_walk_forward_optimization"
+                ],
+                "docstring": "Backtesting engine for trading strategies",
+                "base_classes": []
+            },
+            "BacktestVisualizer": {
+                "methods": [
+                    "plot_portfolio_value",
+                    "plot_drawdown",
+                    "plot_trade_distribution"
+                ],
+                "docstring": "Visualization tools for backtest results",
+                "base_classes": []
+            }
+        },
+        "routes": [],
+        "complexity": 25
+    },
+    "trading_robot\\tests\\test_trading_robot.py": {
+        "language": ".py",
+        "functions": [
+            "pytest_configure",
+            "create_mock_market_data",
+            "run_all_tests",
+            "mock_api",
+            "test_client_initialization",
+            "test_get_account_info",
+            "test_get_positions",
+            "risk_manager",
+            "test_initialization",
+            "test_validate_trade_success",
+            "test_validate_trade_daily_loss_limit",
+            "test_calculate_position_size",
+            "test_stop_loss_calculation",
+            "test_take_profit_calculation",
+            "sample_data",
+            "test_trend_following_strategy",
+            "test_mean_reversion_strategy",
+            "test_data_validation",
+            "sample_data",
+            "test_backtest_initialization",
+            "test_calculate_metrics"
+        ],
+        "classes": {
+            "TestAlpacaClient": {
+                "methods": [
+                    "mock_api",
+                    "test_client_initialization",
+                    "test_get_account_info",
+                    "test_get_positions"
+                ],
+                "docstring": "Test Alpaca API client",
+                "base_classes": []
+            },
+            "TestRiskManager": {
+                "methods": [
+                    "risk_manager",
+                    "test_initialization",
+                    "test_validate_trade_success",
+                    "test_validate_trade_daily_loss_limit",
+                    "test_calculate_position_size",
+                    "test_stop_loss_calculation",
+                    "test_take_profit_calculation"
+                ],
+                "docstring": "Test risk management system",
+                "base_classes": []
+            },
+            "TestTradingStrategies": {
+                "methods": [
+                    "sample_data",
+                    "test_trend_following_strategy",
+                    "test_mean_reversion_strategy",
+                    "test_data_validation"
+                ],
+                "docstring": "Test trading strategies",
+                "base_classes": []
+            },
+            "TestBacktester": {
+                "methods": [
+                    "sample_data",
+                    "test_backtest_initialization",
+                    "test_calculate_metrics"
+                ],
+                "docstring": "Test backtesting system",
+                "base_classes": []
+            },
+            "TestIntegration": {
+                "methods": [],
+                "docstring": "Integration tests",
+                "base_classes": []
+            }
+        },
+        "routes": [],
+        "complexity": 39
+    },
+    "src\\core\\test_categories_config.py": {
+        "language": ".py",
+        "functions": [
+            "get_test_categories"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 1
+    }
+}

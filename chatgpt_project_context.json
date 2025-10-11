@@ -1,0 +1,650 @@
+{
+    "project_root": "D:\\Agent_Cellphone_V2_Repository",
+    "num_files_analyzed": 17,
+    "analysis_details": {
+        "scripts\\setup_chat_mate.py": {
+            "language": ".py",
+            "functions": [
+                "install_dependencies",
+                "create_runtime_directories",
+                "test_chat_mate_import",
+                "main"
+            ],
+            "classes": {},
+            "routes": [],
+            "complexity": 4
+        },
+        "tools\\v2_compliance_checker.py": {
+            "language": ".py",
+            "functions": [
+                "main",
+                "has_violations",
+                "critical_violations",
+                "major_violations",
+                "minor_violations",
+                "__init__",
+                "scan_file",
+                "_check_ast_compliance",
+                "_get_node_line_count",
+                "scan_directory",
+                "_should_skip_file",
+                "format_report",
+                "_get_file_suggestions",
+                "_get_complexity_analysis"
+            ],
+            "classes": {
+                "ComplianceViolation": {
+                    "methods": [],
+                    "docstring": "Represents a V2 compliance violation.",
+                    "base_classes": []
+                },
+                "ComplianceReport": {
+                    "methods": [
+                        "has_violations",
+                        "critical_violations",
+                        "major_violations",
+                        "minor_violations"
+                    ],
+                    "docstring": "V2 compliance scan report.",
+                    "base_classes": []
+                },
+                "V2ComplianceChecker": {
+                    "methods": [
+                        "__init__",
+                        "scan_file",
+                        "_check_ast_compliance",
+                        "_get_node_line_count",
+                        "scan_directory",
+                        "_should_skip_file",
+                        "format_report",
+                        "_get_file_suggestions",
+                        "_get_complexity_analysis"
+                    ],
+                    "docstring": "Automated V2 compliance checker.",
+                    "base_classes": []
+                }
+            },
+            "routes": [],
+            "complexity": 27
+        },
+        "tools\\complexity_analyzer.py": {
+            "language": ".py",
+            "functions": [
+                "main",
+                "has_violations",
+                "__init__",
+                "visit_If",
+                "visit_While",
+                "visit_For",
+                "visit_ExceptHandler",
+                "visit_With",
+                "visit_BoolOp",
+                "visit_comprehension",
+                "__init__",
+                "visit_If",
+                "visit_While",
+                "visit_For",
+                "visit_ExceptHandler",
+                "visit_BoolOp",
+                "visit_Continue",
+                "visit_Break",
+                "__init__",
+                "analyze_file",
+                "_analyze_function",
+                "_check_violations",
+                "_get_severity",
+                "_get_cyclomatic_suggestion",
+                "_get_cognitive_suggestion",
+                "_get_nesting_suggestion",
+                "format_report",
+                "__init__",
+                "analyze_file",
+                "analyze_directory",
+                "_should_skip_file",
+                "generate_summary_report"
+            ],
+            "classes": {
+                "ComplexityMetrics": {
+                    "methods": [],
+                    "docstring": "Complexity metrics for a code entity.",
+                    "base_classes": []
+                },
+                "ComplexityViolation": {
+                    "methods": [],
+                    "docstring": "Represents a complexity violation.",
+                    "base_classes": []
+                },
+                "ComplexityReport": {
+                    "methods": [
+                        "has_violations"
+                    ],
+                    "docstring": "Complexity analysis report.",
+                    "base_classes": []
+                },
+                "CyclomaticComplexityVisitor": {
+                    "methods": [
+                        "__init__",
+                        "visit_If",
+                        "visit_While",
+                        "visit_For",
+                        "visit_ExceptHandler",
+                        "visit_With",
+                        "visit_BoolOp",
+                        "visit_comprehension"
+                    ],
+                    "docstring": "AST visitor to calculate cyclomatic complexity.",
+                    "base_classes": [
+                        "ast.NodeVisitor"
+                    ]
+                },
+                "CognitiveComplexityVisitor": {
+                    "methods": [
+                        "__init__",
+                        "visit_If",
+                        "visit_While",
+                        "visit_For",
+                        "visit_ExceptHandler",
+                        "visit_BoolOp",
+                        "visit_Continue",
+                        "visit_Break"
+                    ],
+                    "docstring": "AST visitor to calculate cognitive complexity.",
+                    "base_classes": [
+                        "ast.NodeVisitor"
+                    ]
+                },
+                "ComplexityAnalyzer": {
+                    "methods": [
+                        "__init__",
+                        "analyze_file",
+                        "_analyze_function",
+                        "_check_violations",
+                        "_get_severity",
+                        "_get_cyclomatic_suggestion",
+                        "_get_cognitive_suggestion",
+                        "_get_nesting_suggestion",
+                        "format_report"
+                    ],
+                    "docstring": "Analyzes code complexity using AST.",
+                    "base_classes": []
+                },
+                "ComplexityAnalysisService": {
+                    "methods": [
+                        "__init__",
+                        "analyze_file",
+                        "analyze_directory",
+                        "_should_skip_file",
+                        "generate_summary_report"
+                    ],
+                    "docstring": "Service for complexity analysis operations.",
+                    "base_classes": []
+                }
+            },
+            "routes": [],
+            "complexity": 63
+        },
+        "src\\core\\refactoring\\tools\\optimization_tools.py": {
+            "language": ".py",
+            "functions": [
+                "__init__",
+                "create_optimization_plan",
+                "execute_optimization",
+                "_identify_optimization_targets",
+                "_generate_optimization_rules",
+                "_identify_performance_improvements",
+                "_identify_v2_compliance_improvements",
+                "_apply_optimizations"
+            ],
+            "classes": {
+                "OptimizationPlan": {
+                    "methods": [],
+                    "docstring": "Plan for optimizing code structure.",
+                    "base_classes": []
+                },
+                "OptimizationTools": {
+                    "methods": [
+                        "__init__",
+                        "create_optimization_plan",
+                        "execute_optimization",
+                        "_identify_optimization_targets",
+                        "_generate_optimization_rules",
+                        "_identify_performance_improvements",
+                        "_identify_v2_compliance_improvements",
+                        "_apply_optimizations"
+                    ],
+                    "docstring": "Optimization tools for refactoring.",
+                    "base_classes": []
+                }
+            },
+            "routes": [],
+            "complexity": 16
+        },
+        "src\\infrastructure\\browser\\__init__.py": {
+            "language": ".py",
+            "functions": [],
+            "classes": {},
+            "routes": [],
+            "complexity": 0
+        },
+        "src\\infrastructure\\browser\\thea_browser_service.py": {
+            "language": ".py",
+            "functions": [
+                "create_thea_browser_service",
+                "__init__",
+                "initialize",
+                "navigate_to",
+                "ensure_thea_authenticated",
+                "_is_thea_authenticated",
+                "execute_script",
+                "find_element",
+                "find_elements",
+                "take_screenshot",
+                "get_page_source",
+                "refresh",
+                "back",
+                "forward",
+                "get_current_url",
+                "get_title",
+                "close",
+                "__enter__",
+                "__exit__"
+            ],
+            "classes": {
+                "TheaBrowserService": {
+                    "methods": [
+                        "__init__",
+                        "initialize",
+                        "navigate_to",
+                        "ensure_thea_authenticated",
+                        "_is_thea_authenticated",
+                        "execute_script",
+                        "find_element",
+                        "find_elements",
+                        "take_screenshot",
+                        "get_page_source",
+                        "refresh",
+                        "back",
+                        "forward",
+                        "get_current_url",
+                        "get_title",
+                        "close",
+                        "__enter__",
+                        "__exit__"
+                    ],
+                    "docstring": "Unified browser service for Thea Manager automation.",
+                    "base_classes": []
+                }
+            },
+            "routes": [],
+            "complexity": 37
+        },
+        "src\\infrastructure\\browser\\thea_content_operations.py": {
+            "language": ".py",
+            "functions": [
+                "create_thea_content_operations",
+                "__init__",
+                "collect_response",
+                "_extract_response_text",
+                "_is_response_complete",
+                "scrape_content",
+                "_clean_content",
+                "_extract_metadata",
+                "_calculate_quality",
+                "send_message",
+                "_find_input_element",
+                "_find_send_button",
+                "navigate_to_conversation",
+                "verify_page_loaded",
+                "get_page_text",
+                "wait_with_exponential_backoff"
+            ],
+            "classes": {
+                "ScrapedContent": {
+                    "methods": [],
+                    "docstring": "Represents scraped content from Thea Manager.",
+                    "base_classes": []
+                },
+                "TheaContentOperations": {
+                    "methods": [
+                        "__init__",
+                        "collect_response",
+                        "_extract_response_text",
+                        "_is_response_complete",
+                        "scrape_content",
+                        "_clean_content",
+                        "_extract_metadata",
+                        "_calculate_quality",
+                        "send_message",
+                        "_find_input_element",
+                        "_find_send_button",
+                        "navigate_to_conversation",
+                        "verify_page_loaded",
+                        "get_page_text",
+                        "wait_with_exponential_backoff"
+                    ],
+                    "docstring": "Unified content operations for Thea Manager automation.",
+                    "base_classes": []
+                }
+            },
+            "routes": [],
+            "complexity": 31
+        },
+        "src\\infrastructure\\browser\\thea_session_management.py": {
+            "language": ".py",
+            "functions": [
+                "create_thea_session_management",
+                "__init__",
+                "save_cookies",
+                "load_cookies",
+                "has_valid_session",
+                "get_session_info_from_cookies",
+                "_persist_cookies",
+                "_load_persisted_cookies",
+                "create_session",
+                "get_session_info",
+                "end_session",
+                "can_make_request",
+                "record_request",
+                "wait_for_rate_limit_reset",
+                "handle_rate_limit_error",
+                "get_rate_limit_status",
+                "cleanup_old_sessions"
+            ],
+            "classes": {
+                "TheaSessionManagement": {
+                    "methods": [
+                        "__init__",
+                        "save_cookies",
+                        "load_cookies",
+                        "has_valid_session",
+                        "get_session_info_from_cookies",
+                        "_persist_cookies",
+                        "_load_persisted_cookies",
+                        "create_session",
+                        "get_session_info",
+                        "end_session",
+                        "can_make_request",
+                        "record_request",
+                        "wait_for_rate_limit_reset",
+                        "handle_rate_limit_error",
+                        "get_rate_limit_status",
+                        "cleanup_old_sessions"
+                    ],
+                    "docstring": "Unified session, cookie, and rate limit management.",
+                    "base_classes": []
+                }
+            },
+            "routes": [],
+            "complexity": 33
+        },
+        "src\\infrastructure\\browser\\unified\\driver_manager.py": {
+            "language": ".py",
+            "functions": [
+                "__new__",
+                "__init__",
+                "_download_driver_if_needed",
+                "_setup_chrome_options",
+                "get_driver",
+                "close_driver",
+                "__enter__",
+                "__exit__"
+            ],
+            "classes": {
+                "UnifiedDriverManager": {
+                    "methods": [
+                        "__new__",
+                        "__init__",
+                        "_download_driver_if_needed",
+                        "_setup_chrome_options",
+                        "get_driver",
+                        "close_driver",
+                        "__enter__",
+                        "__exit__"
+                    ],
+                    "docstring": "Singleton class for managing an undetected Chrome WebDriver instance.\n\nFeatures:\n  - Persistent profile support (or temporary profiles in headless mode)\n  - Cookie saving and loading for session persistence\n  - Mobile emulation and headless mode support\n  - Context management for automatic cleanup\n  - Ability to update driver options dynamically",
+                    "base_classes": []
+                }
+            },
+            "routes": [],
+            "complexity": 16
+        },
+        "src\\infrastructure\\browser\\unified\\legacy_driver.py": {
+            "language": ".py",
+            "functions": [
+                "__init__",
+                "__getattr__",
+                "__enter__",
+                "__exit__"
+            ],
+            "classes": {
+                "DriverManager": {
+                    "methods": [
+                        "__init__",
+                        "__getattr__",
+                        "__enter__",
+                        "__exit__"
+                    ],
+                    "docstring": "Backward compatibility wrapper for UnifiedDriverManager.\n\nDEPRECATED: This class is provided for backward compatibility only.\nUse UnifiedDriverManager directly for new code.\n\nArgs:\n    driver_options: Dictionary of driver options",
+                    "base_classes": []
+                }
+            },
+            "routes": [],
+            "complexity": 8
+        },
+        "src\\infrastructure\\browser\\unified\\config.py": {
+            "language": ".py",
+            "functions": [
+                "__init__",
+                "get",
+                "to_dict"
+            ],
+            "classes": {
+                "BrowserConfig": {
+                    "methods": [
+                        "__init__",
+                        "get",
+                        "to_dict"
+                    ],
+                    "docstring": "Browser configuration for unified driver management.\n\nProvides configuration for:\n- Chrome driver paths\n- Mobile emulation profiles\n- Cookie persistence\n- Performance settings",
+                    "base_classes": []
+                }
+            },
+            "routes": [],
+            "complexity": 6
+        },
+        "src\\infrastructure\\browser\\unified\\__init__.py": {
+            "language": ".py",
+            "functions": [
+                "get_driver_manager",
+                "get_driver"
+            ],
+            "classes": {},
+            "routes": [],
+            "complexity": 2
+        },
+        "src\\infrastructure\\time\\system_clock.py": {
+            "language": ".py",
+            "functions": [
+                "now",
+                "utcnow",
+                "from_timestamp",
+                "to_timestamp",
+                "__init__",
+                "_get_timezone",
+                "now",
+                "utcnow",
+                "from_timestamp",
+                "to_timestamp",
+                "__init__",
+                "format_time",
+                "format_date",
+                "format_datetime",
+                "parse_time",
+                "parse_date",
+                "parse_datetime",
+                "__init__",
+                "add_days",
+                "add_hours",
+                "add_minutes",
+                "time_diff_seconds",
+                "time_diff_minutes",
+                "time_diff_hours",
+                "time_diff_days",
+                "is_expired",
+                "get_age_seconds"
+            ],
+            "classes": {
+                "TimeConfig": {
+                    "methods": [],
+                    "docstring": "Configuration for time operations.",
+                    "base_classes": []
+                },
+                "ClockInterface": {
+                    "methods": [
+                        "now",
+                        "utcnow",
+                        "from_timestamp",
+                        "to_timestamp"
+                    ],
+                    "docstring": "Abstract interface for time operations.",
+                    "base_classes": [
+                        "ABC"
+                    ]
+                },
+                "SystemClock": {
+                    "methods": [
+                        "__init__",
+                        "_get_timezone",
+                        "now",
+                        "utcnow",
+                        "from_timestamp",
+                        "to_timestamp"
+                    ],
+                    "docstring": "System clock implementation with timezone support.",
+                    "base_classes": [
+                        "ClockInterface"
+                    ]
+                },
+                "TimeFormatter": {
+                    "methods": [
+                        "__init__",
+                        "format_time",
+                        "format_date",
+                        "format_datetime",
+                        "parse_time",
+                        "parse_date",
+                        "parse_datetime"
+                    ],
+                    "docstring": "Utility class for time formatting operations.",
+                    "base_classes": []
+                },
+                "TimeCalculator": {
+                    "methods": [
+                        "__init__",
+                        "add_days",
+                        "add_hours",
+                        "add_minutes",
+                        "time_diff_seconds",
+                        "time_diff_minutes",
+                        "time_diff_hours",
+                        "time_diff_days",
+                        "is_expired",
+                        "get_age_seconds"
+                    ],
+                    "docstring": "Utility class for time calculation operations.",
+                    "base_classes": []
+                }
+            },
+            "routes": [],
+            "complexity": 54
+        },
+        "src\\infrastructure\\browser_backup\\browser_models.py": {
+            "language": ".py",
+            "functions": [
+                "__post_init__"
+            ],
+            "classes": {
+                "BrowserConfig": {
+                    "methods": [
+                        "__post_init__"
+                    ],
+                    "docstring": "Configuration for browser operations with enhanced config integration.",
+                    "base_classes": []
+                },
+                "TheaConfig": {
+                    "methods": [],
+                    "docstring": "Configuration for Thea Manager interactions with enhanced config integration.",
+                    "base_classes": []
+                },
+                "SessionInfo": {
+                    "methods": [],
+                    "docstring": "Session information.",
+                    "base_classes": []
+                },
+                "RateLimitStatus": {
+                    "methods": [],
+                    "docstring": "Rate limit status information.",
+                    "base_classes": []
+                }
+            },
+            "routes": [],
+            "complexity": 2
+        },
+        "src\\discord_commander\\discord_models.py": {
+            "language": ".py",
+            "functions": [
+                "create_command_result",
+                "__post_init__",
+                "__post_init__",
+                "validate",
+                "to_dict"
+            ],
+            "classes": {
+                "CommandResult": {
+                    "methods": [
+                        "__post_init__"
+                    ],
+                    "docstring": "Result of a Discord commander command execution.",
+                    "base_classes": []
+                },
+                "DiscordMessage": {
+                    "methods": [
+                        "__post_init__"
+                    ],
+                    "docstring": "Discord message structure.",
+                    "base_classes": []
+                },
+                "AgentCommand": {
+                    "methods": [
+                        "validate"
+                    ],
+                    "docstring": "Agent command structure.",
+                    "base_classes": []
+                },
+                "CommunicationStats": {
+                    "methods": [
+                        "to_dict"
+                    ],
+                    "docstring": "Communication statistics.",
+                    "base_classes": []
+                }
+            },
+            "routes": [],
+            "complexity": 9
+        },
+        "src\\web\\static\\js\\unified-frontend-utilities.js": {
+            "language": ".js",
+            "functions": [],
+            "classes": {},
+            "routes": [],
+            "complexity": 0
+        },
+        "src\\web\\static\\js\\performance\\performance-optimization-report.js": {
+            "language": ".js",
+            "functions": [],
+            "classes": {},
+            "routes": [],
+            "complexity": 0
+        }
+    }
+}

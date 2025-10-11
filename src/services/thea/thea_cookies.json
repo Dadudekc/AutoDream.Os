@@ -1,0 +1,136 @@
+[
+  {
+    "domain": ".chatgpt.com",
+    "expiry": 1791191241,
+    "httpOnly": true,
+    "name": "cf_clearance",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "i_ObOxbdm29rg.4TcHbNac90ukyH2Z_Y8M9GOoP22QI-1759655242-1.2.1.1-Su8JQCcBc11cra6VFQEjiGE9pDWOq2kDhfh4w14UWzuoPSnOm75JURk3Vs5HyRoX6wCVAngE9bzOnv9oi272QBaRQdGj0l1qISfIfgM0w3H5H1IjodZBmPWwewov8CjU7Bo4HKT0pELzOXgqHOq9Y7pwrbGaBK5YpMzDZDMgOg_b9TRH0gAX5DscoafZz4aboNF7QH8t.TeQaYuct.YfJpRhyMEuZNL3Ptd6TudTKpo"
+  },
+  {
+    "domain": ".chatgpt.com",
+    "expiry": 1790731175,
+    "httpOnly": false,
+    "name": "oai-did",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": true,
+    "value": "1c17adc6-71e6-446a-9dc2-b8b592322d83"
+  },
+  {
+    "domain": ".chatgpt.com",
+    "expiry": 1759658840,
+    "httpOnly": true,
+    "name": "__cflb",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "0H28vzvP5FJafnkHxih9yVdfomkZWy8bix7po5GREmZ"
+  },
+  {
+    "domain": ".chatgpt.com",
+    "httpOnly": true,
+    "name": "__Secure-next-auth.callback-url",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": true,
+    "value": "https%3A%2F%2Fchatgpt.com"
+  },
+  {
+    "domain": ".chatgpt.com",
+    "expiry": 1791191097,
+    "httpOnly": false,
+    "name": "_dd_s",
+    "path": "/",
+    "sameSite": "Strict",
+    "secure": true,
+    "value": "aid=8c40f6fe-8206-4bab-859c-2f569ade428d&rum=0&expire=1759628083216&logs=1&id=09904134-a45b-4f5f-9686-47f471e6d409&created=1759627176495&lock=5d791241-d478-423d-ab09-7d52f1fdeb79--1759655097830"
+  },
+  {
+    "domain": "chatgpt.com",
+    "expiry": 1791191402,
+    "httpOnly": false,
+    "name": "_dd_s",
+    "path": "/",
+    "sameSite": "Strict",
+    "secure": false,
+    "value": "aid=8c40f6fe-8206-4bab-859c-2f569ade428d&rum=0&expire=1759628083216&logs=1&id=09904134-a45b-4f5f-9686-47f471e6d409&created=1759627176495&lock=46bef135-9728-44db-9d6d-cb3d237fe556--1759655402643"
+  },
+  {
+    "domain": ".chatgpt.com",
+    "httpOnly": true,
+    "name": "_cfuvid",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "XoWMOHLyKDi_Lq5pH8Jni0_hBhofby1Qb16cdsWoF8Y-1759627175257-0.0.1.1-604800000"
+  },
+  {
+    "domain": "chatgpt.com",
+    "httpOnly": false,
+    "name": "oai-hm",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "ON_YOUR_MIND%20%7C%20SHOULD_WE_BEGIN"
+  },
+  {
+    "domain": ".chatgpt.com",
+    "httpOnly": false,
+    "name": "oai-hm",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": true,
+    "value": "READY_WHEN_YOU_ARE%20%7C%20READY_WHEN_YOU_ARE"
+  },
+  {
+    "domain": "chatgpt.com",
+    "httpOnly": true,
+    "name": "__Host-next-auth.csrf-token",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": true,
+    "value": "bdea7a317525d1549c3405f280f36c2e2e924d70b1eacd5cac6f68ba849348d4%7Cd2b123f79cb77c7e533c0f2caea35f71501fccb5d97573b86e96e330618fa82d"
+  },
+  {
+    "domain": ".chatgpt.com",
+    "expiry": 1791191394,
+    "httpOnly": true,
+    "name": "cf_clearance",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "5j_uuPuxT0JVRZLPSQteToMiZx0caGWQY7hpc_V9loc-1759655394-1.2.1.1-LZOdL5nFFKe27VO6__iimqFDwE9wrlV8vYptyZ0qLw4cAt4AKwPLBZIIKjKa1uwIpMZF9J_PZFBIFEb1_YT9KdhOhJmGlIXWH8RL.PW5rIk61KikJWxlgSB7fpHx1YvRq5BQNLzmn7hMnyL2_lCItyreMt44eCs1N5ZIqOVp3AFIowimms5MLixek0_GvATmNvKniIFc3uNiybPWHrDoy6t7tiIM2X8w23N8dQ98o1A"
+  },
+  {
+    "domain": "chatgpt.com",
+    "httpOnly": true,
+    "name": "__Secure-next-auth.callback-url",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": true,
+    "value": "https%3A%2F%2Fchatgpt.com"
+  },
+  {
+    "domain": ".chatgpt.com",
+    "expiry": 1759656893,
+    "httpOnly": true,
+    "name": "__cf_bm",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "joKbY_7EuZThr2uiJJ1BV2yYjO85RnnUHQ_wQ.eag60-1759655093-1.0.1.1-Jbh7AiVAg1A_NGCHbnRALTdII.79pBzcwC1s1xFYIA0WqodwH3HX.IP7mSE9TUxpd8uIuAVDIQz7gRkqL4Hk3o96RbI33kY1lOQ45yjcK24"
+  },
+  {
+    "domain": "chatgpt.com",
+    "expiry": 1759658993,
+    "httpOnly": true,
+    "name": "__cflb",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "04dTofELUVCxHqRn2XZfcCoHHWPwwJ5vvSuwhEct67"
+  }
+]

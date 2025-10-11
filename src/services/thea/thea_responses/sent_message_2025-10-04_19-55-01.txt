@@ -1,0 +1,1 @@
+Test message to verify autonomous communication works

@@ -1,0 +1,122 @@
+# Agent Cellphone V2 - GUI Configuration
+# Precedence: CLI flags → ENV vars → this file → hardcoded defaults
+
+gui:
+  # Feature enablement
+  enabled: false  # Optional feature - V2 remains CLI-first
+  auto_start: false
+  
+  # Application settings
+  application:
+    title: "Dream.OS Cell Phone v2.0"
+    icon: null  # path to icon file
+    theme: "dark"
+    style: "modern"
+    
+  # Window settings
+  window:
+    width: 1200
+    height: 800
+    resizable: true
+    always_on_top: false
+    center_on_start: true
+    
+  # Agent display
+  agents:
+    grid_layout: "4x2"  # 4 columns, 2 rows for 8 agents
+    show_coordinates: true
+    status_indicators: true
+    selection_enabled: true
+    
+  # Status updates
+  updates:
+    status_interval: 5000  # milliseconds
+    log_max_lines: 1000
+    auto_scroll_logs: true
+    log_timestamp: true
+    
+  # Logging
+  logging:
+    log_level: "INFO"
+    log_format: "[{timestamp}] {sender}: {message}"
+    export_formats: ["txt", "json"]
+    
+  # Controls
+  controls:
+    individual_controls: true
+    broadcast_controls: true
+    emergency_stop: true
+    keyboard_shortcuts: true
+
+# Integration settings
+integration:
+  # PyAutoGUI integration
+  pyautogui:
+    enabled: true
+    coordinate_source: "config/coordinates.json"
+    click_delay: 0.1  # seconds
+    type_delay: 0.05  # seconds
+    
+  # Messaging integration
+  messaging:
+    use_cli: true  # use messaging_cli for commands
+    direct_automation: true  # use PyAutoGUI directly
+    command_format: "structured"
+    
+  # Coordinate system
+  coordinates:
+    source: "config/coordinates.json"
+    fallback_coordinates:
+      Agent-1: [100, 100]
+      Agent-2: [200, 100]
+      # Add more as needed
+
+# UI Components
+components:
+  # Agent cards
+  agent_card:
+    size: [150, 100]
+    show_status: true
+    show_selection: true
+    clickable: true
+    
+  # Status panel
+  status_panel:
+    auto_refresh: true
+    show_timestamp: true
+    word_wrap: true
+    font_family: "Consolas"
+    font_size: 10
+    
+  # Control buttons
+  buttons:
+    style: "modern"
+    hover_effects: true
+    icon_size: 16
+
+# Themes
+themes:
+  dark:
+    background: "#1A1A1A"
+    foreground: "#ECF0F1"
+    primary: "#3498DB"
+    secondary: "#2C3E50"
+    success: "#27AE60"
+    warning: "#F39C12"
+    error: "#E74C3C"
+    
+  light:
+    background: "#FFFFFF"
+    foreground: "#2C3E50"
+    primary: "#3498DB"
+    secondary: "#BDC3C7"
+    success: "#27AE60"
+    warning: "#F39C12"
+    error: "#E74C3C"
+
+# V2 Compliance
+v2_compliance:
+  file_size_limit: 400
+  solid_principles: true
+  logging_level: "INFO"
+  optional_feature: true  # GUI is optional, CLI remains primary

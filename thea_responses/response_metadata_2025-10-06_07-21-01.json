@@ -1,0 +1,13 @@
+{
+  "timestamp": "2025-10-06T07:21:01.856168",
+  "screenshot_path": "thea_responses\\thea_response_2025-10-06_07-21-01.png",
+  "sent_message_path": "thea_responses\\sent_message_2025-10-06_07-16-56.txt",
+  "sent_message_preview": "Hello Thea \u2014 visible automation retry after driver fix",
+  "extracted_response": "",
+  "thea_url": "https://chatgpt.com/g/g-67f437d96d7c81918b2dbc12f0423867-thea-manager",
+  "user_observation": "automated_extraction_used",
+  "status": "response_captured",
+  "detection_method": "automated_dom_polling",
+  "character_count": 54,
+  "response_extracted": false
+}

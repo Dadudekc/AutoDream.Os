@@ -1,0 +1,13 @@
+{
+  "timestamp": "2025-10-04T19:06:29.238126",
+  "screenshot_path": "thea_responses\\thea_response_2025-10-04_19-06-29.png",
+  "sent_message_path": "thea_responses\\sent_message_2025-10-04_19-04-57.txt",
+  "sent_message_preview": "Agent-4 testing with undetected Chrome - should bypass login detection",
+  "extracted_response": "",
+  "thea_url": "https://chatgpt.com/g/g-67f437d96d7c81918b2dbc12f0423867-thea-manager?model=gpt-5",
+  "user_observation": "automated_extraction_used",
+  "status": "response_captured",
+  "detection_method": "automated_dom_polling",
+  "character_count": 70,
+  "response_extracted": false
+}

@@ -1,0 +1,10 @@
+id,owner,desc,impact,likelihood,mitigation,eta,status
+R-001,Agent-3,Reactivation pending no acknowledgment,high,med,Follow-up ping + fallback to Agent-6,t0+12h,OPEN
+R-002,Agent-2,Analytics at 10% only - pace risk,med,med,Scope slice + daily metric drop,t0+24h,MONITOR
+R-003,Agent-7,Web analysis not started yet,med,low,2-pager + wireframe bound,t0+24h,MONITOR
+R-004,Agent-5,BI Engine assessment not started,med,med,4h spike memo + decision,t0+24h,MONITOR
+R-005,Agent-1,Discord at 85% - final 15% pending,low,low,Phase 1 consolidation priority,t0+48h,MONITOR
+
+
+
+

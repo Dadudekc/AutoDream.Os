@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # V2_SWARM Discord Commander Dependencies
 # ======================================
 
@@ -35,3 +36,37 @@ ruff>=0.1.0                    # Fast linting
 # 2. On Ubuntu/Debian: sudo apt-get install python3-tk python3-dev
 # 3. Consider migrating to pynput in future to eliminate tkinter dependency
 # 4. All dependencies tested and verified working with Discord bot
+=======
+pytest
+pytest-cov
+pytest-asyncio
+black
+ruff
+pre-commit
+pyyaml>=6.0
+python-dotenv
+
+# Dream.OS + DreamVault dependencies (C-074-3)
+beautifulsoup4>=4.12.0
+lxml>=4.9.0
+sqlalchemy>=2.0.0
+alembic>=1.12.0
+
+# Chat_Mate browser automation dependencies (C-064)
+selenium>=4.0.0
+undetected-chromedriver>=3.5.0
+webdriver-manager>=4.0.0
+
+# Vision system dependencies
+pytesseract
+opencv-python
+pillow
+
+# ChatGPT integration dependencies
+playwright
+
+# GUI dependencies (optional)
+PyQt5
+
+# Existing dependencies...
+>>>>>>> origin/agent-3-v2-infrastructure-optimization

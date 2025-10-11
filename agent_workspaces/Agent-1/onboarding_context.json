@@ -1,0 +1,177 @@
+{
+  "agent_info": {
+    "agent_id": "Agent-1",
+    "assigned_role": "INTEGRATION_SPECIALIST",
+    "onboarding_time": "2025-10-01T04:17:35.007839"
+  },
+  "system_health": {
+    "title": "V2_SWARM System Health Report",
+    "timestamp": "2025-10-01T01:38:05.949922",
+    "data": {
+      "system_health": {
+        "overall_status": "POOR",
+        "active_agents": 3,
+        "total_agents": 8,
+        "health_score": 48.75,
+        "alerts": [
+          "LOW AGENT AVAILABILITY: Only 3/8 agents active",
+          "AGENT HEALTH: Agent-1 health score low (30.0)",
+          "AGENT STATUS: Agent-1 is UNKNOWN",
+          "AGENT HEALTH: Agent-2 health score low (30.0)",
+          "AGENT STATUS: Agent-2 is INACTIVE",
+          "AGENT HEALTH: Agent-3 health score low (30.0)",
+          "AGENT STATUS: Agent-3 is UNKNOWN",
+          "AGENT HEALTH: Agent-7 health score low (30.0)",
+          "AGENT STATUS: Agent-7 is ACTIVE_AGENT_MODE",
+          "AGENT HEALTH: Agent-8 health score low (30.0)",
+          "AGENT STATUS: Agent-8 is UNKNOWN"
+        ],
+        "timestamp": "2025-10-01T01:36:09.675193"
+      },
+      "agent_details": {
+        "timestamp": "2025-10-01T01:36:09.676195",
+        "agents": [
+          {
+            "agent_id": "Agent-1",
+            "status": "UNKNOWN",
+            "role": "NONE",
+            "last_active": "NEVER",
+            "task_count": 0,
+            "health_score": 30.0
+          },
+          {
+            "agent_id": "Agent-2",
+            "status": "INACTIVE",
+            "role": "NONE",
+            "last_active": "NEVER",
+            "task_count": 0,
+            "health_score": 30.0
+          },
+          {
+            "agent_id": "Agent-3",
+            "status": "UNKNOWN",
+            "role": "NONE",
+            "last_active": "NEVER",
+            "task_count": 0,
+            "health_score": 30.0
+          },
+          {
+            "agent_id": "Agent-4",
+            "status": "ACTIVE",
+            "role": "NONE",
+            "last_active": "NEVER",
+            "task_count": 0,
+            "health_score": 80.0
+          },
+          {
+            "agent_id": "Agent-5",
+            "status": "ACTIVE",
+            "role": "COORDINATOR",
+            "last_active": "NEVER",
+            "task_count": 0,
+            "health_score": 80.0
+          },
+          {
+            "agent_id": "Agent-6",
+            "status": "ACTIVE",
+            "role": "NONE",
+            "last_active": "NEVER",
+            "task_count": 0,
+            "health_score": 80.0
+          },
+          {
+            "agent_id": "Agent-7",
+            "status": "ACTIVE_AGENT_MODE",
+            "role": "NONE",
+            "last_active": "NEVER",
+            "task_count": 0,
+            "health_score": 30.0
+          },
+          {
+            "agent_id": "Agent-8",
+            "status": "UNKNOWN",
+            "role": "NONE",
+            "last_active": "NEVER",
+            "task_count": 0,
+            "health_score": 30.0
+          }
+        ],
+        "summary": {
+          "total_agents": 8,
+          "active_agents": 3,
+          "average_health": 48.75
+        }
+      }
+    }
+  },
+  "quality_status": {
+    "compliance_rate": 0,
+    "total_files": 0,
+    "violations": 0
+  },
+  "agent_statuses": [
+    {
+      "agent_id": "Agent-1",
+      "status": "UNKNOWN",
+      "role": "NONE",
+      "health": 0
+    },
+    {
+      "agent_id": "Agent-2",
+      "status": "INACTIVE",
+      "role": "NONE",
+      "health": 0
+    },
+    {
+      "agent_id": "Agent-3",
+      "status": "UNKNOWN",
+      "role": "NONE",
+      "health": 0
+    },
+    {
+      "agent_id": "Agent-4",
+      "status": "ACTIVE",
+      "role": "NONE",
+      "health": 0
+    },
+    {
+      "agent_id": "Agent-5",
+      "status": "ACTIVE",
+      "role": "COORDINATOR",
+      "health": 0
+    },
+    {
+      "agent_id": "Agent-6",
+      "status": "ACTIVE",
+      "role": "SSOT_MANAGER",
+      "health": 95.0
+    },
+    {
+      "agent_id": "Agent-7",
+      "status": "ACTIVE_AGENT_MODE",
+      "role": "NONE",
+      "health": 0
+    },
+    {
+      "agent_id": "Agent-8",
+      "status": "UNKNOWN",
+      "role": "NONE",
+      "health": 0
+    }
+  ],
+  "current_initiatives": [
+    "Memory Leak Phase 1 Integration",
+    "V2 Compliance Enforcement (43.3% \u2192 77% target)",
+    "Watchdog & Reporting System (OPERATIONAL)",
+    "Quality Coordination Framework (DEPLOYED)",
+    "High-Efficiency Protocol (20-30 issues/cycle target)"
+  ],
+  "critical_files": [
+    "AGENTS.md",
+    "config/agent_capabilities.json",
+    "chatgpt_project_context.json",
+    "project_analysis.json",
+    "AGENT_USABILITY_REPORT.md",
+    "AGENT_ONBOARDING_CONTEXT_PACKAGE.md"
+  ]
+}

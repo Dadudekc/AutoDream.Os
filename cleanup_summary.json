@@ -1,0 +1,12 @@
+{
+  "cleanup_date": "2025-10-06T23:33:30.003326",
+  "archive_directory": ".archive\\cleanup-20251006",
+  "total_candidates": 127,
+  "files_archived": 102,
+  "categories": {
+    "test_files": 6,
+    "coordination_files": 29,
+    "deprecated_files": 0,
+    "analysis_files": 21
+  }
+}

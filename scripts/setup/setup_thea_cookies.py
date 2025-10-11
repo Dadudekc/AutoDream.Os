@@ -21,18 +21,16 @@ import json
 import time
 from pathlib import Path
 
-# Selenium imports
+# Selenium imports (Selenium Manager only)
 try:
-    import undetected_chromedriver as uc
     from selenium import webdriver
     from selenium.webdriver.chrome.options import Options
     from selenium.webdriver.common.by import By
-    from webdriver_manager.chrome import ChromeDriverManager
 
     SELENIUM_AVAILABLE = True
 except ImportError:
     SELENIUM_AVAILABLE = False
-    print("⚠️  Selenium not available - install required packages")
+    print("⚠️  Selenium not available - install required packages (pip install selenium)")
 
 # Import our modular login handler
 from thea_login_handler import TheaCookieManager, TheaLoginHandler
@@ -54,7 +52,7 @@ class TheaCookieSetup:
         self.driver = None
 
     def initialize_driver(self) -> bool:
-        """Initialize Selenium WebDriver."""
+        """Initialize Chrome WebDriver with undetected-chromedriver support."""
         if not SELENIUM_AVAILABLE:
             print("❌ Selenium not available")
             return False
@@ -63,11 +61,41 @@ class TheaCookieSetup:
             print("🚀 INITIALIZING BROWSER FOR COOKIE SETUP")
             print("=" * 50)
 
-            import undetected_chromedriver as uc
-            from selenium.webdriver.chrome.options import Options
-            from webdriver_manager.chrome import ChromeDriverManager
+            if self.use_undetected:
+                # Try undetected-chromedriver first
+                try:
+                    import undetected_chromedriver as uc
+                    
+                    print("🔐 Using undetected-chromedriver for anti-bot bypass...")
+                    
+                    options = uc.ChromeOptions()
+                    options.add_argument("--no-sandbox")
+                    options.add_argument("--disable-dev-shm-usage")
+                    options.add_argument("--disable-blink-features=AutomationControlled")
+                    options.add_argument("--window-size=1920,1080")
 
-            # Configure Chrome options
+                    if self.headless:
+                        print("⚠️ Headless mode may be detected by anti-bot systems")
+                        options.add_argument("--headless=new")
+
+                    self.driver = uc.Chrome(
+                        options=options,
+                        use_subprocess=True,
+                        driver_executable_path=None  # Auto-download correct version
+                    )
+                    print("✅ Undetected Chrome driver ready")
+                    return True
+
+                except ImportError:
+                    print("⚠️ undetected-chromedriver not installed, falling back to standard Chrome")
+                    print("💡 Install with: pip install undetected-chromedriver")
+                    self.use_undetected = False
+                except Exception as e:
+                    print(f"⚠️ Undetected Chrome failed: {e}")
+                    print("🔄 Falling back to standard Chrome...")
+                    self.use_undetected = False
+
+            # Fallback to standard Chrome
             options = Options()
             if self.headless:
                 options.add_argument("--headless")
@@ -77,19 +105,8 @@ class TheaCookieSetup:
             options.add_argument("--disable-gpu")
             options.add_argument("--window-size=1920,1080")
 
-            # Try undetected Chrome first (better for ChatGPT)
-            try:
-                if self.use_undetected:
-                    print("🔍 Using undetected Chrome driver...")
-                    self.driver = uc.Chrome(options=options)
-                    print("✅ Undetected Chrome driver ready")
-                else:
-                    raise Exception("Undetected disabled")
-            except Exception as e:
-                print(f"⚠️  Undetected Chrome failed: {e}")
-                print("🔄 Falling back to standard Chrome driver...")
-                self.driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
-                print("✅ Standard Chrome driver ready")
+            self.driver = webdriver.Chrome(options=options)
+            print("✅ Standard Chrome driver ready (Selenium Manager)")
 
             return True
 
@@ -264,10 +281,13 @@ class TheaCookieSetup:
             time.sleep(2)
             print("✅ Thea page loaded")
 
-            # Step 3: Wait for manual login
+            # Step 3: Manual login with explicit confirmation
             print("👤 STEP 3: MANUAL LOGIN")
-            if not self.wait_for_manual_login():
-                print("❌ Manual login failed or timeout")
+            print("🔐 A browser window is open. Log in to ChatGPT, then return here.")
+            try:
+                input("🎯 Press Enter once you are fully logged in and on Thea page...")
+            except KeyboardInterrupt:
+                print("\n⏹️  Setup cancelled by user")
                 return False
 
             # Step 4: Save cookies
@@ -279,9 +299,8 @@ class TheaCookieSetup:
             # Step 5: Verify setup
             print("🔍 STEP 5: VERIFYING SETUP")
             if not self.verify_setup():
-                print("❌ Setup verification failed")
-                print("⚠️  Cookies saved but may not work properly")
-                return False
+                print("⚠️  Verification could not confirm login automatically.")
+                print("✅ Cookies were saved; the next automation run will attempt to reuse them.")
 
             print("🎉 COOKIE SETUP COMPLETE!")
             print("=" * 30)

@@ -1,0 +1,21 @@
+version: 1
+roles:
+  defaults:
+    fallback: compact
+  CAPTAIN:
+    default_template: full
+  SSOT_MANAGER:
+    default_template: compact
+  QUALITY_ASSURANCE:
+    default_template: compact
+role_matrix:
+  CAPTAIN->ANY: full
+  ANY->CAPTAIN: full
+  ANY->ANY: compact
+  NON_CAPTAIN->NON_CAPTAIN: minimal
+channels:
+  onboarding: full
+  passdown: minimal
+  standard: compact
+
+

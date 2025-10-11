@@ -266,6 +266,7 @@ class UnifiedArchitecture:
         except Exception as e:
             logger.error(f"Failed to shutdown architecture: {e}")
             return False
+<<<<<<< HEAD
     
     def get_lifecycle_manager(self) -> ComponentLifecycle:
         """Get the component lifecycle manager."""
@@ -278,6 +279,38 @@ class UnifiedArchitecture:
     def is_initialized(self) -> bool:
         """Check if the architecture is initialized."""
         return self._initialized
+=======
+
+    def get_architecture_health(self) ->dict[str, Any]:
+        """Get overall architecture health status."""
+        total_components = len(self.components)
+        active_components = len([c for c in self.components.values() if c.
+            status == ComponentStatus.ACTIVE])
+        health_percentage = (active_components / total_components * 100 if
+            total_components > 0 else 0)
+        return {'total_components': total_components, 'active_components':
+            active_components, 'health_percentage': health_percentage,
+            'architecture_type': self.architecture_type.value, 'status':
+            self.status.value, 'version': self.version, 'timestamp':
+            datetime.now().isoformat()}
+
+    def consolidate_architecture(self) ->dict[str, Any]:
+        """Consolidate fragmented architecture into unified design."""
+        self.logger.info('🔧 Starting architecture consolidation...')
+        self.register_component('monitoring', ArchitectureType.MONITORING,
+            '1.0.0')
+        self.register_component('validation', ArchitectureType.VALIDATION,
+            '1.0.0')
+        self.register_component('analytics', ArchitectureType.ANALYTICS,
+            '1.0.0')
+        self.register_component('messaging', ArchitectureType.MESSAGING,
+            '1.0.0')
+        health = self.get_architecture_health()
+        self.logger.info('✅ Architecture consolidation completed')
+        return {'consolidation_status': 'completed', 'health': health,
+            'components_registered': len(self.components), 'timestamp':
+            datetime.now().isoformat()}
+>>>>>>> origin/agent-3-v2-infrastructure-optimization
 
 
 # Global unified architecture instance

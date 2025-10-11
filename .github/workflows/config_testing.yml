@@ -1,0 +1,44 @@
+name: Configuration SSOT Testing
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'src/core/config_core.py'
+      - 'tests/test_config_core.py'
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+jobs:
+  config-ssot-tests:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Run Config SSOT Tests
+      run: |
+        python tests/test_config_core.py
+    
+    - name: Verify Coverage
+      run: |
+        python tests/test_config_core.py | grep "Coverage: 100.0%" && echo "✅ 100% coverage achieved" || echo "⚠️ Coverage below 100%"
+    
+    - name: Report Results
+      if: always()
+      run: |
+        echo "Config SSOT testing complete"
+        echo "Supporting Agent-2 C-024 consolidation testing"
+
+

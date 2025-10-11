@@ -1,0 +1,427 @@
+/**
+ * Gamification UI Styles - Modern Dark Theme
+ * C-084 Implementation - Dream.OS Integration
+ * Author: Agent-7 - Repository Cloning Specialist
+ */
+
+/* ================================
+   GAMIFICATION DASHBOARD
+   ================================ */
+
+.gamification-dashboard {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.gamification-dashboard.dark {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: #e0e0e0;
+}
+
+.gamification-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.gamification-header h2 {
+    margin: 0;
+    font-size: 2.5em;
+    background: linear-gradient(45deg, #00d4ff, #00ff88);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ================================
+   CARDS
+   ================================ */
+
+.card {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 48px rgba(0, 212, 255, 0.2);
+}
+
+/* ================================
+   XP SECTION
+   ================================ */
+
+.xp-section {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.level-badge {
+    flex-shrink: 0;
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, #00d4ff, #00ff88);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #1a1a2e;
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.xp-info {
+    flex-grow: 1;
+}
+
+.xp-text {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 12px;
+    font-size: 1.8em;
+}
+
+.current-xp {
+    color: #00d4ff;
+    font-weight: bold;
+}
+
+.xp-label {
+    color: #888;
+    font-size: 0.6em;
+}
+
+.xp-bar-container {
+    width: 100%;
+    height: 32px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+}
+
+.xp-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #00d4ff, #00ff88);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 12px;
+    transition: width 1s ease-out;
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
+}
+
+.xp-percentage {
+    color: #1a1a2e;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.total-xp {
+    margin-top: 12px;
+    color: #888;
+    font-size: 0.9em;
+}
+
+/* ================================
+   SKILLS SECTION
+   ================================ */
+
+.skills-section h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    color: #00d4ff;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.skill-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.skill-item:hover {
+    background: rgba(0, 212, 255, 0.1);
+    border-color: #00d4ff;
+    transform: scale(1.05);
+}
+
+.skill-icon {
+    font-size: 2em;
+}
+
+.skill-details {
+    flex-grow: 1;
+}
+
+.skill-name {
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.skill-level {
+    font-size: 0.85em;
+    color: #00ff88;
+}
+
+.skill-progress-bar {
+    height: 4px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 2px;
+    margin-top: 8px;
+    overflow: hidden;
+}
+
+.skill-progress {
+    height: 100%;
+    background: linear-gradient(90deg, #00d4ff, #00ff88);
+    transition: width 0.5s ease;
+}
+
+.skill-points {
+    color: #00ff88;
+    font-weight: bold;
+}
+
+/* ================================
+   QUESTS SECTION
+   ================================ */
+
+.quests-section h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    color: #00d4ff;
+}
+
+.quests-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.quest-item {
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    border-left: 4px solid #00d4ff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.quest-item:hover {
+    background: rgba(0, 212, 255, 0.1);
+    transform: translateX(8px);
+}
+
+.quest-item.high {
+    border-left-color: #ff4444;
+}
+
+.quest-item.medium {
+    border-left-color: #ffaa00;
+}
+
+.quest-item.low {
+    border-left-color: #00ff88;
+}
+
+.quest-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.quest-title {
+    font-weight: 600;
+    font-size: 1.1em;
+}
+
+.quest-reward {
+    color: #00ff88;
+    font-weight: bold;
+}
+
+.quest-description {
+    color: #aaa;
+    font-size: 0.9em;
+    margin-bottom: 12px;
+}
+
+.quest-progress {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.quest-progress .progress-bar {
+    flex-grow: 1;
+    height: 8px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.quest-progress .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00d4ff, #00ff88);
+    transition: width 0.5s ease;
+}
+
+.quest-progress .progress-text {
+    font-size: 0.9em;
+    color: #00d4ff;
+}
+
+.completed-count {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: #888;
+    font-size: 0.9em;
+}
+
+/* ================================
+   ACHIEVEMENTS SECTION
+   ================================ */
+
+.achievements-section h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    color: #00d4ff;
+}
+
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 16px;
+}
+
+.achievement-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.achievement-item.unlocked {
+    border-color: #00ff88;
+    background: rgba(0, 255, 136, 0.1);
+}
+
+.achievement-item.locked {
+    opacity: 0.5;
+    filter: grayscale(100%);
+}
+
+.achievement-icon {
+    font-size: 2.5em;
+}
+
+.achievement-name {
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.achievement-desc {
+    font-size: 0.85em;
+    color: #aaa;
+}
+
+.achievements-count {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: #00ff88;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* ================================
+   ANIMATIONS
+   ================================ */
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fillProgress {
+    from {
+        width: 0;
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 50px rgba(0, 212, 255, 0.8);
+    }
+}
+
+/* ================================
+   RESPONSIVE
+   ================================ */
+
+@media (max-width: 768px) {
+    .xp-section {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .skills-grid,
+    .achievements-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .quest-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+}
+
+
+

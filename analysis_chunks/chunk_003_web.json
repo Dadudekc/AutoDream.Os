@@ -1,0 +1,2571 @@
+{
+  "chunk_id": 3,
+  "directory": "src/web",
+  "files_analyzed": [
+    {
+      "file_path": "src\\web\\frontend\\__init__.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\web\\frontend\\settings.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\css\\buttons.css",
+      "analysis": {
+        "language": ".css",
+        "functions": [],
+        "classes": {},
+        "line_count": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "error": "Unsupported file type"
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\css\\dashboard.css",
+      "analysis": {
+        "language": ".css",
+        "functions": [],
+        "classes": {},
+        "line_count": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "error": "Unsupported file type"
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\css\\forms.css",
+      "analysis": {
+        "language": ".css",
+        "functions": [],
+        "classes": {},
+        "line_count": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "error": "Unsupported file type"
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\css\\layouts.css",
+      "analysis": {
+        "language": ".css",
+        "functions": [],
+        "classes": {},
+        "line_count": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "error": "Unsupported file type"
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\css\\main.css",
+      "analysis": {
+        "language": ".css",
+        "functions": [],
+        "classes": {},
+        "line_count": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "error": "Unsupported file type"
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\css\\unified.css",
+      "analysis": {
+        "language": ".css",
+        "functions": [],
+        "classes": {},
+        "line_count": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "error": "Unsupported file type"
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\css\\gamification.css",
+      "analysis": {
+        "language": ".css",
+        "functions": [],
+        "classes": {},
+        "line_count": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "error": "Unsupported file type"
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\agent-coordination-manager.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "createAgentCoordinationManager"
+        ],
+        "classes": {},
+        "imports": [
+          "./cross-agent-coordination.js"
+        ],
+        "exports": [
+          [
+            "createAgentCoordinationManager",
+            "",
+            ""
+          ]
+        ],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 159,
+        "non_empty_lines": 141,
+        "comment_lines": 43,
+        "complexity": 1,
+        "file_size": 5481,
+        "import_count": 1,
+        "function_count": 1,
+        "class_count": 0,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": false,
+        "has_jquery": false,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\dashboard-alerts.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "showAlert",
+          "createAlertElement",
+          "showRefreshIndicator",
+          "requestUpdate",
+          "acknowledgeAlert",
+          "resolveAlert",
+          "loadAlerts",
+          "updateAlerts"
+        ],
+        "classes": {},
+        "imports": [],
+        "exports": [],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 148,
+        "non_empty_lines": 138,
+        "comment_lines": 44,
+        "complexity": 8,
+        "file_size": 4149,
+        "import_count": 0,
+        "function_count": 8,
+        "class_count": 0,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": true,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\dashboard-charts.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "initializeCharts",
+          "initializeContractChart",
+          "initializeWorkloadChart",
+          "initializeAgentPerformanceChart",
+          "initializeHealthTrendChart",
+          "initializeContractStatusChart",
+          "initializeWorkloadDistributionChart",
+          "updateCharts",
+          "updateChartData"
+        ],
+        "classes": {},
+        "imports": [],
+        "exports": [],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 274,
+        "non_empty_lines": 259,
+        "comment_lines": 47,
+        "complexity": 9,
+        "file_size": 9324,
+        "import_count": 0,
+        "function_count": 9,
+        "class_count": 0,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": true,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\dashboard-communication.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "initializeDashboardCommunication",
+          "getDashboardCommunication",
+          "isWebSocketConnected",
+          "getConnectionStatus",
+          "sendWebSocketData",
+          "subscribeToWebSocket",
+          "unsubscribeFromWebSocket"
+        ],
+        "classes": {
+          "DashboardCommunication": {
+            "methods": []
+          }
+        },
+        "imports": [
+          "./websocket-event-handlers.js"
+        ],
+        "exports": [
+          [
+            "initializeDashboardCommunication",
+            "",
+            ""
+          ],
+          [
+            "getDashboardCommunication",
+            "",
+            ""
+          ],
+          [
+            "isWebSocketConnected",
+            "",
+            ""
+          ],
+          [
+            "getConnectionStatus",
+            "",
+            ""
+          ],
+          [
+            "sendWebSocketData",
+            "",
+            ""
+          ],
+          [
+            "subscribeToWebSocket",
+            "",
+            ""
+          ],
+          [
+            "unsubscribeFromWebSocket",
+            "",
+            ""
+          ]
+        ],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 238,
+        "non_empty_lines": 209,
+        "comment_lines": 87,
+        "complexity": 8,
+        "file_size": 6430,
+        "import_count": 1,
+        "function_count": 7,
+        "class_count": 1,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": true,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\dashboard-config-manager.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "createDashboardConfigManager"
+        ],
+        "classes": {
+          "DashboardConfigManager": {
+            "methods": []
+          }
+        },
+        "imports": [],
+        "exports": [
+          [
+            "",
+            "",
+            "DashboardConfigManager"
+          ],
+          [
+            "createDashboardConfigManager",
+            "",
+            ""
+          ]
+        ],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 177,
+        "non_empty_lines": 159,
+        "comment_lines": 41,
+        "complexity": 2,
+        "file_size": 4967,
+        "import_count": 0,
+        "function_count": 1,
+        "class_count": 1,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": true,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\dashboard-data-manager.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "initializeDashboardDataManager",
+          "loadDashboardData",
+          "loadMultipleViews",
+          "updateDashboardData",
+          "clearDataCache",
+          "getDataManagerStatus"
+        ],
+        "classes": {
+          "DashboardDataManager": {
+            "methods": []
+          }
+        },
+        "imports": [
+          "./dashboard-cache-manager.js",
+          "./dashboard-error-handler.js",
+          "./dashboard-loading-manager.js",
+          "./dashboard-retry-manager.js",
+          "./dashboard-optimistic-updates.js",
+          "./dashboard-data-operations.js"
+        ],
+        "exports": [
+          [
+            "initializeDashboardDataManager",
+            "",
+            ""
+          ],
+          [
+            "loadDashboardData",
+            "",
+            ""
+          ],
+          [
+            "loadMultipleViews",
+            "",
+            ""
+          ],
+          [
+            "updateDashboardData",
+            "",
+            ""
+          ],
+          [
+            "clearDataCache",
+            "",
+            ""
+          ],
+          [
+            "getDataManagerStatus",
+            "",
+            ""
+          ]
+        ],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 179,
+        "non_empty_lines": 152,
+        "comment_lines": 75,
+        "complexity": 7,
+        "file_size": 4962,
+        "import_count": 6,
+        "function_count": 6,
+        "class_count": 1,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": false,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\dashboard-data-operations.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "loadDashboardViewData",
+          "loadMultipleDashboardViews",
+          "updateDashboardViewData"
+        ],
+        "classes": {
+          "DashboardDataOperations": {
+            "methods": []
+          }
+        },
+        "imports": [
+          "./dashboard-optimistic-updates.js",
+          "./dashboard-cache-manager.js",
+          "./dashboard-retry-manager.js",
+          "./dashboard-error-handler.js",
+          "./dashboard-loading-manager.js",
+          "./dashboard-ui-helpers.js"
+        ],
+        "exports": [
+          [
+            "loadDashboardViewData",
+            "",
+            ""
+          ],
+          [
+            "loadMultipleDashboardViews",
+            "",
+            ""
+          ],
+          [
+            "updateDashboardViewData",
+            "",
+            ""
+          ]
+        ],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 254,
+        "non_empty_lines": 205,
+        "comment_lines": 59,
+        "complexity": 4,
+        "file_size": 7813,
+        "import_count": 6,
+        "function_count": 3,
+        "class_count": 1,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": true,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\dashboard-error-handler.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [],
+        "classes": {
+          "DashboardErrorHandler": {
+            "methods": []
+          }
+        },
+        "imports": [],
+        "exports": [],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 218,
+        "non_empty_lines": 190,
+        "comment_lines": 46,
+        "complexity": 1,
+        "file_size": 6398,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 1,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": true,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\dashboard-initializer.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "initializeStateManager",
+          "initializeSocketManager",
+          "initializeNavigationManager",
+          "setupTimeUpdates",
+          "loadInitialData",
+          "setupRealTimeUpdates",
+          "setupNotifications",
+          "setupPerformanceMonitoring",
+          "setupEventListeners",
+          "dispatchInitializationEvent"
+        ],
+        "classes": {
+          "UnifiedLoggingSystem": {
+            "methods": []
+          }
+        },
+        "imports": [
+          "./navigation/navigation-manager-v2.js",
+          "./dashboard-socket-manager.js",
+          "./dashboard-state-manager.js",
+          "./dashboard-data-manager.js",
+          "./dashboard-ui-helpers.js"
+        ],
+        "exports": [
+          [
+            "initializeNavigationManager",
+            "",
+            ""
+          ],
+          [
+            "setupTimeUpdates",
+            "",
+            ""
+          ],
+          [
+            "setupEventListeners",
+            "",
+            ""
+          ],
+          [
+            "dispatchInitializationEvent",
+            "",
+            ""
+          ]
+        ],
+        "async_functions": [
+          "initializeStateManager",
+          "initializeSocketManager",
+          "loadInitialData",
+          "setupRealTimeUpdates",
+          "setupNotifications",
+          "setupPerformanceMonitoring"
+        ],
+        "arrow_functions": [],
+        "line_count": 246,
+        "non_empty_lines": 218,
+        "comment_lines": 62,
+        "complexity": 11,
+        "file_size": 8065,
+        "import_count": 5,
+        "function_count": 10,
+        "class_count": 1,
+        "has_async": true,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": true,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\dashboard-loading-manager.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "setDashboardLoadingState",
+          "getDashboardLoadingState",
+          "isAnyDashboardViewLoading",
+          "getDashboardLoadingStats",
+          "clearAllDashboardLoadingStates",
+          "forceHideDashboardLoading"
+        ],
+        "classes": {
+          "DashboardLoadingManager": {
+            "methods": []
+          }
+        },
+        "imports": [
+          "./dashboard-ui-helpers.js"
+        ],
+        "exports": [
+          [
+            "setDashboardLoadingState",
+            "",
+            ""
+          ],
+          [
+            "getDashboardLoadingState",
+            "",
+            ""
+          ],
+          [
+            "isAnyDashboardViewLoading",
+            "",
+            ""
+          ],
+          [
+            "getDashboardLoadingStats",
+            "",
+            ""
+          ],
+          [
+            "clearAllDashboardLoadingStates",
+            "",
+            ""
+          ],
+          [
+            "forceHideDashboardLoading",
+            "",
+            ""
+          ]
+        ],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 166,
+        "non_empty_lines": 141,
+        "comment_lines": 65,
+        "complexity": 7,
+        "file_size": 3898,
+        "import_count": 1,
+        "function_count": 6,
+        "class_count": 1,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": false,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\dashboard-navigation.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "setupNavigation",
+          "updateNavigationState",
+          "setupBreadcrumbs",
+          "updateBreadcrumbs",
+          "setupMobileNavigation",
+          "setupSearch",
+          "performSearch",
+          "clearSearchResults",
+          "setupKeyboardShortcuts",
+          "initializeNavigation"
+        ],
+        "classes": {},
+        "imports": [
+          "./dashboard-data-manager.js"
+        ],
+        "exports": [],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 235,
+        "non_empty_lines": 207,
+        "comment_lines": 47,
+        "complexity": 10,
+        "file_size": 6762,
+        "import_count": 1,
+        "function_count": 10,
+        "class_count": 0,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": true,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\dashboard-socket-manager.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "getDashboardSocketManager",
+          "initializeSocketManager",
+          "connectSocketManager",
+          "disconnectSocketManager",
+          "sendSocketMessage",
+          "getSocketManagerStatus"
+        ],
+        "classes": {
+          "DashboardSocketManager": {
+            "methods": []
+          }
+        },
+        "imports": [
+          "./dashboard-socket-messaging.js",
+          "./dashboard-socket-connection.js",
+          "./dashboard-ui-helpers.js"
+        ],
+        "exports": [
+          [
+            "getDashboardSocketManager",
+            "",
+            ""
+          ],
+          [
+            "disconnectSocketManager",
+            "",
+            ""
+          ],
+          [
+            "sendSocketMessage",
+            "",
+            ""
+          ],
+          [
+            "getSocketManagerStatus",
+            "",
+            ""
+          ]
+        ],
+        "async_functions": [
+          "initializeSocketManager",
+          "connectSocketManager"
+        ],
+        "arrow_functions": [],
+        "line_count": 270,
+        "non_empty_lines": 232,
+        "comment_lines": 91,
+        "complexity": 7,
+        "file_size": 7103,
+        "import_count": 3,
+        "function_count": 6,
+        "class_count": 1,
+        "has_async": true,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": true,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\dashboard-state-manager.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "initializeDashboardStateManager",
+          "getDashboardState",
+          "updateDashboardView",
+          "addDashboardChart",
+          "removeDashboardChart"
+        ],
+        "classes": {
+          "DashboardStateManager": {
+            "methods": []
+          }
+        },
+        "imports": [],
+        "exports": [
+          [
+            "initializeDashboardStateManager",
+            "",
+            ""
+          ],
+          [
+            "getDashboardState",
+            "",
+            ""
+          ],
+          [
+            "updateDashboardView",
+            "",
+            ""
+          ],
+          [
+            "addDashboardChart",
+            "",
+            ""
+          ],
+          [
+            "removeDashboardChart",
+            "",
+            ""
+          ]
+        ],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 299,
+        "non_empty_lines": 263,
+        "comment_lines": 102,
+        "complexity": 6,
+        "file_size": 7931,
+        "import_count": 0,
+        "function_count": 5,
+        "class_count": 1,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": true,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\dashboard-time.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "startTimeUpdates",
+          "stopTimeUpdates",
+          "getCurrentTime",
+          "getCurrentDate",
+          "getCurrentTimestamp",
+          "formatDuration",
+          "isBusinessHours",
+          "getTimeUntilBusinessHours",
+          "initializeTimeDisplay",
+          "createTimeContainer",
+          "updateDateDisplay",
+          "toggleTimeDisplay",
+          "scheduleExecution",
+          "createRecurringUpdate",
+          "return",
+          "getUserTimezone",
+          "formatTimeInTimezone",
+          "getTimezoneOffset",
+          "cleanup"
+        ],
+        "classes": {},
+        "imports": [
+          "./dashboard-ui-helpers.js"
+        ],
+        "exports": [
+          [
+            "startTimeUpdates",
+            "",
+            ""
+          ],
+          [
+            "stopTimeUpdates",
+            "",
+            ""
+          ],
+          [
+            "getCurrentTime",
+            "",
+            ""
+          ],
+          [
+            "getCurrentDate",
+            "",
+            ""
+          ],
+          [
+            "getCurrentTimestamp",
+            "",
+            ""
+          ],
+          [
+            "formatDuration",
+            "",
+            ""
+          ],
+          [
+            "isBusinessHours",
+            "",
+            ""
+          ],
+          [
+            "getTimeUntilBusinessHours",
+            "",
+            ""
+          ],
+          [
+            "initializeTimeDisplay",
+            "",
+            ""
+          ],
+          [
+            "updateDateDisplay",
+            "",
+            ""
+          ],
+          [
+            "toggleTimeDisplay",
+            "",
+            ""
+          ],
+          [
+            "scheduleExecution",
+            "",
+            ""
+          ],
+          [
+            "createRecurringUpdate",
+            "",
+            ""
+          ],
+          [
+            "getUserTimezone",
+            "",
+            ""
+          ],
+          [
+            "formatTimeInTimezone",
+            "",
+            ""
+          ],
+          [
+            "getTimezoneOffset",
+            "",
+            ""
+          ],
+          [
+            "cleanup",
+            "",
+            ""
+          ]
+        ],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 296,
+        "non_empty_lines": 246,
+        "comment_lines": 101,
+        "complexity": 19,
+        "file_size": 7816,
+        "import_count": 1,
+        "function_count": 19,
+        "class_count": 0,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": true,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\dashboard-ui-helpers.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "showConnectionMessage",
+          "hideLoadingState",
+          "showLoadingState",
+          "showRefreshIndicator",
+          "showAlert",
+          "updateCurrentTime",
+          "getStatusClass",
+          "formatPercentage",
+          "formatNumber",
+          "debounce",
+          "executedFunction",
+          "sanitizeHtml",
+          "escapeHTML",
+          "getElementDimensions",
+          "isInViewport",
+          "addClassWithAnimation",
+          "smoothScrollTo",
+          "copyToClipboard",
+          "downloadFile",
+          "generateId",
+          "isValidEmail",
+          "throttle",
+          "executedFunction",
+          "getElement",
+          "querySelector",
+          "querySelectorAll",
+          "createElement",
+          "removeElement",
+          "addTrackedEventListener",
+          "return",
+          "setupNavigation",
+          "fetchDashboardData",
+          "handleFetchError"
+        ],
+        "classes": {
+          "for": {
+            "methods": []
+          },
+          "with": {
+            "methods": []
+          },
+          "to": {
+            "methods": []
+          }
+        },
+        "imports": [],
+        "exports": [
+          [
+            "showConnectionMessage",
+            "",
+            ""
+          ],
+          [
+            "hideLoadingState",
+            "",
+            ""
+          ],
+          [
+            "showLoadingState",
+            "",
+            ""
+          ],
+          [
+            "showRefreshIndicator",
+            "",
+            ""
+          ],
+          [
+            "showAlert",
+            "",
+            ""
+          ],
+          [
+            "updateCurrentTime",
+            "",
+            ""
+          ],
+          [
+            "getStatusClass",
+            "",
+            ""
+          ],
+          [
+            "formatPercentage",
+            "",
+            ""
+          ],
+          [
+            "formatNumber",
+            "",
+            ""
+          ],
+          [
+            "debounce",
+            "",
+            ""
+          ],
+          [
+            "sanitizeHtml",
+            "",
+            ""
+          ],
+          [
+            "escapeHTML",
+            "",
+            ""
+          ],
+          [
+            "getElementDimensions",
+            "",
+            ""
+          ],
+          [
+            "isInViewport",
+            "",
+            ""
+          ],
+          [
+            "addClassWithAnimation",
+            "",
+            ""
+          ],
+          [
+            "smoothScrollTo",
+            "",
+            ""
+          ],
+          [
+            "downloadFile",
+            "",
+            ""
+          ],
+          [
+            "generateId",
+            "",
+            ""
+          ],
+          [
+            "isValidEmail",
+            "",
+            ""
+          ],
+          [
+            "throttle",
+            "",
+            ""
+          ],
+          [
+            "getElement",
+            "",
+            ""
+          ],
+          [
+            "querySelector",
+            "",
+            ""
+          ],
+          [
+            "querySelectorAll",
+            "",
+            ""
+          ],
+          [
+            "createElement",
+            "",
+            ""
+          ],
+          [
+            "removeElement",
+            "",
+            ""
+          ],
+          [
+            "addTrackedEventListener",
+            "",
+            ""
+          ],
+          [
+            "setupNavigation",
+            "",
+            ""
+          ],
+          [
+            "handleFetchError",
+            "",
+            ""
+          ]
+        ],
+        "async_functions": [
+          "copyToClipboard",
+          "fetchDashboardData"
+        ],
+        "arrow_functions": [
+          "later"
+        ],
+        "line_count": 469,
+        "non_empty_lines": 417,
+        "comment_lines": 151,
+        "complexity": 36,
+        "file_size": 12192,
+        "import_count": 0,
+        "function_count": 33,
+        "class_count": 3,
+        "has_async": true,
+        "has_arrow_functions": true,
+        "has_es6": true,
+        "has_jquery": true,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\dashboard-utils.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [],
+        "classes": {
+          "DashboardUtils": {
+            "methods": []
+          }
+        },
+        "imports": [
+          "./dashboard/formatters.js",
+          "./dashboard/date-utils.js",
+          "./dashboard/style-utils.js",
+          "./dashboard/dom-utils.js"
+        ],
+        "exports": [
+          [
+            "",
+            "",
+            "DashboardUtils"
+          ],
+          [
+            "",
+            "dashboardUtils",
+            ""
+          ],
+          [
+            "",
+            "formatNumber",
+            ""
+          ],
+          [
+            "",
+            "formatPercentage",
+            ""
+          ],
+          [
+            "",
+            "formatDate",
+            ""
+          ],
+          [
+            "",
+            "addClass",
+            ""
+          ],
+          [
+            "",
+            "removeClass",
+            ""
+          ],
+          [
+            "",
+            "toggleClass",
+            ""
+          ],
+          [
+            "",
+            "setStyle",
+            ""
+          ],
+          [
+            "",
+            "getElement",
+            ""
+          ],
+          [
+            "",
+            "getElements",
+            ""
+          ]
+        ],
+        "async_functions": [],
+        "arrow_functions": [
+          "formatNumber",
+          "formatPercentage",
+          "formatDate",
+          "addClass",
+          "removeClass",
+          "toggleClass",
+          "setStyle",
+          "getElement",
+          "getElements"
+        ],
+        "line_count": 175,
+        "non_empty_lines": 149,
+        "comment_lines": 49,
+        "complexity": 1,
+        "file_size": 5404,
+        "import_count": 4,
+        "function_count": 0,
+        "class_count": 1,
+        "has_async": false,
+        "has_arrow_functions": true,
+        "has_es6": true,
+        "has_jquery": false,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\dashboard-view-overview.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "renderOverviewView",
+          "renderContractStatusView"
+        ],
+        "classes": {},
+        "imports": [],
+        "exports": [],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 167,
+        "non_empty_lines": 155,
+        "comment_lines": 18,
+        "complexity": 2,
+        "file_size": 6668,
+        "import_count": 0,
+        "function_count": 2,
+        "class_count": 0,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": true,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\dashboard-view-performance.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "renderAgentPerformanceView",
+          "renderSystemHealthView",
+          "renderPerformanceMetricsView",
+          "renderWorkloadDistributionView"
+        ],
+        "classes": {},
+        "imports": [],
+        "exports": [],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 250,
+        "non_empty_lines": 237,
+        "comment_lines": 28,
+        "complexity": 4,
+        "file_size": 10362,
+        "import_count": 0,
+        "function_count": 4,
+        "class_count": 0,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": true,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\dashboard-view-renderer.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "createDashboardViewRenderer"
+        ],
+        "classes": {
+          "DashboardViewRenderer": {
+            "methods": []
+          }
+        },
+        "imports": [],
+        "exports": [
+          [
+            "",
+            "",
+            "DashboardViewRenderer"
+          ],
+          [
+            "createDashboardViewRenderer",
+            "",
+            ""
+          ]
+        ],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 181,
+        "non_empty_lines": 164,
+        "comment_lines": 48,
+        "complexity": 2,
+        "file_size": 5405,
+        "import_count": 0,
+        "function_count": 1,
+        "class_count": 1,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": true,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\dashboard-views.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "renderAgentPerformanceView",
+          "renderAlerts"
+        ],
+        "classes": {},
+        "imports": [],
+        "exports": [],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 119,
+        "non_empty_lines": 114,
+        "comment_lines": 18,
+        "complexity": 2,
+        "file_size": 4933,
+        "import_count": 0,
+        "function_count": 2,
+        "class_count": 0,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": true,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\dashboard.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [],
+        "classes": {
+          "DashboardOrchestrator": {
+            "methods": []
+          }
+        },
+        "imports": [
+          "./dashboard-communication.js",
+          "./dashboard-navigation.js",
+          "./dashboard-data-manager.js",
+          "./dashboard-ui-helpers.js"
+        ],
+        "exports": [],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 191,
+        "non_empty_lines": 165,
+        "comment_lines": 71,
+        "complexity": 1,
+        "file_size": 5945,
+        "import_count": 4,
+        "function_count": 0,
+        "class_count": 1,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": true,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\services-orchestrator.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "createUnifiedServices"
+        ],
+        "classes": {
+          "ServicesOrchestrator": {
+            "methods": []
+          },
+          "directly": {
+            "methods": []
+          }
+        },
+        "imports": [],
+        "exports": [
+          [
+            "createUnifiedServices",
+            "",
+            ""
+          ]
+        ],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 348,
+        "non_empty_lines": 298,
+        "comment_lines": 99,
+        "complexity": 3,
+        "file_size": 9907,
+        "import_count": 0,
+        "function_count": 1,
+        "class_count": 2,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": true,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\system-integration-core.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [],
+        "classes": {
+          "SystemIntegrationCore": {
+            "methods": []
+          }
+        },
+        "imports": [],
+        "exports": [
+          [
+            "",
+            "",
+            "SystemIntegrationCore"
+          ]
+        ],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 72,
+        "non_empty_lines": 65,
+        "comment_lines": 10,
+        "complexity": 1,
+        "file_size": 1969,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 1,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": true,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\unified-frontend-utilities.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [],
+        "classes": {
+          "UnifiedFrontendUtilities": {
+            "methods": []
+          }
+        },
+        "imports": [
+          "./dom-utils.js",
+          "./cache-utils.js",
+          "./validation-utils.js",
+          "./event-utils.js"
+        ],
+        "exports": [
+          [
+            "",
+            "",
+            "UnifiedFrontendUtilities"
+          ]
+        ],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 235,
+        "non_empty_lines": 201,
+        "comment_lines": 78,
+        "complexity": 1,
+        "file_size": 5276,
+        "import_count": 4,
+        "function_count": 0,
+        "class_count": 1,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": true,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\architecture\\architecture-pattern-coordinator.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [],
+        "classes": {
+          "ArchitecturePatternCoordinator": {
+            "methods": []
+          }
+        },
+        "imports": [
+          "./pattern-coordination-methods.js"
+        ],
+        "exports": [
+          [
+            "",
+            "",
+            "ArchitecturePatternCoordinator"
+          ]
+        ],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 80,
+        "non_empty_lines": 66,
+        "comment_lines": 26,
+        "complexity": 1,
+        "file_size": 2928,
+        "import_count": 1,
+        "function_count": 0,
+        "class_count": 1,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": true,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\architecture\\dependency-injection-framework.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [],
+        "classes": {
+          "DIContainer": {
+            "methods": []
+          },
+          "ServiceLocator": {
+            "methods": []
+          },
+          "WebLayerServiceRegistry": {
+            "methods": []
+          },
+          "Agent7DICoordination": {
+            "methods": []
+          }
+        },
+        "imports": [
+          "./di-framework-orchestrator.js"
+        ],
+        "exports": [
+          [
+            "",
+            "",
+            "DIContainer"
+          ],
+          [
+            "",
+            "",
+            "ServiceLocator"
+          ],
+          [
+            "",
+            "",
+            "WebLayerServiceRegistry"
+          ],
+          [
+            "",
+            "",
+            "Agent7DICoordination"
+          ]
+        ],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 93,
+        "non_empty_lines": 81,
+        "comment_lines": 46,
+        "complexity": 4,
+        "file_size": 3334,
+        "import_count": 1,
+        "function_count": 0,
+        "class_count": 4,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": false,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\architecture\\di-container-module.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "createDIContainer"
+        ],
+        "classes": {
+          "DIContainer": {
+            "methods": []
+          }
+        },
+        "imports": [],
+        "exports": [
+          [
+            "",
+            "",
+            "DIContainer"
+          ],
+          [
+            "createDIContainer",
+            "",
+            ""
+          ]
+        ],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 127,
+        "non_empty_lines": 109,
+        "comment_lines": 47,
+        "complexity": 2,
+        "file_size": 3068,
+        "import_count": 0,
+        "function_count": 1,
+        "class_count": 1,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": true,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\architecture\\di-decorators-module.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "Injectable",
+          "Inject",
+          "Service",
+          "Factory",
+          "getInjectableToken",
+          "getInjectionMetadata",
+          "isInjectable",
+          "getServiceConfig"
+        ],
+        "classes": {
+          "is": {
+            "methods": []
+          }
+        },
+        "imports": [],
+        "exports": [
+          [
+            "Injectable",
+            "",
+            ""
+          ],
+          [
+            "Inject",
+            "",
+            ""
+          ],
+          [
+            "Service",
+            "",
+            ""
+          ],
+          [
+            "Factory",
+            "",
+            ""
+          ],
+          [
+            "getInjectableToken",
+            "",
+            ""
+          ],
+          [
+            "getInjectionMetadata",
+            "",
+            ""
+          ],
+          [
+            "isInjectable",
+            "",
+            ""
+          ],
+          [
+            "getServiceConfig",
+            "",
+            ""
+          ]
+        ],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 107,
+        "non_empty_lines": 95,
+        "comment_lines": 40,
+        "complexity": 9,
+        "file_size": 2682,
+        "import_count": 0,
+        "function_count": 8,
+        "class_count": 1,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": false,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\architecture\\di-framework-orchestrator.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "createDIFrameworkOrchestrator",
+          "createDIContainer"
+        ],
+        "classes": {
+          "DIFrameworkOrchestrator": {
+            "methods": []
+          },
+          "for": {
+            "methods": []
+          },
+          "DIContainer": {
+            "methods": []
+          },
+          "ServiceLocator": {
+            "methods": []
+          },
+          "WebLayerServiceRegistry": {
+            "methods": []
+          },
+          "Agent7DICoordination": {
+            "methods": []
+          }
+        },
+        "imports": [
+          "./di-container-module.js",
+          "./service-locator-module.js",
+          "./web-service-registry-module.js",
+          "./di-decorators-module.js",
+          "./agent7-di-coordination-module.js"
+        ],
+        "exports": [
+          [
+            "",
+            "",
+            "DIFrameworkOrchestrator"
+          ],
+          [
+            "",
+            "",
+            "DIContainer"
+          ],
+          [
+            "",
+            "",
+            "ServiceLocator"
+          ],
+          [
+            "",
+            "",
+            "WebLayerServiceRegistry"
+          ],
+          [
+            "",
+            "",
+            "Agent7DICoordination"
+          ],
+          [
+            "createDIFrameworkOrchestrator",
+            "",
+            ""
+          ],
+          [
+            "createDIContainer",
+            "",
+            ""
+          ]
+        ],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 204,
+        "non_empty_lines": 178,
+        "comment_lines": 74,
+        "complexity": 11,
+        "file_size": 5821,
+        "import_count": 5,
+        "function_count": 2,
+        "class_count": 9,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": false,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\architecture\\pattern-coordination-methods.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "createPatternCoordinationMethods"
+        ],
+        "classes": {
+          "PatternCoordinationMethods": {
+            "methods": []
+          }
+        },
+        "imports": [],
+        "exports": [
+          [
+            "",
+            "",
+            "PatternCoordinationMethods"
+          ],
+          [
+            "createPatternCoordinationMethods",
+            "",
+            ""
+          ]
+        ],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 272,
+        "non_empty_lines": 255,
+        "comment_lines": 53,
+        "complexity": 2,
+        "file_size": 9259,
+        "import_count": 0,
+        "function_count": 1,
+        "class_count": 1,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": false,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\architecture\\web-service-registry-module.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "createWebLayerServiceRegistry"
+        ],
+        "classes": {
+          "WebLayerServiceRegistry": {
+            "methods": []
+          }
+        },
+        "imports": [
+          "./service-locator-module.js"
+        ],
+        "exports": [
+          [
+            "",
+            "",
+            "WebLayerServiceRegistry"
+          ],
+          [
+            "createWebLayerServiceRegistry",
+            "",
+            ""
+          ]
+        ],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 201,
+        "non_empty_lines": 182,
+        "comment_lines": 45,
+        "complexity": 2,
+        "file_size": 7277,
+        "import_count": 1,
+        "function_count": 1,
+        "class_count": 1,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": true,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\core\\agent-8-ssot-integration.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "createSSOTIntegration"
+        ],
+        "classes": {
+          "SSOTIntegration": {
+            "methods": []
+          }
+        },
+        "imports": [],
+        "exports": [
+          [
+            "",
+            "",
+            "SSOTIntegration"
+          ],
+          [
+            "createSSOTIntegration",
+            "",
+            ""
+          ]
+        ],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 205,
+        "non_empty_lines": 174,
+        "comment_lines": 9,
+        "complexity": 2,
+        "file_size": 6310,
+        "import_count": 0,
+        "function_count": 1,
+        "class_count": 1,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": true,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\core\\dependency-analyzer.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "createDependencyAnalyzer"
+        ],
+        "classes": {
+          "DependencyAnalyzer": {
+            "methods": []
+          }
+        },
+        "imports": [],
+        "exports": [
+          [
+            "",
+            "",
+            "DependencyAnalyzer"
+          ],
+          [
+            "createDependencyAnalyzer",
+            "",
+            ""
+          ]
+        ],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 271,
+        "non_empty_lines": 231,
+        "comment_lines": 37,
+        "complexity": 2,
+        "file_size": 9120,
+        "import_count": 0,
+        "function_count": 1,
+        "class_count": 1,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": true,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\core\\dependency-container.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "createDependencyContainer",
+          "createDefaultDependencyContainer"
+        ],
+        "classes": {
+          "DependencyContainer": {
+            "methods": []
+          }
+        },
+        "imports": [
+          "./service-registry.js",
+          "./service-resolver.js",
+          "./dependency-analyzer.js"
+        ],
+        "exports": [
+          [
+            "",
+            "",
+            "DependencyContainer"
+          ],
+          [
+            "createDependencyContainer",
+            "",
+            ""
+          ],
+          [
+            "createDefaultDependencyContainer",
+            "",
+            ""
+          ]
+        ],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 196,
+        "non_empty_lines": 157,
+        "comment_lines": 55,
+        "complexity": 3,
+        "file_size": 5828,
+        "import_count": 3,
+        "function_count": 2,
+        "class_count": 1,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": false,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\core\\unified-configuration-system.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "createUnifiedConfiguration"
+        ],
+        "classes": {
+          "UnifiedConfiguration": {
+            "methods": []
+          }
+        },
+        "imports": [],
+        "exports": [
+          [
+            "",
+            "",
+            "UnifiedConfiguration"
+          ],
+          [
+            "createUnifiedConfiguration",
+            "",
+            ""
+          ]
+        ],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 129,
+        "non_empty_lines": 110,
+        "comment_lines": 9,
+        "complexity": 2,
+        "file_size": 4034,
+        "import_count": 0,
+        "function_count": 1,
+        "class_count": 1,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": false,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\core\\unified-logging-system.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "createUnifiedLogger"
+        ],
+        "classes": {
+          "UnifiedLogger": {
+            "methods": []
+          }
+        },
+        "imports": [],
+        "exports": [
+          [
+            "",
+            "",
+            "UnifiedLogger"
+          ],
+          [
+            "createUnifiedLogger",
+            "",
+            ""
+          ]
+        ],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 235,
+        "non_empty_lines": 198,
+        "comment_lines": 80,
+        "complexity": 2,
+        "file_size": 5920,
+        "import_count": 0,
+        "function_count": 1,
+        "class_count": 1,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": true,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\dashboard\\css-class-management-module.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "createCSSClassManagementModule"
+        ],
+        "classes": {
+          "manipulation": {
+            "methods": []
+          },
+          "management": {
+            "methods": []
+          },
+          "CSSClassManagementModule": {
+            "methods": []
+          },
+          "name": {
+            "methods": []
+          }
+        },
+        "imports": [],
+        "exports": [
+          [
+            "",
+            "",
+            "CSSClassManagementModule"
+          ],
+          [
+            "createCSSClassManagementModule",
+            "",
+            ""
+          ]
+        ],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 181,
+        "non_empty_lines": 157,
+        "comment_lines": 50,
+        "complexity": 7,
+        "file_size": 4669,
+        "import_count": 0,
+        "function_count": 1,
+        "class_count": 6,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": false,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\dashboard\\date-utils.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "createDashboardDateUtils"
+        ],
+        "classes": {},
+        "imports": [],
+        "exports": [
+          [
+            "",
+            "DashboardDateUtils",
+            ""
+          ],
+          [
+            "createDashboardDateUtils",
+            "",
+            ""
+          ]
+        ],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 166,
+        "non_empty_lines": 137,
+        "comment_lines": 33,
+        "complexity": 1,
+        "file_size": 4395,
+        "import_count": 0,
+        "function_count": 1,
+        "class_count": 0,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": false,
+        "has_jquery": true,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\dashboard\\dom-utils-orchestrator.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "createDOMUtilsOrchestrator",
+          "createDashboardDOMUtils"
+        ],
+        "classes": {
+          "DOMUtilsOrchestrator": {
+            "methods": []
+          },
+          "for": {
+            "methods": []
+          },
+          "DashboardDOMUtils": {
+            "methods": []
+          }
+        },
+        "imports": [
+          "./element-selection-module.js",
+          "./element-creation-module.js",
+          "./event-management-module.js",
+          "./css-class-management-module.js",
+          "./element-visibility-module.js"
+        ],
+        "exports": [
+          [
+            "",
+            "",
+            "DOMUtilsOrchestrator"
+          ],
+          [
+            "",
+            "",
+            "DashboardDOMUtils"
+          ],
+          [
+            "createDOMUtilsOrchestrator",
+            "",
+            ""
+          ],
+          [
+            "createDashboardDOMUtils",
+            "",
+            ""
+          ]
+        ],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 290,
+        "non_empty_lines": 232,
+        "comment_lines": 62,
+        "complexity": 5,
+        "file_size": 8513,
+        "import_count": 5,
+        "function_count": 2,
+        "class_count": 3,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": false,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\dashboard\\dom-utils.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "createDashboardDOMUtils"
+        ],
+        "classes": {
+          "utilities": {
+            "methods": []
+          }
+        },
+        "imports": [
+          "./dom-utils-orchestrator.js"
+        ],
+        "exports": [
+          [
+            "",
+            "DashboardDOMUtils",
+            ""
+          ],
+          [
+            "createDashboardDOMUtils",
+            "",
+            ""
+          ]
+        ],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 54,
+        "non_empty_lines": 47,
+        "comment_lines": 35,
+        "complexity": 2,
+        "file_size": 2045,
+        "import_count": 1,
+        "function_count": 1,
+        "class_count": 1,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": false,
+        "has_react": false
+      }
+    },
+    {
+      "file_path": "src\\web\\static\\js\\dashboard\\element-creation-module.js",
+      "analysis": {
+        "language": ".js",
+        "functions": [
+          "createElementCreationModule"
+        ],
+        "classes": {
+          "ElementCreationModule": {
+            "methods": []
+          }
+        },
+        "imports": [],
+        "exports": [
+          [
+            "",
+            "",
+            "ElementCreationModule"
+          ],
+          [
+            "createElementCreationModule",
+            "",
+            ""
+          ]
+        ],
+        "async_functions": [],
+        "arrow_functions": [],
+        "line_count": 160,
+        "non_empty_lines": 143,
+        "comment_lines": 41,
+        "complexity": 2,
+        "file_size": 4621,
+        "import_count": 0,
+        "function_count": 1,
+        "class_count": 1,
+        "has_async": false,
+        "has_arrow_functions": false,
+        "has_es6": true,
+        "has_jquery": true,
+        "has_react": false
+      }
+    }
+  ],
+  "summary": {
+    "total_files": 50,
+    "total_lines": 8337,
+    "total_functions": 159,
+    "total_classes": 53,
+    "total_imports": 54,
+    "file_types": {
+      ".py": 2,
+      ".css": 7,
+      ".js": 41
+    },
+    "avg_complexity_by_type": {
+      ".py": 0.0,
+      ".css": 0.0,
+      ".js": 5.170731707317073
+    }
+  },
+  "consolidation_opportunities": [
+    {
+      "file_path": "src\\web\\frontend\\__init__.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\web\\frontend\\settings.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\web\\static\\css\\buttons.css",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\web\\static\\css\\dashboard.css",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\web\\static\\css\\forms.css",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\web\\static\\css\\layouts.css",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\web\\static\\css\\main.css",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\web\\static\\css\\unified.css",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\web\\static\\css\\gamification.css",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\web\\static\\js\\dashboard-config-manager.js",
+      "reason": "Low complexity - consolidation candidate",
+      "priority": "LOW"
+    },
+    {
+      "file_path": "src\\web\\static\\js\\core\\unified-configuration-system.js",
+      "reason": "Low complexity - consolidation candidate",
+      "priority": "LOW"
+    }
+  ],
+  "imports_analysis": {
+    "src\\web\\static\\js\\agent-coordination-manager.js": [
+      "./cross-agent-coordination.js"
+    ],
+    "src\\web\\static\\js\\dashboard-communication.js": [
+      "./websocket-event-handlers.js"
+    ],
+    "src\\web\\static\\js\\dashboard-data-manager.js": [
+      "./dashboard-cache-manager.js",
+      "./dashboard-error-handler.js",
+      "./dashboard-loading-manager.js",
+      "./dashboard-retry-manager.js",
+      "./dashboard-optimistic-updates.js",
+      "./dashboard-data-operations.js"
+    ],
+    "src\\web\\static\\js\\dashboard-data-operations.js": [
+      "./dashboard-optimistic-updates.js",
+      "./dashboard-cache-manager.js",
+      "./dashboard-retry-manager.js",
+      "./dashboard-error-handler.js",
+      "./dashboard-loading-manager.js",
+      "./dashboard-ui-helpers.js"
+    ],
+    "src\\web\\static\\js\\dashboard-initializer.js": [
+      "./navigation/navigation-manager-v2.js",
+      "./dashboard-socket-manager.js",
+      "./dashboard-state-manager.js",
+      "./dashboard-data-manager.js",
+      "./dashboard-ui-helpers.js"
+    ],
+    "src\\web\\static\\js\\dashboard-loading-manager.js": [
+      "./dashboard-ui-helpers.js"
+    ],
+    "src\\web\\static\\js\\dashboard-navigation.js": [
+      "./dashboard-data-manager.js"
+    ],
+    "src\\web\\static\\js\\dashboard-socket-manager.js": [
+      "./dashboard-socket-messaging.js",
+      "./dashboard-socket-connection.js",
+      "./dashboard-ui-helpers.js"
+    ],
+    "src\\web\\static\\js\\dashboard-time.js": [
+      "./dashboard-ui-helpers.js"
+    ],
+    "src\\web\\static\\js\\dashboard-utils.js": [
+      "./dashboard/formatters.js",
+      "./dashboard/date-utils.js",
+      "./dashboard/style-utils.js",
+      "./dashboard/dom-utils.js"
+    ],
+    "src\\web\\static\\js\\dashboard.js": [
+      "./dashboard-communication.js",
+      "./dashboard-navigation.js",
+      "./dashboard-data-manager.js",
+      "./dashboard-ui-helpers.js"
+    ],
+    "src\\web\\static\\js\\unified-frontend-utilities.js": [
+      "./dom-utils.js",
+      "./cache-utils.js",
+      "./validation-utils.js",
+      "./event-utils.js"
+    ],
+    "src\\web\\static\\js\\architecture\\architecture-pattern-coordinator.js": [
+      "./pattern-coordination-methods.js"
+    ],
+    "src\\web\\static\\js\\architecture\\dependency-injection-framework.js": [
+      "./di-framework-orchestrator.js"
+    ],
+    "src\\web\\static\\js\\architecture\\di-framework-orchestrator.js": [
+      "./di-container-module.js",
+      "./service-locator-module.js",
+      "./web-service-registry-module.js",
+      "./di-decorators-module.js",
+      "./agent7-di-coordination-module.js"
+    ],
+    "src\\web\\static\\js\\architecture\\web-service-registry-module.js": [
+      "./service-locator-module.js"
+    ],
+    "src\\web\\static\\js\\core\\dependency-container.js": [
+      "./service-registry.js",
+      "./service-resolver.js",
+      "./dependency-analyzer.js"
+    ],
+    "src\\web\\static\\js\\dashboard\\dom-utils-orchestrator.js": [
+      "./element-selection-module.js",
+      "./element-creation-module.js",
+      "./event-management-module.js",
+      "./css-class-management-module.js",
+      "./element-visibility-module.js"
+    ],
+    "src\\web\\static\\js\\dashboard\\dom-utils.js": [
+      "./dom-utils-orchestrator.js"
+    ]
+  }
+}

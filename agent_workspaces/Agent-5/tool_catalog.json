@@ -1,0 +1,157 @@
+{
+  "agent_id": "Agent-5",
+  "role": "DATA_ANALYST",
+  "cataloged_at": "2025-10-01T12:00:00Z",
+  "tool_categories": {
+    "core_communication": [
+      "src/services/messaging_service.py",
+      "src/services/messaging/intelligent_coordinator.py",
+      "src/services/messaging/core/messaging_service.py"
+    ],
+    "role_assignment": [
+      "src/services/role_assignment/role_assignment_service.py"
+    ],
+    "captain_tools": [
+      "tools/captain_cli.py",
+      "tools/captain_directive_manager.py",
+      "tools/captain_autonomous_manager.py"
+    ],
+    "analysis_tools": [
+      "tools/analysis_cli.py",
+      "tools/overengineering_detector.py",
+      "tools/simple_project_scanner.py",
+      "tools/run_project_scan.py"
+    ],
+    "workflow_tools": [
+      "tools/agent_workflow_manager.py",
+      "tools/agent_workflow_automation.py",
+      "tools/simple_workflow_automation.py",
+      "tools/workflow_cli.py"
+    ],
+    "static_analysis": [
+      "tools/static_analysis/code_quality_analyzer.py",
+      "tools/static_analysis/dependency_scanner.py",
+      "tools/static_analysis/security_scanner.py"
+    ],
+    "protocol_tools": [
+      "tools/protocol_compliance_checker.py",
+      "tools/protocol_reference_enforcer.py"
+    ],
+    "devops_tools": [
+      "scripts/deployment_dashboard.py",
+      "tools/performance_detective_cli.py"
+    ],
+    "specialized_finance_tools": [
+      "tools/financial_analyst_cli.py",
+      "tools/trading_strategist_cli.py",
+      "tools/risk_manager_cli.py",
+      "tools/market_researcher_cli.py",
+      "tools/portfolio_optimizer_cli.py",
+      "tools/compliance_auditor_cli.py"
+    ],
+    "specialized_role_tools": [
+      "tools/code_archaeologist_cli.py",
+      "tools/devlog_storyteller_cli.py",
+      "tools/documentation_architect_cli.py",
+      "tools/integration_explorer_cli.py",
+      "tools/performance_detective_cli.py",
+      "tools/security_inspector_cli.py"
+    ],
+    "alerting_analytics_tools": [
+      "tools/intelligent_alerting_cli.py",
+      "tools/predictive_analytics_cli.py"
+    ],
+    "thea_integration": [
+      "src/services/thea/strategic_consultation_cli.py",
+      "src/services/thea/thea_autonomous_system.py"
+    ],
+    "autonomous_workflow": [
+      "src/services/autonomous/core/autonomous_workflow.py",
+      "src/services/autonomous/mailbox/mailbox_manager.py",
+      "src/services/autonomous/tasks/task_manager.py",
+      "src/services/autonomous/blockers/blocker_resolver.py",
+      "src/services/autonomous/operations/autonomous_operations.py"
+    ],
+    "dashboard_tools": [
+      "tools/swarm_dashboard_cli.py",
+      "tools/operational_dashboard_tool.py",
+      "tools/team_dashboard.py"
+    ],
+    "agent_coordination": [
+      "tools/swarm_coordination_tool.py",
+      "tools/agent_task_manager.py",
+      "tools/agent_autonomous_cycle.py"
+    ],
+    "knowledge_systems": [
+      "tools/knowledge_base_search.py",
+      "tools/agent_vector_search.py",
+      "tools/database_search.py"
+    ]
+  },
+  "role_specific_tools": {
+    "DATA_ANALYST": {
+      "primary": [
+        "tools/analysis_cli.py",
+        "tools/predictive_analytics_cli.py",
+        "tools/simple_project_scanner.py"
+      ],
+      "secondary": [
+        "tools/financial_analyst_cli.py",
+        "tools/market_researcher_cli.py",
+        "tools/database_search.py"
+      ]
+    },
+    "RESEARCHER": {
+      "primary": [
+        "tools/knowledge_base_search.py",
+        "tools/agent_vector_search.py",
+        "tools/code_archaeologist_cli.py"
+      ],
+      "secondary": [
+        "tools/market_researcher_cli.py",
+        "tools/integration_explorer_cli.py"
+      ]
+    },
+    "OPTIMIZER": {
+      "primary": [
+        "tools/performance_detective_cli.py",
+        "tools/overengineering_detector.py",
+        "tools/predictive_analytics_cli.py"
+      ],
+      "secondary": [
+        "tools/static_analysis/code_quality_analyzer.py",
+        "tools/portfolio_optimizer_cli.py"
+      ]
+    }
+  },
+  "general_cycle_tool_usage": {
+    "phase_1_check_inbox": [
+      "src/services/messaging_service.py",
+      "tools/intelligent_alerting_cli.py",
+      "tools/knowledge_base_search.py"
+    ],
+    "phase_2_evaluate_tasks": [
+      "tools/agent_task_manager.py",
+      "tools/analysis_cli.py",
+      "tools/agent_workflow_manager.py"
+    ],
+    "phase_3_execute_role": [
+      "tools/simple_project_scanner.py",
+      "tools/predictive_analytics_cli.py",
+      "tools/agent_workflow_automation.py"
+    ],
+    "phase_4_quality_gates": [
+      "quality_gates.py",
+      "tools/protocol_compliance_checker.py",
+      "tools/static_analysis/code_quality_analyzer.py"
+    ],
+    "phase_5_cycle_done": [
+      "tools/agent_cycle_devlog.py",
+      "src/services/messaging_service.py",
+      "tools/swarm_dashboard_cli.py"
+    ]
+  },
+  "total_tools_cataloged": 50
+}
+
+

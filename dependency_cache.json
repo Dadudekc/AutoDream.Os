@@ -1,0 +1,2660 @@
+{
+    "tools\\v2_compliance_checker.py": {
+        "hash": "1a8355363126ac3ec9126e9d616b9817"
+    },
+    "src\\core\\refactoring\\tools\\optimization_tools.py": {
+        "hash": "7097bde76204c3af5e05302373ba0a2a"
+    },
+    "src\\infrastructure\\browser\\unified\\driver_manager.py": {
+        "hash": "44c4a5cc16999f034527646900b1de9c"
+    },
+    "src\\infrastructure\\browser\\unified\\legacy_driver.py": {
+        "hash": "5870371e1574af2e352dd871277eb71e"
+    },
+    "src\\infrastructure\\browser\\unified\\config.py": {
+        "hash": "4fa038123bdd01218912f29c53eaccb0"
+    },
+    "src\\web\\static\\js\\dashboard\\dom-utils.js": {
+        "hash": "3b4a9ff7e4f02cb1985933fce48162e4"
+    },
+    "src\\discord_commander_backup\\discord_channel_coordinator.py": {
+        "hash": "0a5ab557e8510d2e17c921c1a642b56b"
+    },
+    "scan_technical_debt.py": {
+        "hash": "142a756b605c90f6568fa08c38d59601"
+    },
+    "src\\core\\integration_coordinators\\vector_database_coordinator.py": {
+        "hash": "5f7b19cdcc7a4ee0e0602e630990b230"
+    },
+    "src\\core\\integration_coordinators\\unified_integration\\models\\__init__.py": {
+        "hash": "19cf2e5401ae49102ad49c4ba90207f9"
+    },
+    "src\\core\\dry_eliminator\\dry_elimination_engine.py": {
+        "hash": "47fc2915a12d5f14825fac381b0c951a"
+    },
+    "src\\discord_commander_backup\\agent_communication_engine_refactored.py": {
+        "hash": "c9a11d1e4e7124c3dbc97850ce5059d7"
+    },
+    "src\\core\\managers\\configuration_source_manager.py": {
+        "hash": "cc151941647017c1857c57390f7e8339"
+    },
+    "src\\web\\static\\js\\vector-database\\ui-common.js": {
+        "hash": "e57232249015f183b201544a8040d67a"
+    },
+    "src\\core\\emergency_intervention\\unified_emergency\\engines\\action_executor.py": {
+        "hash": "6b6c4723435f2a76c76bed1bebc4742d"
+    },
+    "src\\core\\constants\\fsm_models.py": {
+        "hash": "6bfd76e295ac29c25173e371a6951720"
+    },
+    "src\\services\\vector_database\\vector_database_orchestrator.py": {
+        "hash": "e1165de778d0712651607e71998dd853"
+    },
+    "tools\\agent_checkin.py": {
+        "hash": "93b59fdb3ca1d2ca7ca761127007c9c5"
+    },
+    "src\\core\\intelligent_context\\__init__.py": {
+        "hash": "6af25d1bc9d7290d8f0cc7fe2e43f5bf"
+    },
+    "src\\core\\vector_strategic_oversight\\unified_strategic_oversight\\factory_extended.py": {
+        "hash": "72ca435a8b53df2aa000a9c7e68a4f76"
+    },
+    "src\\services\\vector_models_and_embedding_unified.py": {
+        "hash": "3026d0967384e801980cdad39ec4429b"
+    },
+    "src\\utils\\logger.py": {
+        "hash": "6aa2d799ead77fe67deb4408b2296194"
+    },
+    "src\\web\\static\\js\\services\\deployment-validation-service.js": {
+        "hash": "0a02308661f6d45da8c560accbd18523"
+    },
+    "src\\utils\\config_consolidator.py": {
+        "hash": "2e83dac90ef42c329ec2ca4ac937f39a"
+    },
+    "src\\infrastructure\\time\\__init__.py": {
+        "hash": "218e50f966a68110f08c58dd4f316a2b"
+    },
+    "src\\core\\emergency_intervention\\unified_emergency\\protocols.py": {
+        "hash": "8a786919010da64c3bc53156826ab805"
+    },
+    "src\\core\\managers\\monitoring\\base_monitoring_manager.py": {
+        "hash": "f6596811ccdef8c6c3ca2d8e5d011460"
+    },
+    "tools\\duplication_analyzer.py": {
+        "hash": "0c4f60dc0386e3a2cbcc53a2336e35b0"
+    },
+    "src\\core\\enhanced_integration\\engines\\__init__.py": {
+        "hash": "1ac7ce3e2fe2beeb3c3dce8f95f23e89"
+    },
+    "src\\domain\\value_objects\\ids.py": {
+        "hash": "49abab8972b618679f4f841b51fe34b5"
+    },
+    "src\\core\\validation\\__init__.py": {
+        "hash": "c546f840bf8728b8eb6bb2967ad8eeec"
+    },
+    "src\\core\\vector_strategic_oversight\\unified_strategic_oversight\\analyzers\\__init__.py": {
+        "hash": "9b2799a3609b5e3a098241b6926c3ce8"
+    },
+    "src\\core\\dry_eliminator\\orchestrators\\__init__.py": {
+        "hash": "5c535c4f1965ba462b36d55cf69d2aed"
+    },
+    "src\\utils\\confirm.py": {
+        "hash": "20b8b7c58d071bdf9caf0c3b3a465b0e"
+    },
+    "src\\core\\intelligent_context\\intelligent_context_optimization_models.py": {
+        "hash": "bb8c6959d2065706b4eac2c2319cf1ac"
+    },
+    "src\\core\\intelligent_context\\unified_intelligent_context\\search_operations.py": {
+        "hash": "d7d211055b3530067aafcb43a79134cb"
+    },
+    "src\\web\\static\\js\\services\\deployment-phase-service.js": {
+        "hash": "da5d387c524fe8b3e650ad41405dcd6c"
+    },
+    "src\\core\\engines\\engine_lifecycle.py": {
+        "hash": "aff3d4cda65e0a625e28e3c91344d7a4"
+    },
+    "scripts\\fix_and_ingest_vector_database.py": {
+        "hash": "903f4ece9c6a9b422d9c2b384c755412"
+    },
+    "src\\discord_commander_backup\\discord_commander_models.py": {
+        "hash": "fb7eb8eca3b8733bb8151e2ff19e8db3"
+    },
+    "src\\core\\deployment\\coordinators\\__init__.py": {
+        "hash": "d0a19e46748a0b207b6a4d21e747ad5e"
+    },
+    "src\\models\\__init__.py": {
+        "hash": "81051bcc2cf1bedf378224b0a93e2877"
+    },
+    "src\\core\\performance\\unified_dashboard\\__init__.py": {
+        "hash": "669a5c4726d82c9fec6b0fe6c2a119cd"
+    },
+    "src\\web\\static\\js\\services\\deployment-analysis-methods.js": {
+        "hash": "f81ee50668a9dd2a38ef05b15f471613"
+    },
+    "src\\core\\error_handling\\specialized_handlers.py": {
+        "hash": "f88421af2f64522c43aa510cd6a12680"
+    },
+    "src\\core\\vector_strategic_oversight\\unified_strategic_oversight\\factories\\__init__.py": {
+        "hash": "9bdd5dddcc2c0b68af4712d7a8b48388"
+    },
+    "src\\web\\static\\js\\dashboard\\dom-utils-orchestrator.js": {
+        "hash": "61b56af4ca2fc60f0b96f3e6633a4804"
+    },
+    "src\\web\\static\\js\\services\\component-validation-module.js": {
+        "hash": "f333bf006855a7a82cc74dbf7d6b45be"
+    },
+    "src\\web\\vector_database\\utils.py": {
+        "hash": "8ee7e511080cfeb9823c8879d4e72f96"
+    },
+    "src\\web\\static\\js\\dashboard-socket-manager.js": {
+        "hash": "c3333e21bad650f501be6e313bfb5972"
+    },
+    "src\\infrastructure\\persistence\\agent_repository.py": {
+        "hash": "46d3b42f300ff31f76c99f0a8e5f35a2"
+    },
+    "tests\\test_chatgpt_integration.py": {
+        "hash": "c52689b1acc79c3b2035fe593df859f1"
+    },
+    "src\\core\\pattern_analysis\\__init__.py": {
+        "hash": "fbf340ca0bcb43ef8e4b3da3ab84fdef"
+    },
+    "src\\core\\analytics\\models\\__init__.py": {
+        "hash": "d54b0608d8b7eae21715c59981a820b9"
+    },
+    "src\\gaming\\integration\\models.py": {
+        "hash": "7b481bfc98cdd678f47fa14abc28e7ee"
+    },
+    "src\\core\\vector_strategic_oversight\\unified_strategic_oversight\\analyzer_orchestrator.py": {
+        "hash": "818d6e341bbe8d2ddd96020a163b1f95"
+    },
+    "src\\web\\static\\js\\utilities\\dom-utils.js": {
+        "hash": "abb8851a840c4ee199fe306705d8ca16"
+    },
+    "src\\core\\enhanced_integration\\engines\\integration_coordination_engine.py": {
+        "hash": "40a28694d7942c1b169688db08af54fc"
+    },
+    "src\\core\\managers\\unified_configuration_manager.py": {
+        "hash": "c5f1209a5bc3e320753792c576f9cfd4"
+    },
+    "src\\core\\coordinator_interfaces.py": {
+        "hash": "872d71f05abe4879ac71b753b1cb427a"
+    },
+    "agent_workspaces\\database_specialist\\caching\\__init__.py": {
+        "hash": "02c752967ed4fb0ece150d487b865677"
+    },
+    "src\\core\\enhanced_integration\\engines\\integration_optimization_engine.py": {
+        "hash": "71f0b4f043f4b49fbe5b0ff3a3011e3b"
+    },
+    "src\\web\\static\\js\\services-orchestrator.js": {
+        "hash": "4c52bab8eb37885c952e613e3063455a"
+    },
+    "src\\domain\\entities\\agent.py": {
+        "hash": "c7d183d35ac696c537b19d68bf5d2deb"
+    },
+    "src\\web\\static\\js\\services\\coordination-core-module.js": {
+        "hash": "5e6389bf7e2d64f0534dd2f681f9df17"
+    },
+    "tools\\refactoring_suggestion_engine.py": {
+        "hash": "985a866ef8738e2875f53434863b1f87"
+    },
+    "src\\services\\agent_status_manager.py": {
+        "hash": "90b269014876096e9ba3acf875480b4d"
+    },
+    "src\\services\\vector_database_service_unified.py": {
+        "hash": "9c3b4c1ef4a3a6fd231692949cc280a0"
+    },
+    "src\\core\\analytics\\coordinators\\processing_coordinator.py": {
+        "hash": "9cbe9f51c13be8af90dd169603276901"
+    },
+    "src\\core\\analytics\\intelligence\\__init__.py": {
+        "hash": "9a353056c6bb342e116c1f9887538911"
+    },
+    "src\\services\\coordinator.py": {
+        "hash": "0a0f825de5b49771a9ffb1600b581f76"
+    },
+    "examples\\quickstart_demo\\workflow_demo.py": {
+        "hash": "9b8aa97e45f00ed8346c49810aaffeba"
+    },
+    "src\\services\\coordination\\strategy_coordinator.py": {
+        "hash": "cddb87458bcf15fcbe0e2a06cbd98b71"
+    },
+    "src\\trading_robot\\repositories\\implementations\\in_memory_trading_repository.py": {
+        "hash": "1083eae08d9fcc73ef5fbab8baef8899"
+    },
+    "agent_workspaces\\Agent-1\\__init__.py": {
+        "hash": "d4fa4dc88a591ecb47f2a8640c295b06"
+    },
+    "src\\trading_robot\\repositories\\interfaces\\__init__.py": {
+        "hash": "1866158b740a7e5efff7e28bf852e4b9"
+    },
+    "src\\web\\static\\js\\dashboard-initializer.js": {
+        "hash": "55fb58bdb80ddf4177fd858d28237b33"
+    },
+    "src\\web\\static\\js\\performance\\dom-performance-analyzer.js": {
+        "hash": "bd873fd40e17b79f57ae53bfca561834"
+    },
+    "src\\core\\intelligent_context\\unified_intelligent_context\\engine_search.py": {
+        "hash": "7f35affa51f8e1a62476bfc8e357f15d"
+    },
+    "src\\core\\engines\\engine_monitoring.py": {
+        "hash": "9fb4f91a46477c75116d0a63e05d473d"
+    },
+    "scripts\\status_embedding_refresh.py": {
+        "hash": "a38c44452ca8335ff8b685d73d834461"
+    },
+    "src\\infrastructure\\browser_backup\\session_manager.py": {
+        "hash": "ee92cf0791830076619426851daba819"
+    },
+    "src\\core\\analytics\\processors\\prediction_processor.py": {
+        "hash": "99e62dbb6502f1324dd3e96b311c4336"
+    },
+    "src\\services\\status_embedding_indexer.py": {
+        "hash": "d482a0f2dbf7e2984720aa9e02c2d532"
+    },
+    "src\\web\\static\\js\\services\\business-validation-module.js": {
+        "hash": "0b16464043bd6adcb2ead5f91f31051c"
+    },
+    "tools\\generate_utils_catalog.py": {
+        "hash": "93b9ebb506ce74fb8f70359ce1efb2d7"
+    },
+    "src\\core\\enhanced_integration\\engines\\integration_performance_engine.py": {
+        "hash": "1836da44bbb53c0f8060f09222f4b96f"
+    },
+    "src\\core\\validation\\unified_validation_system.py": {
+        "hash": "ca76bb719ba3ec912eb0f56ef21cc752"
+    },
+    "src\\web\\static\\js\\validation\\form-validation-module.js": {
+        "hash": "935fb6a1f3ffa208b71bff9e61267eba"
+    },
+    "src\\core\\intelligent_context\\engines\\risk_assessment_engine.py": {
+        "hash": "c9a777fff17c41e3f5cfecf4d75d4dff"
+    },
+    "src\\core\\metrics.py": {
+        "hash": "2615b69d2a99af8509cd534c4c13c874"
+    },
+    "src\\services\\handlers\\utility_handler.py": {
+        "hash": "cc1ad1a08104cdb86036ae3e95e015b0"
+    },
+    "src\\core\\emergency_intervention\\unified_emergency\\engines\\__init__.py": {
+        "hash": "3671c1cb9f873120052caec1db19f395"
+    },
+    "src\\core\\orchestration\\base_orchestrator.py": {
+        "hash": "c945ca50020642c2ca9ddd0113e5817e"
+    },
+    "src\\domain\\domain_events.py": {
+        "hash": "1919383bb74f5e44877474a21f96a50d"
+    },
+    "src\\core\\analytics\\processors\\prediction\\prediction_analyzer.py": {
+        "hash": "6f649494cc91f4e35a2a7f0c72e8236c"
+    },
+    "src\\web\\static\\js\\dashboard\\date-utils.js": {
+        "hash": "93d893626ec455e20a35cc8e51827365"
+    },
+    "src\\gui\\components\\status_panel.py": {
+        "hash": "601bf5e3cb99666ab623017b01491706"
+    },
+    "src\\core\\coordination\\agent_strategies.py": {
+        "hash": "6f16611b07cad79345b25dc3db76c8e5"
+    },
+    "src\\discord_commander\\discord_service.py": {
+        "hash": "35329db8ab83523ad0401218e7306b3b"
+    },
+    "src\\core\\error_handling\\retry_safety_engine.py": {
+        "hash": "953c2a9b0b144bdff95f00f4c95ebbbc"
+    },
+    "src\\core\\orchestration\\adapters\\__init__.py": {
+        "hash": "cc0093d7e2968189dbc0d262a5434fc6"
+    },
+    "src\\core\\vector_strategic_oversight\\unified_strategic_oversight\\factories\\metrics_factory.py": {
+        "hash": "40ad5186c11752e15556a4bc738b3d55"
+    },
+    "src\\core\\analytics\\framework\\analytics_engine_core.py": {
+        "hash": "1158889d27e4b5fedabd16bb84acd041"
+    },
+    "src\\web\\static\\js\\architecture\\dependency-injection-framework.js": {
+        "hash": "34318e9ba4005f0a336c417173cb903b"
+    },
+    "src\\core\\message_queue_interfaces.py": {
+        "hash": "3e5ca00e39ed3ca9dee19958378d7f7c"
+    },
+    "src\\web\\static\\js\\validation\\data-validation-module.js": {
+        "hash": "c395802fb53132b43b2622f50c8824e3"
+    },
+    "scripts\\index_v2_refactoring.py": {
+        "hash": "1baf9436c97bb075e69d57c1c4e1d5b6"
+    },
+    "src\\services\\config.py": {
+        "hash": "8d2ef3b0fa8d0378af69bc11bd7905b2"
+    },
+    "agent_workspaces\\database_specialist\\query_optimization_system.py": {
+        "hash": "98a10ce056406e3b261e0eac73485e43"
+    },
+    "src\\core\\vector_strategic_oversight\\unified_strategic_oversight\\analyzers\\prediction_analyzer.py": {
+        "hash": "1a2f7d20d611cd0d0adff07e2fb74d17"
+    },
+    "src\\services\\learning_recommender.py": {
+        "hash": "d20efdf98c9d12e7196c79a50a7d81b3"
+    },
+    "src\\discord_commander_backup\\discord_webhook_integration.py": {
+        "hash": "b4298d0ede2bc7df802728831e708766"
+    },
+    "src\\web\\static\\js\\framework_new\\components.js": {
+        "hash": "ed420dfe86552bd68797b9d224e1d508"
+    },
+    "src\\core\\dry_eliminator\\orchestrators\\results_manager.py": {
+        "hash": "082158faa835bf319f726201d4ae0813"
+    },
+    "trading_robot\\main.py": {
+        "hash": "87564fce1a44153d0d3e0ed65f9b7e00"
+    },
+    "src\\infrastructure\\browser_backup\\thea_modules\\__init__.py": {
+        "hash": "d229a59e9875498cc0fc9338950a1c78"
+    },
+    "src\\vision\\capture.py": {
+        "hash": "d0bfa8675cc4a0a0c7825f5fec772406"
+    },
+    "src\\infrastructure\\browser_backup\\thea_modules\\response_collector.py": {
+        "hash": "c093161ae46896e1eda68fe9508bf2e1"
+    },
+    "src\\web\\static\\js\\services\\utilities\\math-utils.js": {
+        "hash": "79bc0e5ca8957a5d5903c78182f0fd45"
+    },
+    "src\\core\\analytics\\intelligence\\predictive_modeling_engine.py": {
+        "hash": "0398421fad1bde92629b2e47c9d2b688"
+    },
+    "src\\core\\performance\\metrics\\__init__.py": {
+        "hash": "a4daedaa17e4fe28ff18df8a1068a9dc"
+    },
+    "src\\core\\performance\\coordination_performance_monitor.py": {
+        "hash": "ff69b082c91da491e06e620352f7308c"
+    },
+    "src\\core\\validation\\coordination_validator.py": {
+        "hash": "7b22653ca88b5e702f716ebaaa68a075"
+    },
+    "src\\services\\handlers\\__init__.py": {
+        "hash": "1837e3c007ab03cdf9cd8be494f65421"
+    },
+    "src\\architecture\\system_integration.py": {
+        "hash": "55aac8c8a55d7f1d244a86d7ef85dfc6"
+    },
+    "src\\core\\integration\\models\\data_models.py": {
+        "hash": "3ea3f7eff4b33cc4ade1bf60ed35ad9b"
+    },
+    "src\\web\\static\\js\\repositories\\deployment-repository.js": {
+        "hash": "057ab6bb7e1ca61529388e57254c16c4"
+    },
+    "src\\core\\file_locking\\file_locking_models.py": {
+        "hash": "5373d46a62d4e9dff722d422ec743625"
+    },
+    "src\\services\\vector_database\\status_indexer.py": {
+        "hash": "400e20ef5842e3317f224a7cec4c3fb7"
+    },
+    "src\\web\\static\\js\\vector-database\\manager.js": {
+        "hash": "ec67fba3e1554debc34f4b1b6df45786"
+    },
+    "src\\core\\analytics\\models\\coordination_analytics_models.py": {
+        "hash": "0052e1767feac37e29ebb5a47c844256"
+    },
+    "src\\infrastructure\\persistence\\persistence_statistics.py": {
+        "hash": "195183c516e614332bc1a7b2733cc9f8"
+    },
+    "src\\core\\constants\\decision.py": {
+        "hash": "00863d9bf243de84dda2ccc651f53f4d"
+    },
+    "src\\web\\static\\js\\trading-robot\\unified-logging-module.js": {
+        "hash": "cc2d556fbe7155d6195bebc4ae41c36a"
+    },
+    "src\\core\\engines\\communication_core_engine.py": {
+        "hash": "8d30ffe2cae7f9bbb3795a1b50b0b05f"
+    },
+    "src\\core\\refactoring\\tools\\extraction_tools.py": {
+        "hash": "6b239879fe67c1a07fb53fc0c8a83c22"
+    },
+    "src\\core\\performance\\performance_decorators.py": {
+        "hash": "30ccfb0746671c5f259a08b4391720e0"
+    },
+    "src\\core\\analytics\\engines\\__init__.py": {
+        "hash": "31d9df24912d4bc7418124bb3382cd11"
+    },
+    "src\\orchestrators\\overnight\\cli.py": {
+        "hash": "01e08d9b6bef49a1587a1644112818bd"
+    },
+    "src\\core\\integration_coordinators\\unified_integration\\monitor.py": {
+        "hash": "e31367ffd6b7c82ae35be8a4156edccd"
+    },
+    "src\\core\\utils\\simple_utils.py": {
+        "hash": "9ec3783dd9e3c0cd8c8e946e05f62297"
+    },
+    "src\\services\\task_context_manager.py": {
+        "hash": "5f036dbf6431feac470f00827f1be539"
+    },
+    "src\\services\\models\\__init__.py": {
+        "hash": "562659bb11f596ac0eae338aff123699"
+    },
+    "src\\core\\engines\\validation_core_engine.py": {
+        "hash": "b71ea00338d1e632e4e5d8fb8686a3bd"
+    },
+    "src\\core\\vector_strategic_oversight\\unified_strategic_oversight\\factory_core.py": {
+        "hash": "5f0d4f54ae86bdb3eaf29664c3206753"
+    },
+    "cleanup_obsolete_files.py": {
+        "hash": "2702f63306ec29a600d9c23714226dfd"
+    },
+    "src\\web\\static\\js\\services\\metrics-aggregation-module.js": {
+        "hash": "e95a77bda9a680e42766582c65d3cffc"
+    },
+    "src\\core\\coordination\\swarm\\engines\\__init__.py": {
+        "hash": "afdacf0cf1ef9dff686c63b6714651a4"
+    },
+    "src\\core\\managers\\monitoring\\metrics_manager.py": {
+        "hash": "c64b4d1acb8f6e8c997a1a1ef636e888"
+    },
+    "src\\web\\static\\js\\dashboard\\css-class-management-module.js": {
+        "hash": "582c4a457aacc2928c22a59c1b6d3fc7"
+    },
+    "src\\core\\coordination\\swarm\\orchestrators\\__init__.py": {
+        "hash": "13f80c0c48031e03fc289ea238fd79a9"
+    },
+    "src\\domain\\ports\\clock.py": {
+        "hash": "f077b4bf797ba1b783067d740503adef"
+    },
+    "scripts\\utilities\\__init__.py": {
+        "hash": "6c25c232627e12b116f47cd3a881dcfb"
+    },
+    "scripts\\enforce_python_standards.py": {
+        "hash": "45fa2bfb3665c087e19b9e52140a869f"
+    },
+    "src\\core\\__init__.py": {
+        "hash": "a348f292620418b0bed846127a4dc628"
+    },
+    "src\\core\\performance\\performance_dashboard.py": {
+        "hash": "3882932eb3a0d5ef8498fdb52270a108"
+    },
+    "src\\services\\utils\\vector_config_utils.py": {
+        "hash": "185a8c1b75561278d626049cfd724f06"
+    },
+    "src\\web\\static\\js\\dashboard-state-manager.js": {
+        "hash": "6b77ece861b271f599056fd33d531b2b"
+    },
+    "src\\core\\test_categories_config.py": {
+        "hash": "f16bfda5bd973e33814ea814abddd6a5"
+    },
+    "src\\workflows\\steps.py": {
+        "hash": "16ac211ff17ceb56683fd5e7f5261654"
+    },
+    "src\\core\\error_handling\\error_models_enums.py": {
+        "hash": "b04bf7297624df9ee7928a2e75676089"
+    },
+    "src\\web\\static\\js\\dashboard\\element-creation-module.js": {
+        "hash": "1c05a76cee2e3f6a246d7f6f13c0b19a"
+    },
+    "src\\core\\file_locking\\operations\\lock_operations.py": {
+        "hash": "0e300e0edcdcb490e09eece6bc8cdf1b"
+    },
+    "src\\gaming\\gaming_integration_core.py": {
+        "hash": "df6922158aafac4c3b54f6572275ee3a"
+    },
+    "src\\trading_robot\\services\\trading_service.py": {
+        "hash": "7d749f8cb0cd2d98e422482f8afbc607"
+    },
+    "src\\core\\ssot\\unified_ssot\\validators\\strict_validator.py": {
+        "hash": "c147b5ac016f3ad7ce48f3a3d7386f95"
+    },
+    "src\\web\\static\\js\\services\\dashboard-data-service.js": {
+        "hash": "743f6197103e7005872ed3b3ea2ec7d3"
+    },
+    "__init__.py": {
+        "hash": "764c307bdb930042caf641416a176192"
+    },
+    "src\\services\\messaging_discord.py": {
+        "hash": "9c7d8dab3a10cdef607979aa7802f2a4"
+    },
+    "src\\web\\static\\js\\services\\utility-string-service.js": {
+        "hash": "ab3e70ade0617718accc96b397cca2dd"
+    },
+    "src\\core\\emergency_intervention\\unified_emergency\\models_metrics.py": {
+        "hash": "81d1d3ad3270323ee8fcfbfa11ff8f11"
+    },
+    "src\\trading_robot\\services\\analytics\\performance_metrics_engine.py": {
+        "hash": "86010586a3ee17347758d46cae5c7094"
+    },
+    "src\\core\\ssot\\ssot_models.py": {
+        "hash": "3ef8df3c82991d378f0a1d3c5b6e7716"
+    },
+    "src\\web\\static\\js\\dashboard.js": {
+        "hash": "9086748b37bfddf7d4358331a1dabcae"
+    },
+    "src\\web\\static\\js\\validation\\unified-validation-system.js": {
+        "hash": "d4f17ffa070313a1427660918ba26cff"
+    },
+    "src\\web\\static\\js\\core\\dependency-analyzer.js": {
+        "hash": "055c984841836e291f7d586ea27c4efc"
+    },
+    "tools\\analysis_cli.py": {
+        "hash": "550d44af3918d5317171dcaddb42be18"
+    },
+    "src\\web\\static\\js\\trading-robot\\trading-dashboard.js": {
+        "hash": "3a2634dc5ffb047579aff803a8dc4222"
+    },
+    "src\\core\\emergency_intervention\\unified_emergency\\handlers\\protocol_registry.py": {
+        "hash": "5b88cabf6a2669304d602c8e9c627336"
+    },
+    "src\\web\\static\\js\\utilities\\logging-utils.js": {
+        "hash": "c5cd0207703021f67d7b13b9901e2371"
+    },
+    "src\\vision\\ocr.py": {
+        "hash": "b941d4335bd1d76a9f31187164c14bca"
+    },
+    "src\\vision\\__init__.py": {
+        "hash": "a82e927fde6910f3597f7563cc4d0568"
+    },
+    "implementation_leadership_confirmation.py": {
+        "hash": "ba7c96c28c085f1e4844784353ef51e2"
+    },
+    "src\\web\\static\\js\\dashboard\\style-utils.js": {
+        "hash": "6c4bd7ee7fd42a85315d3846404cbcb1"
+    },
+    "src\\web\\static\\js\\dashboard\\formatters.js": {
+        "hash": "7e699a5b7603fae0a426396325b01a03"
+    },
+    "src\\core\\deployment\\engines\\__init__.py": {
+        "hash": "47f0e4f355c93085892ee6d68a189f08"
+    },
+    "src\\core\\enhanced_integration\\orchestrators\\task_processor.py": {
+        "hash": "356059e25f3799bd790f7a5a7c9dad03"
+    },
+    "src\\core\\integration_coordinators\\unified_integration\\monitor_engine.py": {
+        "hash": "086b5ef35ed5ffb38a8a263548b5e871"
+    },
+    "src\\core\\orchestration\\integration_orchestrator.py": {
+        "hash": "8732e64dcb4fd016abb543122a0df5c9"
+    },
+    "src\\web\\static\\js\\trading-robot\\chart-validation\\__init__.js": {
+        "hash": "5a7366b8456e9ded87c171da4ac2cb8b"
+    },
+    "src\\core\\intelligent_context\\engines\\__init__.py": {
+        "hash": "8bc52acb417ed1f57d4e5857ed87a04a"
+    },
+    "src\\core\\managers\\core_service_manager.py": {
+        "hash": "d7aeaa95a7162c651726c6f6a3b4c39b"
+    },
+    "src\\core\\integration\\analytics\\__init__.py": {
+        "hash": "b5d806c2bd779dcd093d48e2655ce53f"
+    },
+    "src\\web\\static\\js\\utilities\\string-utils.js": {
+        "hash": "8bb7d0430deb3e4e269b7a0166f23395"
+    },
+    "scripts\\validate_workspace_coords.py": {
+        "hash": "6ac817c985316b6f8eedb2ac222bf224"
+    },
+    "src\\core\\import_system\\import_registry.py": {
+        "hash": "e9497fcdee3c5d5314611afa99b05927"
+    },
+    "src\\core\\managers\\core_onboarding_manager.py": {
+        "hash": "dae4293f4bfd5be4a0b030a7dbf9095a"
+    },
+    "src\\core\\emergency_intervention\\unified_emergency\\orchestrators\\__init__.py": {
+        "hash": "338e07b0a4172205ba4eb12d5223d3be"
+    },
+    "src\\core\\emergency_intervention\\unified_emergency\\handlers\\protocol_executor.py": {
+        "hash": "f0a5892266d45626deb99776add00dd5"
+    },
+    "src\\core\\intelligent_context\\unified_intelligent_context\\__init__.py": {
+        "hash": "a0b41d3ec768d3ff0233f088a38c56c3"
+    },
+    "src\\core\\constants\\fsm.py": {
+        "hash": "e0b6adda0c098ad49c1692fe52293c1b"
+    },
+    "src\\trading_robot\\repositories\\implementations\\__init__.py": {
+        "hash": "0d4a9316fabe75520e94f2b36a82900a"
+    },
+    "src\\web\\static\\js\\services\\rule-evaluation-module.js": {
+        "hash": "9ed75c45893532b0502427afb5f15219"
+    },
+    "src\\web\\static\\js\\services\\utility-validation-service.js": {
+        "hash": "ab51bb894c0f5e4cc35d9b8bb0a2f9ce"
+    },
+    "src\\core\\vector_strategic_oversight\\unified_strategic_oversight\\engine_core_reports.py": {
+        "hash": "bca91f363c8e10a373963f44b2c85d77"
+    },
+    "tools\\analyze_init_files.py": {
+        "hash": "3cf7cdc2e837a702fe510ff1b0662dc3"
+    },
+    "src\\core\\analytics\\orchestrators\\coordination_analytics_orchestrator.py": {
+        "hash": "4824cc5f513b062ed3fda1c43f3ccd0c"
+    },
+    "src\\core\\vector_strategic_oversight\\unified_strategic_oversight\\analyzers\\swarm_analyzer.py": {
+        "hash": "28da8d962d48fa0c548479d1817eea19"
+    },
+    "trading_robot\\web\\dashboard.py": {
+        "hash": "e52b3138b30aac19afe31c9c0f63552f"
+    },
+    "src\\web\\static\\js\\dashboard-loading-manager.js": {
+        "hash": "ca64f8e47043f8d2af6ccb98092e1a65"
+    },
+    "src\\utils\\file_utils.py": {
+        "hash": "b5d3af34e78374b7e81830de46ae2a15"
+    },
+    "agent_workspaces\\database_specialist\\v2_compliance_improvement_plan.py": {
+        "hash": "fff6edbabdc92b4aeffa662af2e594b1"
+    },
+    "src\\trading_robot\\repositories\\models\\portfolio.py": {
+        "hash": "1ba61734ebe0c227db00dab6bcf22011"
+    },
+    "src\\web\\static\\js\\services\\trend-analysis-module.js": {
+        "hash": "55e7643fa813d33b7964dd6fa617b3a4"
+    },
+    "src\\infrastructure\\unified_browser_service.py": {
+        "hash": "26919a09d64ce27566a4816ad4eaa9cf"
+    },
+    "src\\core\\integration\\analytics\\forecast_generator.py": {
+        "hash": "de882f4bcef25caaa37235b1f2134aeb"
+    },
+    "src\\core\\validation\\performance_benchmark\\__init__.py": {
+        "hash": "47ed132e19926814d76d3e149feb7cde"
+    },
+    "thea_undetected_helper.py": {
+        "hash": "0d990c1c419695a5b1c47b35901c8767"
+    },
+    "src\\web\\static\\js\\trading-robot\\chart-state-module.js": {
+        "hash": "4a725356de8450738393bb2370d031b5"
+    },
+    "agent_workspaces\\database_specialist\\scalability_core.py": {
+        "hash": "5de79e167379a4111c6d249fb3e2c7e4"
+    },
+    "src\\core\\intelligent_context\\core\\context_core.py": {
+        "hash": "0d3bd1149460f9f0acc9dafa7bb69a11"
+    },
+    "src\\core\\utils\\coordination_utils.py": {
+        "hash": "428059577a2ac1b6d3e26f4930b1d821"
+    },
+    "fix_src_imports.py": {
+        "hash": "1494570f16c584339003cd8d08f3cd9b"
+    },
+    "src\\core\\analytics\\engines\\batch_analytics_engine.py": {
+        "hash": "8b1511c572edd7c45674a22189a452fe"
+    },
+    "src\\web\\static\\js\\services\\report-generation-module.js": {
+        "hash": "91e10ea5bf3083313b5548a3dfa72d2c"
+    },
+    "src\\services\\vector_integration_unified.py": {
+        "hash": "7b4ecfaf46a4283cfacd86e181246576"
+    },
+    "src\\core\\error_handling\\retry_mechanisms.py": {
+        "hash": "7d100362ddd9cd9ff7b0dc7debdbea47"
+    },
+    "src\\application\\__init__.py": {
+        "hash": "cb950342da10e4b7fefff724b0ca9de8"
+    },
+    "src\\core\\refactoring\\tools\\__init__.py": {
+        "hash": "d93e9349b0b49adc528b5aad765df998"
+    },
+    "src\\trading_robot\\services\\__init__.py": {
+        "hash": "4d9c59ea9171b0e0019dc9d7e20e56aa"
+    },
+    "src\\web\\static\\js\\trading-robot\\app-management-modules.js": {
+        "hash": "ff522d276f911d6c3cbc152aff83093a"
+    },
+    "src\\utils\\config_core\\fsm_config.py": {
+        "hash": "f1d288501e838058708cf61a1b4b5a87"
+    },
+    "tools\\cleanup_documentation.py": {
+        "hash": "5bbfb63391a1c0fabf6dc802a6a4172e"
+    },
+    "src\\web\\static\\js\\services\\utility-function-service.js": {
+        "hash": "a3a82f75a979fd05001b25682147de71"
+    },
+    "src\\core\\refactoring\\toolkit.py": {
+        "hash": "2adbd39ec54f1f58799652c5a79d44c3"
+    },
+    "src\\domain\\entities\\__init__.py": {
+        "hash": "b6fd796a1d6fc7600a37943425562eb9"
+    },
+    "src\\domain\\ports\\agent_repository.py": {
+        "hash": "e9b8571fda66a24f143794118bd6f84a"
+    },
+    "src\\core\\engines\\orchestration_core_engine.py": {
+        "hash": "f866dd383ba5d137a8c5d4880c4a5572"
+    },
+    "src\\infrastructure\\browser_backup\\thea_modules\\profile.py": {
+        "hash": "6bf91041e2e39b6f0714e004ba7942c3"
+    },
+    "src\\core\\performance\\metrics\\types.py": {
+        "hash": "e5e073d25df469c11264be42b2860589"
+    },
+    "src\\web\\static\\js\\architecture\\web-service-registry-module.js": {
+        "hash": "a6895b67135f3199f9ec7c965b1b117e"
+    },
+    "src\\discord_commander_backup\\__init__.py": {
+        "hash": "1e8ff688a04553ba95fc9736d3339edf"
+    },
+    "src\\workflows\\engine.py": {
+        "hash": "97d31bdb09415296f7b06f32538eff53"
+    },
+    "tools\\consolidation_runner.py": {
+        "hash": "fe1fcb80bdb1c09493a826745c9f2a49"
+    },
+    "src\\web\\static\\js\\trading-robot\\websocket-order-portfolio-callbacks.js": {
+        "hash": "528ad06a72ce5c5a68dbe3118cadc90d"
+    },
+    "src\\trading_robot\\repositories\\trading_repository.py": {
+        "hash": "7d207b589b367a66aa096bc9055c2e5e"
+    },
+    "src\\services\\contract_service.py": {
+        "hash": "725aee2f8ff2eca5e003536ae51c2578"
+    },
+    "src\\trading_robot\\core\\dependency_injection.py": {
+        "hash": "c4b5d841b23a0618aaa555534a3e84bf"
+    },
+    "src\\core\\unified_logging_system.py": {
+        "hash": "e2f305578687b619fd254ebcbad5eefd"
+    },
+    "src\\web\\static\\js\\services\\deployment-coordination-service.js": {
+        "hash": "53f49b1066ba0afbafa9135aed9e3adb"
+    },
+    "src\\web\\static\\js\\utilities\\__init__.js": {
+        "hash": "d5ebfdfec7b155c2732c18d1731025c9"
+    },
+    "src\\services\\cursor_db.py": {
+        "hash": "d29983c886cc1d29bb2c1cf3f3833d97"
+    },
+    "src\\core\\analytics\\coordinators\\analytics_coordinator.py": {
+        "hash": "c15ecd29b0ca6a3c06f1d44395bb8a1e"
+    },
+    "src\\infrastructure\\persistence\\persistence_models.py": {
+        "hash": "e7869fd257047868ef8ebfb4629bbfdf"
+    },
+    "src\\core\\analytics\\intelligence\\pattern_analysis\\anomaly_detector.py": {
+        "hash": "4407f0eba45cd5829183f509439e5517"
+    },
+    "src\\core\\error_handling\\error_handling_orchestrator.py": {
+        "hash": "1701fc545be56ea7fb2f0e89a7ae71de"
+    },
+    "src\\gaming\\handlers\\gaming_alert_handlers.py": {
+        "hash": "c5b2c101c15d5c08eca567cb6854e43a"
+    },
+    "src\\core\\refactoring\\optimization_helpers.py": {
+        "hash": "7814ad1248775d3f42052b582c4b7737"
+    },
+    "src\\orchestrators\\overnight\\orchestrator.py": {
+        "hash": "84c0c9708d6a6761fbac7458a098963f"
+    },
+    "src\\web\\static\\js\\services\\utilities\\function-utils.js": {
+        "hash": "a6b573a41db36b288e9d7cf25839ae93"
+    },
+    "src\\web\\static\\js\\validation\\field-validation-module.js": {
+        "hash": "c498a4769a98af265c626154790dd106"
+    },
+    "src\\core\\orchestration\\contracts.py": {
+        "hash": "7d84eb32451ee7578e0224bd570940bf"
+    },
+    "src\\web\\static\\js\\dashboard-views.js": {
+        "hash": "bd612f7b3e6da22238d18cf6cba04090"
+    },
+    "consolidate_messaging.py": {
+        "hash": "04fe559c358de57a099f069708ac089d"
+    },
+    "trading_robot\\core\\risk_manager.py": {
+        "hash": "082ca407464a338a1809e76c8a5420c6"
+    },
+    "src\\core\\coordination\\__init__.py": {
+        "hash": "4db1bb0959899165310bc97d6d2f7341"
+    },
+    "src\\web\\static\\js\\framework_new\\config.js": {
+        "hash": "79704b3e6c659a06d9dc0d774acb7b5c"
+    },
+    "src\\web\\static\\js\\utilities\\unified-utilities.js": {
+        "hash": "43ff230ca93bdb926dc427a711c226ab"
+    },
+    "src\\discord_commander_backup\\agent_communication_engine_base.py": {
+        "hash": "31e4c9af3877da13342042d90fbd5dfa"
+    },
+    "scripts\\__init__.py": {
+        "hash": "d47dd54c244941ecb8764d41be942aff"
+    },
+    "src\\web\\vector_database\\search_utils.py": {
+        "hash": "c34867bc7f32fb98c0ce3bd2f682280b"
+    },
+    "src\\core\\integration_coordinators\\unified_integration\\models_config.py": {
+        "hash": "04a9c82c6bb45f24c75a23c26b53c249"
+    },
+    "src\\web\\static\\js\\services\\coordination-reporting-module.js": {
+        "hash": "97bf5b1b392b633a28bee24ca6dcc778"
+    },
+    "simple_thea_communication.py": {
+        "hash": "9ac4e37dee17d6de9106b13f4b693bbd"
+    },
+    "src\\discord_commander\\discord_agent_communication.py": {
+        "hash": "7a29afa371dbb152d4b356b1f2015f0f"
+    },
+    "src\\domain\\services\\assignment_service.py": {
+        "hash": "4f0dd852835e8f7037d8ca9a133b394b"
+    },
+    "src\\core\\emergency_intervention\\unified_emergency\\handlers\\__init__.py": {
+        "hash": "f752d3146815bab3075bab7c135c49c2"
+    },
+    "src\\core\\unified_import_system.py": {
+        "hash": "d624183b31da8e66bf4720c9d42adb32"
+    },
+    "src\\core\\analytics\\processors\\__init__.py": {
+        "hash": "0b8a5da8cd934c6bf86c5a3b2a319415"
+    },
+    "src\\core\\refactoring\\tools\\consolidation_tools.py": {
+        "hash": "2209daece3c8248b9008a6c7e8b34015"
+    },
+    "src\\application\\use_cases\\assign_task_uc.py": {
+        "hash": "ec59267705179e30a66b985ea1efbd4b"
+    },
+    "src\\core\\vector_strategic_oversight\\unified_strategic_oversight\\extended_models.py": {
+        "hash": "f2e93a9de9eb0b78280b8faea525b3b7"
+    },
+    "src\\core\\managers\\core_execution_manager.py": {
+        "hash": "6098178bd1ee69bc33faaf08b009891c"
+    },
+    "src\\gaming\\performance_validation.py": {
+        "hash": "d9d84cbf0624ca1a63ec53c95f6664a0"
+    },
+    "src\\gaming\\utils\\__init__.py": {
+        "hash": "6edc2c2f34a33a3b55cba474a64c229b"
+    },
+    "src\\trading_robot\\repositories\\__init__.py": {
+        "hash": "e1c29580d67c2db2b5c560e110731270"
+    },
+    "src\\web\\static\\js\\vector-database\\__init__.js": {
+        "hash": "3a36864bc86ab8ff9ae98fa1f2cc09fd"
+    },
+    "src\\core\\error_handling\\coordination_error_handler.py": {
+        "hash": "951812d401c49c3021263830fc768d2a"
+    },
+    "src\\infrastructure\\persistence\\__init__.py": {
+        "hash": "830f85ce585f2847bd59d9ff60c57856"
+    },
+    "src\\services\\handlers\\coordinate_handler.py": {
+        "hash": "9dec0476bb192b12985ff9a6b8a11468"
+    },
+    "src\\web\\static\\js\\trading-robot\\websocket-market-data-callbacks.js": {
+        "hash": "86625185ac7873d79886c93c09ba6545"
+    },
+    "src\\gui\\styles\\__init__.py": {
+        "hash": "36d2ac70630a4aaa744658c4145ab43d"
+    },
+    "src\\web\\static\\js\\trading-robot\\portfolio-management-modules.js": {
+        "hash": "78feda42fee839d154c6d4c59b556811"
+    },
+    "src\\core\\file_locking\\file_locking_engine_platform.py": {
+        "hash": "8323da328a6988fa4d1642da04ab94b8"
+    },
+    "src\\core\\managers\\core_service_coordinator.py": {
+        "hash": "189e8a90f4b33df5714d5b5fceb2abc3"
+    },
+    "src\\core\\data_optimization\\__init__.py": {
+        "hash": "13ef6fdcc913b6e03dd10c276eb82db3"
+    },
+    "src\\web\\static\\js\\trading-robot\\chart-data-module.js": {
+        "hash": "4fc95bb9f90af5f5bac6c24e862f56d4"
+    },
+    "src\\web\\static\\js\\framework_new\\ui-components.js": {
+        "hash": "71b15c39de0c207277bb89862baab417"
+    },
+    "src\\gui\\components\\agent_card.py": {
+        "hash": "49ae1d62a7adaaf42da17d1b5b330ab9"
+    },
+    "src\\core\\intelligent_context\\intelligent_context_emergency.py": {
+        "hash": "f0f307ae4e65a2391e6fcd7a48c8f20a"
+    },
+    "src\\core\\constants\\fsm_utilities.py": {
+        "hash": "c73b6b742dead7e65d324366da21f087"
+    },
+    "src\\core\\integration_coordinators\\unified_integration\\monitors\\monitoring_thread.py": {
+        "hash": "5335c707ee08ed9c7ac69123184b6112"
+    },
+    "src\\core\\integration_coordinators\\unified_integration\\__init__.py": {
+        "hash": "de1235915d1148baa2aefdc6631151c6"
+    },
+    "src\\web\\static\\js\\utilities\\array-utils.js": {
+        "hash": "e35d332ea8666cb1251e3b2d19596c18"
+    },
+    "src\\workflows\\models.py": {
+        "hash": "d1c16716661218c87ac00cae3bad4557"
+    },
+    "src\\core\\vector_strategic_oversight\\unified_strategic_oversight\\factories\\mission_factory.py": {
+        "hash": "04730b33bc60edda0697a34f9103eb00"
+    },
+    "scripts\\execution\\run_admin_commander.py": {
+        "hash": "de8aa4468936dfbd2c64ac9f12654d89"
+    },
+    "src\\services\\role_command_handler.py": {
+        "hash": "01e0ec8e55bf544ea61e070668864235"
+    },
+    "src\\core\\documentation_search_service.py": {
+        "hash": "92c8d9e806f0252630b07f3cc1fe5c0f"
+    },
+    "src\\utils\\unified_config_utils.py": {
+        "hash": "c3a184b6732dba7d0fc46f219253316d"
+    },
+    "src\\core\\refactoring\\metrics\\definitions.py": {
+        "hash": "a075183df891284ff36d15989265c4fb"
+    },
+    "src\\web\\static\\js\\architecture\\di-container-module.js": {
+        "hash": "40e145b173c0bda8c3474c8d4671648b"
+    },
+    "src\\web\\static\\js\\dashboard-view-overview.js": {
+        "hash": "9d2ff7e6f204a1c735a38f950b854902"
+    },
+    "src\\core\\config_core.py": {
+        "hash": "14aacfb951d205d95a6afbec94519d52"
+    },
+    "src\\core\\analytics\\engines\\realtime_analytics_engine.py": {
+        "hash": "94830b1f0a25bd8fcfc0243b7b2ebdcf"
+    },
+    "thea_login_handler.py": {
+        "hash": "d4c4f097e8409d43417d6b7deaf35638"
+    },
+    "src\\web\\static\\js\\trading-robot\\websocket-error-callbacks.js": {
+        "hash": "d5cc3a566a6a0aedbb07286918c8167b"
+    },
+    "src\\services\\handlers\\onboarding_handler.py": {
+        "hash": "10c82dabd23f73467255878e84c33fb7"
+    },
+    "src\\core\\analytics\\processors\\prediction\\__init__.py": {
+        "hash": "7596787097a6fd730c1c1a86398a694a"
+    },
+    "src\\core\\ssot\\unified_ssot\\__init__.py": {
+        "hash": "375c1696ff22331a7cffe37caa174220"
+    },
+    "scripts\\terminal_completion_monitor.py": {
+        "hash": "b877d8bf7258778ad7e287c5a37a2428"
+    },
+    "src\\trading_robot\\repositories\\models\\trading_models.py": {
+        "hash": "ed024890ffdf616a8a3e64bb713956b8"
+    },
+    "src\\web\\static\\js\\utilities\\time-utils.js": {
+        "hash": "4e3da8082c79348724751b2c66eff283"
+    },
+    "src\\domain\\__init__.py": {
+        "hash": "0abbff6fd63bb5b7b71e87b851ff9394"
+    },
+    "src\\services\\compliance_validator.py": {
+        "hash": "f412e8b6a80a3eea36689f883add05d4"
+    },
+    "src\\core\\managers\\core_results_manager.py": {
+        "hash": "d66f53752a30c928019ffd45ac179b84"
+    },
+    "src\\web\\static\\js\\services\\performance-analysis-module.js": {
+        "hash": "6a0fb79c720799afd423e6fd12d207ed"
+    },
+    "src\\workflows\\cli.py": {
+        "hash": "1dd66fe3d5ce05937a2f0fb1bf10baf4"
+    },
+    "agent_workspaces\\database_specialist\\migration_executor.py": {
+        "hash": "385ea957ba11f69c5872dca1841a29f8"
+    },
+    "trading_robot\\strategies\\indicators.py": {
+        "hash": "7d7d511425e33bc7fe99033dae8d0916"
+    },
+    "src\\core\\analytics\\engines\\caching_engine.py": {
+        "hash": "4911914bd45ab1b23f77f6bc3a041df1"
+    },
+    "src\\core\\emergency_intervention\\unified_emergency\\__init__.py": {
+        "hash": "1a01cf8ede5c6c549feef8e6fe43333e"
+    },
+    "src\\web\\vector_database\\request_handler_middleware.py": {
+        "hash": "96f43a2edefb7ee4f9ca5e9a6dbc384f"
+    },
+    "src\\core\\engines\\monitoring_core_engine.py": {
+        "hash": "1233cb8bf905e32984741f00b62b5e3a"
+    },
+    "src\\infrastructure\\browser_backup\\browser_adapter.py": {
+        "hash": "eb9583ebb856a699b64000db9c4dfdbe"
+    },
+    "src\\architecture\\unified_architecture_core.py": {
+        "hash": "87fb3122eca2f967cdcda543a1ddc8ba"
+    },
+    "comprehensive_project_analyzer.py": {
+        "hash": "5b4a858d0a9988a779402033c2f4843b"
+    },
+    "scripts\\utilities\\setup_discord_bot.py": {
+        "hash": "ca98a1665fdd9e7ce71bdf619c48e9c0"
+    },
+    "src\\core\\error_handling\\__init__.py": {
+        "hash": "347199d8f795820f8cea6e38e291d02d"
+    },
+    "src\\web\\frontend\\settings.py": {
+        "hash": "a06a24161c7e627c9075dac8fa17f8be"
+    },
+    "src\\services\\chatgpt\\extractor.py": {
+        "hash": "4872fb068979a3222f51a52e2296bd17"
+    },
+    "src\\core\\error_handling\\error_handling_models.py": {
+        "hash": "52239bfdd1706ff690dd7e4c8c548d97"
+    },
+    "src\\core\\enhanced_integration\\orchestrators\\coordination_engine_refactored.py": {
+        "hash": "b3039dcdeed320dab5e817e6648e9f8f"
+    },
+    "src\\web\\static\\js\\core\\unified-configuration-system.js": {
+        "hash": "035cf00be97d7ab85aa2721fdd7324ad"
+    },
+    "src\\automation\\__init__.py": {
+        "hash": "24c45e6f3259edc17742da5e772a0be5"
+    },
+    "src\\core\\deployment\\coordinators\\deployment_executor.py": {
+        "hash": "efdff7d7abfd2c3c2b79f13da74ef2db"
+    },
+    "src\\core\\file_locking\\file_locking_orchestrator.py": {
+        "hash": "62099fa648921280dda9d5164fdfc8ae"
+    },
+    "src\\web\\static\\js\\core\\agent-8-ssot-integration.js": {
+        "hash": "d44c8fedb60010007a419c78b926a8de"
+    },
+    "src\\web\\static\\js\\trading-robot\\trading-order-manager.js": {
+        "hash": "86696aaf18117c102fc0dc765aec9b25"
+    },
+    "src\\services\\agent_vector_utils.py": {
+        "hash": "290e70fd1d4dd12a93bfd5a3e2f66fd6"
+    },
+    "src\\vision\\integration.py": {
+        "hash": "1c3fbd0b63302f4f06356d87889e1c20"
+    },
+    "src\\trading_robot\\repositories\\models\\trade.py": {
+        "hash": "d3b4b667fd2e0bc8971dacbafbc4f1f7"
+    },
+    "src\\core\\constants\\fsm\\__init__.py": {
+        "hash": "2fe070032e53a68616cd1b16d3066dc2"
+    },
+    "src\\web\\static\\js\\services\\utilities\\data-utils.js": {
+        "hash": "aade1c35f40f3dc560209392a40cda31"
+    },
+    "src\\discord_commander_backup\\discord_commander.py": {
+        "hash": "df90f4a75af6d5ae172a2028ef99828c"
+    },
+    "src\\core\\utils\\__init__.py": {
+        "hash": "0601bb177f6e9d1666b437dd39677b26"
+    },
+    "src\\core\\integration_coordinators\\__init__.py": {
+        "hash": "31c8ded6a5bf3eaca7baa95bdafff53f"
+    },
+    "src\\core\\analytics\\framework\\analytics_coordinator.py": {
+        "hash": "abb08e1b6ba5556e6be1191d29b8c39d"
+    },
+    "src\\core\\engines\\engine_state.py": {
+        "hash": "2639e53dc7c33a4911c02c9ae0ffc1c6"
+    },
+    "src\\core\\ssot\\unified_ssot\\enums.py": {
+        "hash": "8e8bb723eefb5e171c4729448eb773ef"
+    },
+    "src\\web\\static\\js\\services\\phase-action-methods.js": {
+        "hash": "3a6dd212266e82e1822958c780b61d25"
+    },
+    "src\\core\\managers\\results\\general_results_processor.py": {
+        "hash": "a4eafec4864e05b9141a1819cb458ede"
+    },
+    "src\\core\\refactoring\\extraction_tools.py": {
+        "hash": "b8f67e41d76703f132695daf78bbee9d"
+    },
+    "examples\\quickstart_demo\\__init__.py": {
+        "hash": "3a66cb728f3359cb13c318db99d23bdf"
+    },
+    "src\\application\\use_cases\\complete_task_uc.py": {
+        "hash": "8c41489385139f96b726f0e440c56743"
+    },
+    "src\\core\\coordinate_loader.py": {
+        "hash": "d09a4e49ec2dd77fc3eda9249c74e770"
+    },
+    "src\\core\\managers\\results\\validation_results_processor.py": {
+        "hash": "37114feb63d9d359a373592ffb47d97b"
+    },
+    "src\\trading_robot\\services\\analytics\\trading_bi_models.py": {
+        "hash": "fdf32271d53dc4ab9c11faa17fc4b66f"
+    },
+    "src\\services\\chatgpt\\cli.py": {
+        "hash": "8061ef1541cb3cba867e15c3103580e9"
+    },
+    "src\\web\\static\\js\\services\\performance-configuration-module.js": {
+        "hash": "c80f6ccca7f79993a28f14ed11733f11"
+    },
+    "src\\discord_commander\\__init__.py": {
+        "hash": "25f260e6672df31d57114a43806e9527"
+    },
+    "test_unified_system.py": {
+        "hash": "f1dfccd5b09868bda3903c78867ede9f"
+    },
+    "src\\core\\constants\\manager.py": {
+        "hash": "bf086143f7cb08f8be2e39126b2d5572"
+    },
+    "src\\web\\static\\js\\services\\dashboard-init-service.js": {
+        "hash": "ecb3ff3cb8a26d0c0d34ac3987c23961"
+    },
+    "src\\core\\managers\\core_configuration_manager.py": {
+        "hash": "02d649111c64fa8cd406942e8cf4bac6"
+    },
+    "src\\core\\enhanced_integration\\orchestrators\\__init__.py": {
+        "hash": "252d543c57bc99bca5a1daf48eaae035"
+    },
+    "src\\trading_robot\\services\\analytics\\__init__.py": {
+        "hash": "407849d218ffdfcfad7b43134a6a8a25"
+    },
+    "src\\infrastructure\\browser_backup\\thea_cookie_manager.py": {
+        "hash": "caee4e45684105a99f11ddbcd00d1dd1"
+    },
+    "src\\core\\engines\\processing_core_engine.py": {
+        "hash": "e67df1d3f93197bad34ff50af2baefb0"
+    },
+    "src\\core\\vector_strategic_oversight\\__init__.py": {
+        "hash": "9abcd52b33e2ac7f5138f714fe32b41d"
+    },
+    "src\\core\\analytics\\processors\\prediction\\prediction_calculator.py": {
+        "hash": "33c18234531fc971ae35095f53036bae"
+    },
+    "src\\core\\dry_eliminator\\engines\\dry_elimination_engine_orchestrator.py": {
+        "hash": "961e41a189d6b7d3002b6802f2117605"
+    },
+    "src\\core\\validation\\validation_coordinator.py": {
+        "hash": "1632550aa7e479e2271027cce6d20bf5"
+    },
+    "src\\core\\constants\\fsm_enums.py": {
+        "hash": "231d4621cf5a9e12df4b350ad0956f23"
+    },
+    "src\\core\\agent_docs_integration.py": {
+        "hash": "0864835234c7eead52669b208b7f9431"
+    },
+    "src\\services\\utils\\agent_utils_registry.py": {
+        "hash": "dfb3865baa31be211c0eb5706853bf55"
+    },
+    "src\\core\\managers\\core_recovery_manager.py": {
+        "hash": "becb75eb016658e75b37b7f6d4bb4aa0"
+    },
+    "src\\trading_robot\\repositories\\implementations\\trading_repository_impl.py": {
+        "hash": "7845ad6c1fcebd5721bf0bece0cc22d0"
+    },
+    "tests\\test_overnight_runner.py": {
+        "hash": "5a4fd3e5dd78648705e2e5122539eea9"
+    },
+    "src\\trading_robot\\repositories\\interfaces\\portfolio_repository_interface.py": {
+        "hash": "dcb092191eeeefe94373ffb2ace6dce2"
+    },
+    "assignment_confirmation.py": {
+        "hash": "fd96ddd5b6432583b2a798f8a1d20787"
+    },
+    "src\\discord_commander_backup\\discord_devlog_monitor.py": {
+        "hash": "0616473755e5984da45790d3374b9075"
+    },
+    "src\\core\\engines\\performance_core_engine.py": {
+        "hash": "6620f7f1a49375d8aa648201bf88e805"
+    },
+    "src\\web\\static\\js\\trading-robot\\trading-chart-manager.js": {
+        "hash": "8214443e6c96084155d30e19b439e6ec"
+    },
+    "src\\core\\managers\\adapters\\__init__.py": {
+        "hash": "80ba972ebdb651f82d272c6f313f70bd"
+    },
+    "src\\infrastructure\\browser_backup\\browser_operations.py": {
+        "hash": "5c147c19719d67b735871c28586954f8"
+    },
+    "src\\infrastructure\\browser_backup\\thea_manager_profile.py": {
+        "hash": "f800cb188b690b985f4e32f2d551b914"
+    },
+    "src\\core\\engines\\configuration_core_engine.py": {
+        "hash": "6cfa077a227078036dc3d16273c1d050"
+    },
+    "src\\utils\\config_core\\__init__.py": {
+        "hash": "d9d52ebe5771940e88bfca8b2451d86b"
+    },
+    "validate_consolidation.py": {
+        "hash": "1a78bd25adf81640e87a4b0b19cc95c6"
+    },
+    "src\\web\\static\\js\\performance\\frontend-performance-monitor.js": {
+        "hash": "828e28253c01ef8e3d9ebb009b5648d2"
+    },
+    "src\\core\\validation\\performance_benchmark\\benchmark_runner_operations.py": {
+        "hash": "03c803715f797fd5556a3bd4ebd88d59"
+    },
+    "src\\core\\dry_eliminator\\engines\\__init__.py": {
+        "hash": "1a7d622005ef23687a49c5ea0ee4e323"
+    },
+    "trading_robot\\execution\\live_executor.py": {
+        "hash": "7374227e1dde66ac78b2097534858c9a"
+    },
+    "src\\core\\error_handling\\circuit_breaker\\core.py": {
+        "hash": "0e140e094c2be686be432784bea90b26"
+    },
+    "src\\web\\static\\js\\dashboard-navigation.js": {
+        "hash": "be3a4266637d15e59febc959c2d89268"
+    },
+    "src\\core\\refactoring\\analysis_tools.py": {
+        "hash": "369d1cd74033377c2fcf4e2522d02229"
+    },
+    "src\\infrastructure\\browser\\browser_models.py": {
+        "hash": "ef3cf89c6a80c1fa1325a4f6c7011837"
+    },
+    "src\\web\\vector_database\\response_handler_middleware.py": {
+        "hash": "b4c6678583f2d2c97c631f6d5151ef76"
+    },
+    "src\\core\\managers\\results\\__init__.py": {
+        "hash": "4d2c1f5846cea3f5ca1f96acc8ccb5c3"
+    },
+    "src\\core\\vector_strategic_oversight\\unified_strategic_oversight\\engine_core_recommendations.py": {
+        "hash": "a1522cbd950a0548d1a1f2a53f8e4a1c"
+    },
+    "src\\core\\pattern_analysis\\pattern_analysis_orchestrator.py": {
+        "hash": "20f64887676f13f56dcf499801d41bf6"
+    },
+    "src\\core\\deployment\\models\\factory_functions.py": {
+        "hash": "108022c63f7b1bee901d456c04f276f7"
+    },
+    "src\\core\\integration_coordinators\\unified_integration\\coordinators\\config_manager.py": {
+        "hash": "a73d020bc6dfbc1f3290b390a9dad398"
+    },
+    "src\\core\\ssot\\unified_ssot\\execution\\task_executor.py": {
+        "hash": "95a9771e88b0401b9a2525d13294829c"
+    },
+    "src\\core\\analytics\\prediction\\base_analyzer.py": {
+        "hash": "0d3d8e67ee32503905b94bdbb4c451f7"
+    },
+    "src\\core\\ssot\\unified_ssot\\validators\\basic_validator.py": {
+        "hash": "70ef20cfeaf48f872bbacacea9a53e2e"
+    },
+    "src\\services\\vector_database\\__init__.py": {
+        "hash": "a9ecaa1445ee1f1ebbee3c9d655e6390"
+    },
+    "src\\services\\onboarding_message_generator.py": {
+        "hash": "4efa1ed89da9e5a8a0530be897c7101b"
+    },
+    "src\\services\\messaging\\policy_loader.py": {
+        "hash": "886a49795f1321108465d527e125a480"
+    },
+    "src\\commandresult.py": {
+        "hash": "9df8fbfcde2f40c5646ce7a225e34a64"
+    },
+    "src\\web\\static\\js\\trading-robot\\order-processing-modules.js": {
+        "hash": "04884924d83f923d633a6b120daf9da0"
+    },
+    "src\\quality\\proof_ledger.py": {
+        "hash": "e6d9177bac1a8e6352a68558df2ce80f"
+    },
+    "src\\core\\vector_strategic_oversight\\unified_strategic_oversight\\analyzer_core.py": {
+        "hash": "27f4c38c56e65295eb91a2e7f5c53d6f"
+    },
+    "src\\services\\embedding_service.py": {
+        "hash": "403dcbd3a68a8f96330815e6f5b2b9d2"
+    },
+    "src\\web\\static\\js\\repositories\\dashboard-repository.js": {
+        "hash": "d3084ee9ebebd2c76a88f45c18e69087"
+    },
+    "src\\web\\frontend\\__init__.py": {
+        "hash": "8f11fc16a2b544357b6d6ef8f812f8ce"
+    },
+    "src\\core\\constants\\paths.py": {
+        "hash": "2356beb97951af190bba803dbff37b8d"
+    },
+    "src\\core\\performance\\performance_monitoring_system.py": {
+        "hash": "5ffb466b7bedd4e8567ec2422cb5ec36"
+    },
+    "src\\core\\coordinator_models.py": {
+        "hash": "6dc8dd56d27416050638b9581650d2f6"
+    },
+    "src\\gui\\controllers\\base.py": {
+        "hash": "3514f92921f6918e32de05a5f5971743"
+    },
+    "src\\core\\consolidation\\utility_consolidation\\utility_consolidation_models.py": {
+        "hash": "1619ddade5bb63cd851a673ace3d7492"
+    },
+    "src\\agent_registry.py": {
+        "hash": "60285ee309d80260e5ec4021f6ead1a8"
+    },
+    "src\\web\\static\\js\\trading-robot\\websocket-subscription-optimized.js": {
+        "hash": "fa588ba5dc727e03c0db58b91abeee98"
+    },
+    "src\\infrastructure\\persistence\\sqlite_agent_repo.py": {
+        "hash": "fb3297405227d77c1bf93f8a9ee659c3"
+    },
+    "src\\core\\managers\\results\\performance_results_processor.py": {
+        "hash": "58af722038b233a4845af2daf14e9c73"
+    },
+    "agent_workspaces\\database_specialist\\caching\\strategies\\cache_strategies.py": {
+        "hash": "fe4ae6c3e88b7e14cb976f7bb642c0d0"
+    },
+    "src\\web\\static\\js\\services\\performance-recommendation-module.js": {
+        "hash": "ee6b2dc109d8d8a362e6776b713b1c4f"
+    },
+    "src\\services\\overnight_command_handler.py": {
+        "hash": "e2199df5cd2c2fd5127cd7dee2bc64f5"
+    },
+    "scripts\\execution\\__init__.py": {
+        "hash": "63735b85875c71952d606de185217986"
+    },
+    "tests\\test_analytics_framework.py": {
+        "hash": "fae673fbc7aca2891f6c63b60e22e5bd"
+    },
+    "src\\discord_commander_backup\\agent_communication_engine_operations.py": {
+        "hash": "6f849deaed334e10c876f42fe82d153b"
+    },
+    "src\\web\\static\\js\\framework_new\\modal.js": {
+        "hash": "f0ba653d998218e4c8e1ebbc4ffb0b7b"
+    },
+    "tools\\codemods\\__init__.py": {
+        "hash": "efd81b7fbb418f42fe89d21abc82da12"
+    },
+    "src\\core\\integration\\analytics\\analytics_engine.py": {
+        "hash": "f87a34bb366603796f2bb9939d8e3fca"
+    },
+    "src\\web\\static\\js\\framework_new\\forms.js": {
+        "hash": "d307b381ff64ac4cd1870cf7363ab4c6"
+    },
+    "src\\domain\\ports\\__init__.py": {
+        "hash": "511d5ee44a2d2b022ddda3a5ce788f8d"
+    },
+    "src\\core\\deployment\\models\\__init__.py": {
+        "hash": "0b1213fca9a51178e09468f0e415bcf5"
+    },
+    "src\\core\\documentation_indexing_service.py": {
+        "hash": "8e8030530b760273bcc74eba680f605d"
+    },
+    "src\\core\\analytics\\framework\\realtime_analytics_engine.py": {
+        "hash": "b4478381b2a7653e77e5c2f0ac5310e5"
+    },
+    "src\\services\\performance_analyzer.py": {
+        "hash": "a40740bdb94746e9f580f8d4db303d66"
+    },
+    "src\\config\\ssot.py": {
+        "hash": "179f8620389939b42778a58cda15acb9"
+    },
+    "src\\gaming\\__init__.py": {
+        "hash": "b35674ddecc13c832b0e1185bd107bd7"
+    },
+    "src\\gui\\app.py": {
+        "hash": "b793bd5579f8ef8d6b6846f12a4fb36a"
+    },
+    "tools\\check_snapshot_up_to_date.py": {
+        "hash": "9a9a30052df1942faea1a2d608b123b8"
+    },
+    "trading_robot\\strategies\\base_strategy.py": {
+        "hash": "952b98a26caffd3148df2ed4a78e0684"
+    },
+    "src\\core\\managers\\results\\base_results_manager.py": {
+        "hash": "1d9c2df0c9a09aff3c6b29acf1002bbc"
+    },
+    "src\\web\\static\\js\\dashboard\\element-visibility-module.js": {
+        "hash": "e3e502d9293a37c74b8e631c01032b56"
+    },
+    "src\\orchestrators\\overnight\\__init__.py": {
+        "hash": "831c0ac07086446cbcc4b0bbc7a058eb"
+    },
+    "thea_automation.py": {
+        "hash": "32d95d48866efbbb84a3111814305c53"
+    },
+    "scripts\\setup_enhanced_discord.py": {
+        "hash": "7ded793f6ca60d17c78b97db7e2c52ea"
+    },
+    "src\\core\\message_queue_persistence.py": {
+        "hash": "d85a8dfa6baec60d2c8956fac1b57319"
+    },
+    "src\\core\\env_loader.py": {
+        "hash": "ca96bb920e6ffb189ef905efbe3faeb9"
+    },
+    "src\\domain\\entities\\task.py": {
+        "hash": "60770418d76e388d1c11f0b9e5b82c6d"
+    },
+    "src\\core\\engines\\data_core_engine.py": {
+        "hash": "76e09d895d6b83f633ea1f5a0e9712f8"
+    },
+    "src\\core\\emergency_intervention\\unified_emergency\\orchestrators\\emergency_analyzer.py": {
+        "hash": "6886d1a88be7f1be3d72a6d866c5e6e0"
+    },
+    "scripts\\execution\\execute_ssot_integration.py": {
+        "hash": "4cb067572398c00555bda80e77007947"
+    },
+    "src\\core\\import_system\\import_utilities.py": {
+        "hash": "f32012b0377b3c2d3bda863a3cb6d931"
+    },
+    "src\\core\\vector_strategic_oversight\\unified_strategic_oversight\\engine_core_insights.py": {
+        "hash": "d4ff71a0762378bedf4347723dbd2613"
+    },
+    "src\\gaming\\integration\\core.py": {
+        "hash": "321a4c06445bb7ecaaa434e84d3b2554"
+    },
+    "src\\config\\__init__.py": {
+        "hash": "e69ec16dac014eef226bb4c4a3c3a4cc"
+    },
+    "src\\core\\analytics\\processors\\prediction\\prediction_validator.py": {
+        "hash": "883f932fea6b8cecd8f6785d4e7f287b"
+    },
+    "src\\utils\\config_scanners.py": {
+        "hash": "de71254f01613bc07a02cfc23c1cd320"
+    },
+    "src\\core\\analytics\\framework\\metrics_engine.py": {
+        "hash": "a2de3bd9d1e1fc2aa92e9b5e682bfdec"
+    },
+    "src\\web\\static\\js\\performance\\performance-optimization-orchestrator.js": {
+        "hash": "9d843b44a5cc403f063eed117b84c0ed"
+    },
+    "src\\core\\utils\\agent_matching.py": {
+        "hash": "7acdc55305c84e4bb53a875589065af2"
+    },
+    "src\\web\\static\\js\\trading-robot\\chart-validation\\module.js": {
+        "hash": "6c740bf075878b77944384a3f479dcdf"
+    },
+    "src\\utils\\__init__.py": {
+        "hash": "90e9e836f117012a1985a07dd16cfe10"
+    },
+    "src\\core\\managers\\core_resource_manager.py": {
+        "hash": "d988592e50de5201f8ac822abba7bffa"
+    },
+    "src\\services\\messaging_cli.py": {
+        "hash": "f7c2d42cd5b8fe3db21d9386da2f41ae"
+    },
+    "src\\services\\constants.py": {
+        "hash": "4f6e8a24f38b8cbe5db099472b70f204"
+    },
+    "src\\infrastructure\\__init__.py": {
+        "hash": "e8a2fce07040ff6538fc22b7e654583a"
+    },
+    "src\\infrastructure\\time\\system_clock.py": {
+        "hash": "405e77c8b3b24d06357cdf12e0589aa7"
+    },
+    "src\\web\\static\\js\\architecture\\di-framework-orchestrator.js": {
+        "hash": "113dfdf83158414d59cedae24eddaa65"
+    },
+    "src\\core\\integration_coordinators\\unified_integration\\coordinators\\__init__.py": {
+        "hash": "f7b24e8ed7159ca52df7c2564412782e"
+    },
+    "src\\core\\enhanced_integration\\orchestrators\\coordination_engine_operations.py": {
+        "hash": "50b53e817633b2b3c4a17d1112d02b29"
+    },
+    "src\\gaming\\utils\\gaming_monitors.py": {
+        "hash": "4d303e86fdd6582933118efc52cd27bb"
+    },
+    "src\\core\\managers\\contracts.py": {
+        "hash": "497f7e80893e29dad1b60247a799ef1b"
+    },
+    "agent_workspaces\\Agent-7\\__init__.py": {
+        "hash": "153ffa4fe35b8534dbabc0e9766bfad6"
+    },
+    "src\\services\\agent_vector_integration.py": {
+        "hash": "bec7ae4d5541a911cff2390f739d93fd"
+    },
+    "src\\core\\integration_coordinators\\unified_integration\\coordinators\\health_monitor.py": {
+        "hash": "178e2af7795062cc661cfccd92e32317"
+    },
+    "src\\web\\static\\js\\services\\utilities\\string-utils.js": {
+        "hash": "3de1de87ee750e3b4e8252a58cd867bc"
+    },
+    "src\\core\\intelligent_context\\intelligent_context_orchestrator.py": {
+        "hash": "2c1ccbfa0db7e19243dca7e94f277388"
+    },
+    "src\\core\\dry_eliminator\\engines\\file_discovery_engine.py": {
+        "hash": "91fa363ad20d9d3fab85a38ae111b8af"
+    },
+    "src\\core\\engines\\registry.py": {
+        "hash": "474314e610442a0cc640a0f1ae21e704"
+    },
+    "src\\gui\\__init__.py": {
+        "hash": "0dbd06a985e673a05a31bf93a05167ce"
+    },
+    "src\\orchestrators\\overnight\\scheduler.py": {
+        "hash": "347e6ba5552cf3fac76a290ed9733f08"
+    },
+    "src\\core\\pattern_analysis\\unified_pattern_analysis\\analyzer.py": {
+        "hash": "5f0143f9dd373634a80fac5f856414cf"
+    },
+    "src\\services\\message_identity_clarification.py": {
+        "hash": "f7be67c9e1ea8193566e0ab7776b9128"
+    },
+    "tools\\__init__.py": {
+        "hash": "f01dbd60668fe3036779c6e37ffaef68"
+    },
+    "agent_workspaces\\database_specialist\\migration_core.py": {
+        "hash": "5c664fbcb9ddf06903dad9a10117c07b"
+    },
+    "src\\core\\pattern_analysis\\unified_pattern_analysis\\__init__.py": {
+        "hash": "b015594fbecb82864f7292294c96120e"
+    },
+    "src\\core\\constants\\fsm\\state_models.py": {
+        "hash": "4f2651aeaf9956c170889c5e0ac24cec"
+    },
+    "scripts\\execution\\run_discord_bot.py": {
+        "hash": "03170d8156035ae5d8320bdf9faa1993"
+    },
+    "src\\core\\vector_strategic_oversight\\unified_strategic_oversight\\factories\\report_factory.py": {
+        "hash": "7292a947728ae27c633c52a8249e5c26"
+    },
+    "src\\workflows\\__init__.py": {
+        "hash": "9ece5a9ff614c0475269769f992be777"
+    },
+    "src\\web\\static\\js\\dashboard-time.js": {
+        "hash": "9cb9bbb4831a7664abcaf0045edb3189"
+    },
+    "src\\core\\constants\\fsm\\configuration_models.py": {
+        "hash": "1beedba77b030abb1c9406740bd487a2"
+    },
+    "src\\infrastructure\\browser_backup\\thea_modules\\browser_ops.py": {
+        "hash": "2f69725a4c301599538af67c35a7e2a4"
+    },
+    "src\\core\\deployment\\engines\\deployment_metrics_engine.py": {
+        "hash": "db6fdd12499eab5a5451f870b8722c45"
+    },
+    "src\\core\\validation\\performance_benchmark\\benchmark_runner_core.py": {
+        "hash": "7504e81441de82b723a3d4c0b675a18d"
+    },
+    "src\\core\\vector_strategic_oversight\\simple_oversight.py": {
+        "hash": "ccab2b97ecf4c6fdaa4d09187a99f868"
+    },
+    "src\\infrastructure\\browser_backup\\__init__.py": {
+        "hash": "2e907b224212ba4ab1becd9b7be45a0e"
+    },
+    "src\\web\\static\\js\\architecture\\pattern-coordination-methods.js": {
+        "hash": "a4451defb0df4547eac279afa91bead7"
+    },
+    "src\\services\\coordination\\stats_tracker.py": {
+        "hash": "c643f8fa7e13c6b03dc05d89bcc7e2ca"
+    },
+    "src\\core\\coordination\\swarm\\engines\\task_coordination_engine.py": {
+        "hash": "da666d13e6a9fbff4234e3cb719aa9fe"
+    },
+    "src\\core\\integration_coordinators\\unified_integration\\monitor_models.py": {
+        "hash": "56256cfc6d250d53e490b21f303f9bf1"
+    },
+    "src\\gaming\\utils\\gaming_alert_utils.py": {
+        "hash": "5ac93bc9b8ad824f725cc86830eeecc5"
+    },
+    "src\\core\\analytics\\intelligence\\business_intelligence_engine.py": {
+        "hash": "a924f9e324385406f5598c1c7abc433b"
+    },
+    "src\\core\\refactoring\\file_analysis.py": {
+        "hash": "69df369cda281b70bac7cb8630f76a2c"
+    },
+    "src\\trading_robot\\services\\trading_bi_analytics.py": {
+        "hash": "2c72bf067c8b33d5238906cd2c25ea8a"
+    },
+    "src\\web\\static\\js\\services\\scenario-validation-module.js": {
+        "hash": "d920be928c15a1692b869246edbfdcc4"
+    },
+    "src\\web\\static\\js\\dashboard-view-renderer.js": {
+        "hash": "2ca0baa64c6bd86711ad2a42032b3ced"
+    },
+    "scripts\\cleanup_v2_compliance.py": {
+        "hash": "2a46f0a8908204510406ae33b3e088c8"
+    },
+    "tools\\codemods\\migrate_managers.py": {
+        "hash": "e5ebfe7d080a85ade5e0bee1dc5f1868"
+    },
+    "src\\web\\static\\js\\trading-robot\\chart-navigation-module.js": {
+        "hash": "167b9a62228d2a9eeba3a1a50ec93489"
+    },
+    "src\\trading_robot\\repositories\\models\\__init__.py": {
+        "hash": "f6dcb29ef441be74c840ae8a7110c6ed"
+    },
+    "src\\core\\managers\\base_manager.py": {
+        "hash": "7d2a37a147bfa7cbf61896819cb58bda"
+    },
+    "src\\core\\refactoring\\pattern_detection.py": {
+        "hash": "7d3ab391a564edf65faffde3ffac2669"
+    },
+    "src\\web\\static\\js\\trading-robot\\chart-events.js": {
+        "hash": "370557845ebae471c7ad255a964dc5ad"
+    },
+    "trading_robot\\core\\alpaca_client.py": {
+        "hash": "61ea5f289e226e21a801de217d557a61"
+    },
+    "src\\core\\integration_coordinators\\unified_integration\\monitors\\__init__.py": {
+        "hash": "ba35d9d81084bda3e195ccdf9055ea49"
+    },
+    "src\\services\\swarm_intelligence_manager.py": {
+        "hash": "10372d8b594121b4f7719322ad3ca2d5"
+    },
+    "src\\core\\analytics\\engines\\coordination_analytics_engine.py": {
+        "hash": "4b0430c6a8ea984b154fc18341c14803"
+    },
+    "src\\core\\performance\\unified_dashboard\\reporter.py": {
+        "hash": "67ce494b909e0116d973bf35467abb28"
+    },
+    "src\\services\\protocol\\__init__.py": {
+        "hash": "bbb58196c94441f26122f603b90654e8"
+    },
+    "src\\automation\\ui_onboarding.py": {
+        "hash": "b6786612453399686fae88b28e619223"
+    },
+    "src\\core\\file_locking\\file_locking_manager.py": {
+        "hash": "ebae1f849888a08c4d185dd5a6377329"
+    },
+    "src\\core\\intelligent_context\\unified_intelligent_context\\search_base.py": {
+        "hash": "71cc6b16077f3129eb1b6c05151d1f46"
+    },
+    "src\\core\\intelligent_context\\intelligent_context_models.py": {
+        "hash": "efdaf3b255005a0c7df0fa1938df7cfa"
+    },
+    "src\\web\\static\\js\\performance\\bundle-analyzer.js": {
+        "hash": "31f4097a16780ca5b3d6989d80b82f64"
+    },
+    "src\\web\\vector_database\\__init__.py": {
+        "hash": "d6151e49021d37e66e78897802e68428"
+    },
+    "agent_workspaces\\Agent-1\\mission_continuation.py": {
+        "hash": "3dd003fa6946b81da4b96477c393bfe6"
+    },
+    "src\\orchestrators\\overnight\\recovery.py": {
+        "hash": "0ddeb8872f0db600266cc77de6d684f5"
+    },
+    "src\\core\\analytics\\intelligence\\business_intelligence_engine_operations.py": {
+        "hash": "0d18b006ebc45ac26e966e566daf6f9d"
+    },
+    "src\\core\\unified_config.py": {
+        "hash": "3ab74f39d3397fe24a2303f55e099ec6"
+    },
+    "src\\workflows\\strategies.py": {
+        "hash": "c2745525ef491523304f1b02e7e1383d"
+    },
+    "src\\core\\integration\\analytics\\recommendation_engine_analysis.py": {
+        "hash": "c182baa2da27f270fba128b03471de62"
+    },
+    "src\\core\\engines\\security_core_engine.py": {
+        "hash": "6ff547e7d7167ac4bdda53c98caa79a6"
+    },
+    "src\\domain\\ports\\message_bus.py": {
+        "hash": "6e82aebdd88404f8e2ed8cb8fc90d8b9"
+    },
+    "src\\core\\managers\\results\\integration_results_processor.py": {
+        "hash": "9e55128af0e173007e909b5139bf1052"
+    },
+    "src\\services\\utils\\__init__.py": {
+        "hash": "a5f1449163373fde448f66e22bee1e7f"
+    },
+    "src\\web\\static\\js\\architecture\\architecture-pattern-coordinator.js": {
+        "hash": "e58e404d80a34ff8144dd6eba029b69b"
+    },
+    "src\\core\\managers\\core_monitoring_manager.py": {
+        "hash": "91be32a18d52ab894f606769df71632b"
+    },
+    "src\\services\\simple_onboarding.py": {
+        "hash": "6e475674abf30e040060f58e330dd9d9"
+    },
+    "src\\domain\\value_objects\\__init__.py": {
+        "hash": "e1ffef739df8f69ec74db50b4dbb378c"
+    },
+    "src\\web\\static\\js\\trading-robot\\order-form-modules.js": {
+        "hash": "e94b8b225c45941170751120e553d14a"
+    },
+    "src\\services\\contract_system\\manager.py": {
+        "hash": "1c971800a420516ec29639f99fc5f160"
+    },
+    "src\\core\\vector_strategic_oversight\\unified_strategic_oversight\\factory_methods.py": {
+        "hash": "82da7119c6c7c9d059eae270327387fe"
+    },
+    "src\\core\\analytics\\framework\\predictive_modeling_engine.py": {
+        "hash": "cc03129794abd927fb4f09160900149f"
+    },
+    "src\\core\\constants\\__init__.py": {
+        "hash": "458ca323c85fbfb57110dde59da46d8d"
+    },
+    "src\\core\\consolidation\\utility_consolidation\\utility_consolidation_engine.py": {
+        "hash": "3dedd5697b14ffef15c0b26c7ad043d4"
+    },
+    "src\\core\\message_queue.py": {
+        "hash": "6bb3c8cbde8abfa0658c0fecfeb33451"
+    },
+    "src\\gaming\\models\\gaming_models.py": {
+        "hash": "2106595b2dbd91e72cf2c1c6626a8ca2"
+    },
+    "src\\core\\analytics\\orchestrators\\__init__.py": {
+        "hash": "6018d7c403064a2cb1097e39b381d5cc"
+    },
+    "src\\core\\error_handling\\error_reporting_core.py": {
+        "hash": "1e05c08a703e2c64fea58fd5edfff9ae"
+    },
+    "src\\core\\analytics\\prediction\\__init__.py": {
+        "hash": "6610c9ab2eb279d37d927015a1ec8f78"
+    },
+    "src\\infrastructure\\browser_backup\\thea_login_handler.py": {
+        "hash": "94020ddd52a5120624ee1e4c8adf4521"
+    },
+    "src\\web\\static\\js\\architecture\\di-decorators-module.js": {
+        "hash": "d6a8da58744f0478098ec74a97525caa"
+    },
+    "src\\core\\orchestration\\core_orchestrator.py": {
+        "hash": "487598accc7d5def4d52865f85e94471"
+    },
+    "src\\domain\\ports\\browser.py": {
+        "hash": "263564887207015f18d2c81ec2a76715"
+    },
+    "agent_workspaces\\database_specialist\\caching\\models\\cache_models.py": {
+        "hash": "d2864efad7061722e45263d063ba1b87"
+    },
+    "src\\core\\engines\\coordination_core_engine.py": {
+        "hash": "bab2a214507a4217cd823cc092c35ef6"
+    },
+    "src\\core\\ssot\\unified_ssot\\validators\\standard_validator.py": {
+        "hash": "d3d9d6c4a3328f6d962f32c939bec165"
+    },
+    "test_discord_integration.py": {
+        "hash": "a12f90b5cb0ad592f7315e46ea45738f"
+    },
+    "src\\trading_robot\\core\\__init__.py": {
+        "hash": "70ef73519fc838e3824ea9608c2b6822"
+    },
+    "src\\core\\dry_eliminator\\engines\\code_analysis_engine.py": {
+        "hash": "31c0d418fa5d7ff8b8a9e9b7b193a04b"
+    },
+    "onboard_survey_agents.py": {
+        "hash": "e1e48f092b48a8ffa1b936b98e17a977"
+    },
+    "src\\services\\architectural_models.py": {
+        "hash": "89d5f44df22bced52dda31204b4d3a83"
+    },
+    "src\\web\\static\\js\\services\\business-insights-module.js": {
+        "hash": "7086f3e4a17c2e7b1146712b0b8c3747"
+    },
+    "src\\core\\messaging_core.py": {
+        "hash": "1639945d561bce54c9ece29d90d7deab"
+    },
+    "src\\services\\recommendation_engine.py": {
+        "hash": "65e271e117c4776082be185eb78c9e97"
+    },
+    "src\\web\\static\\js\\dashboard-error-handler.js": {
+        "hash": "375562bced51a4dc6fe613afa650de5e"
+    },
+    "analyze_src_directories.py": {
+        "hash": "eb57e477a38e504d677a16fca55be936"
+    },
+    "src\\core\\engines\\storage_core_engine.py": {
+        "hash": "36f6334320fd3fd6c84e48582007b3f2"
+    },
+    "src\\core\\workspace_agent_registry.py": {
+        "hash": "2703c1bb45539f3e0539af12f478b440"
+    },
+    "src\\web\\static\\js\\core\\unified-logging-system.js": {
+        "hash": "9016df7b02ad8ebc9b30524e92447aaa"
+    },
+    "src\\services\\contract_system\\storage.py": {
+        "hash": "fd92690d359e60a3aab1f3f8efcc5748"
+    },
+    "src\\core\\enhanced_integration\\engines\\integration_task_engine.py": {
+        "hash": "90898ab07f75e62ddf3b4d81a867b98e"
+    },
+    "src\\core\\unified_logging_system_models.py": {
+        "hash": "69064bc3772bcb7359c2311076f637cf"
+    },
+    "src\\services\\agent_vector_integration_operations.py": {
+        "hash": "e2df48ba843ac7d5ab38dc8139be77d8"
+    },
+    "src\\services\\handlers\\contract_handler.py": {
+        "hash": "2fa166603b7faacc92bcfa94ec441a99"
+    },
+    "src\\core\\dry_eliminator\\__init__.py": {
+        "hash": "f170b59286da45c47faae2c7b82f2078"
+    },
+    "setup_thea_cookies.py": {
+        "hash": "f765bc68963995e826f7bd1cfe7a234f"
+    },
+    "src\\services\\architectural_principles.py": {
+        "hash": "6f75df0f40b2b18a163d911d374a3944"
+    },
+    "src\\core\\performance\\unified_dashboard\\metric_manager.py": {
+        "hash": "6aba193007571680e06c142881f957e2"
+    },
+    "response_detector.py": {
+        "hash": "62022e97a9ecf3633dd4c1a356db2e38"
+    },
+    "src\\core\\integration\\analytics\\recommendation_engine_system.py": {
+        "hash": "014f2dead2878fd4133568a06c139a69"
+    },
+    "src\\core\\shared_utilities.py": {
+        "hash": "f73f20d5570bc1839fccdbe462116e3c"
+    },
+    "src\\services\\onboarding_service_unified.py": {
+        "hash": "f7084e682d1e10031d8585698db2d21d"
+    },
+    "cycle_1_dependency_progress.py": {
+        "hash": "2cedb01a119e24ead005bd84d24db0f9"
+    },
+    "src\\core\\emergency_intervention\\unified_emergency\\orchestrators\\emergency_logger.py": {
+        "hash": "488a402ca1f95289a77ab3d7a6dc36fb"
+    },
+    "src\\core\\intelligent_context\\core\\__init__.py": {
+        "hash": "2190123dc4bc521d2be33a7e108afb6a"
+    },
+    "src\\web\\vector_database\\collection_utils.py": {
+        "hash": "07f5398c647e96c5f054875c9762ee33"
+    },
+    "tests\\test_workflows.py": {
+        "hash": "cf5f1d8f93091680a7d2d44d0bf03363"
+    },
+    "src\\core\\unified_logging_system_engine.py": {
+        "hash": "1a1a3b3284f836906fc6196e1476a3c8"
+    },
+    "src\\core\\error_handling\\metrics\\__init__.py": {
+        "hash": "239a0f154e0bb333cffabcedae8a66f4"
+    },
+    "src\\core\\file_locking\\__init__.py": {
+        "hash": "247dd6c49985de3c5edc731ba21ef21d"
+    },
+    "analyze_messaging_files.py": {
+        "hash": "c0c814cd3beecb8b5ce3e186afe4b454"
+    },
+    "src\\core\\dry_eliminator\\dry_eliminator_enums.py": {
+        "hash": "f4e7eebfc0b29050dc40186d40d69baf"
+    },
+    "src\\trading_robot\\repositories\\interfaces\\position_repository_interface.py": {
+        "hash": "43581326fe0bbd1eb10d14bcb6df7d33"
+    },
+    "src\\web\\static\\js\\trading-robot\\trading-websocket-manager.js": {
+        "hash": "6e1e1ab5a7f02b2f731d3cf02acd8a81"
+    },
+    "src\\trading_robot\\services\\analytics\\market_trend_engine.py": {
+        "hash": "a0c31c178c9eeaa86c81ef8523cd3fff"
+    },
+    "src\\core\\validation\\unified_validation_orchestrator.py": {
+        "hash": "c738c7bbc082251c58319c49efc95fa1"
+    },
+    "src\\core\\analytics\\framework\\analytics_processor.py": {
+        "hash": "e80aca8ea8269a9ec8d085f99202ec7c"
+    },
+    "src\\core\\pattern_analysis\\pattern_analysis_models.py": {
+        "hash": "9a73a7d79bb86e488922308a9fc5b259"
+    },
+    "src\\web\\static\\js\\services\\report-history-module.js": {
+        "hash": "d5d9dd597ddf81384dc76be4167081c3"
+    },
+    "src\\discord_commander_backup\\agent_communication_engine_core.py": {
+        "hash": "fd7bc6e8daa63e2ff04c47513524ba1d"
+    },
+    "src\\core\\refactoring\\extraction_helpers.py": {
+        "hash": "dc32a9a61cffd3be782498af406201cf"
+    },
+    "tests\\test_browser_unified.py": {
+        "hash": "8a394824ad5544a3c364ddadb63471b6"
+    },
+    "src\\core\\error_handling\\error_models_core.py": {
+        "hash": "c5afbf287bff48420d4314551285ec01"
+    },
+    "tools\\auto_remediate_loc.py": {
+        "hash": "3a43494c2d1634b8e5c8d00c4b329ba9"
+    },
+    "src\\core\\performance\\__init__.py": {
+        "hash": "fb994d43bd87601f9fcab40e10c5e08f"
+    },
+    "src\\infrastructure\\unified_logging_time.py": {
+        "hash": "9c510bc219cb68e51f89201764cfb54d"
+    },
+    "src\\core\\managers\\execution\\base_execution_manager.py": {
+        "hash": "ce22fa83ade015eb6f7fff355587f89b"
+    },
+    "src\\utils\\unified_file_utils.py": {
+        "hash": "be8f1e243b7febd921f458e6454364ed"
+    },
+    "src\\web\\static\\js\\services\\agent-coordination-module.js": {
+        "hash": "0a6290e7746fa7c61c3c66ebb5184f6b"
+    },
+    "src\\web\\static\\js\\trading-robot\\chart-validation\\rules.js": {
+        "hash": "aad724275ad18f6733d97fc374cce6bf"
+    },
+    "agent_workspaces\\database_specialist\\automated_migration_scripts.py": {
+        "hash": "76504bd65329a7b930adb6eab81c817a"
+    },
+    "src\\core\\vector_integration_analytics.py": {
+        "hash": "1cb31ceabae539ccd3a631cde99a5778"
+    },
+    "src\\core\\integration_coordinators\\unified_integration\\monitors\\metrics_collector.py": {
+        "hash": "1243d3a0c0ed5788fd723b391b2da530"
+    },
+    "src\\gui\\components\\__init__.py": {
+        "hash": "7d1129cf4cabe72a946324e6275ffc65"
+    },
+    "src\\web\\static\\js\\services\\deployment-metrics-service.js": {
+        "hash": "6e436080e32d07e38fb9233e836c2d00"
+    },
+    "src\\services\\messaging_handlers.py": {
+        "hash": "d75c062da4f88549db39a1700b93fdd1"
+    },
+    "src\\web\\static\\js\\dashboard\\element-selection-module.js": {
+        "hash": "cdba1f937d1c3093ceece540a856c146"
+    },
+    "src\\infrastructure\\unified_persistence.py": {
+        "hash": "e9207b62b1d55b29f07e81c723051490"
+    },
+    "src\\services\\handlers\\command_handler.py": {
+        "hash": "9f2ac21849e9b68e7a596525824f151f"
+    },
+    "src\\core\\vector_strategic_oversight\\unified_strategic_oversight\\__init__.py": {
+        "hash": "143a22b5001b7eaa9cdb2d463b987cbb"
+    },
+    "src\\core\\analytics\\intelligence\\pattern_analysis\\pattern_extractor.py": {
+        "hash": "aefeac2b93cd8120ba5bc2cb1923c287"
+    },
+    "src\\core\\refactoring\\metrics\\__init__.py": {
+        "hash": "91c66bb2697ad1a504614e5a848994c1"
+    },
+    "tools\\codemods\\migrate_orchestrators.py": {
+        "hash": "ae98e35632b1beee41149169b5074121"
+    },
+    "src\\core\\analytics\\processors\\insight_processor.py": {
+        "hash": "1fc70de1dcf9c155d67078ff665ec714"
+    },
+    "src\\web\\static\\js\\agent-coordination-manager.js": {
+        "hash": "c0f7c3726a6768cb6b97efba3a09cd1f"
+    },
+    "src\\core\\orchestration\\registry.py": {
+        "hash": "7e324f43016eab17e4e93aa45d2119a2"
+    },
+    "src\\infrastructure\\persistence\\base_repository.py": {
+        "hash": "a14e5d6ab8434cc3ac2de3a5a12e0e2e"
+    },
+    "scripts\\activate_vector_database_integration.py": {
+        "hash": "0feeea02b967522be373c874fa2af7d2"
+    },
+    "src\\core\\integration_coordinators\\unified_integration\\models\\factory.py": {
+        "hash": "327a985187962412a5aa3ac8f6e7044a"
+    },
+    "examples\\quickstart_demo\\dashboard_demo.py": {
+        "hash": "8b18790442f22b514a851a8e2516e711"
+    },
+    "src\\core\\dry_eliminator\\engines\\metrics_reporting_engine.py": {
+        "hash": "5875f5e954f4176b0cbc290e67fba24e"
+    },
+    "src\\services\\chatgpt\\__init__.py": {
+        "hash": "c82f3b99b27c5189611ee009413dda62"
+    },
+    "src\\core\\messaging_pyautogui.py": {
+        "hash": "4cadc8d642ccdf67ca531e38f8fe72b4"
+    },
+    "src\\core\\file_locking\\operations\\__init__.py": {
+        "hash": "4ed3c960dc4c6888959860847ef73f2c"
+    },
+    "src\\core\\intelligent_context\\engines\\agent_assignment_engine.py": {
+        "hash": "3d568474b3c0009351064271cd0fdbd2"
+    },
+    "src\\services\\agent_assignment_manager.py": {
+        "hash": "5319bf93fd631014c91e98bf4f1233f8"
+    },
+    "trading_robot\\config\\settings.py": {
+        "hash": "6b8c70abd1cfe5b5b77bf45be372d652"
+    },
+    "src\\core\\analytics\\engines\\metrics_engine.py": {
+        "hash": "d15c90e367629535caf84d7af77e8450"
+    },
+    "src\\core\\vector_strategic_oversight\\unified_strategic_oversight\\engine_core_metrics.py": {
+        "hash": "730b2d2209c3222928ace6944d3a8189"
+    },
+    "src\\infrastructure\\browser_backup\\thea_modules\\content_scraper.py": {
+        "hash": "8086de439701350dfa0392eae2b5668c"
+    },
+    "trading_robot\\tests\\test_trading_robot.py": {
+        "hash": "3de5c216c349941b0823a077b343ae0d"
+    },
+    "src\\workflows\\autonomous_strategy.py": {
+        "hash": "8f9711052b0634285a8a540b97667a67"
+    },
+    "src\\core\\dry_eliminator\\dry_eliminator_models.py": {
+        "hash": "db63e7341e69ded47b97507d8e662279"
+    },
+    "src\\web\\static\\js\\vector-database\\search.js": {
+        "hash": "6ff74dc4bcccac3866cd56040c55589d"
+    },
+    "pyautogui_training_broadcast.py": {
+        "hash": "cd4a29d7565067e71cae6add634fbdc5"
+    },
+    "src\\gaming\\integration\\__init__.py": {
+        "hash": "a076cd3ca3172bd9704c1fd224d8eef6"
+    },
+    "src\\core\\performance\\performance_collector.py": {
+        "hash": "e4f593d316cc4b29c8179f361bd6b977"
+    },
+    "src\\services\\__init__.py": {
+        "hash": "852f861bf2b82281645f12d078debc75"
+    },
+    "src\\web\\vector_database\\middleware.py": {
+        "hash": "82fa171c93c5d0e42c4105b1cc71fe35"
+    },
+    "src\\core\\engines\\ml_core_engine.py": {
+        "hash": "5daf2559ff1db25c6282985fa451c635"
+    },
+    "scripts\\utilities\\find_large_files.py": {
+        "hash": "296243f31edb8a333397f97546949cff"
+    },
+    "src\\core\\managers\\resource_context_operations.py": {
+        "hash": "b6e5f7634499aec4f8b0d1bd643a6139"
+    },
+    "src\\core\\managers\\monitoring\\__init__.py": {
+        "hash": "a5ec17ac9f95f0cb9bf7e41b7a47625e"
+    },
+    "src\\domain\\ports\\logger.py": {
+        "hash": "2ba48626c90dc877a22d63d24ea3566f"
+    },
+    "tools\\captain_snapshot.py": {
+        "hash": "82b2db8c151146d8166761a70b807d1d"
+    },
+    "src\\services\\consolidated_onboarding_service.py": {
+        "hash": "ac8376d9f8f38b4f9cb06c4bc8d8d2dd"
+    },
+    "src\\web\\static\\js\\system-integration-core.js": {
+        "hash": "2458b8dcd1e128f9ed87ee459499a18f"
+    },
+    "cycle_1_backup_partial.py": {
+        "hash": "57c45a5b9b144d8fd6b7ea44ea5af671"
+    },
+    "src\\core\\error_handling\\metrics\\error_metrics.py": {
+        "hash": "5c926f26f72713e71dcdd9efdf19a01c"
+    },
+    "src\\services\\agent_vector_integration_core.py": {
+        "hash": "90e32e6333a1c55f81340a592313d438"
+    },
+    "src\\quality\\__init__.py": {
+        "hash": "345c130f8b6e54dbbb85fbe1142f5bd3"
+    },
+    "src\\core\\managers\\resource_lock_operations.py": {
+        "hash": "9fd5f056e820a87ca19246a06b0e3a92"
+    },
+    "src\\web\\static\\js\\dashboard-communication.js": {
+        "hash": "2227e0f99efebb037918a87de041c44a"
+    },
+    "src\\web\\static\\js\\trading-robot\\websocket-connection-module.js": {
+        "hash": "6e3c728d81e7af1c6106d349f2092be7"
+    },
+    "src\\core\\performance\\unified_dashboard\\widget_manager.py": {
+        "hash": "e8fbcb0535be220681d9955b87a807be"
+    },
+    "src\\infrastructure\\persistence\\sqlite_task_repo.py": {
+        "hash": "0b0098938e4010f660610cdd59f31553"
+    },
+    "src\\services\\chatgpt\\navigator.py": {
+        "hash": "a7c1e754d06e7cb0230715a22f537517"
+    },
+    "agent_workspaces\\Agent-7\\agent7_vector_database_integration.py": {
+        "hash": "f1bd7accddd1e8ad5ed21a657b21798a"
+    },
+    "src\\core\\performance\\performance_cli.py": {
+        "hash": "ce499f0d366e7167befa9d04ef3cd0e3"
+    },
+    "src\\gaming\\handlers\\__init__.py": {
+        "hash": "a789e7b96920fe0d6e15493f8928b5d0"
+    },
+    "trading_robot\\backtesting\\backtester.py": {
+        "hash": "257a2c21f134c9d7400ed37bbf4831f0"
+    },
+    "src\\core\\analytics\\intelligence\\pattern_analysis\\__init__.py": {
+        "hash": "708766b5d9d59bc22df686b34649acab"
+    },
+    "src\\__init__.py": {
+        "hash": "bf3a95047f3e54e8892eaa0e90acf598"
+    },
+    "src\\core\\performance\\unified_dashboard\\engine.py": {
+        "hash": "b10909493c084751f0e883760ca664b7"
+    },
+    "src\\core\\utils\\message_queue_utils.py": {
+        "hash": "c0ccd4e6a37ba6c42bea5ffa7e0b6e48"
+    },
+    "src\\core\\deployment\\coordinators\\metrics_tracker.py": {
+        "hash": "ab41bb2dca12a0ef5b15bc30ddae6890"
+    },
+    "src\\infrastructure\\logging\\__init__.py": {
+        "hash": "689149c8c68c24a4fbce30c8d07069ca"
+    },
+    "src\\core\\deployment\\engines\\deployment_discovery_engine.py": {
+        "hash": "bbc9872f00fe2fbc7e7fbea553aa5268"
+    },
+    "src\\core\\intelligent_context\\intelligent_context_engine.py": {
+        "hash": "1b8ab220ddeb8bfe6a89e2f004b71c7c"
+    },
+    "src\\core\\data_optimization\\data_optimization_models.py": {
+        "hash": "52d2ac1b4cacc0412edfa711fc3dd045"
+    },
+    "agent1_response.py": {
+        "hash": "0c07ade1f86137b1c8a6fffa4a36b78a"
+    },
+    "src\\core\\deployment\\engines\\deployment_execution_engine.py": {
+        "hash": "ec749a1931c8417f0231e998e8e8434d"
+    },
+    "src\\core\\dry_eliminator\\engines\\elimination_strategy_engine.py": {
+        "hash": "87af072663b621423834931b1ce2272b"
+    },
+    "src\\core\\data_optimization\\data_optimization_orchestrator.py": {
+        "hash": "e769c84725aeac2d363cd007737c0278"
+    },
+    "src\\core\\engines\\analysis_core_engine.py": {
+        "hash": "9e47b3fe6484fc0311e435dcc5b56e0c"
+    },
+    "src\\core\\file_locking\\operations\\lock_queries.py": {
+        "hash": "3cb2f2af637f81b123d3f00a9759f3e5"
+    },
+    "src\\web\\static\\js\\trading-robot\\chart-calculation-modules.js": {
+        "hash": "1419c733dff4b02bf82678297288a182"
+    },
+    "src\\web\\static\\js\\trading-robot\\chart-controls-module.js": {
+        "hash": "43d5c332eb0cf5065bad9c54d7453b78"
+    },
+    "src\\core\\search_history_service.py": {
+        "hash": "d19cf381694dd778c07e2d2b8e1b6516"
+    },
+    "mcp_servers\\messaging_server.py": {
+        "hash": "3504a5deb9b4ffd3b9bbb884db12cae2"
+    },
+    "src\\swarmstatus.py": {
+        "hash": "6c45ae381c1b5dac3cc265150306b8b2"
+    },
+    "src\\core\\config_validation.py": {
+        "hash": "062cef7f05830088fe7e702ea9d376d4"
+    },
+    "src\\core\\file_locking\\file_locking_engine_operations.py": {
+        "hash": "f219dd8c86fa0f1b8a991b42c29a2ed9"
+    },
+    "src\\core\\error_handling\\error_recovery.py": {
+        "hash": "3d1ec15f818f89b67fa251df3324e64f"
+    },
+    "scripts\\v2_release_summary.py": {
+        "hash": "48a939ca6d2009e15109577f72ea3d67"
+    },
+    "src\\core\\consolidation\\base.py": {
+        "hash": "8c943af1ec2c70409cd9e83e6ab9fcaf"
+    },
+    "src\\web\\vector_database\\error_handler_middleware.py": {
+        "hash": "9273b223d05be0ccc4431cde9bd54d83"
+    },
+    "src\\domain\\services\\__init__.py": {
+        "hash": "4828df38774c4346bc1dde84359d62d9"
+    },
+    "src\\core\\managers\\execution\\execution_coordinator.py": {
+        "hash": "75bc89e118464e8a42df9090fc94151c"
+    },
+    "src\\core\\engines\\integration_core_engine.py": {
+        "hash": "7113d6411993ad6b6f29954d1a2733ee"
+    },
+    "src\\core\\managers\\execution\\__init__.py": {
+        "hash": "0717cd24c3b360638ed1c419456fd727"
+    },
+    "src\\orchestrators\\overnight\\monitor.py": {
+        "hash": "9ea72c79fa461bfe065fa4e37feca981"
+    },
+    "src\\web\\static\\js\\dashboard-charts.js": {
+        "hash": "b7035b3f111814c944d7f2d6a61788a4"
+    },
+    "src\\core\\coordinator_status_parser.py": {
+        "hash": "7e9822aec06665c491811ecd94079341"
+    },
+    "src\\core\\ssot\\unified_ssot\\validators\\__init__.py": {
+        "hash": "9c453390120268c76bb0aa77f968ed71"
+    },
+    "src\\web\\static\\js\\dashboard-ui-helpers.js": {
+        "hash": "aaebdc19e9f9189786f702671fd5c6da"
+    },
+    "src\\core\\engines\\__init__.py": {
+        "hash": "a5d2637f647b19d8cf930673c3f360e2"
+    },
+    "src\\web\\vector_database\\analytics_utils.py": {
+        "hash": "4f3cfb859d917df3d5e2958081c20e2b"
+    },
+    "src\\web\\static\\js\\trading-robot\\websocket-callback-manager-module.js": {
+        "hash": "0dca954881be3b1f207309c63f7ba60b"
+    },
+    "src\\core\\refactoring\\duplicate_analysis.py": {
+        "hash": "01276f022b8ffcb1c0080da7d210f4fd"
+    },
+    "src\\vision\\analysis.py": {
+        "hash": "ab93facfe1d9b1f43c93fb1cd2e7bfcc"
+    },
+    "src\\web\\vector_database\\document_utils.py": {
+        "hash": "dd101f1169e3e42157b63c14492548f5"
+    },
+    "src\\core\\unified_data_processing_system.py": {
+        "hash": "9816e9d4a6ed52981ea9d3245a40e98a"
+    },
+    "tools\\run_project_scan.py": {
+        "hash": "eff7e517501af65b710238bbee7aaef5"
+    },
+    "src\\core\\analytics\\framework\\pattern_analysis_engine.py": {
+        "hash": "88dbe20976c80d7f011b3bb1081510e4"
+    },
+    "src\\core\\import_system\\import_core.py": {
+        "hash": "327932a370ae356768651dc5f24c3ede"
+    },
+    "src\\core\\error_handling\\circuit_breaker.py": {
+        "hash": "24db046145cfcf9c67579f63989e3009"
+    },
+    "src\\services\\chatgpt\\session.py": {
+        "hash": "3b7e87da8397dfa497d21d4fe7cca720"
+    },
+    "src\\architecture\\design_patterns.py": {
+        "hash": "def20fb777f454720e5cf7e93d4bbab8"
+    },
+    "src\\core\\coordination\\swarm\\orchestrators\\swarm_coordination_orchestrator.py": {
+        "hash": "301f53cd0f2ea01cf579b37a7f1a7a8d"
+    },
+    "src\\core\\vector_strategic_oversight\\unified_strategic_oversight\\engine_core_missions.py": {
+        "hash": "4684c9973ec3998abbd50ac5f6b693bf"
+    },
+    "src\\core\\agent_documentation_service.py": {
+        "hash": "61e740cb3cd8879fcc398fc37737be1d"
+    },
+    "src\\core\\refactoring\\__init__.py": {
+        "hash": "33d3ce195d5c93e18186c86338de5a91"
+    },
+    "src\\core\\refactoring\\analysis_tools_models.py": {
+        "hash": "49eee6f6de5b1b794e0e53a62157c864"
+    },
+    "src\\web\\static\\js\\services\\socket-event-handlers.js": {
+        "hash": "6090f43eb0fa93216d3683bb4c7aeb66"
+    },
+    "trading_robot\\core\\trading_engine.py": {
+        "hash": "461f55b6bc7f0dd8d1b71c09a870683b"
+    },
+    "src\\core\\enhanced_integration\\coordinators\\enhanced_integration_coordinator.py": {
+        "hash": "d3dc3f8c4cc71735725bfe2f7bf9411f"
+    },
+    "src\\core\\error_handling\\circuit_breaker\\__init__.py": {
+        "hash": "4373979dc055f42ef3c90c3f2a206fb8"
+    },
+    "src\\core\\dry_eliminator\\orchestrators\\elimination_coordinator.py": {
+        "hash": "875f238722b410da2cbe7ff9bd996d02"
+    },
+    "src\\core\\orchestration\\service_orchestrator.py": {
+        "hash": "62ba3dd8a9587e6e58b41fcc8049cd6e"
+    },
+    "agent_devlog_watcher.py": {
+        "hash": "1411e9cb5fe6174a9f82c2757c65e187"
+    },
+    "src\\core\\ssot\\unified_ssot\\execution\\__init__.py": {
+        "hash": "ef4ee7b4d3f44de7e32fc36938031343"
+    },
+    "src\\utils\\file_scanner.py": {
+        "hash": "9880d4c8d6d2130d8030429625ec96ea"
+    },
+    "src\\trading_robot\\repositories\\models\\position.py": {
+        "hash": "6eb55bb1cbe03fe322c529e38b9cc853"
+    },
+    "src\\core\\coordination\\swarm\\coordination_models.py": {
+        "hash": "b343137dd5261164e226bd1c6e460cb9"
+    },
+    "src\\core\\deployment\\coordinators\\target_discovery.py": {
+        "hash": "9fa3db5675524701290e47b3ab40e532"
+    },
+    "src\\core\\analytics\\intelligence\\pattern_analysis_engine.py": {
+        "hash": "31aceed75988450b5fa4bb4718758ca7"
+    },
+    "src\\core\\coordination\\swarm\\engines\\performance_monitoring_engine.py": {
+        "hash": "03b2467362b2b1e2c311d26643b9694c"
+    },
+    "src\\core\\message_queue_statistics.py": {
+        "hash": "40cd4263b2d758b65b7501b4f9d21087"
+    },
+    "src\\domain\\ports\\task_repository.py": {
+        "hash": "859bfc834e724337ebeca64fe8834141"
+    },
+    "src\\core\\analytics\\framework\\caching_engine.py": {
+        "hash": "2f3d991d1cfd9566681ca5751b8fa11e"
+    },
+    "src\\core\\orchestration\\__init__.py": {
+        "hash": "84703c788f6fcf15589ab3729d036cb8"
+    },
+    "src\\services\\work_indexer.py": {
+        "hash": "cdabde8764f01f12b1c2d6b775dd0f48"
+    },
+    "respond_to_agent6.py": {
+        "hash": "06bbab55cdc0b0e3621d922f78e3b741"
+    },
+    "cleanup_stub_files.py": {
+        "hash": "80bcef47bf199ba4e985f9dba25aaf88"
+    },
+    "src\\infrastructure\\persistence\\database_connection.py": {
+        "hash": "06064dd681d13256ff32245cfbd51827"
+    },
+    "src\\infrastructure\\logging\\std_logger.py": {
+        "hash": "61b058cf0a2ac834081256efb310feed"
+    },
+    "src\\core\\agent_context_manager.py": {
+        "hash": "68ba28dd6895cff28f2ef4eadd3b4f00"
+    },
+    "src\\core\\intelligent_context\\intelligent_context_search.py": {
+        "hash": "ba8ab094cace073d548abd441e83120b"
+    },
+    "src\\core\\managers\\configuration_store.py": {
+        "hash": "5877249356c86aa3515c495f32abca0f"
+    },
+    "src\\services\\contract_system\\models.py": {
+        "hash": "d1cc1c901cfc351da425edb8147d8c6a"
+    },
+    "src\\services\\unified_onboarding_service.py": {
+        "hash": "b5f5435577c542849bdc5088ec0cd36a"
+    },
+    "src\\core\\dry_eliminator\\dry_eliminator_orchestrator.py": {
+        "hash": "01d1c971dcea74fa0b604ae02055f7d8"
+    },
+    "src\\infrastructure\\browser_backup\\chrome_undetected.py": {
+        "hash": "2802e0ff0486c7d88ad3f7631a1f663e"
+    },
+    "agent_workspaces\\Agent-3\\quality_first_communication_protocol.py": {
+        "hash": "67cee4f1d630931882660ba94d70a2e4"
+    },
+    "src\\services\\vector_database\\vector_database_models.py": {
+        "hash": "b2af19a3e6d5d51e81465dab1a07c14e"
+    },
+    "src\\web\\static\\js\\trading-robot\\websocket-connection-callbacks.js": {
+        "hash": "0724364b4bdbc5af732aa7905f196d75"
+    },
+    "src\\services\\coordination\\__init__.py": {
+        "hash": "95ede614302264436ecdc37a406ebd4e"
+    },
+    "swarm_workspace_broadcast.py": {
+        "hash": "0bda0a7bb8c7e9177c1fb3a598790450"
+    },
+    "src\\services\\coordination\\bulk_coordinator.py": {
+        "hash": "dbd90edf8af6c5a4a782b22ffc691a80"
+    },
+    "agent_workspaces\\database_specialist\\caching\\core\\caching_system.py": {
+        "hash": "0edccaef78e01b95aef85dda64225b01"
+    },
+    "src\\web\\vector_database\\validation_middleware.py": {
+        "hash": "77a67bdaf534e22ed7c4a37eefb73af2"
+    },
+    "src\\core\\managers\\results\\analysis_results_processor.py": {
+        "hash": "12741d3793957f44ed5931f9feac5775"
+    },
+    "src\\infrastructure\\browser_backup\\cookie_manager.py": {
+        "hash": "559f9592cc383e645df0edd49de17dc4"
+    },
+    "src\\web\\static\\js\\dashboard-config-manager.js": {
+        "hash": "7bc7d6bc117c1449359079006d61f904"
+    },
+    "src\\discord_commander_backup\\enhanced_discord_integration.py": {
+        "hash": "8fc97fa1defadbdc29cf1e08aa4673d4"
+    },
+    "scripts\\agent_documentation_cli.py": {
+        "hash": "4d3aac9c284414c99451e287f1973d6f"
+    },
+    "src\\gui\\controllers\\__init__.py": {
+        "hash": "7c5480b05e5501210f083d667c961903"
+    },
+    "src\\architecture\\__init__.py": {
+        "hash": "4eeed1984396f16ced4e5dc1936e0a84"
+    },
+    "src\\services\\protocol\\routers\\__init__.py": {
+        "hash": "6358fd8e7d27190068e0a380fe8c8033"
+    },
+    "src\\core\\ssot\\unified_ssot\\execution\\execution_manager.py": {
+        "hash": "eb8bed38896bf6938f30f21f88add0a3"
+    },
+    "src\\core\\emergency_intervention\\unified_emergency\\models_enums.py": {
+        "hash": "d9022e67e6c224098349fb6e779f99f4"
+    },
+    "src\\infrastructure\\browser_backup\\thea_session_manager.py": {
+        "hash": "d4fba8e3e2e1ff4460ca4a6dc0a8c7a1"
+    },
+    "src\\core\\analytics\\intelligence\\anomaly_detection_engine.py": {
+        "hash": "2708d800b8afdb7b50666f22081c487b"
+    },
+    "src\\services\\models\\vector_models.py": {
+        "hash": "b29c380d9b8cbd3f36f13205f9507045"
+    },
+    "src\\core\\managers\\__init__.py": {
+        "hash": "cf3cde674e45d093361e789d217a648a"
+    },
+    "src\\core\\consolidation\\utility_consolidation\\__init__.py": {
+        "hash": "87c60fb27369c6e5d2d2a52b14d81de8"
+    },
+    "src\\core\\error_handling\\error_reporting_reporter.py": {
+        "hash": "ea0396321b93047510bb27a928390576"
+    },
+    "src\\web\\static\\js\\dashboard-data-operations.js": {
+        "hash": "08af9bfda1f2ca1ff9c8a8911468c05f"
+    },
+    "src\\web\\static\\js\\vector-database\\analytics.js": {
+        "hash": "869b89ce2d5f9af184a48a0913808c28"
+    },
+    "src\\gaming\\models\\gaming_alert_models.py": {
+        "hash": "ea0937e9376674c04aac5c733cfc2e44"
+    },
+    "src\\core\\managers\\resource_file_operations.py": {
+        "hash": "0231c0ef62b81e566b41345a32cdee1f"
+    },
+    "src\\core\\ssot\\__init__.py": {
+        "hash": "62d32b529a8a6c44fa8ff93ee181000c"
+    },
+    "src\\services\\architectural_onboarding.py": {
+        "hash": "33863eeb54f08f99a8a18bb29353564f"
+    },
+    "src\\discord_commander_backup\\discord_models.py": {
+        "hash": "53ce5a5ff7311d2ff6eaad0136114cde"
+    },
+    "src\\core\\managers\\registry.py": {
+        "hash": "e17cf266d5b3aef9f95f448c9604c70e"
+    },
+    "src\\core\\analytics\\framework\\analytics_intelligence.py": {
+        "hash": "bc496aa4dc116a96e5b4ab13101d13de"
+    },
+    "src\\web\\static\\js\\performance\\recommendation-engine.js": {
+        "hash": "5d4b8c1470f7da76c712cf43c46ac433"
+    },
+    "src\\services\\contract_system\\__init__.py": {
+        "hash": "1976d0942ca43179f5a99b1e5af54e80"
+    },
+    "src\\core\\constants\\fsm_constants.py": {
+        "hash": "00e64930d1fba07d0382a2ec5adab438"
+    },
+    "agent1_coordination.py": {
+        "hash": "7a41784fb7d10e5e33b55005602d8d13"
+    },
+    "src\\web\\static\\js\\vector-database\\core.js": {
+        "hash": "df4b29c255108feb76c5aee0c0201667"
+    },
+    "src\\core\\error_handling\\error_analysis_engine.py": {
+        "hash": "931a3ff716579410a445b5842252c34c"
+    },
+    "src\\core\\error_handling\\metrics\\error_alerts.py": {
+        "hash": "9ea6f413f8a77f186aecda929f33e424"
+    },
+    "src\\web\\static\\js\\trading-robot\\chart-validation\\logger.js": {
+        "hash": "67ec64a14108369bca1c3e9c1c9b9330"
+    },
+    "tests\\test_vision.py": {
+        "hash": "1f5aca0f71cfae73e318792d2109ac98"
+    },
+    "src\\core\\coordination\\swarm\\__init__.py": {
+        "hash": "0b35f7ec6f3705feece76361f68ef386"
+    },
+    "src\\core\\refactoring\\analysis_tools_core.py": {
+        "hash": "5cd85279d2049bb539424cdd9a08d093"
+    },
+    "src\\application\\use_cases\\__init__.py": {
+        "hash": "0caee21d01aac33e83d4ad4d491a855a"
+    },
+    "src\\utils\\backup.py": {
+        "hash": "e63363503d4ab2765a9216c1b1a9fc65"
+    },
+    "src\\utils\\unified_utilities.py": {
+        "hash": "ee2989ea1c66c9a1ad13d9b528b90f3f"
+    },
+    "src\\web\\static\\js\\trading-robot\\trading-portfolio-manager.js": {
+        "hash": "de3b604759cf3407b9baff14357ef8d0"
+    },
+    "src\\core\\engines\\contracts.py": {
+        "hash": "9b0651cdc3aaaf42f2947c8265933a69"
+    },
+    "src\\web\\static\\js\\trading-robot\\chart-renderer.js": {
+        "hash": "e3d89fa18f5ee6e2ae1fce135161421b"
+    },
+    "src\\core\\refactoring\\refactor_tools.py": {
+        "hash": "3a9b3141c37f1e4c74ff29148e78e9de"
+    },
+    "src\\web\\static\\js\\trading-robot\\chart-drawing-modules.js": {
+        "hash": "d4531124c4624aee83c987eea30374f3"
+    },
+    "src\\core\\vector_database.py": {
+        "hash": "d8e45810b99bec91b035f8f142a48281"
+    },
+    "tools\\codemods\\replace_prints_with_logger.py": {
+        "hash": "a34881fd690e286ee17d97a4f744cce5"
+    },
+    "agent_workspaces\\database_specialist\\scalability_strategies.py": {
+        "hash": "e30b3673ef9ac3ed87131452d7b1886e"
+    },
+    "src\\web\\static\\js\\dashboard-view-performance.js": {
+        "hash": "93983398b7133a088292d71e8c402179"
+    },
+    "tools\\functionality_verification.py": {
+        "hash": "d2f97ac3de162269f1a1fa1350892122"
+    },
+    "src\\core\\analytics\\intelligence\\business_intelligence_engine_core.py": {
+        "hash": "b0530ec5adf2ed2932656fbbc73f191d"
+    },
+    "src\\core\\consolidation\\utility_consolidation\\utility_consolidation_orchestrator.py": {
+        "hash": "c5f6b063985e9909240f2b946b5d7b90"
+    },
+    "src\\core\\engines\\utility_core_engine.py": {
+        "hash": "2d09e171a92fc156baa31f1bacb9fd49"
+    },
+    "src\\trading_robot\\repositories\\interfaces\\trading_repository_interface.py": {
+        "hash": "d04a7397e192290727be4efaf05efd06"
+    },
+    "src\\discord_commander_backup\\discord_webhook_manager.py": {
+        "hash": "84e36f54db40f26348b5c6e6519a9609"
+    },
+    "src\\core\\enhanced_integration\\orchestrators\\coordination_engine_core.py": {
+        "hash": "d2fc9e340b85f3597be6b9fc46e0e74f"
+    },
+    "src\\core\\integration\\models\\__init__.py": {
+        "hash": "1384deaeb1a91a4a3ac4672bbd11bfad"
+    },
+    "run_unified.py": {
+        "hash": "91ee1b372c82dbedc79f2d2901d4515d"
+    },
+    "src\\web\\static\\js\\services\\utilities\\logging-utils.js": {
+        "hash": "1aa6d5919551ab1af3e7c9d57e256cc5"
+    },
+    "src\\core\\emergency_intervention\\unified_emergency\\orchestrators\\emergency_orchestrator.py": {
+        "hash": "8e1df8321179118075e44d6c77f4608a"
+    },
+    "agent_workspaces\\database_specialist\\migration_scripts.py": {
+        "hash": "55bab0ba8ec923bc8794f33f9de8708a"
+    },
+    "src\\web\\static\\js\\dashboard-utils.js": {
+        "hash": "8eae361aab7d9b63260fb15f3a2d657d"
+    },
+    "src\\core\\error_handling\\error_reporting_utilities.py": {
+        "hash": "9b8ba1d665e35e671cb3a90f0a678380"
+    },
+    "src\\core\\deployment\\__init__.py": {
+        "hash": "f0c3868dec222f3b1f0f45e3c39a4a97"
+    },
+    "tools\\audit_cleanup.py": {
+        "hash": "366d336bdaf491587098865efccd2302"
+    },
+    "src\\trading_robot\\services\\analytics\\trading_bi_orchestrator.py": {
+        "hash": "a318c706228a48d00ac3f57c2781616a"
+    },
+    "src\\trading_robot\\services\\analytics\\risk_analysis_engine.py": {
+        "hash": "e6bf05ca5ded566a42423f81d0fc3e37"
+    },
+    "simple_agent_onboarding.py": {
+        "hash": "0374a101f144b65ba2211293fc3a38df"
+    },
+    "src\\web\\static\\js\\dashboard-data-manager.js": {
+        "hash": "223824e0526fd584f4cf67048d9eaf0d"
+    },
+    "src\\web\\static\\js\\core\\dependency-container.js": {
+        "hash": "b3a195814e1220ee59d4485993c89671"
+    },
+    "src\\core\\enhanced_integration\\coordinators\\__init__.py": {
+        "hash": "4249c74fedaadad18033d48328d544bd"
+    },
+    "src\\services\\protocol\\routers\\route_analyzer.py": {
+        "hash": "b5980f2c66f9fa3cf4b059f003221244"
+    },
+    "src\\web\\static\\js\\dashboard-alerts.js": {
+        "hash": "4c0fc9a1d6dab3e23b625f240e8608a1"
+    },
+    "src\\services\\onboarding_service.py": {
+        "hash": "9d57aae5af70be471fe102e83db7256a"
+    },
+    "tools\\test_imports.py": {
+        "hash": "d74d5fc9207663fc464de7e925ae76a4"
+    },
+    "src\\gaming\\models\\__init__.py": {
+        "hash": "95ab51e9e20679a3c97a35be6a4d4777"
+    },
+    "src\\core\\deployment\\deployment_orchestrator_engine.py": {
+        "hash": "3b6d75326ba0276f0aa8a095e8a8d1e6"
+    },
+    "src\\infrastructure\\persistence\\task_repository.py": {
+        "hash": "557e1c4156aa7a0ebd25af75266726b0"
+    },
+    "src\\core\\emergency_intervention\\unified_emergency\\engine.py": {
+        "hash": "7f8c8bf1c75c00612c5af3cfe8031de1"
+    },
+    "src\\core\\enhanced_integration\\orchestrators\\coordination_engine.py": {
+        "hash": "6b956b70b99537201b51039102724d25"
+    },
+    "src\\gaming\\utils\\gaming_handlers.py": {
+        "hash": "fa67fd96d1e8ab9624df6aff47505689"
+    },
+    "src\\web\\static\\js\\trading-robot\\trading-robot-main.js": {
+        "hash": "ee901c5033b8a696579bb5a9656796a5"
+    },
+    "src\\web\\static\\js\\trading-robot\\websocket-message-handler-module.js": {
+        "hash": "e9149480a09ab133d26ebdeafa78a764"
+    },
+    "src\\vision\\cli.py": {
+        "hash": "36021a24ebef53604c845f2573f9998a"
+    },
+    "src\\web\\static\\js\\vector-database\\ui-optimized.js": {
+        "hash": "41a37b71f9967c90878c36cc7926018a"
+    },
+    "src\\core\\emergency_intervention\\unified_emergency\\handlers\\protocol_initializer.py": {
+        "hash": "903417b26db9d825081b6fb0ba2fd12e"
+    },
+    "src\\web\\vector_database\\routes.py": {
+        "hash": "93fa996f0d0528b91f1608180955d42b"
+    },
+    "src\\core\\error_handling\\metrics\\error_reports.py": {
+        "hash": "05e375441608a9fc00bdb682d376486f"
+    },
+    "src\\web\\static\\js\\framework_new\\layout.js": {
+        "hash": "1cc01c1d9d7a21a7eea00bfb2ba93067"
+    },
+    "src\\core\\coordinator_registry.py": {
+        "hash": "168304b7792e88f457c6a26760f02590"
+    },
+    "src\\core\\constants\\fsm\\transition_models.py": {
+        "hash": "a6620655b0a643a20643b9663c122f0e"
+    },
+    "agent_workspaces\\database_specialist\\caching_strategy_system.py": {
+        "hash": "0d195bfa24d304ceda1b04ec3d6a22b6"
+    },
+    "src\\core\\analytics\\coordinators\\__init__.py": {
+        "hash": "664c787e996ce86ea9223bd0771a1e15"
+    },
+    "src\\core\\data_optimization\\data_optimization_engine.py": {
+        "hash": "9397cb680bdf0d7aa0ab879c67a9878d"
+    },
+    "src\\core\\import_system\\__init__.py": {
+        "hash": "c7b5a438cb81c084df26d5ae3f42da44"
+    },
+    "scripts\\setup_chat_mate.py": {
+        "hash": "8311b0472ee4e4475d7a469af751dbf7"
+    },
+    "tools\\complexity_analyzer.py": {
+        "hash": "41d16a8ce76ca569a161ccde17616873"
+    },
+    "src\\infrastructure\\browser\\__init__.py": {
+        "hash": "bee0c3c3ad45931890be73954a61b560"
+    },
+    "src\\infrastructure\\browser\\thea_browser_service.py": {
+        "hash": "ff1a0370976254d394f4a67b450d1e5b"
+    },
+    "src\\infrastructure\\browser\\thea_content_operations.py": {
+        "hash": "c375e14a9bf85132ea3d89930ccafb52"
+    },
+    "src\\infrastructure\\browser\\thea_session_management.py": {
+        "hash": "7b5d7b88685e36baacccb5a3c395be08"
+    },
+    "src\\infrastructure\\browser\\unified\\__init__.py": {
+        "hash": "dfd201fef2d7d3916452d5a4a9e062eb"
+    },
+    "src\\infrastructure\\browser_backup\\browser_models.py": {
+        "hash": "ef3cf89c6a80c1fa1325a4f6c7011837"
+    },
+    "src\\discord_commander\\discord_models.py": {
+        "hash": "fb7eb8eca3b8733bb8151e2ff19e8db3"
+    },
+    "src\\web\\static\\js\\unified-frontend-utilities.js": {
+        "hash": "43ff230ca93bdb926dc427a711c226ab"
+    },
+    "src\\web\\static\\js\\performance\\performance-optimization-report.js": {
+        "hash": "9d843b44a5cc403f063eed117b84c0ed"
+    }
+}

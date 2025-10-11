@@ -1,0 +1,54 @@
+================================================================================
+COMPLEXITY ANALYSIS SUMMARY
+================================================================================
+Files analyzed: 637
+Files with violations: 49
+Total violations: 126
+  🔴 HIGH: 21
+  🟡 MEDIUM: 29
+  🟢 LOW: 76
+
+TOP 20 FILES BY VIOLATIONS:
+
+1. base_monitoring_manager.py - 8 violations
+   Avg cyclomatic: 6.0 | Avg cognitive: 6.8 | Max nesting: 8
+2. performance_cli.py - 8 violations
+   Avg cyclomatic: 10.2 | Avg cognitive: 32.5 | Max nesting: 8
+3. core_monitoring_manager.py - 6 violations
+   Avg cyclomatic: 6.0 | Avg cognitive: 7.6 | Max nesting: 8
+4. base_execution_manager.py - 6 violations
+   Avg cyclomatic: 4.6 | Avg cognitive: 5.4 | Max nesting: 7
+5. metrics_manager.py - 6 violations
+   Avg cyclomatic: 9.8 | Avg cognitive: 9.6 | Max nesting: 5
+6. standard_validator.py - 6 violations
+   Avg cyclomatic: 8.7 | Avg cognitive: 11.8 | Max nesting: 4
+7. core_configuration_manager.py - 5 violations
+   Avg cyclomatic: 5.1 | Avg cognitive: 7.5 | Max nesting: 7
+8. basic_validator.py - 5 violations
+   Avg cyclomatic: 10.5 | Avg cognitive: 18.8 | Max nesting: 5
+9. strict_validator.py - 5 violations
+   Avg cyclomatic: 7.5 | Avg cognitive: 9.8 | Max nesting: 4
+10. performance_metrics_engine.py - 4 violations
+   Avg cyclomatic: 5.2 | Avg cognitive: 4.5 | Max nesting: 5
+11. message_queue_statistics.py - 3 violations
+   Avg cyclomatic: 4.1 | Avg cognitive: 6.6 | Max nesting: 6
+12. protocol_executor.py - 3 violations
+   Avg cyclomatic: 2.1 | Avg cognitive: 3.7 | Max nesting: 9
+13. base_results_manager.py - 3 violations
+   Avg cyclomatic: 4.6 | Avg cognitive: 5.8 | Max nesting: 7
+14. extraction_tools.py - 3 violations
+   Avg cyclomatic: 5.9 | Avg cognitive: 10.9 | Max nesting: 6
+15. compliance_validator.py - 3 violations
+   Avg cyclomatic: 4.6 | Avg cognitive: 9.0 | Max nesting: 8
+16. onboarding_handler.py - 3 violations
+   Avg cyclomatic: 10.0 | Avg cognitive: 12.2 | Max nesting: 3
+17. cli.py - 3 violations
+   Avg cyclomatic: 4.0 | Avg cognitive: 7.2 | Max nesting: 7
+18. action_executor.py - 2 violations
+   Avg cyclomatic: 1.7 | Avg cognitive: 1.8 | Max nesting: 6
+19. integration_optimization_engine.py - 2 violations
+   Avg cyclomatic: 2.6 | Avg cognitive: 4.6 | Max nesting: 6
+20. error_analysis_engine.py - 2 violations
+   Avg cyclomatic: 4.6 | Avg cognitive: 5.5 | Max nesting: 5
+
+================================================================================

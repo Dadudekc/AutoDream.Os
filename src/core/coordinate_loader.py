@@ -10,8 +10,34 @@ License: MIT
 """
 
 import json
+<<<<<<< HEAD
 import os
 from typing import Dict, Any
+=======
+from pathlib import Path
+
+
+def _load_coordinates() -> Dict[str, Dict[str, Any]]:
+    """Load agent coordinates from the cursor_agent_coords.json SSOT."""
+    coord_file = Path("cursor_agent_coords.json")
+    data = json.loads(coord_file.read_text(encoding="utf-8"))
+    agents: Dict[str, Dict[str, Any]] = {}
+    for agent_id, info in data.get("agents", {}).items():
+        chat = info.get("chat_input_coordinates", [0, 0])
+        onboarding = info.get("onboarding_input_coords", chat)  # Fallback to chat if not present
+        agents[agent_id] = {
+            "coords": tuple(chat),  # Store as tuple for coordinate loader
+            "onboarding_coords": tuple(onboarding),  # Onboarding coordinates
+            "x": chat[0],
+            "y": chat[1],
+            "description": info.get("description", ""),
+        }
+    return agents
+
+
+COORDINATES: Dict[str, Dict[str, Any]] = _load_coordinates()
+
+>>>>>>> origin/agent-3-v2-infrastructure-optimization
 
 class CoordinateLoader:
     """Loads and manages agent coordinates for messaging system"""
@@ -126,10 +152,18 @@ class CoordinateLoader:
         except Exception as e:
             issues.append(f"Validation error: {e}")
 
+<<<<<<< HEAD
         return type('ValidationReport', (), {
             'is_all_ok': lambda self: len(issues) == 0,
             'issues': issues
         })()
+=======
+    def get_onboarding_coordinates(self, agent_id: str) -> Tuple[int, int]:
+        """Get onboarding coordinates for agent."""
+        if agent_id in self.coordinates:
+            return self.coordinates[agent_id]["onboarding_coords"]
+        raise ValueError(f"No onboarding coordinates found for agent {agent_id}")
+>>>>>>> origin/agent-3-v2-infrastructure-optimization
 
     def assert_canonical_consistency(self) -> None:
         """Raise if loaded coordinates drift from canonical SSOT where applicable."""

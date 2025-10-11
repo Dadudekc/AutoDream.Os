@@ -221,3 +221,6 @@ class TensorFlowInfrastructure:
             "total_params": model.count_params(),
             "trainable_params": sum([tf.keras.backend.count_params(w) for w in model.trainable_weights])
         }
+
+
+

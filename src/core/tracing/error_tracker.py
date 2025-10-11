@@ -384,3 +384,6 @@ class ErrorHandler:
             severity=ErrorSeverity.HIGH,
             category=ErrorCategory.AUTHENTICATION
         )
+
+
+

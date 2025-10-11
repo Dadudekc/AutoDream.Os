@@ -279,3 +279,6 @@ spec:
   selector:
     app: jaeger
     component: agent
+
+
+

@@ -195,3 +195,7 @@ def get_captain_dashboard() -> CaptainDashboard:
     if not hasattr(get_captain_dashboard, '_instance'):
         get_captain_dashboard._instance = CaptainDashboard()
     return get_captain_dashboard._instance
+
+
+
+

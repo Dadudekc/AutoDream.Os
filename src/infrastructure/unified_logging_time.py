@@ -13,29 +13,17 @@ License: MIT
 """
 
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any
 
-from .logging.unified_logger import (
-    LogLevel,
-    LoggingConfig,
-    UnifiedLogger,
-    LogStatistics
-)
-from .time.system_clock import (
-    TimeConfig,
-    SystemClock,
-    TimeFormatter,
-    TimeCalculator
-)
+from .logging.unified_logger import LoggingConfig, LogLevel, LogStatistics, UnifiedLogger
+from .time.system_clock import SystemClock, TimeCalculator, TimeConfig, TimeFormatter
 
 
 class UnifiedLoggingTimeService:
     """Main unified logging and time service interface."""
 
     def __init__(
-        self,
-        logging_config: Optional[LoggingConfig] = None,
-        time_config: Optional[TimeConfig] = None
+        self, logging_config: LoggingConfig | None = None, time_config: TimeConfig | None = None
     ):
         """Initialize unified logging and time service."""
         self.logging_config = logging_config or LoggingConfig()
@@ -56,27 +44,27 @@ class UnifiedLoggingTimeService:
     def debug(self, message: str, **context: Any) -> None:
         """Log debug message."""
         self.logger.debug(message, **context)
-        self.log_stats.increment_stat('debug')
+        self.log_stats.increment_stat("debug")
 
     def info(self, message: str, **context: Any) -> None:
         """Log info message."""
         self.logger.info(message, **context)
-        self.log_stats.increment_stat('info')
+        self.log_stats.increment_stat("info")
 
     def warning(self, message: str, **context: Any) -> None:
         """Log warning message."""
         self.logger.warning(message, **context)
-        self.log_stats.increment_stat('warning')
+        self.log_stats.increment_stat("warning")
 
     def error(self, message: str, exception: Exception = None, **context: Any) -> None:
         """Log error message."""
         self.logger.error(message, exception, **context)
-        self.log_stats.increment_stat('error')
+        self.log_stats.increment_stat("error")
 
     def critical(self, message: str, exception: Exception = None, **context: Any) -> None:
         """Log critical message."""
         self.logger.critical(message, exception, **context)
-        self.log_stats.increment_stat('critical')
+        self.log_stats.increment_stat("critical")
 
     # Time operations
     def now(self) -> datetime:
@@ -138,7 +126,7 @@ class UnifiedLoggingTimeService:
         return self.calculator.get_age_seconds(dt)
 
     # Statistics and monitoring
-    def get_log_stats(self) -> Dict[str, int]:
+    def get_log_stats(self) -> dict[str, int]:
         """Get logging statistics."""
         return self.log_stats.get_stats()
 
@@ -146,7 +134,7 @@ class UnifiedLoggingTimeService:
         """Reset logging statistics."""
         self.log_stats.reset_stats()
 
-    def get_service_info(self) -> Dict[str, Any]:
+    def get_service_info(self) -> dict[str, Any]:
         """Get comprehensive service information."""
         return {
             "current_time": self.format_datetime(self.now()),
@@ -156,20 +144,15 @@ class UnifiedLoggingTimeService:
             "console_logging": self.logging_config.console_enabled,
             "file_logging": self.logging_config.file_enabled,
             "log_file": self.logging_config.log_file,
-            "log_stats": self.get_log_stats()
+            "log_stats": self.get_log_stats(),
         }
 
 
 def create_logging_time_service(
-    log_level: LogLevel = LogLevel.INFO,
-    timezone: str = "UTC",
-    enable_file_logging: bool = True
+    log_level: LogLevel = LogLevel.INFO, timezone: str = "UTC", enable_file_logging: bool = True
 ) -> UnifiedLoggingTimeService:
     """Factory function to create logging and time service."""
-    logging_config = LoggingConfig(
-        level=log_level,
-        file_enabled=enable_file_logging
-    )
+    logging_config = LoggingConfig(level=log_level, file_enabled=enable_file_logging)
     time_config = TimeConfig(timezone=timezone)
 
     return UnifiedLoggingTimeService(logging_config, time_config)
@@ -185,11 +168,11 @@ __all__ = [
     "TimeFormatter",
     "TimeCalculator",
     "UnifiedLoggingTimeService",
-    "create_logging_time_service"
+    "create_logging_time_service",
 ]
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Example usage
     service = create_logging_time_service()
 

@@ -12,5 +12,4 @@ License: MIT
 
 from .filesystem import make_executable
 
-__all__ = ['make_executable']
-
+__all__ = ["make_executable"]

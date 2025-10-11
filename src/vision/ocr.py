@@ -13,26 +13,27 @@ License: MIT
 """
 
 import logging
-from typing import Dict, List, Optional
+
 import numpy as np
 
 # Optional dependencies for OCR
 try:
     import cv2
     import pytesseract
+
     TESSERACT_AVAILABLE = True
 except ImportError:
     TESSERACT_AVAILABLE = False
     logging.warning("pytesseract or opencv not available - OCR disabled")
 
 # V2 Integration imports (uses fallbacks if unavailable)
-from .utils import get_unified_config, get_logger
+from .utils import get_logger, get_unified_config
 
 
 class TextExtractor:
     """
     OCR text extraction with preprocessing.
-    
+
     Capabilities:
     - Image preprocessing for better accuracy
     - Confidence thresholding
@@ -40,7 +41,7 @@ class TextExtractor:
     - Multiple language support
     """
 
-    def __init__(self, config: Optional[dict] = None):
+    def __init__(self, config: dict | None = None):
         """Initialize OCR text extractor."""
         self.config = config or {}
         self.logger = get_logger(__name__)
@@ -65,10 +66,10 @@ class TextExtractor:
     def extract_text(self, image: np.ndarray) -> str:
         """
         Extract text from image using OCR.
-        
+
         Args:
             image: Input image array
-            
+
         Returns:
             Extracted text string
         """
@@ -85,13 +86,13 @@ class TextExtractor:
             self.logger.error(f"Text extraction failed: {e}")
             return ""
 
-    def extract_text_with_regions(self, image: np.ndarray) -> Dict:
+    def extract_text_with_regions(self, image: np.ndarray) -> dict:
         """
         Extract text with bounding box regions.
-        
+
         Args:
             image: Input image array
-            
+
         Returns:
             Dictionary with text and region information
         """
@@ -100,21 +101,25 @@ class TextExtractor:
 
         try:
             processed = self.preprocess_image(image)
-            
+
             # Get detailed OCR data
-            data = pytesseract.image_to_data(processed, lang=self.language, output_type=pytesseract.Output.DICT)
-            
+            data = pytesseract.image_to_data(
+                processed, lang=self.language, output_type=pytesseract.Output.DICT
+            )
+
             # Extract regions with confidence filtering
             regions = self._extract_regions(data)
-            
+
             # Get full text
             text = pytesseract.image_to_string(processed, lang=self.language).strip()
-            
+
             return {
                 "text": text,
                 "regions": regions,
                 "word_count": len(regions),
-                "average_confidence": sum(r['confidence'] for r in regions) / len(regions) if regions else 0
+                "average_confidence": (
+                    sum(r["confidence"] for r in regions) / len(regions) if regions else 0
+                ),
             }
 
         except Exception as e:
@@ -124,10 +129,10 @@ class TextExtractor:
     def preprocess_image(self, image: np.ndarray) -> np.ndarray:
         """
         Preprocess image for better OCR accuracy.
-        
+
         Args:
             image: Input image array
-            
+
         Returns:
             Preprocessed image array
         """
@@ -143,7 +148,13 @@ class TextExtractor:
 
             # Scale up for better recognition
             if self.scale_factor != 1.0:
-                gray = cv2.resize(gray, None, fx=self.scale_factor, fy=self.scale_factor, interpolation=cv2.INTER_CUBIC)
+                gray = cv2.resize(
+                    gray,
+                    None,
+                    fx=self.scale_factor,
+                    fy=self.scale_factor,
+                    interpolation=cv2.INTER_CUBIC,
+                )
 
             # Denoise
             if self.denoise:
@@ -153,7 +164,9 @@ class TextExtractor:
             if self.threshold_method == "otsu":
                 _, thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
             elif self.threshold_method == "adaptive":
-                thresh = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
+                thresh = cv2.adaptiveThreshold(
+                    gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2
+                )
             else:
                 thresh = gray
 
@@ -177,29 +190,31 @@ class TextExtractor:
             self.logger.warning(f"Tesseract not properly installed: {e}")
             return False
 
-    def _extract_regions(self, data: Dict) -> List[Dict]:
+    def _extract_regions(self, data: dict) -> list[dict]:
         """Extract text regions with confidence filtering."""
         regions = []
-        
-        for i, text in enumerate(data['text']):
-            conf = int(data['conf'][i])
-            
+
+        for i, text in enumerate(data["text"]):
+            conf = int(data["conf"][i])
+
             # Filter by confidence threshold
             if conf >= self.confidence_threshold and text.strip():
-                regions.append({
-                    'text': text,
-                    'confidence': conf,
-                    'bbox': (
-                        data['left'][i],
-                        data['top'][i],
-                        data['width'][i],
-                        data['height'][i]
-                    )
-                })
-        
+                regions.append(
+                    {
+                        "text": text,
+                        "confidence": conf,
+                        "bbox": (
+                            data["left"][i],
+                            data["top"][i],
+                            data["width"][i],
+                            data["height"][i],
+                        ),
+                    }
+                )
+
         return regions
 
-    def get_extractor_info(self) -> Dict:
+    def get_extractor_info(self) -> dict:
         """Get information about extractor capabilities."""
         return {
             "tesseract_available": self.tesseract_available,
@@ -208,6 +223,6 @@ class TextExtractor:
             "preprocessing": {
                 "denoise": self.denoise,
                 "threshold_method": self.threshold_method,
-                "scale_factor": self.scale_factor
-            }
+                "scale_factor": self.scale_factor,
+            },
         }

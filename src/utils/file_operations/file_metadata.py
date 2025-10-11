@@ -94,7 +94,3 @@ class FileMetadataOperations:
     def is_json_file(file_path: str) -> bool:
         """Check if file has JSON extension."""
         return FileMetadataOperations.get_file_extension(file_path) == ".json"
-
-
-
-

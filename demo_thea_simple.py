@@ -21,6 +21,7 @@ print("Make sure you can see the browser window!")
 print()
 
 import time
+
 time.sleep(3)
 
 # Create and use Thea service
@@ -54,6 +55,3 @@ print()
 thea.cleanup()
 print("✅ Demo complete!")
 print()
-
-
-

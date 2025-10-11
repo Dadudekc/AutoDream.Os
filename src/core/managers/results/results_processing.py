@@ -1,11 +1,13 @@
 """Results Processing - V2 Compliance | Agent-5"""
+
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Callable
+from typing import Any
 
 
 class ResultStatus(Enum):
     """Result processing status."""
+
     PENDING = "pending"
     PROCESSING = "processing"
     COMPLETED = "completed"
@@ -15,13 +17,13 @@ class ResultStatus(Enum):
 
 class ResultsProcessor:
     """Handles result processing operations."""
-    
+
     def __init__(self, processors: dict, archived: dict, archive_days: int):
         """Initialize results processor."""
         self.result_processors = processors
         self.archived_results = archived
         self.archive_after_days = archive_days
-    
+
     def process_result_by_type(
         self, context: Any, result_type: str, result_data: dict[str, Any]
     ) -> dict[str, Any]:
@@ -34,7 +36,7 @@ class ResultsProcessor:
                 return {"error": str(e), "original_data": result_data}
         else:
             return {"processed": True, "original_data": result_data}
-    
+
     def archive_old_results(self, results: dict) -> None:
         """Archive results older than archive_after_days."""
         try:
@@ -52,4 +54,3 @@ class ResultsProcessor:
                 del results[result_id]
         except Exception:
             pass
-

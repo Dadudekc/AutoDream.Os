@@ -13,9 +13,7 @@ from .cookie_manager import CookieManager
 # Import only if needed - available but requires additional porting
 try:
     from .chatgpt_scraper import ChatGPTScraper
-    __all__ = ['BrowserManager', 'ChatGPTScraper', 'CookieManager']
+
+    __all__ = ["BrowserManager", "ChatGPTScraper", "CookieManager"]
 except ImportError:
-    __all__ = ['BrowserManager', 'CookieManager']
-
-
-
+    __all__ = ["BrowserManager", "CookieManager"]

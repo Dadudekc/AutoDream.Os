@@ -27,9 +27,7 @@ class LockOperations:
         self._locks: dict[str, threading.Lock] = {}
         self._lock_file = lock_file
 
-    def handle_operation(
-        self, context: ManagerContext, payload: dict[str, Any]
-    ) -> ManagerResult:
+    def handle_operation(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         """Handle lock operations."""
         operation = payload.get("lock_operation", "")
         lock_id = payload.get("lock_id", "")
@@ -87,9 +85,7 @@ class LockOperations:
                 with open(self._lock_file, encoding="utf-8") as f:
                     lock_data = json.load(f)
                     # Note: We can't restore actual Lock objects, just track them
-                    self._locks = {
-                        k: threading.Lock() for k in lock_data.get("locks", [])
-                    }
+                    self._locks = {k: threading.Lock() for k in lock_data.get("locks", [])}
         except Exception:
             pass  # Ignore lock loading errors
 
@@ -109,4 +105,3 @@ class LockOperations:
     def get_lock_count(self) -> int:
         """Get active lock count."""
         return len(self._locks)
-

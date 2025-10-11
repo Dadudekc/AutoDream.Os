@@ -14,11 +14,10 @@ import asyncio
 import json
 import logging
 import os
-from datetime import datetime
-from typing import Any, Dict, List, Optional
-
 import sys
+from datetime import datetime
 from pathlib import Path
+from typing import Any
 
 # Add root to path
 root = Path(__file__).parent.parent.parent
@@ -29,11 +28,14 @@ try:
 except ImportError:
     # Minimal fallback
     import os
+
     class _Utility:
         path = os.path
         makedirs = os.makedirs
+
     def get_unified_utility():
         return _Utility()
+
 
 try:
     from .discord_models import CommandResult, create_command_result
@@ -134,13 +136,19 @@ class AgentCommunicationEngine:
                 return create_command_result(
                     success=True,
                     message=f"Broadcast successfully delivered to all {len(agents)} agents",
-                    data={"successful_deliveries": successful_deliveries, "total_agents": len(agents)},
+                    data={
+                        "successful_deliveries": successful_deliveries,
+                        "total_agents": len(agents),
+                    },
                 )
             else:
                 return create_command_result(
                     success=False,
                     message=f"Broadcast partially failed: {successful_deliveries}/{len(agents)} delivered",
-                    data={"successful_deliveries": successful_deliveries, "failed_deliveries": failed_deliveries},
+                    data={
+                        "successful_deliveries": successful_deliveries,
+                        "failed_deliveries": failed_deliveries,
+                    },
                 )
 
         except Exception as e:
@@ -188,7 +196,7 @@ class AgentCommunicationEngine:
         """Get agent status file path."""
         return self._utility.path.join(os.getcwd(), "agent_workspaces", agent, "status.json")
 
-    async def read_agent_status(self, agent: str) -> Optional[Dict[str, Any]]:
+    async def read_agent_status(self, agent: str) -> dict[str, Any] | None:
         """Read agent status from file."""
         try:
             status_file = self.get_agent_status_file_path(agent)
@@ -236,7 +244,7 @@ class AgentCommunicationEngine:
         """Check if agent name is valid."""
         return agent in [f"Agent-{i}" for i in range(1, 9)]
 
-    def get_all_agent_names(self) -> List[str]:
+    def get_all_agent_names(self) -> list[str]:
         """Get list of all agent names."""
         return [f"Agent-{i}" for i in range(1, 9)]
 
@@ -250,14 +258,16 @@ class AgentCommunicationEngine:
         """Format current timestamp."""
         return datetime.utcnow().isoformat()
 
-    def create_message_metadata(self, sender: str, recipient: str, priority: str = "NORMAL") -> Dict[str, Any]:
+    def create_message_metadata(
+        self, sender: str, recipient: str, priority: str = "NORMAL"
+    ) -> dict[str, Any]:
         """Create message metadata."""
         return {
             "sender": sender,
             "recipient": recipient,
             "priority": priority,
             "timestamp": self.format_timestamp(),
-            "source": "discord_commander"
+            "source": "discord_commander",
         }
 
 
@@ -269,4 +279,3 @@ def create_agent_communication_engine() -> AgentCommunicationEngine:
 
 # Export for DI
 __all__ = ["AgentCommunicationEngine", "create_agent_communication_engine"]
-

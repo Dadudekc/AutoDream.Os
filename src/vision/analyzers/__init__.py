@@ -11,15 +11,14 @@ Author: Agent-7 - Repository Cloning Specialist (consolidation from vision/analy
 License: MIT
 """
 
-from .ui_detector import UIDetector
-from .edge_analyzer import EdgeAnalyzer
-from .color_analyzer import ColorAnalyzer
 from .change_detector import ChangeDetector
+from .color_analyzer import ColorAnalyzer
+from .edge_analyzer import EdgeAnalyzer
+from .ui_detector import UIDetector
 
 __all__ = [
-    'UIDetector',
-    'EdgeAnalyzer',
-    'ColorAnalyzer',
-    'ChangeDetector',
+    "UIDetector",
+    "EdgeAnalyzer",
+    "ColorAnalyzer",
+    "ChangeDetector",
 ]
-

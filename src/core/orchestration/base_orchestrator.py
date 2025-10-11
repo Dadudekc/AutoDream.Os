@@ -15,6 +15,11 @@ from abc import ABC, abstractmethod
 from datetime import datetime
 from typing import Any
 
+from .orchestrator_components import OrchestratorComponents
+from .orchestrator_events import OrchestratorEvents
+from .orchestrator_lifecycle import OrchestratorLifecycle
+from .orchestrator_utilities import OrchestratorUtilities
+
 
 class BaseOrchestrator(ABC):
     """
@@ -61,13 +66,14 @@ class BaseOrchestrator(ABC):
         """
         self.name = name
         self.config = config or self._load_default_config()
-        self.components: dict[str, Any] = {}
         self.initialized = False
         self.creation_time = datetime.now()
         self.logger = logging.getLogger(f"orchestrator.{name}")
 
-        # Event listeners storage
-        self._event_listeners: dict[str, list[callable]] = {}
+        # Extracted component and event management
+        self._component_mgr = OrchestratorComponents(name)
+        self._event_mgr = OrchestratorEvents(name)
+        self.components = self._component_mgr.components  # Backward compatibility
 
     @abstractmethod
     def _register_components(self) -> None:
@@ -127,11 +133,10 @@ class BaseOrchestrator(ABC):
             # Register all components
             self._register_components()
 
-            # Initialize registered components
-            for component_name, component in self.components.items():
-                if hasattr(component, "initialize"):
-                    self.logger.debug(f"Initializing component: {component_name}")
-                    component.initialize()
+            # Initialize using lifecycle helper
+            success = OrchestratorLifecycle.initialize_components(self.components, self.logger)
+            if not success:
+                return False
 
             self.initialized = True
             self.logger.info(f"Orchestrator {self.name} initialized successfully")
@@ -157,68 +162,32 @@ class BaseOrchestrator(ABC):
         try:
             self.logger.info(f"Cleaning up orchestrator: {self.name}")
 
-            # Cleanup components in reverse order
-            for component_name in reversed(list(self.components.keys())):
-                component = self.components[component_name]
-                if hasattr(component, "cleanup"):
-                    try:
-                        self.logger.debug(f"Cleaning up component: {component_name}")
-                        component.cleanup()
-                    except Exception as e:
-                        self.logger.error(f"Error cleaning up {component_name}: {e}")
+            # Cleanup using lifecycle helper
+            success = OrchestratorLifecycle.cleanup_components(self.components, self.logger)
 
             # Clear registrations
-            self.components.clear()
-            self._event_listeners.clear()
+            self._component_mgr.clear_all_components()
+            self._event_mgr.clear_listeners()
 
             self.initialized = False
             self.logger.info(f"Orchestrator {self.name} cleaned up successfully")
-            return True
+            return success
 
         except Exception as e:
             self.logger.error(f"Failed to cleanup orchestrator {self.name}: {e}")
             return False
 
     def register_component(self, name: str, component: Any) -> None:
-        """
-        Register a component with the orchestrator.
-
-        Args:
-            name: Component identifier
-            component: Component instance
-
-        Raises:
-            ValueError: If component name already registered
-        """
-        if name in self.components:
-            raise ValueError(f"Component {name} already registered")
-
-        self.components[name] = component
-        self.logger.debug(f"Registered component: {name}")
+        """Register a component with the orchestrator."""
+        self._component_mgr.register_component(name, component)
 
     def get_component(self, name: str) -> Any | None:
-        """
-        Get a registered component by name.
-
-        Args:
-            name: Component identifier
-
-        Returns:
-            Component instance or None if not found
-        """
-        return self.components.get(name)
+        """Get a registered component by name."""
+        return self._component_mgr.get_component(name)
 
     def has_component(self, name: str) -> bool:
-        """
-        Check if component is registered.
-
-        Args:
-            name: Component identifier
-
-        Returns:
-            True if component registered, False otherwise
-        """
-        return name in self.components
+        """Check if component is registered."""
+        return self._component_mgr.has_component(name)
 
     def get_status(self) -> dict[str, Any]:
         """
@@ -275,48 +244,16 @@ class BaseOrchestrator(ABC):
         }
 
     def on(self, event: str, callback: callable) -> None:
-        """
-        Register event listener.
-
-        Args:
-            event: Event name
-            callback: Callback function to invoke on event
-        """
-        if event not in self._event_listeners:
-            self._event_listeners[event] = []
-        self._event_listeners[event].append(callback)
-        self.logger.debug(f"Registered listener for event: {event}")
+        """Register event listener."""
+        self._event_mgr.on(event, callback)
 
     def off(self, event: str, callback: callable) -> None:
-        """
-        Remove event listener.
-
-        Args:
-            event: Event name
-            callback: Callback function to remove
-        """
-        if event in self._event_listeners:
-            try:
-                self._event_listeners[event].remove(callback)
-                self.logger.debug(f"Removed listener for event: {event}")
-            except ValueError:
-                self.logger.warning(f"Callback not found for event: {event}")
+        """Remove event listener."""
+        self._event_mgr.off(event, callback)
 
     def emit(self, event: str, data: Any = None) -> None:
-        """
-        Emit event to all registered listeners.
-
-        Args:
-            event: Event name
-            data: Event data to pass to listeners
-        """
-        if event in self._event_listeners:
-            self.logger.debug(f"Emitting event: {event}")
-            for callback in self._event_listeners[event]:
-                try:
-                    callback(data)
-                except Exception as e:
-                    self.logger.error(f"Error in event callback for {event}: {e}")
+        """Emit event to all registered listeners."""
+        self._event_mgr.emit(event, data)
 
     def safe_execute(
         self,
@@ -325,60 +262,14 @@ class BaseOrchestrator(ABC):
         default_return: Any = None,
         **kwargs,
     ) -> Any:
-        """
-        Safely execute an operation with error handling.
-
-        Args:
-            operation: Function to execute
-            operation_name: Name for logging
-            default_return: Value to return on error
-            **kwargs: Arguments to pass to operation
-
-        Returns:
-            Operation result or default_return on error
-        """
-        try:
-            self.logger.debug(f"Executing {operation_name}")
-            result = operation(**kwargs)
-            self.emit(f"{operation_name}_success", result)
-            return result
-        except Exception as e:
-            self.logger.error(f"Error executing {operation_name}: {e}")
-            self.emit(f"{operation_name}_error", {"error": str(e)})
-            return default_return
+        """Safely execute an operation with error handling."""
+        return OrchestratorUtilities.safe_execute(
+            operation, operation_name, default_return, self.logger, self.emit, **kwargs
+        )
 
     def _sanitize_config(self, config: dict[str, Any]) -> dict[str, Any]:
-        """
-        Sanitize configuration for status reporting.
-
-        Removes sensitive values like passwords, tokens, etc.
-
-        Args:
-            config: Configuration dictionary
-
-        Returns:
-            Sanitized configuration dictionary
-        """
-        sensitive_keys = {
-            "password",
-            "token",
-            "secret",
-            "api_key",
-            "private_key",
-            "credential",
-            "auth",
-        }
-
-        sanitized = {}
-        for key, value in config.items():
-            if any(sensitive in key.lower() for sensitive in sensitive_keys):
-                sanitized[key] = "***REDACTED***"
-            elif isinstance(value, dict):
-                sanitized[key] = self._sanitize_config(value)
-            else:
-                sanitized[key] = value
-
-        return sanitized
+        """Sanitize configuration for status reporting."""
+        return OrchestratorUtilities.sanitize_config(config, self.logger)
 
     def __enter__(self):
         """Context manager entry."""

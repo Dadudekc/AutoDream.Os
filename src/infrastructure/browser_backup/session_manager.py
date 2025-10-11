@@ -10,9 +10,9 @@ License: MIT
 
 import logging
 import time
-from typing import Any, Dict, Optional, Tuple
+from typing import Any
 
-from .browser_models import SessionInfo, RateLimitStatus, TheaConfig
+from .browser_models import RateLimitStatus, SessionInfo, TheaConfig
 
 logger = logging.getLogger(__name__)
 
@@ -23,10 +23,10 @@ class SessionManager:
     def __init__(self, config: TheaConfig):
         """Initialize session manager."""
         self.config = config
-        self.sessions: Dict[str, SessionInfo] = {}
-        self.rate_limits: Dict[str, RateLimitStatus] = {}
+        self.sessions: dict[str, SessionInfo] = {}
+        self.rate_limits: dict[str, RateLimitStatus] = {}
 
-    def create_session(self, service_name: str) -> Optional[str]:
+    def create_session(self, service_name: str) -> str | None:
         """Create a new session for a service."""
         session_id = f"{service_name}_{int(time.time())}_{hash(service_name) % 1000}"
 
@@ -42,7 +42,7 @@ class SessionManager:
         logger.info(f"✅ Created session {session_id} for {service_name}")
         return session_id
 
-    def can_make_request(self, service_name: str, session_id: str) -> Tuple[bool, str]:
+    def can_make_request(self, service_name: str, session_id: str) -> tuple[bool, str]:
         """Check if a request can be made."""
         if session_id not in self.sessions:
             return False, "Session not found"
@@ -84,12 +84,10 @@ class SessionManager:
                     logger.info(f"⏳ Waiting {wait_time:.1f}s for rate limit reset")
                     time.sleep(wait_time)
                     rate_limit.is_rate_limited = False
-                    rate_limit.requests_remaining = (
-                        self.config.rate_limit_requests_per_minute
-                    )
+                    rate_limit.requests_remaining = self.config.rate_limit_requests_per_minute
                     rate_limit.reset_time = None
 
-    def get_session_info(self, session_id: str) -> Dict[str, Any]:
+    def get_session_info(self, session_id: str) -> dict[str, Any]:
         """Get session information."""
         if session_id in self.sessions:
             session = self.sessions[session_id]
@@ -103,7 +101,7 @@ class SessionManager:
             }
         return {"error": "Session not found"}
 
-    def get_rate_limit_status(self, service_name: str) -> Dict[str, Any]:
+    def get_rate_limit_status(self, service_name: str) -> dict[str, Any]:
         """Get rate limit status for a service."""
         if service_name in self.rate_limits:
             rate_limit = self.rate_limits[service_name]
@@ -113,4 +111,3 @@ class SessionManager:
                 "is_rate_limited": rate_limit.is_rate_limited,
             }
         return {"error": "Service not configured"}
-

@@ -10,17 +10,18 @@ from __future__ import annotations
 import uuid
 from datetime import datetime
 from enum import Enum
-from typing import Any, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
-    from .monitoring_state import MonitoringState
     from .monitoring_rules import MonitoringRules
+    from .monitoring_state import MonitoringState
 
 from ..contracts import ManagerContext, ManagerResult
 
 
 class AlertLevel(Enum):
     """Alert severity levels."""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -29,6 +30,7 @@ class AlertLevel(Enum):
 
 class MetricType(Enum):
     """Metric types."""
+
     COUNTER = "counter"
     GAUGE = "gauge"
     HISTOGRAM = "histogram"
@@ -37,6 +39,7 @@ class MetricType(Enum):
 
 class WidgetType(Enum):
     """Widget types."""
+
     CHART = "chart"
     TABLE = "table"
     METRIC = "metric"
@@ -144,4 +147,3 @@ class MonitoringCRUD:
         except Exception as e:
             context.logger(f"Error creating widget: {e}")
             return ManagerResult(success=False, data={}, metrics={}, error=str(e))
-

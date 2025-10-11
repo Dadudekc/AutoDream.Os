@@ -77,7 +77,9 @@ class MonitoringState:
 
             # Prevent memory leak: limit history size
             if len(self.metric_history[metric_name]) > self.max_metric_history:
-                self.metric_history[metric_name] = self.metric_history[metric_name][-self.max_metric_history:]
+                self.metric_history[metric_name] = self.metric_history[metric_name][
+                    -self.max_metric_history :
+                ]
 
     def get_metric(self, metric_name: str) -> dict[str, Any] | None:
         """Get a metric by name."""
@@ -134,6 +136,3 @@ class MonitoringState:
             "max_alerts": self.max_alerts,
             "max_metric_history": self.max_metric_history,
         }
-
-
-

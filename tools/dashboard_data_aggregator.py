@@ -11,7 +11,7 @@ License: MIT
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 
 @dataclass
@@ -28,11 +28,11 @@ class DashboardData:
     high_complexity: int
     medium_complexity: int
     low_complexity: int
-    top_violators: List[Dict[str, Any]]
-    suggestions_summary: List[Dict[str, Any]]
+    top_violators: list[dict[str, Any]]
+    suggestions_summary: list[dict[str, Any]]
     overall_score: float
-    historical: Optional[Dict[str, Any]] = None
-    week_comparison: Optional[Dict[str, Any]] = None
+    historical: dict[str, Any] | None = None
+    week_comparison: dict[str, Any] | None = None
 
 
 class DashboardDataAggregator:
@@ -48,22 +48,17 @@ class DashboardDataAggregator:
         # Complexity data
         files_with_complexity = [r for r in complexity_reports if r.has_violations]
         high = sum(
-            len([v for v in r.violations if v.severity == "HIGH"])
-            for r in files_with_complexity
+            len([v for v in r.violations if v.severity == "HIGH"]) for r in files_with_complexity
         )
         medium = sum(
-            len([v for v in r.violations if v.severity == "MEDIUM"])
-            for r in files_with_complexity
+            len([v for v in r.violations if v.severity == "MEDIUM"]) for r in files_with_complexity
         )
         low = sum(
-            len([v for v in r.violations if v.severity == "LOW"])
-            for r in files_with_complexity
+            len([v for v in r.violations if v.severity == "LOW"]) for r in files_with_complexity
         )
 
         complexity_rate = (
-            (len(complexity_reports) - len(files_with_complexity))
-            / len(complexity_reports)
-            * 100
+            (len(complexity_reports) - len(files_with_complexity)) / len(complexity_reports) * 100
             if complexity_reports
             else 100
         )
@@ -106,7 +101,7 @@ class DashboardDataAggregator:
 
     def identify_top_violators(
         self, v2_report, complexity_reports, suggestions
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Identify files with most issues."""
         violators = {}
 
@@ -157,9 +152,7 @@ class DashboardDataAggregator:
                 violators[file]["has_suggestion"] = True
 
         # Sort by total score
-        sorted_violators = sorted(
-            violators.values(), key=lambda x: x["total_score"], reverse=True
-        )
+        sorted_violators = sorted(violators.values(), key=lambda x: x["total_score"], reverse=True)
         return sorted_violators[:10]
 
     def calculate_overall_score(
@@ -170,6 +163,3 @@ class DashboardDataAggregator:
         penalty = (critical * 5) + (high * 2)
         score = max(0, base_score - penalty)
         return round(score, 1)
-
-
-

@@ -8,7 +8,7 @@ Author: Agent-5 (Monitoring Specialist) | License: MIT
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from .monitoring_state import MonitoringState
@@ -144,4 +144,3 @@ class MonitoringQuery:
         except Exception as e:
             context.logger(f"Error resolving alert: {e}")
             return ManagerResult(success=False, data={}, metrics={}, error=str(e))
-

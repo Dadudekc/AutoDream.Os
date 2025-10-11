@@ -19,6 +19,7 @@ from ..contracts import ManagerContext, ManagerResult
 
 class TaskStatus(Enum):
     """Task execution status."""
+
     PENDING = "pending"
     RUNNING = "running"
     COMPLETED = "completed"
@@ -106,4 +107,3 @@ class ExecutionOperations:
             return ManagerResult(
                 success=False, data={}, message=f"Failed to list tasks: {e}", errors=[str(e)]
             )
-

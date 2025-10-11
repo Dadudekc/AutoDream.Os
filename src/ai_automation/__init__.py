@@ -14,5 +14,4 @@ License: MIT
 
 from .automation_engine import AutomationEngine
 
-__all__ = ['AutomationEngine']
-
+__all__ = ["AutomationEngine"]

@@ -14,6 +14,7 @@ from .driver_manager import UnifiedDriverManager
 # Optional: backward compatibility
 try:
     from .legacy_driver import DriverManager
+
     _LEGACY_AVAILABLE = True
 except ImportError:
     DriverManager = None
@@ -21,16 +22,16 @@ except ImportError:
 
 
 # Singleton accessor
-_manager_instance: Optional[UnifiedDriverManager] = None
+_manager_instance: UnifiedDriverManager | None = None
 
 
-def get_driver_manager(driver_options: Optional[dict] = None) -> UnifiedDriverManager:
+def get_driver_manager(driver_options: dict | None = None) -> UnifiedDriverManager:
     """
     Get unified driver manager singleton.
-    
+
     Args:
         driver_options: Optional driver configuration options
-        
+
     Returns:
         UnifiedDriverManager: Singleton instance
     """
@@ -43,7 +44,7 @@ def get_driver_manager(driver_options: Optional[dict] = None) -> UnifiedDriverMa
 def get_driver():
     """
     Get WebDriver instance (convenience method).
-    
+
     Returns:
         Chrome: WebDriver instance
     """
@@ -51,17 +52,13 @@ def get_driver():
 
 
 __all__ = [
-    'UnifiedDriverManager',
-    'BrowserConfig',
-    'config',
-    'get_driver_manager',
-    'get_driver',
+    "UnifiedDriverManager",
+    "BrowserConfig",
+    "config",
+    "get_driver_manager",
+    "get_driver",
 ]
 
 # Add legacy exports if available
 if _LEGACY_AVAILABLE:
-    __all__.append('DriverManager')
-
-
-
-
+    __all__.append("DriverManager")

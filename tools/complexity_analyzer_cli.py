@@ -20,7 +20,9 @@ from complexity_analyzer_core import ComplexityAnalysisService
 
 def main():
     """Main entry point for CLI usage."""
-    parser = argparse.ArgumentParser(description="Complexity Analyzer - AST-based complexity metrics")
+    parser = argparse.ArgumentParser(
+        description="Complexity Analyzer - AST-based complexity metrics"
+    )
     parser.add_argument("path", nargs="?", default=".", help="File or directory to analyze")
     parser.add_argument("--pattern", default="**/*.py", help="File pattern for directory scan")
     parser.add_argument("--verbose", "-v", action="store_true", help="Show detailed metrics")
@@ -56,4 +58,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

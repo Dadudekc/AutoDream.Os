@@ -19,7 +19,7 @@ from src.services.thea import TheaService
 
 def demo_thea_automation():
     """Demonstrate Thea automation with visible browser."""
-    
+
     print()
     print("=" * 70)
     print("🎬 LIVE THEA AUTOMATION DEMO")
@@ -27,11 +27,11 @@ def demo_thea_automation():
     print()
     print("🔍 Browser will be VISIBLE - watch the automation!")
     print()
-    
+
     # Create service (non-headless)
     print("🚀 Initializing Thea service (non-headless mode)...")
     thea = TheaService(cookie_file="thea_cookies.json", headless=False)
-    
+
     try:
         # Test message from Agent-3
         message = """Hello Thea! 🐝
@@ -52,43 +52,44 @@ This is Agent-3 (Infrastructure & DevOps Specialist) demonstrating the consolida
 Please confirm you received this message!
 
 WE ARE SWARM! 🚀"""
-        
+
         print("📝 Message prepared:")
         print("-" * 70)
         print(message)
         print("-" * 70)
         print()
-        
+
         print("🌐 Sending message to Thea Manager...")
         print("👀 WATCH THE BROWSER - automation starting in 3 seconds!")
         print()
-        
+
         import time
+
         time.sleep(3)
-        
+
         # Send and wait for response
         result = thea.communicate(message, save=True)
-        
+
         print()
         print("=" * 70)
         print("📊 AUTOMATION RESULT")
         print("=" * 70)
         print(f"Success: {result['success']}")
         print()
-        
-        if result['response']:
+
+        if result["response"]:
             print("📨 THEA'S RESPONSE:")
             print("-" * 70)
-            print(result['response'])
+            print(result["response"])
             print("-" * 70)
             print()
-        
-        if result['file']:
+
+        if result["file"]:
             print(f"💾 Conversation saved to: {result['file']}")
-        
+
         print()
-        
-        if result['success']:
+
+        if result["success"]:
             print("✅ AUTOMATION SUCCESSFUL!")
             print()
             print("Demo completed! You saw:")
@@ -102,17 +103,18 @@ WE ARE SWARM! 🚀"""
         else:
             print("⚠️  Automation completed with warnings")
             print("     (May need manual login or longer response wait)")
-        
+
         print()
-        
+
     except KeyboardInterrupt:
         print("\n⚠️  Demo interrupted by user")
-        
+
     except Exception as e:
         print(f"\n❌ Demo error: {e}")
         import traceback
+
         traceback.print_exc()
-        
+
     finally:
         print("\n🧹 Cleaning up...")
         thea.cleanup()
@@ -127,8 +129,5 @@ if __name__ == "__main__":
     print("🎬 Starting LIVE Thea automation demonstration...")
     print("   Browser will be VISIBLE - watch the magic happen!")
     print()
-    
+
     demo_thea_automation()
-
-
-

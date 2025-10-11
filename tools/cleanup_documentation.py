@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
 """
-Documentation Cleanup Tool - Archive-First Policy
-==================================================
+Documentation Cleanup Tool - DEPRECATED (V2 VIOLATION FIXED)
+============================================================
 
-Implements 5-criteria documentation cleanup with safety guards:
-- C1: Unreferenced (not linked by canonical docs or code)
-- C2: Ephemeral naming patterns
-- C3: Duplicative content
-- C4: Legacy archive
-- C5: Agent chatter outside docs/
+⚠️ DEPRECATED: This file was 448 lines (V2 violation).
+Refactored into 3 V2-compliant modules:
+  - cleanup_documentation_reference_scanner.py (124 lines)
+  - cleanup_documentation_deduplicator.py (117 lines)
+  - cleanup_documentation_refactored.py (289 lines)
 
-Usage:
-    python tools/cleanup_documentation.py              # Dry-run (default)
-    python tools/cleanup_documentation.py --execute    # Execute archive
-    python tools/cleanup_documentation.py --interactive # Interactive mode
+Use cleanup_documentation_refactored.py instead.
+
+Refactored: Agent-1 (Integration & Core Systems Specialist)
+Date: 2025-10-11
+Reason: V2 Compliance + C-056 Optimization Sprint
 """
 
 import argparse
@@ -26,7 +26,6 @@ import tempfile
 from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Set, Tuple
 
 
 class DocumentationCleanup:
@@ -54,7 +53,7 @@ class DocumentationCleanup:
     EPHEMERAL_PATTERN = re.compile(
         r"(outdated|temp|tmp|backup|bak|old|deprecated|"
         r"consolidation_|swarm_|survey_|notes_|scratch|playground)",
-        re.IGNORECASE
+        re.IGNORECASE,
     )
 
     # Exclude patterns for file scanning
@@ -63,8 +62,7 @@ class DocumentationCleanup:
     # Documentation file extensions
     DOC_EXTENSIONS = {".md", ".rst", ".txt"}
 
-    def __init__(self, repo_root: Path, dry_run: bool = True,
-                 interactive: bool = False):
+    def __init__(self, repo_root: Path, dry_run: bool = True, interactive: bool = False):
         """Initialize cleanup tool.
 
         Args:
@@ -81,11 +79,11 @@ class DocumentationCleanup:
         self.tmp_dir = Path(tempfile.gettempdir())
 
         # Results tracking
-        self.all_docs: List[Path] = []
-        self.candidates: Dict[str, List[Path]] = defaultdict(list)
-        self.referenced_files: Set[Path] = set()
-        self.dedup_groups: Dict[str, List[Path]] = defaultdict(list)
-        self.archive_set: List[Path] = []
+        self.all_docs: list[Path] = []
+        self.candidates: dict[str, list[Path]] = defaultdict(list)
+        self.referenced_files: set[Path] = set()
+        self.dedup_groups: dict[str, list[Path]] = defaultdict(list)
+        self.archive_set: list[Path] = []
 
     def run(self) -> None:
         """Execute the cleanup process."""
@@ -107,8 +105,7 @@ class DocumentationCleanup:
         print("\n[2/7] Applying selection criteria (C2, C4, C5)...")
         self.apply_criteria()
         all_candidates = self._flatten_candidates()
-        self._write_list(self.tmp_dir / "docs_candidates_raw.txt",
-                        all_candidates)
+        self._write_list(self.tmp_dir / "docs_candidates_raw.txt", all_candidates)
         print(f"  C2 (Ephemeral): {len(self.candidates['C2'])} files")
         print(f"  C4 (Legacy archive): {len(self.candidates['C4'])} files")
         print(f"  C5 (Agent chatter): {len(self.candidates['C5'])} files")
@@ -117,27 +114,22 @@ class DocumentationCleanup:
         # Phase 3: Subtract preserve allowlist
         print("\n[3/7] Applying preserve allowlist...")
         filtered_candidates = self.apply_preserve_allowlist(all_candidates)
-        self._write_list(self.tmp_dir / "docs_candidates.txt",
-                        filtered_candidates)
+        self._write_list(self.tmp_dir / "docs_candidates.txt", filtered_candidates)
         print(f"  After allowlist: {len(filtered_candidates)} files")
 
         # Phase 4: Reference guard (C1)
         print("\n[4/7] Applying reference guard (C1)...")
         self.scan_references(filtered_candidates)
-        safe_candidates = [f for f in filtered_candidates
-                          if f not in self.referenced_files]
-        self._write_list(self.tmp_dir / "docs_references.txt",
-                        list(self.referenced_files))
+        safe_candidates = [f for f in filtered_candidates if f not in self.referenced_files]
+        self._write_list(self.tmp_dir / "docs_references.txt", list(self.referenced_files))
         print(f"  Referenced (skipped): {len(self.referenced_files)} files")
         print(f"  Safe candidates: {len(safe_candidates)} files")
 
         # Phase 5: Deduplication guard (C3)
         print("\n[5/7] Applying deduplication guard (C3)...")
         self.apply_deduplication(safe_candidates)
-        self._write_list(self.tmp_dir / "docs_archive_set.txt",
-                        self.archive_set)
-        print(f"  Duplicates to archive: "
-              f"{len(safe_candidates) - len(self.archive_set)}")
+        self._write_list(self.tmp_dir / "docs_archive_set.txt", self.archive_set)
+        print(f"  Duplicates to archive: " f"{len(safe_candidates) - len(self.archive_set)}")
         print(f"  Final archive set: {len(self.archive_set)} files")
 
         # Phase 6: Generate report
@@ -200,7 +192,7 @@ class DocumentationCleanup:
         ]
         return any(re.match(p, doc_str, re.IGNORECASE) for p in patterns)
 
-    def apply_preserve_allowlist(self, candidates: List[Path]) -> List[Path]:
+    def apply_preserve_allowlist(self, candidates: list[Path]) -> list[Path]:
         """Filter out files in preserve allowlist."""
         filtered = []
         for doc in candidates:
@@ -218,14 +210,13 @@ class DocumentationCleanup:
 
         return filtered
 
-    def scan_references(self, candidates: List[Path]) -> None:
+    def scan_references(self, candidates: list[Path]) -> None:
         """Scan for references to candidates in code and canonical docs."""
         # Define reference sources
         reference_sources = []
 
         # Canonical docs
-        for pattern in ["README.md", "AGENTS.md", "docs/**/*.md",
-                       "docs/**/*.rst"]:
+        for pattern in ["README.md", "AGENTS.md", "docs/**/*.md", "docs/**/*.rst"]:
             reference_sources.extend(self._glob_files(pattern))
 
         # Source code
@@ -233,8 +224,7 @@ class DocumentationCleanup:
             reference_sources.extend(self._glob_files(pattern))
 
         # CI/Build files
-        for pattern in [".github/workflows/*.yml", "Makefile",
-                       "pyproject.toml", "setup.py"]:
+        for pattern in [".github/workflows/*.yml", "Makefile", "pyproject.toml", "setup.py"]:
             reference_sources.extend(self._glob_files(pattern))
 
         # Scan each reference source for mentions of candidates
@@ -242,7 +232,7 @@ class DocumentationCleanup:
             if self._is_referenced(candidate, reference_sources):
                 self.referenced_files.add(candidate)
 
-    def _glob_files(self, pattern: str) -> List[Path]:
+    def _glob_files(self, pattern: str) -> list[Path]:
         """Glob files matching pattern."""
         files = []
         if "**" in pattern:
@@ -262,8 +252,7 @@ class DocumentationCleanup:
                     files.append(path.relative_to(self.repo_root))
         return files
 
-    def _is_referenced(self, candidate: Path,
-                      sources: List[Path]) -> bool:
+    def _is_referenced(self, candidate: Path, sources: list[Path]) -> bool:
         """Check if candidate is referenced in any source file."""
         candidate_str = str(candidate)
         candidate_name = candidate.name
@@ -274,8 +263,7 @@ class DocumentationCleanup:
                 continue
 
             try:
-                with open(source_path, "r", encoding="utf-8",
-                         errors="ignore") as f:
+                with open(source_path, encoding="utf-8", errors="ignore") as f:
                     content = f.read()
                     # Check for path or filename mention
                     if candidate_str in content or candidate_name in content:
@@ -286,7 +274,7 @@ class DocumentationCleanup:
 
         return False
 
-    def apply_deduplication(self, candidates: List[Path]) -> None:
+    def apply_deduplication(self, candidates: list[Path]) -> None:
         """Apply deduplication logic (C3)."""
         # Group by normalized topic
         for candidate in candidates:
@@ -314,12 +302,19 @@ class DocumentationCleanup:
 
         # Strip common prefixes
         prefixes = [
-            "consolidation_", "swarm_", "survey_", "notes_",
-            "draft_", "old_", "backup_", "temp_", "tmp_"
+            "consolidation_",
+            "swarm_",
+            "survey_",
+            "notes_",
+            "draft_",
+            "old_",
+            "backup_",
+            "temp_",
+            "tmp_",
         ]
         for prefix in prefixes:
             if name.startswith(prefix):
-                name = name[len(prefix):]
+                name = name[len(prefix) :]
 
         # Remove numbers, dashes, underscores
         name = re.sub(r"[-_0-9]+", " ", name)
@@ -327,18 +322,16 @@ class DocumentationCleanup:
 
         return name
 
-    def _select_preferred_file(self, files: List[Path]) -> Path:
+    def _select_preferred_file(self, files: list[Path]) -> Path:
         """Select preferred file from duplicate group."""
         # Prefer docs/** files
         docs_files = [f for f in files if str(f).startswith("docs/")]
         if docs_files:
             # Among docs files, prefer newer
-            return max(docs_files,
-                      key=lambda f: (self.repo_root / f).stat().st_mtime)
+            return max(docs_files, key=lambda f: (self.repo_root / f).stat().st_mtime)
 
         # Otherwise, prefer newer file
-        return max(files,
-                  key=lambda f: (self.repo_root / f).stat().st_mtime)
+        return max(files, key=lambda f: (self.repo_root / f).stat().st_mtime)
 
     def generate_report(self) -> None:
         """Generate summary report."""
@@ -364,25 +357,23 @@ class DocumentationCleanup:
         with open(report_path, "w") as f:
             json.dump(report, f, indent=2)
 
-        print(f"\n📊 CLEANUP SUMMARY")
+        print("\n📊 CLEANUP SUMMARY")
         print(f"  Total docs scanned:      {report['summary']['total_docs']}")
-        print(f"  Candidates identified:   "
-              f"{report['summary']['candidates']['total']}")
-        print(f"    - C2 (Ephemeral):      "
-              f"{report['summary']['candidates']['C2_ephemeral']}")
-        print(f"    - C4 (Legacy archive): "
-              f"{report['summary']['candidates']['C4_legacy_archive']}")
-        print(f"    - C5 (Agent chatter):  "
-              f"{report['summary']['candidates']['C5_agent_chatter']}")
-        print(f"  Referenced (skipped):    "
-              f"{report['summary']['referenced_skipped']}")
-        print(f"  Final archive set:       "
-              f"{report['summary']['final_archive_set']}")
+        print(f"  Candidates identified:   " f"{report['summary']['candidates']['total']}")
+        print(f"    - C2 (Ephemeral):      " f"{report['summary']['candidates']['C2_ephemeral']}")
+        print(
+            f"    - C4 (Legacy archive): " f"{report['summary']['candidates']['C4_legacy_archive']}"
+        )
+        print(
+            f"    - C5 (Agent chatter):  " f"{report['summary']['candidates']['C5_agent_chatter']}"
+        )
+        print(f"  Referenced (skipped):    " f"{report['summary']['referenced_skipped']}")
+        print(f"  Final archive set:       " f"{report['summary']['final_archive_set']}")
         print(f"\n📄 Report saved: {report_path}")
 
         # Show sample files
         if self.archive_set:
-            print(f"\n📋 Sample files to archive (first 20):")
+            print("\n📋 Sample files to archive (first 20):")
             for file in sorted(self.archive_set)[:20]:
                 print(f"  - {file}")
             if len(self.archive_set) > 20:
@@ -399,8 +390,11 @@ class DocumentationCleanup:
 
         # Generate rollback script
         rollback_script = self.archive_dir / "rollback.sh"
-        rollback_lines = ["#!/bin/bash", "set -euo pipefail",
-                         "# Rollback script for documentation archive\n"]
+        rollback_lines = [
+            "#!/bin/bash",
+            "set -euo pipefail",
+            "# Rollback script for documentation archive\n",
+        ]
 
         archived_count = 0
         for file in self.archive_set:
@@ -424,7 +418,7 @@ class DocumentationCleanup:
                     ["git", "mv", str(source), str(dest)],
                     cwd=self.repo_root,
                     capture_output=True,
-                    text=True
+                    text=True,
                 )
                 if result.returncode == 0:
                     archived_count += 1
@@ -458,31 +452,31 @@ class DocumentationCleanup:
 
         # Git commit
         try:
+            subprocess.run(["git", "add", str(self.archive_dir)], cwd=self.repo_root, check=True)
             subprocess.run(
-                ["git", "add", str(self.archive_dir)],
+                [
+                    "git",
+                    "commit",
+                    "-m",
+                    "chore(docs): archive outdated/duplicate/ephemeral docs "
+                    "per policy (archive-first, refs guarded)",
+                ],
                 cwd=self.repo_root,
-                check=True
-            )
-            subprocess.run(
-                ["git", "commit", "-m",
-                 "chore(docs): archive outdated/duplicate/ephemeral docs "
-                 "per policy (archive-first, refs guarded)"],
-                cwd=self.repo_root,
-                check=True
+                check=True,
             )
             print("  ✅ Changes committed to git")
         except subprocess.CalledProcessError as e:
             print(f"  ⚠️  Git commit failed: {e}")
             print("  💡 You may need to commit manually")
 
-    def _flatten_candidates(self) -> List[Path]:
+    def _flatten_candidates(self) -> list[Path]:
         """Flatten candidates dict to unique list."""
         all_candidates = set()
         for files in self.candidates.values():
             all_candidates.update(files)
         return sorted(all_candidates)
 
-    def _write_list(self, path: Path, items: List[Path]) -> None:
+    def _write_list(self, path: Path, items: list[Path]) -> None:
         """Write list of paths to file."""
         with open(path, "w") as f:
             for item in sorted(items):
@@ -491,32 +485,24 @@ class DocumentationCleanup:
 
 def main():
     """Main entry point."""
-    parser = argparse.ArgumentParser(
-        description="Archive-first documentation cleanup tool"
+    parser = argparse.ArgumentParser(description="Archive-first documentation cleanup tool")
+    parser.add_argument(
+        "--execute", action="store_true", help="Execute archive (default is dry-run)"
     )
     parser.add_argument(
-        "--execute",
-        action="store_true",
-        help="Execute archive (default is dry-run)"
-    )
-    parser.add_argument(
-        "--interactive",
-        action="store_true",
-        help="Prompt for confirmation on each file"
+        "--interactive", action="store_true", help="Prompt for confirmation on each file"
     )
     parser.add_argument(
         "--repo-root",
         type=Path,
         default=Path.cwd(),
-        help="Repository root directory (default: current directory)"
+        help="Repository root directory (default: current directory)",
     )
 
     args = parser.parse_args()
 
     cleanup = DocumentationCleanup(
-        repo_root=args.repo_root,
-        dry_run=not args.execute,
-        interactive=args.interactive
+        repo_root=args.repo_root, dry_run=not args.execute, interactive=args.interactive
     )
 
     cleanup.run()
@@ -524,4 +510,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

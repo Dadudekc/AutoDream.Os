@@ -258,4 +258,3 @@ class ThemeManager:
 
     class ThemeManager:
         pass
-

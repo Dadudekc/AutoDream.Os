@@ -11,11 +11,12 @@ License: MIT
 """
 
 from enum import Enum
-from typing import Any, Dict
+from typing import Any
 
 
 class ProtocolType(Enum):
     """Protocol types."""
+
     EMERGENCY = "emergency"
     ROUTINE = "routine"
     MAINTENANCE = "maintenance"
@@ -68,11 +69,7 @@ class ProtocolManager:
         }
 
     def register_protocol(
-        self,
-        protocol_name: str,
-        protocol_type: str,
-        priority: int = 1,
-        timeout: int = 300
+        self, protocol_name: str, protocol_type: str, priority: int = 1, timeout: int = 300
     ) -> bool:
         """Register a new protocol."""
         try:
@@ -94,7 +91,3 @@ class ProtocolManager:
     def list_protocols(self) -> list[str]:
         """List all registered protocols."""
         return list(self.protocols.keys())
-
-
-
-

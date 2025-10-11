@@ -14,15 +14,16 @@ import sys
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from enum import Enum
-from pathlib import Path
-from typing import Any, Dict, Optional
 from logging.handlers import RotatingFileHandler
+from pathlib import Path
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
 
 class LogLevel(Enum):
     """Enumeration of log levels."""
+
     DEBUG = "DEBUG"
     INFO = "INFO"
     WARNING = "WARNING"
@@ -33,6 +34,7 @@ class LogLevel(Enum):
 @dataclass
 class LoggingConfig:
     """Configuration for logging operations."""
+
     level: LogLevel = LogLevel.INFO
     format: str = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     date_format: str = "%Y-%m-%d %H:%M:%S"
@@ -73,7 +75,9 @@ class LoggerInterface(ABC):
         pass
 
     @abstractmethod
-    def log(self, level: LogLevel, message: str, exception: Exception = None, **context: Any) -> None:
+    def log(
+        self, level: LogLevel, message: str, exception: Exception = None, **context: Any
+    ) -> None:
         """Log message with specific level."""
         pass
 
@@ -82,12 +86,12 @@ class ColorFormatter(logging.Formatter):
     """Logging formatter with color support."""
 
     COLORS = {
-        'DEBUG': '\033[36m',      # Cyan
-        'INFO': '\033[32m',       # Green
-        'WARNING': '\033[33m',    # Yellow
-        'ERROR': '\033[31m',      # Red
-        'CRITICAL': '\033[35m',   # Magenta
-        'RESET': '\033[0m'        # Reset
+        "DEBUG": "\033[36m",  # Cyan
+        "INFO": "\033[32m",  # Green
+        "WARNING": "\033[33m",  # Yellow
+        "ERROR": "\033[31m",  # Red
+        "CRITICAL": "\033[35m",  # Magenta
+        "RESET": "\033[0m",  # Reset
     }
 
     def __init__(self, fmt: str, datefmt: str, use_colors: bool = True):
@@ -98,7 +102,9 @@ class ColorFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
         """Format log record with optional colors."""
         if self.use_colors and record.levelname in self.COLORS:
-            colored_level = f"{self.COLORS[record.levelname]}{record.levelname}{self.COLORS['RESET']}"
+            colored_level = (
+                f"{self.COLORS[record.levelname]}{record.levelname}{self.COLORS['RESET']}"
+            )
             record.levelname = colored_level
 
         return super().format(record)
@@ -123,7 +129,7 @@ class UnifiedLogger(LoggerInterface):
             LogLevel.INFO: logging.INFO,
             LogLevel.WARNING: logging.WARNING,
             LogLevel.ERROR: logging.ERROR,
-            LogLevel.CRITICAL: logging.CRITICAL
+            LogLevel.CRITICAL: logging.CRITICAL,
         }
         self._logger.setLevel(level_mapping[config.level])
 
@@ -133,9 +139,7 @@ class UnifiedLogger(LoggerInterface):
     def _setup_handlers(self) -> None:
         """Setup logging handlers based on configuration."""
         formatter = ColorFormatter(
-            self.config.format,
-            self.config.date_format,
-            self.config.enable_colors
+            self.config.format, self.config.date_format, self.config.enable_colors
         )
 
         # Console handler
@@ -154,13 +158,15 @@ class UnifiedLogger(LoggerInterface):
             file_handler = RotatingFileHandler(
                 self.config.log_file,
                 maxBytes=self.config.max_file_size,
-                backupCount=self.config.backup_count
+                backupCount=self.config.backup_count,
             )
-            file_handler.setFormatter(ColorFormatter(
-                self.config.format,
-                self.config.date_format,
-                False  # No colors in log files
-            ))
+            file_handler.setFormatter(
+                ColorFormatter(
+                    self.config.format,
+                    self.config.date_format,
+                    False,  # No colors in log files
+                )
+            )
             self._logger.addHandler(file_handler)
 
     def _map_log_level(self, level: LogLevel) -> int:
@@ -198,7 +204,9 @@ class UnifiedLogger(LoggerInterface):
             context["exception"] = str(exception)
         self._logger.critical(message, extra=context)
 
-    def log(self, level: LogLevel, message: str, exception: Exception = None, **context: Any) -> None:
+    def log(
+        self, level: LogLevel, message: str, exception: Exception = None, **context: Any
+    ) -> None:
         """Log message with specific level."""
         if exception:
             context["exception"] = str(exception)
@@ -211,12 +219,12 @@ class LogStatistics:
     def __init__(self, logger: UnifiedLogger):
         """Initialize log statistics."""
         self.logger = logger
-        self.stats: Dict[str, int] = {
-            'debug': 0,
-            'info': 0,
-            'warning': 0,
-            'error': 0,
-            'critical': 0
+        self.stats: dict[str, int] = {
+            "debug": 0,
+            "info": 0,
+            "warning": 0,
+            "error": 0,
+            "critical": 0,
         }
 
     def increment_stat(self, level: str) -> None:
@@ -224,7 +232,7 @@ class LogStatistics:
         if level.lower() in self.stats:
             self.stats[level.lower()] += 1
 
-    def get_stats(self) -> Dict[str, int]:
+    def get_stats(self) -> dict[str, int]:
         """Get logging statistics."""
         return self.stats.copy()
 
@@ -232,7 +240,3 @@ class LogStatistics:
         """Reset all statistics."""
         for key in self.stats:
             self.stats[key] = 0
-
-
-
-

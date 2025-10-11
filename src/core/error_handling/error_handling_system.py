@@ -17,269 +17,29 @@ Purpose: V2 compliant unified error handling system
 """
 
 import logging
-import time
 from collections.abc import Callable
-from datetime import datetime, timedelta
+from datetime import datetime
 from functools import wraps
 from typing import Any
 
+from .circuit_breaker import CircuitBreaker
 from .error_handling_core import (
     CircuitBreakerConfig,
-    CircuitBreakerError,
     CircuitState,
     ErrorContext,
     ErrorSeverity,
     RetryConfig,
-    RetryException,
 )
+from .recovery_strategies import RecoveryStrategy
+from .retry_mechanisms import RetryMechanism
 
 logger = logging.getLogger(__name__)
 
 
-# ============================================================================
-# RETRY MECHANISM
-# ============================================================================
-
-
-class RetryMechanism:
-    """Retry mechanism with exponential backoff and jitter."""
-
-    def __init__(self, config: RetryConfig):
-        """Initialize retry mechanism."""
-        self.config = config
-
-    def execute_with_retry(self, func: Callable, *args, **kwargs) -> Any:
-        """Execute function with retry mechanism."""
-        last_exception = None
-
-        for attempt in range(self.config.max_attempts):
-            try:
-                return func(*args, **kwargs)
-            except self.config.exceptions as e:
-                last_exception = e
-
-                if attempt == self.config.max_attempts - 1:
-                    # Last attempt failed
-                    logger.error(
-                        f"Function failed after {self.config.max_attempts} attempts",
-                        exc_info=True,
-                    )
-                    raise e
-
-                delay = self.config.calculate_delay(attempt)
-                logger.warning(f"Attempt {attempt + 1} failed, retrying in {delay:.2f}s: {e}")
-
-                time.sleep(delay)
-
-        # This should never be reached, but just in case
-        raise last_exception
-
-
-def retry_on_exception(config: RetryConfig, exceptions: type[Exception] | tuple = Exception):
-    """Decorator for retrying on specific exceptions."""
-    mechanism = RetryMechanism(config)
-
-    def decorator(func: Callable) -> Callable:
-        @wraps(func)
-        def wrapper(*args, **kwargs):
-            def execute():
-                return func(*args, **kwargs)
-
-            return mechanism.execute_with_retry(execute)
-
-        return wrapper
-
-    return decorator
-
-
-def with_exponential_backoff(
-    base_delay: float = 1.0,
-    max_delay: float = 60.0,
-    backoff_factor: float = 2.0,
-    max_attempts: int = 3,
-    jitter: bool = True,
-):
-    """Decorator for functions with exponential backoff retry."""
-    config = RetryConfig(
-        max_attempts=max_attempts,
-        base_delay=base_delay,
-        max_delay=max_delay,
-        backoff_factor=backoff_factor,
-        jitter=jitter,
-    )
-    mechanism = RetryMechanism(config)
-
-    def decorator(func: Callable) -> Callable:
-        @wraps(func)
-        def wrapper(*args, **kwargs):
-            return mechanism.execute_with_retry(func, *args, **kwargs)
-
-        return wrapper
-
-    return decorator
-
-
-# ============================================================================
-# CIRCUIT BREAKER
-# ============================================================================
-
-
-class CircuitBreaker:
-    """Circuit breaker for fault tolerance."""
-
-    def __init__(self, config: CircuitBreakerConfig):
-        """Initialize circuit breaker."""
-        self.config = config
-        self.failure_count = 0
-        self.last_failure_time = None
-        self.state = CircuitState.CLOSED
-
-    def call(self, operation: Callable, *args, **kwargs):
-        """Execute operation through circuit breaker."""
-        if self.state == CircuitState.OPEN:
-            if self._should_attempt_reset():
-                self.state = CircuitState.HALF_OPEN
-            else:
-                raise CircuitBreakerError(f"Circuit breaker is OPEN for {self.config.name}")
-
-        try:
-            result = operation(*args, **kwargs)
-            self._on_success()
-            return result
-        except Exception as e:
-            self._on_failure()
-            raise e
-
-    def _should_attempt_reset(self) -> bool:
-        """Check if circuit should attempt to reset."""
-        if self.last_failure_time is None:
-            return True
-        elapsed = (datetime.now() - self.last_failure_time).total_seconds()
-        return elapsed >= self.config.recovery_timeout
-
-    def _on_success(self):
-        """Handle successful operation."""
-        if self.state == CircuitState.HALF_OPEN:
-            self.state = CircuitState.CLOSED
-            self.failure_count = 0
-            logger.info(f"Circuit breaker reset to CLOSED state for {self.config.name}")
-
-    def _on_failure(self):
-        """Handle failed operation."""
-        self.failure_count += 1
-        self.last_failure_time = datetime.now()
-
-        if self.failure_count >= self.config.failure_threshold:
-            self.state = CircuitState.OPEN
-            logger.warning(
-                f"Circuit breaker opened after {self.failure_count} failures for {self.config.name}"
-            )
-
-
-# ============================================================================
-# RECOVERY STRATEGIES
-# ============================================================================
-
-
-class RecoveryStrategy:
-    """Base class for error recovery strategies."""
-
-    def __init__(self, name: str, description: str = ""):
-        """Initialize recovery strategy."""
-        self.name = name
-        self.description = description or name
-
-    def can_recover(self, error_context: ErrorContext) -> bool:
-        """Check if this strategy can recover from the error."""
-        raise NotImplementedError("Subclasses must implement can_recover")
-
-    def execute_recovery(self, error_context: ErrorContext) -> bool:
-        """Execute the recovery strategy."""
-        raise NotImplementedError("Subclasses must implement execute_recovery")
-
-
-class ServiceRestartStrategy(RecoveryStrategy):
-    """Strategy for restarting failed services."""
-
-    def __init__(self, service_manager: Callable):
-        """Initialize service restart strategy."""
-        super().__init__("service_restart", "Restart failed service components")
-        self.service_manager = service_manager
-        self.last_restart = None
-        self.restart_cooldown = timedelta(minutes=5)
-
-    def can_recover(self, error_context: ErrorContext) -> bool:
-        """Check if service restart is appropriate."""
-        if self.last_restart and datetime.now() - self.last_restart < self.restart_cooldown:
-            return False
-        return error_context.severity in [ErrorSeverity.HIGH, ErrorSeverity.CRITICAL]
-
-    def execute_recovery(self, error_context: ErrorContext) -> bool:
-        """Execute service restart."""
-        try:
-            logger.info(f"Executing service restart for {error_context.operation}")
-            success = self.service_manager()
-            if success:
-                self.last_restart = datetime.now()
-                logger.info(f"Service restart successful for {error_context.operation}")
-            return success
-        except Exception as e:
-            logger.error(f"Service restart failed: {e}")
-            return False
-
-
-class ConfigurationResetStrategy(RecoveryStrategy):
-    """Strategy for resetting configuration to defaults."""
-
-    def __init__(self, config_reset_func: Callable):
-        """Initialize configuration reset strategy."""
-        super().__init__("config_reset", "Reset configuration to safe defaults")
-        self.config_reset_func = config_reset_func
-
-    def can_recover(self, error_context: ErrorContext) -> bool:
-        """Check if configuration reset is appropriate."""
-        return (
-            "config" in error_context.operation.lower()
-            or error_context.severity == ErrorSeverity.CRITICAL
-        )
-
-    def execute_recovery(self, error_context: ErrorContext) -> bool:
-        """Execute configuration reset."""
-        try:
-            logger.info(f"Executing configuration reset for {error_context.operation}")
-            success = self.config_reset_func()
-            if success:
-                logger.info(f"Configuration reset successful for {error_context.operation}")
-            return success
-        except Exception as e:
-            logger.error(f"Configuration reset failed: {e}")
-            return False
-
-
-class ResourceCleanupStrategy(RecoveryStrategy):
-    """Strategy for cleaning up stuck resources."""
-
-    def __init__(self, cleanup_func: Callable):
-        """Initialize resource cleanup strategy."""
-        super().__init__("resource_cleanup", "Clean up stuck resources and locks")
-        self.cleanup_func = cleanup_func
-
-    def can_recover(self, error_context: ErrorContext) -> bool:
-        """Check if resource cleanup is appropriate."""
-        error_data = str(error_context.additional_data).lower()
-        return "resource" in error_data or "lock" in error_data
-
-    def execute_recovery(self, error_context: ErrorContext) -> bool:
-        """Execute resource cleanup."""
-        try:
-            logger.info(f"Executing resource cleanup for {error_context.operation}")
-            success = self.cleanup_func()
-            if success:
-                logger.info(f"Resource cleanup successful for {error_context.operation}")
-            return success
-        except Exception as e:
-            logger.error(f"Resource cleanup failed: {e}")
-            return False
+# All core components now imported from separate modules:
+# - retry_mechanisms.py (RetryMechanism, retry decorators)
+# - circuit_breaker.py (CircuitBreaker)
+# - recovery_strategies.py (RecoveryStrategy classes)
 
 
 # ============================================================================
@@ -403,9 +163,7 @@ class UnifiedErrorHandlingOrchestrator:
 
         # Apply retry if enabled
         if use_retry:
-            retry_mechanism = self.retry_mechanisms.get(
-                component, RetryMechanism(RetryConfig())
-            )
+            retry_mechanism = self.retry_mechanisms.get(component, RetryMechanism(RetryConfig()))
 
             try:
                 return retry_mechanism.execute_with_retry(wrapped_operation)
@@ -457,9 +215,9 @@ class UnifiedErrorHandlingOrchestrator:
             status["circuit_breaker"] = {
                 "state": breaker.state.value,
                 "failure_count": breaker.failure_count,
-                "last_failure": breaker.last_failure_time.isoformat()
-                if breaker.last_failure_time
-                else None,
+                "last_failure": (
+                    breaker.last_failure_time.isoformat() if breaker.last_failure_time else None
+                ),
             }
 
         if component in self.retry_mechanisms:
@@ -547,4 +305,3 @@ def get_error_handling_orchestrator(
     if _global_orchestrator is None:
         _global_orchestrator = UnifiedErrorHandlingOrchestrator(logger_instance)
     return _global_orchestrator
-

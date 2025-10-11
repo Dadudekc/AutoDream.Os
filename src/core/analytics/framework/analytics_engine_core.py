@@ -4,13 +4,14 @@ Responsibilities: Orchestrate analysis workflow
 """
 
 from typing import Any
+
 from .analytics_coordinator import AnalyticsCoordinator
-from .analytics_processor import AnalyticsProcessor
 from .analytics_intelligence import AnalyticsIntelligence
-from .predictive_modeling_engine import PredictiveModelingEngine
-from .pattern_analysis_engine import PatternAnalysisEngine
+from .analytics_processor import AnalyticsProcessor
 from .caching_engine import CachingEngine
 from .metrics_engine import MetricsEngine
+from .pattern_analysis_engine import PatternAnalysisEngine
+from .predictive_modeling_engine import PredictiveModelingEngine
 from .realtime_analytics_engine import RealTimeAnalyticsEngine
 
 
@@ -53,13 +54,15 @@ class AnalyticsEngineCore:
 
         # Step 8: Coordinate final outputs
         coordinator = AnalyticsCoordinator()
-        final = coordinator.coordinate({
-            "processed": processed,
-            "insights": insights,
-            "forecast": forecast,
-            "patterns": patterns,
-            "metrics": metrics,
-            "realtime": realtime_results,
-        })
+        final = coordinator.coordinate(
+            {
+                "processed": processed,
+                "insights": insights,
+                "forecast": forecast,
+                "patterns": patterns,
+                "metrics": metrics,
+                "realtime": realtime_results,
+            }
+        )
 
         return final

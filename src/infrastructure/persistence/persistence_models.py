@@ -10,7 +10,6 @@ License: MIT
 
 from dataclasses import dataclass
 from datetime import datetime
-from typing import List, Optional
 
 
 @dataclass
@@ -31,11 +30,11 @@ class Agent:
     id: str
     name: str
     role: str
-    capabilities: List[str]
+    capabilities: list[str]
     max_concurrent_tasks: int = 3
     is_active: bool = True
     created_at: datetime = None
-    last_active_at: Optional[datetime] = None
+    last_active_at: datetime | None = None
 
     def __post_init__(self):
         """Initialize default values."""
@@ -50,17 +49,13 @@ class Task:
     id: str
     title: str
     description: str
-    assigned_agent_id: Optional[str] = None
+    assigned_agent_id: str | None = None
     status: str = "pending"
     priority: int = 1
     created_at: datetime = None
-    completed_at: Optional[datetime] = None
+    completed_at: datetime | None = None
 
     def __post_init__(self):
         """Initialize default values."""
         if self.created_at is None:
             self.created_at = datetime.now()
-
-
-
-

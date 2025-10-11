@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import threading
 from datetime import datetime, timedelta
-from typing import Any, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from .monitoring_state import MonitoringState
@@ -87,9 +87,7 @@ class MonitoringLifecycle:
             return
 
         self._stop_event.clear()
-        self._background_thread = threading.Thread(
-            target=self._background_monitor, daemon=True
-        )
+        self._background_thread = threading.Thread(target=self._background_monitor, daemon=True)
         self._background_thread.start()
 
     def _stop_background_monitoring(self) -> None:
@@ -145,4 +143,3 @@ class MonitoringLifecycle:
                 if datetime.fromisoformat(entry["timestamp"]) > cutoff_time
             ]
             self.state.metric_history[metric_name] = filtered_history
-

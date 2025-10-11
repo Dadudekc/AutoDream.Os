@@ -1,28 +1,41 @@
-# AUTO-GENERATED __init__.py
-# DO NOT EDIT MANUALLY - changes may be overwritten
+# Vector Database Package
+# Updated: 2025-10-11 - Consolidated middleware (Agent-7)
 
-from . import analytics_utils
-from . import collection_utils
-from . import document_utils
-from . import error_handler_middleware
-from . import middleware
-from . import request_handler_middleware
-from . import response_handler_middleware
-from . import routes
-from . import search_utils
-from . import utils
-from . import validation_middleware
+from . import (
+    analytics_utils,
+    collection_utils,
+    document_utils,
+    middleware,
+    models,
+    routes,
+    search_utils,
+    unified_middleware,
+    utils,
+)
+
+# Backward compatibility - import middleware classes
+from .unified_middleware import (
+    ErrorHandlerMiddleware,
+    RequestHandlerMiddleware,
+    ResponseHandlerMiddleware,
+    UnifiedVectorMiddleware,
+    ValidationMiddleware,
+)
 
 __all__ = [
-    'analytics_utils',
-    'collection_utils',
-    'document_utils',
-    'error_handler_middleware',
-    'middleware',
-    'request_handler_middleware',
-    'response_handler_middleware',
-    'routes',
-    'search_utils',
-    'utils',
-    'validation_middleware',
+    "analytics_utils",
+    "collection_utils",
+    "document_utils",
+    "middleware",
+    "models",
+    "routes",
+    "search_utils",
+    "unified_middleware",
+    "utils",
+    # Middleware classes
+    "UnifiedVectorMiddleware",
+    "ErrorHandlerMiddleware",
+    "RequestHandlerMiddleware",
+    "ResponseHandlerMiddleware",
+    "ValidationMiddleware",
 ]

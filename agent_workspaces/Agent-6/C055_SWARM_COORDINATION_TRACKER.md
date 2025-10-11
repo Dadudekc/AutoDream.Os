@@ -153,15 +153,15 @@
 
 ### 4 CRITICAL Files (>400 lines)
 
-| File | Lines | Agent | Status | ETA |
-|------|-------|-------|--------|-----|
-| messaging_core.py | 464 | Agent-1 | 🟡 Unknown | TBD |
-| messaging_cli.py | 403 | Agent-2 | 🟡 Unknown | TBD |
-| overnight/recovery.py | 412 | Agent-6 | 🟢 Analyzing | 1 cycle |
-| autonomous_competition_system.py | 419 | Agent-6 | ✅ DONE (372) | Complete |
+| File | Lines | Agent | Status | Result | ETA |
+|------|-------|-------|--------|--------|-----|
+| autonomous_competition_system.py | 419 | Captain/Agent-6 | ✅ **COMPLETE** | **56L + 4 modules** | ✅ Done |
+| messaging_cli.py | 441 | Agent-2 | ✅ **COMPLETE** | **78L (82%↓)** | ✅ Done |
+| messaging_core.py | 464 | Agent-1 | ❓ **UNKNOWN** | ? | **TBD** |
+| overnight/recovery.py | 412 | Agent-6 | 🎯 **PLANNED** | ? | 2-3 cycles |
 
-**Critical Progress:** 25% complete (1/4 files fixed)  
-**Remaining:** 3 files, 2 agents
+**Critical Progress:** 🎉 **75% complete (3/4 files fixed!)**  
+**Remaining:** 2 files (messaging_core unknown, recovery planned)
 
 ---
 

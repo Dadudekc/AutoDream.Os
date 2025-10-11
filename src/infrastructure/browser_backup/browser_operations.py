@@ -10,7 +10,7 @@ License: MIT
 
 import logging
 import time
-from typing import Any, Dict, Optional
+from typing import Any
 
 from .browser_adapter import BrowserAdapter
 from .browser_models import TheaConfig
@@ -27,7 +27,7 @@ class BrowserOperations:
         self.config = config
         self.last_action_time = None
 
-    def navigate_to_conversation(self, url: Optional[str] = None) -> bool:
+    def navigate_to_conversation(self, url: str | None = None) -> bool:
         """Navigate to conversation page."""
         target_url = url or self.config.conversation_url
         success = self.browser.navigate(target_url)
@@ -105,7 +105,7 @@ class BrowserOperations:
         except Exception:
             return False
 
-    def get_page_status(self, input_selector: str = "textarea") -> Dict[str, Any]:
+    def get_page_status(self, input_selector: str = "textarea") -> dict[str, Any]:
         """Get current page status."""
         try:
             return {
@@ -123,4 +123,3 @@ class BrowserOperations:
                 "input_available": False,
                 "ready_for_input": False,
             }
-

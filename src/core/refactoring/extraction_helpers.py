@@ -9,7 +9,6 @@ License: MIT
 """
 
 import ast
-from typing import Any
 
 try:
     import astor
@@ -21,7 +20,7 @@ def extract_models(tree: ast.AST) -> str:
     """Extract model classes from AST."""
     if astor is None:
         return "# astor not available"
-    
+
     models = []
     for node in ast.walk(tree):
         if isinstance(node, ast.ClassDef):
@@ -36,7 +35,7 @@ def extract_utils(tree: ast.AST) -> str:
     """Extract utility functions from AST."""
     if astor is None:
         return "# astor not available"
-    
+
     utils = []
     for node in ast.walk(tree):
         if isinstance(node, ast.FunctionDef):
@@ -51,7 +50,7 @@ def extract_core(tree: ast.AST) -> str:
     """Extract core logic from AST."""
     if astor is None:
         return "# astor not available"
-    
+
     core_elements = []
     for node in ast.walk(tree):
         if isinstance(node, (ast.ClassDef, ast.FunctionDef)):
@@ -60,4 +59,3 @@ def extract_core(tree: ast.AST) -> str:
                 core_elements.append(source)
 
     return "\n".join(core_elements) if core_elements else "# No core logic found"
-

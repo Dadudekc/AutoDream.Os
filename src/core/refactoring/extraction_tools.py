@@ -11,9 +11,8 @@ License: MIT
 import ast
 from dataclasses import dataclass
 from pathlib import Path
-from typing import List
 
-from .extraction_helpers import extract_models, extract_utils, extract_core
+from .extraction_helpers import extract_core, extract_models, extract_utils
 
 
 @dataclass
@@ -21,8 +20,8 @@ class ExtractionPlan:
     """Plan for extracting code from a file."""
 
     source_file: str
-    target_files: List[str]
-    extraction_rules: List[str]
+    target_files: list[str]
+    extraction_rules: list[str]
     estimated_impact: str
     v2_compliance_target: bool = False
 
@@ -126,7 +125,4 @@ class ExtractionTools:
                 has_utils="def" in content.lower(),
             )
         except Exception:
-            return FileAnalysis(
-                line_count=0, v2_compliance=True, has_models=False, has_utils=False
-            )
-
+            return FileAnalysis(line_count=0, v2_compliance=True, has_models=False, has_utils=False)

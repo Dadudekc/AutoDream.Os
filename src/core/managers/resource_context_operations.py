@@ -24,9 +24,7 @@ class ContextOperations:
         self.operations_count = 0
         self._agent_contexts: dict[str, dict[str, Any]] = {}
 
-    def handle_operation(
-        self, context: ManagerContext, payload: dict[str, Any]
-    ) -> ManagerResult:
+    def handle_operation(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         """Handle context operations."""
         operation = payload.get("context_operation", "")
         agent_id = payload.get("agent_id", "")
@@ -166,4 +164,3 @@ class ContextOperations:
     def get_context_ids(self) -> list[str]:
         """Get all context IDs."""
         return list(self._agent_contexts.keys())
-

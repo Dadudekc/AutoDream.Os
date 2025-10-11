@@ -23,7 +23,7 @@ class ManagerMetricsTracker:
         self.operation_count = 0
         self.success_count = 0
         self.error_count = 0
-        
+
         # Timing
         self.initialized_at: datetime | None = None
 
@@ -46,7 +46,7 @@ class ManagerMetricsTracker:
     def get_metrics(self) -> dict[str, Any]:
         """
         Get manager metrics.
-        
+
         Returns:
             Dict containing performance metrics
         """
@@ -72,7 +72,7 @@ class ManagerMetricsTracker:
     def reset(self) -> bool:
         """
         Reset manager metrics.
-        
+
         Returns:
             bool: True if reset successful
         """
@@ -100,19 +100,16 @@ class ManagerMetricsTracker:
         """Calculate average operations per hour."""
         if not self.initialized_at:
             return 0.0
-        
+
         uptime_hours = (datetime.now() - self.initialized_at).total_seconds() / 3600
         if uptime_hours < 0.01:
             return 0.0
-        
+
         return self.operation_count / uptime_hours
 
     def _calculate_uptime(self) -> float:
         """Calculate uptime in seconds."""
         if not self.initialized_at:
             return 0.0
-        
+
         return (datetime.now() - self.initialized_at).total_seconds()
-
-
-

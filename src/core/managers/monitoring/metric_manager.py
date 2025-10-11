@@ -11,17 +11,17 @@ License: MIT
 """
 
 import threading
-import uuid
 from collections.abc import Callable
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any
 
 from ..contracts import ManagerContext, ManagerResult
 
 
 class MetricType(Enum):
     """Metric types."""
+
     COUNTER = "counter"
     GAUGE = "gauge"
     HISTOGRAM = "histogram"
@@ -70,7 +70,9 @@ class MetricManager:
 
                 # Trim history if too large
                 if len(self.metric_history[metric_name]) > self.max_history_size:
-                    self.metric_history[metric_name] = self.metric_history[metric_name][-self.max_history_size:]
+                    self.metric_history[metric_name] = self.metric_history[metric_name][
+                        -self.max_history_size :
+                    ]
 
                 # Call metric callbacks
                 for callback in self.metric_callbacks.values():
@@ -128,6 +130,3 @@ class MetricManager:
                 message=f"Failed to get metrics: {e}",
                 errors=[str(e)],
             )
-
-
-

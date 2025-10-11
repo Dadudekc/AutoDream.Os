@@ -15,9 +15,9 @@ import threading
 from typing import Any
 
 from .contracts import ManagerContext, ManagerResult, MonitoringManager
-from .monitoring.alert_manager import AlertManager, AlertLevel
-from .monitoring.metric_manager import MetricManager, MetricType
-from .monitoring.widget_manager import WidgetManager, WidgetType
+from .monitoring.alert_manager import AlertManager
+from .monitoring.metric_manager import MetricManager
+from .monitoring.widget_manager import WidgetManager
 
 
 class CoreMonitoringManager(MonitoringManager):
@@ -54,23 +54,21 @@ class CoreMonitoringManager(MonitoringManager):
                 return self.alert_manager.resolve_alert(context, payload)
             elif operation == "get_alerts":
                 return self.alert_manager.get_alerts(context, payload)
-            
+
             # Metric operations
             elif operation == "record_metric":
                 return self.metric_manager.record_metric(
-                    context,
-                    payload.get("metric_name", ""),
-                    payload.get("metric_value")
+                    context, payload.get("metric_name", ""), payload.get("metric_value")
                 )
             elif operation == "get_metrics":
                 return self.metric_manager.get_metrics(context, payload)
-            
+
             # Widget operations
             elif operation == "create_widget":
                 return self.widget_manager.create_widget(context, payload.get("widget_data", {}))
             elif operation == "get_widgets":
                 return self.widget_manager.get_widgets(context, payload)
-            
+
             else:
                 return ManagerResult(
                     success=False,
@@ -124,6 +122,7 @@ class CoreMonitoringManager(MonitoringManager):
 
     def _start_background_monitoring(self) -> None:
         """Start background monitoring tasks."""
+
         def monitor():
             while True:
                 try:

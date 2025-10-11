@@ -8,13 +8,11 @@ Author: Agent-6 (VSCode Forking & Quality Gates Specialist)
 License: MIT
 """
 
-from typing import List
 
-
-def apply_optimization_rules(file_path: str, rules: List[str]) -> None:
+def apply_optimization_rules(file_path: str, rules: list[str]) -> None:
     """Apply optimization rules to a file."""
     try:
-        with open(file_path, "r", encoding="utf-8") as f:
+        with open(file_path, encoding="utf-8") as f:
             content = f.read()
 
         # Apply basic optimizations
@@ -51,4 +49,3 @@ def optimize_class_structure(content: str) -> str:
     """Optimize class structure in content."""
     # Basic implementation - in practice, would use more sophisticated analysis
     return content  # Placeholder for actual optimization logic
-

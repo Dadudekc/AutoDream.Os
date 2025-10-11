@@ -37,9 +37,10 @@ class UnifiedVectorMiddleware:
     def error_handler(self, f: Callable) -> Callable:
         """
         Error handling decorator.
-        
+
         Catches exceptions and returns standardized error responses.
         """
+
         @wraps(f)
         def decorated_function(*args, **kwargs):
             try:
@@ -50,6 +51,7 @@ class UnifiedVectorMiddleware:
                     jsonify({"success": False, "error": f"Operation failed: {str(e)}"}),
                     500,
                 )
+
         return decorated_function
 
     # ========================================================================
@@ -59,22 +61,25 @@ class UnifiedVectorMiddleware:
     def json_required(self, f: Callable) -> Callable:
         """
         Require JSON data decorator.
-        
+
         Returns 400 error if request doesn't contain JSON data.
         """
+
         @wraps(f)
         def decorated_function(*args, **kwargs):
             if not request.is_json:
                 return jsonify({"success": False, "error": "JSON data required"}), 400
             return f(*args, **kwargs)
+
         return decorated_function
 
     def log_request(self, f: Callable) -> Callable:
         """
         Request logging decorator.
-        
+
         Logs request processing time and completion status.
         """
+
         @wraps(f)
         def decorated_function(*args, **kwargs):
             start_time = time.time()
@@ -86,14 +91,16 @@ class UnifiedVectorMiddleware:
             current_app.logger.info(f"Completed {f.__name__} in {execution_time:.2f}ms")
 
             return result
+
         return decorated_function
 
     def rate_limit(self, max_requests: int = 100, window_seconds: int = 60) -> Callable:
         """
         Rate limiting decorator.
-        
+
         Note: Simplified implementation. In production, use Redis for distributed rate limiting.
         """
+
         def decorator(f: Callable) -> Callable:
             @wraps(f)
             def decorated_function(*args, **kwargs):
@@ -104,7 +111,9 @@ class UnifiedVectorMiddleware:
                 # This is a simplified implementation
                 # In production, implement proper rate limiting with Redis
                 return f(*args, **kwargs)
+
             return decorated_function
+
         return decorator
 
     # ========================================================================
@@ -114,9 +123,10 @@ class UnifiedVectorMiddleware:
     def add_cors_headers(self, f: Callable) -> Callable:
         """
         Add CORS headers decorator.
-        
+
         Adds Cross-Origin Resource Sharing headers to responses.
         """
+
         @wraps(f)
         def decorated_function(*args, **kwargs):
             response = f(*args, **kwargs)
@@ -135,21 +145,25 @@ class UnifiedVectorMiddleware:
                 response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
                 response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
                 return response
+
         return decorated_function
 
     def cache_response(self, ttl_seconds: int = 300) -> Callable:
         """
         Response caching decorator.
-        
+
         Note: Simplified implementation. In production, use Redis or Memcached.
         """
+
         def decorator(f: Callable) -> Callable:
             @wraps(f)
             def decorated_function(*args, **kwargs):
                 # Simple caching implementation
                 # In production, use Redis or Memcached
                 return f(*args, **kwargs)
+
             return decorated_function
+
         return decorator
 
     # ========================================================================
@@ -159,9 +173,10 @@ class UnifiedVectorMiddleware:
     def validate_request(self, validator_func: Callable) -> Callable:
         """
         Request validation decorator.
-        
+
         Validates request data using provided validator function.
         """
+
         def decorator(f: Callable) -> Callable:
             @wraps(f)
             def decorated_function(*args, **kwargs):
@@ -171,15 +186,18 @@ class UnifiedVectorMiddleware:
                     if error:
                         return jsonify({"success": False, "error": error}), 400
                 return f(*args, **kwargs)
+
             return decorated_function
+
         return decorator
 
     def validate_pagination(self, f: Callable) -> Callable:
         """
         Pagination validation decorator.
-        
+
         Validates page and per_page query parameters.
         """
+
         @wraps(f)
         def decorated_function(*args, **kwargs):
             page = int(request.args.get("page", 1))
@@ -203,6 +221,7 @@ class UnifiedVectorMiddleware:
                 )
 
             return f(*args, **kwargs)
+
         return decorated_function
 
 
@@ -215,4 +234,3 @@ ErrorHandlerMiddleware = UnifiedVectorMiddleware
 RequestHandlerMiddleware = UnifiedVectorMiddleware
 ResponseHandlerMiddleware = UnifiedVectorMiddleware
 ValidationMiddleware = UnifiedVectorMiddleware
-

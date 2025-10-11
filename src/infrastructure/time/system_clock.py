@@ -11,13 +11,13 @@ License: MIT
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from datetime import datetime, timezone, timedelta
-from typing import Any, Dict
+from datetime import UTC, datetime, timedelta, timezone
 
 
 @dataclass
 class TimeConfig:
     """Configuration for time operations."""
+
     timezone: str = "UTC"
     time_format: str = "%Y-%m-%d %H:%M:%S"
     date_format: str = "%Y-%m-%d"
@@ -59,15 +59,15 @@ class SystemClock(ClockInterface):
     def _get_timezone(self) -> timezone:
         """Get timezone from configuration."""
         if self.config.timezone == "UTC":
-            return timezone.utc
+            return UTC
         else:
             # For simplicity, using UTC offset parsing
             # In production, you might want to use pytz or dateutil
             try:
-                offset_hours = int(self.config.timezone.replace('UTC', ''))
+                offset_hours = int(self.config.timezone.replace("UTC", ""))
                 return timezone(timedelta(hours=offset_hours))
             except:
-                return timezone.utc
+                return UTC
 
     def now(self) -> datetime:
         """Get current time in configured timezone."""
@@ -75,7 +75,7 @@ class SystemClock(ClockInterface):
 
     def utcnow(self) -> datetime:
         """Get current UTC time."""
-        return datetime.now(timezone.utc)
+        return datetime.now(UTC)
 
     def from_timestamp(self, timestamp: float) -> datetime:
         """Create datetime from Unix timestamp."""

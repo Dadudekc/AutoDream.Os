@@ -9,12 +9,10 @@ Author: Agent-1 - Vision & Automation Specialist
 License: MIT
 """
 
-import pytest
-import numpy as np
-from vision.capture import ScreenCapture
-from vision.ocr import TextExtractor
 from vision.analysis import VisualAnalyzer
+from vision.capture import ScreenCapture
 from vision.integration import VisionSystem
+from vision.ocr import TextExtractor
 
 
 class TestScreenCapture:
@@ -121,4 +119,3 @@ class TestVisionSystem:
         # Should return a number (0 or more)
         assert isinstance(cleaned, int)
         assert cleaned >= 0
-

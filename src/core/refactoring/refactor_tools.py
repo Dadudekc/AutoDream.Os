@@ -11,16 +11,15 @@ Mission: Architecture & Design V2 Compliance Implementation
 Status: V2_COMPLIANT_IMPLEMENTATION
 """
 
-from typing import Dict, List, Any, TYPE_CHECKING
-from pathlib import Path
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from typing import TYPE_CHECKING
 
-from .extraction_tools import ExtractionTools, ExtractionPlan
-from .tools.consolidation_tools import ConsolidationTools, ConsolidationPlan
-from .tools.optimization_tools import OptimizationTools, OptimizationPlan
 from ..unified_import_system import get_unified_import_system
+from .extraction_tools import ExtractionPlan, ExtractionTools
+from .tools.consolidation_tools import ConsolidationPlan, ConsolidationTools
+from .tools.optimization_tools import OptimizationPlan, OptimizationTools
 
 
 class RefactorTools:
@@ -51,11 +50,11 @@ class RefactorTools:
         """Execute consolidation plan."""
         return self.consolidation_tools.execute_consolidation(plan)
 
-    def find_duplicate_files(self, directory: str) -> List[List[str]]:
+    def find_duplicate_files(self, directory: str) -> list[list[str]]:
         """Find duplicate files in directory."""
         return self.consolidation_tools._find_duplicate_files(directory)
 
-    def analyze_duplicates(self, directory: str) -> Dict[str, Any]:
+    def analyze_duplicates(self, directory: str) -> dict[str, Any]:
         """Analyze duplicate files in directory."""
         return self.consolidation_tools.analyze_duplicates(directory)
 
@@ -69,7 +68,7 @@ class RefactorTools:
         return self.optimization_tools.execute_optimization(plan, file_path)
 
     # Utility methods
-    def get_tool_status(self) -> Dict[str, Any]:
+    def get_tool_status(self) -> dict[str, Any]:
         """Get status of all refactoring tools."""
         return {
             "extraction_tools": "active",
@@ -78,7 +77,7 @@ class RefactorTools:
             "unified_imports": "active",
         }
 
-    def analyze_file(self, file_path: str) -> Dict[str, Any]:
+    def analyze_file(self, file_path: str) -> dict[str, Any]:
         """Analyze file for refactoring opportunities."""
         try:
             source_path = self.unified_imports.Path(file_path)
@@ -108,9 +107,7 @@ class RefactorTools:
 
             # Execute refactoring
             extraction_success = self.execute_extraction(extraction_plan)
-            optimization_success = self.execute_optimization(
-                optimization_plan, file_path
-            )
+            optimization_success = self.execute_optimization(optimization_plan, file_path)
 
             return extraction_success and optimization_success
         except Exception:
@@ -152,7 +149,7 @@ def execute_consolidation(plan: ConsolidationPlan) -> bool:
     return get_refactor_tools().execute_consolidation(plan)
 
 
-def find_duplicate_files(directory: str) -> List[List[str]]:
+def find_duplicate_files(directory: str) -> list[list[str]]:
     """Find duplicate files in directory."""
     return get_refactor_tools().find_duplicate_files(directory)
 

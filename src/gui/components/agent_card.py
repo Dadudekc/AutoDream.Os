@@ -65,7 +65,12 @@ if PYQT5_AVAILABLE:
 
         def _init_ui(self) -> None:
             """Initialize the UI components."""
-            # Card styling
+            self._setup_card_styling()
+            layout = self._create_layout()
+            self._add_ui_elements(layout)
+
+        def _setup_card_styling(self) -> None:
+            """Setup card frame styling."""
             self.setStyleSheet(
                 """
                 QFrame {
@@ -80,14 +85,17 @@ if PYQT5_AVAILABLE:
                 }
             """
             )
-
             self.setMinimumSize(150, 100)
             self.setMaximumSize(200, 150)
 
-            # Main layout
+        def _create_layout(self) -> QVBoxLayout:
+            """Create main layout."""
             layout = QVBoxLayout(self)
             layout.setSpacing(5)
+            return layout
 
+        def _add_ui_elements(self, layout: QVBoxLayout) -> None:
+            """Add UI elements to layout."""
             # Selection checkbox
             self.checkbox = QCheckBox(self.agent_id)
             self.checkbox.setStyleSheet(
@@ -161,7 +169,12 @@ if PYQT5_AVAILABLE:
 
             status_icons = {"online": "🟢", "busy": "🟡", "offline": "🔴", "unknown": "⚪"}
 
-            status_colors = {"online": "#27AE60", "busy": "#F39C12", "offline": "#E74C3C", "unknown": "#BDC3C7"}
+            status_colors = {
+                "online": "#27AE60",
+                "busy": "#F39C12",
+                "offline": "#E74C3C",
+                "unknown": "#BDC3C7",
+            }
 
             icon = status_icons.get(status, "⚪")
             color = status_colors.get(status, "#BDC3C7")
@@ -209,4 +222,3 @@ else:
 
         def set_selected(self, selected: bool) -> None:
             pass
-

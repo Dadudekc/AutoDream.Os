@@ -8,10 +8,10 @@ Author: Agent-6 (VSCode Forking & Quality Gates Specialist)
 License: MIT
 """
 
-from typing import Any, Dict
+from typing import Any
 
 
-def get_test_categories() -> Dict[str, Dict[str, Any]]:
+def get_test_categories() -> dict[str, dict[str, Any]]:
     """Get test category definitions."""
     return {
         "smoke": {
@@ -85,4 +85,3 @@ def get_test_categories() -> Dict[str, Dict[str, Any]]:
             "directory": "learning",
         },
     }
-

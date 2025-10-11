@@ -59,7 +59,15 @@ class ExecutionRunner:
             # Execute task in thread
             thread = threading.Thread(
                 target=self.task_executor.execute_task_thread,
-                args=(context, execution_id, task, task_data, self.tasks, self.executions, task_status_enum),
+                args=(
+                    context,
+                    execution_id,
+                    task,
+                    task_data,
+                    self.tasks,
+                    self.executions,
+                    task_status_enum,
+                ),
             )
             thread.daemon = True
             thread.start()
@@ -104,6 +112,8 @@ class ExecutionRunner:
             )
         except Exception as e:
             return ManagerResult(
-                success=False, data={}, message=f"Failed to get execution status: {e}", errors=[str(e)]
+                success=False,
+                data={},
+                message=f"Failed to get execution status: {e}",
+                errors=[str(e)],
             )
-

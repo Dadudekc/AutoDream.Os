@@ -11,7 +11,6 @@ License: MIT
 import json
 import logging
 import os
-from typing import Dict, List
 
 from .browser_adapter import BrowserAdapter
 
@@ -25,7 +24,7 @@ class CookieManager:
         """Initialize cookie manager."""
         self.cookie_file = cookie_file
         self.auto_save = auto_save
-        self.cookies: Dict[str, List[Dict]] = {}
+        self.cookies: dict[str, list[dict]] = {}
 
     def save_cookies(self, browser_adapter: BrowserAdapter, service_name: str) -> bool:
         """Save cookies for a service."""
@@ -83,7 +82,7 @@ class CookieManager:
         """Load persisted cookies from file."""
         try:
             if os.path.exists(self.cookie_file):
-                with open(self.cookie_file, "r") as f:
+                with open(self.cookie_file) as f:
                     self.cookies = json.load(f)
                 return True
             return False
@@ -91,4 +90,3 @@ class CookieManager:
         except Exception as e:
             logger.error(f"❌ Failed to load persisted cookies: {e}")
             return False
-

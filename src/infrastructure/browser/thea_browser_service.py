@@ -10,15 +10,15 @@ Author: Agent-3 (Infrastructure & DevOps) - Browser Consolidation
 License: MIT
 """
 
-import time
 import logging
-from typing import Optional, Any, Dict
-from pathlib import Path
+import time
+from typing import Any
 
 try:
     from selenium import webdriver
-    from selenium.webdriver.chrome.options import Options
     from selenium.common.exceptions import WebDriverException
+    from selenium.webdriver.chrome.options import Options
+
     SELENIUM_AVAILABLE = True
 except ImportError:
     SELENIUM_AVAILABLE = False
@@ -31,44 +31,44 @@ logger = logging.getLogger(__name__)
 class TheaBrowserService:
     """Unified browser service for Thea Manager automation."""
 
-    def __init__(self, config: Optional[BrowserConfig] = None):
+    def __init__(self, config: BrowserConfig | None = None):
         """Initialize browser service."""
         self.config = config or BrowserConfig()
         self.driver = None
         self.profile = None
         self._initialized = False
 
-    def initialize(self, profile_name: Optional[str] = None, user_data_dir: Optional[str] = None) -> bool:
+    def initialize(self, profile_name: str | None = None, user_data_dir: str | None = None) -> bool:
         """Initialize browser with optional profile."""
         if not SELENIUM_AVAILABLE:
             logger.error("Selenium not available - cannot initialize browser")
             return False
 
         try:
-            self.profile = {'profile_name': profile_name, 'user_data_dir': user_data_dir}
-            
+            self.profile = {"profile_name": profile_name, "user_data_dir": user_data_dir}
+
             # Setup Chrome options
             options = Options()
             if self.config.headless:
-                options.add_argument('--headless')
-            
-            if user_data_dir or (self.profile and self.profile.get('user_data_dir')):
-                data_dir = user_data_dir or self.profile.get('user_data_dir')
-                options.add_argument(f'--user-data-dir={data_dir}')
-            
-            if profile_name or (self.profile and self.profile.get('profile_name')):
-                prof_name = profile_name or self.profile.get('profile_name')
-                options.add_argument(f'--profile-directory={prof_name}')
-            
+                options.add_argument("--headless")
+
+            if user_data_dir or (self.profile and self.profile.get("user_data_dir")):
+                data_dir = user_data_dir or self.profile.get("user_data_dir")
+                options.add_argument(f"--user-data-dir={data_dir}")
+
+            if profile_name or (self.profile and self.profile.get("profile_name")):
+                prof_name = profile_name or self.profile.get("profile_name")
+                options.add_argument(f"--profile-directory={prof_name}")
+
             # Anti-detection options
-            options.add_argument('--disable-blink-features=AutomationControlled')
+            options.add_argument("--disable-blink-features=AutomationControlled")
             options.add_experimental_option("excludeSwitches", ["enable-automation"])
-            options.add_experimental_option('useAutomationExtension', False)
-            
+            options.add_experimental_option("useAutomationExtension", False)
+
             # Initialize driver
             self.driver = webdriver.Chrome(options=options)
             self._initialized = True
-            
+
             logger.info("✅ Browser initialized successfully")
             return True
 
@@ -112,7 +112,7 @@ class TheaBrowserService:
                 logger.info("⚠️  Manual authentication required")
                 logger.info("Please log in to Thea Manager in the browser window...")
                 time.sleep(30)  # Allow time for manual login
-                
+
                 if self._is_thea_authenticated():
                     logger.info("✅ Authentication successful")
                     return True
@@ -143,20 +143,20 @@ class TheaBrowserService:
             logger.error(f"Script execution error: {e}")
             return None
 
-    def find_element(self, by: str, value: str, timeout: float = 10.0) -> Optional[Any]:
+    def find_element(self, by: str, value: str, timeout: float = 10.0) -> Any | None:
         """Find element with timeout."""
         if not self._initialized:
             return None
 
         try:
-            from selenium.webdriver.support.ui import WebDriverWait
             from selenium.webdriver.support import expected_conditions as EC
-            
+            from selenium.webdriver.support.ui import WebDriverWait
+
             element = WebDriverWait(self.driver, timeout).until(
                 EC.presence_of_element_located((by, value))
             )
             return element
-        except Exception as e:
+        except Exception:
             logger.debug(f"Element not found: {by}={value}")
             return None
 
@@ -166,7 +166,7 @@ class TheaBrowserService:
             return []
         try:
             return self.driver.find_elements(by, value)
-        except Exception as e:
+        except Exception:
             logger.debug(f"Elements not found: {by}={value}")
             return []
 
@@ -182,7 +182,7 @@ class TheaBrowserService:
             logger.error(f"❌ Screenshot failed: {e}")
             return False
 
-    def get_page_source(self) -> Optional[str]:
+    def get_page_source(self) -> str | None:
         """Get current page HTML source."""
         if not self._initialized:
             return None
@@ -225,7 +225,7 @@ class TheaBrowserService:
             logger.error(f"Forward navigation failed: {e}")
             return False
 
-    def get_current_url(self) -> Optional[str]:
+    def get_current_url(self) -> str | None:
         """Get current URL."""
         if not self._initialized:
             return None
@@ -234,7 +234,7 @@ class TheaBrowserService:
         except:
             return None
 
-    def get_title(self) -> Optional[str]:
+    def get_title(self) -> str | None:
         """Get page title."""
         if not self._initialized:
             return None
@@ -266,10 +266,9 @@ class TheaBrowserService:
 
 
 # Factory function
-def create_thea_browser_service(config: Optional[BrowserConfig] = None) -> TheaBrowserService:
+def create_thea_browser_service(config: BrowserConfig | None = None) -> TheaBrowserService:
     """Create Thea browser service instance."""
     return TheaBrowserService(config)
 
 
-__all__ = ['TheaBrowserService', 'create_thea_browser_service']
-
+__all__ = ["TheaBrowserService", "create_thea_browser_service"]

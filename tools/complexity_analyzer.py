@@ -11,16 +11,16 @@ License: MIT
 """
 
 # Backward compatibility - re-export from modular components
+from .complexity_analyzer_cli import main
 from .complexity_analyzer_core import (
+    CognitiveComplexityVisitor,
     ComplexityAnalysisService,
     ComplexityAnalyzer,
     ComplexityMetrics,
     ComplexityReport,
     ComplexityViolation,
-    CognitiveComplexityVisitor,
     CyclomaticComplexityVisitor,
 )
-from .complexity_analyzer_cli import main
 
 __all__ = [
     "ComplexityAnalyzer",

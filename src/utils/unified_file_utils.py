@@ -16,11 +16,11 @@ import shutil
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set
+from typing import Any
 
+from .file_operations.directory_operations import DirectoryOperations
 from .file_operations.file_metadata import FileMetadataOperations, FileOperation
 from .file_operations.file_serialization import DataSerializationOperations
-from .file_operations.directory_operations import DirectoryOperations
 
 logger = logging.getLogger(__name__)
 
@@ -88,7 +88,7 @@ class BackupManager:
         self.dest = Path(dest)
         self.dest.mkdir(parents=True, exist_ok=True)
 
-    def create_backup(self, agents: Optional[List[str]] = None) -> str:
+    def create_backup(self, agents: list[str] | None = None) -> str:
         """Create backup of agent state."""
         if not self.root.exists():
             raise FileNotFoundError(f"Root directory {self.root} does not exist")
@@ -110,7 +110,7 @@ class BackupManager:
 
         return str(backup_dir)
 
-    def list_backups(self) -> List[str]:
+    def list_backups(self) -> list[str]:
         """List all available backups."""
         if not self.dest.exists():
             return []
@@ -138,7 +138,7 @@ class BackupManager:
         backups = sorted(
             [p for p in self.dest.iterdir() if p.is_dir()],
             key=lambda p: p.stat().st_mtime,
-            reverse=True
+            reverse=True,
         )
 
         if len(backups) <= keep_count:
@@ -158,6 +158,7 @@ class BackupManager:
 @dataclass
 class FileValidationResult:
     """Result of file validation."""
+
     path: str
     exists: bool
     is_file: bool
@@ -166,7 +167,7 @@ class FileValidationResult:
     writable: bool
     size_bytes: int
     modified_time: datetime | None
-    errors: List[str]
+    errors: list[str]
 
 
 class FileValidator:
@@ -177,7 +178,7 @@ class FileValidator:
         """Validate file path and return detailed information."""
         path = Path(file_path)
         errors = []
-        
+
         return FileValidationResult(
             path=file_path,
             exists=path.exists(),
@@ -187,7 +188,7 @@ class FileValidator:
             writable=FileMetadataOperations.is_file_writable(file_path) if path.exists() else False,
             size_bytes=FileMetadataOperations.get_file_size(file_path) or 0,
             modified_time=FileMetadataOperations.get_file_modified_time(file_path),
-            errors=errors
+            errors=errors,
         )
 
 
@@ -197,13 +198,11 @@ class UnifiedFileScanner:
     def __init__(self, root_directory: str):
         """Initialize file scanner."""
         self.root = Path(root_directory)
-        self.scanned_files: Set[str] = set()
+        self.scanned_files: set[str] = set()
 
     def scan_directory(
-        self,
-        extensions: Optional[List[str]] = None,
-        exclude_patterns: Optional[List[str]] = None
-    ) -> List[str]:
+        self, extensions: list[str] | None = None, exclude_patterns: list[str] | None = None
+    ) -> list[str]:
         """Scan directory for files."""
         files = []
         exclude_patterns = exclude_patterns or []
@@ -226,7 +225,7 @@ class UnifiedFileScanner:
 
         return files
 
-    def get_scanned_files(self) -> Set[str]:
+    def get_scanned_files(self) -> set[str]:
         """Get set of scanned files."""
         return self.scanned_files.copy()
 
@@ -317,5 +316,5 @@ __all__ = [
     "FileValidator",
     "UnifiedFileScanner",
     "UnifiedFileUtils",
-    "create_backup_manager"
+    "create_backup_manager",
 ]

@@ -11,7 +11,7 @@ License: MIT
 """
 
 from datetime import datetime
-from typing import Any, Dict
+from typing import Any
 
 from ..contracts import ManagerContext
 
@@ -68,7 +68,7 @@ class TaskExecutor:
         task_data: dict[str, Any],
         tasks: dict[str, dict[str, Any]],
         executions: dict[str, dict[str, Any]],
-        task_status_enum: Any
+        task_status_enum: Any,
     ) -> None:
         """Execute task in separate thread."""
         try:
@@ -123,7 +123,3 @@ class TaskExecutor:
                 return (datetime.now() - started_at).total_seconds()
         except Exception:
             return None
-
-
-
-

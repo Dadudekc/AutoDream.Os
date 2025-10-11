@@ -12,7 +12,7 @@ from __future__ import annotations
 
 import re
 from datetime import datetime
-from typing import Any, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from .monitoring_state import MonitoringState
@@ -107,6 +107,3 @@ class MonitoringRules:
             self.state.update_alert(alert["id"], updates)
         except Exception:
             pass
-
-
-

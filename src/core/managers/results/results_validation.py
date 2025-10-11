@@ -1,9 +1,11 @@
 """Results Validation - V2 Compliance | Agent-5"""
+
 from typing import Any
+
 
 class ResultsValidator:
     """Validates results against rules."""
-    
+
     @staticmethod
     def validate_result(result: dict[str, Any], rules: list[dict[str, Any]]) -> bool:
         """Validate result against rules."""
@@ -13,7 +15,7 @@ class ResultsValidator:
             if not ResultsValidator._validate_rule(rule, result.get("data", {})):
                 return False
         return True
-    
+
     @staticmethod
     def _validate_rule(rule: dict[str, Any], data: dict[str, Any]) -> bool:
         """Validate a single rule against data."""
@@ -38,4 +40,3 @@ class ResultsValidator:
         elif rule_type == "is_empty":
             return not bool(value)
         return True
-

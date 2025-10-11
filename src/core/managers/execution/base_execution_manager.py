@@ -125,7 +125,9 @@ class BaseExecutionManager(ExecutionManager):
                 success=False, data={}, message=f"Failed to register protocol: {e}", errors=[str(e)]
             )
 
-    def get_execution_status(self, context: ManagerContext, execution_id: str | None) -> ManagerResult:
+    def get_execution_status(
+        self, context: ManagerContext, execution_id: str | None
+    ) -> ManagerResult:
         """Get execution status."""
         return self.runner.get_execution_status(context, execution_id)
 

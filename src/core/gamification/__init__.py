@@ -9,24 +9,23 @@ Based on Captain's insight: Competition drives autonomous excellence.
 """
 
 from .autonomous_competition_system import (
-    AutonomousCompetitionSystem,
     Achievement,
     AchievementType,
     AgentScore,
+    AutonomousCompetitionSystem,
     CompetitionMode,
-    get_competition_system,
+    LeaderboardManager,
     ScoringCalculator,
-    LeaderboardManager
+    get_competition_system,
 )
 
 __all__ = [
-    'AutonomousCompetitionSystem',
-    'Achievement',
-    'AchievementType',
-    'AgentScore',
-    'CompetitionMode',
-    'get_competition_system',
-    'ScoringCalculator',
-    'LeaderboardManager',
+    "AutonomousCompetitionSystem",
+    "Achievement",
+    "AchievementType",
+    "AgentScore",
+    "CompetitionMode",
+    "get_competition_system",
+    "ScoringCalculator",
+    "LeaderboardManager",
 ]
-

@@ -8,10 +8,10 @@ Author: Agent-5 (extracted from Agent-3's core_configuration_manager.py)
 License: MIT
 """
 
-from typing import Any, Dict
+from typing import Any
 
 
-def get_default_discord_config(env_vars: Dict[str, str]) -> Dict[str, Any]:
+def get_default_discord_config(env_vars: dict[str, str]) -> dict[str, Any]:
     """Get default Discord configuration."""
     return {
         "type": "discord",
@@ -24,7 +24,7 @@ def get_default_discord_config(env_vars: Dict[str, str]) -> Dict[str, Any]:
     }
 
 
-def get_default_app_config(env_vars: Dict[str, str]) -> Dict[str, Any]:
+def get_default_app_config(env_vars: dict[str, str]) -> dict[str, Any]:
     """Get default application configuration."""
     return {
         "type": "application",
@@ -35,7 +35,7 @@ def get_default_app_config(env_vars: Dict[str, str]) -> Dict[str, Any]:
     }
 
 
-def get_default_db_config(env_vars: Dict[str, str]) -> Dict[str, Any]:
+def get_default_db_config(env_vars: dict[str, str]) -> dict[str, Any]:
     """Get default database configuration."""
     return {
         "type": "database",
@@ -47,7 +47,7 @@ def get_default_db_config(env_vars: Dict[str, str]) -> Dict[str, Any]:
     }
 
 
-def get_validation_rules() -> Dict[str, Dict[str, Any]]:
+def get_validation_rules() -> dict[str, dict[str, Any]]:
     """Get configuration validation rules."""
     return {
         "discord": {
@@ -74,4 +74,3 @@ def get_validation_rules() -> Dict[str, Dict[str, Any]]:
             "user": {"required": True, "type": str, "min_length": 1},
         },
     }
-

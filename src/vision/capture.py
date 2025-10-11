@@ -14,26 +14,26 @@ License: MIT
 
 import logging
 import time
-from pathlib import Path
-from typing import Optional, Tuple, Callable
+from collections.abc import Callable
 
 # Optional dependencies for screen capture
 try:
     import numpy as np
     from PIL import Image, ImageGrab
+
     PIL_AVAILABLE = True
 except ImportError:
     PIL_AVAILABLE = False
     logging.warning("PIL/Pillow not available - screen capture disabled")
 
 # V2 Integration imports (uses fallbacks if unavailable)
-from .utils import get_coordinate_loader, get_unified_config, get_logger
+from .utils import get_coordinate_loader, get_logger, get_unified_config
 
 
 class ScreenCapture:
     """
     Screen capture with coordinate integration.
-    
+
     Capabilities:
     - Full screen and region-based capture
     - Agent-specific region capture via coordinates
@@ -41,7 +41,7 @@ class ScreenCapture:
     - Image format conversion
     """
 
-    def __init__(self, config: Optional[dict] = None):
+    def __init__(self, config: dict | None = None):
         """Initialize screen capture system."""
         self.config = config or {}
         self.logger = get_logger(__name__)
@@ -54,20 +54,20 @@ class ScreenCapture:
         capture_config = self.config.get("capture", {})
         self.capture_frequency = capture_config.get("frequency", 1.0)
         self.capture_format = capture_config.get("format", "RGB")
-        
+
         # State
         self.is_monitoring = False
 
         if not PIL_AVAILABLE:
             self.logger.error("PIL/Pillow not available - screen capture disabled")
 
-    def capture_screen(self, region: Optional[Tuple[int, int, int, int]] = None) -> Optional[np.ndarray]:
+    def capture_screen(self, region: tuple[int, int, int, int] | None = None) -> np.ndarray | None:
         """
         Capture screenshot of specified region or full screen.
-        
+
         Args:
             region: (x, y, width, height) tuple for region capture
-            
+
         Returns:
             numpy array of captured image, or None if failed
         """
@@ -97,13 +97,13 @@ class ScreenCapture:
             self.logger.error(f"Screen capture failed: {e}")
             return None
 
-    def capture_agent_region(self, agent_id: str) -> Optional[np.ndarray]:
+    def capture_agent_region(self, agent_id: str) -> np.ndarray | None:
         """
         Capture screen region for specific agent using coordinates.
-        
+
         Args:
             agent_id: Agent identifier (e.g., "Agent-1")
-            
+
         Returns:
             numpy array of captured image, or None if failed
         """
@@ -124,7 +124,7 @@ class ScreenCapture:
                 max(0, x - 200),  # 400x300 region centered on coordinates
                 max(0, y - 150),
                 400,
-                300
+                300,
             )
 
             return self.capture_screen(region)
@@ -134,14 +134,11 @@ class ScreenCapture:
             return self._capture_fallback_region(agent_id)
 
     def continuous_capture(
-        self,
-        callback_func: Callable,
-        duration: Optional[int] = None,
-        agent_id: Optional[str] = None
+        self, callback_func: Callable, duration: int | None = None, agent_id: str | None = None
     ) -> None:
         """
         Continuously capture screen and call callback with image.
-        
+
         Args:
             callback_func: Function to call with captured image
             duration: Duration in seconds (None for indefinite)
@@ -187,25 +184,25 @@ class ScreenCapture:
     def save_image(self, image: np.ndarray, filename: str, format: str = "PNG") -> bool:
         """
         Save image to file.
-        
+
         Args:
             image: Image array to save
             filename: Output filename
             format: Image format (PNG, JPEG, etc.)
-            
+
         Returns:
             True if successful, False otherwise
         """
         try:
             # Convert numpy array to PIL Image
             pil_image = Image.fromarray(image)
-            
+
             # Save to file
             pil_image.save(filename, format=format)
-            
+
             self.logger.info(f"Image saved to {filename}")
             return True
-            
+
         except Exception as e:
             self.logger.error(f"Failed to save image: {e}")
             return False
@@ -220,7 +217,7 @@ class ScreenCapture:
                 return img_array[:, :, :3]  # Remove alpha channel
         return img_array
 
-    def _capture_fallback_region(self, agent_id: str) -> Optional[np.ndarray]:
+    def _capture_fallback_region(self, agent_id: str) -> np.ndarray | None:
         """Capture fallback region when coordinates unavailable."""
         fallback_regions = self.config.get("coordinates", {}).get("fallback_regions", {})
 
@@ -237,5 +234,5 @@ class ScreenCapture:
             "coordinate_loader_available": self.coordinate_loader is not None,
             "capture_frequency": self.capture_frequency,
             "capture_format": self.capture_format,
-            "is_monitoring": self.is_monitoring
+            "is_monitoring": self.is_monitoring,
         }

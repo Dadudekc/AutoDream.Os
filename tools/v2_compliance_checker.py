@@ -18,14 +18,17 @@ License: MIT
 """
 
 import ast
-import sys
-from dataclasses import dataclass
 from pathlib import Path
-from typing import List, Dict, Any, Optional
+
+try:
+    from .v2_checker_models import ComplianceReport, ComplianceViolation
+except ImportError:
+    from v2_checker_models import ComplianceReport, ComplianceViolation
 
 # Import refactoring suggestion engine
 try:
     from refactoring_suggestion_engine import RefactoringSuggestionService
+
     SUGGESTIONS_AVAILABLE = True
 except ImportError:
     SUGGESTIONS_AVAILABLE = False
@@ -33,52 +36,10 @@ except ImportError:
 # Import complexity analyzer
 try:
     from complexity_analyzer import ComplexityAnalyzer
+
     COMPLEXITY_AVAILABLE = True
 except ImportError:
     COMPLEXITY_AVAILABLE = False
-
-
-@dataclass
-class ComplianceViolation:
-    """Represents a V2 compliance violation."""
-
-    file_path: str
-    violation_type: str
-    severity: str  # CRITICAL, MAJOR, MINOR
-    line_number: Optional[int]
-    current_value: int
-    max_allowed: int
-    message: str
-
-
-@dataclass
-class ComplianceReport:
-    """V2 compliance scan report."""
-
-    total_files: int
-    compliant_files: int
-    violations: List[ComplianceViolation]
-    compliance_rate: float
-
-    @property
-    def has_violations(self) -> bool:
-        """Check if report has any violations."""
-        return len(self.violations) > 0
-
-    @property
-    def critical_violations(self) -> List[ComplianceViolation]:
-        """Get critical violations."""
-        return [v for v in self.violations if v.severity == "CRITICAL"]
-
-    @property
-    def major_violations(self) -> List[ComplianceViolation]:
-        """Get major violations."""
-        return [v for v in self.violations if v.severity == "MAJOR"]
-
-    @property
-    def minor_violations(self) -> List[ComplianceViolation]:
-        """Get minor violations."""
-        return [v for v in self.violations if v.severity == "MINOR"]
 
 
 class V2ComplianceChecker:
@@ -96,9 +57,9 @@ class V2ComplianceChecker:
     def __init__(self, root_path: str = "."):
         """Initialize compliance checker."""
         self.root_path = Path(root_path)
-        self.violations: List[ComplianceViolation] = []
+        self.violations: list[ComplianceViolation] = []
 
-    def scan_file(self, file_path: Path) -> List[ComplianceViolation]:
+    def scan_file(self, file_path: Path) -> list[ComplianceViolation]:
         """Scan a single file for V2 compliance violations."""
         violations = []
 
@@ -166,8 +127,8 @@ class V2ComplianceChecker:
         return violations
 
     def _check_ast_compliance(
-        self, file_path: Path, tree: ast.AST, lines: List[str]
-    ) -> List[ComplianceViolation]:
+        self, file_path: Path, tree: ast.AST, lines: list[str]
+    ) -> list[ComplianceViolation]:
         """Check AST-based compliance rules."""
         violations = []
 
@@ -181,8 +142,7 @@ class V2ComplianceChecker:
             elif isinstance(node, ast.ClassDef):
                 # Check if it's an enum
                 is_enum = any(
-                    isinstance(base, ast.Name) and base.id == "Enum"
-                    for base in node.bases
+                    isinstance(base, ast.Name) and base.id == "Enum" for base in node.bases
                 )
                 if is_enum:
                     enums.append(node)
@@ -280,7 +240,7 @@ class V2ComplianceChecker:
 
         return violations
 
-    def _get_node_line_count(self, node: ast.AST, lines: List[str]) -> int:
+    def _get_node_line_count(self, node: ast.AST, lines: list[str]) -> int:
         """Get line count for an AST node."""
         if not hasattr(node, "lineno") or not hasattr(node, "end_lineno"):
             return 0
@@ -291,7 +251,7 @@ class V2ComplianceChecker:
         return end - start
 
     def scan_directory(
-        self, directory: Optional[Path] = None, pattern: str = "**/*.py"
+        self, directory: Path | None = None, pattern: str = "**/*.py"
     ) -> ComplianceReport:
         """Scan directory for V2 compliance violations."""
         if directory is None:
@@ -315,9 +275,7 @@ class V2ComplianceChecker:
             else:
                 compliant_files += 1
 
-        compliance_rate = (
-            (compliant_files / total_files * 100) if total_files > 0 else 100.0
-        )
+        compliance_rate = (compliant_files / total_files * 100) if total_files > 0 else 100.0
 
         return ComplianceReport(
             total_files=total_files,
@@ -345,180 +303,33 @@ class V2ComplianceChecker:
         path_str = str(file_path)
         return any(pattern in path_str for pattern in skip_patterns)
 
-    def format_report(self, report: ComplianceReport, verbose: bool = False, show_suggestions: bool = False, show_complexity: bool = False) -> str:
-        """Format compliance report as string."""
-        lines = []
-        lines.append("=" * 80)
-        lines.append("V2 COMPLIANCE REPORT")
-        if show_complexity and COMPLEXITY_AVAILABLE:
-            lines.append("(with Complexity Analysis)")
-        lines.append("=" * 80)
-        lines.append(f"Total files scanned: {report.total_files}")
-        lines.append(f"Compliant files: {report.compliant_files}")
-        lines.append(
-            f"Files with violations: {report.total_files - report.compliant_files}"
-        )
-        lines.append(f"Compliance rate: {report.compliance_rate:.1f}%")
-        lines.append("")
-
-        if report.has_violations:
-            lines.append(f"VIOLATIONS FOUND: {len(report.violations)}")
-            lines.append(
-                f"  - Critical: {len(report.critical_violations)} (>600 lines)"
-            )
-            lines.append(
-                f"  - Major: {len(report.major_violations)} (>400 lines or rule violations)"
-            )
-            lines.append(f"  - Minor: {len(report.minor_violations)}")
-            lines.append("")
-
-            # Group by file
-            violations_by_file: Dict[str, List[ComplianceViolation]] = {}
-            for v in report.violations:
-                if v.file_path not in violations_by_file:
-                    violations_by_file[v.file_path] = []
-                violations_by_file[v.file_path].append(v)
-
-            for file_path, violations in sorted(violations_by_file.items()):
-                lines.append(f"\n{file_path}:")
-                for v in violations:
-                    severity_marker = {
-                        "CRITICAL": "🔴",
-                        "MAJOR": "🟡",
-                        "MINOR": "🟢",
-                    }.get(v.severity, "⚪")
-
-                    location = f"line {v.line_number}" if v.line_number else "file"
-                    lines.append(f"  {severity_marker} [{v.severity}] {location}: {v.message}")
-
-                # Add refactoring suggestions for file size violations
-                if show_suggestions and SUGGESTIONS_AVAILABLE:
-                    file_size_violations = [v for v in violations if v.violation_type == "FILE_SIZE"]
-                    if file_size_violations:
-                        lines.append(self._get_file_suggestions(file_path))
-
-                # Add complexity analysis
-                if show_complexity and COMPLEXITY_AVAILABLE:
-                    lines.append(self._get_complexity_analysis(file_path))
-
-        else:
-            lines.append("✅ All files are V2 compliant!")
-
-        lines.append("")
-        lines.append("=" * 80)
-
-        return "\n".join(lines)
-
-    def _get_file_suggestions(self, file_path: str) -> str:
-        """Get refactoring suggestions for a file."""
+    def format_report(
+        self,
+        report: ComplianceReport,
+        verbose: bool = False,
+        show_suggestions: bool = False,
+        show_complexity: bool = False,
+    ) -> str:
+        """Format compliance report as string (delegates to formatter)."""
         try:
-            service = RefactoringSuggestionService()
-            suggestion = service.analyze_and_suggest(file_path)
-            
-            if suggestion and suggestion.suggested_modules:
-                lines = ["\n  💡 REFACTORING SUGGESTIONS:"]
-                lines.append(f"  Confidence: {suggestion.confidence * 100:.0f}% | Estimated result: {suggestion.estimated_main_file_lines} lines")
-                
-                for module in suggestion.suggested_modules[:2]:  # Show top 2 suggestions
-                    entity_count = len(module.entities)
-                    lines.append(f"    → Extract to {module.module_name} ({module.estimated_lines} lines, {entity_count} entities)")
-                
-                if len(suggestion.suggested_modules) > 2:
-                    lines.append(f"    ... +{len(suggestion.suggested_modules) - 2} more suggested modules")
-                
-                lines.append(f"  Run: python tools/refactoring_suggestion_engine.py {file_path} --detailed")
-                return "\n".join(lines)
-                
-            return ""
-        except Exception:
-            return ""
+            from .v2_checker_formatters import format_report as fmt_report
+        except ImportError:
+            from v2_checker_formatters import format_report as fmt_report
 
-    def _get_complexity_analysis(self, file_path: str) -> str:
-        """Get complexity analysis for a file."""
-        try:
-            analyzer = ComplexityAnalyzer()
-            report = analyzer.analyze_file(file_path)
-            
-            if report:
-                lines = ["\n  📊 COMPLEXITY METRICS:"]
-                lines.append(f"  Avg Cyclomatic: {report.avg_cyclomatic:.1f} | Avg Cognitive: {report.avg_cognitive:.1f} | Max Nesting: {report.max_nesting}")
-                
-                if report.has_violations:
-                    high = [v for v in report.violations if v.severity == "HIGH"]
-                    medium = [v for v in report.violations if v.severity == "MEDIUM"]
-                    low = [v for v in report.violations if v.severity == "LOW"]
-                    
-                    lines.append(f"  Violations: {len(report.violations)} (🔴{len(high)} 🟡{len(medium)} 🟢{len(low)})")
-                    
-                    # Show worst violation
-                    worst = max(report.violations, key=lambda x: x.current_value)
-                    lines.append(f"  Worst: {worst.entity_name} ({worst.violation_type}={worst.current_value}, threshold={worst.threshold})")
-                else:
-                    lines.append("  ✅ All functions have acceptable complexity")
-                
-                lines.append(f"  Run: python tools/complexity_analyzer.py {file_path} --verbose")
-                return "\n".join(lines)
-                
-            return ""
-        except Exception:
-            return ""
+        # Group violations by file
+        violations_by_file: dict[str, list[ComplianceViolation]] = {}
+        for v in report.violations:
+            if v.file_path not in violations_by_file:
+                violations_by_file[v.file_path] = []
+            violations_by_file[v.file_path].append(v)
+
+        return fmt_report(report, violations_by_file, verbose, show_suggestions, show_complexity)
 
 
-def main():
-    """Main entry point for CLI usage."""
-    import argparse
-
-    parser = argparse.ArgumentParser(
-        description="V2 Compliance Checker - Automated Quality Gate"
-    )
-    parser.add_argument(
-        "path", nargs="?", default=".", help="Path to scan (default: current directory)"
-    )
-    parser.add_argument(
-        "--pattern", default="**/*.py", help="File pattern to scan (default: **/*.py)"
-    )
-    parser.add_argument(
-        "--verbose", "-v", action="store_true", help="Verbose output"
-    )
-    parser.add_argument(
-        "--fail-on-major",
-        action="store_true",
-        help="Exit with error code if major violations found",
-    )
-    parser.add_argument(
-        "--fail-on-critical",
-        action="store_true",
-        help="Exit with error code if critical violations found",
-    )
-    parser.add_argument(
-        "--suggest",
-        "-s",
-        action="store_true",
-        help="Show refactoring suggestions for violations (requires refactoring_suggestion_engine.py)",
-    )
-    parser.add_argument(
-        "--complexity",
-        "-c",
-        action="store_true",
-        help="Show complexity analysis for files (requires complexity_analyzer.py)",
-    )
-
-    args = parser.parse_args()
-
-    checker = V2ComplianceChecker(args.path)
-    report = checker.scan_directory(Path(args.path), args.pattern)
-
-    print(checker.format_report(report, args.verbose, show_suggestions=args.suggest, show_complexity=args.complexity))
-
-    # Exit with error code if violations found
-    if args.fail_on_critical and report.critical_violations:
-        sys.exit(1)
-    if args.fail_on_major and report.major_violations:
-        sys.exit(1)
-
-    sys.exit(0)
-
-
+# CLI entry point moved to v2_checker_cli.py for V2 compliance
 if __name__ == "__main__":
+    try:
+        from .v2_checker_cli import main
+    except ImportError:
+        from v2_checker_cli import main
     main()
-

@@ -24,9 +24,7 @@ class FileOperations:
         """Initialize file operations handler."""
         self.operations_count = 0
 
-    def handle_operation(
-        self, context: ManagerContext, payload: dict[str, Any]
-    ) -> ManagerResult:
+    def handle_operation(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         """Handle file operations."""
         operation = payload.get("file_operation", "")
         file_path = payload.get("file_path", "")
@@ -96,13 +94,9 @@ class FileOperations:
         """Delete file operation."""
         os.remove(file_path)
         self.operations_count += 1
-        return ManagerResult(
-            success=True, data={"path": file_path, "deleted": True}, metrics={}
-        )
+        return ManagerResult(success=True, data={"path": file_path, "deleted": True}, metrics={})
 
-    def create_file(
-        self, context: ManagerContext, file_path: str, content: str
-    ) -> ManagerResult:
+    def create_file(self, context: ManagerContext, file_path: str, content: str) -> ManagerResult:
         """Create a file."""
         try:
             os.makedirs(os.path.dirname(file_path), exist_ok=True)
@@ -140,4 +134,3 @@ class FileOperations:
         """Write file content."""
         with open(file_path, "w", encoding="utf-8") as f:
             f.write(content)
-

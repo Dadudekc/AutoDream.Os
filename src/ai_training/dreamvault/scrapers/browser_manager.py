@@ -5,9 +5,10 @@ Handles browser initialization, driver management, and undetected Chrome setup.
 """
 
 import logging
-from typing import Optional
+
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+
 try:
     import undetected_chromedriver as uc
 except ImportError:
@@ -15,13 +16,14 @@ except ImportError:
 
 logger = logging.getLogger(__name__)
 
+
 class BrowserManager:
     """Manages browser driver creation and configuration."""
-    
+
     def __init__(self, headless: bool = False, use_undetected: bool = True):
         """
         Initialize the browser manager.
-        
+
         Args:
             headless: Run browser in headless mode
             use_undetected: Use undetected-chromedriver if available
@@ -29,11 +31,11 @@ class BrowserManager:
         self.headless = headless
         self.use_undetected = use_undetected
         self.driver = None
-        
-    def create_driver(self) -> Optional[webdriver.Chrome]:
+
+    def create_driver(self) -> webdriver.Chrome | None:
         """
         Create and configure Chrome driver.
-        
+
         Returns:
             Configured Chrome driver or None if failed
         """
@@ -45,60 +47,61 @@ class BrowserManager:
         except Exception as e:
             logger.error(f"Failed to create driver: {e}")
             return None
-    
-    def _create_undetected_driver(self) -> Optional[webdriver.Chrome]:
+
+    def _create_undetected_driver(self) -> webdriver.Chrome | None:
         """Create undetected Chrome driver."""
         try:
-            
             options = uc.ChromeOptions()
             if self.headless:
                 options.add_argument("--headless")
-            
+
             # Add basic anti-detection arguments (undetected-chromedriver handles the rest)
             options.add_argument("--no-sandbox")
             options.add_argument("--disable-dev-shm-usage")
-            
+
             # Create undetected driver
             driver = uc.Chrome(options=options)
-            
+
             logger.info("✅ Undetected Chrome driver created successfully")
             return driver
-            
+
         except ImportError:
             logger.warning("undetected-chromedriver not available, falling back to standard driver")
             return self._create_standard_driver()
         except Exception as e:
             logger.error(f"Failed to create undetected driver: {e}")
             return None
-    
-    def _create_standard_driver(self) -> Optional[webdriver.Chrome]:
+
+    def _create_standard_driver(self) -> webdriver.Chrome | None:
         """Create standard Chrome driver."""
         try:
             options = Options()
-            
+
             if self.headless:
                 options.add_argument("--headless")
-            
+
             # Add anti-detection arguments
             options.add_argument("--no-sandbox")
             options.add_argument("--disable-dev-shm-usage")
             options.add_argument("--disable-blink-features=AutomationControlled")
             options.add_experimental_option("excludeSwitches", ["enable-automation"])
-            options.add_experimental_option('useAutomationExtension', False)
-            
+            options.add_experimental_option("useAutomationExtension", False)
+
             # Create standard driver
             driver = webdriver.Chrome(options=options)
-            
+
             # Execute script to remove webdriver property
-            driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
-            
+            driver.execute_script(
+                "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"
+            )
+
             logger.info("✅ Standard Chrome driver created successfully")
             return driver
-            
+
         except Exception as e:
             logger.error(f"Failed to create standard driver: {e}")
             return None
-    
+
     def close_driver(self):
         """Close the current driver."""
         if self.driver:
@@ -108,4 +111,4 @@ class BrowserManager:
             except Exception as e:
                 logger.error(f"Error closing driver: {e}")
             finally:
-                self.driver = None 
+                self.driver = None

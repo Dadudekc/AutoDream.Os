@@ -9,8 +9,5 @@ License: MIT
 from .atomic_file_manager import AtomicFileManager
 
 __all__ = [
-    'AtomicFileManager',
+    "AtomicFileManager",
 ]
-
-
-

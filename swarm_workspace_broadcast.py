@@ -11,15 +11,20 @@ print("=" * 70)
 
 try:
     import sys
-    import os
-    sys.path.insert(0, 'src')
-    
-    from core.messaging_core import UnifiedMessagingCore, UnifiedMessage, UnifiedMessageType, UnifiedMessagePriority
-    
+
+    sys.path.insert(0, "src")
+
+    from core.messaging_core import (
+        UnifiedMessage,
+        UnifiedMessagePriority,
+        UnifiedMessageType,
+        UnifiedMessagingCore,
+    )
+
     # Initialize messaging
     messaging = UnifiedMessagingCore()
     print("✅ Messaging Core: ACTIVE")
-    
+
     # Create urgent broadcast message
     swarm_alert = UnifiedMessage(
         content="🚨 CRITICAL SWARM ALERT: PyAutoGUI messaging is BACK ONLINE! All agents can now communicate in real-time. True swarm intelligence is OPERATIONAL! Consolidation efforts can now proceed with full coordination!",
@@ -27,28 +32,29 @@ try:
         recipient="ALL_AGENTS",
         message_type=UnifiedMessageType.BROADCAST,
         priority=UnifiedMessagePriority.URGENT,
-        tags=["swarm", "communication", "restored", "pyautogui", "urgent"]
+        tags=["swarm", "communication", "restored", "pyautogui", "urgent"],
     )
-    
+
     print("✅ Swarm Alert Message: CREATED")
     print(f"   📤 From: {swarm_alert.sender}")
     print(f"   📥 To: {swarm_alert.recipient}")
     print(f"   🎯 Type: {swarm_alert.message_type.value}")
     print(f"   ⚡ Priority: {swarm_alert.priority.value}")
     print(f"   🏷️ Tags: {swarm_alert.tags}")
-    
+
     # Send to all agents via inbox
     print("\n📡 SENDING TO ALL AGENT WORKSPACES...")
-    
+
     # Get all agents
     from core.coordinate_loader import get_coordinate_loader
+
     loader = get_coordinate_loader()
     agents = loader.get_all_agents()
-    
+
     print(f"🤖 Found {len(agents)} agents to notify:")
     for agent in agents:
         print(f"   • {agent}")
-    
+
     # Send to each agent's workspace inbox
     success_count = 0
     for agent in agents:
@@ -60,9 +66,9 @@ try:
                 recipient=agent,
                 message_type=UnifiedMessageType.AGENT_TO_AGENT,
                 priority=UnifiedMessagePriority.URGENT,
-                tags=["personal", "swarm", "communication", "restored"]
+                tags=["personal", "swarm", "communication", "restored"],
             )
-            
+
             # Send to workspace inbox
             result = messaging.send_message_to_inbox(individual_msg)
             if result:
@@ -70,14 +76,14 @@ try:
                 print(f"   ✅ {agent}: Message delivered to workspace inbox")
             else:
                 print(f"   ❌ {agent}: Delivery failed")
-                
+
         except Exception as e:
             print(f"   ❌ {agent}: Error - {e}")
-    
-    print(f"\n📊 DELIVERY SUMMARY:")
+
+    print("\n📊 DELIVERY SUMMARY:")
     print(f"   ✅ Successfully delivered: {success_count}/{len(agents)} agents")
-    print(f"   📁 Messages saved to: agent_workspaces/[Agent]/inbox/")
-    
+    print("   📁 Messages saved to: agent_workspaces/[Agent]/inbox/")
+
     print("\n" + "=" * 70)
     print("🎉 SWARM COMMUNICATION: FULLY RESTORED!")
     print("✅ All agents notified of messaging restoration")
@@ -86,8 +92,9 @@ try:
     print("✅ Messages delivered to CORRECT workspace locations")
     print("🐝 WE ARE SWARM - Communication is BACK ONLINE!")
     print("⚡ Consolidation efforts can now proceed with full coordination!")
-    
+
 except Exception as e:
     print(f"❌ Error: {e}")
     import traceback
+
     traceback.print_exc()

@@ -11,19 +11,20 @@ License: MIT
 
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any
 
 
 @dataclass
 class CommandResult:
     """Result of a Discord commander command execution."""
+
     success: bool
     message: str
-    data: Optional[Dict[str, Any]] = None
-    agent: Optional[str] = None
-    execution_time: Optional[float] = None
-    timestamp: Optional[str] = None
-    error_code: Optional[str] = None
+    data: dict[str, Any] | None = None
+    agent: str | None = None
+    execution_time: float | None = None
+    timestamp: str | None = None
+    error_code: str | None = None
 
     def __post_init__(self):
         """Set default timestamp if not provided."""
@@ -34,10 +35,10 @@ class CommandResult:
 def create_command_result(
     success: bool,
     message: str,
-    data: Optional[Dict[str, Any]] = None,
-    agent: Optional[str] = None,
-    execution_time: Optional[float] = None,
-    error_code: Optional[str] = None
+    data: dict[str, Any] | None = None,
+    agent: str | None = None,
+    execution_time: float | None = None,
+    error_code: str | None = None,
 ) -> CommandResult:
     """Factory function to create CommandResult instances."""
     return CommandResult(
@@ -46,19 +47,20 @@ def create_command_result(
         data=data,
         agent=agent,
         execution_time=execution_time,
-        error_code=error_code
+        error_code=error_code,
     )
 
 
 @dataclass
 class DiscordMessage:
     """Discord message structure."""
+
     content: str
     author: str
     channel: str
     timestamp: str
-    attachments: Optional[list] = None
-    embeds: Optional[list] = None
+    attachments: list | None = None
+    embeds: list | None = None
 
     def __post_init__(self):
         """Set default timestamp if not provided."""
@@ -69,9 +71,10 @@ class DiscordMessage:
 @dataclass
 class AgentCommand:
     """Agent command structure."""
+
     agent_id: str
     command: str
-    parameters: Optional[Dict[str, Any]] = None
+    parameters: dict[str, Any] | None = None
     priority: str = "NORMAL"
     timeout: int = 30
 
@@ -85,6 +88,7 @@ class AgentCommand:
 @dataclass
 class CommunicationStats:
     """Communication statistics."""
+
     messages_sent: int = 0
     messages_received: int = 0
     commands_executed: int = 0
@@ -92,7 +96,7 @@ class CommunicationStats:
     average_response_time: float = 0.0
     uptime_percentage: float = 100.0
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert stats to dictionary."""
         return {
             "messages_sent": self.messages_sent,
@@ -100,5 +104,5 @@ class CommunicationStats:
             "commands_executed": self.commands_executed,
             "errors_encountered": self.errors_encountered,
             "average_response_time": self.average_response_time,
-            "uptime_percentage": self.uptime_percentage
+            "uptime_percentage": self.uptime_percentage,
         }

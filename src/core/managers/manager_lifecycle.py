@@ -7,12 +7,12 @@ Author: Agent-5 (refactored from Agent-2's base_manager.py) | License: MIT
 
 from __future__ import annotations
 
-from typing import Any, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from ..shared_utilities import CleanupManager, InitializationManager, StatusManager
     from .contracts import ManagerContext
-    from .manager_state import ManagerState, ManagerStateTracker
+    from .manager_state import ManagerStateTracker
 
 
 class ManagerLifecycleHelper:
@@ -72,7 +72,9 @@ class ManagerLifecycleHelper:
                 return False
         except Exception as e:
             self.state_tracker.mark_error(str(e))
-            self.logger.error(f"Exception during initialization of {self.state_tracker.manager_name}: {e}")
+            self.logger.error(
+                f"Exception during initialization of {self.state_tracker.manager_name}: {e}"
+            )
             return False
 
     def cleanup(self, context: ManagerContext, manager_state_enum: Any) -> bool:
@@ -92,7 +94,9 @@ class ManagerLifecycleHelper:
             if success:
                 self.state_tracker.set_state(manager_state_enum.TERMINATED)
                 self.status_manager.unregister_component(self.state_tracker.manager_id)
-                self.logger.info(f"{self.state_tracker.manager_name} manager cleaned up successfully")
+                self.logger.info(
+                    f"{self.state_tracker.manager_name} manager cleaned up successfully"
+                )
                 return True
             else:
                 self.state_tracker.mark_error("Cleanup failed")
@@ -102,4 +106,3 @@ class ManagerLifecycleHelper:
             self.state_tracker.mark_error(str(e))
             self.logger.error(f"Exception during cleanup of {self.state_tracker.manager_name}: {e}")
             return False
-

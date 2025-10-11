@@ -19,6 +19,3 @@ def handle_message(content: str, recipient: str, use_pyautogui: bool = False) ->
 def handle_broadcast(content: str) -> bool:
     """Broadcast a message to all agents."""
     return broadcast_message(content=content, sender="HANDLER")
-
-
-

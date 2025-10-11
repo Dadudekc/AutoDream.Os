@@ -20,6 +20,3 @@ def send_discord_message(
         priority=priority,
         tags=tags,
     )
-
-
-

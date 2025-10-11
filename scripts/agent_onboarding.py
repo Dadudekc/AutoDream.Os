@@ -4,17 +4,17 @@ Agent Swarm Onboarding Script
 Automated onboarding for new agents joining the swarm system.
 """
 
-import os
 import json
-import sys
-from pathlib import Path
 import subprocess
+import sys
 from datetime import datetime
+from pathlib import Path
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.core.unified_logging_system import get_logger
+
 
 class AgentOnboarding:
     """Automated onboarding system for new agents."""
@@ -133,7 +133,7 @@ class AgentOnboarding:
         get_logger(__name__).info(f"✅ **Workspace**: {workspace_dir}")
         get_logger(__name__).info(f"✅ **Status File**: {workspace_dir}/status.json")
         get_logger(__name__).info(f"✅ **Inbox**: {workspace_dir}/inbox/")
-        get_logger(__name__).info(f"✅ **Captain Acknowledgment**: Sent to Agent-4")
+        get_logger(__name__).info("✅ **Captain Acknowledgment**: Sent to Agent-4")
         get_logger(__name__).info()
         get_logger(__name__).info("🚀 **IMMEDIATE NEXT STEPS**:")
         get_logger(__name__).info("1. Claim your first contract:")
@@ -143,16 +143,12 @@ class AgentOnboarding:
         get_logger(__name__).info("2. Begin task execution immediately")
         get_logger(__name__).info("3. Check your inbox regularly for messages")
         get_logger(__name__).info("4. Update status.json with every action")
-        get_logger(__name__).info(
-            "5. Maintain 8x efficiency through active participation"
-        )
+        get_logger(__name__).info("5. Maintain 8x efficiency through active participation")
         get_logger(__name__).info()
         get_logger(__name__).info("📋 **CRITICAL PROTOCOLS**:")
         get_logger(__name__).info("- Always check inbox before starting new work")
         get_logger(__name__).info("- Respond to all messages within 1 agent cycle")
-        get_logger(__name__).info(
-            "- Update status.json with timestamp for every action"
-        )
+        get_logger(__name__).info("- Update status.json with timestamp for every action")
         get_logger(__name__).info("- Preserve work context across task transitions")
         get_logger(__name__).info("- Follow V2 compliance standards")
         get_logger(__name__).info()
@@ -201,14 +197,14 @@ class AgentOnboarding:
 def main():
     """Main entry point for the onboarding script."""
     import argparse
-    
+
     parser = argparse.ArgumentParser(description="Agent Swarm Onboarding System")
     parser.add_argument("--agent-id", help="Specific agent ID to onboard")
     args = parser.parse_args()
-    
+
     onboarding = AgentOnboarding()
     success = onboarding.run_onboarding()
-    
+
     if success:
         print("\n🎉 **ONBOARDING SUCCESSFUL!** 🎉")
         print("You are now part of the most efficient multi-agent coordination system!")

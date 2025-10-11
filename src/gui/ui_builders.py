@@ -15,14 +15,15 @@ try:
     from PyQt5.QtCore import Qt
     from PyQt5.QtWidgets import (
         QFrame,
-        QGroupBox,
         QGridLayout,
+        QGroupBox,
         QHBoxLayout,
         QLabel,
         QPushButton,
         QVBoxLayout,
         QWidget,
     )
+
     PYQT5_AVAILABLE = True
 except ImportError:
     PYQT5_AVAILABLE = False
@@ -31,7 +32,7 @@ except ImportError:
 def create_header(layout, theme, system_status_label_ref) -> None:
     """
     Create header section for GUI.
-    
+
     Args:
         layout: Parent layout to add header to
         theme: Theme manager for styling
@@ -39,7 +40,7 @@ def create_header(layout, theme, system_status_label_ref) -> None:
     """
     if not PYQT5_AVAILABLE:
         return
-    
+
     header_frame = QFrame()
     header_frame.setStyleSheet(
         """
@@ -80,7 +81,7 @@ def create_header(layout, theme, system_status_label_ref) -> None:
         """
     )
     header_layout.addWidget(system_status_label)
-    
+
     # Store reference for later use
     system_status_label_ref[0] = system_status_label
 
@@ -90,21 +91,21 @@ def create_header(layout, theme, system_status_label_ref) -> None:
 def create_left_panel(theme, agent_widgets, callbacks) -> QWidget:
     """
     Create left panel with agent grid and controls.
-    
+
     Args:
         theme: Theme manager for styling
         agent_widgets: Dict to store agent card widgets
         callbacks: Dict with callback functions
-        
+
     Returns:
         Configured left panel widget
     """
     if not PYQT5_AVAILABLE:
         return None
-    
+
     # Import here to avoid circular dependencies
     from .components.agent_card import AgentCard
-    
+
     panel = QWidget()
     panel.setMaximumWidth(450)
     layout = QVBoxLayout(panel)
@@ -118,7 +119,7 @@ def create_left_panel(theme, agent_widgets, callbacks) -> QWidget:
     agent_grid = QGridLayout()
     for i in range(1, 9):
         agent_id = f"Agent-{i}"
-        agent_card = AgentCard(agent_id, callbacks.get('parent'))
+        agent_card = AgentCard(agent_id, callbacks.get("parent"))
         agent_widgets[agent_id] = agent_card
 
         row = (i - 1) // 4
@@ -132,12 +133,12 @@ def create_left_panel(theme, agent_widgets, callbacks) -> QWidget:
 
     select_all_btn = QPushButton("Select All")
     select_all_btn.setStyleSheet(theme.get_style("button"))
-    select_all_btn.clicked.connect(callbacks.get('select_all'))
+    select_all_btn.clicked.connect(callbacks.get("select_all"))
     controls_layout.addWidget(select_all_btn)
 
     clear_btn = QPushButton("Clear")
     clear_btn.setStyleSheet(theme.get_style("button_error"))
-    clear_btn.clicked.connect(callbacks.get('clear_selection'))
+    clear_btn.clicked.connect(callbacks.get("clear_selection"))
     controls_layout.addWidget(clear_btn)
 
     agents_layout.addLayout(controls_layout)
@@ -149,10 +150,10 @@ def create_left_panel(theme, agent_widgets, callbacks) -> QWidget:
     actions_layout = QVBoxLayout(actions_group)
 
     actions = [
-        ("🔍 Ping", callbacks.get('ping')),
-        ("📊 Status", callbacks.get('get_status')),
-        ("▶️ Resume", callbacks.get('resume')),
-        ("⏸️ Pause", callbacks.get('pause')),
+        ("🔍 Ping", callbacks.get("ping")),
+        ("📊 Status", callbacks.get("get_status")),
+        ("▶️ Resume", callbacks.get("resume")),
+        ("⏸️ Pause", callbacks.get("pause")),
     ]
 
     for text, callback in actions:
@@ -170,18 +171,17 @@ def create_left_panel(theme, agent_widgets, callbacks) -> QWidget:
 def create_right_panel(status_panel_widget) -> QWidget:
     """
     Create right panel with status and logs.
-    
+
     Args:
         status_panel_widget: StatusPanel widget to display
-        
+
     Returns:
         Configured right panel widget
     """
     if not PYQT5_AVAILABLE:
         return None
-    
+
     panel = QWidget()
     layout = QVBoxLayout(panel)
     layout.addWidget(status_panel_widget)
     return panel
-

@@ -10,7 +10,7 @@ License: MIT
 
 import logging
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 from .database_connection import DatabaseConnection
 
@@ -24,7 +24,7 @@ class PersistenceStatistics:
         """Initialize statistics provider."""
         self.db = db_connection
 
-    def get_database_stats(self) -> Dict[str, Any]:
+    def get_database_stats(self) -> dict[str, Any]:
         """Get comprehensive database statistics."""
         stats = {
             "total_agents": 0,
@@ -42,9 +42,7 @@ class PersistenceStatistics:
             agent_rows = self.db.execute_query("SELECT COUNT(*) FROM agents")
             stats["total_agents"] = agent_rows[0][0] if agent_rows else 0
 
-            active_rows = self.db.execute_query(
-                "SELECT COUNT(*) FROM agents WHERE is_active = 1"
-            )
+            active_rows = self.db.execute_query("SELECT COUNT(*) FROM agents WHERE is_active = 1")
             stats["active_agents"] = active_rows[0][0] if active_rows else 0
 
             # Task statistics
@@ -84,7 +82,3 @@ class PersistenceStatistics:
             logger.error(f"Error getting database stats: {e}")
 
         return stats
-
-
-
-

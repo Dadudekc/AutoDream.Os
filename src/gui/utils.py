@@ -22,7 +22,7 @@ def get_coordinate_loader_fallback():
 
 def get_unified_config_fallback():
     """Fallback unified config when V2 core unavailable."""
-    return type('MockConfig', (), {'get_env': lambda x, y=None: y})()
+    return type("MockConfig", (), {"get_env": lambda x, y=None: y})()
 
 
 def get_logger_fallback(name):
@@ -43,8 +43,7 @@ except ImportError as e:
 
 
 __all__ = [
-    'get_coordinate_loader',
-    'get_unified_config',
-    'get_logger',
+    "get_coordinate_loader",
+    "get_unified_config",
+    "get_logger",
 ]
-

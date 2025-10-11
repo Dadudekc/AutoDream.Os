@@ -8,8 +8,8 @@ Author: Agent-6 (VSCode Forking & Quality Gates Specialist) - Refactored from Ag
 License: MIT
 """
 
+from collections.abc import Iterable
 from datetime import datetime
-from typing import Iterable, Optional
 
 from .base_repository import BaseRepository
 from .database_connection import DatabaseConnection
@@ -41,7 +41,7 @@ class TaskRepository(BaseRepository[Task]):
         """
         self.db.create_tables([schema])
 
-    def get(self, task_id: str) -> Optional[Task]:
+    def get(self, task_id: str) -> Task | None:
         """Get task by ID."""
         rows = self.db.execute_query(
             """
@@ -165,7 +165,3 @@ class TaskRepository(BaseRepository[Task]):
             task.completed_at.isoformat() if task.completed_at else None,
             task.priority,
         )
-
-
-
-

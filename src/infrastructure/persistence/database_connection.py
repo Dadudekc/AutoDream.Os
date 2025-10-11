@@ -12,7 +12,6 @@ import logging
 import sqlite3
 from contextlib import contextmanager
 from pathlib import Path
-from typing import List
 
 from .persistence_models import PersistenceConfig
 
@@ -48,7 +47,7 @@ class DatabaseConnection:
         finally:
             conn.close()
 
-    def execute_query(self, query: str, params: tuple = ()) -> List[tuple]:
+    def execute_query(self, query: str, params: tuple = ()) -> list[tuple]:
         """Execute a query and return results."""
         with self.get_connection() as conn:
             cursor = conn.execute(query, params)
@@ -61,7 +60,7 @@ class DatabaseConnection:
             conn.commit()
             return cursor.rowcount
 
-    def create_tables(self, schema_queries: List[str]) -> bool:
+    def create_tables(self, schema_queries: list[str]) -> bool:
         """Create database tables from schema queries."""
         try:
             with self.get_connection() as conn:
@@ -72,7 +71,3 @@ class DatabaseConnection:
         except Exception as e:
             logger.error(f"❌ Failed to create tables: {e}")
             return False
-
-
-
-

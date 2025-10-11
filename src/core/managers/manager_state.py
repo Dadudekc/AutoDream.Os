@@ -17,6 +17,7 @@ from typing import Any
 
 class ManagerType(Enum):
     """Manager type enumeration for specialization."""
+
     CONFIGURATION = "configuration"
     EXECUTION = "execution"
     MONITORING = "monitoring"
@@ -32,6 +33,7 @@ class ManagerType(Enum):
 
 class ManagerState(Enum):
     """Manager lifecycle states."""
+
     UNINITIALIZED = "uninitialized"
     INITIALIZING = "initializing"
     READY = "ready"
@@ -51,15 +53,15 @@ class ManagerStateTracker:
         self.manager_type = manager_type
         self.manager_name = manager_name or f"{manager_type.value}_manager"
         self.manager_id = f"{self.manager_name}_{id(self)}"
-        
+
         # Lifecycle state
         self.state = ManagerState.UNINITIALIZED
         self.initialized_at: datetime | None = None
         self.last_operation_at: datetime | None = None
-        
+
         # Error tracking
         self.last_error: str | None = None
-        
+
         # Context and configuration
         self.context: Any = None  # ManagerContext
         self.config: dict[str, Any] = {}
@@ -108,6 +110,3 @@ class ManagerStateTracker:
             f"ManagerStateTracker(id={self.manager_id}, "
             f"type={self.manager_type.value}, state={self.state.value})"
         )
-
-
-

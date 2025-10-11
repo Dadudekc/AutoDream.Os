@@ -15,16 +15,16 @@ License: MIT
 
 from datetime import datetime
 from pathlib import Path
-from typing import Optional
 
 # Import our quality tools
 try:
-    from v2_compliance_checker import V2ComplianceChecker
     from complexity_analyzer import ComplexityAnalysisService
-    from refactoring_suggestion_engine import RefactoringSuggestionService
+    from compliance_history_tracker import ComplianceHistoryTracker
     from dashboard_data_aggregator import DashboardDataAggregator
     from dashboard_html_generator import DashboardHTMLGenerator
-    from compliance_history_tracker import ComplianceHistoryTracker
+    from refactoring_suggestion_engine import RefactoringSuggestionService
+    from v2_compliance_checker import V2ComplianceChecker
+
     TOOLS_AVAILABLE = True
 except ImportError:
     TOOLS_AVAILABLE = False
@@ -42,7 +42,7 @@ class ComplianceDashboard:
 
     def generate_dashboard(
         self, directory: str, pattern: str = "**/*.py", include_history: bool = True
-    ) -> Optional[str]:
+    ) -> str | None:
         """Generate complete compliance dashboard with optional historical trends."""
         if not TOOLS_AVAILABLE:
             print("❌ Quality tools not available")
@@ -83,9 +83,7 @@ class ComplianceDashboard:
         print("📊 Generating dashboard...")
 
         # Aggregate data
-        dashboard_data = self.aggregator.aggregate_data(
-            v2_report, complexity_reports, suggestions
-        )
+        dashboard_data = self.aggregator.aggregate_data(v2_report, complexity_reports, suggestions)
 
         # Add historical data to dashboard
         if historical_data:
@@ -110,16 +108,10 @@ def main():
     import argparse
 
     parser = argparse.ArgumentParser(description="Compliance Dashboard Generator")
-    parser.add_argument(
-        "directory", nargs="?", default="src", help="Directory to analyze"
-    )
+    parser.add_argument("directory", nargs="?", default="src", help="Directory to analyze")
     parser.add_argument("--pattern", default="**/*.py", help="File pattern")
-    parser.add_argument(
-        "--output", "-o", default="reports/dashboards", help="Output directory"
-    )
-    parser.add_argument(
-        "--no-history", action="store_true", help="Disable historical trend data"
-    )
+    parser.add_argument("--output", "-o", default="reports/dashboards", help="Output directory")
+    parser.add_argument("--no-history", action="store_true", help="Disable historical trend data")
 
     args = parser.parse_args()
 
@@ -130,7 +122,7 @@ def main():
 
     if output_path:
         print(f"\n✅ Dashboard ready: {output_path}")
-        print(f"📂 Open in browser to view")
+        print("📂 Open in browser to view")
     else:
         print("\n❌ Failed to generate dashboard")
 

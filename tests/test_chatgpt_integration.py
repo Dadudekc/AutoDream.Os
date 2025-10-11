@@ -9,10 +9,9 @@ Author: Agent-1 - Browser Automation Specialist
 License: MIT
 """
 
-import pytest
+from services.chatgpt.extractor import ConversationExtractor
 from services.chatgpt.navigator import ChatGPTNavigator
 from services.chatgpt.session import BrowserSessionManager
-from services.chatgpt.extractor import ConversationExtractor
 
 
 class TestChatGPTNavigator:
@@ -103,4 +102,3 @@ class TestConversationExtractor:
         # Should return a number
         assert isinstance(cleaned, int)
         assert cleaned >= 0
-

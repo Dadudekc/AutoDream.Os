@@ -13,13 +13,14 @@ License: MIT
 import uuid
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict
+from typing import Any
 
 from ..contracts import ManagerContext, ManagerResult
 
 
 class WidgetType(Enum):
     """Widget types."""
+
     CHART = "chart"
     TABLE = "table"
     METRIC = "metric"
@@ -67,9 +68,7 @@ class WidgetManager:
         try:
             widget_type = payload.get("type")
             if widget_type:
-                filtered_widgets = [
-                    w for w in self.widgets.values() if w["type"] == widget_type
-                ]
+                filtered_widgets = [w for w in self.widgets.values() if w["type"] == widget_type]
             else:
                 filtered_widgets = list(self.widgets.values())
 
@@ -86,6 +85,3 @@ class WidgetManager:
                 message=f"Failed to get widgets: {e}",
                 errors=[str(e)],
             )
-
-
-

@@ -19,13 +19,13 @@ Refactored by: Agent-6 (VSCode Forking & Quality Gates Specialist)
 License: MIT
 """
 
-from typing import Any, Dict, Optional, Tuple
+from typing import Any
 
-from .browser.browser_models import BrowserConfig, TheaConfig
 from .browser.browser_adapter import ChromeBrowserAdapter
+from .browser.browser_models import BrowserConfig, TheaConfig
+from .browser.browser_operations import BrowserOperations
 from .browser.cookie_manager import CookieManager
 from .browser.session_manager import SessionManager
-from .browser.browser_operations import BrowserOperations
 
 
 class UnifiedBrowserService:
@@ -33,8 +33,8 @@ class UnifiedBrowserService:
 
     def __init__(
         self,
-        browser_config: Optional[BrowserConfig] = None,
-        thea_config: Optional[TheaConfig] = None,
+        browser_config: BrowserConfig | None = None,
+        thea_config: TheaConfig | None = None,
     ):
         """Initialize unified browser service."""
         self.browser_config = browser_config or BrowserConfig()
@@ -60,11 +60,11 @@ class UnifiedBrowserService:
         """Stop the browser."""
         self.browser_adapter.stop()
 
-    def create_session(self, service_name: str) -> Optional[str]:
+    def create_session(self, service_name: str) -> str | None:
         """Create a new browser session."""
         return self.session_manager.create_session(service_name)
 
-    def navigate_to_conversation(self, url: Optional[str] = None) -> bool:
+    def navigate_to_conversation(self, url: str | None = None) -> bool:
         """Navigate to conversation page."""
         return self.operations.navigate_to_conversation(url)
 
@@ -84,25 +84,23 @@ class UnifiedBrowserService:
         """Load cookies for a service."""
         return self.cookie_manager.load_cookies(self.browser_adapter, service_name)
 
-    def can_make_request(self, service_name: str, session_id: str) -> Tuple[bool, str]:
+    def can_make_request(self, service_name: str, session_id: str) -> tuple[bool, str]:
         """Check if a request can be made."""
         return self.session_manager.can_make_request(service_name, session_id)
 
-    def record_request(
-        self, service_name: str, session_id: str, success: bool = True
-    ) -> None:
+    def record_request(self, service_name: str, session_id: str, success: bool = True) -> None:
         """Record a request."""
         self.session_manager.record_request(service_name, session_id, success)
 
-    def get_session_info(self, session_id: str) -> Dict[str, Any]:
+    def get_session_info(self, session_id: str) -> dict[str, Any]:
         """Get session information."""
         return self.session_manager.get_session_info(session_id)
 
-    def get_rate_limit_status(self, service_name: str) -> Dict[str, Any]:
+    def get_rate_limit_status(self, service_name: str) -> dict[str, Any]:
         """Get rate limit status."""
         return self.session_manager.get_rate_limit_status(service_name)
 
-    def get_page_status(self) -> Dict[str, Any]:
+    def get_page_status(self) -> dict[str, Any]:
         """Get current page status."""
         return self.operations.get_page_status()
 
@@ -114,7 +112,7 @@ class UnifiedBrowserService:
         """Check if there's a valid session."""
         return self.cookie_manager.has_valid_session(service_name)
 
-    def get_browser_info(self) -> Dict[str, Any]:
+    def get_browser_info(self) -> dict[str, Any]:
         """Get comprehensive browser information."""
         return {
             "browser_running": self.is_browser_running(),
@@ -128,7 +126,7 @@ class UnifiedBrowserService:
 
 def create_browser_service(
     headless: bool = False,
-    user_data_dir: Optional[str] = None,
+    user_data_dir: str | None = None,
     conversation_url: str = "https://chat.openai.com/",
 ) -> UnifiedBrowserService:
     """Factory function to create browser service."""

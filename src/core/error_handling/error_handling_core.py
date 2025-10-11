@@ -20,7 +20,6 @@ from datetime import datetime
 from enum import Enum
 from typing import Any
 
-
 # ============================================================================
 # ENUMS AND CONSTANTS
 # ============================================================================
@@ -308,4 +307,3 @@ class CircuitBreakerError(Exception):
     """Exception raised when circuit breaker is OPEN."""
 
     pass
-

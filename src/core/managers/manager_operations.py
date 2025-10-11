@@ -10,7 +10,7 @@ License: MIT
 
 from __future__ import annotations
 
-from typing import Any, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from ..shared_utilities import ErrorHandler, ResultManager, ValidationManager
@@ -46,27 +46,27 @@ class ManagerOperationsHelper:
     ) -> ManagerResult:
         """
         Execute operation with validation and error handling.
-        
+
         Args:
             context: Manager context
             operation: Operation name
             payload: Operation payload
             execute_callback: Callback function to execute the actual operation
-            
+
         Returns:
             ManagerResult with operation results
         """
         try:
             self.metrics_tracker.record_operation_start()
             self.state_tracker.mark_operation()
-            
+
             # Validate input
             validation_result = self.validation_manager.validate_operation(
                 operation=operation,
                 payload=payload,
                 component_type=self.state_tracker.manager_type.value,
             )
-            
+
             if not validation_result.is_valid:
                 self.metrics_tracker.record_error()
                 return self.result_manager.create_error_result(
@@ -74,16 +74,16 @@ class ManagerOperationsHelper:
                     operation=operation,
                     component_id=self.state_tracker.manager_id,
                 )
-            
+
             # Execute operation via callback
             result = execute_callback(context, operation, payload)
-            
+
             if result.success:
                 self.metrics_tracker.record_success()
             else:
                 self.metrics_tracker.record_error()
                 self.state_tracker.last_error = result.error
-            
+
             # Create standardized result
             return self.result_manager.create_result(
                 data=result.data if result.success else {},
@@ -93,11 +93,11 @@ class ManagerOperationsHelper:
                 error=result.error,
                 metrics=result.metrics,
             )
-            
+
         except Exception as e:
             self.metrics_tracker.record_error()
             self.state_tracker.mark_error(str(e))
-            
+
             # Handle error
             self.error_handler.handle_error(
                 error=e,
@@ -109,15 +109,12 @@ class ManagerOperationsHelper:
                 component_id=self.state_tracker.manager_id,
                 severity="medium",
             )
-            
+
             return self.result_manager.create_error_result(
                 error=str(e),
                 operation=operation,
                 component_id=self.state_tracker.manager_id,
             )
-        
+
         finally:
             self.state_tracker.mark_ready()
-
-
-

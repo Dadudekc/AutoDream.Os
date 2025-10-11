@@ -10,7 +10,7 @@ License: MIT
 
 import logging
 from abc import ABC, abstractmethod
-from typing import Any, Dict, List
+from typing import Any
 
 from .browser_models import BrowserConfig
 
@@ -51,7 +51,7 @@ class BrowserAdapter(ABC):
         pass
 
     @abstractmethod
-    def find_elements(self, selector: str) -> List[Any]:
+    def find_elements(self, selector: str) -> list[Any]:
         """Find elements by CSS selector."""
         pass
 
@@ -66,12 +66,12 @@ class BrowserAdapter(ABC):
         pass
 
     @abstractmethod
-    def get_cookies(self) -> List[Dict]:
+    def get_cookies(self) -> list[dict]:
         """Get cookies from browser."""
         pass
 
     @abstractmethod
-    def add_cookies(self, cookies: List[Dict]) -> None:
+    def add_cookies(self, cookies: list[dict]) -> None:
         """Add cookies to browser."""
         pass
 
@@ -95,9 +95,7 @@ class ChromeBrowserAdapter(BrowserAdapter):
                 options.add_argument("--headless")
             if config.user_data_dir:
                 options.add_argument(f"--user-data-dir={config.user_data_dir}")
-            options.add_argument(
-                f"--window-size={config.window_size[0]},{config.window_size[1]}"
-            )
+            options.add_argument(f"--window-size={config.window_size[0]},{config.window_size[1]}")
             options.add_argument("--no-sandbox")
             options.add_argument("--disable-dev-shm-usage")
 
@@ -156,7 +154,7 @@ class ChromeBrowserAdapter(BrowserAdapter):
         except Exception:
             return None
 
-    def find_elements(self, selector: str) -> List[Any]:
+    def find_elements(self, selector: str) -> list[Any]:
         """Find elements by CSS selector."""
         if not self.driver:
             return []
@@ -181,7 +179,7 @@ class ChromeBrowserAdapter(BrowserAdapter):
         """Check if browser is running."""
         return self.driver is not None
 
-    def get_cookies(self) -> List[Dict]:
+    def get_cookies(self) -> list[dict]:
         """Get cookies from browser."""
         if not self.driver:
             return []
@@ -191,7 +189,7 @@ class ChromeBrowserAdapter(BrowserAdapter):
             logger.error(f"Failed to get cookies: {e}")
             return []
 
-    def add_cookies(self, cookies: List[Dict]) -> None:
+    def add_cookies(self, cookies: list[dict]) -> None:
         """Add cookies to browser."""
         if not self.driver:
             return
@@ -200,4 +198,3 @@ class ChromeBrowserAdapter(BrowserAdapter):
                 self.driver.add_cookie(cookie)
             except Exception as e:
                 logger.error(f"Failed to add cookie: {e}")
-

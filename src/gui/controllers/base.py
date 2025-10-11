@@ -12,7 +12,8 @@ License: MIT
 """
 
 import logging
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
 # V2 Integration imports (uses shared utils for fallbacks)
 from ..utils import get_coordinate_loader, get_logger
@@ -21,6 +22,7 @@ from ..utils import get_coordinate_loader, get_logger
 try:
     from ...core.messaging_pyautogui import send_message_to_agent
 except ImportError:
+
     def send_message_to_agent(*args, **kwargs):
         logging.info(f"Mock message send: {args}, {kwargs}")
         return True
@@ -143,7 +145,9 @@ class BaseGUIController:
         else:
             self.log_message("Error", f"{action_type} failed → {agent_id}")
 
-    def _default_broadcast_action(self, action_type: str, default_command: str | None = None) -> None:
+    def _default_broadcast_action(
+        self, action_type: str, default_command: str | None = None
+    ) -> None:
         """Default broadcast action implementation."""
         message = default_command or self._create_action_message(action_type)
 
@@ -246,4 +250,3 @@ class BaseGUIController:
                 self.log_message("System", f"Log saved to {filename}")
         except Exception as e:
             self.logger.error(f"Failed to save log: {e}")
-

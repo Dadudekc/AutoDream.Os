@@ -13,21 +13,32 @@ License: MIT
 import asyncio
 import json
 import os
-import requests
-from pathlib import Path
-from typing import Dict, Any, Optional, List
 from datetime import datetime
+from pathlib import Path
+from typing import Any
+
+import requests
 
 try:
     from .discord_agent_communication import AgentCommunicationEngine
+    from .discord_embeds import (
+        create_agent_status_embed,
+        create_coordination_embed,
+        create_devlog_embed,
+    )
 except ImportError:
     from discord_agent_communication import AgentCommunicationEngine
+    from discord_embeds import (
+        create_agent_status_embed,
+        create_coordination_embed,
+        create_devlog_embed,
+    )
 
 
 class DiscordService:
     """Unified Discord service for DevLog monitoring, webhooks, and agent communication."""
 
-    def __init__(self, webhook_url: Optional[str] = None):
+    def __init__(self, webhook_url: str | None = None):
         """Initialize Discord service."""
         self.webhook_url = webhook_url or self._load_webhook_url()
         self.agent_engine = AgentCommunicationEngine()
@@ -37,20 +48,20 @@ class DiscordService:
         self.session = requests.Session()
         self.session.timeout = 10
 
-    def _load_webhook_url(self) -> Optional[str]:
+    def _load_webhook_url(self) -> str | None:
         """Load webhook URL from environment or config."""
         webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
-        
+
         if not webhook_url:
             config_path = Path("config/discord_config.json")
             if config_path.exists():
                 try:
-                    with open(config_path, 'r') as f:
+                    with open(config_path) as f:
                         config = json.load(f)
                         webhook_url = config.get("webhook_url")
                 except Exception:
                     pass
-        
+
         return webhook_url
 
     async def start_devlog_monitoring(self, check_interval: int = 60):
@@ -88,13 +99,14 @@ class DiscordService:
         except Exception as e:
             print(f"❌ Error checking devlogs: {e}")
 
-    def _find_new_devlogs(self) -> List[Path]:
+    def _find_new_devlogs(self) -> list[Path]:
         """Find devlog files newer than last check."""
         if not self.devlogs_path.exists():
             return []
-        
+
         new_files = [
-            file_path for file_path in self.devlogs_path.rglob("*.md")
+            file_path
+            for file_path in self.devlogs_path.rglob("*.md")
             if file_path.stat().st_mtime > self.last_check_time.timestamp()
         ]
         return sorted(new_files, key=lambda x: x.stat().st_mtime)
@@ -102,7 +114,7 @@ class DiscordService:
     async def _process_devlog(self, devlog_path: Path):
         """Process a single devlog file."""
         try:
-            with open(devlog_path, 'r', encoding='utf-8') as f:
+            with open(devlog_path, encoding="utf-8") as f:
                 content = f.read()
 
             metadata = self._parse_devlog_filename(devlog_path.name)
@@ -112,7 +124,7 @@ class DiscordService:
                 "category": metadata.get("category", "general"),
                 "agent": metadata.get("agent", "Unknown"),
                 "filepath": str(devlog_path),
-                "timestamp": datetime.utcnow().isoformat()
+                "timestamp": datetime.utcnow().isoformat(),
             }
 
             print(f"📝 Processing devlog: {devlog_data['title']}")
@@ -126,35 +138,43 @@ class DiscordService:
         except Exception as e:
             print(f"❌ Error processing devlog {devlog_path}: {e}")
 
-    def _parse_devlog_filename(self, filename: str) -> Dict[str, str]:
+    def _parse_devlog_filename(self, filename: str) -> dict[str, str]:
         """Parse metadata from devlog filename."""
-        parts = filename.replace('.md', '').split('_')
-        metadata = {"timestamp": "unknown", "category": "general", "agent": "Unknown", "title": filename}
+        parts = filename.replace(".md", "").split("_")
+        metadata = {
+            "timestamp": "unknown",
+            "category": "general",
+            "agent": "Unknown",
+            "title": filename,
+        }
 
         if len(parts) >= 4:
             metadata["timestamp"] = f"{parts[0]}_{parts[1]}"
             metadata["category"] = parts[2]
             metadata["agent"] = parts[3]
-            metadata["title"] = '_'.join(parts[4:]) if len(parts) > 4 else "DevLog Update"
+            metadata["title"] = "_".join(parts[4:]) if len(parts) > 4 else "DevLog Update"
 
         return metadata
 
     def _extract_devlog_summary(self, content: str, max_length: int = 500) -> str:
         """Extract summary from devlog content."""
-        lines = content.split('\n')
+        lines = content.split("\n")
         summary = ""
-        
+
         for line in lines[:20]:
             line = line.strip()
-            if line and not line.startswith('#') and len(line) > 20:
+            if line and not line.startswith("#") and len(line) > 20:
                 summary += line + " "
                 if len(summary) > max_length:
                     break
 
-        return (summary[:max_length].strip() if summary 
-                else "DevLog update processed by V2_SWARM monitoring system.")
+        return (
+            summary[:max_length].strip()
+            if summary
+            else "DevLog update processed by V2_SWARM monitoring system."
+        )
 
-    async def _notify_agents_of_devlog(self, devlog_data: Dict[str, Any]):
+    async def _notify_agents_of_devlog(self, devlog_data: dict[str, Any]):
         """Notify relevant agents about the devlog."""
         try:
             message = f"""🚨 DISCORD DEVLOG ALERT
@@ -171,8 +191,10 @@ class DiscordService:
 ---
 *Automated DevLog Monitor*
 """
-            result = await self.agent_engine.broadcast_to_all_agents(message, sender="Discord_DevLog_Monitor")
-            
+            result = await self.agent_engine.broadcast_to_all_agents(
+                message, sender="Discord_DevLog_Monitor"
+            )
+
             if result.success:
                 print(f"✅ Notified {result.data.get('successful_deliveries', 0)} agents")
             else:
@@ -181,7 +203,7 @@ class DiscordService:
         except Exception as e:
             print(f"❌ Error notifying agents: {e}")
 
-    def send_devlog_notification(self, devlog_data: Dict[str, Any]) -> bool:
+    def send_devlog_notification(self, devlog_data: dict[str, Any]) -> bool:
         """Send devlog notification to Discord."""
         if not self.webhook_url:
             return False
@@ -191,7 +213,7 @@ class DiscordService:
             payload = {
                 "embeds": [embed],
                 "username": "V2_SWARM DevLog Monitor",
-                "avatar_url": os.getenv("DISCORD_AVATAR_URL", None)
+                "avatar_url": os.getenv("DISCORD_AVATAR_URL", None),
             }
 
             response = self.session.post(self.webhook_url, json=payload)
@@ -201,7 +223,7 @@ class DiscordService:
             print(f"❌ Error sending devlog notification: {e}")
             return False
 
-    def send_agent_status_notification(self, agent_status: Dict[str, Any]) -> bool:
+    def send_agent_status_notification(self, agent_status: dict[str, Any]) -> bool:
         """Send agent status notification to Discord."""
         if not self.webhook_url:
             return False
@@ -211,7 +233,7 @@ class DiscordService:
             payload = {
                 "embeds": [embed],
                 "username": "V2_SWARM Status Monitor",
-                "avatar_url": os.getenv("DISCORD_AVATAR_URL", None)
+                "avatar_url": os.getenv("DISCORD_AVATAR_URL", None),
             }
 
             response = self.session.post(self.webhook_url, json=payload)
@@ -221,7 +243,7 @@ class DiscordService:
             print(f"❌ Error sending agent status notification: {e}")
             return False
 
-    def send_swarm_coordination_notification(self, coordination_data: Dict[str, Any]) -> bool:
+    def send_swarm_coordination_notification(self, coordination_data: dict[str, Any]) -> bool:
         """Send swarm coordination notification to Discord."""
         if not self.webhook_url:
             return False
@@ -231,7 +253,7 @@ class DiscordService:
             payload = {
                 "embeds": [embed],
                 "username": "V2_SWARM Coordinator",
-                "avatar_url": os.getenv("DISCORD_AVATAR_URL", None)
+                "avatar_url": os.getenv("DISCORD_AVATAR_URL", None),
             }
 
             response = self.session.post(self.webhook_url, json=payload)
@@ -241,55 +263,17 @@ class DiscordService:
             print(f"❌ Error sending coordination notification: {e}")
             return False
 
-    def _create_devlog_embed(self, devlog_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _create_devlog_embed(self, devlog_data: dict[str, Any]) -> dict[str, Any]:
         """Create Discord embed for devlog notification."""
-        colors = {
-            "general": 0x3498db, "cleanup": 0xe74c3c, "consolidation": 0x9b59b6,
-            "coordination": 0x1abc9c, "testing": 0xf39c12, "deployment": 0x27ae60
-        }
+        return create_devlog_embed(devlog_data)
 
-        return {
-            "title": f"📋 {devlog_data.get('title', 'DevLog Update')}",
-            "description": devlog_data.get('description', '')[:2000],
-            "color": colors.get(devlog_data.get('category', 'general'), 0x3498db),
-            "fields": [
-                {"name": "Category", "value": devlog_data.get('category', 'general').title(), "inline": True},
-                {"name": "Agent", "value": devlog_data.get('agent', 'Unknown'), "inline": True},
-                {"name": "Timestamp", "value": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC"), "inline": True}
-            ],
-            "footer": {"text": "V2_SWARM DevLog Monitor"}
-        }
-
-    def _create_agent_status_embed(self, agent_status: Dict[str, Any]) -> Dict[str, Any]:
+    def _create_agent_status_embed(self, agent_status: dict[str, Any]) -> dict[str, Any]:
         """Create Discord embed for agent status notification."""
-        status_colors = {"active": 0x27ae60, "idle": 0xf39c12, "error": 0xe74c3c, "offline": 0x95a5a6}
+        return create_agent_status_embed(agent_status)
 
-        return {
-            "title": f"🤖 Agent Status Update - {agent_status.get('agent_id', 'Unknown')}",
-            "color": status_colors.get(agent_status.get('status', 'unknown'), 0x3498db),
-            "fields": [
-                {"name": "Status", "value": agent_status.get('status', 'unknown').title(), "inline": True},
-                {"name": "Last Activity", "value": agent_status.get('last_activity', 'Unknown'), "inline": True},
-                {"name": "Timestamp", "value": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC"), "inline": True}
-            ],
-            "footer": {"text": "V2_SWARM Status Monitor"}
-        }
-
-    def _create_coordination_embed(self, coordination_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _create_coordination_embed(self, coordination_data: dict[str, Any]) -> dict[str, Any]:
         """Create Discord embed for swarm coordination notification."""
-        priority_colors = {"LOW": 0x95a5a6, "NORMAL": 0x3498db, "HIGH": 0xf39c12, "URGENT": 0xe74c3c}
-
-        return {
-            "title": f"🐝 SWARM COORDINATION - {coordination_data.get('topic', 'Coordination')}",
-            "description": coordination_data.get('description', ''),
-            "color": priority_colors.get(coordination_data.get('priority', 'NORMAL'), 0x3498db),
-            "fields": [
-                {"name": "Priority", "value": coordination_data.get('priority', 'NORMAL'), "inline": True},
-                {"name": "Participants", "value": ", ".join(coordination_data.get('participants', [])) or "All Agents", "inline": True},
-                {"name": "Timestamp", "value": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC"), "inline": True}
-            ],
-            "footer": {"text": "V2_SWARM Coordinator"}
-        }
+        return create_coordination_embed(coordination_data)
 
     def test_webhook_connection(self) -> bool:
         """Test Discord webhook connection."""
@@ -299,11 +283,11 @@ class DiscordService:
         try:
             test_payload = {
                 "content": "🧪 **Discord Webhook Test**\n\nV2_SWARM DevLog integration is now operational!",
-                "username": "V2_SWARM Test Bot"
+                "username": "V2_SWARM Test Bot",
             }
 
             response = self.session.post(self.webhook_url, json=test_payload)
-            
+
             if response.status_code == 204:
                 print("✅ Discord webhook connection successful!")
                 return True
@@ -325,8 +309,12 @@ class DiscordService:
         print(f"Webhook Connection: {'✅ PASS' if webhook_test else '❌ FAIL'}")
 
         # Test agent communication
-        test_message = "🧪 **Discord Service Integration Test**\n\nTesting agent communication system..."
-        broadcast_result = await self.agent_engine.broadcast_to_all_agents(test_message, sender="Discord_Service_Test")
+        test_message = (
+            "🧪 **Discord Service Integration Test**\n\nTesting agent communication system..."
+        )
+        broadcast_result = await self.agent_engine.broadcast_to_all_agents(
+            test_message, sender="Discord_Service_Test"
+        )
         agent_test = broadcast_result.success
         print(f"Agent Communication: {'✅ PASS' if agent_test else '❌ FAIL'}")
 
@@ -337,14 +325,16 @@ class DiscordService:
             "category": "testing",
             "agent": "Discord_Service",
             "filepath": "test/integration_test.md",
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.utcnow().isoformat(),
         }
 
         devlog_test = self.send_devlog_notification(devlog_test_data)
         print(f"DevLog Processing: {'✅ PASS' if devlog_test else '❌ FAIL'}")
 
         all_tests_pass = webhook_test and agent_test and devlog_test
-        print(f"\n📊 Integration Test Result: {'✅ ALL TESTS PASSED' if all_tests_pass else '❌ SOME TESTS FAILED'}")
+        print(
+            f"\n📊 Integration Test Result: {'✅ ALL TESTS PASSED' if all_tests_pass else '❌ SOME TESTS FAILED'}"
+        )
 
         return all_tests_pass
 
@@ -358,7 +348,7 @@ class DiscordService:
 _discord_service_instance = None
 
 
-def get_discord_service(webhook_url: Optional[str] = None) -> DiscordService:
+def get_discord_service(webhook_url: str | None = None) -> DiscordService:
     """Get Discord service instance (singleton pattern)."""
     global _discord_service_instance
     if _discord_service_instance is None:
@@ -366,16 +356,16 @@ def get_discord_service(webhook_url: Optional[str] = None) -> DiscordService:
     return _discord_service_instance
 
 
-async def start_discord_devlog_monitoring(webhook_url: Optional[str] = None, check_interval: int = 60):
+async def start_discord_devlog_monitoring(webhook_url: str | None = None, check_interval: int = 60):
     """Start Discord DevLog monitoring (convenience function)."""
     service = get_discord_service(webhook_url)
     await service.start_devlog_monitoring(check_interval)
 
 
 if __name__ == "__main__":
+
     async def main():
         service = DiscordService()
         await service.test_integration()
 
     asyncio.run(main())
-

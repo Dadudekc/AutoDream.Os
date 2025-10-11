@@ -21,13 +21,13 @@ License: MIT
 """
 
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from .persistence.persistence_models import PersistenceConfig, Agent, Task
-from .persistence.database_connection import DatabaseConnection
 from .persistence.agent_repository import AgentRepository
-from .persistence.task_repository import TaskRepository
+from .persistence.database_connection import DatabaseConnection
+from .persistence.persistence_models import Agent, PersistenceConfig, Task
 from .persistence.persistence_statistics import PersistenceStatistics
+from .persistence.task_repository import TaskRepository
 
 logger = logging.getLogger(__name__)
 
@@ -35,7 +35,7 @@ logger = logging.getLogger(__name__)
 class UnifiedPersistenceService:
     """Main unified persistence service interface."""
 
-    def __init__(self, config: Optional[PersistenceConfig] = None):
+    def __init__(self, config: PersistenceConfig | None = None):
         """Initialize unified persistence service."""
         self.config = config or PersistenceConfig()
 
@@ -50,7 +50,7 @@ class UnifiedPersistenceService:
         """Save an agent."""
         self.agent_repo.save(agent)
 
-    def get_agent(self, agent_id: str) -> Optional[Agent]:
+    def get_agent(self, agent_id: str) -> Agent | None:
         """Get an agent by ID."""
         return self.agent_repo.get(agent_id)
 
@@ -58,19 +58,19 @@ class UnifiedPersistenceService:
         """Delete an agent."""
         return self.agent_repo.delete(agent_id)
 
-    def list_agents(self, limit: int = 1000) -> List[Agent]:
+    def list_agents(self, limit: int = 1000) -> list[Agent]:
         """List all agents."""
         return list(self.agent_repo.list_all(limit))
 
-    def get_active_agents(self) -> List[Agent]:
+    def get_active_agents(self) -> list[Agent]:
         """Get all active agents."""
         return list(self.agent_repo.get_active())
 
-    def get_available_agents(self) -> List[Agent]:
+    def get_available_agents(self) -> list[Agent]:
         """Get agents that can accept more tasks."""
         return list(self.agent_repo.get_available())
 
-    def get_agents_by_capability(self, capability: str) -> List[Agent]:
+    def get_agents_by_capability(self, capability: str) -> list[Agent]:
         """Get agents by capability."""
         return list(self.agent_repo.get_by_capability(capability))
 
@@ -79,7 +79,7 @@ class UnifiedPersistenceService:
         """Save a task."""
         self.task_repo.save(task)
 
-    def get_task(self, task_id: str) -> Optional[Task]:
+    def get_task(self, task_id: str) -> Task | None:
         """Get a task by ID."""
         return self.task_repo.get(task_id)
 
@@ -87,20 +87,20 @@ class UnifiedPersistenceService:
         """Delete a task."""
         return self.task_repo.delete(task_id)
 
-    def list_tasks(self, limit: int = 1000) -> List[Task]:
+    def list_tasks(self, limit: int = 1000) -> list[Task]:
         """List all tasks."""
         return list(self.task_repo.list_all(limit))
 
-    def get_tasks_by_agent(self, agent_id: str, limit: int = 100) -> List[Task]:
+    def get_tasks_by_agent(self, agent_id: str, limit: int = 100) -> list[Task]:
         """Get tasks by agent ID."""
         return list(self.task_repo.get_by_agent(agent_id, limit))
 
-    def get_pending_tasks(self, limit: int = 100) -> List[Task]:
+    def get_pending_tasks(self, limit: int = 100) -> list[Task]:
         """Get pending tasks."""
         return list(self.task_repo.get_pending(limit))
 
     # Statistics and maintenance
-    def get_database_stats(self) -> Dict[str, Any]:
+    def get_database_stats(self) -> dict[str, Any]:
         """Get database statistics."""
         return self.stats.get_database_stats()
 

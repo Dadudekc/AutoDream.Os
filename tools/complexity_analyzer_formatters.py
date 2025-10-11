@@ -9,12 +9,11 @@ License: MIT
 """
 
 from pathlib import Path
-from typing import List
 
 try:
     from .complexity_analyzer_core import ComplexityReport, ComplexityViolation
 except ImportError:
-    from complexity_analyzer_core import ComplexityReport, ComplexityViolation
+    from complexity_analyzer_core import ComplexityReport
 
 
 def format_report(report: ComplexityReport, verbose: bool = False) -> str:
@@ -66,7 +65,7 @@ def format_report(report: ComplexityReport, verbose: bool = False) -> str:
     return "\n".join(lines)
 
 
-def generate_summary_report(reports: List[ComplexityReport], limit: int = 20) -> str:
+def generate_summary_report(reports: list[ComplexityReport], limit: int = 20) -> str:
     """Generate summary report for multiple files."""
     lines = []
     lines.append("=" * 80)
@@ -107,4 +106,3 @@ def generate_summary_report(reports: List[ComplexityReport], limit: int = 20) ->
     lines.append("")
     lines.append("=" * 80)
     return "\n".join(lines)
-

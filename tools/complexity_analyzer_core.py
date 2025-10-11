@@ -12,12 +12,12 @@ License: MIT
 import ast
 from dataclasses import dataclass
 from pathlib import Path
-from typing import List, Optional
 
 
 @dataclass
 class ComplexityMetrics:
     """Complexity metrics for a code entity."""
+
     entity_name: str
     entity_type: str  # "function", "method", "class"
     cyclomatic: int
@@ -31,6 +31,7 @@ class ComplexityMetrics:
 @dataclass
 class ComplexityViolation:
     """Represents a complexity violation."""
+
     file_path: str
     entity_name: str
     entity_type: str
@@ -45,13 +46,14 @@ class ComplexityViolation:
 @dataclass
 class ComplexityReport:
     """Complexity analysis report."""
+
     file_path: str
     total_functions: int
     avg_cyclomatic: float
     avg_cognitive: float
     max_nesting: int
-    violations: List[ComplexityViolation]
-    metrics: List[ComplexityMetrics]
+    violations: list[ComplexityViolation]
+    metrics: list[ComplexityMetrics]
 
     @property
     def has_violations(self) -> bool:
@@ -176,6 +178,7 @@ class CognitiveComplexityVisitor(ast.NodeVisitor):
 
 class ComplexityAnalyzer:
     """Analyzes code complexity using AST."""
+
     CYCLOMATIC_THRESHOLD = 10
     COGNITIVE_THRESHOLD = 15
     NESTING_THRESHOLD = 4
@@ -184,7 +187,7 @@ class ComplexityAnalyzer:
         """Initialize complexity analyzer."""
         pass
 
-    def analyze_file(self, file_path: str) -> Optional[ComplexityReport]:
+    def analyze_file(self, file_path: str) -> ComplexityReport | None:
         """Analyze file for complexity metrics."""
         path = Path(file_path)
         if not path.exists():
@@ -212,12 +215,12 @@ class ComplexityAnalyzer:
                 violations=violations,
                 metrics=metrics,
             )
-        except (SyntaxError, Exception) as e:
+        except (SyntaxError, Exception):
             return None
 
     def _analyze_function(
         self, node: ast.FunctionDef, file_path: str, content: str
-    ) -> Optional[ComplexityMetrics]:
+    ) -> ComplexityMetrics | None:
         """Analyze complexity of a single function."""
         try:
             cyclomatic_visitor = CyclomaticComplexityVisitor()
@@ -242,36 +245,51 @@ class ComplexityAnalyzer:
 
     def _check_violations(
         self, metric: ComplexityMetrics, file_path: str
-    ) -> List[ComplexityViolation]:
+    ) -> list[ComplexityViolation]:
         """Check for complexity violations."""
         violations = []
         if metric.cyclomatic > self.CYCLOMATIC_THRESHOLD:
-            violations.append(ComplexityViolation(
-                file_path=file_path, entity_name=metric.entity_name,
-                entity_type=metric.entity_type, violation_type="CYCLOMATIC",
-                current_value=metric.cyclomatic, threshold=self.CYCLOMATIC_THRESHOLD,
-                line_number=metric.start_line,
-                severity=self._get_severity(metric.cyclomatic, self.CYCLOMATIC_THRESHOLD),
-                suggestion=self._get_cyclomatic_suggestion(metric),
-            ))
+            violations.append(
+                ComplexityViolation(
+                    file_path=file_path,
+                    entity_name=metric.entity_name,
+                    entity_type=metric.entity_type,
+                    violation_type="CYCLOMATIC",
+                    current_value=metric.cyclomatic,
+                    threshold=self.CYCLOMATIC_THRESHOLD,
+                    line_number=metric.start_line,
+                    severity=self._get_severity(metric.cyclomatic, self.CYCLOMATIC_THRESHOLD),
+                    suggestion=self._get_cyclomatic_suggestion(metric),
+                )
+            )
         if metric.cognitive > self.COGNITIVE_THRESHOLD:
-            violations.append(ComplexityViolation(
-                file_path=file_path, entity_name=metric.entity_name,
-                entity_type=metric.entity_type, violation_type="COGNITIVE",
-                current_value=metric.cognitive, threshold=self.COGNITIVE_THRESHOLD,
-                line_number=metric.start_line,
-                severity=self._get_severity(metric.cognitive, self.COGNITIVE_THRESHOLD),
-                suggestion=self._get_cognitive_suggestion(metric),
-            ))
+            violations.append(
+                ComplexityViolation(
+                    file_path=file_path,
+                    entity_name=metric.entity_name,
+                    entity_type=metric.entity_type,
+                    violation_type="COGNITIVE",
+                    current_value=metric.cognitive,
+                    threshold=self.COGNITIVE_THRESHOLD,
+                    line_number=metric.start_line,
+                    severity=self._get_severity(metric.cognitive, self.COGNITIVE_THRESHOLD),
+                    suggestion=self._get_cognitive_suggestion(metric),
+                )
+            )
         if metric.nesting_depth > self.NESTING_THRESHOLD:
-            violations.append(ComplexityViolation(
-                file_path=file_path, entity_name=metric.entity_name,
-                entity_type=metric.entity_type, violation_type="NESTING",
-                current_value=metric.nesting_depth, threshold=self.NESTING_THRESHOLD,
-                line_number=metric.start_line,
-                severity=self._get_severity(metric.nesting_depth, self.NESTING_THRESHOLD),
-                suggestion=self._get_nesting_suggestion(metric),
-            ))
+            violations.append(
+                ComplexityViolation(
+                    file_path=file_path,
+                    entity_name=metric.entity_name,
+                    entity_type=metric.entity_type,
+                    violation_type="NESTING",
+                    current_value=metric.nesting_depth,
+                    threshold=self.NESTING_THRESHOLD,
+                    line_number=metric.start_line,
+                    severity=self._get_severity(metric.nesting_depth, self.NESTING_THRESHOLD),
+                    suggestion=self._get_nesting_suggestion(metric),
+                )
+            )
         return violations
 
     def _get_severity(self, value: int, threshold: int) -> str:
@@ -319,7 +337,7 @@ class ComplexityAnalysisService:
         """Initialize complexity analysis service."""
         self.analyzer = ComplexityAnalyzer()
 
-    def analyze_file(self, file_path: str, verbose: bool = False) -> Optional[str]:
+    def analyze_file(self, file_path: str, verbose: bool = False) -> str | None:
         """Analyze single file and return formatted report."""
         try:
             from .complexity_analyzer_formatters import format_report
@@ -332,7 +350,7 @@ class ComplexityAnalysisService:
 
     def analyze_directory(
         self, directory: str, pattern: str = "**/*.py", verbose: bool = False
-    ) -> List[ComplexityReport]:
+    ) -> list[ComplexityReport]:
         """Analyze all files in directory."""
         reports = []
         dir_path = Path(directory)
@@ -346,15 +364,22 @@ class ComplexityAnalysisService:
 
     def _should_skip_file(self, file_path: Path) -> bool:
         """Check if file should be skipped."""
-        skip_patterns = ["__pycache__", ".venv", "venv", "env", ".git", "migrations", ".pytest_cache"]
+        skip_patterns = [
+            "__pycache__",
+            ".venv",
+            "venv",
+            "env",
+            ".git",
+            "migrations",
+            ".pytest_cache",
+        ]
         path_str = str(file_path)
         return any(pattern in path_str for pattern in skip_patterns)
 
-    def generate_summary_report(self, reports: List[ComplexityReport], limit: int = 20) -> str:
+    def generate_summary_report(self, reports: list[ComplexityReport], limit: int = 20) -> str:
         """Generate summary report for multiple files."""
         try:
             from .complexity_analyzer_formatters import generate_summary_report
         except ImportError:
             from complexity_analyzer_formatters import generate_summary_report
         return generate_summary_report(reports, limit)
-

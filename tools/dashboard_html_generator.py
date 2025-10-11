@@ -1,15 +1,22 @@
 """
-Dashboard HTML Generator - Compliance Dashboard
-================================================
+Dashboard HTML Generator - DEPRECATED (V2 VIOLATION FIXED)
+===========================================================
 
-HTML generation for compliance dashboards.
+⚠️ DEPRECATED: This file was 614 lines (V2 violation).
+Refactored into 3 V2-compliant modules:
+  - dashboard_styles.py (81 lines)
+  - dashboard_charts.py (187 lines)
+  - dashboard_html_generator_refactored.py (381 lines)
 
-Author: Agent-6 (VSCode Forking & Quality Gates Specialist)
+Use dashboard_html_generator_refactored.py instead.
+
+Original Author: Agent-6 (VSCode Forking & Quality Gates Specialist)
+Refactored: Agent-1 (Integration & Core Systems Specialist)
+Date: 2025-10-11
 License: MIT
 """
 
-from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 
 class DashboardHTMLGenerator:
@@ -19,7 +26,7 @@ class DashboardHTMLGenerator:
         """Generate complete HTML dashboard."""
         has_history = hasattr(data, "get") and "historical" in data
         has_comparison = hasattr(data, "get") and "week_comparison" in data
-        
+
         return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -188,7 +195,7 @@ class DashboardHTMLGenerator:
             <p>🐝 WE ARE SWARM - Intelligent Quality Automation</p>
         </footer>"""
 
-    def generate_violators_rows(self, violators: List[Dict[str, Any]]) -> str:
+    def generate_violators_rows(self, violators: list[dict[str, Any]]) -> str:
         """Generate HTML rows for violators table."""
         rows = []
         for i, v in enumerate(violators, 1):
@@ -199,7 +206,8 @@ class DashboardHTMLGenerator:
                 else '<span class="badge no">No</span>'
             )
 
-            rows.append(f"""
+            rows.append(
+                f"""
                 <tr>
                     <td>{i}</td>
                     <td><strong>{v["file"]}</strong></td>
@@ -208,21 +216,21 @@ class DashboardHTMLGenerator:
                     <td>{suggestion}</td>
                     <td>{priority}</td>
                 </tr>
-            """)
+            """
+            )
 
         return "\n".join(rows)
 
-    def generate_suggestions_rows(self, suggestions: List[Dict[str, Any]]) -> str:
+    def generate_suggestions_rows(self, suggestions: list[dict[str, Any]]) -> str:
         """Generate HTML rows for suggestions table."""
         rows = []
         for i, s in enumerate(suggestions, 1):
             reduction = s["current_lines"] - s["estimated_lines"]
-            reduction_pct = (
-                (reduction / s["current_lines"] * 100) if s["current_lines"] > 0 else 0
-            )
+            reduction_pct = (reduction / s["current_lines"] * 100) if s["current_lines"] > 0 else 0
             confidence_pct = s["confidence"] * 100
 
-            rows.append(f"""
+            rows.append(
+                f"""
                 <tr>
                     <td>{i}</td>
                     <td><strong>{s["file"]}</strong></td>
@@ -236,7 +244,8 @@ class DashboardHTMLGenerator:
                         {confidence_pct:.0f}%
                     </td>
                 </tr>
-            """)
+            """
+            )
 
         return "\n".join(rows)
 
@@ -324,25 +333,29 @@ class DashboardHTMLGenerator:
         """Generate week-over-week comparison section."""
         if not hasattr(data, "get") or "week_comparison" not in data:
             return ""
-        
+
         comparison = data["week_comparison"]
         if not comparison:
             return ""
-        
+
         current = comparison["current"]
         previous = comparison["previous"]
         changes = comparison["changes"]
         days = comparison["days_apart"]
-        
+
         # Generate change indicators
         def get_change_indicator(value, reverse=False):
             if value > 0:
-                return f"<span style='color: {'#dc3545' if reverse else '#28a745'}'>↑ +{value}</span>"
+                return (
+                    f"<span style='color: {'#dc3545' if reverse else '#28a745'}'>↑ +{value}</span>"
+                )
             elif value < 0:
-                return f"<span style='color: {'#28a745' if reverse else '#dc3545'}'>↓ {value}</span>"
+                return (
+                    f"<span style='color: {'#28a745' if reverse else '#dc3545'}'>↓ {value}</span>"
+                )
             else:
                 return "<span style='color: #6c757d'>→ 0</span>"
-        
+
         return f"""
         <div class="week-comparison-section">
             <h2>📊 Week-over-Week Comparison</h2>
@@ -387,14 +400,18 @@ class DashboardHTMLGenerator:
         """Generate historical trends section with charts."""
         if not hasattr(data, "get") or "historical" not in data:
             return ""
-        
+
         historical = data["historical"]
         if not historical or not historical.get("dates"):
             return ""
-        
+
         snapshot_count = len(historical["dates"])
-        date_range = f"{historical['dates'][0]} to {historical['dates'][-1]}" if snapshot_count > 1 else historical['dates'][0]
-        
+        date_range = (
+            f"{historical['dates'][0]} to {historical['dates'][-1]}"
+            if snapshot_count > 1
+            else historical["dates"][0]
+        )
+
         return f"""
         <div class="historical-trends-section">
             <h2>📈 Historical Trends</h2>
@@ -420,20 +437,21 @@ class DashboardHTMLGenerator:
         """Generate JavaScript for interactive charts."""
         if not hasattr(data, "get") or "historical" not in data:
             return ""
-        
+
         historical = data["historical"]
         if not historical or not historical.get("dates"):
             return ""
-        
+
         # Convert Python data to JavaScript arrays
         import json
+
         dates_json = json.dumps(historical["dates"])
         v2_rates_json = json.dumps(historical["v2_rates"])
         complexity_rates_json = json.dumps(historical["complexity_rates"])
         scores_json = json.dumps(historical["overall_scores"])
         critical_json = json.dumps(historical["critical_violations"])
         major_json = json.dumps(historical["major_violations"])
-        
+
         return f"""
     <script>
         // Compliance & Complexity Chart
@@ -602,4 +620,3 @@ class DashboardHTMLGenerator:
             return '<span class="badge medium">MEDIUM</span>'
         else:
             return '<span class="badge low">LOW</span>'
-

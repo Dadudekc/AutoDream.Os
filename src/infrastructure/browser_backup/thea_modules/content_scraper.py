@@ -9,11 +9,11 @@ Author: Agent-2 (Architecture & Design Specialist)
 License: MIT
 """
 
-import re
 import logging
+import re
 import time
-from typing import Dict, List, Any
 from dataclasses import dataclass
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -21,9 +21,10 @@ logger = logging.getLogger(__name__)
 @dataclass
 class ScrapedContent:
     """Represents scraped content from Thea Manager."""
+
     content: str
     timestamp: str
-    metadata: Dict[str, Any] = None
+    metadata: dict[str, Any] = None
     quality_score: float = 0.0
     processing_time: float = 0.0
 
@@ -72,7 +73,7 @@ class TheaContentScraper:
                 timestamp=str(int(time.time())),
                 metadata=metadata,
                 quality_score=quality_score,
-                processing_time=processing_time
+                processing_time=processing_time,
             )
 
         except Exception as e:
@@ -80,9 +81,9 @@ class TheaContentScraper:
             return ScrapedContent(
                 content=raw_content,
                 timestamp=str(int(time.time())),
-                metadata={'error': str(e)},
+                metadata={"error": str(e)},
                 quality_score=0.0,
-                processing_time=time.time() - start_time
+                processing_time=time.time() - start_time,
             )
 
     def _clean_content(self, content: str) -> str:
@@ -91,27 +92,27 @@ class TheaContentScraper:
             return ""
 
         # Remove excessive whitespace
-        content = re.sub(r'\s+', ' ', content.strip())
+        content = re.sub(r"\s+", " ", content.strip())
 
         # Remove common artifacts
-        content = re.sub(r'\[.*?\]', '', content)  # Remove bracketed text
-        content = re.sub(r'<.*?>', '', content)    # Remove HTML tags
-        content = re.sub(r'http[s]?://\S+', '', content)  # Remove URLs
+        content = re.sub(r"\[.*?\]", "", content)  # Remove bracketed text
+        content = re.sub(r"<.*?>", "", content)  # Remove HTML tags
+        content = re.sub(r"http[s]?://\S+", "", content)  # Remove URLs
 
         # Normalize quotes and apostrophes
         content = content.replace('"', '"').replace('"', '"')
-        content = content.replace(''', "'").replace(''', "'")
+        content = content.replace(""", "'").replace(""", "'")
 
         return content.strip()
 
-    def _extract_metadata(self, content: str) -> Dict[str, Any]:
+    def _extract_metadata(self, content: str) -> dict[str, Any]:
         """Extract metadata from content."""
         metadata = {
-            'length': len(content),
-            'word_count': len(content.split()),
-            'has_code': bool(re.search(r'```|def |class |import ', content)),
-            'has_lists': bool(re.search(r'^\s*[-*]\s+', content, re.MULTILINE)),
-            'has_headers': bool(re.search(r'^#{1,6}\s+', content, re.MULTILINE)),
+            "length": len(content),
+            "word_count": len(content.split()),
+            "has_code": bool(re.search(r"```|def |class |import ", content)),
+            "has_lists": bool(re.search(r"^\s*[-*]\s+", content, re.MULTILINE)),
+            "has_headers": bool(re.search(r"^#{1,6}\s+", content, re.MULTILINE)),
         }
 
         # Extract project-related information
@@ -122,8 +123,8 @@ class TheaContentScraper:
             if re.search(pattern, content, re.IGNORECASE):
                 file_types_found.append(file_type)
 
-        metadata['project_files_mentioned'] = file_types_found
-        metadata['project_relevance_score'] = len(file_types_found) / len(project_patterns)
+        metadata["project_files_mentioned"] = file_types_found
+        metadata["project_relevance_score"] = len(file_types_found) / len(project_patterns)
 
         return metadata
 
@@ -148,12 +149,12 @@ class TheaContentScraper:
         total_weight += 20
 
         # Structure score (0-30 points)
-        if re.search(r'^#{1,6}\s+', content, re.MULTILINE):
+        if re.search(r"^#{1,6}\s+", content, re.MULTILINE):
             score += 15  # Has headers
-        if re.search(r'^\s*[-*]\s+', content, re.MULTILINE):
+        if re.search(r"^\s*[-*]\s+", content, re.MULTILINE):
             score += 10  # Has lists
-        if re.search(r'```', content):
-            score += 5   # Has code blocks
+        if re.search(r"```", content):
+            score += 5  # Has code blocks
         total_weight += 30
 
         # Content score (0-30 points)
@@ -166,12 +167,12 @@ class TheaContentScraper:
             score += 5
 
         # Check for meaningful content
-        if re.search(r'\b(project|code|file|system|architecture)\b', content, re.IGNORECASE):
+        if re.search(r"\b(project|code|file|system|architecture)\b", content, re.IGNORECASE):
             score += 15
         total_weight += 30
 
         # Completeness score (0-20 points)
-        sentences = len(re.findall(r'[.!?]+', content))
+        sentences = len(re.findall(r"[.!?]+", content))
         if sentences > 5:
             score += 15
         elif sentences > 2:
@@ -182,18 +183,18 @@ class TheaContentScraper:
 
         return min(100.0, (score / total_weight) * 100) if total_weight > 0 else 0.0
 
-    def _load_content_patterns(self) -> Dict[str, str]:
+    def _load_content_patterns(self) -> dict[str, str]:
         """Load content processing patterns."""
         return {
-            'code_block': r'```[\s\S]*?```',
-            'header': r'^#{1,6}\s+.+$',
-            'list_item': r'^\s*[-*]\s+.+$',
-            'url': r'http[s]?://\S+',
-            'file_path': r'[\w/\\.-]+\.(py|js|ts|java|cpp|h|md|json|yml|yaml)',
-            'project_reference': r'\b(project|repository|codebase|system)\b'
+            "code_block": r"```[\s\S]*?```",
+            "header": r"^#{1,6}\s+.+$",
+            "list_item": r"^\s*[-*]\s+.+$",
+            "url": r"http[s]?://\S+",
+            "file_path": r"[\w/\\.-]+\.(py|js|ts|java|cpp|h|md|json|yml|yaml)",
+            "project_reference": r"\b(project|repository|codebase|system)\b",
         }
 
-    def validate_content(self, content: ScrapedContent) -> Dict[str, Any]:
+    def validate_content(self, content: ScrapedContent) -> dict[str, Any]:
         """Validate scraped content quality."""
         issues = []
 
@@ -206,14 +207,14 @@ class TheaContentScraper:
         if content.processing_time > 10:
             issues.append("Processing took too long")
 
-        if len(content.metadata.get('project_files_mentioned', [])) == 0:
+        if len(content.metadata.get("project_files_mentioned", [])) == 0:
             issues.append("No project-related content detected")
 
         return {
-            'valid': len(issues) == 0,
-            'issues': issues,
-            'quality_score': content.quality_score,
-            'processing_time': content.processing_time
+            "valid": len(issues) == 0,
+            "issues": issues,
+            "quality_score": content.quality_score,
+            "processing_time": content.processing_time,
         }
 
 
@@ -224,7 +225,7 @@ class TheaContentProcessor:
         """Initialize content processor."""
         self.scraper = scraper
 
-    def process_batch(self, raw_contents: List[str]) -> List[ScrapedContent]:
+    def process_batch(self, raw_contents: list[str]) -> list[ScrapedContent]:
         """
         Process a batch of raw content.
 
@@ -241,8 +242,9 @@ class TheaContentProcessor:
 
         return processed
 
-    def filter_high_quality(self, contents: List[ScrapedContent],
-                          min_score: float = 70.0) -> List[ScrapedContent]:
+    def filter_high_quality(
+        self, contents: list[ScrapedContent], min_score: float = 70.0
+    ) -> list[ScrapedContent]:
         """
         Filter content by quality score.
 
@@ -255,20 +257,20 @@ class TheaContentProcessor:
         """
         return [content for content in contents if content.quality_score >= min_score]
 
-    def generate_summary(self, contents: List[ScrapedContent]) -> Dict[str, Any]:
+    def generate_summary(self, contents: list[ScrapedContent]) -> dict[str, Any]:
         """Generate summary statistics for content batch."""
         if not contents:
-            return {'total_items': 0}
+            return {"total_items": 0}
 
         quality_scores = [c.quality_score for c in contents]
         processing_times = [c.processing_time for c in contents]
 
         return {
-            'total_items': len(contents),
-            'avg_quality_score': sum(quality_scores) / len(quality_scores),
-            'max_quality_score': max(quality_scores),
-            'min_quality_score': min(quality_scores),
-            'avg_processing_time': sum(processing_times) / len(processing_times),
-            'total_processing_time': sum(processing_times),
-            'high_quality_count': len([c for c in contents if c.quality_score >= 80])
+            "total_items": len(contents),
+            "avg_quality_score": sum(quality_scores) / len(quality_scores),
+            "max_quality_score": max(quality_scores),
+            "min_quality_score": min(quality_scores),
+            "avg_processing_time": sum(processing_times) / len(processing_times),
+            "total_processing_time": sum(processing_times),
+            "high_quality_count": len([c for c in contents if c.quality_score >= 80]),
         }

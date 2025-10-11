@@ -29,12 +29,25 @@ class VectorDatabaseMiddleware:
 
     V2 Compliance: < 100 lines, facade pattern, single responsibility.
     This class orchestrates all middleware components.
+
+    Provides both instance methods and class-level shortcuts for decorator usage.
     """
+
+    # Module-level instance for class decorator usage
+    _instance = None
 
     def __init__(self):
         """Initialize middleware components - now using unified implementation."""
         self.middleware = UnifiedVectorMiddleware()
 
+    @classmethod
+    def _get_instance(cls):
+        """Get or create module-level instance."""
+        if cls._instance is None:
+            cls._instance = cls()
+        return cls._instance
+
+    # Instance methods
     def error_handler_decorator(self, f):
         """Apply error handling to a function."""
         return self.middleware.error_handler(f)
@@ -66,3 +79,19 @@ class VectorDatabaseMiddleware:
     def validate_pagination_decorator(self, f):
         """Apply pagination validation to a function."""
         return self.middleware.validate_pagination(f)
+
+    # Class-level shortcuts for decorator usage in routes
+    @classmethod
+    def add_cors_headers(cls, f):
+        """Class-level CORS decorator."""
+        return cls._get_instance().cors_headers_decorator(f)
+
+    @classmethod
+    def error_handler(cls, f):
+        """Class-level error handler decorator."""
+        return cls._get_instance().error_handler_decorator(f)
+
+    @classmethod
+    def json_required(cls, f):
+        """Class-level JSON required decorator."""
+        return cls._get_instance().json_required_decorator(f)

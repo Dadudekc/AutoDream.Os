@@ -9,8 +9,8 @@ License: MIT
 """
 
 import json
+from collections.abc import Iterable
 from datetime import datetime
-from typing import Iterable, Optional
 
 from .base_repository import BaseRepository
 from .database_connection import DatabaseConnection
@@ -41,7 +41,7 @@ class AgentRepository(BaseRepository[Agent]):
         """
         self.db.create_tables([schema])
 
-    def get(self, agent_id: str) -> Optional[Agent]:
+    def get(self, agent_id: str) -> Agent | None:
         """Get agent by ID."""
         rows = self.db.execute_query(
             """
@@ -163,9 +163,7 @@ class AgentRepository(BaseRepository[Agent]):
 
         # Parse datetime strings
         created_at = datetime.fromisoformat(created_at_str)
-        last_active_at = (
-            datetime.fromisoformat(last_active_at_str) if last_active_at_str else None
-        )
+        last_active_at = datetime.fromisoformat(last_active_at_str) if last_active_at_str else None
 
         return Agent(
             id=agent_id,
@@ -190,7 +188,3 @@ class AgentRepository(BaseRepository[Agent]):
             agent.created_at.isoformat(),
             agent.last_active_at.isoformat() if agent.last_active_at else None,
         )
-
-
-
-

@@ -9,7 +9,8 @@ License: MIT
 """
 
 from abc import ABC, abstractmethod
-from typing import Generic, Iterable, Optional, TypeVar
+from collections.abc import Iterable
+from typing import Generic, TypeVar
 
 from .database_connection import DatabaseConnection
 
@@ -24,7 +25,7 @@ class BaseRepository(ABC, Generic[T]):
         self.db = db_connection
 
     @abstractmethod
-    def get(self, entity_id: str) -> Optional[T]:
+    def get(self, entity_id: str) -> T | None:
         """Get entity by ID."""
         pass
 
@@ -42,7 +43,3 @@ class BaseRepository(ABC, Generic[T]):
     def list_all(self, limit: int = 1000) -> Iterable[T]:
         """List all entities."""
         pass
-
-
-
-

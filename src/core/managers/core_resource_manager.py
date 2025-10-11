@@ -4,20 +4,20 @@ Core Resource Manager - Phase-2 Manager Consolidation
 
 Consolidates FileManager, FileLockManager, and AgentContextManager.
 Handles all resource operations: files, locks, and agent contexts.
+REFACTORED: Extracted CRUD operations for V2 compliance (254→<200L).
 
-Author: Agent-3 (Infrastructure & DevOps Specialist)
-Refactored by: Agent-6 (VSCode Forking & Quality Gates Specialist)
+Author: Agent-2 - Architecture & Design Specialist (V2 Refactor)
 License: MIT
 """
 
 from __future__ import annotations
 
 import os
-import shutil
 from typing import Any
 
 from .contracts import ManagerContext, ManagerResult, ResourceManager
 from .resource_context_operations import ContextOperations
+from .resource_crud_operations import ResourceCRUDOperations
 from .resource_file_operations import FileOperations
 from .resource_lock_operations import LockOperations
 
@@ -30,6 +30,7 @@ class CoreResourceManager(ResourceManager):
         self.file_ops = FileOperations()
         self.lock_ops = LockOperations()
         self.context_ops = ContextOperations()
+        self.crud_ops = ResourceCRUDOperations(self.file_ops, self.lock_ops, self.context_ops)
 
     def initialize(self, context: ManagerContext) -> bool:
         """Initialize resource manager."""
@@ -52,17 +53,17 @@ class CoreResourceManager(ResourceManager):
         """Execute resource operation."""
         try:
             if operation == "create_resource":
-                return self.create_resource(
+                return self.crud_ops.create_resource(
                     context, payload.get("resource_type", ""), payload
                 )
             elif operation == "get_resource":
-                return self.get_resource(context, payload.get("resource_id", ""))
+                return self.crud_ops.get_resource(context, payload.get("resource_id", ""))
             elif operation == "update_resource":
-                return self.update_resource(
+                return self.crud_ops.update_resource(
                     context, payload.get("resource_id", ""), payload
                 )
             elif operation == "delete_resource":
-                return self.delete_resource(context, payload.get("resource_id", ""))
+                return self.crud_ops.delete_resource(context, payload.get("resource_id", ""))
             elif operation == "file_operation":
                 return self.file_ops.handle_operation(context, payload)
             elif operation == "lock_operation":
@@ -83,158 +84,21 @@ class CoreResourceManager(ResourceManager):
         self, context: ManagerContext, resource_type: str, data: dict[str, Any]
     ) -> ManagerResult:
         """Create a resource."""
-        try:
-            if resource_type == "file":
-                return self.file_ops.create_file(
-                    context, data.get("file_path", ""), data.get("content", "")
-                )
-            elif resource_type == "directory":
-                return self.file_ops.create_directory(
-                    context, data.get("dir_path", "")
-                )
-            elif resource_type == "context":
-                return self.context_ops.create_context(
-                    context, data.get("agent_id", ""), data.get("context_data", {})
-                )
-            else:
-                return ManagerResult(
-                    success=False,
-                    data={},
-                    metrics={},
-                    error=f"Unknown resource type: {resource_type}",
-                )
-        except Exception as e:
-            return ManagerResult(success=False, data={}, metrics={}, error=str(e))
+        return self.crud_ops.create_resource(context, resource_type, data)
 
-    def get_resource(
-        self, context: ManagerContext, resource_id: str
-    ) -> ManagerResult:
+    def get_resource(self, context: ManagerContext, resource_id: str) -> ManagerResult:
         """Get a resource."""
-        try:
-            # Try file first
-            if os.path.exists(resource_id):
-                if os.path.isfile(resource_id):
-                    content = self.file_ops.read_file(resource_id)
-                    return ManagerResult(
-                        success=True,
-                        data={"type": "file", "content": content, "path": resource_id},
-                        metrics={"file_size": len(content)},
-                    )
-                elif os.path.isdir(resource_id):
-                    files = os.listdir(resource_id)
-                    return ManagerResult(
-                        success=True,
-                        data={
-                            "type": "directory",
-                            "files": files,
-                            "path": resource_id,
-                        },
-                        metrics={"file_count": len(files)},
-                    )
-
-            # Try context
-            agent_context = self.context_ops.get_context_if_exists(resource_id)
-            if agent_context:
-                return ManagerResult(
-                    success=True,
-                    data={"type": "context", "context": agent_context},
-                    metrics={"context_keys": len(agent_context)},
-                )
-
-            return ManagerResult(
-                success=False,
-                data={},
-                metrics={},
-                error=f"Resource not found: {resource_id}",
-            )
-        except Exception as e:
-            return ManagerResult(success=False, data={}, metrics={}, error=str(e))
+        return self.crud_ops.get_resource(context, resource_id)
 
     def update_resource(
         self, context: ManagerContext, resource_id: str, updates: dict[str, Any]
     ) -> ManagerResult:
         """Update a resource."""
-        try:
-            # Try file update
-            if os.path.exists(resource_id) and os.path.isfile(resource_id):
-                if "content" in updates:
-                    self.file_ops.write_file(resource_id, updates["content"])
-                    return ManagerResult(
-                        success=True,
-                        data={
-                            "type": "file",
-                            "path": resource_id,
-                            "updated": True,
-                        },
-                        metrics={"file_size": len(updates["content"])},
-                    )
+        return self.crud_ops.update_resource(context, resource_id, updates)
 
-            # Try context update
-            updated_context = self.context_ops.update_context_direct(
-                resource_id, updates
-            )
-            if updated_context:
-                return ManagerResult(
-                    success=True,
-                    data={"type": "context", "context": updated_context},
-                    metrics={"context_keys": len(updated_context)},
-                )
-
-            return ManagerResult(
-                success=False,
-                data={},
-                metrics={},
-                error=f"Resource not found or cannot be updated: {resource_id}",
-            )
-        except Exception as e:
-            return ManagerResult(success=False, data={}, metrics={}, error=str(e))
-
-    def delete_resource(
-        self, context: ManagerContext, resource_id: str
-    ) -> ManagerResult:
+    def delete_resource(self, context: ManagerContext, resource_id: str) -> ManagerResult:
         """Delete a resource."""
-        try:
-            # Try file deletion
-            if os.path.exists(resource_id):
-                if os.path.isfile(resource_id):
-                    os.remove(resource_id)
-                    return ManagerResult(
-                        success=True,
-                        data={"type": "file", "path": resource_id, "deleted": True},
-                        metrics={},
-                    )
-                elif os.path.isdir(resource_id):
-                    shutil.rmtree(resource_id)
-                    return ManagerResult(
-                        success=True,
-                        data={
-                            "type": "directory",
-                            "path": resource_id,
-                            "deleted": True,
-                        },
-                        metrics={},
-                    )
-
-            # Try context deletion
-            if self.context_ops.delete_context_if_exists(resource_id):
-                return ManagerResult(
-                    success=True,
-                    data={
-                        "type": "context",
-                        "context_id": resource_id,
-                        "deleted": True,
-                    },
-                    metrics={},
-                )
-
-            return ManagerResult(
-                success=False,
-                data={},
-                metrics={},
-                error=f"Resource not found: {resource_id}",
-            )
-        except Exception as e:
-            return ManagerResult(success=False, data={}, metrics={}, error=str(e))
+        return self.crud_ops.delete_resource(context, resource_id)
 
     def cleanup(self, context: ManagerContext) -> bool:
         """Cleanup resource manager."""

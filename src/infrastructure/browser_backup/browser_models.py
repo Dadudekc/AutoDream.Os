@@ -10,7 +10,6 @@ License: MIT
 
 import time
 from dataclasses import dataclass, field
-from typing import Optional, Tuple
 
 try:
     from ...core.enhanced_unified_config import get_enhanced_config
@@ -25,8 +24,8 @@ class BrowserConfig:
     """Configuration for browser operations with enhanced config integration."""
 
     headless: bool = False
-    user_data_dir: Optional[str] = None
-    window_size: Tuple[int, int] = (1920, 1080)
+    user_data_dir: str | None = None
+    window_size: tuple[int, int] = (1920, 1080)
     timeout: float = 30.0
     implicit_wait: float = 10.0
     page_load_timeout: float = 120.0
@@ -36,9 +35,7 @@ class BrowserConfig:
         if _unified_config:
             timeout_config = _unified_config.get_timeout_config()
             self.timeout = timeout_config.get("SCRAPE_TIMEOUT", self.timeout)
-            self.implicit_wait = timeout_config.get(
-                "QUALITY_CHECK_INTERVAL", self.implicit_wait
-            )
+            self.implicit_wait = timeout_config.get("QUALITY_CHECK_INTERVAL", self.implicit_wait)
             self.page_load_timeout = timeout_config.get(
                 "RESPONSE_WAIT_TIMEOUT", self.page_load_timeout
             )
@@ -48,7 +45,9 @@ class BrowserConfig:
 class TheaConfig:
     """Configuration for Thea Manager interactions with enhanced config integration."""
 
-    conversation_url: str = "https://chat.openai.com/g/g-67f437d96d7c81918b2dbc12f0423867-thea-manager"
+    conversation_url: str = (
+        "https://chat.openai.com/g/g-67f437d96d7c81918b2dbc12f0423867-thea-manager"
+    )
     cookie_file: str = "data/thea_cookies.json"
     auto_save_cookies: bool = True
     rate_limit_requests_per_minute: int = 10
@@ -72,6 +71,5 @@ class RateLimitStatus:
     """Rate limit status information."""
 
     requests_remaining: int
-    reset_time: Optional[float] = None
+    reset_time: float | None = None
     is_rate_limited: bool = False
-

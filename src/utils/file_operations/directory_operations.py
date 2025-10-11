@@ -12,7 +12,6 @@ License: MIT
 
 import logging
 from pathlib import Path
-from typing import List
 
 logger = logging.getLogger(__name__)
 
@@ -59,7 +58,3 @@ class DirectoryOperations:
         except Exception as e:
             logger.error(f"Failed to count files in {directory_path}: {e}")
             return 0
-
-
-
-

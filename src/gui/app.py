@@ -13,7 +13,6 @@ License: MIT
 
 import logging
 import sys
-from typing import Any
 
 # Optional PyQt5 dependency
 try:
@@ -37,12 +36,10 @@ except ImportError:
     logging.warning("PyQt5 not available - GUI disabled")
 
 # V2 Integration imports (uses shared utils for fallbacks)
-from .utils import get_coordinate_loader, get_unified_config, get_logger
-from .components.status_panel import StatusPanel
 from .controllers.base import BaseGUIController
 from .styles.themes import ThemeManager
 from .ui_builders import create_header, create_left_panel, create_right_panel
-
+from .utils import get_coordinate_loader, get_logger, get_unified_config
 
 if PYQT5_AVAILABLE:
 
@@ -102,13 +99,13 @@ if PYQT5_AVAILABLE:
 
             # Left panel - Agent grid and controls
             callbacks = {
-                'parent': self,
-                'select_all': self.select_all_agents,
-                'clear_selection': self.clear_selection,
-                'ping': self.ping_selected_agents,
-                'get_status': self.get_status_selected_agents,
-                'resume': self.resume_selected_agents,
-                'pause': self.pause_selected_agents
+                "parent": self,
+                "select_all": self.select_all_agents,
+                "clear_selection": self.clear_selection,
+                "ping": self.ping_selected_agents,
+                "get_status": self.get_status_selected_agents,
+                "resume": self.resume_selected_agents,
+                "pause": self.pause_selected_agents,
             }
             left_panel = create_left_panel(self.theme, self.agent_widgets, callbacks)
             content_splitter.addWidget(left_panel)
@@ -175,4 +172,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

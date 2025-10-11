@@ -22,39 +22,23 @@ License: MIT
 """
 
 # Re-export all public API from refactored modules
-from .achievements import (
-    Achievement,
-    AchievementType,
-    AgentScore,
-    ScoringCalculator
-)
+from .achievements import Achievement, AchievementType, AgentScore, ScoringCalculator
+from .competition_storage import load_scores, save_scores, update_ranks
 from .leaderboard import LeaderboardManager
-from .system_core import (
-    CompetitionMode,
-    AutonomousCompetitionSystem,
-    get_competition_system
-)
-from .competition_storage import (
-    load_scores,
-    save_scores,
-    update_ranks
-)
+from .system_core import AutonomousCompetitionSystem, CompetitionMode, get_competition_system
 
 __all__ = [
     # Core system
     "AutonomousCompetitionSystem",
     "CompetitionMode",
     "get_competition_system",
-    
     # Achievements
     "Achievement",
     "AchievementType",
     "AgentScore",
     "ScoringCalculator",
-    
     # Leaderboard
     "LeaderboardManager",
-    
     # Storage
     "load_scores",
     "save_scores",

@@ -15,13 +15,15 @@ import uuid
 from collections.abc import Callable
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict
+from typing import Any
 
 from ..contracts import ManagerContext, ManagerResult
+from .alert_operations import AlertOperations
 
 
 class AlertLevel(Enum):
     """Alert severity levels."""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -81,66 +83,11 @@ class AlertManager:
 
     def acknowledge_alert(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         """Acknowledge an alert."""
-        try:
-            alert_id = payload.get("alert_id")
-            if not alert_id or alert_id not in self.alerts:
-                return ManagerResult(
-                    success=False,
-                    data={},
-                    message=f"Alert not found: {alert_id}",
-                    errors=[f"Alert not found: {alert_id}"],
-                )
-
-            alert = self.alerts[alert_id]
-            alert["acknowledged"] = True
-            alert["acknowledged_at"] = datetime.now().isoformat()
-            alert["acknowledged_by"] = payload.get("acknowledged_by", "system")
-
-            return ManagerResult(
-                success=True,
-                data={"alert_id": alert_id},
-                message=f"Alert acknowledged: {alert_id}",
-                errors=[],
-            )
-        except Exception as e:
-            return ManagerResult(
-                success=False,
-                data={},
-                message=f"Failed to acknowledge alert: {e}",
-                errors=[str(e)],
-            )
+        return AlertOperations.acknowledge_alert_internal(self.alerts, payload)
 
     def resolve_alert(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         """Resolve an alert."""
-        try:
-            alert_id = payload.get("alert_id")
-            if not alert_id or alert_id not in self.alerts:
-                return ManagerResult(
-                    success=False,
-                    data={},
-                    message=f"Alert not found: {alert_id}",
-                    errors=[f"Alert not found: {alert_id}"],
-                )
-
-            alert = self.alerts[alert_id]
-            alert["resolved"] = True
-            alert["resolved_at"] = datetime.now().isoformat()
-            alert["resolved_by"] = payload.get("resolved_by", "system")
-            alert["resolution_notes"] = payload.get("resolution_notes", "")
-
-            return ManagerResult(
-                success=True,
-                data={"alert_id": alert_id},
-                message=f"Alert resolved: {alert_id}",
-                errors=[],
-            )
-        except Exception as e:
-            return ManagerResult(
-                success=False,
-                data={},
-                message=f"Failed to resolve alert: {e}",
-                errors=[str(e)],
-            )
+        return AlertOperations.resolve_alert_internal(self.alerts, payload)
 
     def get_alerts(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         """Get alerts with optional filtering."""
@@ -215,6 +162,3 @@ class AlertManager:
             "action": "notify",
             "notify_to": ["admin", "ops"],
         }
-
-
-

@@ -14,7 +14,7 @@ from __future__ import annotations
 from typing import Any
 
 from ..contracts import ManagerContext, ManagerResult, MonitoringManager
-from .monitoring_crud import AlertLevel, MetricType, WidgetType, MonitoringCRUD
+from .monitoring_crud import AlertLevel, MetricType, MonitoringCRUD, WidgetType
 from .monitoring_lifecycle import MonitoringLifecycle
 from .monitoring_query import MonitoringQuery
 from .monitoring_rules import MonitoringRules
@@ -114,9 +114,7 @@ class BaseMonitoringManager(MonitoringManager):
         """Get widgets with optional filtering."""
         return self.query.get_widgets(context, payload)
 
-    def _acknowledge_alert(
-        self, context: ManagerContext, payload: dict[str, Any]
-    ) -> ManagerResult:
+    def _acknowledge_alert(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         """Acknowledge an alert."""
         return self.query.acknowledge_alert(context, payload)
 

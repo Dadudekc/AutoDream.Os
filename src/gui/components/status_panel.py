@@ -65,7 +65,13 @@ if PYQT5_AVAILABLE:
 
         def _init_ui(self) -> None:
             """Initialize the UI components."""
-            # Panel styling
+            self._setup_panel_styling()
+            layout = self._create_main_layout()
+            self._add_log_display(layout)
+            self._add_control_buttons(layout)
+
+        def _setup_panel_styling(self) -> None:
+            """Setup panel frame styling."""
             self.setStyleSheet(
                 """
                 QFrame {
@@ -77,11 +83,14 @@ if PYQT5_AVAILABLE:
             """
             )
 
-            # Main layout
+        def _create_main_layout(self) -> QVBoxLayout:
+            """Create main layout."""
             layout = QVBoxLayout(self)
             layout.setSpacing(10)
+            return layout
 
-            # Log display
+        def _add_log_display(self, layout: QVBoxLayout) -> None:
+            """Add log display text edit."""
             self.log_display = QTextEdit()
             self.log_display.setStyleSheet(
                 """
@@ -99,7 +108,8 @@ if PYQT5_AVAILABLE:
             self.log_display.setReadOnly(True)
             layout.addWidget(self.log_display)
 
-            # Control buttons
+        def _add_control_buttons(self, layout: QVBoxLayout) -> None:
+            """Add control buttons."""
             control_layout = QHBoxLayout()
 
             # Clear button
@@ -231,4 +241,3 @@ else:
             self.agent_id = agent_id
             self.logger = logging.getLogger(__name__)
             self.logger.warning("PyQt5 not available - AgentCard disabled")
-

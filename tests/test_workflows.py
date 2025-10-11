@@ -10,20 +10,17 @@ License: MIT
 """
 
 import pytest
+
+from workflows.engine import WorkflowEngine
 from workflows.models import (
+    AIResponse,
+    CoordinationStrategy,
+    ResponseType,
+    WorkflowProgress,
     WorkflowState,
     WorkflowStep,
-    AIResponse,
-    WorkflowProgress,
-    ResponseType,
-    CoordinationStrategy,
 )
-from workflows.engine import WorkflowEngine
-from workflows.steps import (
-    WorkflowStepBuilder,
-    ConversationLoopBuilder,
-    MultiAgentOrchestrationBuilder,
-)
+from workflows.steps import ConversationLoopBuilder, MultiAgentOrchestrationBuilder
 from workflows.strategies import ParallelStrategy, SequentialStrategy
 
 
@@ -169,7 +166,9 @@ class TestWorkflowStepBuilders:
         # Check dependency chain
         assert steps[0].dependencies == []  # First prompt has no dependencies
         assert "conversation_0_a" in steps[1].dependencies  # First response depends on first prompt
-        assert "conversation_0_b" in steps[2].dependencies  # Second prompt depends on first response
+        assert (
+            "conversation_0_b" in steps[2].dependencies
+        )  # Second prompt depends on first response
 
     def test_multi_agent_orchestration_builder(self):
         """Test multi-agent orchestration creation."""
@@ -249,4 +248,3 @@ class TestWorkflowStrategies:
 
         assert result["strategy"] == "Sequential"
         assert len(result["completed_steps"]) == 1
-

@@ -5,13 +5,14 @@ Thea Session Manager
 Basic session manager for Thea Manager rate limiting.
 """
 
-from typing import Optional, Any, Dict, Tuple
 from dataclasses import dataclass
+from typing import Any
 
 
 @dataclass
 class RateLimitConfig:
     """Configuration for rate limiting."""
+
     requests_per_minute: int = 10
     burst_limit: int = 5
 
@@ -19,7 +20,7 @@ class RateLimitConfig:
 class TheaSessionManager:
     """Basic session manager stub."""
 
-    def __init__(self, config: Optional[RateLimitConfig] = None):
+    def __init__(self, config: RateLimitConfig | None = None):
         self.config = config or RateLimitConfig()
 
     def start(self) -> None:
@@ -30,11 +31,11 @@ class TheaSessionManager:
         """Stub stop method."""
         pass
 
-    def create_session(self, service_name: str) -> Optional[str]:
+    def create_session(self, service_name: str) -> str | None:
         """Stub session creation."""
         return "test_session_123"
 
-    def can_make_request(self, service_name: str, session_id: str) -> Tuple[bool, str]:
+    def can_make_request(self, service_name: str, session_id: str) -> tuple[bool, str]:
         """Stub rate limit check."""
         return True, ""
 
@@ -50,10 +51,10 @@ class TheaSessionManager:
         """Stub rate limit error handling."""
         pass
 
-    def get_session_info(self, session_id: str) -> Dict[str, Any]:
+    def get_session_info(self, session_id: str) -> dict[str, Any]:
         """Stub session info."""
         return {"session_id": session_id, "status": "active"}
 
-    def get_rate_limit_status(self, service_name: str) -> Dict[str, Any]:
+    def get_rate_limit_status(self, service_name: str) -> dict[str, Any]:
         """Stub rate limit status."""
         return {"requests_remaining": 10, "reset_time": None}

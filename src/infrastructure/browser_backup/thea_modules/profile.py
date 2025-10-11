@@ -9,14 +9,14 @@ Author: Agent-2 (Architecture & Design Specialist)
 License: MIT
 """
 
-import time
 import logging
-from typing import Optional, Dict, Any
+import time
+from typing import Any
 
-from .config import TheaConfigManager
 from .browser_ops import TheaBrowserOperations, TheaElementFinder
+from .config import TheaConfigManager
+from .content_scraper import TheaContentProcessor, TheaContentScraper
 from .response_collector import TheaResponseCollector, TheaResponseMonitor
-from .content_scraper import TheaContentScraper, TheaContentProcessor
 
 logger = logging.getLogger(__name__)
 
@@ -91,7 +91,7 @@ class TheaManagerProfile:
             logger.error(f"❌ Thea Manager profile initialization failed: {e}")
             return False
 
-    def send_message_and_wait(self, message: str, timeout: float = 120.0) -> Optional[str]:
+    def send_message_and_wait(self, message: str, timeout: float = 120.0) -> str | None:
         """
         Send a message and wait for response.
 
@@ -136,37 +136,39 @@ class TheaManagerProfile:
             logger.error(f"❌ Error in send_message_and_wait: {e}")
             return None
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get current profile status."""
         try:
             status = {
-                'initialized': self._initialized,
-                'last_activity': self._last_activity,
-                'driver_available': self.driver is not None,
+                "initialized": self._initialized,
+                "last_activity": self._last_activity,
+                "driver_available": self.driver is not None,
             }
 
             if self.driver and self.browser_ops:
                 page_status = self.browser_ops.get_page_status()
-                status.update({
-                    'page_status': page_status,
-                    'url': page_status.get('url', 'unknown'),
-                    'ready_for_input': page_status.get('ready_for_input', False)
-                })
+                status.update(
+                    {
+                        "page_status": page_status,
+                        "url": page_status.get("url", "unknown"),
+                        "ready_for_input": page_status.get("ready_for_input", False),
+                    }
+                )
 
             if self.response_monitor:
                 progress = self.response_monitor.get_progress()
-                status['response_progress'] = progress
+                status["response_progress"] = progress
 
             return status
 
         except Exception as e:
             return {
-                'initialized': self._initialized,
-                'error': str(e),
-                'driver_available': self.driver is not None
+                "initialized": self._initialized,
+                "error": str(e),
+                "driver_available": self.driver is not None,
             }
 
-    def scrape_current_content(self) -> Optional[Any]:
+    def scrape_current_content(self) -> Any | None:
         """Scrape current content from the page."""
         try:
             if not self.response_collector:
@@ -181,7 +183,7 @@ class TheaManagerProfile:
             logger.error(f"Content scraping failed: {e}")
             return None
 
-    def validate_setup(self) -> Dict[str, Any]:
+    def validate_setup(self) -> dict[str, Any]:
         """Validate that the Thea Manager setup is correct."""
         issues = []
 
@@ -202,19 +204,21 @@ class TheaManagerProfile:
         # Check page status
         if self.browser_ops:
             page_status = self.browser_ops.get_page_status()
-            if not page_status.get('ready_for_input', False):
+            if not page_status.get("ready_for_input", False):
                 issues.append("Page not ready for input")
 
         return {
-            'valid': len(issues) == 0,
-            'issues': issues,
-            'config_valid': len(config_issues) == 0,
-            'browser_ready': self.driver is not None,
-            'components_initialized': all([
-                self.browser_ops is not None,
-                self.response_collector is not None,
-                self.content_scraper is not None
-            ])
+            "valid": len(issues) == 0,
+            "issues": issues,
+            "config_valid": len(config_issues) == 0,
+            "browser_ready": self.driver is not None,
+            "components_initialized": all(
+                [
+                    self.browser_ops is not None,
+                    self.response_collector is not None,
+                    self.content_scraper is not None,
+                ]
+            ),
         }
 
     def cleanup(self) -> None:
@@ -256,4 +260,6 @@ class TheaManagerProfile:
     def __repr__(self) -> str:
         """String representation of the profile."""
         status = "initialized" if self._initialized else "not initialized"
-        return f"TheaManagerProfile(status={status}, driver={'available' if self.driver else 'none'})"
+        return (
+            f"TheaManagerProfile(status={status}, driver={'available' if self.driver else 'none'})"
+        )

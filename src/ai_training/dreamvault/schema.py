@@ -4,18 +4,17 @@ JSON Schema for ShadowArchive summary v1.
 
 import json
 import logging
-from pathlib import Path
-from typing import Dict, List, Any, Optional
 from datetime import datetime
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
 
 class SummarySchema:
     """Schema definition and validation for conversation summaries."""
-    
+
     VERSION = "1.0"
-    
+
     SCHEMA = {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -29,22 +28,22 @@ class SummarySchema:
             "entities",
             "action_items",
             "decisions",
-            "metadata"
+            "metadata",
         ],
         "properties": {
             "conversation_id": {
                 "type": "string",
-                "description": "Unique identifier for the conversation"
+                "description": "Unique identifier for the conversation",
             },
             "summary": {
                 "type": "string",
                 "description": "Main conversation summary",
-                "minLength": 10
+                "minLength": 10,
             },
             "tags": {
                 "type": "array",
                 "items": {"type": "string"},
-                "description": "Topic tags and categories"
+                "description": "Topic tags and categories",
             },
             "topics": {
                 "type": "array",
@@ -53,37 +52,30 @@ class SummarySchema:
                     "properties": {
                         "topic": {"type": "string"},
                         "confidence": {"type": "number", "minimum": 0, "maximum": 1},
-                        "mentions": {"type": "integer", "minimum": 0}
+                        "mentions": {"type": "integer", "minimum": 0},
                     },
-                    "required": ["topic", "confidence"]
+                    "required": ["topic", "confidence"],
                 },
-                "description": "Key discussion topics with confidence scores"
+                "description": "Key discussion topics with confidence scores",
             },
             "template_coverage": {
                 "type": "object",
                 "properties": {
-                    "templates_used": {
-                        "type": "array",
-                        "items": {"type": "string"}
-                    },
-                    "coverage_score": {
-                        "type": "number",
-                        "minimum": 0,
-                        "maximum": 1
-                    },
+                    "templates_used": {"type": "array", "items": {"type": "string"}},
+                    "coverage_score": {"type": "number", "minimum": 0, "maximum": 1},
                     "template_mentions": {
                         "type": "object",
-                        "additionalProperties": {"type": "integer"}
-                    }
+                        "additionalProperties": {"type": "integer"},
+                    },
                 },
-                "required": ["templates_used", "coverage_score"]
+                "required": ["templates_used", "coverage_score"],
             },
             "sentiment": {
                 "type": "object",
                 "properties": {
                     "overall": {
                         "type": "string",
-                        "enum": ["positive", "negative", "neutral", "mixed"]
+                        "enum": ["positive", "negative", "neutral", "mixed"],
                     },
                     "confidence": {"type": "number", "minimum": 0, "maximum": 1},
                     "scores": {
@@ -91,11 +83,11 @@ class SummarySchema:
                         "properties": {
                             "positive": {"type": "number", "minimum": 0, "maximum": 1},
                             "negative": {"type": "number", "minimum": 0, "maximum": 1},
-                            "neutral": {"type": "number", "minimum": 0, "maximum": 1}
-                        }
-                    }
+                            "neutral": {"type": "number", "minimum": 0, "maximum": 1},
+                        },
+                    },
                 },
-                "required": ["overall", "confidence"]
+                "required": ["overall", "confidence"],
             },
             "entities": {
                 "type": "array",
@@ -104,11 +96,11 @@ class SummarySchema:
                     "properties": {
                         "name": {"type": "string"},
                         "type": {"type": "string"},
-                        "confidence": {"type": "number", "minimum": 0, "maximum": 1}
+                        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
                     },
-                    "required": ["name", "type"]
+                    "required": ["name", "type"],
                 },
-                "description": "Named entities mentioned in conversation"
+                "description": "Named entities mentioned in conversation",
             },
             "action_items": {
                 "type": "array",
@@ -117,15 +109,12 @@ class SummarySchema:
                     "properties": {
                         "action": {"type": "string"},
                         "assignee": {"type": "string"},
-                        "priority": {
-                            "type": "string",
-                            "enum": ["low", "medium", "high", "urgent"]
-                        },
-                        "deadline": {"type": "string", "format": "date-time"}
+                        "priority": {"type": "string", "enum": ["low", "medium", "high", "urgent"]},
+                        "deadline": {"type": "string", "format": "date-time"},
                     },
-                    "required": ["action"]
+                    "required": ["action"],
                 },
-                "description": "Extracted action items from conversation"
+                "description": "Extracted action items from conversation",
             },
             "decisions": {
                 "type": "array",
@@ -134,15 +123,12 @@ class SummarySchema:
                     "properties": {
                         "decision": {"type": "string"},
                         "context": {"type": "string"},
-                        "participants": {
-                            "type": "array",
-                            "items": {"type": "string"}
-                        },
-                        "confidence": {"type": "number", "minimum": 0, "maximum": 1}
+                        "participants": {"type": "array", "items": {"type": "string"}},
+                        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
                     },
-                    "required": ["decision"]
+                    "required": ["decision"],
                 },
-                "description": "Key decisions made in conversation"
+                "description": "Key decisions made in conversation",
             },
             "metadata": {
                 "type": "object",
@@ -154,34 +140,34 @@ class SummarySchema:
                     "participant_count": {"type": "integer", "minimum": 1},
                     "duration_minutes": {"type": "number", "minimum": 0},
                     "hash": {"type": "string"},
-                    "prompt_hash": {"type": "string"}
+                    "prompt_hash": {"type": "string"},
                 },
-                "required": ["version", "created_at", "processed_at", "hash"]
-            }
-        }
+                "required": ["version", "created_at", "processed_at", "hash"],
+            },
+        },
     }
-    
+
     @classmethod
     def create_summary(
         cls,
         conversation_id: str,
         summary: str,
-        tags: List[str],
-        topics: List[Dict[str, Any]],
-        template_coverage: Dict[str, Any],
-        sentiment: Dict[str, Any],
-        entities: List[Dict[str, Any]],
-        action_items: List[Dict[str, Any]],
-        decisions: List[Dict[str, Any]],
+        tags: list[str],
+        topics: list[dict[str, Any]],
+        template_coverage: dict[str, Any],
+        sentiment: dict[str, Any],
+        entities: list[dict[str, Any]],
+        action_items: list[dict[str, Any]],
+        decisions: list[dict[str, Any]],
         message_count: int = 0,
         participant_count: int = 1,
         duration_minutes: float = 0.0,
         content_hash: str = "",
-        prompt_hash: str = ""
-    ) -> Dict[str, Any]:
+        prompt_hash: str = "",
+    ) -> dict[str, Any]:
         """Create a valid summary object."""
         now = datetime.utcnow().isoformat() + "Z"
-        
+
         summary_obj = {
             "conversation_id": conversation_id,
             "summary": summary,
@@ -200,14 +186,14 @@ class SummarySchema:
                 "participant_count": participant_count,
                 "duration_minutes": duration_minutes,
                 "hash": content_hash,
-                "prompt_hash": prompt_hash
-            }
+                "prompt_hash": prompt_hash,
+            },
         }
-        
+
         return summary_obj
-    
+
     @classmethod
-    def validate(cls, summary: Dict[str, Any]) -> bool:
+    def validate(cls, summary: dict[str, Any]) -> bool:
         """Validate a summary against the schema."""
         try:
             # Basic validation - in production, use a proper JSON schema validator
@@ -215,45 +201,45 @@ class SummarySchema:
             for field in required_fields:
                 if field not in summary:
                     return False
-            
+
             # Validate metadata
             metadata = summary.get("metadata", {})
             if "version" not in metadata:
                 return False
-            
+
             # Validate sentiment
             sentiment = summary.get("sentiment", {})
             if "overall" not in sentiment:
                 return False
             if sentiment["overall"] not in ["positive", "negative", "neutral", "mixed"]:
                 return False
-            
+
             return True
         except Exception:
             return False
-    
+
     @classmethod
-    def save_summary(cls, summary: Dict[str, Any], filepath: str) -> bool:
+    def save_summary(cls, summary: dict[str, Any], filepath: str) -> bool:
         """Save a validated summary to JSON file."""
         if not cls.validate(summary):
             return False
-        
+
         try:
-            with open(filepath, 'w') as f:
+            with open(filepath, "w") as f:
                 json.dump(summary, f, indent=2)
             return True
         except Exception:
             return False
-    
+
     @classmethod
-    def load_summary(cls, filepath: str) -> Dict[str, Any]:
+    def load_summary(cls, filepath: str) -> dict[str, Any]:
         """Load and validate a summary from JSON file."""
         try:
-            with open(filepath, 'r') as f:
+            with open(filepath) as f:
                 summary = json.load(f)
-            
+
             if cls.validate(summary):
                 return summary
             return {}
         except Exception:
-            return {} 
+            return {}

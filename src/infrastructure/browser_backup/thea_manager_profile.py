@@ -19,19 +19,9 @@ License: MIT
 import logging
 
 # Import modular components
-from .thea_modules import (
-    TheaManagerProfile,
-    TheaConfigManager,
-    TheaManagerConfig,
-    ScrapedContent
-)
+from .thea_modules import ScrapedContent, TheaConfigManager, TheaManagerConfig, TheaManagerProfile
 
 logger = logging.getLogger(__name__)
 
 # Re-export for backward compatibility
-__all__ = [
-    'TheaManagerProfile',
-    'TheaConfigManager',
-    'TheaManagerConfig',
-    'ScrapedContent'
-]
+__all__ = ["TheaManagerProfile", "TheaConfigManager", "TheaManagerConfig", "ScrapedContent"]

@@ -14,6 +14,7 @@ from typing import Any
 
 from ..contracts import Manager, ManagerContext, ManagerResult
 from .results_processing import ResultsProcessor, ResultStatus
+from .results_query_helpers import ResultsQueryHelper
 from .results_validation import ResultsValidator
 
 
@@ -28,7 +29,9 @@ class BaseResultsManager(Manager):
         self.archived_results: dict[str, dict[str, Any]] = {}
         self.max_results = 1000
         self.archive_after_days = 30
-        self.processor = ResultsProcessor(self.result_processors, self.archived_results, self.archive_after_days)
+        self.processor = ResultsProcessor(
+            self.result_processors, self.archived_results, self.archive_after_days
+        )
         self.validator = ResultsValidator()
 
     def initialize(self, context: ManagerContext) -> bool:
@@ -80,7 +83,9 @@ class BaseResultsManager(Manager):
             }
             self.results[result_id] = result
             result["status"] = ResultStatus.PROCESSING.value
-            processed_data = self.processor.process_result_by_type(context, result_type, result_data)
+            processed_data = self.processor.process_result_by_type(
+                context, result_type, result_data
+            )
             validation_passed = self.validator.validate_result(result, validation_rules)
             if validation_passed:
                 result["status"] = ResultStatus.COMPLETED.value
@@ -95,7 +100,11 @@ class BaseResultsManager(Manager):
                 return ManagerResult(
                     success=True,
                     data={"result_id": result_id, "processed_data": processed_data},
-                    metrics={"results_processed": 1, "validation_passed": True, "callback_executed": callback_key is not None},
+                    metrics={
+                        "results_processed": 1,
+                        "validation_passed": True,
+                        "callback_executed": callback_key is not None,
+                    },
                 )
             else:
                 result["status"] = ResultStatus.FAILED.value
@@ -137,51 +146,15 @@ class BaseResultsManager(Manager):
 
     def _get_results(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         """Get results with optional filtering."""
-        try:
-            result_id = payload.get("result_id")
-            result_type = payload.get("result_type")
-            status = payload.get("status")
-            include_archived = payload.get("include_archived", False)
-            results = dict(self.results)
-            if include_archived:
-                results.update(self.archived_results)
-            if result_id:
-                results = {k: v for k, v in results.items() if k == result_id}
-            if result_type:
-                results = {k: v for k, v in results.items() if v.get("type") == result_type}
-            if status:
-                results = {k: v for k, v in results.items() if v.get("status") == status}
-            return ManagerResult(
-                success=True, data={"results": results}, metrics={"results_found": len(results)}
-            )
-        except Exception as e:
-            context.logger(f"Error getting results: {e}")
-            return ManagerResult(success=False, data={}, metrics={}, error=str(e))
+        return ResultsQueryHelper.get_results_filtered(
+            self.results, self.archived_results, payload, context
+        )
 
     def _archive_results(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         """Archive results."""
-        try:
-            result_ids = payload.get("result_ids", [])
-            archive_all = payload.get("archive_all", False)
-            if archive_all:
-                result_ids = list(self.results.keys())
-            archived_count = 0
-            for result_id in result_ids:
-                if result_id in self.results:
-                    result = self.results[result_id]
-                    result["status"] = ResultStatus.ARCHIVED.value
-                    result["archived_at"] = datetime.now().isoformat()
-                    self.archived_results[result_id] = result
-                    del self.results[result_id]
-                    archived_count += 1
-            return ManagerResult(
-                success=True,
-                data={"archived_count": archived_count},
-                metrics={"results_archived": archived_count},
-            )
-        except Exception as e:
-            context.logger(f"Error archiving results: {e}")
-            return ManagerResult(success=False, data={}, metrics={}, error=str(e))
+        return ResultsQueryHelper.archive_results_batch(
+            self.results, self.archived_results, payload, context
+        )
 
     def _register_result_processor(
         self, context: ManagerContext, payload: dict[str, Any]

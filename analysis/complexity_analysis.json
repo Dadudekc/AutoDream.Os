@@ -2,77 +2,176 @@
   "complexity_distribution": {},
   "high_complexity_files": [
     {
-      "path": "src\\core\\emergency_intervention\\unified_emergency\\orchestrator.py",
-      "complexity": 32,
-      "functions": 16,
+      "path": "tests\\unit\\test_messaging_protocol_models.py",
+      "complexity": 71,
+      "functions": 40,
+      "classes": 14
+    },
+    {
+      "path": "docs\\examples\\gaming_integration_core_examples.py",
+      "complexity": 21,
+      "functions": 14,
+      "classes": 2
+    },
+    {
+      "path": "src\\services\\soft_onboarding_service.py",
+      "complexity": 22,
+      "functions": 12,
       "classes": 1
     },
     {
-      "path": "tests\\test_architectural_compliance.py",
-      "complexity": 42,
-      "functions": 21,
-      "classes": 3
+      "path": "src\\web\\vector_database\\unified_middleware.py",
+      "complexity": 27,
+      "functions": 19,
+      "classes": 1
+    },
+    {
+      "path": "src\\integrations\\jarvis\\ollama_integration.py",
+      "complexity": 48,
+      "functions": 24,
+      "classes": 5
     }
   ],
   "low_complexity_files": [
     {
-      "path": "src\\web\\static\\js\\unified-frontend-utilities.js",
+      "path": "run_discord_bot.py",
       "complexity": 0
     },
     {
-      "path": "src\\web\\static\\js\\trading-robot\\chart-state-validation-module.js",
+      "path": "run_unified_discord_bot.py",
       "complexity": 0
     },
     {
-      "path": "src\\services\\quality\\__init__.py",
+      "path": "extensions\\repository-navigator\\test\\suite\\unit\\metadataReader.test.ts",
       "complexity": 0
     },
     {
-      "path": "src\\reporting\\__init__.py",
+      "path": "extensions\\repository-navigator\\jest.config.js",
       "complexity": 0
     },
     {
-      "path": "tests\\messaging\\fixtures\\config.py",
+      "path": "extensions\\repository-navigator\\src\\types.ts",
+      "complexity": 0
+    },
+    {
+      "path": "extensions\\repository-navigator\\src\\metadataReader.ts",
+      "complexity": 0
+    },
+    {
+      "path": "extensions\\repository-navigator\\test\\suite\\unit\\extension.test.ts",
+      "complexity": 0
+    },
+    {
+      "path": "extensions\\repository-navigator\\test\\suite\\unit\\treeDataProvider.test.ts",
+      "complexity": 0
+    },
+    {
+      "path": "extensions\\repository-navigator\\src\\extension.ts",
+      "complexity": 0
+    },
+    {
+      "path": "extensions\\repository-navigator\\src\\treeDataProvider.ts",
+      "complexity": 0
+    },
+    {
+      "path": "src\\core\\error_handling\\error_handling_models.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\core\\error_handling\\error_handling_core.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\core\\error_handling\\error_exceptions.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\core\\error_handling\\error_config.py",
       "complexity": 2
     },
     {
-      "path": "tests\\performance\\__init__.py",
+      "path": "src\\core\\config\\config_enums.py",
       "complexity": 0
     },
     {
-      "path": "tests\\runners\\config.py",
+      "path": "src\\services\\__init__.py",
       "complexity": 0
     },
     {
-      "path": "tests\\infrastructure\\test_infrastructure_config.py",
+      "path": "src\\core\\config\\__init__.py",
       "complexity": 0
     },
     {
-      "path": "tests\\messaging\\fixtures\\__init__.py",
+      "path": "src\\discord_commander\\discord_embeds.py",
+      "complexity": 3
+    },
+    {
+      "path": "src\\utils\\unified_config_utils.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\utils\\config_models.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\vector_database\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\vector_database\\handlers.py",
       "complexity": 0
     }
   ],
-  "average_complexity": 7.0,
-  "total_files": 12,
+  "average_complexity": 8.15,
+  "total_files": 40,
   "complexity_ranges": {
     "simple": [
-      "src\\web\\static\\js\\unified-frontend-utilities.js",
-      "src\\web\\static\\js\\trading-robot\\chart-state-validation-module.js",
-      "src\\services\\quality\\__init__.py",
-      "src\\reporting\\__init__.py",
-      "tests\\messaging\\fixtures\\config.py",
-      "tests\\performance\\__init__.py",
-      "tests\\runners\\config.py",
-      "tests\\infrastructure\\test_infrastructure_config.py",
-      "tests\\messaging\\fixtures\\__init__.py"
+      "run_discord_bot.py",
+      "run_unified_discord_bot.py",
+      "extensions\\repository-navigator\\test\\suite\\unit\\metadataReader.test.ts",
+      "extensions\\repository-navigator\\jest.config.js",
+      "extensions\\repository-navigator\\src\\types.ts",
+      "extensions\\repository-navigator\\src\\metadataReader.ts",
+      "extensions\\repository-navigator\\test\\suite\\unit\\extension.test.ts",
+      "extensions\\repository-navigator\\test\\suite\\unit\\treeDataProvider.test.ts",
+      "extensions\\repository-navigator\\src\\extension.ts",
+      "extensions\\repository-navigator\\src\\treeDataProvider.ts",
+      "src\\core\\error_handling\\error_handling_models.py",
+      "src\\core\\error_handling\\error_handling_core.py",
+      "src\\core\\error_handling\\error_response_models.py",
+      "src\\core\\error_handling\\coordination_strategies.py",
+      "src\\core\\error_handling\\error_exceptions.py",
+      "src\\core\\error_handling\\error_config.py",
+      "src\\core\\error_handling\\coordination_decorator.py",
+      "src\\core\\config\\config_enums.py",
+      "src\\services\\__init__.py",
+      "src\\core\\config\\__init__.py",
+      "src\\discord_commander\\discord_embeds.py",
+      "src\\discord_commander\\unified_discord_bot.py",
+      "src\\utils\\unified_config_utils.py",
+      "src\\utils\\config_models.py",
+      "src\\web\\vector_database\\__init__.py",
+      "src\\web\\vector_database\\handlers.py"
     ],
     "moderate": [
-      "src\\services\\cursor_db.py"
+      "src\\core\\error_handling\\error_decision_models.py",
+      "src\\core\\error_handling\\error_responses_specialized.py",
+      "src\\core\\error_handling\\error_responses.py",
+      "src\\core\\error_handling\\error_context_models.py",
+      "src\\utils\\config_scanners.py",
+      "src\\utils\\config_consolidator.py",
+      "src\\utils\\config_file_scanner.py"
     ],
-    "complex": [],
+    "complex": [
+      "tools\\documentation_assistant.py",
+      "docs\\examples\\gaming_integration_core_examples.py",
+      "src\\core\\error_handling\\coordination_error_handler.py",
+      "src\\services\\soft_onboarding_service.py",
+      "src\\web\\vector_database\\unified_middleware.py"
+    ],
     "very_complex": [
-      "src\\core\\emergency_intervention\\unified_emergency\\orchestrator.py",
-      "tests\\test_architectural_compliance.py"
+      "tests\\unit\\test_messaging_protocol_models.py",
+      "src\\integrations\\jarvis\\ollama_integration.py"
     ]
   }
 }

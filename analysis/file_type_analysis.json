@@ -1,15 +1,246 @@
 {
-  ".js": {
-    "file_type": ".js",
+  ".py": {
+    "file_type": ".py",
     "files": [
       {
-        "path": "src\\web\\static\\js\\unified-frontend-utilities.js",
+        "path": "run_discord_bot.py",
         "functions": 0,
         "classes": 0,
         "complexity": 0
       },
       {
-        "path": "src\\web\\static\\js\\trading-robot\\chart-state-validation-module.js",
+        "path": "run_unified_discord_bot.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "tests\\unit\\test_messaging_protocol_models.py",
+        "functions": 40,
+        "classes": 14,
+        "complexity": 71
+      },
+      {
+        "path": "tools\\documentation_assistant.py",
+        "functions": 10,
+        "classes": 1,
+        "complexity": 19
+      },
+      {
+        "path": "docs\\examples\\gaming_integration_core_examples.py",
+        "functions": 14,
+        "classes": 2,
+        "complexity": 21
+      },
+      {
+        "path": "src\\core\\error_handling\\error_handling_models.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\core\\error_handling\\error_handling_core.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\core\\error_handling\\coordination_error_handler.py",
+        "functions": 8,
+        "classes": 1,
+        "complexity": 16
+      },
+      {
+        "path": "src\\core\\error_handling\\error_decision_models.py",
+        "functions": 7,
+        "classes": 3,
+        "complexity": 14
+      },
+      {
+        "path": "src\\core\\error_handling\\error_responses_specialized.py",
+        "functions": 7,
+        "classes": 5,
+        "complexity": 14
+      },
+      {
+        "path": "src\\core\\error_handling\\error_response_models.py",
+        "functions": 2,
+        "classes": 10,
+        "complexity": 4
+      },
+      {
+        "path": "src\\core\\error_handling\\coordination_strategies.py",
+        "functions": 5,
+        "classes": 0,
+        "complexity": 5
+      },
+      {
+        "path": "src\\core\\error_handling\\error_responses.py",
+        "functions": 5,
+        "classes": 5,
+        "complexity": 10
+      },
+      {
+        "path": "src\\core\\error_handling\\error_exceptions.py",
+        "functions": 0,
+        "classes": 2,
+        "complexity": 0
+      },
+      {
+        "path": "src\\core\\error_handling\\error_config.py",
+        "functions": 1,
+        "classes": 4,
+        "complexity": 2
+      },
+      {
+        "path": "src\\core\\error_handling\\error_context_models.py",
+        "functions": 5,
+        "classes": 2,
+        "complexity": 10
+      },
+      {
+        "path": "src\\core\\error_handling\\coordination_decorator.py",
+        "functions": 4,
+        "classes": 0,
+        "complexity": 4
+      },
+      {
+        "path": "src\\core\\config\\config_enums.py",
+        "functions": 0,
+        "classes": 3,
+        "complexity": 0
+      },
+      {
+        "path": "src\\services\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\core\\config\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\services\\soft_onboarding_service.py",
+        "functions": 12,
+        "classes": 1,
+        "complexity": 22
+      },
+      {
+        "path": "src\\discord_commander\\discord_embeds.py",
+        "functions": 3,
+        "classes": 0,
+        "complexity": 3
+      },
+      {
+        "path": "src\\discord_commander\\unified_discord_bot.py",
+        "functions": 2,
+        "classes": 2,
+        "complexity": 4
+      },
+      {
+        "path": "src\\utils\\config_scanners.py",
+        "functions": 8,
+        "classes": 5,
+        "complexity": 13
+      },
+      {
+        "path": "src\\utils\\config_consolidator.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 9
+      },
+      {
+        "path": "src\\utils\\config_file_scanner.py",
+        "functions": 5,
+        "classes": 1,
+        "complexity": 10
+      },
+      {
+        "path": "src\\utils\\unified_config_utils.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\utils\\config_models.py",
+        "functions": 0,
+        "classes": 1,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\vector_database\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\vector_database\\unified_middleware.py",
+        "functions": 19,
+        "classes": 1,
+        "complexity": 27
+      },
+      {
+        "path": "src\\web\\vector_database\\handlers.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\integrations\\jarvis\\ollama_integration.py",
+        "functions": 24,
+        "classes": 5,
+        "complexity": 48
+      }
+    ],
+    "total_functions": 186,
+    "total_classes": 69,
+    "total_complexity": 326,
+    "file_count": 32
+  },
+  ".ts": {
+    "file_type": ".ts",
+    "files": [
+      {
+        "path": "extensions\\repository-navigator\\test\\suite\\unit\\metadataReader.test.ts",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "extensions\\repository-navigator\\src\\types.ts",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "extensions\\repository-navigator\\src\\metadataReader.ts",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "extensions\\repository-navigator\\test\\suite\\unit\\extension.test.ts",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "extensions\\repository-navigator\\test\\suite\\unit\\treeDataProvider.test.ts",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "extensions\\repository-navigator\\src\\extension.ts",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "extensions\\repository-navigator\\src\\treeDataProvider.ts",
         "functions": 0,
         "classes": 0,
         "complexity": 0
@@ -18,75 +249,21 @@
     "total_functions": 0,
     "total_classes": 0,
     "total_complexity": 0,
-    "file_count": 2
+    "file_count": 7
   },
-  ".py": {
-    "file_type": ".py",
+  ".js": {
+    "file_type": ".js",
     "files": [
       {
-        "path": "src\\services\\quality\\__init__.py",
-        "functions": 0,
-        "classes": 0,
-        "complexity": 0
-      },
-      {
-        "path": "src\\services\\cursor_db.py",
-        "functions": 4,
-        "classes": 2,
-        "complexity": 8
-      },
-      {
-        "path": "src\\core\\emergency_intervention\\unified_emergency\\orchestrator.py",
-        "functions": 16,
-        "classes": 1,
-        "complexity": 32
-      },
-      {
-        "path": "src\\reporting\\__init__.py",
-        "functions": 0,
-        "classes": 0,
-        "complexity": 0
-      },
-      {
-        "path": "tests\\test_architectural_compliance.py",
-        "functions": 21,
-        "classes": 3,
-        "complexity": 42
-      },
-      {
-        "path": "tests\\messaging\\fixtures\\config.py",
-        "functions": 2,
-        "classes": 0,
-        "complexity": 2
-      },
-      {
-        "path": "tests\\performance\\__init__.py",
-        "functions": 0,
-        "classes": 0,
-        "complexity": 0
-      },
-      {
-        "path": "tests\\runners\\config.py",
-        "functions": 0,
-        "classes": 0,
-        "complexity": 0
-      },
-      {
-        "path": "tests\\infrastructure\\test_infrastructure_config.py",
-        "functions": 0,
-        "classes": 0,
-        "complexity": 0
-      },
-      {
-        "path": "tests\\messaging\\fixtures\\__init__.py",
+        "path": "extensions\\repository-navigator\\jest.config.js",
         "functions": 0,
         "classes": 0,
         "complexity": 0
       }
     ],
-    "total_functions": 43,
-    "total_classes": 6,
-    "total_complexity": 84,
-    "file_count": 10
+    "total_functions": 0,
+    "total_classes": 0,
+    "total_complexity": 0,
+    "file_count": 1
   }
 }

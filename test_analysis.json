@@ -45,7 +45,9 @@
                     "test_navigation_info"
                 ],
                 "docstring": "Test ChatGPT navigator.",
-                "base_classes": []
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
             },
             "TestBrowserSessionManager": {
                 "methods": [
@@ -54,7 +56,9 @@
                     "test_clear_session"
                 ],
                 "docstring": "Test browser session manager.",
-                "base_classes": []
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
             },
             "TestConversationExtractor": {
                 "methods": [
@@ -64,7 +68,9 @@
                     "test_cleanup_old_conversations"
                 ],
                 "docstring": "Test conversation extractor.",
-                "base_classes": []
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
             }
         },
         "routes": [],
@@ -94,7 +100,9 @@
                     "test_workflow_progress_calculation"
                 ],
                 "docstring": "Test workflow data models.",
-                "base_classes": []
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
             },
             "TestWorkflowEngine": {
                 "methods": [
@@ -103,7 +111,9 @@
                     "test_find_next_step"
                 ],
                 "docstring": "Test workflow engine.",
-                "base_classes": []
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
             },
             "TestWorkflowStepBuilders": {
                 "methods": [
@@ -111,12 +121,16 @@
                     "test_multi_agent_orchestration_builder"
                 ],
                 "docstring": "Test workflow step builders.",
-                "base_classes": []
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
             },
             "TestWorkflowStrategies": {
                 "methods": [],
                 "docstring": "Test workflow strategies.",
-                "base_classes": []
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
             }
         },
         "routes": [],
@@ -144,7 +158,9 @@
                     "test_capture_info"
                 ],
                 "docstring": "Test screen capture functionality.",
-                "base_classes": []
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
             },
             "TestTextExtractor": {
                 "methods": [
@@ -154,7 +170,9 @@
                     "test_ocr_info"
                 ],
                 "docstring": "Test OCR text extraction.",
-                "base_classes": []
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
             },
             "TestVisualAnalyzer": {
                 "methods": [
@@ -162,7 +180,9 @@
                     "test_analysis_info"
                 ],
                 "docstring": "Test visual analysis functionality.",
-                "base_classes": []
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
             },
             "TestVisionSystem": {
                 "methods": [
@@ -171,7 +191,9 @@
                     "test_cleanup_old_data"
                 ],
                 "docstring": "Test vision system integration.",
-                "base_classes": []
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
             }
         },
         "routes": [],
@@ -211,7 +233,9 @@
                     "test_orchestrator_status"
                 ],
                 "docstring": "Test overnight orchestrator.",
-                "base_classes": []
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
             },
             "TestTaskScheduler": {
                 "methods": [
@@ -221,7 +245,9 @@
                     "test_scheduler_status"
                 ],
                 "docstring": "Test task scheduler.",
-                "base_classes": []
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
             },
             "TestProgressMonitor": {
                 "methods": [
@@ -231,7 +257,9 @@
                     "test_performance_metrics"
                 ],
                 "docstring": "Test progress monitor.",
-                "base_classes": []
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
             },
             "TestRecoverySystem": {
                 "methods": [
@@ -239,7 +267,9 @@
                     "test_recovery_status"
                 ],
                 "docstring": "Test recovery system.",
-                "base_classes": []
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
             }
         },
         "routes": [],
@@ -267,9 +297,6 @@
             "create_adapter",
             "safe_append",
             "__init__",
-            "__init__",
-            "has_valid_cookies",
-            "cleanup",
             "cleanup"
         ],
         "classes": {
@@ -281,7 +308,9 @@
                     "test_thread_safety_concurrent_operations"
                 ],
                 "docstring": "Test singleton pattern implementation.",
-                "base_classes": []
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
             },
             "TestMobileEmulation": {
                 "methods": [
@@ -289,7 +318,9 @@
                     "test_mobile_user_agent"
                 ],
                 "docstring": "Test mobile emulation capabilities.",
-                "base_classes": []
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
             },
             "TestCookiePersistence": {
                 "methods": [
@@ -297,57 +328,57 @@
                     "test_cookie_expiry_validation"
                 ],
                 "docstring": "Test cookie persistence functionality.",
-                "base_classes": []
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
             },
             "TestChatGPTIntegration": {
                 "methods": [
                     "test_chatgpt_url_configuration"
                 ],
                 "docstring": "Test ChatGPT/Thea integration compatibility.",
-                "base_classes": []
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
             },
             "TestBrowserLifecycle": {
                 "methods": [
                     "test_browser_context_manager"
                 ],
                 "docstring": "Test browser lifecycle management.",
-                "base_classes": []
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
             },
             "BrowserConfig": {
                 "methods": [],
                 "docstring": null,
-                "base_classes": []
+                "base_classes": [],
+                "maturity": "Prototype",
+                "agent_type": "Utility"
             },
             "TheaConfig": {
                 "methods": [],
                 "docstring": null,
-                "base_classes": []
+                "base_classes": [],
+                "maturity": "Prototype",
+                "agent_type": "Utility"
             },
             "SessionInfo": {
                 "methods": [],
                 "docstring": null,
-                "base_classes": []
+                "base_classes": [],
+                "maturity": "Prototype",
+                "agent_type": "Utility"
             },
             "ChromeBrowserAdapter": {
                 "methods": [
                     "__init__"
                 ],
                 "docstring": null,
-                "base_classes": []
-            },
-            "TheaAutoConfig": {
-                "methods": [],
-                "docstring": null,
-                "base_classes": []
-            },
-            "TheaAutomation": {
-                "methods": [
-                    "__init__",
-                    "has_valid_cookies",
-                    "cleanup"
-                ],
-                "docstring": null,
-                "base_classes": []
+                "base_classes": [],
+                "maturity": "Prototype",
+                "agent_type": "Utility"
             },
             "TestAutomation": {
                 "methods": [
@@ -356,11 +387,13 @@
                 "docstring": null,
                 "base_classes": [
                     "TheaAutomation"
-                ]
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
             }
         },
         "routes": [],
-        "complexity": 38
+        "complexity": 32
     },
     "tools\\test_imports.py": {
         "language": ".py",
@@ -508,5 +541,1526 @@
         "classes": {},
         "routes": [],
         "complexity": 1
+    },
+    "test_thea_v2_working.py": {
+        "language": ".py",
+        "functions": [
+            "test_thea_service"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 1
+    },
+    "test_cookie_check.py": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "test_cookie_loading.py": {
+        "language": ".py",
+        "functions": [
+            "test_cookie_persistence",
+            "__init__",
+            "get_cookies",
+            "add_cookie"
+        ],
+        "classes": {
+            "MockDriver": {
+                "methods": [
+                    "__init__",
+                    "get_cookies",
+                    "add_cookie"
+                ],
+                "docstring": null,
+                "base_classes": [],
+                "maturity": "Prototype",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 7
+    },
+    "test_discord_bot_c057.py": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "test_discord_simple.py": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "tests\\test_toolbelt.py": {
+        "language": ".py",
+        "functions": [
+            "test_registry_initialization",
+            "test_get_tool_by_primary_flag",
+            "test_get_tool_by_alias",
+            "test_get_tool_for_unknown_flag",
+            "test_get_tool_by_name",
+            "test_list_tools",
+            "test_get_all_flags",
+            "test_runner_initialization",
+            "test_execute_tool_success",
+            "test_execute_tool_with_args_passthrough",
+            "test_execute_tool_import_error",
+            "test_help_generator_initialization",
+            "test_generate_help_contains_header",
+            "test_generate_help_contains_all_tools",
+            "test_generate_help_contains_examples",
+            "test_show_tool_help",
+            "test_main_help_flag",
+            "test_main_version_flag",
+            "test_main_list_flag",
+            "test_main_no_args_shows_help"
+        ],
+        "classes": {
+            "TestToolRegistry": {
+                "methods": [
+                    "test_registry_initialization",
+                    "test_get_tool_by_primary_flag",
+                    "test_get_tool_by_alias",
+                    "test_get_tool_for_unknown_flag",
+                    "test_get_tool_by_name",
+                    "test_list_tools",
+                    "test_get_all_flags"
+                ],
+                "docstring": "Tests for ToolRegistry class.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestToolRunner": {
+                "methods": [
+                    "test_runner_initialization",
+                    "test_execute_tool_success",
+                    "test_execute_tool_with_args_passthrough",
+                    "test_execute_tool_import_error"
+                ],
+                "docstring": "Tests for ToolRunner class.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestHelpGenerator": {
+                "methods": [
+                    "test_help_generator_initialization",
+                    "test_generate_help_contains_header",
+                    "test_generate_help_contains_all_tools",
+                    "test_generate_help_contains_examples",
+                    "test_show_tool_help"
+                ],
+                "docstring": "Tests for HelpGenerator class.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestToolbeltMain": {
+                "methods": [
+                    "test_main_help_flag",
+                    "test_main_version_flag",
+                    "test_main_list_flag",
+                    "test_main_no_args_shows_help"
+                ],
+                "docstring": "Tests for main toolbelt entry point.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 40
+    },
+    "tests\\integration\\test_dreamvault_integration.py": {
+        "language": ".py",
+        "functions": [
+            "test_dreamvault_module_imports",
+            "test_config_imports",
+            "test_database_imports",
+            "test_schema_imports",
+            "test_scraper_imports",
+            "test_browser_manager_imports",
+            "test_config_default_instantiation",
+            "test_config_with_custom_path",
+            "test_config_has_expected_attributes",
+            "test_database_default_instantiation",
+            "test_database_with_sqlite_url",
+            "test_database_connection_methods",
+            "test_database",
+            "test_database_connection",
+            "test_database_test_connection",
+            "test_chatgpt_scraper_instantiation",
+            "test_browser_manager_instantiation",
+            "test_config_loads_defaults",
+            "test_config_has_rate_limits",
+            "test_config_has_paths",
+            "test_database",
+            "test_database_execute",
+            "test_database_placeholder",
+            "test_conversation_schema_exists",
+            "test_conversation_schema_attributes",
+            "test_config_database_integration",
+            "test_config_scraper_integration",
+            "test_invalid_config_path",
+            "test_invalid_database_url"
+        ],
+        "classes": {
+            "TestDreamVaultImports": {
+                "methods": [
+                    "test_dreamvault_module_imports",
+                    "test_config_imports",
+                    "test_database_imports",
+                    "test_schema_imports",
+                    "test_scraper_imports",
+                    "test_browser_manager_imports"
+                ],
+                "docstring": "Test DreamVault import validation.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestConfigInstantiation": {
+                "methods": [
+                    "test_config_default_instantiation",
+                    "test_config_with_custom_path",
+                    "test_config_has_expected_attributes"
+                ],
+                "docstring": "Test Config class instantiation.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestDatabaseInstantiation": {
+                "methods": [
+                    "test_database_default_instantiation",
+                    "test_database_with_sqlite_url",
+                    "test_database_connection_methods"
+                ],
+                "docstring": "Test Database class instantiation.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestDatabaseConnection": {
+                "methods": [
+                    "test_database",
+                    "test_database_connection",
+                    "test_database_test_connection"
+                ],
+                "docstring": "Test database connection functionality.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestScraperInstantiation": {
+                "methods": [
+                    "test_chatgpt_scraper_instantiation",
+                    "test_browser_manager_instantiation"
+                ],
+                "docstring": "Test scraper instantiation.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestConfigurationLoading": {
+                "methods": [
+                    "test_config_loads_defaults",
+                    "test_config_has_rate_limits",
+                    "test_config_has_paths"
+                ],
+                "docstring": "Test configuration loading.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestDatabaseQueries": {
+                "methods": [
+                    "test_database",
+                    "test_database_execute",
+                    "test_database_placeholder"
+                ],
+                "docstring": "Test database query functionality.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestSchemaModels": {
+                "methods": [
+                    "test_conversation_schema_exists",
+                    "test_conversation_schema_attributes"
+                ],
+                "docstring": "Test schema data models.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestDreamVaultIntegration": {
+                "methods": [
+                    "test_config_database_integration",
+                    "test_config_scraper_integration"
+                ],
+                "docstring": "Integration tests for DreamVault components.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestDreamVaultErrorHandling": {
+                "methods": [
+                    "test_invalid_config_path",
+                    "test_invalid_database_url"
+                ],
+                "docstring": "Test DreamVault error handling.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 58
+    },
+    "tests\\test_compliance_dashboard.py": {
+        "language": ".py",
+        "functions": [
+            "run_all_tests",
+            "test_aggregate_data",
+            "test_score_calculation",
+            "test_top_violators_identification",
+            "test_generate_html_structure",
+            "test_html_sections",
+            "test_dashboard_initialization"
+        ],
+        "classes": {
+            "TestDashboardDataAggregator": {
+                "methods": [
+                    "test_aggregate_data",
+                    "test_score_calculation",
+                    "test_top_violators_identification"
+                ],
+                "docstring": "Test data aggregation functionality.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestDashboardHTMLGenerator": {
+                "methods": [
+                    "test_generate_html_structure",
+                    "test_html_sections"
+                ],
+                "docstring": "Test HTML generation functionality.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestComplianceDashboard": {
+                "methods": [
+                    "test_dashboard_initialization"
+                ],
+                "docstring": "Test complete dashboard integration.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 13
+    },
+    "tests\\test_v2_refactoring_validation.py": {
+        "language": ".py",
+        "functions": [
+            "test_unified_logging_time",
+            "test_unified_file_utils",
+            "test_base_execution_manager",
+            "test_monitoring_manager",
+            "run_all_tests"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 5
+    },
+    "tests\\integration\\test_dream_os_integration.py": {
+        "language": ".py",
+        "functions": [
+            "test_dreamos_module_imports",
+            "test_fsm_orchestrator_imports",
+            "test_task_state_imports",
+            "test_task_model_imports",
+            "test_atomic_file_manager_imports",
+            "temp_dirs",
+            "test_fsm_orchestrator_basic_instantiation",
+            "test_fsm_orchestrator_attributes",
+            "test_task_state_values",
+            "test_task_state_is_enum",
+            "test_task_creation",
+            "test_task_optional_fields",
+            "temp_file_path",
+            "test_atomic_file_manager_instantiation",
+            "test_atomic_file_manager_has_methods",
+            "test_dreamos_config_imports",
+            "orchestrator_setup",
+            "test_orchestrator_initialization",
+            "test_task_workflow_components_exist",
+            "test_invalid_paths_handling"
+        ],
+        "classes": {
+            "TestDreamOSImports": {
+                "methods": [
+                    "test_dreamos_module_imports",
+                    "test_fsm_orchestrator_imports",
+                    "test_task_state_imports",
+                    "test_task_model_imports",
+                    "test_atomic_file_manager_imports"
+                ],
+                "docstring": "Test Dream.OS import validation.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestFSMOrchestratorInstantiation": {
+                "methods": [
+                    "temp_dirs",
+                    "test_fsm_orchestrator_basic_instantiation",
+                    "test_fsm_orchestrator_attributes"
+                ],
+                "docstring": "Test FSM orchestrator instantiation.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestTaskStateEnum": {
+                "methods": [
+                    "test_task_state_values",
+                    "test_task_state_is_enum"
+                ],
+                "docstring": "Test TaskState enumeration.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestTaskModel": {
+                "methods": [
+                    "test_task_creation",
+                    "test_task_optional_fields"
+                ],
+                "docstring": "Test Task data model.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestAtomicFileManager": {
+                "methods": [
+                    "temp_file_path",
+                    "test_atomic_file_manager_instantiation",
+                    "test_atomic_file_manager_has_methods"
+                ],
+                "docstring": "Test atomic file manager.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestDreamOSConfiguration": {
+                "methods": [
+                    "test_dreamos_config_imports"
+                ],
+                "docstring": "Test Dream.OS configuration handling.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestDreamOSIntegration": {
+                "methods": [
+                    "orchestrator_setup",
+                    "test_orchestrator_initialization",
+                    "test_task_workflow_components_exist"
+                ],
+                "docstring": "Integration tests for Dream.OS components.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestDreamOSErrorHandling": {
+                "methods": [
+                    "test_invalid_paths_handling"
+                ],
+                "docstring": "Test Dream.OS error handling.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 40
+    },
+    "tests\\integration\\test_monitoring_integration.py": {
+        "language": ".py",
+        "functions": [
+            "test_imports",
+            "test_instantiation",
+            "test_manager_interactions",
+            "test_performance",
+            "main"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 5
+    },
+    "tests\\test_config_core.py": {
+        "language": ".py",
+        "functions": [
+            "run_all_tests",
+            "test_environment_detection",
+            "test_environment_override",
+            "test_env_var_loading",
+            "test_required_config_validation",
+            "test_type_validation",
+            "test_source_priority",
+            "test_default_values",
+            "test_runtime_config_source",
+            "test_set_config_value",
+            "test_config_update_persistence",
+            "test_config_metadata"
+        ],
+        "classes": {
+            "TestEnvironmentLoading": {
+                "methods": [
+                    "test_environment_detection",
+                    "test_environment_override",
+                    "test_env_var_loading"
+                ],
+                "docstring": "Test environment variable loading.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestConfigValidation": {
+                "methods": [
+                    "test_required_config_validation",
+                    "test_type_validation"
+                ],
+                "docstring": "Test configuration validation.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestConfigSources": {
+                "methods": [
+                    "test_source_priority",
+                    "test_default_values",
+                    "test_runtime_config_source"
+                ],
+                "docstring": "Test different configuration sources.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestRuntimeUpdates": {
+                "methods": [
+                    "test_set_config_value",
+                    "test_config_update_persistence",
+                    "test_config_metadata"
+                ],
+                "docstring": "Test runtime configuration updates.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 23
+    },
+    "tools\\test_consolidation_comprehensive.py": {
+        "language": ".py",
+        "functions": [
+            "test_discord_consolidation",
+            "test_browser_consolidation",
+            "test_v2_compliance",
+            "test_gui_imports",
+            "main"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 5
+    },
+    "tools\\functionality_tests.py": {
+        "language": ".py",
+        "functions": [
+            "run_agent_tests",
+            "_get_agent_tests"
+        ],
+        "classes": {
+            "FunctionalityTests": {
+                "methods": [
+                    "run_agent_tests",
+                    "_get_agent_tests"
+                ],
+                "docstring": "Runs agent-specific functionality tests.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 4
+    },
+    "tools_v2\\categories\\testing_tools.py": {
+        "language": ".py",
+        "functions": [
+            "get_spec",
+            "validate",
+            "execute",
+            "get_spec",
+            "validate",
+            "execute"
+        ],
+        "classes": {
+            "CoverageReportTool": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Generate test coverage report.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "MutationGateTool": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Run mutation testing gate.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 12
+    },
+    "scripts\\test_enhanced_discord.py": {
+        "language": ".py",
+        "functions": [
+            "__init__",
+            "show_test_results",
+            "all_tests_passed"
+        ],
+        "classes": {
+            "EnhancedDiscordTester": {
+                "methods": [
+                    "__init__",
+                    "show_test_results",
+                    "all_tests_passed"
+                ],
+                "docstring": "Test class for enhanced Discord integration.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 6
+    },
+    "tests\\__init__.py": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "tests\\test_fixtures_browser.py": {
+        "language": ".py",
+        "functions": [
+            "create_mock_driver",
+            "create_mock_chrome_options",
+            "__init__",
+            "__init__",
+            "has_valid_cookies",
+            "cleanup"
+        ],
+        "classes": {
+            "MockBrowserConfig": {
+                "methods": [],
+                "docstring": "Mock browser configuration.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "MockTheaConfig": {
+                "methods": [],
+                "docstring": "Mock Thea configuration.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "MockTheaAutoConfig": {
+                "methods": [],
+                "docstring": "Mock Thea automation configuration.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "MockSessionInfo": {
+                "methods": [],
+                "docstring": "Mock session information.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "MockChromeBrowserAdapter": {
+                "methods": [
+                    "__init__"
+                ],
+                "docstring": "Mock Chrome browser adapter.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "MockTheaAutomation": {
+                "methods": [
+                    "__init__",
+                    "has_valid_cookies",
+                    "cleanup"
+                ],
+                "docstring": "Mock Thea automation.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 10
+    },
+    "tests\\test_fixtures_compliance.py": {
+        "language": ".py",
+        "functions": [
+            "create_sample_v2_report",
+            "create_sample_complexity_report",
+            "create_sample_suggestion"
+        ],
+        "classes": {
+            "MockViolation": {
+                "methods": [],
+                "docstring": "Mock V2 compliance violation.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "MockV2Report": {
+                "methods": [],
+                "docstring": "Mock V2 compliance report.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "MockComplexityViolation": {
+                "methods": [],
+                "docstring": "Mock complexity violation.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "MockComplexityReport": {
+                "methods": [],
+                "docstring": "Mock complexity report.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "MockSuggestion": {
+                "methods": [],
+                "docstring": "Mock refactoring suggestion.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 3
+    },
+    "tests\\test_config_ssot_validation.py": {
+        "language": ".py",
+        "functions": [
+            "test_unified_config_manager_initialization",
+            "test_timeout_config",
+            "test_agent_config",
+            "test_browser_config",
+            "test_threshold_config",
+            "test_file_pattern_config",
+            "test_get_config_basic",
+            "test_config_validation",
+            "test_get_unified_config",
+            "test_reload_config",
+            "test_backward_compatibility_config_core",
+            "test_backward_compatibility_unified_config",
+            "test_backward_compatibility_config_browser",
+            "test_backward_compatibility_config_thresholds",
+            "test_backward_compatibility_shared_utils",
+            "test_services_config_imports",
+            "test_config_environment_enum",
+            "test_config_source_enum",
+            "test_all_config_sections_accessible",
+            "test_config_consistency",
+            "test_no_circular_imports"
+        ],
+        "classes": {
+            "TestConfigSSOT": {
+                "methods": [
+                    "test_unified_config_manager_initialization",
+                    "test_timeout_config",
+                    "test_agent_config",
+                    "test_browser_config",
+                    "test_threshold_config",
+                    "test_file_pattern_config",
+                    "test_get_config_basic",
+                    "test_config_validation",
+                    "test_get_unified_config",
+                    "test_reload_config",
+                    "test_backward_compatibility_config_core",
+                    "test_backward_compatibility_unified_config",
+                    "test_backward_compatibility_config_browser",
+                    "test_backward_compatibility_config_thresholds",
+                    "test_backward_compatibility_shared_utils",
+                    "test_services_config_imports",
+                    "test_config_environment_enum",
+                    "test_config_source_enum"
+                ],
+                "docstring": "Test suite for unified configuration SSOT.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestConfigSSOTIntegration": {
+                "methods": [
+                    "test_all_config_sections_accessible",
+                    "test_config_consistency",
+                    "test_no_circular_imports"
+                ],
+                "docstring": "Integration tests for config SSOT.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 42
+    },
+    "tests\\integration\\__init__.py": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "tools_v2\\test_toolbelt_basic.py": {
+        "language": ".py",
+        "functions": [
+            "test_basic_functionality"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 1
+    },
+    "tools_v2\\tests\\__init__.py": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "tools_v2\\tests\\test_core.py": {
+        "language": ".py",
+        "functions": [
+            "test_core_initialization",
+            "test_list_tools",
+            "test_list_categories",
+            "test_tool_not_found",
+            "test_execution_history_recording",
+            "test_clear_history",
+            "test_get_execution_history"
+        ],
+        "classes": {
+            "TestToolbeltCore": {
+                "methods": [
+                    "test_core_initialization",
+                    "test_list_tools",
+                    "test_list_categories",
+                    "test_tool_not_found",
+                    "test_execution_history_recording",
+                    "test_clear_history",
+                    "test_get_execution_history"
+                ],
+                "docstring": "Tests for ToolbeltCore class.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 14
+    },
+    "tools_v2\\tests\\test_registry.py": {
+        "language": ".py",
+        "functions": [
+            "test_registry_initialization",
+            "test_singleton_pattern",
+            "test_list_tools",
+            "test_list_by_category",
+            "test_resolve_valid_tool",
+            "test_resolve_invalid_tool",
+            "test_caching",
+            "test_export_lock"
+        ],
+        "classes": {
+            "TestToolRegistry": {
+                "methods": [
+                    "test_registry_initialization",
+                    "test_singleton_pattern",
+                    "test_list_tools",
+                    "test_list_by_category",
+                    "test_resolve_valid_tool",
+                    "test_resolve_invalid_tool",
+                    "test_caching",
+                    "test_export_lock"
+                ],
+                "docstring": "Tests for ToolRegistry class.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 16
+    },
+    "tools_v2\\tests\\test_adapters.py": {
+        "language": ".py",
+        "functions": [
+            "test_spec_creation",
+            "test_validate_params_success",
+            "test_validate_params_failure",
+            "test_result_creation",
+            "test_result_to_dict",
+            "test_adapter_implements_interface",
+            "test_adapter_get_spec",
+            "test_adapter_validate",
+            "test_adapter_get_help"
+        ],
+        "classes": {
+            "TestToolSpec": {
+                "methods": [
+                    "test_spec_creation",
+                    "test_validate_params_success",
+                    "test_validate_params_failure"
+                ],
+                "docstring": "Tests for ToolSpec dataclass.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestToolResult": {
+                "methods": [
+                    "test_result_creation",
+                    "test_result_to_dict"
+                ],
+                "docstring": "Tests for ToolResult dataclass.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestIToolAdapter": {
+                "methods": [
+                    "test_adapter_implements_interface",
+                    "test_adapter_get_spec",
+                    "test_adapter_validate",
+                    "test_adapter_get_help"
+                ],
+                "docstring": "Tests for IToolAdapter interface implementation.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 18
+    },
+    "tools_v2\\tests\\test_smoke_categories.py": {
+        "language": ".py",
+        "functions": [
+            "test_import_vector_tools",
+            "test_import_messaging_tools",
+            "test_import_analysis_tools",
+            "test_import_v2_tools",
+            "test_import_agent_ops_tools",
+            "test_import_testing_tools",
+            "test_import_compliance_tools",
+            "test_import_onboarding_tools",
+            "test_import_docs_tools",
+            "test_import_health_tools",
+            "test_adapter_implements_interface"
+        ],
+        "classes": {
+            "TestCategoryImports": {
+                "methods": [
+                    "test_import_vector_tools",
+                    "test_import_messaging_tools",
+                    "test_import_analysis_tools",
+                    "test_import_v2_tools",
+                    "test_import_agent_ops_tools",
+                    "test_import_testing_tools",
+                    "test_import_compliance_tools",
+                    "test_import_onboarding_tools",
+                    "test_import_docs_tools",
+                    "test_import_health_tools"
+                ],
+                "docstring": "Test all category modules can be imported.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestAdapterInterface": {
+                "methods": [
+                    "test_adapter_implements_interface"
+                ],
+                "docstring": "Test all adapters implement IToolAdapter correctly.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 22
+    },
+    "tests\\browser\\__init__.py": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "tests\\browser\\test_browser_session.py": {
+        "language": ".py",
+        "functions": [
+            "thea_config",
+            "cleanup_test_files",
+            "test_cookie_save_load_thea_automation",
+            "test_cookie_expiry_validation",
+            "test_chatgpt_url_configuration",
+            "test_browser_context_manager",
+            "cleanup"
+        ],
+        "classes": {
+            "TestCookiePersistence": {
+                "methods": [
+                    "test_cookie_save_load_thea_automation",
+                    "test_cookie_expiry_validation"
+                ],
+                "docstring": "Test cookie persistence functionality.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestChatGPTIntegration": {
+                "methods": [
+                    "test_chatgpt_url_configuration"
+                ],
+                "docstring": "Test ChatGPT/Thea integration compatibility.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestBrowserLifecycle": {
+                "methods": [
+                    "test_browser_context_manager"
+                ],
+                "docstring": "Test browser lifecycle management.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TheaConfig": {
+                "methods": [],
+                "docstring": null,
+                "base_classes": [],
+                "maturity": "Prototype",
+                "agent_type": "Utility"
+            },
+            "TestAutomation": {
+                "methods": [
+                    "cleanup"
+                ],
+                "docstring": null,
+                "base_classes": [
+                    "TheaAutomation"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 12
+    },
+    "tests\\browser\\test_browser_operations.py": {
+        "language": ".py",
+        "functions": [
+            "test_various_screen_sizes",
+            "test_headless_modes",
+            "test_suite_metadata",
+            "test_mobile_emulation_config",
+            "test_mobile_user_agent",
+            "__init__"
+        ],
+        "classes": {
+            "TestMobileEmulation": {
+                "methods": [
+                    "test_mobile_emulation_config",
+                    "test_mobile_user_agent"
+                ],
+                "docstring": "Test mobile emulation capabilities.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "BrowserConfig": {
+                "methods": [],
+                "docstring": null,
+                "base_classes": [],
+                "maturity": "Prototype",
+                "agent_type": "Utility"
+            },
+            "ChromeBrowserAdapter": {
+                "methods": [
+                    "__init__"
+                ],
+                "docstring": null,
+                "base_classes": [],
+                "maturity": "Prototype",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 9
+    },
+    "tests\\browser\\test_browser_core.py": {
+        "language": ".py",
+        "functions": [
+            "browser_config",
+            "test_singleton_same_instance",
+            "test_config_singleton_pattern",
+            "test_thread_safety_basic",
+            "test_thread_safety_concurrent_operations",
+            "create_adapter",
+            "safe_append",
+            "__init__"
+        ],
+        "classes": {
+            "TestSingletonPattern": {
+                "methods": [
+                    "test_singleton_same_instance",
+                    "test_config_singleton_pattern",
+                    "test_thread_safety_basic",
+                    "test_thread_safety_concurrent_operations"
+                ],
+                "docstring": "Test singleton pattern implementation.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "BrowserConfig": {
+                "methods": [],
+                "docstring": null,
+                "base_classes": [],
+                "maturity": "Prototype",
+                "agent_type": "Utility"
+            },
+            "ChromeBrowserAdapter": {
+                "methods": [
+                    "__init__"
+                ],
+                "docstring": null,
+                "base_classes": [],
+                "maturity": "Prototype",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 13
+    },
+    "tests\\integration\\system_integration_validator.py": {
+        "language": ".py",
+        "functions": [
+            "main",
+            "__init__",
+            "validate_imports",
+            "_extract_imports",
+            "detect_circular_dependencies",
+            "_resolve_module_path",
+            "check_missing_dependencies",
+            "generate_health_report",
+            "save_report",
+            "print_summary",
+            "dfs"
+        ],
+        "classes": {
+            "ValidationResult": {
+                "methods": [],
+                "docstring": "Result of a validation check.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "IntegrationHealthReport": {
+                "methods": [],
+                "docstring": "Comprehensive integration health report.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "SystemIntegrationValidator": {
+                "methods": [
+                    "__init__",
+                    "validate_imports",
+                    "_extract_imports",
+                    "detect_circular_dependencies",
+                    "_resolve_module_path",
+                    "check_missing_dependencies",
+                    "generate_health_report",
+                    "save_report",
+                    "print_summary"
+                ],
+                "docstring": "Comprehensive system integration validation.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 20
+    },
+    "tests\\test_concurrent_messaging.py": {
+        "language": ".py",
+        "functions": [
+            "send_message_subprocess",
+            "test_concurrent_messaging_basic",
+            "test_concurrent_messaging_stress",
+            "test_message_routing_accuracy",
+            "main"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 5
+    },
+    "tests\\test_message_task_integration.py": {
+        "language": ".py",
+        "functions": [
+            "test_parse_full_format",
+            "test_parse_minimal_format",
+            "test_parse_with_tags",
+            "test_parse_natural_language",
+            "test_parse_with_assignee",
+            "test_parse_priority_detection",
+            "test_parse_todo_format",
+            "test_parse_fix_format",
+            "test_parse_fallback_to_first_line",
+            "test_fingerprint_identical",
+            "test_fingerprint_different",
+            "test_priority_normalization",
+            "test_initial_state",
+            "test_valid_transitions",
+            "test_invalid_transitions",
+            "test_message_to_task_structured",
+            "test_parser_cascade"
+        ],
+        "classes": {
+            "TestStructuredParser": {
+                "methods": [
+                    "test_parse_full_format",
+                    "test_parse_minimal_format",
+                    "test_parse_with_tags"
+                ],
+                "docstring": "Test structured message parser.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "DataAgent"
+            },
+            "TestAIParser": {
+                "methods": [
+                    "test_parse_natural_language",
+                    "test_parse_with_assignee",
+                    "test_parse_priority_detection"
+                ],
+                "docstring": "Test AI-powered parser.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "DataAgent"
+            },
+            "TestFallbackParser": {
+                "methods": [
+                    "test_parse_todo_format",
+                    "test_parse_fix_format",
+                    "test_parse_fallback_to_first_line"
+                ],
+                "docstring": "Test fallback regex parser.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "DataAgent"
+            },
+            "TestDeduplication": {
+                "methods": [
+                    "test_fingerprint_identical",
+                    "test_fingerprint_different",
+                    "test_priority_normalization"
+                ],
+                "docstring": "Test task deduplication.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestFSMBridge": {
+                "methods": [
+                    "test_initial_state",
+                    "test_valid_transitions",
+                    "test_invalid_transitions"
+                ],
+                "docstring": "Test FSM state management.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestEndToEnd": {
+                "methods": [
+                    "test_message_to_task_structured",
+                    "test_parser_cascade"
+                ],
+                "docstring": "End-to-end integration tests.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 34
+    },
+    "tests\\unit\\test_messaging_protocol_models.py": {
+        "language": ".py",
+        "functions": [
+            "sample_message",
+            "message_delivery",
+            "onboarding_service",
+            "message_formatter",
+            "inbox_manager",
+            "__init__",
+            "send_message",
+            "__init__",
+            "generate_onboarding_message",
+            "__init__",
+            "format_message",
+            "__init__",
+            "check_and_rotate",
+            "test_send_message_success",
+            "test_send_message_failure",
+            "test_send_multiple_messages",
+            "test_protocol_compliance_with_duck_typing",
+            "test_generate_onboarding_message",
+            "test_generate_multiple_styles",
+            "test_protocol_compliance_with_duck_typing",
+            "test_format_message",
+            "test_format_with_different_templates",
+            "test_protocol_compliance_with_duck_typing",
+            "test_check_and_rotate_no_rotation",
+            "test_check_and_rotate_with_rotation",
+            "test_check_multiple_files",
+            "test_protocol_compliance_with_duck_typing",
+            "test_all_protocols_work_together",
+            "test_protocol_type_hints",
+            "test_empty_message_delivery",
+            "test_special_characters_in_agent_id",
+            "test_none_template_handling",
+            "use_delivery",
+            "use_onboarding",
+            "use_formatter",
+            "use_inbox",
+            "send_message",
+            "generate_onboarding_message",
+            "format_message",
+            "check_and_rotate"
+        ],
+        "classes": {
+            "MockMessageDelivery": {
+                "methods": [
+                    "__init__",
+                    "send_message"
+                ],
+                "docstring": "Mock implementation of IMessageDelivery protocol.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "MockOnboardingService": {
+                "methods": [
+                    "__init__",
+                    "generate_onboarding_message"
+                ],
+                "docstring": "Mock implementation of IOnboardingService protocol.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "MockMessageFormatter": {
+                "methods": [
+                    "__init__",
+                    "format_message"
+                ],
+                "docstring": "Mock implementation of IMessageFormatter protocol.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "MockInboxManager": {
+                "methods": [
+                    "__init__",
+                    "check_and_rotate"
+                ],
+                "docstring": "Mock implementation of IInboxManager protocol.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestIMessageDelivery": {
+                "methods": [
+                    "test_send_message_success",
+                    "test_send_message_failure",
+                    "test_send_multiple_messages",
+                    "test_protocol_compliance_with_duck_typing"
+                ],
+                "docstring": "Test suite for IMessageDelivery protocol.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestIOnboardingService": {
+                "methods": [
+                    "test_generate_onboarding_message",
+                    "test_generate_multiple_styles",
+                    "test_protocol_compliance_with_duck_typing"
+                ],
+                "docstring": "Test suite for IOnboardingService protocol.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestIMessageFormatter": {
+                "methods": [
+                    "test_format_message",
+                    "test_format_with_different_templates",
+                    "test_protocol_compliance_with_duck_typing"
+                ],
+                "docstring": "Test suite for IMessageFormatter protocol.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestIInboxManager": {
+                "methods": [
+                    "test_check_and_rotate_no_rotation",
+                    "test_check_and_rotate_with_rotation",
+                    "test_check_multiple_files",
+                    "test_protocol_compliance_with_duck_typing"
+                ],
+                "docstring": "Test suite for IInboxManager protocol.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestProtocolIntegration": {
+                "methods": [
+                    "test_all_protocols_work_together",
+                    "test_protocol_type_hints"
+                ],
+                "docstring": "Integration tests for protocol interactions.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestEdgeCases": {
+                "methods": [
+                    "test_empty_message_delivery",
+                    "test_special_characters_in_agent_id",
+                    "test_none_template_handling"
+                ],
+                "docstring": "Test edge cases and error scenarios.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "CustomDelivery": {
+                "methods": [
+                    "send_message"
+                ],
+                "docstring": null,
+                "base_classes": [],
+                "maturity": "Prototype",
+                "agent_type": "Utility"
+            },
+            "CustomOnboarding": {
+                "methods": [
+                    "generate_onboarding_message"
+                ],
+                "docstring": null,
+                "base_classes": [],
+                "maturity": "Prototype",
+                "agent_type": "Utility"
+            },
+            "CustomFormatter": {
+                "methods": [
+                    "format_message"
+                ],
+                "docstring": null,
+                "base_classes": [],
+                "maturity": "Prototype",
+                "agent_type": "Utility"
+            },
+            "CustomInboxManager": {
+                "methods": [
+                    "check_and_rotate"
+                ],
+                "docstring": null,
+                "base_classes": [],
+                "maturity": "Prototype",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 71
+    },
+    "extensions\\repository-navigator\\test\\suite\\unit\\metadataReader.test.ts": {
+        "language": ".ts",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "extensions\\repository-navigator\\test\\suite\\unit\\extension.test.ts": {
+        "language": ".ts",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "extensions\\repository-navigator\\test\\suite\\unit\\treeDataProvider.test.ts": {
+        "language": ".ts",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
     }
 }

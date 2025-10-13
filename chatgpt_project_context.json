@@ -1,650 +1,1246 @@
 {
     "project_root": "D:\\Agent_Cellphone_V2_Repository",
-    "num_files_analyzed": 17,
+    "num_files_analyzed": 40,
     "analysis_details": {
-        "scripts\\setup_chat_mate.py": {
+        "run_discord_bot.py": {
+            "language": ".py",
+            "functions": [],
+            "classes": {},
+            "routes": [],
+            "complexity": 0
+        },
+        "run_unified_discord_bot.py": {
+            "language": ".py",
+            "functions": [],
+            "classes": {},
+            "routes": [],
+            "complexity": 0
+        },
+        "tests\\unit\\test_messaging_protocol_models.py": {
             "language": ".py",
             "functions": [
-                "install_dependencies",
-                "create_runtime_directories",
-                "test_chat_mate_import",
-                "main"
+                "sample_message",
+                "message_delivery",
+                "onboarding_service",
+                "message_formatter",
+                "inbox_manager",
+                "__init__",
+                "send_message",
+                "__init__",
+                "generate_onboarding_message",
+                "__init__",
+                "format_message",
+                "__init__",
+                "check_and_rotate",
+                "test_send_message_success",
+                "test_send_message_failure",
+                "test_send_multiple_messages",
+                "test_protocol_compliance_with_duck_typing",
+                "test_generate_onboarding_message",
+                "test_generate_multiple_styles",
+                "test_protocol_compliance_with_duck_typing",
+                "test_format_message",
+                "test_format_with_different_templates",
+                "test_protocol_compliance_with_duck_typing",
+                "test_check_and_rotate_no_rotation",
+                "test_check_and_rotate_with_rotation",
+                "test_check_multiple_files",
+                "test_protocol_compliance_with_duck_typing",
+                "test_all_protocols_work_together",
+                "test_protocol_type_hints",
+                "test_empty_message_delivery",
+                "test_special_characters_in_agent_id",
+                "test_none_template_handling",
+                "use_delivery",
+                "use_onboarding",
+                "use_formatter",
+                "use_inbox",
+                "send_message",
+                "generate_onboarding_message",
+                "format_message",
+                "check_and_rotate"
+            ],
+            "classes": {
+                "MockMessageDelivery": {
+                    "methods": [
+                        "__init__",
+                        "send_message"
+                    ],
+                    "docstring": "Mock implementation of IMessageDelivery protocol.",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "MockOnboardingService": {
+                    "methods": [
+                        "__init__",
+                        "generate_onboarding_message"
+                    ],
+                    "docstring": "Mock implementation of IOnboardingService protocol.",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "MockMessageFormatter": {
+                    "methods": [
+                        "__init__",
+                        "format_message"
+                    ],
+                    "docstring": "Mock implementation of IMessageFormatter protocol.",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "MockInboxManager": {
+                    "methods": [
+                        "__init__",
+                        "check_and_rotate"
+                    ],
+                    "docstring": "Mock implementation of IInboxManager protocol.",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "TestIMessageDelivery": {
+                    "methods": [
+                        "test_send_message_success",
+                        "test_send_message_failure",
+                        "test_send_multiple_messages",
+                        "test_protocol_compliance_with_duck_typing"
+                    ],
+                    "docstring": "Test suite for IMessageDelivery protocol.",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "TestIOnboardingService": {
+                    "methods": [
+                        "test_generate_onboarding_message",
+                        "test_generate_multiple_styles",
+                        "test_protocol_compliance_with_duck_typing"
+                    ],
+                    "docstring": "Test suite for IOnboardingService protocol.",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "TestIMessageFormatter": {
+                    "methods": [
+                        "test_format_message",
+                        "test_format_with_different_templates",
+                        "test_protocol_compliance_with_duck_typing"
+                    ],
+                    "docstring": "Test suite for IMessageFormatter protocol.",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "TestIInboxManager": {
+                    "methods": [
+                        "test_check_and_rotate_no_rotation",
+                        "test_check_and_rotate_with_rotation",
+                        "test_check_multiple_files",
+                        "test_protocol_compliance_with_duck_typing"
+                    ],
+                    "docstring": "Test suite for IInboxManager protocol.",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "TestProtocolIntegration": {
+                    "methods": [
+                        "test_all_protocols_work_together",
+                        "test_protocol_type_hints"
+                    ],
+                    "docstring": "Integration tests for protocol interactions.",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "TestEdgeCases": {
+                    "methods": [
+                        "test_empty_message_delivery",
+                        "test_special_characters_in_agent_id",
+                        "test_none_template_handling"
+                    ],
+                    "docstring": "Test edge cases and error scenarios.",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "CustomDelivery": {
+                    "methods": [
+                        "send_message"
+                    ],
+                    "docstring": null,
+                    "base_classes": [],
+                    "maturity": "Prototype",
+                    "agent_type": "Utility"
+                },
+                "CustomOnboarding": {
+                    "methods": [
+                        "generate_onboarding_message"
+                    ],
+                    "docstring": null,
+                    "base_classes": [],
+                    "maturity": "Prototype",
+                    "agent_type": "Utility"
+                },
+                "CustomFormatter": {
+                    "methods": [
+                        "format_message"
+                    ],
+                    "docstring": null,
+                    "base_classes": [],
+                    "maturity": "Prototype",
+                    "agent_type": "Utility"
+                },
+                "CustomInboxManager": {
+                    "methods": [
+                        "check_and_rotate"
+                    ],
+                    "docstring": null,
+                    "base_classes": [],
+                    "maturity": "Prototype",
+                    "agent_type": "Utility"
+                }
+            },
+            "routes": [],
+            "complexity": 71
+        },
+        "tools\\documentation_assistant.py": {
+            "language": ".py",
+            "functions": [
+                "main",
+                "__init__",
+                "create_mission_doc",
+                "create_completion_report",
+                "create_milestone_doc",
+                "create_enhancement_request",
+                "create_status_snapshot",
+                "_count_active_agents",
+                "_list_recent_missions",
+                "_list_recent_milestones"
+            ],
+            "classes": {
+                "DocumentationAssistant": {
+                    "methods": [
+                        "__init__",
+                        "create_mission_doc",
+                        "create_completion_report",
+                        "create_milestone_doc",
+                        "create_enhancement_request",
+                        "create_status_snapshot",
+                        "_count_active_agents",
+                        "_list_recent_missions",
+                        "_list_recent_milestones"
+                    ],
+                    "docstring": "Helper tool for generating consistent documentation.",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                }
+            },
+            "routes": [],
+            "complexity": 19
+        },
+        "docs\\examples\\gaming_integration_core_examples.py": {
+            "language": ".py",
+            "functions": [
+                "example_basic_session",
+                "example_multi_player",
+                "example_entertainment_systems",
+                "example_event_driven",
+                "example_custom_handler",
+                "example_health_monitoring",
+                "example_dependency_injection",
+                "__init__",
+                "handle_event",
+                "__init__",
+                "create_session",
+                "get_session",
+                "end_session",
+                "get_active_sessions"
+            ],
+            "classes": {
+                "AnalyticsHandler": {
+                    "methods": [
+                        "__init__",
+                        "handle_event"
+                    ],
+                    "docstring": null,
+                    "base_classes": [],
+                    "maturity": "Prototype",
+                    "agent_type": "Utility"
+                },
+                "LoggingSessionManager": {
+                    "methods": [
+                        "__init__",
+                        "create_session",
+                        "get_session",
+                        "end_session",
+                        "get_active_sessions"
+                    ],
+                    "docstring": null,
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                }
+            },
+            "routes": [],
+            "complexity": 21
+        },
+        "extensions\\repository-navigator\\test\\suite\\unit\\metadataReader.test.ts": {
+            "language": ".ts",
+            "functions": [],
+            "classes": {},
+            "routes": [],
+            "complexity": 0
+        },
+        "extensions\\repository-navigator\\jest.config.js": {
+            "language": ".js",
+            "functions": [],
+            "classes": {},
+            "routes": [],
+            "complexity": 0
+        },
+        "extensions\\repository-navigator\\src\\types.ts": {
+            "language": ".ts",
+            "functions": [],
+            "classes": {},
+            "routes": [],
+            "complexity": 0
+        },
+        "extensions\\repository-navigator\\src\\metadataReader.ts": {
+            "language": ".ts",
+            "functions": [],
+            "classes": {},
+            "routes": [],
+            "complexity": 0
+        },
+        "extensions\\repository-navigator\\test\\suite\\unit\\extension.test.ts": {
+            "language": ".ts",
+            "functions": [],
+            "classes": {},
+            "routes": [],
+            "complexity": 0
+        },
+        "extensions\\repository-navigator\\test\\suite\\unit\\treeDataProvider.test.ts": {
+            "language": ".ts",
+            "functions": [],
+            "classes": {},
+            "routes": [],
+            "complexity": 0
+        },
+        "extensions\\repository-navigator\\src\\extension.ts": {
+            "language": ".ts",
+            "functions": [],
+            "classes": {},
+            "routes": [],
+            "complexity": 0
+        },
+        "extensions\\repository-navigator\\src\\treeDataProvider.ts": {
+            "language": ".ts",
+            "functions": [],
+            "classes": {},
+            "routes": [],
+            "complexity": 0
+        },
+        "src\\core\\error_handling\\error_handling_models.py": {
+            "language": ".py",
+            "functions": [],
+            "classes": {},
+            "routes": [],
+            "complexity": 0
+        },
+        "src\\core\\error_handling\\error_handling_core.py": {
+            "language": ".py",
+            "functions": [],
+            "classes": {},
+            "routes": [],
+            "complexity": 0
+        },
+        "src\\core\\error_handling\\coordination_error_handler.py": {
+            "language": ".py",
+            "functions": [
+                "__init__",
+                "execute_with_error_handling",
+                "register_circuit_breaker",
+                "register_retry_mechanism",
+                "add_recovery_strategy",
+                "get_error_report",
+                "get_component_status",
+                "reset_component"
+            ],
+            "classes": {
+                "CoordinationErrorHandlerCore": {
+                    "methods": [
+                        "__init__",
+                        "execute_with_error_handling",
+                        "register_circuit_breaker",
+                        "register_retry_mechanism",
+                        "add_recovery_strategy",
+                        "get_error_report",
+                        "get_component_status",
+                        "reset_component"
+                    ],
+                    "docstring": "Intelligent error handler for coordination and communication systems.\n\nProvides comprehensive error management with:\n- Retry mechanisms with exponential backoff\n- Circuit breakers for fault tolerance\n- Intelligent recovery strategies\n- Error pattern analysis and prediction\n- Learning from error history\n\nRefactored for autonomous systems with modular V2-compliant architecture.",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                }
+            },
+            "routes": [],
+            "complexity": 16
+        },
+        "src\\core\\error_handling\\error_decision_models.py": {
+            "language": ".py",
+            "functions": [
+                "classify",
+                "_determine_severity",
+                "_determine_category",
+                "_determine_recoverability",
+                "should_retry",
+                "get_delay",
+                "decide_action"
+            ],
+            "classes": {
+                "ErrorClassifier": {
+                    "methods": [
+                        "classify",
+                        "_determine_severity",
+                        "_determine_category",
+                        "_determine_recoverability"
+                    ],
+                    "docstring": "Intelligent error classifier for autonomous systems.\n\nClassifies errors by severity, category, and recoverability.",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "RetryConfiguration": {
+                    "methods": [
+                        "should_retry",
+                        "get_delay"
+                    ],
+                    "docstring": "Retry configuration for error recovery.\n\nDefines retry behavior for different error types.",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "ErrorDecisionEngine": {
+                    "methods": [
+                        "decide_action"
+                    ],
+                    "docstring": "Error decision engine for autonomous error handling.\n\nMakes decisions about error handling strategies based on classification.",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                }
+            },
+            "routes": [],
+            "complexity": 14
+        },
+        "src\\core\\error_handling\\error_responses_specialized.py": {
+            "language": ".py",
+            "functions": [
+                "to_dict",
+                "to_dict",
+                "to_dict",
+                "__post_init__",
+                "to_dict",
+                "__post_init__",
+                "to_dict"
+            ],
+            "classes": {
+                "ValidationErrorResponse": {
+                    "methods": [
+                        "to_dict"
+                    ],
+                    "docstring": "Validation error response.",
+                    "base_classes": [
+                        "StandardErrorResponse"
+                    ],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "ConfigurationErrorResponse": {
+                    "methods": [
+                        "to_dict"
+                    ],
+                    "docstring": "Configuration error response.",
+                    "base_classes": [
+                        "StandardErrorResponse"
+                    ],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "AgentErrorResponse": {
+                    "methods": [
+                        "to_dict"
+                    ],
+                    "docstring": "Agent operation error response.",
+                    "base_classes": [
+                        "StandardErrorResponse"
+                    ],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "CoordinationErrorResponse": {
+                    "methods": [
+                        "__post_init__",
+                        "to_dict"
+                    ],
+                    "docstring": "Coordination error response.",
+                    "base_classes": [
+                        "StandardErrorResponse"
+                    ],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "ErrorSummary": {
+                    "methods": [
+                        "__post_init__",
+                        "to_dict"
+                    ],
+                    "docstring": "Error summary statistics.",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                }
+            },
+            "routes": [],
+            "complexity": 14
+        },
+        "src\\core\\error_handling\\error_response_models.py": {
+            "language": ".py",
+            "functions": [
+                "to_dict",
+                "__post_init__"
+            ],
+            "classes": {
+                "BaseErrorResponse": {
+                    "methods": [
+                        "to_dict"
+                    ],
+                    "docstring": "Base error response with common fields.",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "RecoverableErrorResponse": {
+                    "methods": [],
+                    "docstring": "Error response for recoverable errors.",
+                    "base_classes": [
+                        "BaseErrorResponse"
+                    ],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "FileErrorResponse": {
+                    "methods": [],
+                    "docstring": "Error response for file operation errors.",
+                    "base_classes": [
+                        "RecoverableErrorResponse"
+                    ],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "NetworkErrorResponse": {
+                    "methods": [],
+                    "docstring": "Error response for network/connection errors.",
+                    "base_classes": [
+                        "RecoverableErrorResponse"
+                    ],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "DatabaseErrorResponse": {
+                    "methods": [],
+                    "docstring": "Error response for database operation errors.",
+                    "base_classes": [
+                        "RecoverableErrorResponse"
+                    ],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "CriticalErrorResponse": {
+                    "methods": [],
+                    "docstring": "Error response for critical system errors.",
+                    "base_classes": [
+                        "BaseErrorResponse"
+                    ],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "ValidationErrorResponse": {
+                    "methods": [],
+                    "docstring": "Error response for validation failures.",
+                    "base_classes": [
+                        "CriticalErrorResponse"
+                    ],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "ConfigurationErrorResponse": {
+                    "methods": [],
+                    "docstring": "Error response for configuration errors.",
+                    "base_classes": [
+                        "CriticalErrorResponse"
+                    ],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "AgentErrorResponse": {
+                    "methods": [],
+                    "docstring": "Error response for agent-specific errors.",
+                    "base_classes": [
+                        "RecoverableErrorResponse"
+                    ],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "CoordinationErrorResponse": {
+                    "methods": [
+                        "__post_init__"
+                    ],
+                    "docstring": "Error response for coordination/communication errors.",
+                    "base_classes": [
+                        "RecoverableErrorResponse"
+                    ],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                }
+            },
+            "routes": [],
+            "complexity": 4
+        },
+        "src\\core\\error_handling\\coordination_strategies.py": {
+            "language": ".py",
+            "functions": [
+                "create_service_restart_strategy",
+                "create_config_reset_strategy",
+                "register_default_coordination_strategies",
+                "restart_service",
+                "reset_config"
+            ],
+            "classes": {},
+            "routes": [],
+            "complexity": 5
+        },
+        "src\\core\\error_handling\\error_responses.py": {
+            "language": ".py",
+            "functions": [
+                "__post_init__",
+                "to_dict",
+                "to_dict",
+                "to_dict",
+                "to_dict"
+            ],
+            "classes": {
+                "ErrorContext": {
+                    "methods": [],
+                    "docstring": "Error context information.",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "StandardErrorResponse": {
+                    "methods": [
+                        "__post_init__",
+                        "to_dict"
+                    ],
+                    "docstring": "Standardized error response format.",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "FileErrorResponse": {
+                    "methods": [
+                        "to_dict"
+                    ],
+                    "docstring": "File operation error response.",
+                    "base_classes": [
+                        "StandardErrorResponse"
+                    ],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "NetworkErrorResponse": {
+                    "methods": [
+                        "to_dict"
+                    ],
+                    "docstring": "Network operation error response.",
+                    "base_classes": [
+                        "StandardErrorResponse"
+                    ],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "DatabaseErrorResponse": {
+                    "methods": [
+                        "to_dict"
+                    ],
+                    "docstring": "Database operation error response.",
+                    "base_classes": [
+                        "StandardErrorResponse"
+                    ],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                }
+            },
+            "routes": [],
+            "complexity": 10
+        },
+        "src\\core\\error_handling\\error_exceptions.py": {
+            "language": ".py",
+            "functions": [],
+            "classes": {
+                "RetryException": {
+                    "methods": [],
+                    "docstring": "Exception raised to trigger retry mechanism.",
+                    "base_classes": [
+                        "Exception"
+                    ],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "CircuitBreakerError": {
+                    "methods": [],
+                    "docstring": "Exception raised when circuit breaker is OPEN.",
+                    "base_classes": [
+                        "Exception"
+                    ],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                }
+            },
+            "routes": [],
+            "complexity": 0
+        },
+        "src\\core\\error_handling\\error_config.py": {
+            "language": ".py",
+            "functions": [
+                "calculate_delay"
+            ],
+            "classes": {
+                "RetryConfig": {
+                    "methods": [
+                        "calculate_delay"
+                    ],
+                    "docstring": "Unified retry configuration (consolidated from multiple sources).",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "CircuitBreakerConfig": {
+                    "methods": [],
+                    "docstring": "Circuit breaker configuration.",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "RecoverableErrors": {
+                    "methods": [],
+                    "docstring": "Recoverable error types.",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "ErrorSeverityMapping": {
+                    "methods": [],
+                    "docstring": "Error severity mapping.",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                }
+            },
+            "routes": [],
+            "complexity": 2
+        },
+        "src\\core\\error_handling\\error_context_models.py": {
+            "language": ".py",
+            "functions": [
+                "add_metadata",
+                "to_dict",
+                "increment_severity",
+                "increment_category",
+                "to_dict"
+            ],
+            "classes": {
+                "ErrorContext": {
+                    "methods": [
+                        "add_metadata",
+                        "to_dict"
+                    ],
+                    "docstring": "Error context information for debugging and recovery.\n\nProvides comprehensive context about error occurrence including:\n- Component and operation information\n- Execution environment details\n- Error metadata and timing",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "ErrorSummary": {
+                    "methods": [
+                        "increment_severity",
+                        "increment_category",
+                        "to_dict"
+                    ],
+                    "docstring": "Error summary for reporting and analysis.\n\nAggregates error information for monitoring and intelligence.",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                }
+            },
+            "routes": [],
+            "complexity": 10
+        },
+        "src\\core\\error_handling\\coordination_decorator.py": {
+            "language": ".py",
+            "functions": [
+                "handle_coordination_errors",
+                "decorator",
+                "wrapper",
+                "operation"
             ],
             "classes": {},
             "routes": [],
             "complexity": 4
         },
-        "tools\\v2_compliance_checker.py": {
+        "src\\core\\config\\config_enums.py": {
             "language": ".py",
-            "functions": [
-                "main",
-                "has_violations",
-                "critical_violations",
-                "major_violations",
-                "minor_violations",
-                "__init__",
-                "scan_file",
-                "_check_ast_compliance",
-                "_get_node_line_count",
-                "scan_directory",
-                "_should_skip_file",
-                "format_report",
-                "_get_file_suggestions",
-                "_get_complexity_analysis"
-            ],
+            "functions": [],
             "classes": {
-                "ComplianceViolation": {
+                "ConfigEnvironment": {
                     "methods": [],
-                    "docstring": "Represents a V2 compliance violation.",
-                    "base_classes": []
-                },
-                "ComplianceReport": {
-                    "methods": [
-                        "has_violations",
-                        "critical_violations",
-                        "major_violations",
-                        "minor_violations"
-                    ],
-                    "docstring": "V2 compliance scan report.",
-                    "base_classes": []
-                },
-                "V2ComplianceChecker": {
-                    "methods": [
-                        "__init__",
-                        "scan_file",
-                        "_check_ast_compliance",
-                        "_get_node_line_count",
-                        "scan_directory",
-                        "_should_skip_file",
-                        "format_report",
-                        "_get_file_suggestions",
-                        "_get_complexity_analysis"
-                    ],
-                    "docstring": "Automated V2 compliance checker.",
-                    "base_classes": []
-                }
-            },
-            "routes": [],
-            "complexity": 27
-        },
-        "tools\\complexity_analyzer.py": {
-            "language": ".py",
-            "functions": [
-                "main",
-                "has_violations",
-                "__init__",
-                "visit_If",
-                "visit_While",
-                "visit_For",
-                "visit_ExceptHandler",
-                "visit_With",
-                "visit_BoolOp",
-                "visit_comprehension",
-                "__init__",
-                "visit_If",
-                "visit_While",
-                "visit_For",
-                "visit_ExceptHandler",
-                "visit_BoolOp",
-                "visit_Continue",
-                "visit_Break",
-                "__init__",
-                "analyze_file",
-                "_analyze_function",
-                "_check_violations",
-                "_get_severity",
-                "_get_cyclomatic_suggestion",
-                "_get_cognitive_suggestion",
-                "_get_nesting_suggestion",
-                "format_report",
-                "__init__",
-                "analyze_file",
-                "analyze_directory",
-                "_should_skip_file",
-                "generate_summary_report"
-            ],
-            "classes": {
-                "ComplexityMetrics": {
-                    "methods": [],
-                    "docstring": "Complexity metrics for a code entity.",
-                    "base_classes": []
-                },
-                "ComplexityViolation": {
-                    "methods": [],
-                    "docstring": "Represents a complexity violation.",
-                    "base_classes": []
-                },
-                "ComplexityReport": {
-                    "methods": [
-                        "has_violations"
-                    ],
-                    "docstring": "Complexity analysis report.",
-                    "base_classes": []
-                },
-                "CyclomaticComplexityVisitor": {
-                    "methods": [
-                        "__init__",
-                        "visit_If",
-                        "visit_While",
-                        "visit_For",
-                        "visit_ExceptHandler",
-                        "visit_With",
-                        "visit_BoolOp",
-                        "visit_comprehension"
-                    ],
-                    "docstring": "AST visitor to calculate cyclomatic complexity.",
+                    "docstring": "Configuration environment types.",
                     "base_classes": [
-                        "ast.NodeVisitor"
-                    ]
-                },
-                "CognitiveComplexityVisitor": {
-                    "methods": [
-                        "__init__",
-                        "visit_If",
-                        "visit_While",
-                        "visit_For",
-                        "visit_ExceptHandler",
-                        "visit_BoolOp",
-                        "visit_Continue",
-                        "visit_Break"
+                        "str",
+                        "Enum"
                     ],
-                    "docstring": "AST visitor to calculate cognitive complexity.",
-                    "base_classes": [
-                        "ast.NodeVisitor"
-                    ]
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
                 },
-                "ComplexityAnalyzer": {
-                    "methods": [
-                        "__init__",
-                        "analyze_file",
-                        "_analyze_function",
-                        "_check_violations",
-                        "_get_severity",
-                        "_get_cyclomatic_suggestion",
-                        "_get_cognitive_suggestion",
-                        "_get_nesting_suggestion",
-                        "format_report"
-                    ],
-                    "docstring": "Analyzes code complexity using AST.",
-                    "base_classes": []
-                },
-                "ComplexityAnalysisService": {
-                    "methods": [
-                        "__init__",
-                        "analyze_file",
-                        "analyze_directory",
-                        "_should_skip_file",
-                        "generate_summary_report"
-                    ],
-                    "docstring": "Service for complexity analysis operations.",
-                    "base_classes": []
-                }
-            },
-            "routes": [],
-            "complexity": 63
-        },
-        "src\\core\\refactoring\\tools\\optimization_tools.py": {
-            "language": ".py",
-            "functions": [
-                "__init__",
-                "create_optimization_plan",
-                "execute_optimization",
-                "_identify_optimization_targets",
-                "_generate_optimization_rules",
-                "_identify_performance_improvements",
-                "_identify_v2_compliance_improvements",
-                "_apply_optimizations"
-            ],
-            "classes": {
-                "OptimizationPlan": {
+                "ConfigSource": {
                     "methods": [],
-                    "docstring": "Plan for optimizing code structure.",
-                    "base_classes": []
-                },
-                "OptimizationTools": {
-                    "methods": [
-                        "__init__",
-                        "create_optimization_plan",
-                        "execute_optimization",
-                        "_identify_optimization_targets",
-                        "_generate_optimization_rules",
-                        "_identify_performance_improvements",
-                        "_identify_v2_compliance_improvements",
-                        "_apply_optimizations"
+                    "docstring": "Configuration source types.",
+                    "base_classes": [
+                        "str",
+                        "Enum"
                     ],
-                    "docstring": "Optimization tools for refactoring.",
-                    "base_classes": []
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "ReportFormat": {
+                    "methods": [],
+                    "docstring": "Report output formats.",
+                    "base_classes": [
+                        "str",
+                        "Enum"
+                    ],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
                 }
             },
             "routes": [],
-            "complexity": 16
+            "complexity": 0
         },
-        "src\\infrastructure\\browser\\__init__.py": {
+        "src\\services\\__init__.py": {
             "language": ".py",
             "functions": [],
             "classes": {},
             "routes": [],
             "complexity": 0
         },
-        "src\\infrastructure\\browser\\thea_browser_service.py": {
+        "src\\core\\config\\__init__.py": {
+            "language": ".py",
+            "functions": [],
+            "classes": {},
+            "routes": [],
+            "complexity": 0
+        },
+        "src\\services\\soft_onboarding_service.py": {
             "language": ".py",
             "functions": [
-                "create_thea_browser_service",
+                "soft_onboard_agent",
+                "soft_onboard_multiple_agents",
                 "__init__",
-                "initialize",
-                "navigate_to",
-                "ensure_thea_authenticated",
-                "_is_thea_authenticated",
-                "execute_script",
-                "find_element",
-                "find_elements",
-                "take_screenshot",
-                "get_page_source",
-                "refresh",
-                "back",
-                "forward",
-                "get_current_url",
-                "get_title",
-                "close",
-                "__enter__",
-                "__exit__"
+                "_load_agent_coordinates",
+                "_validate_coordinates",
+                "step_1_click_chat_input",
+                "step_2_save_session",
+                "step_3_send_cleanup_prompt",
+                "step_4_open_new_tab",
+                "step_5_navigate_to_onboarding",
+                "step_6_paste_onboarding_message",
+                "execute_soft_onboarding"
             ],
             "classes": {
-                "TheaBrowserService": {
+                "SoftOnboardingService": {
                     "methods": [
                         "__init__",
-                        "initialize",
-                        "navigate_to",
-                        "ensure_thea_authenticated",
-                        "_is_thea_authenticated",
-                        "execute_script",
-                        "find_element",
-                        "find_elements",
-                        "take_screenshot",
-                        "get_page_source",
-                        "refresh",
-                        "back",
-                        "forward",
-                        "get_current_url",
-                        "get_title",
-                        "close",
-                        "__enter__",
-                        "__exit__"
+                        "_load_agent_coordinates",
+                        "_validate_coordinates",
+                        "step_1_click_chat_input",
+                        "step_2_save_session",
+                        "step_3_send_cleanup_prompt",
+                        "step_4_open_new_tab",
+                        "step_5_navigate_to_onboarding",
+                        "step_6_paste_onboarding_message",
+                        "execute_soft_onboarding"
                     ],
-                    "docstring": "Unified browser service for Thea Manager automation.",
-                    "base_classes": []
+                    "docstring": "Handles soft onboarding with session cleanup protocol.",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
                 }
             },
             "routes": [],
-            "complexity": 37
+            "complexity": 22
         },
-        "src\\infrastructure\\browser\\thea_content_operations.py": {
+        "src\\discord_commander\\discord_embeds.py": {
             "language": ".py",
             "functions": [
-                "create_thea_content_operations",
-                "__init__",
-                "collect_response",
-                "_extract_response_text",
-                "_is_response_complete",
-                "scrape_content",
-                "_clean_content",
-                "_extract_metadata",
-                "_calculate_quality",
-                "send_message",
-                "_find_input_element",
-                "_find_send_button",
-                "navigate_to_conversation",
-                "verify_page_loaded",
-                "get_page_text",
-                "wait_with_exponential_backoff"
-            ],
-            "classes": {
-                "ScrapedContent": {
-                    "methods": [],
-                    "docstring": "Represents scraped content from Thea Manager.",
-                    "base_classes": []
-                },
-                "TheaContentOperations": {
-                    "methods": [
-                        "__init__",
-                        "collect_response",
-                        "_extract_response_text",
-                        "_is_response_complete",
-                        "scrape_content",
-                        "_clean_content",
-                        "_extract_metadata",
-                        "_calculate_quality",
-                        "send_message",
-                        "_find_input_element",
-                        "_find_send_button",
-                        "navigate_to_conversation",
-                        "verify_page_loaded",
-                        "get_page_text",
-                        "wait_with_exponential_backoff"
-                    ],
-                    "docstring": "Unified content operations for Thea Manager automation.",
-                    "base_classes": []
-                }
-            },
-            "routes": [],
-            "complexity": 31
-        },
-        "src\\infrastructure\\browser\\thea_session_management.py": {
-            "language": ".py",
-            "functions": [
-                "create_thea_session_management",
-                "__init__",
-                "save_cookies",
-                "load_cookies",
-                "has_valid_session",
-                "get_session_info_from_cookies",
-                "_persist_cookies",
-                "_load_persisted_cookies",
-                "create_session",
-                "get_session_info",
-                "end_session",
-                "can_make_request",
-                "record_request",
-                "wait_for_rate_limit_reset",
-                "handle_rate_limit_error",
-                "get_rate_limit_status",
-                "cleanup_old_sessions"
-            ],
-            "classes": {
-                "TheaSessionManagement": {
-                    "methods": [
-                        "__init__",
-                        "save_cookies",
-                        "load_cookies",
-                        "has_valid_session",
-                        "get_session_info_from_cookies",
-                        "_persist_cookies",
-                        "_load_persisted_cookies",
-                        "create_session",
-                        "get_session_info",
-                        "end_session",
-                        "can_make_request",
-                        "record_request",
-                        "wait_for_rate_limit_reset",
-                        "handle_rate_limit_error",
-                        "get_rate_limit_status",
-                        "cleanup_old_sessions"
-                    ],
-                    "docstring": "Unified session, cookie, and rate limit management.",
-                    "base_classes": []
-                }
-            },
-            "routes": [],
-            "complexity": 33
-        },
-        "src\\infrastructure\\browser\\unified\\driver_manager.py": {
-            "language": ".py",
-            "functions": [
-                "__new__",
-                "__init__",
-                "_download_driver_if_needed",
-                "_setup_chrome_options",
-                "get_driver",
-                "close_driver",
-                "__enter__",
-                "__exit__"
-            ],
-            "classes": {
-                "UnifiedDriverManager": {
-                    "methods": [
-                        "__new__",
-                        "__init__",
-                        "_download_driver_if_needed",
-                        "_setup_chrome_options",
-                        "get_driver",
-                        "close_driver",
-                        "__enter__",
-                        "__exit__"
-                    ],
-                    "docstring": "Singleton class for managing an undetected Chrome WebDriver instance.\n\nFeatures:\n  - Persistent profile support (or temporary profiles in headless mode)\n  - Cookie saving and loading for session persistence\n  - Mobile emulation and headless mode support\n  - Context management for automatic cleanup\n  - Ability to update driver options dynamically",
-                    "base_classes": []
-                }
-            },
-            "routes": [],
-            "complexity": 16
-        },
-        "src\\infrastructure\\browser\\unified\\legacy_driver.py": {
-            "language": ".py",
-            "functions": [
-                "__init__",
-                "__getattr__",
-                "__enter__",
-                "__exit__"
-            ],
-            "classes": {
-                "DriverManager": {
-                    "methods": [
-                        "__init__",
-                        "__getattr__",
-                        "__enter__",
-                        "__exit__"
-                    ],
-                    "docstring": "Backward compatibility wrapper for UnifiedDriverManager.\n\nDEPRECATED: This class is provided for backward compatibility only.\nUse UnifiedDriverManager directly for new code.\n\nArgs:\n    driver_options: Dictionary of driver options",
-                    "base_classes": []
-                }
-            },
-            "routes": [],
-            "complexity": 8
-        },
-        "src\\infrastructure\\browser\\unified\\config.py": {
-            "language": ".py",
-            "functions": [
-                "__init__",
-                "get",
-                "to_dict"
-            ],
-            "classes": {
-                "BrowserConfig": {
-                    "methods": [
-                        "__init__",
-                        "get",
-                        "to_dict"
-                    ],
-                    "docstring": "Browser configuration for unified driver management.\n\nProvides configuration for:\n- Chrome driver paths\n- Mobile emulation profiles\n- Cookie persistence\n- Performance settings",
-                    "base_classes": []
-                }
-            },
-            "routes": [],
-            "complexity": 6
-        },
-        "src\\infrastructure\\browser\\unified\\__init__.py": {
-            "language": ".py",
-            "functions": [
-                "get_driver_manager",
-                "get_driver"
+                "create_devlog_embed",
+                "create_agent_status_embed",
+                "create_coordination_embed"
             ],
             "classes": {},
             "routes": [],
-            "complexity": 2
+            "complexity": 3
         },
-        "src\\infrastructure\\time\\system_clock.py": {
+        "src\\discord_commander\\unified_discord_bot.py": {
             "language": ".py",
             "functions": [
-                "now",
-                "utcnow",
-                "from_timestamp",
-                "to_timestamp",
                 "__init__",
-                "_get_timezone",
-                "now",
-                "utcnow",
-                "from_timestamp",
-                "to_timestamp",
-                "__init__",
-                "format_time",
-                "format_date",
-                "format_datetime",
-                "parse_time",
-                "parse_date",
-                "parse_datetime",
-                "__init__",
-                "add_days",
-                "add_hours",
-                "add_minutes",
-                "time_diff_seconds",
-                "time_diff_minutes",
-                "time_diff_hours",
-                "time_diff_days",
-                "is_expired",
-                "get_age_seconds"
+                "__init__"
             ],
             "classes": {
-                "TimeConfig": {
-                    "methods": [],
-                    "docstring": "Configuration for time operations.",
-                    "base_classes": []
-                },
-                "ClockInterface": {
+                "UnifiedDiscordBot": {
                     "methods": [
-                        "now",
-                        "utcnow",
-                        "from_timestamp",
-                        "to_timestamp"
+                        "__init__"
                     ],
-                    "docstring": "Abstract interface for time operations.",
+                    "docstring": "Single unified Discord bot for agent messaging system.",
+                    "base_classes": [
+                        "commands.Bot"
+                    ],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "MessagingCommands": {
+                    "methods": [
+                        "__init__"
+                    ],
+                    "docstring": "Commands for agent messaging.",
+                    "base_classes": [
+                        "commands.Cog"
+                    ],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                }
+            },
+            "routes": [],
+            "complexity": 4
+        },
+        "src\\utils\\config_scanners.py": {
+            "language": ".py",
+            "functions": [
+                "is_likely_config_value",
+                "is_config_constant",
+                "create_default_scanners",
+                "scan_file",
+                "scan_file",
+                "scan_file",
+                "scan_file",
+                "scan_file"
+            ],
+            "classes": {
+                "ConfigurationScanner": {
+                    "methods": [
+                        "scan_file"
+                    ],
+                    "docstring": "Abstract base class for configuration scanners.",
                     "base_classes": [
                         "ABC"
-                    ]
-                },
-                "SystemClock": {
-                    "methods": [
-                        "__init__",
-                        "_get_timezone",
-                        "now",
-                        "utcnow",
-                        "from_timestamp",
-                        "to_timestamp"
                     ],
-                    "docstring": "System clock implementation with timezone support.",
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "EnvironmentVariableScanner": {
+                    "methods": [
+                        "scan_file"
+                    ],
+                    "docstring": "Scans for environment variable usage patterns.",
                     "base_classes": [
-                        "ClockInterface"
-                    ]
-                },
-                "TimeFormatter": {
-                    "methods": [
-                        "__init__",
-                        "format_time",
-                        "format_date",
-                        "format_datetime",
-                        "parse_time",
-                        "parse_date",
-                        "parse_datetime"
+                        "ConfigurationScanner"
                     ],
-                    "docstring": "Utility class for time formatting operations.",
-                    "base_classes": []
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
                 },
-                "TimeCalculator": {
+                "HardcodedValueScanner": {
                     "methods": [
-                        "__init__",
-                        "add_days",
-                        "add_hours",
-                        "add_minutes",
-                        "time_diff_seconds",
-                        "time_diff_minutes",
-                        "time_diff_hours",
-                        "time_diff_days",
-                        "is_expired",
-                        "get_age_seconds"
+                        "scan_file"
                     ],
-                    "docstring": "Utility class for time calculation operations.",
-                    "base_classes": []
+                    "docstring": "Scans for hardcoded configuration values.",
+                    "base_classes": [
+                        "ConfigurationScanner"
+                    ],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "ConfigConstantScanner": {
+                    "methods": [
+                        "scan_file"
+                    ],
+                    "docstring": "Scans for configuration constant definitions.",
+                    "base_classes": [
+                        "ConfigurationScanner"
+                    ],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "SettingsPatternScanner": {
+                    "methods": [
+                        "scan_file"
+                    ],
+                    "docstring": "Scans for settings-related patterns.",
+                    "base_classes": [
+                        "ConfigurationScanner"
+                    ],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
                 }
             },
             "routes": [],
-            "complexity": 54
+            "complexity": 13
         },
-        "src\\infrastructure\\browser_backup\\browser_models.py": {
+        "src\\utils\\config_consolidator.py": {
             "language": ".py",
             "functions": [
-                "__post_init__"
+                "run_configuration_consolidation",
+                "__init__",
+                "scan_configuration_patterns",
+                "consolidate_patterns",
+                "generate_consolidation_report"
             ],
             "classes": {
-                "BrowserConfig": {
+                "UnifiedConfigurationConsolidator": {
                     "methods": [
-                        "__post_init__"
+                        "__init__",
+                        "scan_configuration_patterns",
+                        "consolidate_patterns",
+                        "generate_consolidation_report"
                     ],
-                    "docstring": "Configuration for browser operations with enhanced config integration.",
-                    "base_classes": []
-                },
-                "TheaConfig": {
-                    "methods": [],
-                    "docstring": "Configuration for Thea Manager interactions with enhanced config integration.",
-                    "base_classes": []
-                },
-                "SessionInfo": {
-                    "methods": [],
-                    "docstring": "Session information.",
-                    "base_classes": []
-                },
-                "RateLimitStatus": {
-                    "methods": [],
-                    "docstring": "Rate limit status information.",
-                    "base_classes": []
-                }
-            },
-            "routes": [],
-            "complexity": 2
-        },
-        "src\\discord_commander\\discord_models.py": {
-            "language": ".py",
-            "functions": [
-                "create_command_result",
-                "__post_init__",
-                "__post_init__",
-                "validate",
-                "to_dict"
-            ],
-            "classes": {
-                "CommandResult": {
-                    "methods": [
-                        "__post_init__"
-                    ],
-                    "docstring": "Result of a Discord commander command execution.",
-                    "base_classes": []
-                },
-                "DiscordMessage": {
-                    "methods": [
-                        "__post_init__"
-                    ],
-                    "docstring": "Discord message structure.",
-                    "base_classes": []
-                },
-                "AgentCommand": {
-                    "methods": [
-                        "validate"
-                    ],
-                    "docstring": "Agent command structure.",
-                    "base_classes": []
-                },
-                "CommunicationStats": {
-                    "methods": [
-                        "to_dict"
-                    ],
-                    "docstring": "Communication statistics.",
-                    "base_classes": []
+                    "docstring": "Unified configuration consolidator combining all config utilities.",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
                 }
             },
             "routes": [],
             "complexity": 9
         },
-        "src\\web\\static\\js\\unified-frontend-utilities.js": {
-            "language": ".js",
+        "src\\utils\\config_file_scanner.py": {
+            "language": ".py",
+            "functions": [
+                "__init__",
+                "_get_skip_patterns",
+                "should_skip_file",
+                "scan_file",
+                "scan_directory"
+            ],
+            "classes": {
+                "FileScanner": {
+                    "methods": [
+                        "__init__",
+                        "_get_skip_patterns",
+                        "should_skip_file",
+                        "scan_file",
+                        "scan_directory"
+                    ],
+                    "docstring": "Handles file scanning operations for configuration patterns.",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                }
+            },
+            "routes": [],
+            "complexity": 10
+        },
+        "src\\utils\\unified_config_utils.py": {
+            "language": ".py",
             "functions": [],
             "classes": {},
             "routes": [],
             "complexity": 0
         },
-        "src\\web\\static\\js\\performance\\performance-optimization-report.js": {
-            "language": ".js",
+        "src\\utils\\config_models.py": {
+            "language": ".py",
+            "functions": [],
+            "classes": {
+                "ConfigPattern": {
+                    "methods": [],
+                    "docstring": "Configuration pattern found in code.",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                }
+            },
+            "routes": [],
+            "complexity": 0
+        },
+        "src\\web\\vector_database\\__init__.py": {
+            "language": ".py",
             "functions": [],
             "classes": {},
             "routes": [],
             "complexity": 0
+        },
+        "src\\web\\vector_database\\unified_middleware.py": {
+            "language": ".py",
+            "functions": [
+                "error_handler",
+                "json_required",
+                "log_request",
+                "rate_limit",
+                "add_cors_headers",
+                "cache_response",
+                "validate_request",
+                "validate_pagination",
+                "decorated_function",
+                "decorated_function",
+                "decorated_function",
+                "decorator",
+                "decorated_function",
+                "decorator",
+                "decorator",
+                "decorated_function",
+                "decorated_function",
+                "decorated_function",
+                "decorated_function"
+            ],
+            "classes": {
+                "UnifiedVectorMiddleware": {
+                    "methods": [
+                        "error_handler",
+                        "json_required",
+                        "log_request",
+                        "rate_limit",
+                        "add_cors_headers",
+                        "cache_response",
+                        "validate_request",
+                        "validate_pagination"
+                    ],
+                    "docstring": "Unified middleware providing error handling, request/response processing,\nand validation decorators for vector database operations.",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                }
+            },
+            "routes": [],
+            "complexity": 27
+        },
+        "src\\web\\vector_database\\handlers.py": {
+            "language": ".py",
+            "functions": [],
+            "classes": {},
+            "routes": [],
+            "complexity": 0
+        },
+        "src\\integrations\\jarvis\\ollama_integration.py": {
+            "language": ".py",
+            "functions": [
+                "__init__",
+                "is_available",
+                "get_models",
+                "generate",
+                "__init__",
+                "is_ready",
+                "get_model_info",
+                "generate_response",
+                "__init__",
+                "set_code_context",
+                "analyze_code",
+                "generate_code",
+                "review_code",
+                "debug_code",
+                "process_voice_command",
+                "extract_intent",
+                "__init__",
+                "register_agent",
+                "get_agent",
+                "is_available",
+                "get_available_models",
+                "create_specialized_agent",
+                "create_code_agent",
+                "create_voice_agent"
+            ],
+            "classes": {
+                "OllamaResponse": {
+                    "methods": [],
+                    "docstring": "Response from Ollama API.",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "OllamaClient": {
+                    "methods": [
+                        "__init__",
+                        "is_available",
+                        "get_models",
+                        "generate"
+                    ],
+                    "docstring": "Client for interacting with Ollama API.",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "OllamaAgent": {
+                    "methods": [
+                        "__init__",
+                        "is_ready",
+                        "get_model_info",
+                        "generate_response"
+                    ],
+                    "docstring": "Agent powered by Ollama LLM.",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "OllamaSpecializedAgent": {
+                    "methods": [
+                        "__init__",
+                        "set_code_context",
+                        "analyze_code",
+                        "generate_code",
+                        "review_code",
+                        "debug_code",
+                        "process_voice_command",
+                        "extract_intent"
+                    ],
+                    "docstring": "Specialized agent for code and voice tasks (CONSOLIDATED).\n\nReplaces OllamaCodeAgent and OllamaVoiceAgent with unified implementation.\nSupports both code analysis and voice processing through mode parameter.\n\nV2 Compliance: Class consolidation (6 \u2192 5 classes)",
+                    "base_classes": [
+                        "OllamaAgent"
+                    ],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                },
+                "OllamaManager": {
+                    "methods": [
+                        "__init__",
+                        "register_agent",
+                        "get_agent",
+                        "is_available",
+                        "get_available_models",
+                        "create_specialized_agent",
+                        "create_code_agent",
+                        "create_voice_agent"
+                    ],
+                    "docstring": "Manager for multiple Ollama agents.",
+                    "base_classes": [],
+                    "maturity": "Core Asset",
+                    "agent_type": "Utility"
+                }
+            },
+            "routes": [],
+            "complexity": 48
         }
     }
 }

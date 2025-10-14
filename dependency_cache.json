@@ -1,31 +1,33 @@
 {
     "tools\\__init__.py": {
-        "hash": "450358ecc7e896677e1a817ca3b0d710"
+        "hash": "3ece52477c37b93b110e48da42d9e08e",
+        "mtime": 1760410846.0
     },
     "src\\infrastructure\\logging\\__init__.py": {
         "hash": "30f56c90da73f6c5c04effeba40340a7"
     },
     "src\\ai_training\\dreamvault\\scrapers\\__init__.py": {
-        "hash": "9fe15945f02e1c87d66a1bdf37454158",
-        "mtime": 1760353184.0
+        "hash": "49b93c3ba6bddfce7a74dd0c650df41b",
+        "mtime": 1760403986.0
     },
     "src\\infrastructure\\__init__.py": {
         "hash": "2067bc09975155ef6db0575065d07d0b"
     },
     "tools\\projectscanner_core.py": {
-        "hash": "e44f7a48bb6ec70455448f336c307082"
+        "hash": "ede4f5dc9c1f1892341a68b8d881aa22",
+        "mtime": 1760440480.0
     },
     "src\\services\\messaging_cli.py": {
-        "hash": "7a97317afd5715e9d2ef24091749ea2c",
-        "mtime": 1760361978.0
+        "hash": "f2a6d35fd9e8ff467edd1b8a08fbb5a4",
+        "mtime": 1760395782.0
     },
     "tests\\__init__.py": {
-        "hash": "11767cacfef7d612717826c8751d20cd",
-        "mtime": 1760354952.0
+        "hash": "b126982934053b289533647ad73938a8",
+        "mtime": 1760403986.0
     },
     "src\\core\\messaging_core.py": {
         "hash": "debdcad1017b032209e32184c8309267",
-        "mtime": 1760354612.0
+        "mtime": 1760440526.0
     },
     "src\\utils\\file_operations\\__init__.py": {
         "hash": "09e11f40600d1432effc85fc3048c723"
@@ -34,7 +36,8 @@
         "hash": "80e5b56fdb47a7e2fc7e560d4e0dea07"
     },
     "src\\utils\\unified_file_utils.py": {
-        "hash": "66e37d1ab16b611d6ba8c3efe3d405a7"
+        "hash": "45b0f8f5fad067c51082310b7905e119",
+        "mtime": 1760395782.0
     },
     "src\\infrastructure\\logging\\unified_logger.py": {
         "hash": "fca2274f177bec6e88cf99ac67b7f08d"
@@ -49,8 +52,8 @@
         "hash": "15c381c0d3c4638dd2bf4a49f40f9005"
     },
     "tools\\documentation_assistant.py": {
-        "hash": "9addb8bd5fb17a98da4329fe608d3dd1",
-        "mtime": 1760365510.0
+        "hash": "9322f0d6dfd03fdf936666a7df5d83c3",
+        "mtime": 1760440494.0
     },
     "src\\tools\\duplicate_detection\\find_duplicates.py": {
         "hash": "634786e16def772bdbb759d913b24864"
@@ -204,8 +207,8 @@
         "hash": "cd629c2a6f9080fb42eb1bcd94939a41"
     },
     "src\\services\\__init__.py": {
-        "hash": "7f4cc7c82a4fab7cf26626faaf3ec127",
-        "mtime": 1760362034.0
+        "hash": "fea2ef94cc7116e6b00f4d84ce196600",
+        "mtime": 1760410846.0
     },
     "src\\vision\\analyzers\\__init__.py": {
         "hash": "690b09c9ace589400ce7bcd8567c7125"
@@ -284,7 +287,8 @@
         "hash": "7596787097a6fd730c1c1a86398a694a"
     },
     "src\\core\\analytics\\framework\\predictive_modeling_engine.py": {
-        "hash": "26332f4cb75281b91341fca4aea0dbb8"
+        "hash": "bd43d92d1d15b84d8a904b7593e9d0a1",
+        "mtime": 1760440476.0
     },
     "src\\discord_commander\\messaging_controller.py": {
         "hash": "5bab3e7bd97d9df43583d6922b52c6f3"
@@ -305,7 +309,8 @@
         "hash": "6090f43eb0fa93216d3683bb4c7aeb66"
     },
     "src\\services\\message_batching_service.py": {
-        "hash": "35b9d78bf03cf222f47bdb3195358a68"
+        "hash": "06c6d0d6cc906919ab982e278030dc85",
+        "mtime": 1760392388.0
     },
     "src\\core\\validation\\validation_coordinator.py": {
         "hash": "1632550aa7e479e2271027cce6d20bf5"
@@ -383,7 +388,8 @@
         "hash": "99e62dbb6502f1324dd3e96b311c4336"
     },
     "src\\core\\analytics\\engines\\caching_engine.py": {
-        "hash": "4911914bd45ab1b23f77f6bc3a041df1"
+        "hash": "52a8fc0113999f69d9901216b0ba5d42",
+        "mtime": 1760395782.0
     },
     "src\\core\\ssot\\ssot_models.py": {
         "hash": "3ef8df3c82991d378f0a1d3c5b6e7716"
@@ -405,8 +411,8 @@
         "hash": "6e1e1ab5a7f02b2f731d3cf02acd8a81"
     },
     "src\\web\\vector_database\\__init__.py": {
-        "hash": "3c9b4076e387d46bba19574c9c2b71ea",
-        "mtime": 1760365482.0
+        "hash": "c8f9731c00e852577d7787e08a1aafae",
+        "mtime": 1760440582.0
     },
     "src\\core\\dry_eliminator\\engines\\__init__.py": {
         "hash": "1a7d622005ef23687a49c5ea0ee4e323"
@@ -460,7 +466,8 @@
         "hash": "57a752b0e1b31477ffd30b76501039b1"
     },
     "tools\\agent_toolbelt_executors.py": {
-        "hash": "95532f70d485f1d3727d941108bb8300"
+        "hash": "40126352a86f24289c920ba39972ab77",
+        "mtime": 1760440490.0
     },
     "src\\web\\static\\js\\services\\utilities\\function-utils.js": {
         "hash": "a6b573a41db36b288e9d7cf25839ae93"
@@ -508,7 +515,8 @@
         "hash": "163daddf8d06416f0c29a692a22c1bd2"
     },
     "tools\\v2_checker_models.py": {
-        "hash": "55da4cab30e006166fb10563a227a364"
+        "hash": "1dc93e4446ba166cbb4d185e3282136f",
+        "mtime": 1760395782.0
     },
     "src\\services\\agent_vector_utils.py": {
         "hash": "bab57d45cb1260c7e049bb06a4a319b7"
@@ -583,7 +591,8 @@
         "hash": "43581326fe0bbd1eb10d14bcb6df7d33"
     },
     "src\\core\\message_formatters.py": {
-        "hash": "99aaabbcf7a692e728f75ab3bcaa6b92"
+        "hash": "877e1478fe13590acd5086968059dc16",
+        "mtime": 1760400170.0
     },
     "tools\\autonomous_leaderboard.py": {
         "hash": "94b56293b8bfbfe1469f50dbf9a24546"
@@ -601,7 +610,8 @@
         "hash": "6c45ae381c1b5dac3cc265150306b8b2"
     },
     "src\\core\\intelligent_context\\__init__.py": {
-        "hash": "6af25d1bc9d7290d8f0cc7fe2e43f5bf"
+        "hash": "9a38a8cedba1ea197d10b03a4dc95eaf",
+        "mtime": 1760440492.0
     },
     "src\\web\\static\\js\\utilities\\dom-utils.js": {
         "hash": "abb8851a840c4ee199fe306705d8ca16"
@@ -661,7 +671,8 @@
         "hash": "0d2edaa24fbdb7f221a6232270798034"
     },
     "src\\services\\chatgpt\\__init__.py": {
-        "hash": "f06fbc4a0c8b350c89b4500f9f0b56be"
+        "hash": "c7dc5c533f52d3440823b8409afe4fad",
+        "mtime": 1760410846.0
     },
     "tests\\test_v2_refactoring_validation.py": {
         "hash": "9667ed57fc5b18e009af3fe858be9e52"
@@ -673,10 +684,12 @@
         "hash": "3279f16103e560f2ca50e74ddfc4e3ac"
     },
     "tools\\v2_checker_formatters.py": {
-        "hash": "afa6e0c89ded492a72ad012cab6ccbbb"
+        "hash": "f4328190d3835a9b9ef75736793e9fa4",
+        "mtime": 1760395782.0
     },
     "tools\\toolbelt_registry.py": {
-        "hash": "c540547986b9f5d488ed0f0619a508ef"
+        "hash": "132f59773f162612ab2c83981d8d7212",
+        "mtime": 1760440580.0
     },
     "src\\ai_automation\\__init__.py": {
         "hash": "14d595e7cda1d339c941478eea7be9cb"
@@ -694,7 +707,8 @@
         "hash": "bab2a214507a4217cd823cc092c35ef6"
     },
     "src\\core\\performance\\performance_monitoring_system.py": {
-        "hash": "5ffb466b7bedd4e8567ec2422cb5ec36"
+        "hash": "ab4490cc59d67e563c54ebab026890b7",
+        "mtime": 1760395782.0
     },
     "src\\web\\vector_database\\utils.py": {
         "hash": "8ee7e511080cfeb9823c8879d4e72f96"
@@ -778,7 +792,8 @@
         "hash": "6fd9c4b03dc1f58e7fa6b829e206e9d9"
     },
     "src\\services\\messaging_service.py": {
-        "hash": "c647333c86ca33174f14d51ab3976a95"
+        "hash": "838a209a231688a7f7d55acbddd6b968",
+        "mtime": 1760395782.0
     },
     "src\\core\\managers\\results\\base_results_manager.py": {
         "hash": "d8145cdc7efc85cb91898c8b77d6daa1"
@@ -811,7 +826,8 @@
         "hash": "5484edc43903a3bd8ad54ec3bb5213d4"
     },
     "src\\services\\cursor_db.py": {
-        "hash": "d29983c886cc1d29bb2c1cf3f3833d97"
+        "hash": "41c601c8610da2e2c19e18fc09228c3c",
+        "mtime": 1760440492.0
     },
     "tools\\functionality_verification.py": {
         "hash": "d97582a40fc825694c877107527e7fcd"
@@ -880,8 +896,8 @@
         "hash": "34318e9ba4005f0a336c417173cb903b"
     },
     "src\\core\\__init__.py": {
-        "hash": "fc7b55192fe603c31f1d46b312a7e766",
-        "mtime": 1760356924.0
+        "hash": "3eb6e4822aa1892997c71bb3aa1b711b",
+        "mtime": 1760410846.0
     },
     "src\\core\\enhanced_integration\\orchestrators\\task_processor.py": {
         "hash": "356059e25f3799bd790f7a5a7c9dad03"
@@ -893,7 +909,8 @@
         "hash": "2c72bf067c8b33d5238906cd2c25ea8a"
     },
     "src\\discord_commander\\status_reader.py": {
-        "hash": "e40ed28042a0b49758be927027b13e8a"
+        "hash": "2b5b15dc8511d876837a7e089dc09690",
+        "mtime": 1760392388.0
     },
     "tools\\toolbelt_runner.py": {
         "hash": "5399f9ae0ce2f28724916269b659fe39"
@@ -917,7 +934,8 @@
         "hash": "7e9822aec06665c491811ecd94079341"
     },
     "tools_v2\\categories\\__init__.py": {
-        "hash": "355a3007d8c9965b038f2ec1eb7c88f2"
+        "hash": "e9765a5938c8c5c3d780d0ebc7f81ec7",
+        "mtime": 1760406038.0
     },
     "src\\core\\intelligent_context\\intelligent_context_optimization_models.py": {
         "hash": "bb8c6959d2065706b4eac2c2319cf1ac"
@@ -1167,7 +1185,8 @@
         "hash": "086b5ef35ed5ffb38a8a263548b5e871"
     },
     "src\\services\\chatgpt\\navigator_messaging.py": {
-        "hash": "21e0688e5b942d3f31c2bf9e6950a168"
+        "hash": "58061ee7aa6528a42385adba837b7503",
+        "mtime": 1760440472.0
     },
     "src\\services\\coordination\\bulk_coordinator.py": {
         "hash": "dbd90edf8af6c5a4a782b22ffc691a80"
@@ -1290,8 +1309,8 @@
         "hash": "d15c90e367629535caf84d7af77e8450"
     },
     "src\\utils\\__init__.py": {
-        "hash": "6fecc5eb4a19eeb2d5fb7fdcdeeb54df",
-        "mtime": 1760356924.0
+        "hash": "e83d9d37e8c7a085306b2420e6f15073",
+        "mtime": 1760403986.0
     },
     "src\\web\\static\\js\\core\\unified-logging-system.js": {
         "hash": "9016df7b02ad8ebc9b30524e92447aaa"
@@ -1380,7 +1399,8 @@
         "hash": "37114feb63d9d359a373592ffb47d97b"
     },
     "src\\core\\analytics\\framework\\caching_engine.py": {
-        "hash": "b3e294effac2c450ee948adf6db6a487"
+        "hash": "305023da4e389925ce042cab42112297",
+        "mtime": 1760395782.0
     },
     "tools_v2\\toolbelt_core.py": {
         "hash": "9747862cb6df5674fddff35f98181244"
@@ -1389,7 +1409,8 @@
         "hash": "5d4b8c1470f7da76c712cf43c46ac433"
     },
     "src\\ai_training\\dreamvault\\scrapers\\chatgpt_scraper.py": {
-        "hash": "7e131885853b01454f702eb50f735f82"
+        "hash": "171816b4bba8179fd5a6e0dabcf60a2a",
+        "mtime": 1760395782.0
     },
     "src\\core\\error_handling\\archive_c055\\error_recovery.py": {
         "hash": "3d1ec15f818f89b67fa251df3324e64f"
@@ -1431,7 +1452,8 @@
         "hash": "1baf9436c97bb075e69d57c1c4e1d5b6"
     },
     "src\\services\\chatgpt\\session_persistence.py": {
-        "hash": "8054c3b9b477fcdf411dcf69aec0fbcc"
+        "hash": "4565fe03054bcc12e7ca6f0db273812d",
+        "mtime": 1760440470.0
     },
     "src\\application\\__init__.py": {
         "hash": "cb950342da10e4b7fefff724b0ca9de8"
@@ -1485,7 +1507,8 @@
         "hash": "582d85ea03afccebf2243b442cbe43c5"
     },
     "src\\core\\config_thresholds.py": {
-        "hash": "962fe3f9f826f5291a3ae258e935b12c"
+        "hash": "92e287b4f9bc473493780505c1803c6d",
+        "mtime": 1760395782.0
     },
     "src\\ai_training\\dreamvault\\scrapers\\scraper_progress.py": {
         "hash": "a2cb774d53f114f79c2b04efbc239491"
@@ -1572,8 +1595,8 @@
         "mtime": 1760354952.0
     },
     "src\\services\\soft_onboarding_service.py": {
-        "hash": "2114cfae648c9a5cdd2d22481b23a521",
-        "mtime": 1760369242.0
+        "hash": "08e6f5ad0ef1323320b54df5e84f7280",
+        "mtime": 1760379592.0
     },
     "src\\core\\refactoring\\tools\\__init__.py": {
         "hash": "6f4b6c377f71ae83dd758595b234c35d"
@@ -1651,13 +1674,15 @@
         "hash": "fe4ae6c3e88b7e14cb976f7bb642c0d0"
     },
     "src\\core\\analytics\\framework\\analytics_processor.py": {
-        "hash": "edba4692071e0ff66df4abf27efdfe5d"
+        "hash": "cc04081cc2173c72b5d14fc298ca7bc7",
+        "mtime": 1760395782.0
     },
     "src\\core\\deployment\\engines\\__init__.py": {
         "hash": "47f0e4f355c93085892ee6d68a189f08"
     },
     "src\\core\\analytics\\framework\\metrics_engine.py": {
-        "hash": "26b75c8464800c641890f346ded34dbd"
+        "hash": "a1938b00e663c6ff4479485ab1063b97",
+        "mtime": 1760395782.0
     },
     "scripts\\execution\\execute_ssot_integration.py": {
         "hash": "4cb067572398c00555bda80e77007947"
@@ -1699,7 +1724,8 @@
         "hash": "beea99d684f670121bf1dd0032d3a4fe"
     },
     "src\\core\\config_ssot.py": {
-        "hash": "e0542f95bb84420af6e30648cac4b67e"
+        "hash": "3bafe95da22163d14e19bd1ce4e5cfda",
+        "mtime": 1760370410.0
     },
     "src\\core\\managers\\monitoring\\alert_operations.py": {
         "hash": "b1c71031bd3623a67b4c8de820287e58"
@@ -1735,10 +1761,12 @@
         "hash": "d7aeaa95a7162c651726c6f6a3b4c39b"
     },
     "tests\\browser\\test_browser_unified_deprecated.py": {
-        "hash": "b280d5b05816be7c515efcf6b287e434"
+        "hash": "ba40e0d0f16ba0176c9d0e5c27a64f3c",
+        "mtime": 1760395782.0
     },
     "scripts\\__init__.py": {
-        "hash": "2d09cdd76e48d6bcac1a47dfaad8828c"
+        "hash": "102d6c51583a5a18b140504729ec603a",
+        "mtime": 1760406266.0
     },
     "src\\ai_training\\dreamvault\\scrapers\\scraper_login.py": {
         "hash": "377bf7de0e0e0c498f37ca748b23c069"
@@ -1783,7 +1811,8 @@
         "hash": "931b62efbb0d8cb59b52413d9fe0e884"
     },
     "src\\core\\intelligent_context\\intelligent_context_models.py": {
-        "hash": "efdaf3b255005a0c7df0fa1938df7cfa"
+        "hash": "a593dbe91812393e04a39b321faf6b6c",
+        "mtime": 1760440488.0
     },
     "src\\web\\static\\js\\dashboard.js": {
         "hash": "9086748b37bfddf7d4358331a1dabcae"
@@ -1810,7 +1839,8 @@
         "hash": "a924f9e324385406f5598c1c7abc433b"
     },
     "src\\core\\analytics\\framework\\analytics_intelligence.py": {
-        "hash": "b1b7f337468622b32ee29d4ec13b04f7"
+        "hash": "2ed766716b732551f42e2cc2a73de94c",
+        "mtime": 1760395782.0
     },
     "src\\integrations\\osrs\\osrs_role_activities.py": {
         "hash": "cfc2c369246b797402927678ecec9888"
@@ -1837,8 +1867,8 @@
         "hash": "e1eeb64e9e1104ff96b44620d33ea84e"
     },
     "src\\services\\messaging_cli_handlers.py": {
-        "hash": "1620fc84512aad2f692b64ee66fc8dfc",
-        "mtime": 1760360060.0
+        "hash": "658d1182d2f3488fe0b88d3970de4f1d",
+        "mtime": 1760406266.0
     },
     "src\\core\\messaging_models_core.py": {
         "hash": "013f49fedcce1ed6ae4587af5caeba84"
@@ -1874,13 +1904,15 @@
         "hash": "8eae361aab7d9b63260fb15f3a2d657d"
     },
     "__init__.py": {
-        "hash": "73ed8a8e5298854b39fcd4f7d165dc09"
+        "hash": "a0ec06f8129fc4be46655bf9a8c68213",
+        "mtime": 1760403986.0
     },
     "src\\infrastructure\\browser_backup\\thea_modules\\profile.py": {
         "hash": "48128790951516d66288fbae45e5cd7a"
     },
     "src\\services\\hard_onboarding_service.py": {
-        "hash": "4f108e25802bd4fb6815a5e30b682eb5"
+        "hash": "3426390d384df030ef7368103189f697",
+        "mtime": 1760371534.0
     },
     "src\\core\\integration_coordinators\\unified_integration\\monitors\\metrics_collector.py": {
         "hash": "1243d3a0c0ed5788fd723b391b2da530"
@@ -1889,7 +1921,8 @@
         "hash": "13f7a3c5bbe37d2beb81d464d78a97be"
     },
     "tools_v2\\__init__.py": {
-        "hash": "1959708d468128c65d4a5e2b44941b3b"
+        "hash": "ad3fc65958fa5fecf74cdb0ad0cf4511",
+        "mtime": 1760406038.0
     },
     "assignment_confirmation.py": {
         "hash": "fd96ddd5b6432583b2a798f8a1d20787"
@@ -1952,7 +1985,8 @@
         "hash": "e1e48f092b48a8ffa1b936b98e17a977"
     },
     "tools\\v2_checker_cli.py": {
-        "hash": "5100e29ae712acdf9716af4ee5ac2686"
+        "hash": "3ccc5eea34c1c52579c52caa62b1939f",
+        "mtime": 1760395782.0
     },
     "src\\web\\static\\js\\dashboard\\dom-utils.js": {
         "hash": "3b4a9ff7e4f02cb1985933fce48162e4"
@@ -2007,7 +2041,8 @@
         "hash": "db7a25efcf2ba763be90b16c2aeade5b"
     },
     "src\\core\\analytics\\framework\\pattern_analysis_engine.py": {
-        "hash": "dc0a724c3131d5df55db5a7911dedf79"
+        "hash": "b07c8a5aa79923b36f586ae01b36ada4",
+        "mtime": 1760395782.0
     },
     "src\\core\\error_handling\\retry_mechanisms.py": {
         "hash": "966bc5f0cd308239ba2a9af30f6af0a6"
@@ -2031,8 +2066,8 @@
         "hash": "078470f986614988619f785a22b2c75f"
     },
     "src\\web\\vector_database\\unified_middleware.py": {
-        "hash": "d7ddc72970287b9f21d5a9e317adb692",
-        "mtime": 1760365452.0
+        "hash": "cf4184aec061da79be7bcf6fa4db34cf",
+        "mtime": 1760440522.0
     },
     "src\\tools\\duplicate_detection\\duplicate_gui.py": {
         "hash": "2662783aca553b1e3e561c33270e7ea2"
@@ -2065,7 +2100,8 @@
         "hash": "1233cb8bf905e32984741f00b62b5e3a"
     },
     "src\\services\\chatgpt\\session.py": {
-        "hash": "f73cd998d11ffe0e7e95ff8917d9c134"
+        "hash": "0195f31f17fc621998442383e57e2cf8",
+        "mtime": 1760440474.0
     },
     "tools\\check_snapshot_up_to_date.py": {
         "hash": "9a9a30052df1942faea1a2d608b123b8"
@@ -2116,7 +2152,8 @@
         "hash": "b29c380d9b8cbd3f36f13205f9507045"
     },
     "src\\core\\performance\\__init__.py": {
-        "hash": "fb994d43bd87601f9fcab40e10c5e08f"
+        "hash": "5fa55f1b451b2600db976736680b6d30",
+        "mtime": 1760403986.0
     },
     "src\\domain\\entities\\agent.py": {
         "hash": "c7d183d35ac696c537b19d68bf5d2deb"
@@ -2131,7 +2168,8 @@
         "hash": "d2d00481f2ddca22dea29ac21ff7c192"
     },
     "src\\core\\analytics\\engines\\__init__.py": {
-        "hash": "31d9df24912d4bc7418124bb3382cd11"
+        "hash": "adc3c9c2b51337b943709d80a2781be4",
+        "mtime": 1760403986.0
     },
     "src\\core\\intelligent_context\\unified_intelligent_context\\search_operations.py": {
         "hash": "d7d211055b3530067aafcb43a79134cb"
@@ -2167,7 +2205,8 @@
         "hash": "b5d3af34e78374b7e81830de46ae2a15"
     },
     "src\\integrations\\jarvis\\__init__.py": {
-        "hash": "37814b4f8603230ce3f7ef2f177413ca"
+        "hash": "0442b731cb4890556880738434edbe36",
+        "mtime": 1760395782.0
     },
     "simple_agent_onboarding.py": {
         "hash": "0374a101f144b65ba2211293fc3a38df"
@@ -2300,16 +2339,19 @@
         "hash": "3a2634dc5ffb047579aff803a8dc4222"
     },
     "src\\services\\handlers\\hard_onboarding_handler.py": {
-        "hash": "b825ec969cb0aff56cd74d5ff508d24b"
+        "hash": "ba42895134b1be904ef777c75b80bd15",
+        "mtime": 1760441406.0
     },
     "src\\core\\data_optimization\\data_optimization_models.py": {
         "hash": "52d2ac1b4cacc0412edfa711fc3dd045"
     },
     "tools\\refactoring_models.py": {
-        "hash": "1da42aca560e4fc06a98e22a98b0577a"
+        "hash": "44681e7d9f8f1d4b0f88f658e9255578",
+        "mtime": 1760395782.0
     },
     "src\\core\\unified_config.py": {
-        "hash": "27f8dd6f055ba196bea8cc3ae11c06b9"
+        "hash": "aa4c6a90e7acd0901bc9274c24a4b6f1",
+        "mtime": 1760395782.0
     },
     "src\\web\\static\\js\\core\\unified-configuration-system.js": {
         "hash": "2ecf8addb009b149cbce75a16224781d"
@@ -2460,14 +2502,15 @@
         "mtime": 1760353986.0
     },
     "src\\gaming\\dreamos\\fsm_orchestrator.py": {
-        "hash": "d15c6560bf3f4066d08e293678d8719b",
-        "mtime": 1760360314.0
+        "hash": "d5f2d6ba77df0edafa4fb3375242fb7f",
+        "mtime": 1760395782.0
     },
     "src\\core\\emergency_intervention\\unified_emergency\\handlers\\protocol_registry.py": {
         "hash": "5b88cabf6a2669304d602c8e9c627336"
     },
     "src\\core\\analytics\\framework\\analytics_coordinator.py": {
-        "hash": "3885794bd7b4f8d96a94f928fa9dee36"
+        "hash": "59faa13572c95ab7700acafbfaf85e4e",
+        "mtime": 1760395782.0
     },
     "src\\web\\static\\js\\framework_new\\forms.js": {
         "hash": "d307b381ff64ac4cd1870cf7363ab4c6"
@@ -2580,7 +2623,8 @@
         "hash": "68249f5a1f541feb9217a3c207d514c0"
     },
     "scripts\\terminal_completion_monitor.py": {
-        "hash": "b877d8bf7258778ad7e287c5a37a2428"
+        "hash": "eb12b90e1e2bd3245091db29ed7aa661",
+        "mtime": 1760440494.0
     },
     "src\\core\\dry_eliminator\\dry_eliminator_models.py": {
         "hash": "db63e7341e69ded47b97507d8e662279"
@@ -2592,11 +2636,12 @@
         "hash": "20d73a66febac4f3dda74d707e52b20b"
     },
     "src\\web\\vector_database\\handlers.py": {
-        "hash": "8e0233873af4a031a5c7de60c7770479",
-        "mtime": 1760365452.0
+        "hash": "2ddcf2d8503f36bfbca3dc33fe84eff2",
+        "mtime": 1760440518.0
     },
     "tests\\browser\\__init__.py": {
-        "hash": "241a6d14d8cedec4d41f442d3312ea7d"
+        "hash": "9adb2832a2eb7aeefe348929059e9d84",
+        "mtime": 1760403986.0
     },
     "agent_workspaces\\database_specialist\\query_helpers.py": {
         "hash": "0edab93a76e582797d60a38b8c044e72"
@@ -2746,8 +2791,8 @@
         "hash": "8dc9147fde89b3eecba7c057823cdc18"
     },
     "src\\gaming\\dreamos\\__init__.py": {
-        "hash": "3cb6f314d384ae55f96561b661afee72",
-        "mtime": 1760361038.0
+        "hash": "17571de67cd33a1e442ade752bdd4b66",
+        "mtime": 1760403986.0
     },
     "thea_authentication_handler.py": {
         "hash": "e410402de5a7809f45ca16b66aa372d8"
@@ -2834,8 +2879,8 @@
         "hash": "81051bcc2cf1bedf378224b0a93e2877"
     },
     "src\\core\\error_handling\\__init__.py": {
-        "hash": "694ba6414bfdc93a427deea8f7d45b3c",
-        "mtime": 1760355272.0
+        "hash": "a9c39f2b45a40a2a468e5aaba59c28a5",
+        "mtime": 1760403986.0
     },
     "src\\services\\messaging_cli_coordinate_management\\__init__.py": {
         "hash": "e99a8f559eee359f35af065a53855345"
@@ -2862,7 +2907,8 @@
         "hash": "cddb87458bcf15fcbe0e2a06cbd98b71"
     },
     "tests\\test_compliance_dashboard.py": {
-        "hash": "4506f28b5eb2474da688187472f7ea57"
+        "hash": "7440e3ed00ab59f3eaf073c8c0a824db",
+        "mtime": 1760395782.0
     },
     "src\\web\\static\\js\\services\\scenario-validation-module.js": {
         "hash": "d920be928c15a1692b869246edbfdcc4"
@@ -2970,8 +3016,8 @@
         "hash": "ee8a62a735f7db572f90689936fd2a5f"
     },
     "src\\discord_commander\\discord_embeds.py": {
-        "hash": "a81c348db28dbfb704d4f9dc8536f462",
-        "mtime": 1760365452.0
+        "hash": "4f111c2382046acb287279fdc29c23c1",
+        "mtime": 1760440516.0
     },
     "src\\core\\analytics\\models\\coordination_analytics_models.py": {
         "hash": "0052e1767feac37e29ebb5a47c844256"
@@ -3073,7 +3119,8 @@
         "hash": "eb8bed38896bf6938f30f21f88add0a3"
     },
     "src\\services\\chatgpt\\navigator.py": {
-        "hash": "e4d47de96e001cea2626618f016e4fba"
+        "hash": "57fc65891f63468839db991571031231",
+        "mtime": 1760440482.0
     },
     "src\\trading_robot\\repositories\\interfaces\\portfolio_repository_interface.py": {
         "hash": "dcb092191eeeefe94373ffb2ace6dce2"
@@ -3085,7 +3132,8 @@
         "hash": "743f6197103e7005872ed3b3ea2ec7d3"
     },
     "src\\core\\message_queue_interfaces.py": {
-        "hash": "3e5ca00e39ed3ca9dee19958378d7f7c"
+        "hash": "97d2a22beeea7bbdc38fede2ad1194bb",
+        "mtime": 1760395782.0
     },
     "src\\infrastructure\\time\\__init__.py": {
         "hash": "218e50f966a68110f08c58dd4f316a2b"
@@ -3230,8 +3278,8 @@
         "hash": "8732e64dcb4fd016abb543122a0df5c9"
     },
     "src\\discord_commander\\__init__.py": {
-        "hash": "b599491d56148dab9ded205a7cdfb36d",
-        "mtime": 1760360914.0
+        "hash": "2a90e5b43989969e54da0ef4eec059b3",
+        "mtime": 1760403986.0
     },
     "src\\core\\error_handling\\error_reporting_utilities.py": {
         "hash": "9b8ba1d665e35e671cb3a90f0a678380"
@@ -3282,7 +3330,8 @@
         "hash": "d5cc3a566a6a0aedbb07286918c8167b"
     },
     "src\\core\\analytics\\framework\\realtime_analytics_engine.py": {
-        "hash": "138903185306641fc99c8102ca0b1caf"
+        "hash": "fa167f5079957136830f134d53dc1d78",
+        "mtime": 1760395782.0
     },
     "src\\core\\gamification\\__init__.py": {
         "hash": "d9e5d3fc78f7838db95112208d29cf75"
@@ -3306,7 +3355,8 @@
         "hash": "adf511deec8fd8195b6824cf8adeacc8"
     },
     "tools\\agent_toolbelt.py": {
-        "hash": "c5da3003b7370055250ef97341c14e5f"
+        "hash": "8998561e145ad33ae1b204250674b558",
+        "mtime": 1760440490.0
     },
     "trading_robot\\strategies\\base_strategy.py": {
         "hash": "1f3a881236f3a9fcbe08864cea849f55"
@@ -3336,7 +3386,8 @@
         "hash": "4f3cfb859d917df3d5e2958081c20e2b"
     },
     "tools_v2\\tool_registry.py": {
-        "hash": "42526631b5f72f1d5132281b726fcd86"
+        "hash": "840b11a3c920bb740088a5802b4b2331",
+        "mtime": 1760440486.0
     },
     "src\\orchestrators\\overnight\\scheduler_queue.py": {
         "hash": "9156f6465e0a5386ab9e79e8606f92a1"
@@ -3394,7 +3445,8 @@
         "hash": "f866dd383ba5d137a8c5d4880c4a5572"
     },
     "src\\core\\analytics\\framework\\__init__.py": {
-        "hash": "f61f3d0d2e423f6a8caa267eb70578e4"
+        "hash": "a355cd790fe38c2330099e2e58fdd850",
+        "mtime": 1760410846.0
     },
     "src\\core\\pattern_analysis\\unified_pattern_analysis\\analyzer.py": {
         "hash": "5f0143f9dd373634a80fac5f856414cf"
@@ -3425,7 +3477,8 @@
         "hash": "deb22ce0aaeec3a3a431b07ba3314a2e"
     },
     "src\\core\\error_handling\\error_intelligence.py": {
-        "hash": "0f35ac4569a2e8873eeeb47577403c62"
+        "hash": "445cbc28a471ce27cd093474fde48ce6",
+        "mtime": 1760392382.0
     },
     "src\\infrastructure\\logging\\log_handlers.py": {
         "hash": "474945b760df30cda1f334cac6b8e511"
@@ -3468,8 +3521,8 @@
         "mtime": 1760362976.0
     },
     "tests\\test_message_task_integration.py": {
-        "hash": "88d07be63ae564abfe8fbc760954735b",
-        "mtime": 1760354504.0
+        "hash": "d3323febf38c1cd3a69aeddcedc435f2",
+        "mtime": 1760387364.0
     },
     "src\\core\\error_handling\\error_classification.py": {
         "hash": "90708e50b67558005ff019a2015c9744",
@@ -3516,8 +3569,8 @@
         "mtime": 1760354940.0
     },
     "src\\discord_commander\\unified_discord_bot.py": {
-        "hash": "8e53c8545f2eb29ba5c30a2271696d09",
-        "mtime": 1760369596.0
+        "hash": "ca538dec95ac95c23e5b187d573ed1f3",
+        "mtime": 1760371038.0
     },
     "src\\discord_commander\\discord_gui_controller.py": {
         "hash": "f49b524771a5aa91bbbc5b60bf84e5b4",
@@ -3540,16 +3593,16 @@
         "mtime": 1760354374.0
     },
     "src\\message_task\\parsers\\__init__.py": {
-        "hash": "a48d4ed9af17d93ce1a05160d5e3c7ab",
-        "mtime": 1760354952.0
+        "hash": "e7927950f4689028fa3318899d56f055",
+        "mtime": 1760403986.0
     },
     "src\\message_task\\fsm_bridge.py": {
         "hash": "189f9404d21ac9abdc88a8757eca9266",
         "mtime": 1760354240.0
     },
     "src\\message_task\\router.py": {
-        "hash": "c7a5cb2d237c4391fccaad258c8937fd",
-        "mtime": 1760359958.0
+        "hash": "f9ff52b6811c972aaf5de0fdebfa98af",
+        "mtime": 1760387364.0
     },
     "src\\message_task\\emitters.py": {
         "hash": "22c6aff638ccec0fd1fddf381d3d6b3f",
@@ -3560,8 +3613,8 @@
         "mtime": 1760354444.0
     },
     "src\\message_task\\parsers\\structured_parser.py": {
-        "hash": "f972baab1ddb6dd0ae18be8e03365825",
-        "mtime": 1760354264.0
+        "hash": "7ae55a4485706cae4f064be53be3e8b6",
+        "mtime": 1760387368.0
     },
     "src\\message_task\\parsers\\fallback_regex.py": {
         "hash": "5f9d6f096747d769f4157ec2fc7c1fdf",
@@ -3592,8 +3645,8 @@
         "mtime": 1760356512.0
     },
     "src\\discord_commander\\discord_gui_views.py": {
-        "hash": "df3bd2cd16ad93a8574a46b063fe4b01",
-        "mtime": 1760356892.0
+        "hash": "f0ddd3f557a7574ca2dc6898732a5a14",
+        "mtime": 1760371038.0
     },
     "src\\utils\\config_auto_migrator.py": {
         "hash": "e4aafb90ba234e104ace5e4d6e40c5d3",
@@ -3612,8 +3665,8 @@
         "mtime": 1760356040.0
     },
     "src\\discord_commander\\discord_gui_modals.py": {
-        "hash": "21b6b793ccbd2c83ed1e6edddb854848",
-        "mtime": 1760357390.0
+        "hash": "b554e909f7029e0784a4c79cef933e96",
+        "mtime": 1760370604.0
     },
     "src\\gaming\\dreamos\\fsm_file_operations.py": {
         "hash": "9c4a1581a94a24efba97b4552aef2dc9",
@@ -3624,12 +3677,12 @@
         "mtime": 1760359832.0
     },
     "run_discord_bot.py": {
-        "hash": "c1336077e042da61e722a4b5f467952b",
-        "mtime": 1760365512.0
+        "hash": "411d9694e55d213827cccaf6e322336c",
+        "mtime": 1760371072.0
     },
     "run_unified_discord_bot.py": {
-        "hash": "287e7fe3e4a1e6aaf3d94997624ccc83",
-        "mtime": 1760365512.0
+        "hash": "f808aaaba3a3fb2548f6ef042fafc8ca",
+        "mtime": 1760371074.0
     },
     "tests\\unit\\test_messaging_protocol_models.py": {
         "hash": "7dffa94c05948e39bbb77d5f15eac305",
@@ -3644,28 +3697,28 @@
         "mtime": 1760369168.0
     },
     "extensions\\repository-navigator\\jest.config.js": {
-        "hash": "06986a7e9fa936020e1f125d34d6fa13",
-        "mtime": 1760369406.0
+        "hash": "01fb53bf193a7c8261e9d33591ac0bcc",
+        "mtime": 1760400214.0
     },
     "extensions\\repository-navigator\\src\\types.ts": {
-        "hash": "c23e30bd8ceb20ee6ec6f311c7a9fd86",
-        "mtime": 1760362798.0
+        "hash": "6e0b798cbabf155e5c6d44186b5b3c17",
+        "mtime": 1760400200.0
     },
     "extensions\\repository-navigator\\src\\metadataReader.ts": {
         "hash": "d057d3eef1604b38092d8cec838b4f40",
         "mtime": 1760362798.0
     },
     "extensions\\repository-navigator\\test\\suite\\unit\\extension.test.ts": {
-        "hash": "da6b7eca45bc7f8a15e93d21f80db38c",
-        "mtime": 1760369356.0
+        "hash": "27a3da0234507d6ecaef4ef7d0217999",
+        "mtime": 1760400212.0
     },
     "extensions\\repository-navigator\\test\\suite\\unit\\treeDataProvider.test.ts": {
         "hash": "7abeeea471f1b5b7b8380b9fa328c37e",
         "mtime": 1760369282.0
     },
     "extensions\\repository-navigator\\src\\extension.ts": {
-        "hash": "7537f547df73564fd1c17faa5260fbe5",
-        "mtime": 1760362798.0
+        "hash": "a8520ee597f6a1b838b2a2529ebfb449",
+        "mtime": 1760400202.0
     },
     "extensions\\repository-navigator\\src\\treeDataProvider.ts": {
         "hash": "67258cddc265f08a47ccb25fd5ef8b32",
@@ -3712,8 +3765,8 @@
         "mtime": 1760369708.0
     },
     "src\\core\\config\\__init__.py": {
-        "hash": "936ab51017c1b4e10140a55c19a13e44",
-        "mtime": 1760369722.0
+        "hash": "f31bc5a7a62da9862736a329c48dd475",
+        "mtime": 1760403986.0
     },
     "src\\utils\\config_file_scanner.py": {
         "hash": "7e0c1b6daf92f8f15133bdce3d97082c",
@@ -3722,5 +3775,497 @@
     "src\\utils\\config_models.py": {
         "hash": "28ed6fe6f39b500072fb1da4ade129f0",
         "mtime": 1760365322.0
+    },
+    "tell_thea_session_summary.py": {
+        "hash": "c79854897e806b29489702eb3f021e2f",
+        "mtime": 1760392080.0
+    },
+    "jest.config.js": {
+        "hash": "ffc89ef276aead8364cabd0163c5fe26",
+        "mtime": 1760400214.0
+    },
+    "run_discord_commander.py": {
+        "hash": "f808aaaba3a3fb2548f6ef042fafc8ca",
+        "mtime": 1760370652.0
+    },
+    "tests\\test_error_handling_smoke.py": {
+        "hash": "0f3d1624d0689e6c39d756428ddf67a1",
+        "mtime": 1760387362.0
+    },
+    "tests\\test_oss_cli_smoke.py": {
+        "hash": "b16e85f01a275c2cbbddf19f413acc55",
+        "mtime": 1760387360.0
+    },
+    "tests\\test_messaging_smoke.py": {
+        "hash": "c8a24f2ad1fa30d6c1b5f13883ab463f",
+        "mtime": 1760387360.0
+    },
+    "tests\\test_msg_task_smoke.py": {
+        "hash": "db77dfff7397cbec56ce55692cd74618",
+        "mtime": 1760387360.0
+    },
+    "tests\\unit\\__init__.py": {
+        "hash": "b64860874dd71459afdef5842f764f11",
+        "mtime": 1760369736.0
+    },
+    "tests\\test_opensource_system.py": {
+        "hash": "0dedbdf07a477ab75185b72f9491ec5d",
+        "mtime": 1760371586.0
+    },
+    "tools\\refactor_validator.py": {
+        "hash": "ee54784ebbd185672aae307c8654795f",
+        "mtime": 1760402428.0
+    },
+    "tools\\agent_task_finder.py": {
+        "hash": "7cf3dd682c0302cbdc4665ad4ccb3a25",
+        "mtime": 1760402428.0
+    },
+    "tools\\git_commit_verifier.py": {
+        "hash": "cc80b68f3e38c3c5dd48da9b30ceee0a",
+        "mtime": 1760440526.0
+    },
+    "tools\\swarm_status_broadcaster.py": {
+        "hash": "e72e4f11e2df74db085395e5eda6c2f7",
+        "mtime": 1760440486.0
+    },
+    "tools\\quick_metrics.py": {
+        "hash": "1f4b39697e6d4ed64e1d7974c2cae8b8",
+        "mtime": 1760402526.0
+    },
+    "tools\\memory_leak_scanner.py": {
+        "hash": "92f645fd08d9d2ab1d111c2a202276a1",
+        "mtime": 1760440526.0
+    },
+    "tools\\qa_validation_checklist.py": {
+        "hash": "09c539b2a5a256db13da59a6c3fe1e3b",
+        "mtime": 1760440526.0
+    },
+    "tools\\refresh_cache.py": {
+        "hash": "210d97556a4f8ebee85c835ab1a26956",
+        "mtime": 1760402526.0
+    },
+    "tools\\v2_compliance_batch_checker.py": {
+        "hash": "94109192ddf90dc2ce7c80291eaaa37c",
+        "mtime": 1760440526.0
+    },
+    "tools\\test_pyramid_analyzer.py": {
+        "hash": "2fe91da74be132cbd5c509972df29710",
+        "mtime": 1760440526.0
+    },
+    "tools\\git_work_verifier.py": {
+        "hash": "4bfb8ac0467554c087d028fd29b47a2c",
+        "mtime": 1760440484.0
+    },
+    "tools\\captain_roi_quick_calc.py": {
+        "hash": "e5175563b9e24f8c9a49cf3076d8067c",
+        "mtime": 1760402680.0
+    },
+    "tools\\integrity_validator.py": {
+        "hash": "ce721a9201d90b27a1b342b89deddcb7",
+        "mtime": 1760440492.0
+    },
+    "tools\\captain_message_all_agents.py": {
+        "hash": "81f70379705d8b0b9fd4c62eb66f0a37",
+        "mtime": 1760402652.0
+    },
+    "tools\\captain_find_idle_agents.py": {
+        "hash": "5afacfdad179f4589e110014d58fc021",
+        "mtime": 1760402700.0
+    },
+    "tools\\verify_task.py": {
+        "hash": "df21b8dd1bfa4c1d02b3f3599bbe99d4",
+        "mtime": 1760402526.0
+    },
+    "tools\\captain_update_log.py": {
+        "hash": "8457c32be10476cf8b0a52dbda5507ea",
+        "mtime": 1760402670.0
+    },
+    "tools\\work_attribution_tool.py": {
+        "hash": "d9af42c88f6c36a58f3ef671dddf8f8e",
+        "mtime": 1760440492.0
+    },
+    "tools\\captain_gas_check.py": {
+        "hash": "6b86eeb59cfb37a8b107b4e19d7e7a51",
+        "mtime": 1760402790.0
+    },
+    "tools\\captain_check_agent_status.py": {
+        "hash": "469f8cd22657d1982fd29f813b5855e7",
+        "mtime": 1760402660.0
+    },
+    "tools\\coverage_validator.py": {
+        "hash": "a0d5b974bb5cc78f5f8cc5100024b5ac",
+        "mtime": 1760440526.0
+    },
+    "tools\\work_completion_verifier.py": {
+        "hash": "597fe28a4918219fb93fd529ed4ed0e2",
+        "mtime": 1760403142.0
+    },
+    "tools\\agent_status_quick_check.py": {
+        "hash": "48ec3a5ca601559ab7a112568bc7d36d",
+        "mtime": 1760402862.0
+    },
+    "tools\\swarm_orchestrator.py": {
+        "hash": "6aedb69510c162154b9083f3e3dc5f84",
+        "mtime": 1760440586.0
+    },
+    "tools\\captain_self_message.py": {
+        "hash": "68965afa195e3ee3f400f24349aaa522",
+        "mtime": 1760402690.0
+    },
+    "tools\\captain_next_task_picker.py": {
+        "hash": "18ae7ccf85afcb1c25603c3c491863f7",
+        "mtime": 1760402720.0
+    },
+    "tools\\captain_toolbelt_help.py": {
+        "hash": "2bc327c7bdbbc5fa2d96f6a1b1e56279",
+        "mtime": 1760402802.0
+    },
+    "tools\\captain_leaderboard_update.py": {
+        "hash": "a46cf4f309070c99af51febfb9c0c678",
+        "mtime": 1760402756.0
+    },
+    "tools\\pattern_suggester.py": {
+        "hash": "87a4912c75be2a32e3bd3bd3180e0f65",
+        "mtime": 1760403776.0
+    },
+    "tools\\extension_test_runner.py": {
+        "hash": "58538fb36ecf4596602ca8ea7d109e13",
+        "mtime": 1760402938.0
+    },
+    "tools\\agent_message_history.py": {
+        "hash": "061cd9e0500fab659328115374155e5d",
+        "mtime": 1760403066.0
+    },
+    "tools\\real_violation_scanner.py": {
+        "hash": "34896ef784e48f14ba49d1ae91bea17f",
+        "mtime": 1760403776.0
+    },
+    "tools\\task_verification_tool.py": {
+        "hash": "eaf042b9b80b96d8412661b36768535c",
+        "mtime": 1760403974.0
+    },
+    "tools\\autonomous_task_engine.py": {
+        "hash": "5a3a54374d0fdcf58ed8a9c493bc688a",
+        "mtime": 1760440488.0
+    },
+    "tools\\agent_mission_controller.py": {
+        "hash": "7d80ecd2711e7bfa3815df42431b97a4",
+        "mtime": 1760403356.0
+    },
+    "tools\\architecture_review.py": {
+        "hash": "9e8a5acd3e5a1955fd5934bf4669fd1d",
+        "mtime": 1760403776.0
+    },
+    "tools\\cache_invalidator.py": {
+        "hash": "92a12139808a37cd4f575ce9690f2ddd",
+        "mtime": 1760403974.0
+    },
+    "tools\\mission_control.py": {
+        "hash": "1a2e72fed58325aa651f9dc0b4d60c93",
+        "mtime": 1760403946.0
+    },
+    "docs\\examples\\__init__.py": {
+        "hash": "73e631d4eaa017c27a38567e9b7b5320",
+        "mtime": 1760369736.0
+    },
+    "tools\\file_refactor_detector.py": {
+        "hash": "cc95e2f9343b1aad31839788f37d2b7e",
+        "mtime": 1760403974.0
+    },
+    "tools_v2\\demo_swarm_pulse.py": {
+        "hash": "e091043c20d6d2713a2842b6d4c56ad8",
+        "mtime": 1760403706.0
+    },
+    "tools_v2\\advisor_cli.py": {
+        "hash": "bd40a44f128d0191e0de2b8814222194",
+        "mtime": 1760403870.0
+    },
+    "tools_v2\\categories\\oss_tools.py": {
+        "hash": "5424c2a2bc9102df8091dcc478ad8c2c",
+        "mtime": 1760395144.0
+    },
+    "tools_v2\\categories\\message_task_tools.py": {
+        "hash": "08b56fbaa194a1421aa1c2f634451c83",
+        "mtime": 1760395144.0
+    },
+    "tools_v2\\categories\\observability_tools.py": {
+        "hash": "5775244ad65cbb062c32113590a4e806",
+        "mtime": 1760395144.0
+    },
+    "tools_v2\\categories\\validation_tools.py": {
+        "hash": "74e9a2bb13feab7f8f09d27ad360a61f",
+        "mtime": 1760395144.0
+    },
+    "tools_v2\\categories\\memory_safety_tools.py": {
+        "hash": "6d7f0038026604791e6870d038de9bec",
+        "mtime": 1760402762.0
+    },
+    "tools_v2\\categories\\discord_tools.py": {
+        "hash": "92c389f87ea727083822aa9530b2f003",
+        "mtime": 1760402564.0
+    },
+    "tools_v2\\categories\\swarm_brain_tools.py": {
+        "hash": "5626cf245fe6fa8880ac6659e1628af6",
+        "mtime": 1760395144.0
+    },
+    "tools_v2\\categories\\session_tools.py": {
+        "hash": "fdad3627e5ffed0650a9f95e43adbeb9",
+        "mtime": 1760403090.0
+    },
+    "tools_v2\\categories\\memory_safety_adapters.py": {
+        "hash": "6f03ac7e4114d93339fe232e31d6d632",
+        "mtime": 1760402762.0
+    },
+    "tools_v2\\categories\\swarm_mission_control.py": {
+        "hash": "f76b7aaaa6c29041d7502916a6778c7d",
+        "mtime": 1760403614.0
+    },
+    "tools_v2\\categories\\workflow_tools.py": {
+        "hash": "fe5d3f71d4a4b2ffbcf7975cba34a940",
+        "mtime": 1760403090.0
+    },
+    "tools_v2\\categories\\captain_tools_advanced.py": {
+        "hash": "39dcee467d2ac8789426f78ae35df24e",
+        "mtime": 1760403180.0
+    },
+    "tools_v2\\categories\\swarm_consciousness.py": {
+        "hash": "7da7ff3174a6210686152e698e52dc4d",
+        "mtime": 1760403512.0
+    },
+    "tools_v2\\categories\\intelligent_mission_advisor_adapter.py": {
+        "hash": "f67d56f2f92be1641107a870f1f5680f",
+        "mtime": 1760404298.0
+    },
+    "tools_v2\\categories\\captain_tools.py": {
+        "hash": "75ec1f40252bc186bf3f2b3e262e7e8a",
+        "mtime": 1760403180.0
+    },
+    "tools_v2\\categories\\intelligent_mission_advisor.py": {
+        "hash": "696fc28b55b70fc485097eb4c470a8fb",
+        "mtime": 1760403870.0
+    },
+    "tools_v2\\categories\\config_tools.py": {
+        "hash": "4dcd8546320cb6015623bcdd6ad397ce",
+        "mtime": 1760440478.0
+    },
+    "tools_v2\\categories\\coordination_tools.py": {
+        "hash": "5de2ca67cbfd40bb716d830beeeb570e",
+        "mtime": 1760440472.0
+    },
+    "tools_v2\\categories\\integration_tools.py": {
+        "hash": "21a10533781f9f7d39aecce0bc0716da",
+        "mtime": 1760440470.0
+    },
+    "extensions\\repository-navigator\\src\\importPathProvider.ts": {
+        "hash": "f7531e67fbb1341afd827162276a7090",
+        "mtime": 1760400204.0
+    },
+    "extensions\\repository-navigator\\test\\suite\\index.ts": {
+        "hash": "48de3c0aec85ebe0cbcf7a158beaa450",
+        "mtime": 1760375272.0
+    },
+    "extensions\\repository-navigator\\src\\completionProvider.ts": {
+        "hash": "4434663e62b67310b2563587c60b5a6c",
+        "mtime": 1760400192.0
+    },
+    "extensions\\repository-navigator\\test\\runTest.ts": {
+        "hash": "bcb3e7e78af480ae9428e6ea5f8e16da",
+        "mtime": 1760375272.0
+    },
+    "extensions\\repository-navigator\\test\\suite\\unit\\importPathProvider.test.ts": {
+        "hash": "c30d74121332699283c361f91050c7c8",
+        "mtime": 1760400210.0
+    },
+    "extensions\\repository-navigator\\out\\types.js": {
+        "hash": "21f0129c0e571cbb78f92c36ca701737",
+        "mtime": 1760394586.0
+    },
+    "extensions\\repository-navigator\\test\\suite\\unit\\completionProvider.test.ts": {
+        "hash": "5f42de072ffdf73658db8c3b2e48096c",
+        "mtime": 1760400216.0
+    },
+    "extensions\\repository-navigator\\test\\suite\\e2e\\workflow.e2e.test.ts": {
+        "hash": "1121c62c6cee54075dc97050789e3218",
+        "mtime": 1760375272.0
+    },
+    "extensions\\repository-navigator\\out\\metadataReader.js": {
+        "hash": "e31e58ca57b8e9098c5519582c9be9ea",
+        "mtime": 1760394586.0
+    },
+    "extensions\\repository-navigator\\out\\extension.js": {
+        "hash": "b585a57a533635aeb7a4b8915005a2de",
+        "mtime": 1760394586.0
+    },
+    "extensions\\repository-navigator\\test\\suite\\integration\\extension.integration.test.ts": {
+        "hash": "3a4d5eb036a14c60b068c768f19bd081",
+        "mtime": 1760375272.0
+    },
+    "extensions\\repository-navigator\\out\\treeDataProvider.js": {
+        "hash": "6c822d30ec6691bdaacea43afa976176",
+        "mtime": 1760394586.0
+    },
+    "extensions\\repository-navigator\\out\\completionProvider.js": {
+        "hash": "1219d27522b86c88c6d01017074ca38f",
+        "mtime": 1760394586.0
+    },
+    "extensions\\repository-navigator\\__mocks__\\vscode.js": {
+        "hash": "23107b58679f16fdcfa86a6b2b4e13cc",
+        "mtime": 1760400214.0
+    },
+    "test\\suite\\unit\\completionProvider.test.ts": {
+        "hash": "7f62d664a8b4e6933dcc7546ab3ad35f",
+        "mtime": 1760400212.0
+    },
+    "test\\setup.ts": {
+        "hash": "c513e0536d9fe8eb922fcdc2fd587945",
+        "mtime": 1760400214.0
+    },
+    "extensions\\repository-navigator\\out\\importPathProvider.js": {
+        "hash": "f3aefb949fc2c8b2a0e363d05d28785d",
+        "mtime": 1760394586.0
+    },
+    "src\\core\\agent_notes_protocol.py": {
+        "hash": "d41d8cd98f00b204e9800998ecf8427e",
+        "mtime": 1760392327.61
+    },
+    "src\\core\\message_queue_analytics_interfaces.py": {
+        "hash": "fa7d0f78156340479be18f2af21286c1",
+        "mtime": 1760370634.0
+    },
+    "src\\core\\message_queue_core_interfaces.py": {
+        "hash": "535477ffc62498a6d6eb2d969ba043c2",
+        "mtime": 1760370634.0
+    },
+    "src\\core\\analytics\\engines\\caching_engine_fixed.py": {
+        "hash": "8f61c48e59e15d92422b64e62418fb3c",
+        "mtime": 1760380290.0
+    },
+    "src\\core\\analytics\\framework\\predictive_modeling_forecasters.py": {
+        "hash": "14c49908617d84831f00234854fd1b67",
+        "mtime": 1760440474.0
+    },
+    "src\\core\\analytics\\framework\\predictive_modeling_metrics.py": {
+        "hash": "f992695bc245659ec9194654d5ee3013",
+        "mtime": 1760440470.0
+    },
+    "src\\core\\analytics\\framework\\predictive_modeling_seasonality.py": {
+        "hash": "65064a2fe601a83665882db377db1be8",
+        "mtime": 1760440472.0
+    },
+    "src\\core\\intelligent_context\\agent_models.py": {
+        "hash": "d6604763fb64f884fd8130b5777141b3",
+        "mtime": 1760440476.0
+    },
+    "src\\core\\intelligent_context\\mission_models.py": {
+        "hash": "3a376ddbd239082a65a9b5e94ddfadc3",
+        "mtime": 1760440474.0
+    },
+    "src\\core\\intelligent_context\\context_enums.py": {
+        "hash": "a7b5e0e92155154257e128dbf3f20877",
+        "mtime": 1760440470.0
+    },
+    "src\\core\\intelligent_context\\metrics_models.py": {
+        "hash": "19f698d44490f705e74bc5a97df8dab4",
+        "mtime": 1760440486.0
+    },
+    "src\\core\\intelligent_context\\context_results.py": {
+        "hash": "bf686f6965825e21fb8bedbfdce4b6ca",
+        "mtime": 1760440478.0
+    },
+    "src\\core\\intelligent_context\\emergency_models.py": {
+        "hash": "3932df28b93f73a674504b30a7beaf1a",
+        "mtime": 1760440480.0
+    },
+    "src\\core\\intelligent_context\\analysis_models.py": {
+        "hash": "e2a01a9b4bbcf4223462647a67f44908",
+        "mtime": 1760440484.0
+    },
+    "src\\core\\config\\config_manager.py": {
+        "hash": "a356e645407d32ec0789eaa0be1055af",
+        "mtime": 1760370410.0
+    },
+    "src\\core\\config\\config_accessors.py": {
+        "hash": "81cfd18f25ee4330c16b5e9d1f95b064",
+        "mtime": 1760370410.0
+    },
+    "src\\core\\config\\config_dataclasses.py": {
+        "hash": "bc67c1880471ff91d2a4143f95c53be8",
+        "mtime": 1760370410.0
+    },
+    "src\\services\\onboarding_template_loader.py": {
+        "hash": "a1383cc52b39eaf7e33f4d727470ab2f",
+        "mtime": 1760371534.0
+    },
+    "src\\opensource\\__init__.py": {
+        "hash": "c7dbb004b585af521890446514b30d35",
+        "mtime": 1760403986.0
+    },
+    "src\\opensource\\contribution_tracker.py": {
+        "hash": "e680cbef45637d5e0e2914ea2f51c4ee",
+        "mtime": 1760389126.0
+    },
+    "src\\opensource\\portfolio_builder.py": {
+        "hash": "68a1dd10f2c9524ec406d52e8e33a625",
+        "mtime": 1760371586.0
+    },
+    "src\\opensource\\task_integration.py": {
+        "hash": "c5b6e44445831134b7c43b7ef821e567",
+        "mtime": 1760371586.0
+    },
+    "src\\opensource\\github_integration.py": {
+        "hash": "64536271c9b7ad9339d9b61eb6876047",
+        "mtime": 1760371586.0
+    },
+    "src\\opensource\\setup_oss.py": {
+        "hash": "5b9b92308a663e5eb20e6064af97aa1d",
+        "mtime": 1760371586.0
+    },
+    "src\\obs\\metrics.py": {
+        "hash": "da65f4ded2a267420f0cc851c8133cf6",
+        "mtime": 1760376038.0
+    },
+    "src\\opensource\\oss_cli.py": {
+        "hash": "eb078d0363aa83e7175d2971860718ec",
+        "mtime": 1760371586.0
+    },
+    "src\\opensource\\project_manager.py": {
+        "hash": "c2e3cc0e9823a52dc35925c290e6e20f",
+        "mtime": 1760389126.0
+    },
+    "src\\features\\flags.py": {
+        "hash": "8f3914f59b7e5a058d13a17b35b89ba8",
+        "mtime": 1760376038.0
+    },
+    "src\\obs\\__init__.py": {
+        "hash": "d1a6d142ba4804de99eb6e65dc5f3c79",
+        "mtime": 1760403986.0
+    },
+    "src\\features\\__init__.py": {
+        "hash": "d80b649f45713fde2375d5ef2ac51d1d",
+        "mtime": 1760403986.0
+    },
+    "src\\swarm_brain\\agent_notes.py": {
+        "hash": "b95d55f2d2bc4429b348bccaa34ca1ef",
+        "mtime": 1760392674.0
+    },
+    "src\\swarm_brain\\__init__.py": {
+        "hash": "ed17a1828e8aa37098017edac53a3012",
+        "mtime": 1760403986.0
+    },
+    "src\\swarm_brain\\knowledge_base.py": {
+        "hash": "74e29bcfb0bc352e55adf508b6fc61d8",
+        "mtime": 1760392674.0
+    },
+    "src\\swarm_brain\\swarm_memory.py": {
+        "hash": "884d683ca8f83a09795569a31f0c737a",
+        "mtime": 1760392674.0
+    },
+    "tools_v2\\categories\\debate_tools.py": {
+        "hash": "42e396053e8835261a970e8b8d9f0067",
+        "mtime": 1760404298.0
+    },
+    "tools\\generate_utils_catalog_enhanced.py": {
+        "hash": "1d0d529a688ac90c233ab3d7231c8661",
+        "mtime": 1760406550.0
     }
 }

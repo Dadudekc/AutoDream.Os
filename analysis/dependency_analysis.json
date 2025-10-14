@@ -4,207 +4,50 @@
   "circular_dependencies": [],
   "external_dependencies": [],
   "internal_dependencies": {
-    "run_discord_bot": {
-      "file_path": "run_discord_bot.py",
-      "functions": [],
-      "classes": {},
-      "estimated_dependencies": []
-    },
-    "run_unified_discord_bot": {
-      "file_path": "run_unified_discord_bot.py",
-      "functions": [],
-      "classes": {},
-      "estimated_dependencies": []
-    },
-    "tests\\unit\\test_messaging_protocol_models": {
-      "file_path": "tests\\unit\\test_messaging_protocol_models.py",
+    "tools\\git_commit_verifier": {
+      "file_path": "tools\\git_commit_verifier.py",
       "functions": [
-        "sample_message",
-        "message_delivery",
-        "onboarding_service",
-        "message_formatter",
-        "inbox_manager",
-        "__init__",
-        "send_message",
-        "__init__",
-        "generate_onboarding_message",
-        "__init__",
-        "format_message",
-        "__init__",
-        "check_and_rotate",
-        "test_send_message_success",
-        "test_send_message_failure",
-        "test_send_multiple_messages",
-        "test_protocol_compliance_with_duck_typing",
-        "test_generate_onboarding_message",
-        "test_generate_multiple_styles",
-        "test_protocol_compliance_with_duck_typing",
-        "test_format_message",
-        "test_format_with_different_templates",
-        "test_protocol_compliance_with_duck_typing",
-        "test_check_and_rotate_no_rotation",
-        "test_check_and_rotate_with_rotation",
-        "test_check_multiple_files",
-        "test_protocol_compliance_with_duck_typing",
-        "test_all_protocols_work_together",
-        "test_protocol_type_hints",
-        "test_empty_message_delivery",
-        "test_special_characters_in_agent_id",
-        "test_none_template_handling",
-        "use_delivery",
-        "use_onboarding",
-        "use_formatter",
-        "use_inbox",
-        "send_message",
-        "generate_onboarding_message",
-        "format_message",
-        "check_and_rotate"
+        "run_git_command",
+        "check_commits_today",
+        "verify_work_exists",
+        "check_file_exists"
       ],
-      "classes": {
-        "MockMessageDelivery": {
-          "methods": [
-            "__init__",
-            "send_message"
-          ],
-          "docstring": "Mock implementation of IMessageDelivery protocol.",
-          "base_classes": [],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "MockOnboardingService": {
-          "methods": [
-            "__init__",
-            "generate_onboarding_message"
-          ],
-          "docstring": "Mock implementation of IOnboardingService protocol.",
-          "base_classes": [],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "MockMessageFormatter": {
-          "methods": [
-            "__init__",
-            "format_message"
-          ],
-          "docstring": "Mock implementation of IMessageFormatter protocol.",
-          "base_classes": [],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "MockInboxManager": {
-          "methods": [
-            "__init__",
-            "check_and_rotate"
-          ],
-          "docstring": "Mock implementation of IInboxManager protocol.",
-          "base_classes": [],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "TestIMessageDelivery": {
-          "methods": [
-            "test_send_message_success",
-            "test_send_message_failure",
-            "test_send_multiple_messages",
-            "test_protocol_compliance_with_duck_typing"
-          ],
-          "docstring": "Test suite for IMessageDelivery protocol.",
-          "base_classes": [],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "TestIOnboardingService": {
-          "methods": [
-            "test_generate_onboarding_message",
-            "test_generate_multiple_styles",
-            "test_protocol_compliance_with_duck_typing"
-          ],
-          "docstring": "Test suite for IOnboardingService protocol.",
-          "base_classes": [],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "TestIMessageFormatter": {
-          "methods": [
-            "test_format_message",
-            "test_format_with_different_templates",
-            "test_protocol_compliance_with_duck_typing"
-          ],
-          "docstring": "Test suite for IMessageFormatter protocol.",
-          "base_classes": [],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "TestIInboxManager": {
-          "methods": [
-            "test_check_and_rotate_no_rotation",
-            "test_check_and_rotate_with_rotation",
-            "test_check_multiple_files",
-            "test_protocol_compliance_with_duck_typing"
-          ],
-          "docstring": "Test suite for IInboxManager protocol.",
-          "base_classes": [],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "TestProtocolIntegration": {
-          "methods": [
-            "test_all_protocols_work_together",
-            "test_protocol_type_hints"
-          ],
-          "docstring": "Integration tests for protocol interactions.",
-          "base_classes": [],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "TestEdgeCases": {
-          "methods": [
-            "test_empty_message_delivery",
-            "test_special_characters_in_agent_id",
-            "test_none_template_handling"
-          ],
-          "docstring": "Test edge cases and error scenarios.",
-          "base_classes": [],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "CustomDelivery": {
-          "methods": [
-            "send_message"
-          ],
-          "docstring": null,
-          "base_classes": [],
-          "maturity": "Prototype",
-          "agent_type": "Utility"
-        },
-        "CustomOnboarding": {
-          "methods": [
-            "generate_onboarding_message"
-          ],
-          "docstring": null,
-          "base_classes": [],
-          "maturity": "Prototype",
-          "agent_type": "Utility"
-        },
-        "CustomFormatter": {
-          "methods": [
-            "format_message"
-          ],
-          "docstring": null,
-          "base_classes": [],
-          "maturity": "Prototype",
-          "agent_type": "Utility"
-        },
-        "CustomInboxManager": {
-          "methods": [
-            "check_and_rotate"
-          ],
-          "docstring": null,
-          "base_classes": [],
-          "maturity": "Prototype",
-          "agent_type": "Utility"
-        }
-      },
+      "classes": {},
+      "estimated_dependencies": []
+    },
+    "tools\\v2_compliance_batch_checker": {
+      "file_path": "tools\\v2_compliance_batch_checker.py",
+      "functions": [
+        "check_file_compliance",
+        "batch_check",
+        "print_report"
+      ],
+      "classes": {},
+      "estimated_dependencies": []
+    },
+    "tools\\test_pyramid_analyzer": {
+      "file_path": "tools\\test_pyramid_analyzer.py",
+      "functions": [
+        "count_tests_in_file",
+        "analyze_pyramid",
+        "print_pyramid_report"
+      ],
+      "classes": {},
+      "estimated_dependencies": []
+    },
+    "tools\\coverage_validator": {
+      "file_path": "tools\\coverage_validator.py",
+      "functions": [
+        "parse_jest_coverage_summary",
+        "validate_coverage"
+      ],
+      "classes": {},
+      "estimated_dependencies": []
+    },
+    "tools\\__init__": {
+      "file_path": "tools\\__init__.py",
+      "functions": [],
+      "classes": {},
       "estimated_dependencies": []
     },
     "tools\\documentation_assistant": {
@@ -242,44 +85,49 @@
       },
       "estimated_dependencies": []
     },
-    "docs\\examples\\gaming_integration_core_examples": {
-      "file_path": "docs\\examples\\gaming_integration_core_examples.py",
+    "tools\\git_work_verifier": {
+      "file_path": "tools\\git_work_verifier.py",
       "functions": [
-        "example_basic_session",
-        "example_multi_player",
-        "example_entertainment_systems",
-        "example_event_driven",
-        "example_custom_handler",
-        "example_health_monitoring",
-        "example_dependency_injection",
+        "main",
         "__init__",
-        "handle_event",
-        "__init__",
-        "create_session",
-        "get_session",
-        "end_session",
-        "get_active_sessions"
+        "verify_claim",
+        "_get_git_evidence",
+        "_parse_git_log",
+        "verify_multiple_claims",
+        "generate_report"
       ],
       "classes": {
-        "AnalyticsHandler": {
-          "methods": [
-            "__init__",
-            "handle_event"
-          ],
-          "docstring": null,
+        "WorkClaim": {
+          "methods": [],
+          "docstring": "A claim of work completed",
           "base_classes": [],
-          "maturity": "Prototype",
+          "maturity": "Core Asset",
           "agent_type": "Utility"
         },
-        "LoggingSessionManager": {
+        "GitEvidence": {
+          "methods": [],
+          "docstring": "Git evidence for work",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        },
+        "VerificationResult": {
+          "methods": [],
+          "docstring": "Result of verifying a work claim",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        },
+        "GitWorkVerifier": {
           "methods": [
             "__init__",
-            "create_session",
-            "get_session",
-            "end_session",
-            "get_active_sessions"
+            "verify_claim",
+            "_get_git_evidence",
+            "_parse_git_log",
+            "verify_multiple_claims",
+            "generate_report"
           ],
-          "docstring": null,
+          "docstring": "Verify work claims against git history",
           "base_classes": [],
           "maturity": "Core Asset",
           "agent_type": "Utility"
@@ -287,43 +135,889 @@
       },
       "estimated_dependencies": []
     },
-    "src\\core\\error_handling\\error_handling_models": {
-      "file_path": "src\\core\\error_handling\\error_handling_models.py",
+    "tools\\toolbelt_registry": {
+      "file_path": "tools\\toolbelt_registry.py",
+      "functions": [
+        "__init__",
+        "_build_flag_map",
+        "get_tool_for_flag",
+        "get_tool_by_name",
+        "list_tools",
+        "get_all_flags"
+      ],
+      "classes": {
+        "ToolRegistry": {
+          "methods": [
+            "__init__",
+            "_build_flag_map",
+            "get_tool_for_flag",
+            "get_tool_by_name",
+            "list_tools",
+            "get_all_flags"
+          ],
+          "docstring": "Tool registry for CLI Toolbelt.",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        }
+      },
+      "estimated_dependencies": []
+    },
+    "tools\\memory_leak_scanner": {
+      "file_path": "tools\\memory_leak_scanner.py",
+      "functions": [
+        "scan_file",
+        "scan_directory",
+        "print_report",
+        "__init__"
+      ],
+      "classes": {
+        "MemoryLeakPattern": {
+          "methods": [
+            "__init__"
+          ],
+          "docstring": "Memory leak pattern detector.",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        }
+      },
+      "estimated_dependencies": []
+    },
+    "tools\\qa_validation_checklist": {
+      "file_path": "tools\\qa_validation_checklist.py",
+      "functions": [
+        "__init__",
+        "check",
+        "run_git_command",
+        "verify_git_commits_exist",
+        "verify_files_exist",
+        "run_validation",
+        "print_summary"
+      ],
+      "classes": {
+        "QAChecklist": {
+          "methods": [
+            "__init__",
+            "check",
+            "run_git_command",
+            "verify_git_commits_exist",
+            "verify_files_exist",
+            "run_validation",
+            "print_summary"
+          ],
+          "docstring": "QA validation checklist.",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        }
+      },
+      "estimated_dependencies": []
+    },
+    "tools\\swarm_status_broadcaster": {
+      "file_path": "tools\\swarm_status_broadcaster.py",
+      "functions": [
+        "main",
+        "__init__",
+        "broadcast",
+        "broadcast_c055_status",
+        "broadcast_v2_progress",
+        "broadcast_achievement",
+        "_send_to_agent",
+        "broadcast_with_template"
+      ],
+      "classes": {
+        "BroadcastMessage": {
+          "methods": [],
+          "docstring": "A message to broadcast to agents",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        },
+        "SwarmStatusBroadcaster": {
+          "methods": [
+            "__init__",
+            "broadcast",
+            "broadcast_c055_status",
+            "broadcast_v2_progress",
+            "broadcast_achievement",
+            "_send_to_agent",
+            "broadcast_with_template"
+          ],
+          "docstring": "Broadcast status messages to multiple agents",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        }
+      },
+      "estimated_dependencies": []
+    },
+    "tools\\agent_toolbelt": {
+      "file_path": "tools\\agent_toolbelt.py",
+      "functions": [
+        "main",
+        "__init__",
+        "_create_parser",
+        "_add_vector_parser",
+        "_add_messaging_parser",
+        "_add_analysis_parser",
+        "_add_v2_parser",
+        "_add_agent_parser",
+        "_add_consolidation_parser",
+        "_add_refactor_parser",
+        "_add_compliance_parser",
+        "execute"
+      ],
+      "classes": {
+        "AgentToolbeltCLI": {
+          "methods": [
+            "__init__",
+            "_create_parser",
+            "_add_vector_parser",
+            "_add_messaging_parser",
+            "_add_analysis_parser",
+            "_add_v2_parser",
+            "_add_agent_parser",
+            "_add_consolidation_parser",
+            "_add_refactor_parser",
+            "_add_compliance_parser",
+            "execute"
+          ],
+          "docstring": "CLI interface for Agent Toolbelt V2.",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        }
+      },
+      "estimated_dependencies": []
+    },
+    "tools\\agent_toolbelt_executors": {
+      "file_path": "tools\\agent_toolbelt_executors.py",
+      "functions": [
+        "execute",
+        "execute",
+        "execute",
+        "execute",
+        "execute",
+        "execute",
+        "execute",
+        "execute"
+      ],
+      "classes": {
+        "VectorExecutor": {
+          "methods": [
+            "execute"
+          ],
+          "docstring": "Execute vector database operations.",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        },
+        "MessagingExecutor": {
+          "methods": [
+            "execute"
+          ],
+          "docstring": "Execute messaging operations.",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        },
+        "AnalysisExecutor": {
+          "methods": [
+            "execute"
+          ],
+          "docstring": "Execute analysis operations.",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        },
+        "V2Executor": {
+          "methods": [
+            "execute"
+          ],
+          "docstring": "Execute V2 compliance operations.",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        },
+        "AgentExecutor": {
+          "methods": [
+            "execute"
+          ],
+          "docstring": "Execute agent operations.",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        },
+        "ConsolidationExecutor": {
+          "methods": [
+            "execute"
+          ],
+          "docstring": "Execute consolidation operations (learned from Agent-7's session).",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        },
+        "RefactorExecutor": {
+          "methods": [
+            "execute"
+          ],
+          "docstring": "Execute refactoring operations (patterns learned from Agent-7's session).",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        },
+        "ComplianceExecutor": {
+          "methods": [
+            "execute"
+          ],
+          "docstring": "Execute compliance checking operations (tools from Agent-7's refactor session).",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        }
+      },
+      "estimated_dependencies": []
+    },
+    "tools\\autonomous_task_engine": {
+      "file_path": "tools\\autonomous_task_engine.py",
+      "functions": [
+        "main",
+        "__init__",
+        "discover_tasks",
+        "get_optimal_task_for_agent",
+        "get_top_n_tasks_for_agent",
+        "claim_task",
+        "start_task",
+        "complete_task",
+        "generate_autonomous_report",
+        "_discover_v2_violations",
+        "_discover_tech_debt",
+        "_discover_code_todos",
+        "_discover_optimizations",
+        "_discover_test_gaps",
+        "_calculate_skill_matches",
+        "_score_task_for_agent",
+        "_get_or_create_agent_profile",
+        "_has_unmet_blockers",
+        "_find_task",
+        "_update_agent_profile",
+        "_load_tasks",
+        "_save_tasks",
+        "_load_agent_profiles",
+        "_save_agent_profiles"
+      ],
+      "classes": {
+        "Task": {
+          "methods": [],
+          "docstring": "A discovered task opportunity",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        },
+        "AgentProfile": {
+          "methods": [],
+          "docstring": "Agent's capabilities and history",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        },
+        "TaskRecommendation": {
+          "methods": [],
+          "docstring": "Personalized task recommendation for an agent",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        },
+        "AutonomousTaskEngine": {
+          "methods": [
+            "__init__",
+            "discover_tasks",
+            "get_optimal_task_for_agent",
+            "get_top_n_tasks_for_agent",
+            "claim_task",
+            "start_task",
+            "complete_task",
+            "generate_autonomous_report",
+            "_discover_v2_violations",
+            "_discover_tech_debt",
+            "_discover_code_todos",
+            "_discover_optimizations",
+            "_discover_test_gaps",
+            "_calculate_skill_matches",
+            "_score_task_for_agent",
+            "_get_or_create_agent_profile",
+            "_has_unmet_blockers",
+            "_find_task",
+            "_update_agent_profile",
+            "_load_tasks",
+            "_save_tasks",
+            "_load_agent_profiles",
+            "_save_agent_profiles"
+          ],
+          "docstring": "The Masterpiece Tool - Autonomous Task Discovery & Selection Engine\n\nEnables agents to:\n1. Discover optimal tasks autonomously\n2. Get personalized recommendations based on skills\n3. Calculate ROI and impact automatically\n4. Claim and track tasks without Captain intervention\n5. Coordinate with other agents intelligently",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        }
+      },
+      "estimated_dependencies": []
+    },
+    "tools\\swarm_orchestrator": {
+      "file_path": "tools\\swarm_orchestrator.py",
+      "functions": [
+        "run_orchestrator",
+        "__init__",
+        "_discover_agents",
+        "get_agent_status",
+        "scan_all_opportunities",
+        "_scan_linter_errors",
+        "_scan_v2_violations",
+        "_scan_memory_leaks",
+        "_scan_test_coverage",
+        "_scan_todo_comments",
+        "_scan_duplication",
+        "_scan_complexity",
+        "calculate_roi",
+        "match_to_agent",
+        "create_inbox_task",
+        "send_gas_message",
+        "run_cycle"
+      ],
+      "classes": {
+        "SwarmOrchestrator": {
+          "methods": [
+            "__init__",
+            "_discover_agents",
+            "get_agent_status",
+            "scan_all_opportunities",
+            "_scan_linter_errors",
+            "_scan_v2_violations",
+            "_scan_memory_leaks",
+            "_scan_test_coverage",
+            "_scan_todo_comments",
+            "_scan_duplication",
+            "_scan_complexity",
+            "calculate_roi",
+            "match_to_agent",
+            "create_inbox_task",
+            "send_gas_message",
+            "run_cycle"
+          ],
+          "docstring": "The Gas Station - Autonomous Swarm Coordinator.",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        }
+      },
+      "estimated_dependencies": []
+    },
+    "tools\\integrity_validator": {
+      "file_path": "tools\\integrity_validator.py",
+      "functions": [
+        "main",
+        "__init__",
+        "validate_task_completion",
+        "validate_agent_status",
+        "validate_points_claim",
+        "generate_integrity_report"
+      ],
+      "classes": {
+        "IntegrityCheck": {
+          "methods": [],
+          "docstring": "Result of integrity validation",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        },
+        "IntegrityValidator": {
+          "methods": [
+            "__init__",
+            "validate_task_completion",
+            "validate_agent_status",
+            "validate_points_claim",
+            "generate_integrity_report"
+          ],
+          "docstring": "Validate agent task claims against evidence",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        }
+      },
+      "estimated_dependencies": []
+    },
+    "tools\\work_attribution_tool": {
+      "file_path": "tools\\work_attribution_tool.py",
+      "functions": [
+        "main",
+        "__init__",
+        "get_agent_work",
+        "get_all_agents_work",
+        "verify_agent_did_work",
+        "who_worked_on_file",
+        "generate_attribution_report",
+        "_parse_git_log"
+      ],
+      "classes": {
+        "WorkItem": {
+          "methods": [],
+          "docstring": "A piece of work done by an agent",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        },
+        "WorkAttributionTool": {
+          "methods": [
+            "__init__",
+            "get_agent_work",
+            "get_all_agents_work",
+            "verify_agent_did_work",
+            "who_worked_on_file",
+            "generate_attribution_report",
+            "_parse_git_log"
+          ],
+          "docstring": "Attribution tool to properly credit agents for their work",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        }
+      },
+      "estimated_dependencies": []
+    },
+    "tools\\projectscanner_core": {
+      "file_path": "tools\\projectscanner_core.py",
+      "functions": [
+        "__init__",
+        "load_cache",
+        "save_cache",
+        "scan_project",
+        "_process_file",
+        "generate_init_files",
+        "export_chatgpt_context",
+        "generate_modular_reports",
+        "categorize_agents",
+        "_maturity_level",
+        "_agent_type"
+      ],
+      "classes": {
+        "ProjectScanner": {
+          "methods": [
+            "__init__",
+            "load_cache",
+            "save_cache",
+            "scan_project",
+            "_process_file",
+            "generate_init_files",
+            "export_chatgpt_context",
+            "generate_modular_reports",
+            "categorize_agents",
+            "_maturity_level",
+            "_agent_type"
+          ],
+          "docstring": "A universal project scanner that:\n  - Identifies Python, Rust, JS, TS files.\n  - Extracts functions, classes, routes, complexity.\n  - Caches file hashes to skip unchanged files.\n  - Detects moved files by matching file hashes.\n  - Merges new analysis into existing project_analysis.json (preserving old entries).\n  - Exports a merged ChatGPT context if requested (preserving old context data).\n  - Processes files asynchronously with BotWorker threads.\n  - Auto-generates __init__.py files for Python packages.",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        }
+      },
+      "estimated_dependencies": []
+    },
+    "tools_v2\\tool_registry": {
+      "file_path": "tools_v2\\tool_registry.py",
+      "functions": [
+        "get_tool_registry",
+        "__init__",
+        "resolve",
+        "list_tools",
+        "list_by_category",
+        "export_lock"
+      ],
+      "classes": {
+        "ToolRegistry": {
+          "methods": [
+            "__init__",
+            "resolve",
+            "list_tools",
+            "list_by_category",
+            "export_lock"
+          ],
+          "docstring": "Central registry for tool resolution and caching.",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        }
+      },
+      "estimated_dependencies": []
+    },
+    "tools_v2\\categories\\config_tools": {
+      "file_path": "tools_v2\\categories\\config_tools.py",
+      "functions": [
+        "get_spec",
+        "get_help",
+        "validate",
+        "execute",
+        "get_spec",
+        "get_help",
+        "validate",
+        "execute",
+        "get_spec",
+        "get_help",
+        "validate",
+        "execute"
+      ],
+      "classes": {
+        "ValidateConfigSSOTAdapter": {
+          "methods": [
+            "get_spec",
+            "get_help",
+            "validate",
+            "execute"
+          ],
+          "docstring": "Validate that config follows SSOT principle.",
+          "base_classes": [
+            "IToolAdapter"
+          ],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        },
+        "ListConfigSourcesAdapter": {
+          "methods": [
+            "get_spec",
+            "get_help",
+            "validate",
+            "execute"
+          ],
+          "docstring": "List all configuration sources in project.",
+          "base_classes": [
+            "IToolAdapter"
+          ],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        },
+        "CheckConfigImportsAdapter": {
+          "methods": [
+            "get_spec",
+            "get_help",
+            "validate",
+            "execute"
+          ],
+          "docstring": "Check what imports config files.",
+          "base_classes": [
+            "IToolAdapter"
+          ],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        }
+      },
+      "estimated_dependencies": []
+    },
+    "tools_v2\\categories\\integration_tools": {
+      "file_path": "tools_v2\\categories\\integration_tools.py",
+      "functions": [
+        "get_spec",
+        "get_help",
+        "validate",
+        "execute",
+        "get_spec",
+        "get_help",
+        "validate",
+        "execute",
+        "get_spec",
+        "get_help",
+        "validate",
+        "execute",
+        "get_spec",
+        "get_help",
+        "validate",
+        "execute"
+      ],
+      "classes": {
+        "FindSSOTViolationsAdapter": {
+          "methods": [
+            "get_spec",
+            "get_help",
+            "validate",
+            "execute"
+          ],
+          "docstring": "Find potential SSOT (Single Source of Truth) violations.",
+          "base_classes": [
+            "IToolAdapter"
+          ],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        },
+        "FindDuplicateFunctionalityAdapter": {
+          "methods": [
+            "get_spec",
+            "get_help",
+            "validate",
+            "execute"
+          ],
+          "docstring": "Find duplicate functionality across services/modules.",
+          "base_classes": [
+            "IToolAdapter"
+          ],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        },
+        "FindIntegrationOpportunitiesAdapter": {
+          "methods": [
+            "get_spec",
+            "get_help",
+            "validate",
+            "execute"
+          ],
+          "docstring": "Analyze codebase for integration opportunities.",
+          "base_classes": [
+            "IToolAdapter"
+          ],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        },
+        "CheckImportDependenciesAdapter": {
+          "methods": [
+            "get_spec",
+            "get_help",
+            "validate",
+            "execute"
+          ],
+          "docstring": "Check import dependencies for circular imports or heavy dependencies.",
+          "base_classes": [
+            "IToolAdapter"
+          ],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        }
+      },
+      "estimated_dependencies": []
+    },
+    "tools_v2\\categories\\coordination_tools": {
+      "file_path": "tools_v2\\categories\\coordination_tools.py",
+      "functions": [
+        "get_spec",
+        "get_help",
+        "validate",
+        "execute",
+        "get_spec",
+        "get_help",
+        "validate",
+        "execute",
+        "get_spec",
+        "get_help",
+        "validate",
+        "execute"
+      ],
+      "classes": {
+        "FindDomainExpertAdapter": {
+          "methods": [
+            "get_spec",
+            "get_help",
+            "validate",
+            "execute"
+          ],
+          "docstring": "Find which agent has expertise in a given domain.",
+          "base_classes": [
+            "IToolAdapter"
+          ],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        },
+        "RequestExpertReviewAdapter": {
+          "methods": [
+            "get_spec",
+            "get_help",
+            "validate",
+            "execute"
+          ],
+          "docstring": "Request expert review using Pattern #5 coordination.",
+          "base_classes": [
+            "IToolAdapter"
+          ],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        },
+        "CheckCoordinationPatternsAdapter": {
+          "methods": [
+            "get_spec",
+            "get_help",
+            "validate",
+            "execute"
+          ],
+          "docstring": "Check swarm brain for coordination patterns.",
+          "base_classes": [
+            "IToolAdapter"
+          ],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        }
+      },
+      "estimated_dependencies": []
+    },
+    "scripts\\terminal_completion_monitor": {
+      "file_path": "scripts\\terminal_completion_monitor.py",
+      "functions": [
+        "parse_args",
+        "main",
+        "to_json",
+        "__init__",
+        "_emit",
+        "poll",
+        "watch"
+      ],
+      "classes": {
+        "CompletionEvent": {
+          "methods": [
+            "to_json"
+          ],
+          "docstring": "Structured event emitted when a completion signal is detected.",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        },
+        "TerminalCompletionMonitor": {
+          "methods": [
+            "__init__",
+            "_emit",
+            "poll",
+            "watch"
+          ],
+          "docstring": "Tail log files and emit events when completion signals appear.",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        }
+      },
+      "estimated_dependencies": []
+    },
+    "src\\core\\__init__": {
+      "file_path": "src\\core\\__init__.py",
       "functions": [],
       "classes": {},
       "estimated_dependencies": []
     },
-    "src\\core\\error_handling\\error_handling_core": {
-      "file_path": "src\\core\\error_handling\\error_handling_core.py",
+    "src\\core\\messaging_core": {
+      "file_path": "src\\core\\messaging_core.py",
+      "functions": [
+        "get_messaging_core",
+        "send_message",
+        "send_message_object",
+        "broadcast_message",
+        "generate_onboarding_message",
+        "show_message_history",
+        "list_agents",
+        "get_messaging_logger",
+        "validate_messaging_system",
+        "initialize_messaging_system",
+        "__init__",
+        "_initialize_subsystems",
+        "send_message",
+        "send_message_object",
+        "send_message_to_inbox",
+        "show_message_history",
+        "generate_onboarding_message",
+        "broadcast_message",
+        "list_agents"
+      ],
+      "classes": {
+        "UnifiedMessagingCore": {
+          "methods": [
+            "__init__",
+            "_initialize_subsystems",
+            "send_message",
+            "send_message_object",
+            "send_message_to_inbox",
+            "show_message_history",
+            "generate_onboarding_message",
+            "broadcast_message",
+            "list_agents"
+          ],
+          "docstring": "SINGLE SOURCE OF TRUTH for all messaging functionality.",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        }
+      },
+      "estimated_dependencies": []
+    },
+    "src\\core\\analytics\\framework\\predictive_modeling_metrics": {
+      "file_path": "src\\core\\analytics\\framework\\predictive_modeling_metrics.py",
+      "functions": [
+        "__init__",
+        "calculate_ensemble",
+        "calculate_forecast_confidence",
+        "calculate_forecast_accuracy"
+      ],
+      "classes": {
+        "PredictiveModelingMetrics": {
+          "methods": [
+            "__init__",
+            "calculate_ensemble",
+            "calculate_forecast_confidence",
+            "calculate_forecast_accuracy"
+          ],
+          "docstring": "Handles forecast ensemble and accuracy calculations.",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        }
+      },
+      "estimated_dependencies": []
+    },
+    "src\\core\\analytics\\framework\\predictive_modeling_forecasters": {
+      "file_path": "src\\core\\analytics\\framework\\predictive_modeling_forecasters.py",
+      "functions": [
+        "__init__",
+        "forecast_moving_average",
+        "forecast_exponential_smoothing",
+        "forecast_linear_trend"
+      ],
+      "classes": {
+        "PredictiveModelingForecasters": {
+          "methods": [
+            "__init__",
+            "forecast_moving_average",
+            "forecast_exponential_smoothing",
+            "forecast_linear_trend"
+          ],
+          "docstring": "Implements time-series forecasting methods.",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        }
+      },
+      "estimated_dependencies": []
+    },
+    "src\\core\\analytics\\framework\\__init__": {
+      "file_path": "src\\core\\analytics\\framework\\__init__.py",
       "functions": [],
       "classes": {},
       "estimated_dependencies": []
     },
-    "src\\core\\error_handling\\coordination_error_handler": {
-      "file_path": "src\\core\\error_handling\\coordination_error_handler.py",
+    "src\\core\\analytics\\framework\\predictive_modeling_engine": {
+      "file_path": "src\\core\\analytics\\framework\\predictive_modeling_engine.py",
       "functions": [
         "__init__",
-        "execute_with_error_handling",
-        "register_circuit_breaker",
-        "register_retry_mechanism",
-        "add_recovery_strategy",
-        "get_error_report",
-        "get_component_status",
-        "reset_component"
+        "forecast",
+        "_convert_to_numeric",
+        "forecast_moving_average",
+        "forecast_exponential_smoothing",
+        "forecast_linear_trend",
+        "detect_seasonality",
+        "calculate_forecast_accuracy"
       ],
       "classes": {
-        "CoordinationErrorHandlerCore": {
+        "PredictiveModelingEngine": {
           "methods": [
             "__init__",
-            "execute_with_error_handling",
-            "register_circuit_breaker",
-            "register_retry_mechanism",
-            "add_recovery_strategy",
-            "get_error_report",
-            "get_component_status",
-            "reset_component"
+            "forecast",
+            "_convert_to_numeric",
+            "forecast_moving_average",
+            "forecast_exponential_smoothing",
+            "forecast_linear_trend",
+            "detect_seasonality",
+            "calculate_forecast_accuracy"
           ],
-          "docstring": "Intelligent error handler for coordination and communication systems.\n\nProvides comprehensive error management with:\n- Retry mechanisms with exponential backoff\n- Circuit breakers for fault tolerance\n- Intelligent recovery strategies\n- Error pattern analysis and prediction\n- Learning from error history\n\nRefactored for autonomous systems with modular V2-compliant architecture.",
+          "docstring": "Implements time-series and forecasting models.\n\nCoordinates forecasting methods, ensemble calculations,\nand seasonal pattern detection without external dependencies.",
           "base_classes": [],
           "maturity": "Core Asset",
           "agent_type": "Utility"
@@ -331,45 +1025,19 @@
       },
       "estimated_dependencies": []
     },
-    "src\\core\\error_handling\\error_decision_models": {
-      "file_path": "src\\core\\error_handling\\error_decision_models.py",
+    "src\\core\\analytics\\framework\\predictive_modeling_seasonality": {
+      "file_path": "src\\core\\analytics\\framework\\predictive_modeling_seasonality.py",
       "functions": [
-        "classify",
-        "_determine_severity",
-        "_determine_category",
-        "_determine_recoverability",
-        "should_retry",
-        "get_delay",
-        "decide_action"
+        "__init__",
+        "detect_seasonality"
       ],
       "classes": {
-        "ErrorClassifier": {
+        "PredictiveModelingSeasonality": {
           "methods": [
-            "classify",
-            "_determine_severity",
-            "_determine_category",
-            "_determine_recoverability"
+            "__init__",
+            "detect_seasonality"
           ],
-          "docstring": "Intelligent error classifier for autonomous systems.\n\nClassifies errors by severity, category, and recoverability.",
-          "base_classes": [],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "RetryConfiguration": {
-          "methods": [
-            "should_retry",
-            "get_delay"
-          ],
-          "docstring": "Retry configuration for error recovery.\n\nDefines retry behavior for different error types.",
-          "base_classes": [],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "ErrorDecisionEngine": {
-          "methods": [
-            "decide_action"
-          ],
-          "docstring": "Error decision engine for autonomous error handling.\n\nMakes decisions about error handling strategies based on classification.",
+          "docstring": "Handles seasonal pattern detection and analysis.",
           "base_classes": [],
           "maturity": "Core Asset",
           "agent_type": "Utility"
@@ -377,69 +1045,17 @@
       },
       "estimated_dependencies": []
     },
-    "src\\core\\error_handling\\error_responses_specialized": {
-      "file_path": "src\\core\\error_handling\\error_responses_specialized.py",
+    "src\\core\\intelligent_context\\mission_models": {
+      "file_path": "src\\core\\intelligent_context\\mission_models.py",
       "functions": [
-        "to_dict",
-        "to_dict",
-        "to_dict",
-        "__post_init__",
-        "to_dict",
-        "__post_init__",
         "to_dict"
       ],
       "classes": {
-        "ValidationErrorResponse": {
+        "MissionContext": {
           "methods": [
             "to_dict"
           ],
-          "docstring": "Validation error response.",
-          "base_classes": [
-            "StandardErrorResponse"
-          ],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "ConfigurationErrorResponse": {
-          "methods": [
-            "to_dict"
-          ],
-          "docstring": "Configuration error response.",
-          "base_classes": [
-            "StandardErrorResponse"
-          ],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "AgentErrorResponse": {
-          "methods": [
-            "to_dict"
-          ],
-          "docstring": "Agent operation error response.",
-          "base_classes": [
-            "StandardErrorResponse"
-          ],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "CoordinationErrorResponse": {
-          "methods": [
-            "__post_init__",
-            "to_dict"
-          ],
-          "docstring": "Coordination error response.",
-          "base_classes": [
-            "StandardErrorResponse"
-          ],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "ErrorSummary": {
-          "methods": [
-            "__post_init__",
-            "to_dict"
-          ],
-          "docstring": "Error summary statistics.",
+          "docstring": "Mission context structure for intelligent retrieval.",
           "base_classes": [],
           "maturity": "Core Asset",
           "agent_type": "Utility"
@@ -447,240 +1063,48 @@
       },
       "estimated_dependencies": []
     },
-    "src\\core\\error_handling\\error_response_models": {
-      "file_path": "src\\core\\error_handling\\error_response_models.py",
+    "src\\core\\intelligent_context\\context_results": {
+      "file_path": "src\\core\\intelligent_context\\context_results.py",
       "functions": [
-        "to_dict",
-        "__post_init__"
-      ],
-      "classes": {
-        "BaseErrorResponse": {
-          "methods": [
-            "to_dict"
-          ],
-          "docstring": "Base error response with common fields.",
-          "base_classes": [],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "RecoverableErrorResponse": {
-          "methods": [],
-          "docstring": "Error response for recoverable errors.",
-          "base_classes": [
-            "BaseErrorResponse"
-          ],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "FileErrorResponse": {
-          "methods": [],
-          "docstring": "Error response for file operation errors.",
-          "base_classes": [
-            "RecoverableErrorResponse"
-          ],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "NetworkErrorResponse": {
-          "methods": [],
-          "docstring": "Error response for network/connection errors.",
-          "base_classes": [
-            "RecoverableErrorResponse"
-          ],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "DatabaseErrorResponse": {
-          "methods": [],
-          "docstring": "Error response for database operation errors.",
-          "base_classes": [
-            "RecoverableErrorResponse"
-          ],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "CriticalErrorResponse": {
-          "methods": [],
-          "docstring": "Error response for critical system errors.",
-          "base_classes": [
-            "BaseErrorResponse"
-          ],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "ValidationErrorResponse": {
-          "methods": [],
-          "docstring": "Error response for validation failures.",
-          "base_classes": [
-            "CriticalErrorResponse"
-          ],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "ConfigurationErrorResponse": {
-          "methods": [],
-          "docstring": "Error response for configuration errors.",
-          "base_classes": [
-            "CriticalErrorResponse"
-          ],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "AgentErrorResponse": {
-          "methods": [],
-          "docstring": "Error response for agent-specific errors.",
-          "base_classes": [
-            "RecoverableErrorResponse"
-          ],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "CoordinationErrorResponse": {
-          "methods": [
-            "__post_init__"
-          ],
-          "docstring": "Error response for coordination/communication errors.",
-          "base_classes": [
-            "RecoverableErrorResponse"
-          ],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        }
-      },
-      "estimated_dependencies": []
-    },
-    "src\\core\\error_handling\\coordination_strategies": {
-      "file_path": "src\\core\\error_handling\\coordination_strategies.py",
-      "functions": [
-        "create_service_restart_strategy",
-        "create_config_reset_strategy",
-        "register_default_coordination_strategies",
-        "restart_service",
-        "reset_config"
-      ],
-      "classes": {},
-      "estimated_dependencies": []
-    },
-    "src\\core\\error_handling\\error_responses": {
-      "file_path": "src\\core\\error_handling\\error_responses.py",
-      "functions": [
-        "__post_init__",
-        "to_dict",
-        "to_dict",
         "to_dict",
         "to_dict"
       ],
       "classes": {
-        "ErrorContext": {
-          "methods": [],
-          "docstring": "Error context information.",
+        "SearchResult": {
+          "methods": [
+            "to_dict"
+          ],
+          "docstring": "Search result structure.",
           "base_classes": [],
           "maturity": "Core Asset",
           "agent_type": "Utility"
         },
-        "StandardErrorResponse": {
+        "ContextRetrievalResult": {
           "methods": [
-            "__post_init__",
             "to_dict"
           ],
-          "docstring": "Standardized error response format.",
+          "docstring": "Result of context retrieval operation.",
           "base_classes": [],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "FileErrorResponse": {
-          "methods": [
-            "to_dict"
-          ],
-          "docstring": "File operation error response.",
-          "base_classes": [
-            "StandardErrorResponse"
-          ],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "NetworkErrorResponse": {
-          "methods": [
-            "to_dict"
-          ],
-          "docstring": "Network operation error response.",
-          "base_classes": [
-            "StandardErrorResponse"
-          ],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "DatabaseErrorResponse": {
-          "methods": [
-            "to_dict"
-          ],
-          "docstring": "Database operation error response.",
-          "base_classes": [
-            "StandardErrorResponse"
-          ],
           "maturity": "Core Asset",
           "agent_type": "Utility"
         }
       },
       "estimated_dependencies": []
     },
-    "src\\core\\error_handling\\error_exceptions": {
-      "file_path": "src\\core\\error_handling\\error_exceptions.py",
+    "src\\core\\intelligent_context\\emergency_models": {
+      "file_path": "src\\core\\intelligent_context\\emergency_models.py",
       "functions": [],
       "classes": {
-        "RetryException": {
+        "EmergencyContext": {
           "methods": [],
-          "docstring": "Exception raised to trigger retry mechanism.",
-          "base_classes": [
-            "Exception"
-          ],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "CircuitBreakerError": {
-          "methods": [],
-          "docstring": "Exception raised when circuit breaker is OPEN.",
-          "base_classes": [
-            "Exception"
-          ],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        }
-      },
-      "estimated_dependencies": []
-    },
-    "src\\core\\error_handling\\error_config": {
-      "file_path": "src\\core\\error_handling\\error_config.py",
-      "functions": [
-        "calculate_delay"
-      ],
-      "classes": {
-        "RetryConfig": {
-          "methods": [
-            "calculate_delay"
-          ],
-          "docstring": "Unified retry configuration (consolidated from multiple sources).",
+          "docstring": "Emergency context structure.",
           "base_classes": [],
           "maturity": "Core Asset",
           "agent_type": "Utility"
         },
-        "CircuitBreakerConfig": {
+        "InterventionProtocol": {
           "methods": [],
-          "docstring": "Circuit breaker configuration.",
-          "base_classes": [],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "RecoverableErrors": {
-          "methods": [],
-          "docstring": "Recoverable error types.",
-          "base_classes": [],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "ErrorSeverityMapping": {
-          "methods": [],
-          "docstring": "Error severity mapping.",
+          "docstring": "Intervention protocol structure.",
           "base_classes": [],
           "maturity": "Core Asset",
           "agent_type": "Utility"
@@ -688,33 +1112,24 @@
       },
       "estimated_dependencies": []
     },
-    "src\\core\\error_handling\\error_context_models": {
-      "file_path": "src\\core\\error_handling\\error_context_models.py",
+    "src\\core\\intelligent_context\\agent_models": {
+      "file_path": "src\\core\\intelligent_context\\agent_models.py",
       "functions": [
-        "add_metadata",
-        "to_dict",
-        "increment_severity",
-        "increment_category",
         "to_dict"
       ],
       "classes": {
-        "ErrorContext": {
+        "AgentCapability": {
           "methods": [
-            "add_metadata",
             "to_dict"
           ],
-          "docstring": "Error context information for debugging and recovery.\n\nProvides comprehensive context about error occurrence including:\n- Component and operation information\n- Execution environment details\n- Error metadata and timing",
+          "docstring": "Agent capability structure for matching and optimization.",
           "base_classes": [],
           "maturity": "Core Asset",
           "agent_type": "Utility"
         },
-        "ErrorSummary": {
-          "methods": [
-            "increment_severity",
-            "increment_category",
-            "to_dict"
-          ],
-          "docstring": "Error summary for reporting and analysis.\n\nAggregates error information for monitoring and intelligence.",
+        "AgentRecommendation": {
+          "methods": [],
+          "docstring": "Agent recommendation structure.",
           "base_classes": [],
           "maturity": "Core Asset",
           "agent_type": "Utility"
@@ -722,52 +1137,89 @@
       },
       "estimated_dependencies": []
     },
-    "src\\core\\error_handling\\coordination_decorator": {
-      "file_path": "src\\core\\error_handling\\coordination_decorator.py",
-      "functions": [
-        "handle_coordination_errors",
-        "decorator",
-        "wrapper",
-        "operation"
-      ],
-      "classes": {},
-      "estimated_dependencies": []
-    },
-    "src\\core\\config\\config_enums": {
-      "file_path": "src\\core\\config\\config_enums.py",
+    "src\\core\\intelligent_context\\analysis_models": {
+      "file_path": "src\\core\\intelligent_context\\analysis_models.py",
       "functions": [],
       "classes": {
-        "ConfigEnvironment": {
+        "RiskAssessment": {
           "methods": [],
-          "docstring": "Configuration environment types.",
+          "docstring": "Risk assessment structure.",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        },
+        "SuccessPrediction": {
+          "methods": [],
+          "docstring": "Success prediction structure.",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        }
+      },
+      "estimated_dependencies": []
+    },
+    "src\\core\\intelligent_context\\context_enums": {
+      "file_path": "src\\core\\intelligent_context\\context_enums.py",
+      "functions": [],
+      "classes": {
+        "MissionPhase": {
+          "methods": [],
+          "docstring": "Mission phases.",
           "base_classes": [
-            "str",
             "Enum"
           ],
           "maturity": "Core Asset",
           "agent_type": "Utility"
         },
-        "ConfigSource": {
+        "AgentStatus": {
           "methods": [],
-          "docstring": "Configuration source types.",
+          "docstring": "Agent availability status.",
           "base_classes": [
-            "str",
             "Enum"
           ],
           "maturity": "Core Asset",
           "agent_type": "Utility"
         },
-        "ReportFormat": {
+        "RiskLevel": {
           "methods": [],
-          "docstring": "Report output formats.",
+          "docstring": "Risk levels.",
           "base_classes": [
-            "str",
             "Enum"
           ],
           "maturity": "Core Asset",
           "agent_type": "Utility"
         }
       },
+      "estimated_dependencies": []
+    },
+    "src\\core\\intelligent_context\\metrics_models": {
+      "file_path": "src\\core\\intelligent_context\\metrics_models.py",
+      "functions": [
+        "to_dict"
+      ],
+      "classes": {
+        "ContextMetrics": {
+          "methods": [
+            "to_dict"
+          ],
+          "docstring": "Metrics for context retrieval operations.",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        }
+      },
+      "estimated_dependencies": []
+    },
+    "src\\core\\intelligent_context\\__init__": {
+      "file_path": "src\\core\\intelligent_context\\__init__.py",
+      "functions": [],
+      "classes": {},
+      "estimated_dependencies": []
+    },
+    "src\\core\\intelligent_context\\intelligent_context_models": {
+      "file_path": "src\\core\\intelligent_context\\intelligent_context_models.py",
+      "functions": [],
+      "classes": {},
       "estimated_dependencies": []
     },
     "src\\services\\__init__": {
@@ -776,45 +1228,149 @@
       "classes": {},
       "estimated_dependencies": []
     },
-    "src\\core\\config\\__init__": {
-      "file_path": "src\\core\\config\\__init__.py",
+    "src\\services\\cursor_db": {
+      "file_path": "src\\services\\cursor_db.py",
+      "functions": [
+        "__init__",
+        "_connect",
+        "get_task",
+        "task_exists"
+      ],
+      "classes": {
+        "CursorTask": {
+          "methods": [],
+          "docstring": "Record representing an agent task stored in the Cursor database.",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        },
+        "CursorTaskRepository": {
+          "methods": [
+            "__init__",
+            "_connect",
+            "get_task",
+            "task_exists"
+          ],
+          "docstring": "Repository providing read access to Cursor task records.",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        }
+      },
+      "estimated_dependencies": []
+    },
+    "src\\services\\chatgpt\\navigator_messaging": {
+      "file_path": "src\\services\\chatgpt\\navigator_messaging.py",
+      "functions": [],
+      "classes": {
+        "NavigatorMessaging": {
+          "methods": [],
+          "docstring": "Handles message sending and response waiting for ChatGPT navigator.",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        }
+      },
+      "estimated_dependencies": []
+    },
+    "src\\services\\handlers\\hard_onboarding_handler": {
+      "file_path": "src\\services\\handlers\\hard_onboarding_handler.py",
+      "functions": [
+        "__init__",
+        "can_handle",
+        "handle"
+      ],
+      "classes": {
+        "HardOnboardingHandler": {
+          "methods": [
+            "__init__",
+            "can_handle",
+            "handle"
+          ],
+          "docstring": "Handles hard onboarding commands for messaging CLI.",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        }
+      },
+      "estimated_dependencies": []
+    },
+    "src\\services\\chatgpt\\__init__": {
+      "file_path": "src\\services\\chatgpt\\__init__.py",
       "functions": [],
       "classes": {},
       "estimated_dependencies": []
     },
-    "src\\services\\soft_onboarding_service": {
-      "file_path": "src\\services\\soft_onboarding_service.py",
+    "src\\services\\chatgpt\\session_persistence": {
+      "file_path": "src\\services\\chatgpt\\session_persistence.py",
       "functions": [
-        "soft_onboard_agent",
-        "soft_onboard_multiple_agents",
-        "__init__",
-        "_load_agent_coordinates",
-        "_validate_coordinates",
-        "step_1_click_chat_input",
-        "step_2_save_session",
-        "step_3_send_cleanup_prompt",
-        "step_4_open_new_tab",
-        "step_5_navigate_to_onboarding",
-        "step_6_paste_onboarding_message",
-        "execute_soft_onboarding"
+        "clear_session_files"
       ],
       "classes": {
-        "SoftOnboardingService": {
+        "SessionPersistence": {
           "methods": [
-            "__init__",
-            "_load_agent_coordinates",
-            "_validate_coordinates",
-            "step_1_click_chat_input",
-            "step_2_save_session",
-            "step_3_send_cleanup_prompt",
-            "step_4_open_new_tab",
-            "step_5_navigate_to_onboarding",
-            "step_6_paste_onboarding_message",
-            "execute_soft_onboarding"
+            "clear_session_files"
           ],
-          "docstring": "Handles soft onboarding with session cleanup protocol.",
+          "docstring": "Handles session data persistence operations.",
           "base_classes": [],
           "maturity": "Core Asset",
+          "agent_type": "Utility"
+        }
+      },
+      "estimated_dependencies": []
+    },
+    "src\\services\\chatgpt\\session": {
+      "file_path": "src\\services\\chatgpt\\session.py",
+      "functions": [
+        "__init__",
+        "clear_session",
+        "get_session_info",
+        "is_session_valid",
+        "get_unified_config",
+        "get_logger"
+      ],
+      "classes": {
+        "BrowserSessionManager": {
+          "methods": [
+            "__init__",
+            "clear_session",
+            "get_session_info",
+            "is_session_valid"
+          ],
+          "docstring": "Browser session management for ChatGPT.\n\nProvides session persistence, cookie management, and authentication\nhandling for ChatGPT browser automation.",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        }
+      },
+      "estimated_dependencies": []
+    },
+    "src\\services\\chatgpt\\navigator": {
+      "file_path": "src\\services\\chatgpt\\navigator.py",
+      "functions": [
+        "__init__",
+        "get_active_page",
+        "get_navigation_info",
+        "get_unified_config",
+        "get_logger"
+      ],
+      "classes": {
+        "ChatGPTNavigator": {
+          "methods": [
+            "__init__",
+            "get_active_page",
+            "get_navigation_info"
+          ],
+          "docstring": "ChatGPT browser navigation helper.\n\nProvides navigation capabilities for ChatGPT conversations\nwith integration to V2's browser infrastructure.",
+          "base_classes": [],
+          "maturity": "Core Asset",
+          "agent_type": "Utility"
+        },
+        "UnifiedBrowserService": {
+          "methods": [],
+          "docstring": null,
+          "base_classes": [],
+          "maturity": "Prototype",
           "agent_type": "Utility"
         }
       },
@@ -827,186 +1383,6 @@
         "create_agent_status_embed",
         "create_coordination_embed"
       ],
-      "classes": {},
-      "estimated_dependencies": []
-    },
-    "src\\discord_commander\\unified_discord_bot": {
-      "file_path": "src\\discord_commander\\unified_discord_bot.py",
-      "functions": [
-        "__init__",
-        "__init__"
-      ],
-      "classes": {
-        "UnifiedDiscordBot": {
-          "methods": [
-            "__init__"
-          ],
-          "docstring": "Single unified Discord bot for agent messaging system.",
-          "base_classes": [
-            "commands.Bot"
-          ],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "MessagingCommands": {
-          "methods": [
-            "__init__"
-          ],
-          "docstring": "Commands for agent messaging.",
-          "base_classes": [
-            "commands.Cog"
-          ],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        }
-      },
-      "estimated_dependencies": []
-    },
-    "src\\utils\\config_scanners": {
-      "file_path": "src\\utils\\config_scanners.py",
-      "functions": [
-        "is_likely_config_value",
-        "is_config_constant",
-        "create_default_scanners",
-        "scan_file",
-        "scan_file",
-        "scan_file",
-        "scan_file",
-        "scan_file"
-      ],
-      "classes": {
-        "ConfigurationScanner": {
-          "methods": [
-            "scan_file"
-          ],
-          "docstring": "Abstract base class for configuration scanners.",
-          "base_classes": [
-            "ABC"
-          ],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "EnvironmentVariableScanner": {
-          "methods": [
-            "scan_file"
-          ],
-          "docstring": "Scans for environment variable usage patterns.",
-          "base_classes": [
-            "ConfigurationScanner"
-          ],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "HardcodedValueScanner": {
-          "methods": [
-            "scan_file"
-          ],
-          "docstring": "Scans for hardcoded configuration values.",
-          "base_classes": [
-            "ConfigurationScanner"
-          ],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "ConfigConstantScanner": {
-          "methods": [
-            "scan_file"
-          ],
-          "docstring": "Scans for configuration constant definitions.",
-          "base_classes": [
-            "ConfigurationScanner"
-          ],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "SettingsPatternScanner": {
-          "methods": [
-            "scan_file"
-          ],
-          "docstring": "Scans for settings-related patterns.",
-          "base_classes": [
-            "ConfigurationScanner"
-          ],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        }
-      },
-      "estimated_dependencies": []
-    },
-    "src\\utils\\config_consolidator": {
-      "file_path": "src\\utils\\config_consolidator.py",
-      "functions": [
-        "run_configuration_consolidation",
-        "__init__",
-        "scan_configuration_patterns",
-        "consolidate_patterns",
-        "generate_consolidation_report"
-      ],
-      "classes": {
-        "UnifiedConfigurationConsolidator": {
-          "methods": [
-            "__init__",
-            "scan_configuration_patterns",
-            "consolidate_patterns",
-            "generate_consolidation_report"
-          ],
-          "docstring": "Unified configuration consolidator combining all config utilities.",
-          "base_classes": [],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        }
-      },
-      "estimated_dependencies": []
-    },
-    "src\\utils\\config_file_scanner": {
-      "file_path": "src\\utils\\config_file_scanner.py",
-      "functions": [
-        "__init__",
-        "_get_skip_patterns",
-        "should_skip_file",
-        "scan_file",
-        "scan_directory"
-      ],
-      "classes": {
-        "FileScanner": {
-          "methods": [
-            "__init__",
-            "_get_skip_patterns",
-            "should_skip_file",
-            "scan_file",
-            "scan_directory"
-          ],
-          "docstring": "Handles file scanning operations for configuration patterns.",
-          "base_classes": [],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        }
-      },
-      "estimated_dependencies": []
-    },
-    "src\\utils\\unified_config_utils": {
-      "file_path": "src\\utils\\unified_config_utils.py",
-      "functions": [],
-      "classes": {},
-      "estimated_dependencies": []
-    },
-    "src\\utils\\config_models": {
-      "file_path": "src\\utils\\config_models.py",
-      "functions": [],
-      "classes": {
-        "ConfigPattern": {
-          "methods": [],
-          "docstring": "Configuration pattern found in code.",
-          "base_classes": [],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        }
-      },
-      "estimated_dependencies": []
-    },
-    "src\\web\\vector_database\\__init__": {
-      "file_path": "src\\web\\vector_database\\__init__.py",
-      "functions": [],
       "classes": {},
       "estimated_dependencies": []
     },
@@ -1053,107 +1429,16 @@
       },
       "estimated_dependencies": []
     },
-    "src\\web\\vector_database\\handlers": {
-      "file_path": "src\\web\\vector_database\\handlers.py",
+    "src\\web\\vector_database\\__init__": {
+      "file_path": "src\\web\\vector_database\\__init__.py",
       "functions": [],
       "classes": {},
       "estimated_dependencies": []
     },
-    "src\\integrations\\jarvis\\ollama_integration": {
-      "file_path": "src\\integrations\\jarvis\\ollama_integration.py",
-      "functions": [
-        "__init__",
-        "is_available",
-        "get_models",
-        "generate",
-        "__init__",
-        "is_ready",
-        "get_model_info",
-        "generate_response",
-        "__init__",
-        "set_code_context",
-        "analyze_code",
-        "generate_code",
-        "review_code",
-        "debug_code",
-        "process_voice_command",
-        "extract_intent",
-        "__init__",
-        "register_agent",
-        "get_agent",
-        "is_available",
-        "get_available_models",
-        "create_specialized_agent",
-        "create_code_agent",
-        "create_voice_agent"
-      ],
-      "classes": {
-        "OllamaResponse": {
-          "methods": [],
-          "docstring": "Response from Ollama API.",
-          "base_classes": [],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "OllamaClient": {
-          "methods": [
-            "__init__",
-            "is_available",
-            "get_models",
-            "generate"
-          ],
-          "docstring": "Client for interacting with Ollama API.",
-          "base_classes": [],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "OllamaAgent": {
-          "methods": [
-            "__init__",
-            "is_ready",
-            "get_model_info",
-            "generate_response"
-          ],
-          "docstring": "Agent powered by Ollama LLM.",
-          "base_classes": [],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "OllamaSpecializedAgent": {
-          "methods": [
-            "__init__",
-            "set_code_context",
-            "analyze_code",
-            "generate_code",
-            "review_code",
-            "debug_code",
-            "process_voice_command",
-            "extract_intent"
-          ],
-          "docstring": "Specialized agent for code and voice tasks (CONSOLIDATED).\n\nReplaces OllamaCodeAgent and OllamaVoiceAgent with unified implementation.\nSupports both code analysis and voice processing through mode parameter.\n\nV2 Compliance: Class consolidation (6 \u2192 5 classes)",
-          "base_classes": [
-            "OllamaAgent"
-          ],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        },
-        "OllamaManager": {
-          "methods": [
-            "__init__",
-            "register_agent",
-            "get_agent",
-            "is_available",
-            "get_available_models",
-            "create_specialized_agent",
-            "create_code_agent",
-            "create_voice_agent"
-          ],
-          "docstring": "Manager for multiple Ollama agents.",
-          "base_classes": [],
-          "maturity": "Core Asset",
-          "agent_type": "Utility"
-        }
-      },
+    "src\\web\\vector_database\\handlers": {
+      "file_path": "src\\web\\vector_database\\handlers.py",
+      "functions": [],
+      "classes": {},
       "estimated_dependencies": []
     }
   }

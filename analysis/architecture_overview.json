@@ -3,14 +3,12 @@
   "key_components": [],
   "architecture_patterns": [],
   "code_metrics": {
-    "total_files": 40,
-    "total_functions": 186,
+    "total_files": 51,
+    "total_functions": 276,
     "total_classes": 69,
-    "total_complexity": 326,
+    "total_complexity": 498,
     "languages_used": [
-      ".py",
-      ".ts",
-      ".js"
+      ".py"
     ]
   },
   "recommendations": []

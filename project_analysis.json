@@ -1754,7 +1754,9 @@
             "CursorTask": {
                 "methods": [],
                 "docstring": "Record representing an agent task stored in the Cursor database.",
-                "base_classes": []
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
             },
             "CursorTaskRepository": {
                 "methods": [
@@ -1764,7 +1766,9 @@
                     "task_exists"
                 ],
                 "docstring": "Repository providing read access to Cursor task records.",
-                "base_classes": []
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
             }
         },
         "routes": [],
@@ -4896,6 +4900,8 @@
             "__init__",
             "get",
             "set",
+            "_update_access",
+            "_evict_lru",
             "delete",
             "clear",
             "get_stats",
@@ -4907,17 +4913,21 @@
                     "__init__",
                     "get",
                     "set",
+                    "_update_access",
+                    "_evict_lru",
                     "delete",
                     "clear",
                     "get_stats",
                     "get_status"
                 ],
-                "docstring": "Simple caching engine for analytics processing.",
-                "base_classes": []
+                "docstring": "Simple caching engine with memory leak prevention.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
             }
         },
         "routes": [],
-        "complexity": 15
+        "complexity": 19
     },
     "src\\core\\message_queue_persistence.py": {
         "language": ".py",
@@ -5104,106 +5114,10 @@
     },
     "src\\core\\message_queue_interfaces.py": {
         "language": ".py",
-        "functions": [
-            "info",
-            "warning",
-            "error",
-            "message",
-            "queue_id",
-            "to_dict",
-            "from_dict",
-            "enqueue",
-            "dequeue",
-            "mark_delivered",
-            "mark_failed",
-            "get_statistics",
-            "cleanup_expired",
-            "load_entries",
-            "save_entries",
-            "atomic_operation",
-            "stop_processing",
-            "max_queue_size",
-            "processing_batch_size",
-            "max_age_days",
-            "retry_base_delay",
-            "retry_max_delay",
-            "cleanup_interval"
-        ],
-        "classes": {
-            "IMessageQueueLogger": {
-                "methods": [
-                    "info",
-                    "warning",
-                    "error"
-                ],
-                "docstring": "Interface for message queue logging operations.",
-                "base_classes": [
-                    "Protocol"
-                ]
-            },
-            "IQueueEntry": {
-                "methods": [
-                    "message",
-                    "queue_id",
-                    "to_dict",
-                    "from_dict"
-                ],
-                "docstring": "Interface for queue entry objects.",
-                "base_classes": [
-                    "Protocol"
-                ]
-            },
-            "IMessageQueue": {
-                "methods": [
-                    "enqueue",
-                    "dequeue",
-                    "mark_delivered",
-                    "mark_failed",
-                    "get_statistics",
-                    "cleanup_expired"
-                ],
-                "docstring": "Abstract interface for message queue operations.",
-                "base_classes": [
-                    "ABC"
-                ]
-            },
-            "IQueuePersistence": {
-                "methods": [
-                    "load_entries",
-                    "save_entries",
-                    "atomic_operation"
-                ],
-                "docstring": "Abstract interface for queue persistence operations.",
-                "base_classes": [
-                    "ABC"
-                ]
-            },
-            "IQueueProcessor": {
-                "methods": [
-                    "stop_processing"
-                ],
-                "docstring": "Abstract interface for queue processing operations.",
-                "base_classes": [
-                    "ABC"
-                ]
-            },
-            "IQueueConfig": {
-                "methods": [
-                    "max_queue_size",
-                    "processing_batch_size",
-                    "max_age_days",
-                    "retry_base_delay",
-                    "retry_max_delay",
-                    "cleanup_interval"
-                ],
-                "docstring": "Interface for queue configuration.",
-                "base_classes": [
-                    "Protocol"
-                ]
-            }
-        },
+        "functions": [],
+        "classes": {},
         "routes": [],
-        "complexity": 46
+        "complexity": 0
     },
     "src\\core\\messaging_optimizer_engines.py": {
         "language": ".py",
@@ -11403,98 +11317,10 @@
     },
     "src\\core\\intelligent_context\\intelligent_context_models.py": {
         "language": ".py",
-        "functions": [
-            "to_dict",
-            "to_dict",
-            "to_dict",
-            "to_dict",
-            "to_dict"
-        ],
-        "classes": {
-            "MissionPhase": {
-                "methods": [],
-                "docstring": "Mission phases.",
-                "base_classes": [
-                    "Enum"
-                ]
-            },
-            "AgentStatus": {
-                "methods": [],
-                "docstring": "Agent availability status.",
-                "base_classes": [
-                    "Enum"
-                ]
-            },
-            "RiskLevel": {
-                "methods": [],
-                "docstring": "Risk levels.",
-                "base_classes": [
-                    "Enum"
-                ]
-            },
-            "MissionContext": {
-                "methods": [
-                    "to_dict"
-                ],
-                "docstring": "Mission context structure for intelligent retrieval.",
-                "base_classes": []
-            },
-            "AgentCapability": {
-                "methods": [
-                    "to_dict"
-                ],
-                "docstring": "Agent capability structure for matching and optimization.",
-                "base_classes": []
-            },
-            "SearchResult": {
-                "methods": [
-                    "to_dict"
-                ],
-                "docstring": "Search result structure.",
-                "base_classes": []
-            },
-            "ContextRetrievalResult": {
-                "methods": [
-                    "to_dict"
-                ],
-                "docstring": "Result of context retrieval operation.",
-                "base_classes": []
-            },
-            "EmergencyContext": {
-                "methods": [],
-                "docstring": "Emergency context structure.",
-                "base_classes": []
-            },
-            "InterventionProtocol": {
-                "methods": [],
-                "docstring": "Intervention protocol structure.",
-                "base_classes": []
-            },
-            "AgentRecommendation": {
-                "methods": [],
-                "docstring": "Agent recommendation structure.",
-                "base_classes": []
-            },
-            "RiskAssessment": {
-                "methods": [],
-                "docstring": "Risk assessment structure.",
-                "base_classes": []
-            },
-            "SuccessPrediction": {
-                "methods": [],
-                "docstring": "Success prediction structure.",
-                "base_classes": []
-            },
-            "ContextMetrics": {
-                "methods": [
-                    "to_dict"
-                ],
-                "docstring": "Metrics for context retrieval operations.",
-                "base_classes": []
-            }
-        },
+        "functions": [],
+        "classes": {},
         "routes": [],
-        "complexity": 10
+        "complexity": 0
     },
     "src\\core\\intelligent_context\\optimizers\\risk_optimizer.py": {
         "language": ".py",
@@ -14453,14 +14279,18 @@
                     "to_dict"
                 ],
                 "docstring": "Simple performance metric.",
-                "base_classes": []
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
             },
             "PerformanceReport": {
                 "methods": [
                     "to_dict"
                 ],
                 "docstring": "Simple performance report.",
-                "base_classes": []
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
             },
             "PerformanceMonitoringSystem": {
                 "methods": [
@@ -14473,8 +14303,10 @@
                     "get_metrics_summary",
                     "cleanup"
                 ],
-                "docstring": "KISS Simplified Performance Monitoring System.\n\nRemoved overengineering - focuses on essential monitoring only.",
-                "base_classes": []
+                "docstring": "KISS Simplified Performance Monitoring System with memory leak prevention.\n\nRemoved overengineering - focuses on essential monitoring only.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
             }
         },
         "routes": [],
@@ -18332,7 +18164,9 @@
                     "to_json"
                 ],
                 "docstring": "Structured event emitted when a completion signal is detected.",
-                "base_classes": []
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
             },
             "TerminalCompletionMonitor": {
                 "methods": [
@@ -18342,7 +18176,9 @@
                     "watch"
                 ],
                 "docstring": "Tail log files and emit events when completion signals appear.",
-                "base_classes": []
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
             }
         },
         "routes": [],
@@ -21544,8 +21380,6 @@
             "forecast_moving_average",
             "forecast_exponential_smoothing",
             "forecast_linear_trend",
-            "_calculate_ensemble",
-            "_calculate_forecast_confidence",
             "detect_seasonality",
             "calculate_forecast_accuracy"
         ],
@@ -21558,19 +21392,17 @@
                     "forecast_moving_average",
                     "forecast_exponential_smoothing",
                     "forecast_linear_trend",
-                    "_calculate_ensemble",
-                    "_calculate_forecast_confidence",
                     "detect_seasonality",
                     "calculate_forecast_accuracy"
                 ],
-                "docstring": "Implements time-series and forecasting models.\n\nProvides statistical forecasting methods without external dependencies:\n- Simple moving average\n- Exponential smoothing\n- Linear trend projection\n- Seasonal pattern detection",
+                "docstring": "Implements time-series and forecasting models.\n\nCoordinates forecasting methods, ensemble calculations,\nand seasonal pattern detection without external dependencies.",
                 "base_classes": [],
                 "maturity": "Core Asset",
                 "agent_type": "Utility"
             }
         },
         "routes": [],
-        "complexity": 20
+        "complexity": 16
     },
     "src\\core\\analytics\\framework\\analytics_processor.py": {
         "language": ".py",
@@ -27000,8 +26832,10 @@
             "_add_analysis_parser",
             "_add_v2_parser",
             "_add_agent_parser",
-            "execute",
-            "_execute_via_core"
+            "_add_consolidation_parser",
+            "_add_refactor_parser",
+            "_add_compliance_parser",
+            "execute"
         ],
         "classes": {
             "AgentToolbeltCLI": {
@@ -27013,8 +26847,10 @@
                     "_add_analysis_parser",
                     "_add_v2_parser",
                     "_add_agent_parser",
-                    "execute",
-                    "_execute_via_core"
+                    "_add_consolidation_parser",
+                    "_add_refactor_parser",
+                    "_add_compliance_parser",
+                    "execute"
                 ],
                 "docstring": "CLI interface for Agent Toolbelt V2.",
                 "base_classes": [],
@@ -27023,7 +26859,7 @@
             }
         },
         "routes": [],
-        "complexity": 19
+        "complexity": 23
     },
     "tools_v2\\categories\\analysis_tools.py": {
         "language": ".py",
@@ -28621,7 +28457,7 @@
                     "clear",
                     "size"
                 ],
-                "docstring": "Represents a batch of messages being accumulated.",
+                "docstring": "Represents a batch of messages with size limit to prevent memory leaks.",
                 "base_classes": [],
                 "maturity": "Core Asset",
                 "agent_type": "Utility"
@@ -31876,6 +31712,9 @@
             "execute",
             "execute",
             "execute",
+            "execute",
+            "execute",
+            "execute",
             "execute"
         ],
         "classes": {
@@ -31923,10 +31762,37 @@
                 "base_classes": [],
                 "maturity": "Core Asset",
                 "agent_type": "Utility"
+            },
+            "ConsolidationExecutor": {
+                "methods": [
+                    "execute"
+                ],
+                "docstring": "Execute consolidation operations (learned from Agent-7's session).",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "RefactorExecutor": {
+                "methods": [
+                    "execute"
+                ],
+                "docstring": "Execute refactoring operations (patterns learned from Agent-7's session).",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "ComplianceExecutor": {
+                "methods": [
+                    "execute"
+                ],
+                "docstring": "Execute compliance checking operations (tools from Agent-7's refactor session).",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
             }
         },
         "routes": [],
-        "complexity": 10
+        "complexity": 16
     },
     "tools\\arch_pattern_validator.py": {
         "language": ".py",
@@ -32075,134 +31941,10 @@
     },
     "src\\core\\config_ssot.py": {
         "language": ".py",
-        "functions": [
-            "get_config",
-            "get_unified_config",
-            "get_timeout_config",
-            "get_agent_config",
-            "get_browser_config",
-            "get_threshold_config",
-            "get_file_pattern_config",
-            "get_test_config",
-            "get_report_config",
-            "validate_config",
-            "reload_config",
-            "agent_ids",
-            "alert_rules",
-            "benchmark_targets",
-            "project_patterns",
-            "test_categories",
-            "__init__",
-            "_load_environment",
-            "get",
-            "_convert_type",
-            "validate"
-        ],
-        "classes": {
-            "ConfigEnvironment": {
-                "methods": [],
-                "docstring": "Configuration environment types.",
-                "base_classes": [
-                    "str",
-                    "Enum"
-                ],
-                "maturity": "Core Asset",
-                "agent_type": "Utility"
-            },
-            "ConfigSource": {
-                "methods": [],
-                "docstring": "Configuration source types.",
-                "base_classes": [
-                    "str",
-                    "Enum"
-                ],
-                "maturity": "Core Asset",
-                "agent_type": "Utility"
-            },
-            "ReportFormat": {
-                "methods": [],
-                "docstring": "Report output formats.",
-                "base_classes": [
-                    "str",
-                    "Enum"
-                ],
-                "maturity": "Core Asset",
-                "agent_type": "Utility"
-            },
-            "TimeoutConfig": {
-                "methods": [],
-                "docstring": "Centralized timeout configurations.",
-                "base_classes": [],
-                "maturity": "Core Asset",
-                "agent_type": "Utility"
-            },
-            "AgentConfig": {
-                "methods": [
-                    "agent_ids"
-                ],
-                "docstring": "Centralized agent configuration.",
-                "base_classes": [],
-                "maturity": "Core Asset",
-                "agent_type": "Utility"
-            },
-            "BrowserConfig": {
-                "methods": [],
-                "docstring": "Unified browser configuration (ChatGPT + Driver management).",
-                "base_classes": [],
-                "maturity": "Core Asset",
-                "agent_type": "Utility"
-            },
-            "ThresholdConfig": {
-                "methods": [
-                    "alert_rules",
-                    "benchmark_targets"
-                ],
-                "docstring": "Centralized threshold and alert configurations.",
-                "base_classes": [],
-                "maturity": "Core Asset",
-                "agent_type": "Utility"
-            },
-            "FilePatternConfig": {
-                "methods": [
-                    "project_patterns"
-                ],
-                "docstring": "Centralized file pattern configurations.",
-                "base_classes": [],
-                "maturity": "Core Asset",
-                "agent_type": "Utility"
-            },
-            "TestConfig": {
-                "methods": [
-                    "test_categories"
-                ],
-                "docstring": "Centralized test configuration.",
-                "base_classes": [],
-                "maturity": "Core Asset",
-                "agent_type": "Utility"
-            },
-            "ReportConfig": {
-                "methods": [],
-                "docstring": "Centralized reporting configuration.",
-                "base_classes": [],
-                "maturity": "Core Asset",
-                "agent_type": "Utility"
-            },
-            "UnifiedConfigManager": {
-                "methods": [
-                    "__init__",
-                    "_load_environment",
-                    "get",
-                    "_convert_type",
-                    "validate"
-                ],
-                "docstring": "SINGLE SOURCE OF TRUTH for all configuration management.",
-                "base_classes": [],
-                "maturity": "Core Asset",
-                "agent_type": "Utility"
-            }
-        },
+        "functions": [],
+        "classes": {},
         "routes": [],
-        "complexity": 31
+        "complexity": 0
     },
     "src\\core\\analytics\\framework\\__init__.py": {
         "language": ".py",
@@ -34928,5 +34670,3374 @@
         },
         "routes": [],
         "complexity": 0
+    },
+    "tell_thea_session_summary.py": {
+        "language": ".py",
+        "functions": [
+            "tell_thea"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 1
+    },
+    "jest.config.js": {
+        "language": ".js",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "run_discord_commander.py": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "tools\\refactor_validator.py": {
+        "language": ".py",
+        "functions": [
+            "validate_imports",
+            "validate_backwards_compatibility",
+            "run_basic_functionality_test",
+            "main"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 4
+    },
+    "tools\\agent_task_finder.py": {
+        "language": ".py",
+        "functions": [
+            "load_project_analysis",
+            "calculate_roi",
+            "find_violations",
+            "rank_tasks_by_roi",
+            "main"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 5
+    },
+    "tools\\git_commit_verifier.py": {
+        "language": ".py",
+        "functions": [
+            "run_git_command",
+            "check_commits_today",
+            "verify_work_exists",
+            "check_file_exists"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 4
+    },
+    "tools\\swarm_status_broadcaster.py": {
+        "language": ".py",
+        "functions": [
+            "main",
+            "__init__",
+            "broadcast",
+            "broadcast_c055_status",
+            "broadcast_v2_progress",
+            "broadcast_achievement",
+            "_send_to_agent",
+            "broadcast_with_template"
+        ],
+        "classes": {
+            "BroadcastMessage": {
+                "methods": [],
+                "docstring": "A message to broadcast to agents",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "SwarmStatusBroadcaster": {
+                "methods": [
+                    "__init__",
+                    "broadcast",
+                    "broadcast_c055_status",
+                    "broadcast_v2_progress",
+                    "broadcast_achievement",
+                    "_send_to_agent",
+                    "broadcast_with_template"
+                ],
+                "docstring": "Broadcast status messages to multiple agents",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 15
+    },
+    "tools\\quick_metrics.py": {
+        "language": ".py",
+        "functions": [
+            "analyze_file",
+            "analyze_multiple",
+            "main"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 3
+    },
+    "tools\\memory_leak_scanner.py": {
+        "language": ".py",
+        "functions": [
+            "scan_file",
+            "scan_directory",
+            "print_report",
+            "__init__"
+        ],
+        "classes": {
+            "MemoryLeakPattern": {
+                "methods": [
+                    "__init__"
+                ],
+                "docstring": "Memory leak pattern detector.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 5
+    },
+    "tools\\qa_validation_checklist.py": {
+        "language": ".py",
+        "functions": [
+            "__init__",
+            "check",
+            "run_git_command",
+            "verify_git_commits_exist",
+            "verify_files_exist",
+            "run_validation",
+            "print_summary"
+        ],
+        "classes": {
+            "QAChecklist": {
+                "methods": [
+                    "__init__",
+                    "check",
+                    "run_git_command",
+                    "verify_git_commits_exist",
+                    "verify_files_exist",
+                    "run_validation",
+                    "print_summary"
+                ],
+                "docstring": "QA validation checklist.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 14
+    },
+    "tools\\refresh_cache.py": {
+        "language": ".py",
+        "functions": [
+            "check_cache_freshness",
+            "delete_cache_files",
+            "refresh_cache",
+            "main"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 4
+    },
+    "tools\\v2_compliance_batch_checker.py": {
+        "language": ".py",
+        "functions": [
+            "check_file_compliance",
+            "batch_check",
+            "print_report"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 3
+    },
+    "tools\\git_work_verifier.py": {
+        "language": ".py",
+        "functions": [
+            "main",
+            "__init__",
+            "verify_claim",
+            "_get_git_evidence",
+            "_parse_git_log",
+            "verify_multiple_claims",
+            "generate_report"
+        ],
+        "classes": {
+            "WorkClaim": {
+                "methods": [],
+                "docstring": "A claim of work completed",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "GitEvidence": {
+                "methods": [],
+                "docstring": "Git evidence for work",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "VerificationResult": {
+                "methods": [],
+                "docstring": "Result of verifying a work claim",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "GitWorkVerifier": {
+                "methods": [
+                    "__init__",
+                    "verify_claim",
+                    "_get_git_evidence",
+                    "_parse_git_log",
+                    "verify_multiple_claims",
+                    "generate_report"
+                ],
+                "docstring": "Verify work claims against git history",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 13
+    },
+    "tools\\captain_roi_quick_calc.py": {
+        "language": ".py",
+        "functions": [
+            "calculate_task_roi"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 1
+    },
+    "tools\\integrity_validator.py": {
+        "language": ".py",
+        "functions": [
+            "main",
+            "__init__",
+            "validate_task_completion",
+            "validate_agent_status",
+            "validate_points_claim",
+            "generate_integrity_report"
+        ],
+        "classes": {
+            "IntegrityCheck": {
+                "methods": [],
+                "docstring": "Result of integrity validation",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "IntegrityValidator": {
+                "methods": [
+                    "__init__",
+                    "validate_task_completion",
+                    "validate_agent_status",
+                    "validate_points_claim",
+                    "generate_integrity_report"
+                ],
+                "docstring": "Validate agent task claims against evidence",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 11
+    },
+    "tools\\captain_message_all_agents.py": {
+        "language": ".py",
+        "functions": [
+            "message_all_agents"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 1
+    },
+    "tools\\captain_find_idle_agents.py": {
+        "language": ".py",
+        "functions": [
+            "find_idle_agents"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 1
+    },
+    "tools\\verify_task.py": {
+        "language": ".py",
+        "functions": [
+            "get_file_metrics",
+            "search_file",
+            "verify_task",
+            "main"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 4
+    },
+    "tools\\captain_update_log.py": {
+        "language": ".py",
+        "functions": [
+            "update_captains_log"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 1
+    },
+    "tools\\work_attribution_tool.py": {
+        "language": ".py",
+        "functions": [
+            "main",
+            "__init__",
+            "get_agent_work",
+            "get_all_agents_work",
+            "verify_agent_did_work",
+            "who_worked_on_file",
+            "generate_attribution_report",
+            "_parse_git_log"
+        ],
+        "classes": {
+            "WorkItem": {
+                "methods": [],
+                "docstring": "A piece of work done by an agent",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "WorkAttributionTool": {
+                "methods": [
+                    "__init__",
+                    "get_agent_work",
+                    "get_all_agents_work",
+                    "verify_agent_did_work",
+                    "who_worked_on_file",
+                    "generate_attribution_report",
+                    "_parse_git_log"
+                ],
+                "docstring": "Attribution tool to properly credit agents for their work",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 15
+    },
+    "tools\\captain_gas_check.py": {
+        "language": ".py",
+        "functions": [
+            "check_agent_gas_levels"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 1
+    },
+    "tools\\captain_check_agent_status.py": {
+        "language": ".py",
+        "functions": [
+            "check_all_agent_status"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 1
+    },
+    "tools\\coverage_validator.py": {
+        "language": ".py",
+        "functions": [
+            "parse_jest_coverage_summary",
+            "validate_coverage"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 2
+    },
+    "tools\\work_completion_verifier.py": {
+        "language": ".py",
+        "functions": [
+            "main",
+            "__init__",
+            "verify_extension",
+            "verify_python_module",
+            "_parse_coverage",
+            "format_results"
+        ],
+        "classes": {
+            "WorkCompletionVerifier": {
+                "methods": [
+                    "__init__",
+                    "verify_extension",
+                    "verify_python_module",
+                    "_parse_coverage",
+                    "format_results"
+                ],
+                "docstring": "Verify work completion before messaging.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 11
+    },
+    "tools\\agent_status_quick_check.py": {
+        "language": ".py",
+        "functions": [
+            "main",
+            "__init__",
+            "get_agent_status",
+            "format_quick_status",
+            "format_detailed_status",
+            "check_all_agents"
+        ],
+        "classes": {
+            "AgentStatusChecker": {
+                "methods": [
+                    "__init__",
+                    "get_agent_status",
+                    "format_quick_status",
+                    "format_detailed_status",
+                    "check_all_agents"
+                ],
+                "docstring": "Quick agent status verification.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 11
+    },
+    "tools\\swarm_orchestrator.py": {
+        "language": ".py",
+        "functions": [
+            "run_orchestrator",
+            "__init__",
+            "_discover_agents",
+            "get_agent_status",
+            "scan_all_opportunities",
+            "_scan_linter_errors",
+            "_scan_v2_violations",
+            "_scan_memory_leaks",
+            "_scan_test_coverage",
+            "_scan_todo_comments",
+            "_scan_duplication",
+            "_scan_complexity",
+            "calculate_roi",
+            "match_to_agent",
+            "create_inbox_task",
+            "send_gas_message",
+            "run_cycle"
+        ],
+        "classes": {
+            "SwarmOrchestrator": {
+                "methods": [
+                    "__init__",
+                    "_discover_agents",
+                    "get_agent_status",
+                    "scan_all_opportunities",
+                    "_scan_linter_errors",
+                    "_scan_v2_violations",
+                    "_scan_memory_leaks",
+                    "_scan_test_coverage",
+                    "_scan_todo_comments",
+                    "_scan_duplication",
+                    "_scan_complexity",
+                    "calculate_roi",
+                    "match_to_agent",
+                    "create_inbox_task",
+                    "send_gas_message",
+                    "run_cycle"
+                ],
+                "docstring": "The Gas Station - Autonomous Swarm Coordinator.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 33
+    },
+    "tools\\captain_self_message.py": {
+        "language": ".py",
+        "functions": [
+            "send_self_message"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 1
+    },
+    "tools\\captain_next_task_picker.py": {
+        "language": ".py",
+        "functions": [
+            "calculate_roi",
+            "get_next_task_for_agent"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 2
+    },
+    "tools\\captain_toolbelt_help.py": {
+        "language": ".py",
+        "functions": [
+            "show_toolbelt"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 1
+    },
+    "tools\\captain_leaderboard_update.py": {
+        "language": ".py",
+        "functions": [
+            "update_leaderboard"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 1
+    },
+    "tools\\pattern_suggester.py": {
+        "language": ".py",
+        "functions": [
+            "analyze_file_structure",
+            "suggest_pattern",
+            "main"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 3
+    },
+    "tools\\agent_message_history.py": {
+        "language": ".py",
+        "functions": [
+            "main",
+            "__init__",
+            "get_agent_inbox",
+            "get_sent_messages",
+            "_extract_sender",
+            "_extract_recipient",
+            "_extract_priority",
+            "format_message_list",
+            "_get_priority_icon",
+            "show_conversation"
+        ],
+        "classes": {
+            "MessageHistoryViewer": {
+                "methods": [
+                    "__init__",
+                    "get_agent_inbox",
+                    "get_sent_messages",
+                    "_extract_sender",
+                    "_extract_recipient",
+                    "_extract_priority",
+                    "format_message_list",
+                    "_get_priority_icon",
+                    "show_conversation"
+                ],
+                "docstring": "View agent message history.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 19
+    },
+    "tools\\real_violation_scanner.py": {
+        "language": ".py",
+        "functions": [
+            "scan_file",
+            "find_real_violations",
+            "verify_claimed_files",
+            "main"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 4
+    },
+    "tools\\task_verification_tool.py": {
+        "language": ".py",
+        "functions": [
+            "main",
+            "__init__",
+            "verify_all",
+            "_get_metrics",
+            "_check_git_history",
+            "_check_refactor_headers",
+            "_get_recommendation"
+        ],
+        "classes": {
+            "TaskVerifier": {
+                "methods": [
+                    "__init__",
+                    "verify_all",
+                    "_get_metrics",
+                    "_check_git_history",
+                    "_check_refactor_headers",
+                    "_get_recommendation"
+                ],
+                "docstring": "Verifies task state before execution.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 13
+    },
+    "tools\\autonomous_task_engine.py": {
+        "language": ".py",
+        "functions": [
+            "main",
+            "__init__",
+            "discover_tasks",
+            "get_optimal_task_for_agent",
+            "get_top_n_tasks_for_agent",
+            "claim_task",
+            "start_task",
+            "complete_task",
+            "generate_autonomous_report",
+            "_discover_v2_violations",
+            "_discover_tech_debt",
+            "_discover_code_todos",
+            "_discover_optimizations",
+            "_discover_test_gaps",
+            "_calculate_skill_matches",
+            "_score_task_for_agent",
+            "_get_or_create_agent_profile",
+            "_has_unmet_blockers",
+            "_find_task",
+            "_update_agent_profile",
+            "_load_tasks",
+            "_save_tasks",
+            "_load_agent_profiles",
+            "_save_agent_profiles"
+        ],
+        "classes": {
+            "Task": {
+                "methods": [],
+                "docstring": "A discovered task opportunity",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "AgentProfile": {
+                "methods": [],
+                "docstring": "Agent's capabilities and history",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TaskRecommendation": {
+                "methods": [],
+                "docstring": "Personalized task recommendation for an agent",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "AutonomousTaskEngine": {
+                "methods": [
+                    "__init__",
+                    "discover_tasks",
+                    "get_optimal_task_for_agent",
+                    "get_top_n_tasks_for_agent",
+                    "claim_task",
+                    "start_task",
+                    "complete_task",
+                    "generate_autonomous_report",
+                    "_discover_v2_violations",
+                    "_discover_tech_debt",
+                    "_discover_code_todos",
+                    "_discover_optimizations",
+                    "_discover_test_gaps",
+                    "_calculate_skill_matches",
+                    "_score_task_for_agent",
+                    "_get_or_create_agent_profile",
+                    "_has_unmet_blockers",
+                    "_find_task",
+                    "_update_agent_profile",
+                    "_load_tasks",
+                    "_save_tasks",
+                    "_load_agent_profiles",
+                    "_save_agent_profiles"
+                ],
+                "docstring": "The Masterpiece Tool - Autonomous Task Discovery & Selection Engine\n\nEnables agents to:\n1. Discover optimal tasks autonomously\n2. Get personalized recommendations based on skills\n3. Calculate ROI and impact automatically\n4. Claim and track tasks without Captain intervention\n5. Coordinate with other agents intelligently",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 47
+    },
+    "tools\\agent_mission_controller.py": {
+        "language": ".py",
+        "functions": [
+            "main",
+            "load",
+            "matches_specialty",
+            "__init__",
+            "_load_patterns_db",
+            "analyze_file_for_mission",
+            "_determine_pattern_and_plan",
+            "_estimate_points",
+            "_assess_difficulty",
+            "_calculate_priority",
+            "_estimate_time",
+            "scan_for_missions",
+            "recommend_mission"
+        ],
+        "classes": {
+            "AgentProfile": {
+                "methods": [
+                    "load"
+                ],
+                "docstring": "Agent specialty and capabilities.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "Mission": {
+                "methods": [
+                    "matches_specialty"
+                ],
+                "docstring": "A refactoring mission.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "MissionRecommendation": {
+                "methods": [],
+                "docstring": "A recommended mission with reasoning.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "MissionIntelligence": {
+                "methods": [
+                    "__init__",
+                    "_load_patterns_db",
+                    "analyze_file_for_mission",
+                    "_determine_pattern_and_plan",
+                    "_estimate_points",
+                    "_assess_difficulty",
+                    "_calculate_priority",
+                    "_estimate_time",
+                    "scan_for_missions",
+                    "recommend_mission"
+                ],
+                "docstring": "The brain of the mission controller.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 25
+    },
+    "tools\\architecture_review.py": {
+        "language": ".py",
+        "functions": [
+            "request_review",
+            "provide_review",
+            "main"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 3
+    },
+    "tools\\cache_invalidator.py": {
+        "language": ".py",
+        "functions": [
+            "main",
+            "__init__",
+            "check_cache_age",
+            "clear_cache_file",
+            "clear_all_caches",
+            "clear_analysis_chunks",
+            "verify_caches"
+        ],
+        "classes": {
+            "CacheInvalidator": {
+                "methods": [
+                    "__init__",
+                    "check_cache_age",
+                    "clear_cache_file",
+                    "clear_all_caches",
+                    "clear_analysis_chunks",
+                    "verify_caches"
+                ],
+                "docstring": "Manages project scanner cache invalidation.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 13
+    },
+    "tools\\mission_control.py": {
+        "language": ".py",
+        "functions": [
+            "main",
+            "__init__",
+            "check_task_queue",
+            "run_scanner_analysis",
+            "consult_swarm_brain",
+            "check_agent_statuses",
+            "find_real_violations",
+            "generate_mission",
+            "suggest_pattern",
+            "print_mission_brief",
+            "save_mission_brief"
+        ],
+        "classes": {
+            "MissionControl": {
+                "methods": [
+                    "__init__",
+                    "check_task_queue",
+                    "run_scanner_analysis",
+                    "consult_swarm_brain",
+                    "check_agent_statuses",
+                    "find_real_violations",
+                    "generate_mission",
+                    "suggest_pattern",
+                    "print_mission_brief",
+                    "save_mission_brief"
+                ],
+                "docstring": "Autonomous mission generator for swarm agents.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 21
+    },
+    "docs\\examples\\__init__.py": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "tools\\file_refactor_detector.py": {
+        "language": ".py",
+        "functions": [
+            "scan_directory",
+            "main",
+            "__init__",
+            "check_file",
+            "_check_file_header",
+            "_check_git_history",
+            "_get_warning"
+        ],
+        "classes": {
+            "RefactorDetector": {
+                "methods": [
+                    "__init__",
+                    "check_file",
+                    "_check_file_header",
+                    "_check_git_history",
+                    "_get_warning"
+                ],
+                "docstring": "Detects refactor markers in files.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 12
+    },
+    "tools_v2\\demo_swarm_pulse.py": {
+        "language": ".py",
+        "functions": [
+            "demo_swarm_pulse"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 1
+    },
+    "tools_v2\\advisor_cli.py": {
+        "language": ".py",
+        "functions": [
+            "main",
+            "_print_recommendation",
+            "_print_validation",
+            "_print_swarm_analysis"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 4
+    },
+    "tools_v2\\categories\\oss_tools.py": {
+        "language": ".py",
+        "functions": [
+            "execute",
+            "execute",
+            "execute",
+            "execute",
+            "execute"
+        ],
+        "classes": {
+            "OSSCloneTool": {
+                "methods": [
+                    "execute"
+                ],
+                "docstring": "Clone external OSS project.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "OSSFetchIssuesTool": {
+                "methods": [
+                    "execute"
+                ],
+                "docstring": "Fetch GitHub issues from OSS project.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "OSSImportIssuesTool": {
+                "methods": [
+                    "execute"
+                ],
+                "docstring": "Import GitHub issues as tasks.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "OSSPortfolioTool": {
+                "methods": [
+                    "execute"
+                ],
+                "docstring": "Generate OSS contribution portfolio.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "OSSStatusTool": {
+                "methods": [
+                    "execute"
+                ],
+                "docstring": "Get OSS contribution status.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 10
+    },
+    "tools_v2\\categories\\message_task_tools.py": {
+        "language": ".py",
+        "functions": [
+            "execute",
+            "execute",
+            "execute"
+        ],
+        "classes": {
+            "MessageIngestTool": {
+                "methods": [
+                    "execute"
+                ],
+                "docstring": "Ingest message and create task.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TaskParserTool": {
+                "methods": [
+                    "execute"
+                ],
+                "docstring": "Parse message to extract task info.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "DataAgent"
+            },
+            "TaskFingerprintTool": {
+                "methods": [
+                    "execute"
+                ],
+                "docstring": "Generate task fingerprint for deduplication.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 6
+    },
+    "tools_v2\\categories\\observability_tools.py": {
+        "language": ".py",
+        "functions": [
+            "execute",
+            "execute",
+            "execute",
+            "execute"
+        ],
+        "classes": {
+            "MetricsSnapshotTool": {
+                "methods": [
+                    "execute"
+                ],
+                "docstring": "Get current metrics snapshot.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "MetricsTool": {
+                "methods": [
+                    "execute"
+                ],
+                "docstring": "Get specific metric value.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "SystemHealthTool": {
+                "methods": [
+                    "execute"
+                ],
+                "docstring": "Check system health status.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "SLOCheckTool": {
+                "methods": [
+                    "execute"
+                ],
+                "docstring": "Check SLO compliance.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 8
+    },
+    "tools_v2\\categories\\validation_tools.py": {
+        "language": ".py",
+        "functions": [
+            "execute",
+            "execute",
+            "execute",
+            "execute"
+        ],
+        "classes": {
+            "SmokeTestTool": {
+                "methods": [
+                    "execute"
+                ],
+                "docstring": "Run smoke tests.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "FeatureFlagTool": {
+                "methods": [
+                    "execute"
+                ],
+                "docstring": "Check or set feature flags.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "RollbackTool": {
+                "methods": [
+                    "execute"
+                ],
+                "docstring": "Emergency rollback features.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "ValidationReportTool": {
+                "methods": [
+                    "execute"
+                ],
+                "docstring": "Generate validation report for all systems.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 8
+    },
+    "tools_v2\\categories\\memory_safety_tools.py": {
+        "language": ".py",
+        "functions": [
+            "detect_memory_leaks",
+            "verify_files_exist",
+            "scan_unbounded_structures",
+            "validate_imports",
+            "check_file_handles"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 5
+    },
+    "tools_v2\\categories\\discord_tools.py": {
+        "language": ".py",
+        "functions": [
+            "get_name",
+            "get_description",
+            "execute",
+            "get_name",
+            "get_description",
+            "execute",
+            "get_name",
+            "get_description",
+            "execute"
+        ],
+        "classes": {
+            "DiscordBotHealthTool": {
+                "methods": [
+                    "get_name",
+                    "get_description",
+                    "execute"
+                ],
+                "docstring": "Check if Discord bot is running and healthy.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "DiscordBotStartTool": {
+                "methods": [
+                    "get_name",
+                    "get_description",
+                    "execute"
+                ],
+                "docstring": "Start Discord Commander bot.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "DiscordTestMessageTool": {
+                "methods": [
+                    "get_name",
+                    "get_description",
+                    "execute"
+                ],
+                "docstring": "Send test message via Discord bot.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 18
+    },
+    "tools_v2\\categories\\swarm_brain_tools.py": {
+        "language": ".py",
+        "functions": [
+            "execute",
+            "execute",
+            "execute",
+            "execute",
+            "execute"
+        ],
+        "classes": {
+            "TakeNoteTool": {
+                "methods": [
+                    "execute"
+                ],
+                "docstring": "Take personal note.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "ShareLearningTool": {
+                "methods": [
+                    "execute"
+                ],
+                "docstring": "Share learning with swarm brain.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "SearchKnowledgeTool": {
+                "methods": [
+                    "execute"
+                ],
+                "docstring": "Search swarm knowledge base.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "LogSessionTool": {
+                "methods": [
+                    "execute"
+                ],
+                "docstring": "Log work session to agent notes.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "GetAgentNotesTool": {
+                "methods": [
+                    "execute"
+                ],
+                "docstring": "Get agent's personal notes.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 10
+    },
+    "tools_v2\\categories\\session_tools.py": {
+        "language": ".py",
+        "functions": [
+            "get_spec",
+            "validate",
+            "execute",
+            "_create_passdown",
+            "_create_devlog",
+            "_update_swarm_brain",
+            "_update_status",
+            "get_spec",
+            "validate",
+            "execute",
+            "get_spec",
+            "validate",
+            "execute"
+        ],
+        "classes": {
+            "SessionCleanupTool": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute",
+                    "_create_passdown",
+                    "_create_devlog",
+                    "_update_swarm_brain",
+                    "_update_status"
+                ],
+                "docstring": "Automate complete session cleanup (5 steps).",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "PassdownTool": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Create or read session passdown.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "PointsCalculatorTool": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Calculate and track agent points.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 26
+    },
+    "tools_v2\\categories\\memory_safety_adapters.py": {
+        "language": ".py",
+        "functions": [
+            "get_spec",
+            "validate",
+            "execute",
+            "get_spec",
+            "validate",
+            "execute",
+            "get_spec",
+            "validate",
+            "execute",
+            "get_spec",
+            "validate",
+            "execute",
+            "get_spec",
+            "validate",
+            "execute"
+        ],
+        "classes": {
+            "MemoryLeakDetectorTool": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Detect potential memory leaks in codebase.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "FileVerificationTool": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Verify files exist before task assignment.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "UnboundedScanTool": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Scan for unbounded data structures.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "ImportValidatorTool": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Validate Python file imports.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "FileHandleCheckTool": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Check for unclosed file handles.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 30
+    },
+    "tools_v2\\categories\\swarm_mission_control.py": {
+        "language": ".py",
+        "functions": [
+            "get_name",
+            "get_description",
+            "get_spec",
+            "validate",
+            "execute",
+            "_read_swarm_state",
+            "_read_agent_context",
+            "_analyze_available_work",
+            "_calculate_optimal_task",
+            "_build_context_package",
+            "_format_mission_brief",
+            "_get_agent_specialty",
+            "get_name",
+            "get_description",
+            "get_spec",
+            "validate",
+            "execute",
+            "get_name",
+            "get_description",
+            "get_spec",
+            "validate",
+            "execute",
+            "_find_related_files",
+            "_find_similar_work",
+            "_find_current_violations",
+            "_find_dependencies",
+            "_find_coordination_needs",
+            "_find_success_patterns",
+            "_generate_checklist",
+            "_calculate_completeness"
+        ],
+        "classes": {
+            "SwarmMissionControl": {
+                "methods": [
+                    "get_name",
+                    "get_description",
+                    "get_spec",
+                    "validate",
+                    "execute",
+                    "_read_swarm_state",
+                    "_read_agent_context",
+                    "_analyze_available_work",
+                    "_calculate_optimal_task",
+                    "_build_context_package",
+                    "_format_mission_brief",
+                    "_get_agent_specialty"
+                ],
+                "docstring": "Swarm Mission Control - The masterpiece tool for intelligent task selection.\n\nProvides each agent with:\n1. Optimal next task recommendation\n2. Full context package for execution\n3. Swarm state awareness (who's doing what)\n4. Conflict detection (avoid duplicate work)\n5. Dependency mapping (coordination needs)\n6. Success patterns (learn from past work)",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "SwarmConflictDetector": {
+                "methods": [
+                    "get_name",
+                    "get_description",
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Detect if proposed work conflicts with active missions.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "ContextPackageBuilder": {
+                "methods": [
+                    "get_name",
+                    "get_description",
+                    "get_spec",
+                    "validate",
+                    "execute",
+                    "_find_related_files",
+                    "_find_similar_work",
+                    "_find_current_violations",
+                    "_find_dependencies",
+                    "_find_coordination_needs",
+                    "_find_success_patterns",
+                    "_generate_checklist",
+                    "_calculate_completeness"
+                ],
+                "docstring": "Build complete context package for any task.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 60
+    },
+    "tools_v2\\categories\\workflow_tools.py": {
+        "language": ".py",
+        "functions": [
+            "get_spec",
+            "validate",
+            "execute",
+            "get_spec",
+            "validate",
+            "execute",
+            "get_spec",
+            "validate",
+            "execute"
+        ],
+        "classes": {
+            "InboxCleanupTool": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Clean old messages from agent inbox.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "MissionClaimTool": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Claim high-value mission from queue.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "ROICalculatorTool": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Calculate ROI for potential tasks.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 18
+    },
+    "tools_v2\\categories\\captain_tools_advanced.py": {
+        "language": ".py",
+        "functions": [
+            "get_spec",
+            "validate",
+            "execute",
+            "get_spec",
+            "validate",
+            "execute",
+            "get_spec",
+            "validate",
+            "execute",
+            "get_spec",
+            "validate",
+            "execute",
+            "get_spec",
+            "validate",
+            "execute",
+            "get_spec",
+            "validate",
+            "execute"
+        ],
+        "classes": {
+            "FileExistenceValidator": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Validate file existence before task assignment (prevents phantom tasks).",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "ProjectScanRunner": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Run fresh project scan to update violation data.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "PhantomTaskDetector": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Detect phantom tasks (files in task pool that don't exist).",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "MultiFuelDelivery": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Send fuel (gas) to multiple agents at once.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "MarkovROIRunner": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Run Markov ROI optimizer and return optimal assignments.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "SwarmStatusDashboard": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Generate comprehensive swarm status dashboard.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 36
+    },
+    "tools_v2\\categories\\swarm_consciousness.py": {
+        "language": ".py",
+        "functions": [
+            "get_spec",
+            "validate",
+            "execute",
+            "_collect_swarm_pulse",
+            "_get_agent_pulse",
+            "_dashboard_view",
+            "_detect_conflicts",
+            "_find_related_work",
+            "_captain_command_center"
+        ],
+        "classes": {
+            "SwarmPulseTool": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute",
+                    "_collect_swarm_pulse",
+                    "_get_agent_pulse",
+                    "_dashboard_view",
+                    "_detect_conflicts",
+                    "_find_related_work",
+                    "_captain_command_center"
+                ],
+                "docstring": "Real-time swarm consciousness dashboard.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 18
+    },
+    "tools_v2\\categories\\intelligent_mission_advisor_adapter.py": {
+        "language": ".py",
+        "functions": [
+            "get_spec",
+            "validate",
+            "execute",
+            "_format_summary",
+            "get_spec",
+            "validate",
+            "execute",
+            "_format_validation_summary",
+            "get_spec",
+            "validate",
+            "execute",
+            "get_spec",
+            "validate",
+            "execute"
+        ],
+        "classes": {
+            "MissionAdvisorTool": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute",
+                    "_format_summary"
+                ],
+                "docstring": "Get intelligent mission recommendation - THE MASTERPIECE TOOL.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "OrderValidatorTool": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute",
+                    "_format_validation_summary"
+                ],
+                "docstring": "Validate Captain's orders before execution - CRITICAL SAFETY.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "SwarmAnalyzerTool": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Analyze overall swarm state - STRATEGIC INTELLIGENCE.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "RealtimeGuidanceTool": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Get real-time execution guidance - CONTINUOUS INTELLIGENCE.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 28
+    },
+    "tools_v2\\categories\\captain_tools.py": {
+        "language": ".py",
+        "functions": [
+            "get_spec",
+            "validate",
+            "execute",
+            "get_spec",
+            "validate",
+            "execute",
+            "get_spec",
+            "validate",
+            "execute",
+            "get_spec",
+            "validate",
+            "execute",
+            "get_spec",
+            "validate",
+            "execute",
+            "get_spec",
+            "validate",
+            "execute",
+            "get_spec",
+            "validate",
+            "execute",
+            "get_spec",
+            "validate",
+            "execute",
+            "get_spec",
+            "validate",
+            "execute",
+            "get_spec",
+            "validate",
+            "execute"
+        ],
+        "classes": {
+            "StatusCheckTool": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Check all agent status.json files to detect idle agents.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "GitVerifyTool": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Verify git commits for work attribution and integrity checks.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "PointsCalculatorTool": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Calculate points based on ROI, impact, and complexity.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "MissionAssignTool": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Create structured mission files in agent inboxes.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "GasDeliveryTool": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Send PyAutoGUI activation messages to agents (\"Prompts Are Gas\").",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "LeaderboardUpdateTool": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Update agent leaderboard with new points.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "WorkVerifyTool": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Comprehensive work verification (git + files + tests).",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "CycleReportTool": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Generate Captain's cycle report.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "MarkovOptimizerTool": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Interface to Markov chain optimizer for task selection.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "IntegrityCheckTool": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Verify work claims with git history and Entry #025 integrity checks.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 60
+    },
+    "tools_v2\\categories\\intelligent_mission_advisor.py": {
+        "language": ".py",
+        "functions": [
+            "get_mission_advisor",
+            "__init__",
+            "_load_agent_status",
+            "_identify_specialty",
+            "_load_swarm_brain",
+            "_extract_patterns",
+            "_load_other_agents_work",
+            "_load_leaderboard",
+            "get_mission_recommendation",
+            "_scan_real_available_tasks",
+            "_check_conflicts",
+            "_match_specialty",
+            "_calculate_roi",
+            "_verify_task",
+            "_generate_intelligent_briefing",
+            "_explain_specialty_match",
+            "_generate_approach_recommendation",
+            "_identify_risks",
+            "_calculate_success_probability",
+            "_calculate_confidence",
+            "_get_current_rank",
+            "_generate_fallback_suggestions",
+            "validate_captain_order",
+            "_find_relevant_patterns",
+            "_generate_execution_guidance",
+            "get_realtime_guidance",
+            "analyze_swarm_state"
+        ],
+        "classes": {
+            "IntelligentMissionAdvisor": {
+                "methods": [
+                    "__init__",
+                    "_load_agent_status",
+                    "_identify_specialty",
+                    "_load_swarm_brain",
+                    "_extract_patterns",
+                    "_load_other_agents_work",
+                    "_load_leaderboard",
+                    "get_mission_recommendation",
+                    "_scan_real_available_tasks",
+                    "_check_conflicts",
+                    "_match_specialty",
+                    "_calculate_roi",
+                    "_verify_task",
+                    "_generate_intelligent_briefing",
+                    "_explain_specialty_match",
+                    "_generate_approach_recommendation",
+                    "_identify_risks",
+                    "_calculate_success_probability",
+                    "_calculate_confidence",
+                    "_get_current_rank",
+                    "_generate_fallback_suggestions",
+                    "validate_captain_order",
+                    "_find_relevant_patterns",
+                    "_generate_execution_guidance",
+                    "get_realtime_guidance",
+                    "analyze_swarm_state"
+                ],
+                "docstring": "AI-powered mission advisor providing intelligent guidance to agents.\n\nThis is the masterpiece tool - an agent's personal senior engineer advisor.\n\nCapabilities:\n- Real-time project state analysis (actual files, violations, needs)\n- Agent specialty matching (align work with strengths)\n- ROI optimization (suggest highest-value tasks)\n- Conflict detection (avoid duplicating other agents' work)\n- Task validation (verify files exist, check if already done)\n- Intelligent briefing (provide full context, not just orders)\n- Progress monitoring (real-time guidance during execution)\n- Pattern learning (apply successful swarm patterns)\n- Reality verification (documentation vs actual state)\n- Autonomous decision support (what should I work on next?)",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 53
+    },
+    "tools_v2\\categories\\config_tools.py": {
+        "language": ".py",
+        "functions": [
+            "get_spec",
+            "get_help",
+            "validate",
+            "execute",
+            "get_spec",
+            "get_help",
+            "validate",
+            "execute",
+            "get_spec",
+            "get_help",
+            "validate",
+            "execute"
+        ],
+        "classes": {
+            "ValidateConfigSSOTAdapter": {
+                "methods": [
+                    "get_spec",
+                    "get_help",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Validate that config follows SSOT principle.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "ListConfigSourcesAdapter": {
+                "methods": [
+                    "get_spec",
+                    "get_help",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "List all configuration sources in project.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "CheckConfigImportsAdapter": {
+                "methods": [
+                    "get_spec",
+                    "get_help",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Check what imports config files.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 24
+    },
+    "tools_v2\\categories\\coordination_tools.py": {
+        "language": ".py",
+        "functions": [
+            "get_spec",
+            "get_help",
+            "validate",
+            "execute",
+            "get_spec",
+            "get_help",
+            "validate",
+            "execute",
+            "get_spec",
+            "get_help",
+            "validate",
+            "execute"
+        ],
+        "classes": {
+            "FindDomainExpertAdapter": {
+                "methods": [
+                    "get_spec",
+                    "get_help",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Find which agent has expertise in a given domain.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "RequestExpertReviewAdapter": {
+                "methods": [
+                    "get_spec",
+                    "get_help",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Request expert review using Pattern #5 coordination.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "CheckCoordinationPatternsAdapter": {
+                "methods": [
+                    "get_spec",
+                    "get_help",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Check swarm brain for coordination patterns.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 24
+    },
+    "tools_v2\\categories\\integration_tools.py": {
+        "language": ".py",
+        "functions": [
+            "get_spec",
+            "get_help",
+            "validate",
+            "execute",
+            "get_spec",
+            "get_help",
+            "validate",
+            "execute",
+            "get_spec",
+            "get_help",
+            "validate",
+            "execute",
+            "get_spec",
+            "get_help",
+            "validate",
+            "execute"
+        ],
+        "classes": {
+            "FindSSOTViolationsAdapter": {
+                "methods": [
+                    "get_spec",
+                    "get_help",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Find potential SSOT (Single Source of Truth) violations.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "FindDuplicateFunctionalityAdapter": {
+                "methods": [
+                    "get_spec",
+                    "get_help",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Find duplicate functionality across services/modules.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "FindIntegrationOpportunitiesAdapter": {
+                "methods": [
+                    "get_spec",
+                    "get_help",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Analyze codebase for integration opportunities.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "CheckImportDependenciesAdapter": {
+                "methods": [
+                    "get_spec",
+                    "get_help",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Check import dependencies for circular imports or heavy dependencies.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 32
+    },
+    "extensions\\repository-navigator\\src\\importPathProvider.ts": {
+        "language": ".ts",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "extensions\\repository-navigator\\src\\completionProvider.ts": {
+        "language": ".ts",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "extensions\\repository-navigator\\out\\types.js": {
+        "language": ".js",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "extensions\\repository-navigator\\out\\metadataReader.js": {
+        "language": ".js",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "extensions\\repository-navigator\\out\\extension.js": {
+        "language": ".js",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "extensions\\repository-navigator\\out\\treeDataProvider.js": {
+        "language": ".js",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "extensions\\repository-navigator\\out\\completionProvider.js": {
+        "language": ".js",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "extensions\\repository-navigator\\__mocks__\\vscode.js": {
+        "language": ".js",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "extensions\\repository-navigator\\out\\importPathProvider.js": {
+        "language": ".js",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "src\\core\\agent_notes_protocol.py": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "src\\core\\message_queue_analytics_interfaces.py": {
+        "language": ".py",
+        "functions": [
+            "info",
+            "warning",
+            "error",
+            "get_performance_metrics",
+            "get_trending_data",
+            "analyze_bottlenecks",
+            "predict_queue_load",
+            "suggest_optimizations",
+            "detect_anomalies",
+            "get_health_score",
+            "get_health_report",
+            "check_component_health"
+        ],
+        "classes": {
+            "IMessageQueueLogger": {
+                "methods": [
+                    "info",
+                    "warning",
+                    "error"
+                ],
+                "docstring": "Interface for message queue logging operations.",
+                "base_classes": [
+                    "Protocol"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "IQueueAnalytics": {
+                "methods": [
+                    "get_performance_metrics",
+                    "get_trending_data",
+                    "analyze_bottlenecks"
+                ],
+                "docstring": "Interface for queue performance analytics.\n\nProvides Business Intelligence capabilities for queue monitoring,\nperformance analysis, and optimization insights.",
+                "base_classes": [
+                    "ABC"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "IQueueIntelligence": {
+                "methods": [
+                    "predict_queue_load",
+                    "suggest_optimizations",
+                    "detect_anomalies"
+                ],
+                "docstring": "Interface for predictive queue intelligence.\n\nProvides machine learning and predictive analytics for queue optimization.",
+                "base_classes": [
+                    "ABC"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "IQueueHealthMonitor": {
+                "methods": [
+                    "get_health_score",
+                    "get_health_report",
+                    "check_component_health"
+                ],
+                "docstring": "Interface for queue health monitoring.\n\nProvides health scoring and status monitoring for autonomous systems.",
+                "base_classes": [
+                    "ABC"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 24
+    },
+    "src\\core\\message_queue_core_interfaces.py": {
+        "language": ".py",
+        "functions": [
+            "message",
+            "queue_id",
+            "to_dict",
+            "from_dict",
+            "enqueue",
+            "dequeue",
+            "mark_delivered",
+            "mark_failed",
+            "get_statistics",
+            "cleanup_expired",
+            "load_entries",
+            "save_entries",
+            "atomic_operation",
+            "stop_processing",
+            "max_queue_size",
+            "processing_batch_size",
+            "max_age_days",
+            "retry_base_delay",
+            "retry_max_delay",
+            "cleanup_interval"
+        ],
+        "classes": {
+            "IQueueEntry": {
+                "methods": [
+                    "message",
+                    "queue_id",
+                    "to_dict",
+                    "from_dict"
+                ],
+                "docstring": "Interface for queue entry objects.",
+                "base_classes": [
+                    "Protocol"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "IMessageQueue": {
+                "methods": [
+                    "enqueue",
+                    "dequeue",
+                    "mark_delivered",
+                    "mark_failed",
+                    "get_statistics",
+                    "cleanup_expired"
+                ],
+                "docstring": "Abstract interface for message queue operations.",
+                "base_classes": [
+                    "ABC"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "IQueuePersistence": {
+                "methods": [
+                    "load_entries",
+                    "save_entries",
+                    "atomic_operation"
+                ],
+                "docstring": "Abstract interface for queue persistence operations.",
+                "base_classes": [
+                    "ABC"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "IQueueProcessor": {
+                "methods": [
+                    "stop_processing"
+                ],
+                "docstring": "Abstract interface for queue processing operations.",
+                "base_classes": [
+                    "ABC"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "IQueueConfig": {
+                "methods": [
+                    "max_queue_size",
+                    "processing_batch_size",
+                    "max_age_days",
+                    "retry_base_delay",
+                    "retry_max_delay",
+                    "cleanup_interval"
+                ],
+                "docstring": "Interface for queue configuration.",
+                "base_classes": [
+                    "Protocol"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 40
+    },
+    "src\\core\\analytics\\engines\\caching_engine_fixed.py": {
+        "language": ".py",
+        "functions": [
+            "__init__",
+            "get",
+            "set",
+            "delete",
+            "clear",
+            "get_stats",
+            "get_status"
+        ],
+        "classes": {
+            "CachingEngine": {
+                "methods": [
+                    "__init__",
+                    "get",
+                    "set",
+                    "delete",
+                    "clear",
+                    "get_stats",
+                    "get_status"
+                ],
+                "docstring": "Memory-safe caching engine with LRU eviction.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 14
+    },
+    "src\\core\\analytics\\framework\\predictive_modeling_forecasters.py": {
+        "language": ".py",
+        "functions": [
+            "__init__",
+            "forecast_moving_average",
+            "forecast_exponential_smoothing",
+            "forecast_linear_trend"
+        ],
+        "classes": {
+            "PredictiveModelingForecasters": {
+                "methods": [
+                    "__init__",
+                    "forecast_moving_average",
+                    "forecast_exponential_smoothing",
+                    "forecast_linear_trend"
+                ],
+                "docstring": "Implements time-series forecasting methods.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 8
+    },
+    "src\\core\\analytics\\framework\\predictive_modeling_metrics.py": {
+        "language": ".py",
+        "functions": [
+            "__init__",
+            "calculate_ensemble",
+            "calculate_forecast_confidence",
+            "calculate_forecast_accuracy"
+        ],
+        "classes": {
+            "PredictiveModelingMetrics": {
+                "methods": [
+                    "__init__",
+                    "calculate_ensemble",
+                    "calculate_forecast_confidence",
+                    "calculate_forecast_accuracy"
+                ],
+                "docstring": "Handles forecast ensemble and accuracy calculations.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 8
+    },
+    "src\\core\\analytics\\framework\\predictive_modeling_seasonality.py": {
+        "language": ".py",
+        "functions": [
+            "__init__",
+            "detect_seasonality"
+        ],
+        "classes": {
+            "PredictiveModelingSeasonality": {
+                "methods": [
+                    "__init__",
+                    "detect_seasonality"
+                ],
+                "docstring": "Handles seasonal pattern detection and analysis.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 4
+    },
+    "src\\core\\intelligent_context\\agent_models.py": {
+        "language": ".py",
+        "functions": [
+            "to_dict"
+        ],
+        "classes": {
+            "AgentCapability": {
+                "methods": [
+                    "to_dict"
+                ],
+                "docstring": "Agent capability structure for matching and optimization.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "AgentRecommendation": {
+                "methods": [],
+                "docstring": "Agent recommendation structure.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 2
+    },
+    "src\\core\\intelligent_context\\mission_models.py": {
+        "language": ".py",
+        "functions": [
+            "to_dict"
+        ],
+        "classes": {
+            "MissionContext": {
+                "methods": [
+                    "to_dict"
+                ],
+                "docstring": "Mission context structure for intelligent retrieval.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 2
+    },
+    "src\\core\\intelligent_context\\context_enums.py": {
+        "language": ".py",
+        "functions": [],
+        "classes": {
+            "MissionPhase": {
+                "methods": [],
+                "docstring": "Mission phases.",
+                "base_classes": [
+                    "Enum"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "AgentStatus": {
+                "methods": [],
+                "docstring": "Agent availability status.",
+                "base_classes": [
+                    "Enum"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "RiskLevel": {
+                "methods": [],
+                "docstring": "Risk levels.",
+                "base_classes": [
+                    "Enum"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 0
+    },
+    "src\\core\\intelligent_context\\metrics_models.py": {
+        "language": ".py",
+        "functions": [
+            "to_dict"
+        ],
+        "classes": {
+            "ContextMetrics": {
+                "methods": [
+                    "to_dict"
+                ],
+                "docstring": "Metrics for context retrieval operations.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 2
+    },
+    "src\\core\\intelligent_context\\context_results.py": {
+        "language": ".py",
+        "functions": [
+            "to_dict",
+            "to_dict"
+        ],
+        "classes": {
+            "SearchResult": {
+                "methods": [
+                    "to_dict"
+                ],
+                "docstring": "Search result structure.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "ContextRetrievalResult": {
+                "methods": [
+                    "to_dict"
+                ],
+                "docstring": "Result of context retrieval operation.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 4
+    },
+    "src\\core\\intelligent_context\\emergency_models.py": {
+        "language": ".py",
+        "functions": [],
+        "classes": {
+            "EmergencyContext": {
+                "methods": [],
+                "docstring": "Emergency context structure.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "InterventionProtocol": {
+                "methods": [],
+                "docstring": "Intervention protocol structure.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 0
+    },
+    "src\\core\\intelligent_context\\analysis_models.py": {
+        "language": ".py",
+        "functions": [],
+        "classes": {
+            "RiskAssessment": {
+                "methods": [],
+                "docstring": "Risk assessment structure.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "SuccessPrediction": {
+                "methods": [],
+                "docstring": "Success prediction structure.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 0
+    },
+    "src\\core\\config\\config_manager.py": {
+        "language": ".py",
+        "functions": [
+            "__init__",
+            "_load_environment",
+            "get",
+            "_convert_type",
+            "validate"
+        ],
+        "classes": {
+            "UnifiedConfigManager": {
+                "methods": [
+                    "__init__",
+                    "_load_environment",
+                    "get",
+                    "_convert_type",
+                    "validate"
+                ],
+                "docstring": "SINGLE SOURCE OF TRUTH for all configuration management.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 10
+    },
+    "src\\core\\config\\config_accessors.py": {
+        "language": ".py",
+        "functions": [
+            "get_config",
+            "get_unified_config",
+            "get_timeout_config",
+            "get_agent_config",
+            "get_browser_config",
+            "get_threshold_config",
+            "get_file_pattern_config",
+            "get_test_config",
+            "get_report_config",
+            "validate_config",
+            "reload_config"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 11
+    },
+    "src\\core\\config\\config_dataclasses.py": {
+        "language": ".py",
+        "functions": [
+            "agent_ids",
+            "alert_rules",
+            "benchmark_targets",
+            "project_patterns",
+            "test_categories"
+        ],
+        "classes": {
+            "TimeoutConfig": {
+                "methods": [],
+                "docstring": "Centralized timeout configurations.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "AgentConfig": {
+                "methods": [
+                    "agent_ids"
+                ],
+                "docstring": "Centralized agent configuration.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "BrowserConfig": {
+                "methods": [],
+                "docstring": "Unified browser configuration (ChatGPT + Driver management).",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "ThresholdConfig": {
+                "methods": [
+                    "alert_rules",
+                    "benchmark_targets"
+                ],
+                "docstring": "Centralized threshold and alert configurations.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "FilePatternConfig": {
+                "methods": [
+                    "project_patterns"
+                ],
+                "docstring": "Centralized file pattern configurations.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestConfig": {
+                "methods": [
+                    "test_categories"
+                ],
+                "docstring": "Centralized test configuration.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "ReportConfig": {
+                "methods": [],
+                "docstring": "Centralized reporting configuration.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 10
+    },
+    "src\\services\\onboarding_template_loader.py": {
+        "language": ".py",
+        "functions": [
+            "load_onboarding_template",
+            "__init__",
+            "load_full_template",
+            "create_onboarding_message",
+            "_format_custom_message"
+        ],
+        "classes": {
+            "OnboardingTemplateLoader": {
+                "methods": [
+                    "__init__",
+                    "load_full_template",
+                    "create_onboarding_message",
+                    "_format_custom_message"
+                ],
+                "docstring": "Loads and merges onboarding templates.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 9
+    },
+    "src\\opensource\\__init__.py": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "src\\opensource\\contribution_tracker.py": {
+        "language": ".py",
+        "functions": [
+            "calculate_reputation",
+            "__init__",
+            "_load_portfolio",
+            "_save_portfolio",
+            "log_contribution",
+            "get_metrics",
+            "get_agent_contributions",
+            "register_project"
+        ],
+        "classes": {
+            "ContributionMetrics": {
+                "methods": [
+                    "calculate_reputation"
+                ],
+                "docstring": "Metrics for swarm's OSS contributions.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "ContributionTracker": {
+                "methods": [
+                    "__init__",
+                    "_load_portfolio",
+                    "_save_portfolio",
+                    "log_contribution",
+                    "get_metrics",
+                    "get_agent_contributions",
+                    "register_project"
+                ],
+                "docstring": "Tracks and analyzes swarm's OSS contributions.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 16
+    },
+    "src\\opensource\\portfolio_builder.py": {
+        "language": ".py",
+        "functions": [
+            "__init__",
+            "generate_readme",
+            "generate_dashboard_html",
+            "export_portfolio_json"
+        ],
+        "classes": {
+            "PortfolioBuilder": {
+                "methods": [
+                    "__init__",
+                    "generate_readme",
+                    "generate_dashboard_html",
+                    "export_portfolio_json"
+                ],
+                "docstring": "Builds swarm's OSS contribution portfolio.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 8
+    },
+    "src\\opensource\\task_integration.py": {
+        "language": ".py",
+        "functions": [
+            "__init__",
+            "create_task_from_issue",
+            "_determine_priority",
+            "bulk_import_issues"
+        ],
+        "classes": {
+            "OSSTaskIntegration": {
+                "methods": [
+                    "__init__",
+                    "create_task_from_issue",
+                    "_determine_priority",
+                    "bulk_import_issues"
+                ],
+                "docstring": "Integrates OSS issues with task system.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 8
+    },
+    "src\\opensource\\github_integration.py": {
+        "language": ".py",
+        "functions": [
+            "__init__",
+            "fetch_issues",
+            "create_branch",
+            "commit_changes",
+            "push_branch",
+            "create_pr"
+        ],
+        "classes": {
+            "GitHubIntegration": {
+                "methods": [
+                    "__init__",
+                    "fetch_issues",
+                    "create_branch",
+                    "commit_changes",
+                    "push_branch",
+                    "create_pr"
+                ],
+                "docstring": "GitHub API integration for OSS contributions.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 12
+    },
+    "src\\opensource\\setup_oss.py": {
+        "language": ".py",
+        "functions": [
+            "setup_oss_system"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 1
+    },
+    "src\\obs\\metrics.py": {
+        "language": ".py",
+        "functions": [
+            "incr",
+            "decr",
+            "set_metric",
+            "snapshot",
+            "reset",
+            "get",
+            "dump_metrics",
+            "log_ingest_success",
+            "log_ingest_failure",
+            "log_ingest_duplicate",
+            "log_parser_used",
+            "log_oss_clone_success",
+            "log_oss_clone_failure",
+            "log_oss_pr_submitted",
+            "log_oss_pr_merged",
+            "log_message_sent",
+            "log_message_failed",
+            "log_race_condition_prevented"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 18
+    },
+    "src\\opensource\\oss_cli.py": {
+        "language": ".py",
+        "functions": [
+            "create_parser",
+            "main"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 2
+    },
+    "src\\opensource\\project_manager.py": {
+        "language": ".py",
+        "functions": [
+            "__init__",
+            "_load_registry",
+            "_save_registry",
+            "_load_portfolio",
+            "_save_portfolio",
+            "clone_project",
+            "get_project",
+            "list_projects",
+            "get_project_path",
+            "add_contribution"
+        ],
+        "classes": {
+            "OpenSourceProjectManager": {
+                "methods": [
+                    "__init__",
+                    "_load_registry",
+                    "_save_registry",
+                    "_load_portfolio",
+                    "_save_portfolio",
+                    "clone_project",
+                    "get_project",
+                    "list_projects",
+                    "get_project_path",
+                    "add_contribution"
+                ],
+                "docstring": "Manages swarm's open source project contributions.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 20
+    },
+    "src\\features\\flags.py": {
+        "language": ".py",
+        "functions": [
+            "is_enabled",
+            "disable_feature",
+            "enable_feature"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 3
+    },
+    "src\\obs\\__init__.py": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "src\\features\\__init__.py": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "src\\swarm_brain\\agent_notes.py": {
+        "language": ".py",
+        "functions": [
+            "__init__",
+            "_load_notes",
+            "_save_notes",
+            "add_note",
+            "_append_to_markdown",
+            "get_notes",
+            "search_notes",
+            "log_work",
+            "record_learning",
+            "mark_important"
+        ],
+        "classes": {
+            "NoteType": {
+                "methods": [],
+                "docstring": "Types of notes agents can take.",
+                "base_classes": [
+                    "str",
+                    "Enum"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "AgentNotes": {
+                "methods": [
+                    "__init__",
+                    "_load_notes",
+                    "_save_notes",
+                    "add_note",
+                    "_append_to_markdown",
+                    "get_notes",
+                    "search_notes",
+                    "log_work",
+                    "record_learning",
+                    "mark_important"
+                ],
+                "docstring": "Manages personal notes for an agent.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 20
+    },
+    "src\\swarm_brain\\__init__.py": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "src\\swarm_brain\\knowledge_base.py": {
+        "language": ".py",
+        "functions": [
+            "__init__",
+            "_load_kb",
+            "_save_kb",
+            "add_entry",
+            "_save_to_category_file",
+            "search",
+            "get_by_agent",
+            "get_by_category"
+        ],
+        "classes": {
+            "KnowledgeEntry": {
+                "methods": [],
+                "docstring": "Entry in swarm knowledge base.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "KnowledgeBase": {
+                "methods": [
+                    "__init__",
+                    "_load_kb",
+                    "_save_kb",
+                    "add_entry",
+                    "_save_to_category_file",
+                    "search",
+                    "get_by_agent",
+                    "get_by_category"
+                ],
+                "docstring": "Centralized knowledge base for swarm.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 16
+    },
+    "src\\swarm_brain\\swarm_memory.py": {
+        "language": ".py",
+        "functions": [
+            "__init__",
+            "take_note",
+            "share_learning",
+            "record_decision",
+            "log_session",
+            "search_swarm_knowledge",
+            "get_my_notes",
+            "get_my_learnings",
+            "update_status_with_notes"
+        ],
+        "classes": {
+            "SwarmMemory": {
+                "methods": [
+                    "__init__",
+                    "take_note",
+                    "share_learning",
+                    "record_decision",
+                    "log_session",
+                    "search_swarm_knowledge",
+                    "get_my_notes",
+                    "get_my_learnings",
+                    "update_status_with_notes"
+                ],
+                "docstring": "Unified memory system for agents and swarm.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 18
+    },
+    "tools_v2\\categories\\debate_tools.py": {
+        "language": ".py",
+        "functions": [
+            "get_spec",
+            "validate",
+            "execute",
+            "get_spec",
+            "validate",
+            "execute",
+            "get_spec",
+            "validate",
+            "execute",
+            "get_spec",
+            "validate",
+            "execute"
+        ],
+        "classes": {
+            "DebateStartTool": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Start a new multi-agent debate.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "DebateVoteTool": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Cast vote in active debate.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "DebateStatusTool": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Get current debate status and results.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "DebateNotifyTool": {
+                "methods": [
+                    "get_spec",
+                    "validate",
+                    "execute"
+                ],
+                "docstring": "Notify agents to participate in debate.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 24
+    },
+    "tools\\generate_utils_catalog_enhanced.py": {
+        "language": ".py",
+        "functions": [
+            "main",
+            "__init__",
+            "analyze_file",
+            "scan_utils_directories",
+            "generate_markdown"
+        ],
+        "classes": {
+            "UtilsAnalyzer": {
+                "methods": [
+                    "__init__",
+                    "analyze_file",
+                    "scan_utils_directories",
+                    "generate_markdown"
+                ],
+                "docstring": "Analyzer for Python files in utils directories.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 9
     }
 }

@@ -2062,5 +2062,332 @@
         "classes": {},
         "routes": [],
         "complexity": 0
+    },
+    "tests\\test_error_handling_smoke.py": {
+        "language": ".py",
+        "functions": [
+            "load_error_models",
+            "test_error_classifier_init",
+            "test_error_severity_classification",
+            "test_error_decision_engine"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 4
+    },
+    "tests\\test_oss_cli_smoke.py": {
+        "language": ".py",
+        "functions": [
+            "test_oss_cli_help",
+            "test_oss_cli_status",
+            "test_oss_cli_list",
+            "test_project_manager_init",
+            "test_contribution_tracker_init"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 5
+    },
+    "tests\\test_messaging_smoke.py": {
+        "language": ".py",
+        "functions": [
+            "test_messaging_lock_init",
+            "test_messaging_lock_acquire_release",
+            "test_messaging_lock_context_manager"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 3
+    },
+    "tests\\test_msg_task_smoke.py": {
+        "language": ".py",
+        "functions": [
+            "test_structured_parser_basic",
+            "test_ai_parser_basic",
+            "test_fallback_parser_basic",
+            "test_fingerprint_deduplication",
+            "test_fsm_state_transitions",
+            "test_ingest_structured_message"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 6
+    },
+    "tests\\unit\\__init__.py": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "tests\\test_opensource_system.py": {
+        "language": ".py",
+        "functions": [
+            "test_init",
+            "test_register_project",
+            "test_get_project",
+            "test_list_projects",
+            "test_init",
+            "test_log_contribution",
+            "test_get_metrics",
+            "test_agent_contributions",
+            "test_generate_readme",
+            "test_generate_html"
+        ],
+        "classes": {
+            "TestProjectManager": {
+                "methods": [
+                    "test_init",
+                    "test_register_project",
+                    "test_get_project",
+                    "test_list_projects"
+                ],
+                "docstring": "Test project manager functionality.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestContributionTracker": {
+                "methods": [
+                    "test_init",
+                    "test_log_contribution",
+                    "test_get_metrics",
+                    "test_agent_contributions"
+                ],
+                "docstring": "Test contribution tracking.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestPortfolioBuilder": {
+                "methods": [
+                    "test_generate_readme",
+                    "test_generate_html"
+                ],
+                "docstring": "Test portfolio generation.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 20
+    },
+    "tests\\browser\\test_browser_unified_deprecated.py": {
+        "language": ".py",
+        "functions": [
+            "browser_config",
+            "thea_config",
+            "cleanup_test_files",
+            "test_suite_metadata",
+            "test_various_screen_sizes",
+            "test_headless_modes",
+            "test_singleton_same_instance",
+            "test_config_singleton_pattern",
+            "test_thread_safety_basic",
+            "test_thread_safety_concurrent_operations",
+            "test_mobile_emulation_config",
+            "test_mobile_user_agent",
+            "test_cookie_save_load_thea_automation",
+            "test_cookie_expiry_validation",
+            "test_chatgpt_url_configuration",
+            "test_browser_context_manager",
+            "create_adapter",
+            "safe_append",
+            "__init__",
+            "cleanup"
+        ],
+        "classes": {
+            "TestSingletonPattern": {
+                "methods": [
+                    "test_singleton_same_instance",
+                    "test_config_singleton_pattern",
+                    "test_thread_safety_basic",
+                    "test_thread_safety_concurrent_operations"
+                ],
+                "docstring": "Test singleton pattern implementation.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestMobileEmulation": {
+                "methods": [
+                    "test_mobile_emulation_config",
+                    "test_mobile_user_agent"
+                ],
+                "docstring": "Test mobile emulation capabilities.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestCookiePersistence": {
+                "methods": [
+                    "test_cookie_save_load_thea_automation",
+                    "test_cookie_expiry_validation"
+                ],
+                "docstring": "Test cookie persistence functionality.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestChatGPTIntegration": {
+                "methods": [
+                    "test_chatgpt_url_configuration"
+                ],
+                "docstring": "Test ChatGPT/Thea integration compatibility.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "TestBrowserLifecycle": {
+                "methods": [
+                    "test_browser_context_manager"
+                ],
+                "docstring": "Test browser lifecycle management.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "BrowserConfig": {
+                "methods": [],
+                "docstring": null,
+                "base_classes": [],
+                "maturity": "Prototype",
+                "agent_type": "Utility"
+            },
+            "TheaConfig": {
+                "methods": [],
+                "docstring": null,
+                "base_classes": [],
+                "maturity": "Prototype",
+                "agent_type": "Utility"
+            },
+            "SessionInfo": {
+                "methods": [],
+                "docstring": null,
+                "base_classes": [],
+                "maturity": "Prototype",
+                "agent_type": "Utility"
+            },
+            "ChromeBrowserAdapter": {
+                "methods": [
+                    "__init__"
+                ],
+                "docstring": null,
+                "base_classes": [],
+                "maturity": "Prototype",
+                "agent_type": "Utility"
+            },
+            "TestAutomation": {
+                "methods": [
+                    "cleanup"
+                ],
+                "docstring": null,
+                "base_classes": [
+                    "TheaAutomation"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 32
+    },
+    "tools\\test_pyramid_analyzer.py": {
+        "language": ".py",
+        "functions": [
+            "count_tests_in_file",
+            "analyze_pyramid",
+            "print_pyramid_report"
+        ],
+        "classes": {},
+        "routes": [],
+        "complexity": 3
+    },
+    "tools\\extension_test_runner.py": {
+        "language": ".py",
+        "functions": [
+            "main",
+            "__init__",
+            "get_extension_path",
+            "run_tests",
+            "_parse_test_output",
+            "format_results",
+            "list_extensions"
+        ],
+        "classes": {
+            "ExtensionTestRunner": {
+                "methods": [
+                    "__init__",
+                    "get_extension_path",
+                    "run_tests",
+                    "_parse_test_output",
+                    "format_results",
+                    "list_extensions"
+                ],
+                "docstring": "Run tests for VSCode extensions.",
+                "base_classes": [],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 13
+    },
+    "extensions\\repository-navigator\\test\\suite\\index.ts": {
+        "language": ".ts",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "extensions\\repository-navigator\\test\\runTest.ts": {
+        "language": ".ts",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "extensions\\repository-navigator\\test\\suite\\unit\\importPathProvider.test.ts": {
+        "language": ".ts",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "extensions\\repository-navigator\\test\\suite\\unit\\completionProvider.test.ts": {
+        "language": ".ts",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "extensions\\repository-navigator\\test\\suite\\e2e\\workflow.e2e.test.ts": {
+        "language": ".ts",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "extensions\\repository-navigator\\test\\suite\\integration\\extension.integration.test.ts": {
+        "language": ".ts",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "test\\suite\\unit\\completionProvider.test.ts": {
+        "language": ".ts",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
+    },
+    "test\\setup.ts": {
+        "language": ".ts",
+        "functions": [],
+        "classes": {},
+        "routes": [],
+        "complexity": 0
     }
 }

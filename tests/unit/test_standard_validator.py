@@ -10,16 +10,18 @@ Created: 2025-10-14
 Coverage Target: 100%
 """
 
-import pytest
-from datetime import datetime, timedelta
 from dataclasses import dataclass, field
+from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any
+
+import pytest
 
 
 # Mock SSOTComponent and related classes for testing
 class SSOTComponentType(Enum):
     """Mock SSOT component types."""
+
     LOGGING = "logging"
     CONFIGURATION = "configuration"
     EXECUTION = "execution"
@@ -29,6 +31,7 @@ class SSOTComponentType(Enum):
 @dataclass
 class SSOTComponent:
     """Mock SSOT component for testing."""
+
     component_id: str = "test_component"
     component_type: SSOTComponentType = SSOTComponentType.EXECUTION
     component_name: str = "Test Component"
@@ -45,6 +48,7 @@ class SSOTComponent:
 # Import after mock definitions
 import sys
 from pathlib import Path
+
 project_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(project_root))
 
@@ -121,10 +125,7 @@ class TestStandardValidator:
 
     def test_validate_standard_fields_with_valid_configuration(self):
         """Test validation with valid configuration."""
-        config = {
-            "enabled": True,
-            "settings": {"key": "value"}
-        }
+        config = {"enabled": True, "settings": {"key": "value"}}
         component = SSOTComponent(configuration=config)
         issues = self.validator.validate_standard_fields(component)
         assert len(issues) == 0
@@ -141,28 +142,20 @@ class TestStandardValidator:
 
     def test_validate_component_relationships_parent_and_children(self):
         """Test validation when component has both parent and children."""
-        component = SSOTComponent(
-            parent_id="parent_123",
-            children=["child_1", "child_2"]
-        )
+        component = SSOTComponent(parent_id="parent_123", children=["child_1", "child_2"])
         issues = self.validator.validate_component_relationships(component)
         assert any("cannot have both parent and children" in issue for issue in issues)
 
     def test_validate_component_relationships_self_dependency(self):
         """Test validation when component depends on itself."""
-        component = SSOTComponent(
-            component_id="comp_123",
-            dependencies=["other_comp", "comp_123"]
-        )
+        component = SSOTComponent(component_id="comp_123", dependencies=["other_comp", "comp_123"])
         issues = self.validator.validate_component_relationships(component)
         assert any("cannot depend on itself" in issue for issue in issues)
 
     def test_validate_component_relationships_with_parent_only(self):
         """Test validation when component has only parent (no children)."""
         component = SSOTComponent(
-            component_type=SSOTComponentType.LOGGING,
-            parent_id="parent_123",
-            children=[]
+            component_type=SSOTComponentType.LOGGING, parent_id="parent_123", children=[]
         )
         issues = self.validator.validate_component_relationships(component)
         # Should have no relationship issues with just a parent
@@ -173,11 +166,13 @@ class TestStandardValidator:
         component = SSOTComponent(
             component_type=SSOTComponentType.VALIDATION,
             parent_id="parent_123",
-            dependencies=["dep_1", "dep_2"]
+            dependencies=["dep_1", "dep_2"],
         )
         issues = self.validator.validate_component_relationships(component)
         # Valid relationships should have no issues
-        assert len([i for i in issues if "error" not in i.lower()]) == 0  # Filter out error messages
+        assert (
+            len([i for i in issues if "error" not in i.lower()]) == 0
+        )  # Filter out error messages
 
     def test_validate_configuration_not_dict(self):
         """Test _validate_configuration with non-dict input."""
@@ -198,19 +193,13 @@ class TestStandardValidator:
 
     def test_validate_configuration_settings_not_dict(self):
         """Test _validate_configuration with settings not being a dict."""
-        config = {
-            "enabled": True,
-            "settings": "not_a_dict"
-        }
+        config = {"enabled": True, "settings": "not_a_dict"}
         issues = self.validator._validate_configuration(config)
         assert any("settings must be a dictionary" in issue for issue in issues)
 
     def test_has_circular_reference_no_circular(self):
         """Test _has_circular_reference with no circular references."""
-        data = {
-            "key1": "value1",
-            "key2": {"nested": "value2"}
-        }
+        data = {"key1": "value1", "key2": {"nested": "value2"}}
         has_circular = self.validator._has_circular_reference(data)
         assert has_circular is False
 
@@ -241,11 +230,12 @@ class TestStandardValidator:
 
     def test_validate_standard_fields_exception_handling(self):
         """Test exception handling in validate_standard_fields."""
+
         # Create a mock component that will raise an exception
         class FailingComponent:
             def __getattribute__(self, name):
                 raise Exception("Test error")
-        
+
         component = FailingComponent()
         issues = self.validator.validate_standard_fields(component)
         assert any("error" in issue.lower() for issue in issues)
@@ -265,4 +255,3 @@ class TestStandardValidator:
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
-

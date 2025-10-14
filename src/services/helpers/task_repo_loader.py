@@ -77,7 +77,8 @@ class SimpleTaskRepository:
     def _init_db(self) -> None:
         """Initialize the database schema."""
         with self._get_connection() as conn:
-            conn.execute("""
+            conn.execute(
+                """
                 CREATE TABLE IF NOT EXISTS tasks (
                     id TEXT PRIMARY KEY,
                     title TEXT NOT NULL,
@@ -88,7 +89,8 @@ class SimpleTaskRepository:
                     completed_at TEXT,
                     priority INTEGER DEFAULT 1
                 )
-            """)
+            """
+            )
             conn.commit()
 
     @contextmanager

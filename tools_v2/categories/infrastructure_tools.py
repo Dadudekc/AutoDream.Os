@@ -243,13 +243,11 @@ class ROICalculatorTool(IToolAdapter):
                 "reward": reward,
                 "difficulty": difficulty,
                 "roi": round(roi, 2),
-                "rating": "EXCELLENT"
-                if roi > 20
-                else "GOOD"
-                if roi > 15
-                else "FAIR"
-                if roi > 10
-                else "LOW",
+                "rating": (
+                    "EXCELLENT"
+                    if roi > 20
+                    else "GOOD" if roi > 15 else "FAIR" if roi > 10 else "LOW"
+                ),
             }
 
         except Exception as e:

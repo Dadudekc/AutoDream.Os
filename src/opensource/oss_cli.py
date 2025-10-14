@@ -120,9 +120,7 @@ def main():
                 print()
 
             if args.import_tasks:
-                from src.infrastructure.persistence.sqlite_task_repo import (
-                    SqliteTaskRepository,
-                )
+                from src.infrastructure.persistence.sqlite_task_repo import SqliteTaskRepository
 
                 repo = SqliteTaskRepository()
                 integration = OSSTaskIntegration(pm, repo)

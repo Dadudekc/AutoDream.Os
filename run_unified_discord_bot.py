@@ -198,9 +198,7 @@ async def quick_status(ctx):
             emoji = (
                 "🟢"
                 if "ACTIVE" in status.upper()
-                else "✅"
-                if "COMPLETE" in status.upper()
-                else "🟡"
+                else "✅" if "COMPLETE" in status.upper() else "🟡"
             )
 
             # Get details

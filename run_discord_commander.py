@@ -198,9 +198,7 @@ async def quick_status(ctx):
             emoji = (
                 "🟢"
                 if "ACTIVE" in status.upper()
-                else "✅"
-                if "COMPLETE" in status.upper()
-                else "🟡"
+                else "✅" if "COMPLETE" in status.upper() else "🟡"
             )
 
             # Get details
@@ -316,6 +314,155 @@ async def interactive_status(ctx):
         await ctx.send(embed=embed)
 
 
+@bot.command(name="live_status")
+async def live_status_monitor(ctx):
+    """🔥 LIVE status.json monitoring with auto-updates! Usage: !live_status"""
+    try:
+        from discord.ext import tasks
+        import time
+        
+        logger.info("🔥 Starting LIVE status monitor")
+        
+        # Create initial embed
+        statuses = status_reader.read_all_statuses()
+        
+        embed = discord.Embed(
+            title="🔥 LIVE SWARM STATUS - AUTO-UPDATING",
+            description="Real-time status.json monitoring with WOW factor! 🚀",
+            color=discord.Color.gold(),
+        )
+        
+        # Calculate totals
+        total_points = sum(
+            s.get("sprint_info", {}).get("points_completed", 0) for s in statuses.values()
+        )
+        active = sum(1 for s in statuses.values() if "ACTIVE" in str(s.get("status", "")).upper())
+        legendary = sum(1 for s in statuses.values() if "LEGENDARY" in str(s.get("status", "")).upper())
+        
+        embed.add_field(
+            name="🎯 SWARM METRICS",
+            value=f"**Agents:** 8/8 | **Active:** {active} | **Legendary:** {legendary} | **Points:** {total_points:,}",
+            inline=False,
+        )
+        
+        # Individual agents with WOW factor
+        for agent_id in sorted(statuses.keys()):
+            data = statuses[agent_id]
+            status = data.get("status", "UNKNOWN")
+            
+            # Enhanced status emoji
+            if "LEGENDARY" in status.upper():
+                emoji = "🏆"
+            elif "COMPLETE" in status.upper():
+                emoji = "✅"
+            elif "ACTIVE" in status.upper():
+                emoji = "🟢"
+            elif "EXECUTING" in status.upper():
+                emoji = "⚡"
+            else:
+                emoji = "🟡"
+            
+            mission = data.get("current_mission", "No mission")[:60]
+            points = data.get("sprint_info", {}).get("points_completed", 0)
+            session_points = data.get("sprint_info", {}).get("session_2025_10_14", "")
+            
+            # Extract session points if available
+            session_info = ""
+            if "LEGENDARY" in str(session_points):
+                import re
+                match = re.search(r'(\d+,?\d*)\s*points', session_points)
+                if match:
+                    session_info = f" | 🔥 Session: {match.group(1)} pts!"
+            
+            value_text = f"**Status:** {status[:30]}\n**Mission:** {mission}\n**Points:** {points:,}{session_info}"
+            
+            embed.add_field(
+                name=f"{emoji} {agent_id}",
+                value=value_text,
+                inline=False,
+            )
+        
+        embed.set_footer(text="🔄 Auto-refreshes every 10 seconds! | 🐝 WE ARE SWARM")
+        
+        # Send initial message
+        message = await ctx.send(embed=embed)
+        logger.info("✅ LIVE status monitor started")
+        
+        # Auto-update loop (10 times = 100 seconds)
+        for i in range(10):
+            await asyncio.sleep(10)
+            
+            # Re-read statuses
+            statuses = status_reader.read_all_statuses()
+            
+            # Recreate embed with updated data
+            embed = discord.Embed(
+                title=f"🔥 LIVE SWARM STATUS - Update #{i+1}/10",
+                description="Real-time status.json monitoring with WOW factor! 🚀",
+                color=discord.Color.gold(),
+            )
+            
+            total_points = sum(
+                s.get("sprint_info", {}).get("points_completed", 0) for s in statuses.values()
+            )
+            active = sum(1 for s in statuses.values() if "ACTIVE" in str(s.get("status", "")).upper())
+            legendary = sum(1 for s in statuses.values() if "LEGENDARY" in str(s.get("status", "")).upper())
+            
+            embed.add_field(
+                name="🎯 SWARM METRICS",
+                value=f"**Agents:** 8/8 | **Active:** {active} | **Legendary:** {legendary} | **Points:** {total_points:,}",
+                inline=False,
+            )
+            
+            # Individual agents
+            for agent_id in sorted(statuses.keys()):
+                data = statuses[agent_id]
+                status = data.get("status", "UNKNOWN")
+                
+                if "LEGENDARY" in status.upper():
+                    emoji = "🏆"
+                elif "COMPLETE" in status.upper():
+                    emoji = "✅"
+                elif "ACTIVE" in status.upper():
+                    emoji = "🟢"
+                elif "EXECUTING" in status.upper():
+                    emoji = "⚡"
+                else:
+                    emoji = "🟡"
+                
+                mission = data.get("current_mission", "No mission")[:60]
+                points = data.get("sprint_info", {}).get("points_completed", 0)
+                session_points = data.get("sprint_info", {}).get("session_2025_10_14", "")
+                
+                session_info = ""
+                if "LEGENDARY" in str(session_points):
+                    import re
+                    match = re.search(r'(\d+,?\d*)\s*points', session_points)
+                    if match:
+                        session_info = f" | 🔥 Session: {match.group(1)} pts!"
+                
+                value_text = f"**Status:** {status[:30]}\n**Mission:** {mission}\n**Points:** {points:,}{session_info}"
+                
+                embed.add_field(
+                    name=f"{emoji} {agent_id}",
+                    value=value_text,
+                    inline=False,
+                )
+            
+            embed.set_footer(text=f"🔄 Auto-update {i+1}/10 | Next in 10s | 🐝 WE ARE SWARM")
+            
+            await message.edit(embed=embed)
+        
+        # Final update
+        embed.set_footer(text="✅ Live monitoring complete (100 seconds) | Use !live_status to restart")
+        await message.edit(embed=embed)
+        logger.info("✅ LIVE status monitor completed")
+
+    except Exception as e:
+        await ctx.send(f"❌ Error: {e}")
+        logger.error(f"Error in live_status command: {e}")
+
+
 @bot.command(name="help")
 async def show_help(ctx):
     """Show all commands."""
@@ -346,10 +493,12 @@ async def show_help(ctx):
             "**Easy & Intuitive:**\n"
             "• `!agent_interact` - Dropdown agent selection + modal form\n"
             "• `!swarm_status` - Status with refresh button\n"
+            "• `!live_status` 🔥 - LIVE auto-updating status (WOW FACTOR!)\n"
             "\n**Better UX:**\n"
             "- No typing errors (dropdowns)\n"
             "- Guided forms (modals)\n"
-            "- Real-time updates (refresh buttons)"
+            "- Real-time updates (refresh buttons)\n"
+            "- 🔥 Live monitoring (auto-updates every 10s!)"
         ),
         inline=False,
     )

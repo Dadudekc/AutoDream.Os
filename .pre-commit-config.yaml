@@ -29,3 +29,10 @@ repos:
         types: [python]
         pass_filenames: false
         stages: [commit]
+      - id: file-size-cap-enforcer
+        name: File Size Cap Enforcer (Lean Excellence Framework)
+        entry: python tools/check_file_size.py
+        language: system
+        types: [python]
+        pass_filenames: true
+        stages: [commit]

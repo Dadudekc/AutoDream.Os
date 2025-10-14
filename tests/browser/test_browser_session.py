@@ -27,9 +27,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
 # Try importing from unified_browser_service
 try:
-    from infrastructure.unified_browser_service import (
-        TheaConfig,
-    )
+    from infrastructure.unified_browser_service import TheaConfig
 
     BROWSER_SERVICE_AVAILABLE = True
 except ImportError:
@@ -48,12 +46,8 @@ except ImportError:
 
 # Import test fixtures - need to go up two levels from tests/browser/
 sys.path.insert(0, str(Path(__file__).parent.parent))
-from test_fixtures_browser import (
-    MockTheaAutoConfig as TheaAutoConfig,
-)
-from test_fixtures_browser import (
-    MockTheaAutomation as TheaAutomation,
-)
+from test_fixtures_browser import MockTheaAutoConfig as TheaAutoConfig
+from test_fixtures_browser import MockTheaAutomation as TheaAutomation
 
 # Import thea_automation from root
 try:

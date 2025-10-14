@@ -26,10 +26,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
 # Try importing from unified_browser_service
 try:
-    from infrastructure.unified_browser_service import (
-        BrowserConfig,
-        ChromeBrowserAdapter,
-    )
+    from infrastructure.unified_browser_service import BrowserConfig, ChromeBrowserAdapter
 
     BROWSER_SERVICE_AVAILABLE = True
 except ImportError:

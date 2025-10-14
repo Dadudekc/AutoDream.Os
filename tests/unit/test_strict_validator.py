@@ -10,16 +10,18 @@ Created: 2025-10-14
 Coverage Target: 100%
 """
 
-import pytest
-from datetime import datetime, timedelta
 from dataclasses import dataclass, field
+from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any
+
+import pytest
 
 
 # Mock SSOT classes for testing
 class SSOTComponentType(Enum):
     """Mock SSOT component types."""
+
     EXECUTION = "execution"
     VALIDATION = "validation"
 
@@ -27,6 +29,7 @@ class SSOTComponentType(Enum):
 @dataclass
 class SSOTExecutionPhase:
     """Mock SSOT execution phase."""
+
     name: str = "test_phase"
     description: str = ""
 
@@ -34,6 +37,7 @@ class SSOTExecutionPhase:
 @dataclass
 class SSOTComponent:
     """Mock SSOT component for testing."""
+
     component_id: str = "test_component"
     component_type: SSOTComponentType = SSOTComponentType.EXECUTION
     component_name: str = "Test Component"
@@ -53,6 +57,7 @@ class SSOTComponent:
 # Import after mock definitions
 import sys
 from pathlib import Path
+
 project_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(project_root))
 
@@ -82,7 +87,7 @@ class TestStrictValidator:
             usage_examples="Example 1: How to use this component",
             author="Agent-1",
             created_at=datetime.now(),
-            version="1.0.0"
+            version="1.0.0",
         )
         issues = self.validator.validate_strict_requirements(component)
         assert len(issues) == 0
@@ -90,10 +95,7 @@ class TestStrictValidator:
     def test_validate_strict_requirements_missing_description(self):
         """Test validation with missing description."""
         component = SSOTComponent(
-            usage_examples="Example 1",
-            author="Agent-1",
-            created_at=datetime.now(),
-            version="1.0.0"
+            usage_examples="Example 1", author="Agent-1", created_at=datetime.now(), version="1.0.0"
         )
         issues = self.validator.validate_strict_requirements(component)
         assert any("Missing required documentation: description" in issue for issue in issues)
@@ -105,7 +107,7 @@ class TestStrictValidator:
             usage_examples="Example 1",
             author="Agent-1",
             created_at=datetime.now(),
-            version="1.0.0"
+            version="1.0.0",
         )
         issues = self.validator.validate_strict_requirements(component)
         assert any("Description too short" in issue for issue in issues)
@@ -116,7 +118,7 @@ class TestStrictValidator:
             description="This is a comprehensive description that meets the minimum length requirement.",
             author="Agent-1",
             created_at=datetime.now(),
-            version="1.0.0"
+            version="1.0.0",
         )
         issues = self.validator.validate_strict_requirements(component)
         assert any("Missing required documentation: usage_examples" in issue for issue in issues)
@@ -127,7 +129,7 @@ class TestStrictValidator:
             description="This is a comprehensive description that meets the minimum length requirement.",
             usage_examples="Example 1",
             created_at=datetime.now(),
-            version="1.0.0"
+            version="1.0.0",
         )
         issues = self.validator.validate_strict_requirements(component)
         assert any("Missing required metadata: author" in issue for issue in issues)
@@ -138,7 +140,7 @@ class TestStrictValidator:
             description="This is a comprehensive description that meets the minimum length requirement.",
             usage_examples="Example 1",
             author="Agent-1",
-            version="1.0.0"
+            version="1.0.0",
         )
         issues = self.validator.validate_strict_requirements(component)
         assert any("Missing required metadata: created_at" in issue for issue in issues)
@@ -149,7 +151,7 @@ class TestStrictValidator:
             description="This is a comprehensive description that meets the minimum length requirement.",
             usage_examples="Example 1",
             author="Agent-1",
-            created_at=datetime.now()
+            created_at=datetime.now(),
         )
         issues = self.validator.validate_strict_requirements(component)
         assert any("Missing required metadata: version" in issue for issue in issues)
@@ -164,8 +166,8 @@ class TestStrictValidator:
             version="1.0.0",
             performance_metrics={
                 "execution_time": 15.0,  # Within 30s threshold
-                "memory_usage": 256  # Within 512MB threshold
-            }
+                "memory_usage": 256,  # Within 512MB threshold
+            },
         )
         issues = self.validator.validate_strict_requirements(component)
         assert len(issues) == 0
@@ -178,9 +180,7 @@ class TestStrictValidator:
             author="Agent-1",
             created_at=datetime.now(),
             version="1.0.0",
-            performance_metrics={
-                "execution_time": 45.0  # Exceeds 30s threshold
-            }
+            performance_metrics={"execution_time": 45.0},  # Exceeds 30s threshold
         )
         issues = self.validator.validate_strict_requirements(component)
         assert any("Execution time exceeds threshold" in issue for issue in issues)
@@ -193,9 +193,7 @@ class TestStrictValidator:
             author="Agent-1",
             created_at=datetime.now(),
             version="1.0.0",
-            performance_metrics={
-                "memory_usage": 1024  # Exceeds 512MB threshold
-            }
+            performance_metrics={"memory_usage": 1024},  # Exceeds 512MB threshold
         )
         issues = self.validator.validate_strict_requirements(component)
         assert any("Memory usage exceeds threshold" in issue for issue in issues)
@@ -208,10 +206,7 @@ class TestStrictValidator:
             author="Agent-1",
             created_at=datetime.now(),
             version="1.0.0",
-            configuration={
-                "database_password": "secret123",
-                "api_key": "abc123"
-            }
+            configuration={"database_password": "secret123", "api_key": "abc123"},
         )
         issues = self.validator.validate_strict_requirements(component)
         assert any("sensitive data exposure" in issue for issue in issues)
@@ -220,28 +215,24 @@ class TestStrictValidator:
         """Test integrity validation when updated_at is before created_at."""
         component = SSOTComponent(
             created_at=datetime.now(),
-            updated_at=datetime.now() - timedelta(days=1)  # Before created
+            updated_at=datetime.now() - timedelta(days=1),  # Before created
         )
         issues = self.validator.validate_component_integrity(component)
-        assert any("Updated timestamp cannot be before created timestamp" in issue for issue in issues)
+        assert any(
+            "Updated timestamp cannot be before created timestamp" in issue for issue in issues
+        )
 
     def test_validate_component_integrity_valid_timestamps(self):
         """Test integrity validation with valid timestamps."""
         now = datetime.now()
-        component = SSOTComponent(
-            created_at=now,
-            updated_at=now + timedelta(hours=1)
-        )
+        component = SSOTComponent(created_at=now, updated_at=now + timedelta(hours=1))
         issues = self.validator.validate_component_integrity(component)
         assert not any("timestamp" in issue.lower() for issue in issues)
 
     def test_validate_component_integrity_execution_phases(self):
         """Test integrity validation with execution phases."""
         component = SSOTComponent(
-            execution_phases=[
-                SSOTExecutionPhase(name="phase1"),
-                SSOTExecutionPhase(name="phase2")
-            ]
+            execution_phases=[SSOTExecutionPhase(name="phase1"), SSOTExecutionPhase(name="phase2")]
         )
         issues = self.validator.validate_component_integrity(component)
         assert len(issues) == 0
@@ -251,7 +242,7 @@ class TestStrictValidator:
         component = SSOTComponent(
             execution_phases=[
                 SSOTExecutionPhase(name="phase1"),
-                SSOTExecutionPhase(name="phase1")  # Duplicate
+                SSOTExecutionPhase(name="phase1"),  # Duplicate
             ]
         )
         issues = self.validator.validate_component_integrity(component)
@@ -259,32 +250,21 @@ class TestStrictValidator:
 
     def test_validate_component_integrity_phase_missing_name(self):
         """Test integrity validation with phase missing name."""
-        component = SSOTComponent(
-            execution_phases=[SSOTExecutionPhase(name="")]
-        )
+        component = SSOTComponent(execution_phases=[SSOTExecutionPhase(name="")])
         issues = self.validator.validate_component_integrity(component)
         assert any("Phase" in issue and "missing name" in issue for issue in issues)
 
     def test_validate_component_integrity_resource_requirements_valid(self):
         """Test integrity validation with valid resource requirements."""
         component = SSOTComponent(
-            resource_requirements={
-                "cpu": 2.0,
-                "memory": 4096,
-                "storage": 10000
-            }
+            resource_requirements={"cpu": 2.0, "memory": 4096, "storage": 10000}
         )
         issues = self.validator.validate_component_integrity(component)
         assert len(issues) == 0
 
     def test_validate_component_integrity_missing_cpu_requirement(self):
         """Test integrity validation with missing CPU requirement."""
-        component = SSOTComponent(
-            resource_requirements={
-                "memory": 4096,
-                "storage": 10000
-            }
-        )
+        component = SSOTComponent(resource_requirements={"memory": 4096, "storage": 10000})
         issues = self.validator.validate_component_integrity(component)
         assert any("Missing resource requirement: cpu" in issue for issue in issues)
 
@@ -294,7 +274,7 @@ class TestStrictValidator:
             resource_requirements={
                 "cpu": 2.0,
                 "memory": -100,  # Invalid negative value
-                "storage": 10000
+                "storage": 10000,
             }
         )
         issues = self.validator.validate_component_integrity(component)
@@ -302,17 +282,13 @@ class TestStrictValidator:
 
     def test_validate_security_requirements_access_controls_not_dict(self):
         """Test security validation with access_controls not being dict."""
-        component = SSOTComponent(
-            access_controls="not_a_dict"
-        )
+        component = SSOTComponent(access_controls="not_a_dict")
         issues = self.validator._validate_security_requirements(component)
         assert any("Access controls must be a dictionary" in issue for issue in issues)
 
     def test_validate_security_requirements_empty_access_controls(self):
         """Test security validation with empty access_controls."""
-        component = SSOTComponent(
-            access_controls={}
-        )
+        component = SSOTComponent(access_controls={})
         issues = self.validator._validate_security_requirements(component)
         assert any("Access controls cannot be empty" in issue for issue in issues)
 
@@ -326,10 +302,7 @@ class TestStrictValidator:
 
     def test_validate_performance_metrics_valid(self):
         """Test _validate_performance_metrics with valid metrics."""
-        metrics = {
-            "execution_time": 10.0,
-            "memory_usage": 200
-        }
+        metrics = {"execution_time": 10.0, "memory_usage": 200}
         issues = self.validator._validate_performance_metrics(metrics)
         assert len(issues) == 0
 
@@ -340,11 +313,7 @@ class TestStrictValidator:
 
     def test_validate_resource_requirements_all_valid(self):
         """Test _validate_resource_requirements with all valid values."""
-        requirements = {
-            "cpu": 4.0,
-            "memory": 8192,
-            "storage": 50000
-        }
+        requirements = {"cpu": 4.0, "memory": 8192, "storage": 50000}
         issues = self.validator._validate_resource_requirements(requirements)
         assert len(issues) == 0
 
@@ -370,16 +339,20 @@ class TestStrictValidator:
     def test_validate_strict_requirements_exception_handling(self):
         """Test exception handling in validate_strict_requirements."""
         component = SSOTComponent()
-        component.__getattribute__ = lambda self, name: (_ for _ in ()).throw(Exception("Test error"))
-        
+        component.__getattribute__ = lambda self, name: (_ for _ in ()).throw(
+            Exception("Test error")
+        )
+
         issues = self.validator.validate_strict_requirements(component)
         assert any("Strict validation error" in issue for issue in issues)
 
     def test_validate_component_integrity_exception_handling(self):
         """Test exception handling in validate_component_integrity."""
         component = SSOTComponent()
-        component.__getattribute__ = lambda self, name: (_ for _ in ()).throw(Exception("Test error"))
-        
+        component.__getattribute__ = lambda self, name: (_ for _ in ()).throw(
+            Exception("Test error")
+        )
+
         issues = self.validator.validate_component_integrity(component)
         assert any("Integrity validation error" in issue for issue in issues)
 
@@ -394,8 +367,8 @@ class TestStrictValidator:
             configuration={
                 "DATABASE_PASSWORD": "secret",
                 "Api_Token": "token123",
-                "Secret_KEY": "key123"
-            }
+                "Secret_KEY": "key123",
+            },
         )
         issues = self.validator.validate_strict_requirements(component)
         # Should detect all three sensitive keys
@@ -405,4 +378,3 @@ class TestStrictValidator:
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
-

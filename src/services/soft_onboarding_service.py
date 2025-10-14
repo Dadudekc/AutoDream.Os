@@ -39,40 +39,35 @@ except ImportError:
     logger.warning("PyAutoGUI not available")
 
 
-# Session cleanup message template
-SESSION_CLEANUP_MESSAGE = """🎯 SESSION CLEANUP REQUIRED!
+# Session cleanup message template (Lean Excellence Framework)
+# Compact format per STANDARDS.md - focus on essential actions
+SESSION_CLEANUP_MESSAGE = """## Agent-{agent_id} Session Cleanup
 
-Before starting your next session, please complete these tasks:
+**Complete Before New Session**:
+1. Update `agent_workspaces/{agent_id}/passdown.json` with status/context
+2. Create devlog: `devlogs/YYYY-MM-DD_{agent_id}_session.md`
+3. Update swarm brain: `python tools/update_swarm_brain.py --insights "..."`
 
-1. **Create/Update passdown.json**
-   - Document current status, progress, blockers
-   - Include key insights and context for next session
-   - Location: agent_workspaces/{agent_id}/passdown.json
-
-2. **Create Final Devlog**
-   - Document all work completed this session
-   - Include: tasks, files modified, points earned, patterns learned
-   - Location: devlogs/YYYY-MM-DD_{agent_id}_session_summary.md
-
-3. **Post Devlog to Discord**
-   - Discord Commander will auto-post devlogs from devlogs/ directory
-   - Ensure your devlog follows naming convention
-
-4. **Update Swarm Brain Database**
-   - Log important insights, recommendations, lessons learned
-   - Command: python tools/update_swarm_brain.py --insights "your insights"
-   - Or manually update: runtime/swarm_brain.db
-
-5. **Create a Tool You Wished You Had**
-   - What tool would have made this session easier?
-   - Create it now for future agents!
-   - Location: tools/[tool_name].py
-
-**Press Enter when complete to proceed to next session onboarding!**
-
-📝 Remember: Quality documentation ensures civilization-building!
+**Optional**: Create tool you wished you had in `tools/`
 
 🐝 WE. ARE. SWARM. ⚡
+"""
+
+# Minimal onboarding template (Lean Excellence Framework)
+# Use for quick re-onboarding - full template via onboarding_template_loader
+ONBOARDING_MIN_TEMPLATE = """# Agent-{agent_id} Onboarding
+
+**Role**: {role}
+**Task**: {task}
+
+**Quick Start**:
+- Check inbox: `ls agent_workspaces/Agent-{agent_id}/inbox/`
+- Update status: `echo '{{...}}' > agent_workspaces/Agent-{agent_id}/status.json`
+- Get task: `python -m src.services.messaging_cli --agent Agent-{agent_id} --get-next-task`
+
+**Standards**: See STANDARDS.md | **Full Onboarding**: See AGENTS.md
+
+🚀 Start Working Immediately
 """
 
 

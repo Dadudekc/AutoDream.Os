@@ -75,9 +75,9 @@ def find_violations(data: dict[str, Any]) -> list[dict[str, Any]]:
 
             violations.append(
                 {
-                    "file": file_path.split("/")[-1]
-                    if "/" in file_path
-                    else file_path.split("\\")[-1],
+                    "file": (
+                        file_path.split("/")[-1] if "/" in file_path else file_path.split("\\")[-1]
+                    ),
                     "full_path": file_path,
                     "lines": lines,
                     "functions": functions,

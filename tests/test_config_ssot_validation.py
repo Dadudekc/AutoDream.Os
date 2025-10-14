@@ -132,12 +132,8 @@ class TestConfigSSOT:
 
     def test_backward_compatibility_config_core(self):
         """Test backward compatibility with config_core imports."""
-        from src.core.config_core import (
-            get_agent_config as core_get_agent,
-        )
-        from src.core.config_core import (
-            get_config as core_get_config,
-        )
+        from src.core.config_core import get_agent_config as core_get_agent
+        from src.core.config_core import get_config as core_get_config
 
         # Should work identically
         agent_config = core_get_agent()
@@ -148,9 +144,7 @@ class TestConfigSSOT:
 
     def test_backward_compatibility_unified_config(self):
         """Test backward compatibility with unified_config imports."""
-        from src.core.unified_config import (
-            get_agent_config as unified_get_agent,
-        )
+        from src.core.unified_config import get_agent_config as unified_get_agent
 
         # Should work identically
         agent_config = unified_get_agent()
@@ -235,9 +229,7 @@ class TestConfigSSOTIntegration:
         # Should be able to import all at once
         # And from shims
         from src.core.config_core import get_agent_config
-        from src.core.config_ssot import (
-            get_config,
-        )
+        from src.core.config_ssot import get_config
         from src.core.unified_config import get_timeout_config
 
         # All should work

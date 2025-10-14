@@ -69,11 +69,7 @@ def test_fingerprint_deduplication():
 @pytest.mark.smoke
 def test_fsm_state_transitions():
     """Smoke test: FSM state management works."""
-    from src.message_task.fsm_bridge import (
-        TaskState,
-        can_transition,
-        initial_state,
-    )
+    from src.message_task.fsm_bridge import TaskState, can_transition, initial_state
 
     assert initial_state() == TaskState.TODO
     assert can_transition(TaskState.TODO, TaskState.DOING)

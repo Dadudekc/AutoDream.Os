@@ -191,12 +191,12 @@ class PhantomTaskDetector(IToolAdapter):
                     "valid_files": len(valid_tasks),
                     "phantom_files": len(phantom_tasks),
                     "phantom_list": phantom_tasks[:10],  # First 10 only
-                    "phantom_percentage": round((len(phantom_tasks) / len(data)) * 100, 2)
-                    if data
-                    else 0,
-                    "recommendation": "Run fresh project scan"
-                    if phantom_tasks
-                    else "Task pool is clean",
+                    "phantom_percentage": (
+                        round((len(phantom_tasks) / len(data)) * 100, 2) if data else 0
+                    ),
+                    "recommendation": (
+                        "Run fresh project scan" if phantom_tasks else "Task pool is clean"
+                    ),
                 },
                 exit_code=0,
             )
@@ -262,9 +262,9 @@ class MultiFuelDelivery(IToolAdapter):
                 output={
                     "agents_targeted": len(agent_ids),
                     "deliveries_successful": success_count,
-                    "success_rate": round((success_count / len(agent_ids)) * 100, 2)
-                    if agent_ids
-                    else 0,
+                    "success_rate": (
+                        round((success_count / len(agent_ids)) * 100, 2) if agent_ids else 0
+                    ),
                     "delivery_results": delivery_results,
                 },
                 exit_code=0 if success_count == len(agent_ids) else 1,

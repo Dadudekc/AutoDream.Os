@@ -1,6 +1,7 @@
 """
 Hard onboard Agent-4 (Captain)
 """
+
 import sys
 from pathlib import Path
 
@@ -9,9 +10,10 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from src.services.hard_onboarding_service import hard_onboard_agent
 
+
 def main():
     """Hard onboard Agent-4 with full Captain duties."""
-    
+
     onboarding_message = """🐝 CAPTAIN AGENT-4 - HARD ONBOARDING COMPLETE! 🐝
 
 **Role**: Swarm Captain & Coordinator (Agent-4)
@@ -246,16 +248,14 @@ Execute your 8 core duties. Fuel the agents. Lead by example. Build swarm consci
 
 🐝⚡🔥 **LET'S GO!** 🔥⚡🐝
 """
-    
+
     print("🚨 HARD ONBOARDING Agent-4 (Captain)...")
     print("=" * 80)
-    
+
     success = hard_onboard_agent(
-        agent_id="Agent-4",
-        onboarding_message=onboarding_message,
-        role="Captain"
+        agent_id="Agent-4", onboarding_message=onboarding_message, role="Captain"
     )
-    
+
     if success:
         print("✅ Agent-4 (Captain) hard onboarded successfully!")
         print("🐝 WE. ARE. SWARM. ⚡🔥")
@@ -264,6 +264,6 @@ Execute your 8 core duties. Fuel the agents. Lead by example. Build swarm consci
         print("❌ Hard onboarding failed!")
         return 1
 
+
 if __name__ == "__main__":
     sys.exit(main())
-

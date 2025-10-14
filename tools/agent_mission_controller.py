@@ -74,9 +74,11 @@ class AgentProfile:
         return cls(
             agent_id=agent_id,
             name=data.get("agent_name", "Unknown"),
-            specialty=data.get("agent_name", "General").split("-")[0].strip()
-            if "-" in data.get("agent_name", "")
-            else "General",
+            specialty=(
+                data.get("agent_name", "General").split("-")[0].strip()
+                if "-" in data.get("agent_name", "")
+                else "General"
+            ),
             strengths=data.get("achievements", [])[:5],
             completed_missions=completed,
             total_points=len(completed) * 500,  # Rough estimate

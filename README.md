@@ -101,6 +101,7 @@ AutoDream OS is a **production-grade, V2 compliant** platform for building sophi
 - **Smoke Test Suites**: Automated validation for all components
 - **CI/CD Integration**: Automated testing and deployment pipelines
 - **Code Quality Enforcement**: Black, Ruff, and pre-commit hooks
+- **📋 Quality Standards**: See [STANDARDS.md](STANDARDS.md) for complete code quality and process standards
 
 ### 🚀 **Advanced Capabilities**
 - **Multi-Mode Role Management**: 6 specialized onboarding modes

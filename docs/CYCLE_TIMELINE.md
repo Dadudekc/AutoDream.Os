@@ -1,11 +1,14 @@
 # CYCLE-BASED TIMELINE
 ## E2E Agent Coordination Schedule
 
-**Version**: 1.0
+**Version**: 1.1
 **Date**: 2025-01-18
+**Updated**: 2025-10-14 (Lean Excellence Framework)
 **Purpose**: Prevent acknowledgment loops and duplicate work across 8-agent team
 **Total Cycles**: ~160 cycles
 **Duration**: 12-16 weeks
+
+**📋 Standards Reference**: For all quality and reporting standards, see [STANDARDS.md](../STANDARDS.md)
 
 ---
 
@@ -16,6 +19,12 @@
 - Each cycle must produce a concrete deliverable
 - Each cycle ends with `#DONE-Cxxx` tag
 - Captain acknowledges only at checkpoint cycles (C-010, C-025, C-050, C-075, C-100, C-125, C-150)
+
+### Reporting Policy (Lean Excellence Framework)
+- **Default**: Use **compact cycle reports** (`templates/messaging/compact_cycle.md`) for routine updates
+- **Milestones Only**: Use **full cycle reports** (`templates/messaging/full_cycle.md`) for major completions
+- **Mission Summary**: Single-line format: `Agent-X: [Action] [Target] - [Result] ([Metric])`
+- **See**: [STANDARDS.md](../STANDARDS.md) for detailed reporting standards
 
 ### Anti-Pattern Prevention
 **NEVER DO THIS:**

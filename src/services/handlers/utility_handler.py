@@ -189,9 +189,11 @@ class UtilityHandler:
                     {
                         "timestamp": result.document.created_at.isoformat(),
                         "agent_id": result.document.metadata.get("agent_id", "unknown"),
-                        "message": result.document.content[:200] + "..."
-                        if len(result.document.content) > 200
-                        else result.document.content,
+                        "message": (
+                            result.document.content[:200] + "..."
+                            if len(result.document.content) > 200
+                            else result.document.content
+                        ),
                         "type": result.document.document_type.value,
                         "similarity_score": result.similarity_score,
                         "source": result.document.metadata.get("source_file", "unknown"),

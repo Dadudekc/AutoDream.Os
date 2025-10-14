@@ -12,12 +12,7 @@ Created: 2025-10-13
 import pytest
 
 from src.message_task.dedupe import normalize_priority, task_fingerprint
-from src.message_task.fsm_bridge import (
-    TaskEvent,
-    TaskState,
-    can_transition,
-    transition_on_create,
-)
+from src.message_task.fsm_bridge import TaskEvent, TaskState, can_transition, transition_on_create
 from src.message_task.parsers.ai_parser import AIParser
 from src.message_task.parsers.fallback_regex import FallbackRegexParser
 from src.message_task.parsers.structured_parser import StructuredParser

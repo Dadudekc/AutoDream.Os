@@ -85,9 +85,7 @@ class OSSImportIssuesTool(IToolAdapter):
     def execute(self, params: dict[str, Any]) -> dict[str, Any]:
         """Execute issue import."""
         try:
-            from src.infrastructure.persistence.sqlite_task_repo import (
-                SqliteTaskRepository,
-            )
+            from src.infrastructure.persistence.sqlite_task_repo import SqliteTaskRepository
             from src.opensource.github_integration import GitHubIntegration
             from src.opensource.project_manager import OpenSourceProjectManager
             from src.opensource.task_integration import OSSTaskIntegration

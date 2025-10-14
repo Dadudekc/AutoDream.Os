@@ -416,9 +416,9 @@ class SwarmConflictDetector(IToolAdapter):
                 "has_conflicts": len(conflicts) > 0,
                 "conflicts": conflicts,
                 "safe_to_proceed": len(conflicts) == 0,
-                "recommendation": "Coordinate with agents listed"
-                if conflicts
-                else "Clear to proceed",
+                "recommendation": (
+                    "Coordinate with agents listed" if conflicts else "Clear to proceed"
+                ),
             }
 
         except Exception as e:

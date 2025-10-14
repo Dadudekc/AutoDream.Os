@@ -539,9 +539,9 @@ class WorkVerifyTool(IToolAdapter):
                 verification_results["checks"]["git_commit"] = {
                     "verified": git_result.returncode == 0,
                     "commit_hash": commit_hash,
-                    "commit_info": git_result.stdout
-                    if git_result.returncode == 0
-                    else git_result.stderr,
+                    "commit_info": (
+                        git_result.stdout if git_result.returncode == 0 else git_result.stderr
+                    ),
                 }
 
             # Check 2: Files exist
@@ -720,9 +720,9 @@ class MarkovOptimizerTool(IToolAdapter):
                     "total_time": total_time,
                     "total_points": total_points,
                     "average_roi": round(avg_roi, 2),
-                    "efficiency": round((total_points / total_time) * 100, 2)
-                    if total_time > 0
-                    else 0,
+                    "efficiency": (
+                        round((total_points / total_time) * 100, 2) if total_time > 0 else 0
+                    ),
                 },
                 exit_code=0,
             )

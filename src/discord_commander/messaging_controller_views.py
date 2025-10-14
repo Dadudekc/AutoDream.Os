@@ -48,8 +48,8 @@ class AgentMessagingView(discord.ui.View):
     def _load_agent_list(self) -> list[dict[str, Any]]:
         """Load list of available agents."""
         try:
-            # Get agent data from messaging service
-            if hasattr(self.messaging_service, "agent_data"):
+            # First try to get agent data from messaging service
+            if hasattr(self.messaging_service, "agent_data") and self.messaging_service.agent_data:
                 agents = []
                 for agent_id, agent_info in self.messaging_service.agent_data.items():
                     agents.append(
@@ -60,10 +60,37 @@ class AgentMessagingView(discord.ui.View):
                             "coordinates": agent_info.get("coordinates", (0, 0)),
                         }
                     )
-                return agents
+                if agents:  # Only return if we got agents
+                    return agents
+
+            # Fallback: Use StatusReader to get agents from status.json files
+            from .status_reader import StatusReader
+
+            status_reader = StatusReader()
+            all_statuses = status_reader.read_all_statuses()
+
+            agents = []
+            for i in range(1, 9):
+                agent_id = f"Agent-{i}"
+                status_data = all_statuses.get(agent_id, {})
+                agents.append(
+                    {
+                        "id": agent_id,
+                        "name": status_data.get("agent_name", f"Agent-{i}"),
+                        "status": "ACTIVE" in str(status_data.get("status", "")).upper(),
+                        "coordinates": status_data.get("coordinate_position", f"({i}, {i})"),
+                    }
+                )
+
+            return agents
+
         except Exception as e:
             logger.error(f"Error loading agent list: {e}")
-        return []
+            # Emergency fallback: Return static list
+            return [
+                {"id": f"Agent-{i}", "name": f"Agent-{i}", "status": True, "coordinates": (i, i)}
+                for i in range(1, 9)
+            ]
 
     def _create_agent_options(self) -> list[discord.SelectOption]:
         """Create Discord select options for agents."""

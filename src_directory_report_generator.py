@@ -6,11 +6,14 @@ Extracted from analyze_src_directories.py for V2 compliance.
 
 import json
 from pathlib import Path
-from typing import Dict, Any, List
+from typing import Any
 
 
-def generate_summary_report(analysis_results: Dict[str, Any], directory_structures: Dict[str, Any], 
-                            directories_to_analyze: List[str]) -> str:
+def generate_summary_report(
+    analysis_results: dict[str, Any],
+    directory_structures: dict[str, Any],
+    directories_to_analyze: list[str],
+) -> str:
     """Generate detailed summary report."""
     summary_report = f"""# 📊 **SRC DIRECTORIES COMPREHENSIVE ANALYSIS REPORT**
 
@@ -32,18 +35,18 @@ def generate_summary_report(analysis_results: Dict[str, Any], directory_structur
 
 ### **File Type Distribution:**
 """
-    
+
     for file_type, count in analysis_results["summary"]["file_types"].items():
         percentage = (count / analysis_results["summary"]["total_files"]) * 100
         summary_report += f"- **{file_type}:** {count} files ({percentage:.1f}%)\n"
-    
+
     summary_report += """
 ### **Average Complexity by File Type:**
 """
-    
+
     for file_type, avg_complexity in analysis_results["summary"]["avg_complexity_by_type"].items():
         summary_report += f"- **{file_type}:** {avg_complexity:.2f}\n"
-    
+
     summary_report += """
 ---
 
@@ -51,7 +54,7 @@ def generate_summary_report(analysis_results: Dict[str, Any], directory_structur
 
 ### **Directory Breakdown:**
 """
-    
+
     for directory, structure in directory_structures.items():
         summary_report += f"""
 #### **{directory}/**
@@ -59,7 +62,7 @@ def generate_summary_report(analysis_results: Dict[str, Any], directory_structur
 - **Total Directories:** {structure["total_dirs"]}
 - **File Distribution:** {dict(structure["structure"]['.']["files"]) if '.' in structure["structure"] else 'N/A'}
 """
-    
+
     total_files = analysis_results["summary"]["total_files"]
     summary_report += f"""
 ---
@@ -99,15 +102,18 @@ This analysis provides the foundation for our **Option 2 (Balanced Consolidation
 
 **🐝 WE ARE SWARM - Comprehensive source directory analysis complete!**
 """
-    
+
     return summary_report
 
 
-def save_analysis_results(analysis_results: Dict[str, Any], directory_structures: Dict[str, Any],
-                          directories_to_analyze: List[str]) -> None:
+def save_analysis_results(
+    analysis_results: dict[str, Any],
+    directory_structures: dict[str, Any],
+    directories_to_analyze: list[str],
+) -> None:
     """Save all analysis results to files."""
     import os
-    
+
     # Generate project analysis
     project_analysis = {
         "analysis_timestamp": str(Path().cwd()),
@@ -115,13 +121,13 @@ def save_analysis_results(analysis_results: Dict[str, Any], directory_structures
         "directory_structures": directory_structures,
         "file_analysis": analysis_results["directories"],
         "summary": analysis_results["summary"],
-        "imports_analysis": analysis_results["imports_analysis"]
+        "imports_analysis": analysis_results["imports_analysis"],
     }
-    
+
     # Save project analysis
-    with open('src_directories_project_analysis.json', 'w', encoding='utf-8') as f:
+    with open("src_directories_project_analysis.json", "w", encoding="utf-8") as f:
         json.dump(project_analysis, f, indent=2)
-    
+
     # Generate ChatGPT context
     chatgpt_context = {
         "project_root": os.getcwd(),
@@ -131,29 +137,30 @@ def save_analysis_results(analysis_results: Dict[str, Any], directory_structures
         "analysis_details": analysis_results["directories"],
         "summary": analysis_results["summary"],
         "directory_structures": directory_structures,
-        "imports_analysis": analysis_results["imports_analysis"]
+        "imports_analysis": analysis_results["imports_analysis"],
     }
-    
+
     # Save ChatGPT context
-    with open('src_directories_chatgpt_context.json', 'w', encoding='utf-8') as f:
+    with open("src_directories_chatgpt_context.json", "w", encoding="utf-8") as f:
         json.dump(chatgpt_context, f, indent=2)
-    
+
     # Generate and save summary report
-    summary_report = generate_summary_report(analysis_results, directory_structures, directories_to_analyze)
-    with open('SRC_DIRECTORIES_ANALYSIS_SUMMARY.md', 'w', encoding='utf-8') as f:
+    summary_report = generate_summary_report(
+        analysis_results, directory_structures, directories_to_analyze
+    )
+    with open("SRC_DIRECTORIES_ANALYSIS_SUMMARY.md", "w", encoding="utf-8") as f:
         f.write(summary_report)
 
 
-def print_analysis_summary(analysis_results: Dict[str, Any]) -> None:
+def print_analysis_summary(analysis_results: dict[str, Any]) -> None:
     """Print analysis summary to console."""
-    print(f"\n✅ Analysis complete!")
+    print("\n✅ Analysis complete!")
     print(f"📊 Files analyzed: {analysis_results['summary']['total_files']}")
     print(f"📝 Total lines: {analysis_results['summary']['total_lines']:,}")
     print(f"🔧 Total functions: {analysis_results['summary']['total_functions']}")
     print(f"🏗️ Total classes: {analysis_results['summary']['total_classes']}")
     print(f"📦 Total imports: {analysis_results['summary']['total_imports']}")
-    print(f"📁 Generated files:")
-    print(f"   - src_directories_project_analysis.json")
-    print(f"   - src_directories_chatgpt_context.json")
-    print(f"   - SRC_DIRECTORIES_ANALYSIS_SUMMARY.md")
-
+    print("📁 Generated files:")
+    print("   - src_directories_project_analysis.json")
+    print("   - src_directories_chatgpt_context.json")
+    print("   - SRC_DIRECTORIES_ANALYSIS_SUMMARY.md")

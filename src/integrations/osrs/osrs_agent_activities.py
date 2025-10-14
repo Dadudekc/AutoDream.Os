@@ -4,7 +4,6 @@ OSRS Agent Role-Specific Activities
 Extracted from osrs_agent_core.py for V2 compliance.
 """
 
-import logging
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -15,7 +14,7 @@ class OSRSActivityExecutor:
     """Handles execution of role-specific OSRS activities."""
 
     @staticmethod
-    def execute_combat_activity(agent: 'OSRS_Agent_Core') -> None:
+    def execute_combat_activity(agent: "OSRS_Agent_Core") -> None:
         """Execute combat specialist activities."""
         agent.logger.info("Executing combat specialist activities")
         # Implement combat-specific OSRS activities
@@ -24,7 +23,7 @@ class OSRSActivityExecutor:
         # - Equipment management
 
     @staticmethod
-    def execute_resource_activity(agent: 'OSRS_Agent_Core') -> None:
+    def execute_resource_activity(agent: "OSRS_Agent_Core") -> None:
         """Execute resource management activities."""
         agent.logger.info("Executing resource management activities")
         # Implement resource-specific OSRS activities
@@ -33,7 +32,7 @@ class OSRSActivityExecutor:
         # - Resource distribution
 
     @staticmethod
-    def execute_quest_activity(agent: 'OSRS_Agent_Core') -> None:
+    def execute_quest_activity(agent: "OSRS_Agent_Core") -> None:
         """Execute quest coordination activities."""
         agent.logger.info("Executing quest coordination activities")
         # Implement quest-specific OSRS activities
@@ -42,7 +41,7 @@ class OSRSActivityExecutor:
         # - Quest completion
 
     @staticmethod
-    def execute_strategic_activity(agent: 'OSRS_Agent_Core') -> None:
+    def execute_strategic_activity(agent: "OSRS_Agent_Core") -> None:
         """Execute strategic planning activities."""
         agent.logger.info("Executing strategic planning activities")
         # Implement strategic planning activities
@@ -51,7 +50,7 @@ class OSRSActivityExecutor:
         # - Resource allocation
 
     @staticmethod
-    def execute_trading_activity(agent: 'OSRS_Agent_Core') -> None:
+    def execute_trading_activity(agent: "OSRS_Agent_Core") -> None:
         """Execute trading specialist activities."""
         agent.logger.info("Executing trading specialist activities")
         # Implement trading-specific OSRS activities
@@ -60,7 +59,7 @@ class OSRSActivityExecutor:
         # - Economy management
 
     @staticmethod
-    def execute_skill_training_activity(agent: 'OSRS_Agent_Core') -> None:
+    def execute_skill_training_activity(agent: "OSRS_Agent_Core") -> None:
         """Execute skill training activities."""
         agent.logger.info("Executing skill training activities")
         # Implement skill training activities
@@ -69,7 +68,7 @@ class OSRSActivityExecutor:
         # - Skill progression tracking
 
     @staticmethod
-    def execute_clan_activity(agent: 'OSRS_Agent_Core') -> None:
+    def execute_clan_activity(agent: "OSRS_Agent_Core") -> None:
         """Execute clan coordination activities."""
         agent.logger.info("Executing clan coordination activities")
         # Implement clan-specific OSRS activities
@@ -78,11 +77,10 @@ class OSRSActivityExecutor:
         # - Clan management
 
     @staticmethod
-    def execute_emergency_monitoring(agent: 'OSRS_Agent_Core') -> None:
+    def execute_emergency_monitoring(agent: "OSRS_Agent_Core") -> None:
         """Execute emergency response monitoring."""
         agent.logger.info("Executing emergency response monitoring")
         # Implement emergency response activities
         # - System monitoring
         # - Emergency detection
         # - Response coordination
-

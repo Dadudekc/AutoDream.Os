@@ -4,19 +4,18 @@ OSRS Agent Message Handling
 Extracted from osrs_agent_core.py for V2 compliance.
 """
 
-import logging
 from datetime import datetime
-from typing import Any, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
-    from .osrs_agent_core import OSRS_Agent_Core, AgentRole
+    from .osrs_agent_core import OSRS_Agent_Core
 
 
 class OSRSMessageHandler:
     """Handles coordination messages between OSRS agents."""
 
     @staticmethod
-    def handle_coordination_message(agent: 'OSRS_Agent_Core', message: dict[str, Any]) -> None:
+    def handle_coordination_message(agent: "OSRS_Agent_Core", message: dict[str, Any]) -> None:
         """Handle coordination message from another agent."""
         message_type = message.get("type", "unknown")
 
@@ -30,7 +29,7 @@ class OSRSMessageHandler:
             agent.logger.warning(f"Unknown message type: {message_type}")
 
     @staticmethod
-    def handle_resource_request(agent: 'OSRS_Agent_Core', message: dict[str, Any]) -> None:
+    def handle_resource_request(agent: "OSRS_Agent_Core", message: dict[str, Any]) -> None:
         """Handle resource request from another agent."""
         requested_item = message.get("item")
         requesting_agent = message.get("from_agent")
@@ -61,7 +60,7 @@ class OSRSMessageHandler:
             )
 
     @staticmethod
-    def handle_activity_coordination(agent: 'OSRS_Agent_Core', message: dict[str, Any]) -> None:
+    def handle_activity_coordination(agent: "OSRS_Agent_Core", message: dict[str, Any]) -> None:
         """Handle activity coordination message."""
         activity = message.get("activity")
         coordinating_agent = message.get("from_agent")
@@ -73,10 +72,10 @@ class OSRSMessageHandler:
             agent.logger.info(f"Participating in coordinated activity: {activity}")
 
     @staticmethod
-    def handle_emergency_alert(agent: 'OSRS_Agent_Core', message: dict[str, Any]) -> None:
+    def handle_emergency_alert(agent: "OSRS_Agent_Core", message: dict[str, Any]) -> None:
         """Handle emergency alert from another agent."""
         from .osrs_agent_core import AgentRole
-        
+
         emergency_type = message.get("emergency_type")
         alerting_agent = message.get("from_agent")
 
@@ -86,10 +85,10 @@ class OSRSMessageHandler:
             agent.initiate_emergency_response(emergency_type, alerting_agent)
 
     @staticmethod
-    def should_participate_in_activity(agent: 'OSRS_Agent_Core', activity: str) -> bool:
+    def should_participate_in_activity(agent: "OSRS_Agent_Core", activity: str) -> bool:
         """Determine if agent should participate in a coordinated activity."""
         from .osrs_agent_core import AgentRole
-        
+
         if agent.role == AgentRole.EMERGENCY_RESPONSE:
             return "emergency" in activity.lower()
         elif agent.role == AgentRole.COMBAT_SPECIALIST:
@@ -100,7 +99,7 @@ class OSRSMessageHandler:
         return False
 
     @staticmethod
-    def send_message(agent: 'OSRS_Agent_Core', target_agent: str, message: dict[str, Any]) -> None:
+    def send_message(agent: "OSRS_Agent_Core", target_agent: str, message: dict[str, Any]) -> None:
         """Send message to another agent."""
         message["from_agent"] = agent.agent_id
         message["timestamp"] = datetime.now().isoformat()
@@ -108,7 +107,7 @@ class OSRSMessageHandler:
         agent.logger.info(f"Sending message to {target_agent}: {message['type']}")
 
     @staticmethod
-    def communicate_with_swarm(agent: 'OSRS_Agent_Core') -> None:
+    def communicate_with_swarm(agent: "OSRS_Agent_Core") -> None:
         """Communicate status and coordination with the swarm."""
         try:
             status_message = {
@@ -124,4 +123,3 @@ class OSRSMessageHandler:
 
         except Exception as e:
             agent.logger.error(f"Error communicating with swarm: {e}")
-

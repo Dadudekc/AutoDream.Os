@@ -21,25 +21,25 @@ except ImportError:
 def format_c2a_message(recipient: str, content: str, priority: str | None = None) -> str:
     """
     Format C2A message in lean compact style (Lean Excellence Framework).
-    
+
     Per STANDARDS.md: Compact messaging with essential fields only.
-    
+
     Args:
         recipient: Target agent ID
         content: Message content
         priority: Optional priority level (defaults to 'normal')
-        
+
     Returns:
         Formatted compact C2A message
     """
     priority = priority or "normal"
-    
+
     # Lean format: [Type] Recipient | Priority (if urgent/high)
     if priority in ("urgent", "high"):
         header = f"[C2A] {recipient} | {priority.upper()}"
     else:
         header = f"[C2A] {recipient}"
-    
+
     return f"{header}\n\n{content}"
 
 
@@ -54,23 +54,23 @@ class PyAutoGUIMessagingDelivery:
     def validate_coordinates(self, agent_id: str, coords: tuple[int, int]) -> bool:
         """
         Validate coordinates before sending.
-        
+
         Args:
             agent_id: Agent identifier
             coords: Coordinate tuple (x, y)
-            
+
         Returns:
             True if coordinates are valid
         """
         if not coords or len(coords) != 2:
             logger.error(f"Invalid coordinates for {agent_id}: {coords}")
             return False
-        
+
         x, y = coords
         if not isinstance(x, (int, float)) or not isinstance(y, (int, float)):
             logger.error(f"Coordinates must be numeric for {agent_id}: ({x}, {y})")
             return False
-        
+
         return True
 
     def send_message(self, message) -> bool:
@@ -92,7 +92,7 @@ class PyAutoGUIMessagingDelivery:
             msg_content = format_c2a_message(
                 recipient=message.recipient,
                 content=message.content,
-                priority=message.priority.value
+                priority=message.priority.value,
             )
 
             # Click agent chat input

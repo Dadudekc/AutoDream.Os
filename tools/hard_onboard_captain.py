@@ -13,29 +13,30 @@ sys.path.insert(0, str(repo_root))
 
 from src.services.hard_onboarding_service import hard_onboard_agent
 
+
 def main():
     """Execute Captain hard onboarding."""
-    
+
     # Load onboarding message
     onboarding_file = repo_root / "agent_workspaces" / "Agent-4" / "HARD_ONBOARDING_MESSAGE.md"
-    
+
     if not onboarding_file.exists():
         print(f"❌ Onboarding file not found: {onboarding_file}")
         return 1
-    
+
     onboarding_message = onboarding_file.read_text(encoding="utf-8")
     print(f"📄 Loaded onboarding message ({len(onboarding_message)} chars)")
-    
+
     # Execute hard onboarding
     print("🚨 Starting HARD ONBOARDING for Agent-4 (Captain)...")
     print("  Protocol: Clear chat → Execute → New window → Navigate → Send message")
-    
+
     success = hard_onboard_agent(
         agent_id="Agent-4",
         onboarding_message=onboarding_message,
-        role="Captain & Strategic Oversight"
+        role="Captain & Strategic Oversight",
     )
-    
+
     if success:
         print("✅ Captain hard onboarding COMPLETE!")
         return 0
@@ -43,6 +44,6 @@ def main():
         print("❌ Captain hard onboarding FAILED")
         return 1
 
+
 if __name__ == "__main__":
     sys.exit(main())
-

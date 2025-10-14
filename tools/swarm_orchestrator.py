@@ -213,6 +213,20 @@ class SwarmOrchestrator:
                         if "python" in line.lower() and "--type TODO" in line:
                             continue
 
+                        # Skip meta-comments about TODO detection itself (Agent-8 fix)
+                        if any(
+                            phrase in line.lower()
+                            for phrase in [
+                                "skip if todo",
+                                "check if todo",
+                                "match todo",
+                                "detect todo",
+                                "todo detection",
+                                "todo/fixme",
+                            ]
+                        ):
+                            continue
+
                         # Skip if TODO/FIXME is inside string literals
                         # Simple heuristic: check if TODO/FIXME is surrounded by quotes
                         if (

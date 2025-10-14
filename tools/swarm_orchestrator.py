@@ -29,12 +29,22 @@ Inspiration: "PROMPTS ARE GAS" + Messaging System
 """
 
 import json
-import subprocess
-import sys
 import time
 from datetime import datetime
 from pathlib import Path
 from typing import Any
+
+from .gas_messaging import send_gas_message
+from .opportunity_scanners import (
+    scan_complexity,
+    scan_duplication,
+    scan_linter_errors,
+    scan_memory_leaks,
+    scan_test_coverage,
+    scan_todo_comments,
+    scan_v2_violations,
+)
+from .task_creator import create_inbox_task
 
 
 class SwarmOrchestrator:
@@ -57,15 +67,15 @@ class SwarmOrchestrator:
             "Agent-8": ["qa", "documentation", "ssot"],
         }
 
-        # Work opportunity scanners
+        # Work opportunity scanners (delegated to opportunity_scanners module)
         self.scanners = {
-            "linter_errors": self._scan_linter_errors,
-            "v2_violations": self._scan_v2_violations,
-            "memory_leaks": self._scan_memory_leaks,
-            "test_coverage": self._scan_test_coverage,
-            "todo_comments": self._scan_todo_comments,
-            "duplication": self._scan_duplication,
-            "complexity": self._scan_complexity,
+            "linter_errors": lambda: scan_linter_errors(),
+            "v2_violations": lambda: scan_v2_violations(self.project_root),
+            "memory_leaks": lambda: scan_memory_leaks(self.project_root),
+            "test_coverage": lambda: scan_test_coverage(),
+            "todo_comments": lambda: scan_todo_comments(self.project_root),
+            "duplication": lambda: scan_duplication(),
+            "complexity": lambda: scan_complexity(),
         }
 
     def _discover_agents(self) -> list[str]:
@@ -129,150 +139,6 @@ class SwarmOrchestrator:
 
         return opportunities
 
-    def _scan_linter_errors(self) -> list[dict[str, Any]]:
-        """Scan for linter errors."""
-        # Would integrate with actual linter
-        # For now, return example structure
-        return []
-
-    def _scan_v2_violations(self) -> list[dict[str, Any]]:
-        """Scan for V2 compliance violations."""
-        violations = []
-
-        try:
-            # Run V2 checker
-            result = subprocess.run(
-                [sys.executable, "tools/v2_checker_cli.py", "--json"],
-                capture_output=True,
-                text=True,
-                cwd=self.project_root,
-            )
-
-            if result.returncode == 0:
-                # Parse violations and create opportunities
-                # This is a simplified example
-                pass
-
-        except Exception as e:
-            print(f"V2 scan error: {e}")
-
-        return violations
-
-    def _scan_memory_leaks(self) -> list[dict[str, Any]]:
-        """Scan for memory leaks."""
-        leaks = []
-
-        try:
-            # Run memory leak scanner
-            result = subprocess.run(
-                [sys.executable, "tools/memory_leak_scanner.py"],
-                capture_output=True,
-                text=True,
-                cwd=self.project_root,
-            )
-
-            # Parse output for leak opportunities
-            # This would create tasks like "Fix unbounded cache in X"
-
-        except Exception as e:
-            print(f"Memory scan error: {e}")
-
-        return leaks
-
-    def _scan_test_coverage(self) -> list[dict[str, Any]]:
-        """Scan for low test coverage areas."""
-        return []
-
-    def _scan_todo_comments(self) -> list[dict[str, Any]]:
-        """Scan for TODO/FIXME comments in code."""
-        todos = []
-
-        try:
-            # Use grep to find TODOs
-            for py_file in self.project_root.rglob("*.py"):
-                if "__pycache__" in str(py_file):
-                    continue
-
-                try:
-                    content = py_file.read_text(encoding="utf-8")
-                    lines = content.split("\n")
-                    in_docstring = False
-
-                    for i, line in enumerate(lines, 1):
-                        stripped = line.strip()
-
-                        # Track docstring state
-                        if '"""' in line or "'''" in line:
-                            in_docstring = not in_docstring
-
-                        # Skip if in docstring (usage examples, etc.)
-                        if in_docstring:
-                            continue
-
-                        # Skip if it's just command line usage example
-                        if "python" in line.lower() and "--type TODO" in line:
-                            continue
-
-                        # Skip meta-comments about TODO detection itself (Agent-8 fix)
-                        if any(
-                            phrase in line.lower()
-                            for phrase in [
-                                "skip if todo",
-                                "check if todo",
-                                "match todo",
-                                "detect todo",
-                                "todo detection",
-                                "todo/fixme",
-                            ]
-                        ):
-                            continue
-
-                        # Skip if TODO/FIXME is inside string literals
-                        # Simple heuristic: check if TODO/FIXME is surrounded by quotes
-                        if (
-                            "'# TODO'" in line
-                            or '"# TODO"' in line
-                            or "'# FIXME'" in line
-                            or '"# FIXME"' in line
-                            or "'TODO'" in line
-                            or '"TODO"' in line
-                            or "'FIXME'" in line
-                            or '"FIXME"' in line
-                        ):
-                            continue
-
-                        # Only match actual TODO/FIXME comments (with # or after //)
-                        if (
-                            "# TODO" in line
-                            or "# FIXME" in line
-                            or "// TODO" in line
-                            or "// FIXME" in line
-                        ):
-                            todos.append(
-                                {
-                                    "type": "todo_comment",
-                                    "file": str(py_file.relative_to(self.project_root)),
-                                    "line": i,
-                                    "content": stripped,
-                                    "points": 50,
-                                    "complexity": 30,
-                                }
-                            )
-                except:
-                    pass
-
-        except Exception as e:
-            print(f"TODO scan error: {e}")
-
-        return todos
-
-    def _scan_duplication(self) -> list[dict[str, Any]]:
-        """Scan for code duplication."""
-        return []
-
-    def _scan_complexity(self) -> list[dict[str, Any]]:
-        """Scan for high complexity code."""
-        return []
 
     def calculate_roi(self, opportunity: dict[str, Any]) -> float:
         """Calculate ROI for opportunity (points / complexity)."""
@@ -309,108 +175,6 @@ class SwarmOrchestrator:
         # Fallback: return any idle agent
         return idle_agents[0] if idle_agents else None
 
-    def create_inbox_task(self, agent: str, opportunity: dict[str, Any], roi: float):
-        """Create task in agent's inbox."""
-        inbox_dir = self.agent_workspaces / agent / "inbox"
-        inbox_dir.mkdir(parents=True, exist_ok=True)
-
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        task_file = inbox_dir / f"AUTO_TASK_{timestamp}.md"
-
-        task_content = f"""# [AUTO] Autonomous Task Assignment
-
-**From:** Swarm Orchestrator (Gas Station)  
-**To:** {agent}  
-**Date:** {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}  
-**Priority:** Auto-Generated  
-**ROI:** {roi:.2f}
-
----
-
-## 🎯 **OPPORTUNITY DETECTED**
-
-**Type:** {opportunity.get('type', 'Unknown')}  
-**File:** {opportunity.get('file', 'N/A')}  
-**Line:** {opportunity.get('line', 'N/A')}  
-**Points:** {opportunity.get('points', 100)}  
-**Complexity:** {opportunity.get('complexity', 50)}  
-**ROI:** {roi:.2f}
-
----
-
-## 📋 **TASK DESCRIPTION**
-
-{opportunity.get('description', 'Fix the identified issue')}
-
-**Details:**
-```
-{opportunity.get('content', 'See file for details')}
-```
-
----
-
-## ✅ **ACCEPTANCE CRITERIA**
-
-1. Issue resolved in identified file
-2. Tests passing (if applicable)
-3. V2 compliance maintained
-4. Documentation updated (if needed)
-5. Tag completion: #DONE-AUTO-{agent}
-
----
-
-## 🚀 **GET STARTED**
-
-This task was automatically assigned based on:
-- Your specialty match
-- Current idle status
-- ROI optimization ({roi:.2f})
-
-**Ready to execute!** 🐝⚡
-
----
-
-*Autonomous Gas Delivery System - Keeping the swarm moving!* 🏭
-"""
-
-        task_file.write_text(task_content)
-        print(f"  ✅ Created inbox task: {task_file.name}")
-
-    def send_gas_message(self, agent: str, opportunity: dict[str, Any], roi: float):
-        """Send PyAutoGUI message to agent (GAS DELIVERY!)."""
-        try:
-            message = (
-                f"⛽ GAS DELIVERY! Auto-task assigned: {opportunity.get('type', 'work')} "
-                f"({opportunity.get('points', 100)}pts, ROI {roi:.2f}). "
-                f"Check INBOX + Execute NOW! 🔥🐝"
-            )
-
-            # Send PyAutoGUI message
-            result = subprocess.run(
-                [
-                    sys.executable,
-                    "-m",
-                    "src.services.messaging_cli",
-                    "--agent",
-                    agent,
-                    "--message",
-                    message,
-                    "--priority",
-                    "regular",
-                    "--pyautogui",
-                ],
-                capture_output=True,
-                text=True,
-                cwd=self.project_root,
-            )
-
-            if result.returncode == 0:
-                print(f"  ⛽ Gas delivered to {agent}!")
-            else:
-                print(f"  ⚠️  Gas delivery failed: {result.stderr}")
-
-        except Exception as e:
-            print(f"  ❌ Gas delivery error: {e}")
 
     def run_cycle(self):
         """Run one orchestration cycle."""
@@ -475,11 +239,11 @@ This task was automatically assigned based on:
                     f"   ROI: {opp['roi']:.2f} ({opp.get('points')}pts / {opp.get('complexity')})"
                 )
 
-                # Create inbox task
-                self.create_inbox_task(agent, opp, opp["roi"])
+                # Create inbox task (delegated to task_creator module)
+                create_inbox_task(agent, opp, opp["roi"], self.agent_workspaces)
 
-                # Send gas message
-                self.send_gas_message(agent, opp, opp["roi"])
+                # Send gas message (delegated to gas_messaging module)
+                send_gas_message(agent, opp, opp["roi"], self.project_root)
 
                 # Remove from idle list
                 idle_agents.remove(agent)

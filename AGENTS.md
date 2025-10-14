@@ -45,6 +45,20 @@ This repository is primarily a **Python** project. Unless explicitly noted, all 
 
 ## 🛠️ **Agent Tools & Resources**
 
+### **🧠 Swarm Brain - PRIMARY KNOWLEDGE SOURCE** ⭐
+- **Location:** `swarm_brain/`
+- **Access Guide:** `swarm_brain/protocols/SWARM_BRAIN_ACCESS_GUIDE.md`
+- **Documentation Index:** `swarm_brain/DOCUMENTATION_INDEX.md`
+- **Purpose:** Centralized knowledge repository for all agents
+- **API:** `from src.swarm_brain.swarm_memory import SwarmMemory`
+- **Usage:**
+  ```python
+  memory = SwarmMemory(agent_id='Agent-X')
+  results = memory.search_swarm_knowledge("query")
+  memory.share_learning(title, content, tags)
+  ```
+- **Status:** ⭐ **ACTIVE - ALL AGENTS MUST USE**
+
 ### **Project Scanner (Critical Tool)**
 - **Location:** `tools/projectscanner.py`
 - **Runner:** `tools/run_project_scan.py`

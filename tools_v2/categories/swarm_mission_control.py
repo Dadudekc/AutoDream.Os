@@ -74,21 +74,21 @@ class SwarmMissionControl(IToolAdapter):
             agent_id = kwargs.get("agent", "Agent-1")
 
             # PHASE 1: READ ENTIRE SWARM STATE
-            swarm_state = self._read_swarm_state()
+            swarm_state = read_swarm_state()
 
             # PHASE 2: READ AGENT'S CONTEXT
-            agent_context = self._read_agent_context(agent_id, swarm_state)
+            agent_context = read_agent_context(agent_id, swarm_state)
 
             # PHASE 3: ANALYZE AVAILABLE WORK
-            available_work = self._analyze_available_work(swarm_state)
+            available_work = analyze_available_work(swarm_state)
 
             # PHASE 4: CALCULATE OPTIMAL TASK
-            optimal_task = self._calculate_optimal_task(
+            optimal_task = calculate_optimal_task(
                 agent_id, agent_context, available_work, swarm_state
             )
 
             # PHASE 5: BUILD CONTEXT PACKAGE
-            context_package = self._build_context_package(optimal_task, agent_context, swarm_state)
+            context_package = build_context_package(optimal_task, agent_context, swarm_state)
 
             # PHASE 6: RETURN MISSION BRIEF
             return {
@@ -105,253 +105,12 @@ class SwarmMissionControl(IToolAdapter):
                 "agent_context": agent_context,
                 # EXECUTION READY
                 "ready_to_execute": optimal_task is not None,
-                "mission_brief": self._format_mission_brief(optimal_task, context_package),
+                "mission_brief": format_mission_brief(optimal_task, context_package),
             }
 
         except Exception as e:
             logger.error(f"Mission control failed: {e}")
             return {"success": False, "error": str(e)}
-
-    def _read_swarm_state(self) -> dict[str, Any]:
-        """Read complete swarm state from all agents."""
-        swarm_state = {
-            "agents": {},
-            "active_missions": [],
-            "completed_today": [],
-            "total_points": 0,
-            "summary": {},
-        }
-
-        try:
-            # Read all agent status files
-            workspace = Path("agent_workspaces")
-            for i in range(1, 9):
-                agent_id = f"Agent-{i}"
-                status_file = workspace / agent_id / "status.json"
-
-                if status_file.exists():
-                    try:
-                        with open(status_file) as f:
-                            status = json.load(f)
-                            swarm_state["agents"][agent_id] = status
-
-                            # Track active missions
-                            mission = status.get("current_mission", "")
-                            if mission and "COMPLETE" not in mission.upper():
-                                swarm_state["active_missions"].append(
-                                    {"agent": agent_id, "mission": mission}
-                                )
-
-                            # Sum points
-                            points = status.get("points_earned", 0)
-                            if isinstance(points, (int, float)):
-                                swarm_state["total_points"] += points
-
-                    except:
-                        pass
-
-            swarm_state["summary"] = {
-                "total_agents": len(swarm_state["agents"]),
-                "active_count": len(swarm_state["active_missions"]),
-                "total_points": swarm_state["total_points"],
-            }
-
-        except Exception as e:
-            logger.error(f"Error reading swarm state: {e}")
-
-        return swarm_state
-
-    def _read_agent_context(self, agent_id: str, swarm_state: dict) -> dict[str, Any]:
-        """Read agent's specific context."""
-        context = {
-            "agent_id": agent_id,
-            "status": {},
-            "inbox_count": 0,
-            "inbox_messages": [],
-            "recent_completions": [],
-            "specialty": self._get_agent_specialty(agent_id),
-        }
-
-        try:
-            # Read agent status
-            if agent_id in swarm_state["agents"]:
-                context["status"] = swarm_state["agents"][agent_id]
-
-            # Read inbox
-            inbox_path = Path(f"agent_workspaces/{agent_id}/inbox")
-            if inbox_path.exists():
-                inbox_files = list(inbox_path.glob("*.md"))
-                context["inbox_count"] = len(inbox_files)
-
-                # Read priority messages
-                priority_messages = []
-                for msg_file in sorted(inbox_files, key=lambda x: x.stat().st_mtime, reverse=True)[
-                    :5
-                ]:
-                    try:
-                        content = open(msg_file).read()
-                        priority_messages.append(
-                            {
-                                "file": msg_file.name,
-                                "preview": content[:200],
-                                "modified": datetime.fromtimestamp(
-                                    msg_file.stat().st_mtime
-                                ).isoformat(),
-                            }
-                        )
-                    except:
-                        pass
-
-                context["inbox_messages"] = priority_messages
-
-        except Exception as e:
-            logger.error(f"Error reading agent context: {e}")
-
-        return context
-
-    def _analyze_available_work(self, swarm_state: dict) -> list[dict]:
-        """Analyze what work is available."""
-        available = []
-
-        try:
-            # Check project analysis for violations
-            if Path("project_analysis.json").exists():
-                with open("project_analysis.json") as f:
-                    analysis = json.load(f)
-                    # Look for files that need work (this is simplified)
-                    # Real implementation would parse violations
-                    available.append(
-                        {"type": "v2_compliance", "source": "project_analysis", "count": "multiple"}
-                    )
-
-            # Check captain's tracking for unassigned work
-            captain_docs = Path("agent_workspaces/Agent-4")
-            if captain_docs.exists():
-                # Look for execution orders or task lists
-                for doc in captain_docs.glob("*EXECUTION*.md"):
-                    available.append(
-                        {"type": "captain_order", "source": str(doc), "priority": "HIGH"}
-                    )
-
-        except Exception as e:
-            logger.error(f"Error analyzing available work: {e}")
-
-        return available
-
-    def _calculate_optimal_task(
-        self, agent_id: str, agent_context: dict, available_work: list, swarm_state: dict
-    ) -> dict | None:
-        """Calculate optimal next task for agent."""
-
-        # Check inbox first (highest priority)
-        if agent_context["inbox_count"] > 0:
-            inbox_messages = agent_context["inbox_messages"]
-            if inbox_messages:
-                latest = inbox_messages[0]
-                return {
-                    "type": "inbox_order",
-                    "priority": "URGENT",
-                    "source": latest["file"],
-                    "description": "Check inbox - Captain's orders waiting",
-                    "roi": 999,  # Highest priority
-                    "reasoning": f"{agent_context['inbox_count']} messages in inbox",
-                }
-
-        # Check for specialty-aligned work
-        specialty = agent_context.get("specialty", "")
-        if "Infrastructure" in specialty and available_work:
-            for work in available_work:
-                if "orchestrat" in str(work.get("source", "")).lower():
-                    return {
-                        "type": "specialty_match",
-                        "priority": "HIGH",
-                        "description": "Infrastructure work matches your specialty",
-                        "source": work.get("source"),
-                        "roi": 800,
-                        "reasoning": "Aligns with Infrastructure & DevOps expertise",
-                    }
-
-        # No specific task found
-        return {
-            "type": "scan_for_opportunities",
-            "priority": "MEDIUM",
-            "description": "Scan project for proactive opportunities",
-            "roi": 500,
-            "reasoning": "No urgent tasks - proactive mode",
-        }
-
-    def _build_context_package(
-        self, task: dict | None, agent_context: dict, swarm_state: dict
-    ) -> dict[str, Any]:
-        """Build complete context package for task execution."""
-        if not task:
-            return {}
-
-        package = {
-            "task_summary": task.get("description", "No task"),
-            "priority": task.get("priority", "MEDIUM"),
-            "estimated_roi": task.get("roi", 0),
-            # Swarm coordination context
-            "other_agents_working": [
-                {"agent": m["agent"], "mission": m["mission"]}
-                for m in swarm_state["active_missions"]
-            ],
-            # Agent status
-            "your_status": agent_context.get("status", {}),
-            # Related files
-            "check_these_files": [],
-            # Coordination needs
-            "coordinate_with": [],
-            # Success patterns
-            "similar_past_work": [],
-        }
-
-        # Add task-specific context
-        if task.get("source"):
-            package["reference_file"] = task["source"]
-            package["check_these_files"].append(task["source"])
-
-        return package
-
-    def _format_mission_brief(self, task: dict | None, context: dict) -> str:
-        """Format human-readable mission brief."""
-        if not task:
-            return "No mission identified - Agent appears to be resting"
-
-        brief = f"""
-🎯 MISSION BRIEF FOR EXECUTION
-================================
-
-RECOMMENDED TASK: {task.get('description', 'Unknown')}
-PRIORITY: {task.get('priority', 'MEDIUM')}
-ROI: {task.get('roi', 0)}
-TYPE: {task.get('type', 'Unknown')}
-
-REASONING: {task.get('reasoning', 'Optimal task for your specialty')}
-
-CONTEXT PROVIDED:
-- Swarm state: {len(context.get('other_agents_working', []))} agents active
-- Files to check: {len(context.get('check_these_files', []))}
-- Coordination needed: {len(context.get('coordinate_with', []))}
-
-READY TO EXECUTE: Yes
-================================
-"""
-        return brief.strip()
-
-    def _get_agent_specialty(self, agent_id: str) -> str:
-        """Get agent specialty."""
-        specialties = {
-            "Agent-1": "Integration & Core Systems",
-            "Agent-2": "Architecture & Design",
-            "Agent-3": "Infrastructure & DevOps",
-            "Agent-4": "Quality Assurance (Captain)",
-            "Agent-5": "Business Intelligence",
-            "Agent-6": "Coordination & Communication",
-            "Agent-7": "Web Development",
-            "Agent-8": "Operations & Support",
-        }
-        return specialties.get(agent_id, "General")
 
 
 class SwarmConflictDetector(IToolAdapter):

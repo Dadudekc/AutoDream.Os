@@ -54,6 +54,13 @@
 - **Archive:** 2 repos now, trial period for rest
 - **Rationale:** Active development + infrastructure is EASIEST to fix
 
+### **Agent-5: Balanced Hybrid (12-15% Phase 1, Commander Decides Phase 2)**
+- **File:** `Agent-5_balanced_architecture_bi.md`
+- **Approach:** Phase-based with Commander business decision
+- **Archive Phase 1:** 9-11 repos (12-15% obvious garbage)
+- **Archive Phase 2:** Commander decides based on strategic value
+- **Rationale:** Remove TRUE garbage, let business value drive rest
+
 ### **Agent-8: QA Hybrid (50%)**
 - **File:** `Agent-8_qa_hybrid_50_percent.md`
 - **Approach:** Quality-driven with 30-day improvement gates

@@ -1,0 +1,251 @@
+{
+  "total_disputed": 43,
+  "high_confidence_keep": [
+    {
+      "repo": "network-scanner",
+      "score": 75,
+      "reason": "High quality by QA standards"
+    },
+    {
+      "repo": "Streamertools",
+      "score": 85,
+      "reason": "High quality by QA standards"
+    },
+    {
+      "repo": "Side-projects",
+      "score": 85,
+      "reason": "High quality by QA standards"
+    },
+    {
+      "repo": "MeTuber",
+      "score": 75,
+      "reason": "High quality by QA standards"
+    },
+    {
+      "repo": "ideas",
+      "score": 75,
+      "reason": "High quality by QA standards"
+    },
+    {
+      "repo": "ultimate_trading_intelligence",
+      "score": 75,
+      "reason": "High quality by QA standards"
+    },
+    {
+      "repo": "Agent_Cellphone",
+      "score": 80,
+      "reason": "High quality by QA standards"
+    },
+    {
+      "repo": "projectscanner",
+      "score": 80,
+      "reason": "High quality by QA standards"
+    },
+    {
+      "repo": "Thea",
+      "score": 70,
+      "reason": "High quality by QA standards"
+    }
+  ],
+  "borderline_cases": [
+    {
+      "repo": "TBOWTactics",
+      "score": 55,
+      "positives": 3,
+      "concerns": 2
+    },
+    {
+      "repo": "agent-cellphone-cli",
+      "score": 65,
+      "positives": 3,
+      "concerns": 2
+    },
+    {
+      "repo": "DaDudekC",
+      "score": 55,
+      "positives": 2,
+      "concerns": 3
+    },
+    {
+      "repo": "machinelearningproject",
+      "score": 65,
+      "positives": 3,
+      "concerns": 3
+    },
+    {
+      "repo": "content",
+      "score": 55,
+      "positives": 2,
+      "concerns": 3
+    },
+    {
+      "repo": "langchain-google",
+      "score": 65,
+      "positives": 3,
+      "concerns": 2
+    },
+    {
+      "repo": "machinelearningmodelmaker",
+      "score": 55,
+      "positives": 2,
+      "concerns": 3
+    },
+    {
+      "repo": "osrsAIagent",
+      "score": 65,
+      "positives": 3,
+      "concerns": 3
+    },
+    {
+      "repo": "Superpowered-TTRPG",
+      "score": 60,
+      "positives": 3,
+      "concerns": 2
+    },
+    {
+      "repo": "IT_help_desk",
+      "score": 60,
+      "positives": 3,
+      "concerns": 2
+    },
+    {
+      "repo": "TradingRobotPlugWeb",
+      "score": 60,
+      "positives": 3,
+      "concerns": 3
+    },
+    {
+      "repo": "AI_Debugger_Assistant",
+      "score": 60,
+      "positives": 3,
+      "concerns": 3
+    },
+    {
+      "repo": "SouthwestsSecretDjBoard",
+      "score": 60,
+      "positives": 3,
+      "concerns": 2
+    },
+    {
+      "repo": "SWARM",
+      "score": 60,
+      "positives": 3,
+      "concerns": 2
+    },
+    {
+      "repo": "gpt_automation",
+      "score": 60,
+      "positives": 3,
+      "concerns": 2
+    },
+    {
+      "repo": "AutoDream.Os",
+      "score": 65,
+      "positives": 4,
+      "concerns": 3
+    },
+    {
+      "repo": "socialmediamanager",
+      "score": 60,
+      "positives": 3,
+      "concerns": 3
+    },
+    {
+      "repo": "DigitalDreamscape",
+      "score": 60,
+      "positives": 4,
+      "concerns": 2
+    },
+    {
+      "repo": "transformers",
+      "score": 60,
+      "positives": 4,
+      "concerns": 2
+    },
+    {
+      "repo": "TradingRobotPlug",
+      "score": 65,
+      "positives": 4,
+      "concerns": 3
+    },
+    {
+      "repo": "Victor.os",
+      "score": 60,
+      "positives": 3,
+      "concerns": 3
+    },
+    {
+      "repo": "Dream.os",
+      "score": 55,
+      "positives": 4,
+      "concerns": 2
+    }
+  ],
+  "agent6_might_be_right": [
+    {
+      "repo": "DaDudeKC-Website",
+      "score": 50,
+      "reason": "Low quality, Agent-6 may be correct"
+    },
+    {
+      "repo": "TradingRobotPlugWebTheme",
+      "score": 40,
+      "reason": "Low quality, Agent-6 may be correct"
+    },
+    {
+      "repo": "Digital-dreamscape",
+      "score": 45,
+      "reason": "Low quality, Agent-6 may be correct"
+    },
+    {
+      "repo": "FreeRideInvestor",
+      "score": 40,
+      "reason": "Low quality, Agent-6 may be correct"
+    },
+    {
+      "repo": "fastapi",
+      "score": 50,
+      "reason": "Low quality, Agent-6 may be correct"
+    },
+    {
+      "repo": "agentproject",
+      "score": 50,
+      "reason": "Low quality, Agent-6 may be correct"
+    },
+    {
+      "repo": "Sims4ModUpdaters",
+      "score": 40,
+      "reason": "Low quality, Agent-6 may be correct"
+    },
+    {
+      "repo": "FreerideinvestorWebsite",
+      "score": 40,
+      "reason": "Low quality, Agent-6 may be correct"
+    },
+    {
+      "repo": "TheTradingRobotPlug",
+      "score": 50,
+      "reason": "Low quality, Agent-6 may be correct"
+    },
+    {
+      "repo": "trade_analyzer",
+      "score": 50,
+      "reason": "Low quality, Agent-6 may be correct"
+    },
+    {
+      "repo": "MLRobotmaker",
+      "score": 50,
+      "reason": "Low quality, Agent-6 may be correct"
+    },
+    {
+      "repo": "stocktwits-analyzer",
+      "score": 50,
+      "reason": "Low quality, Agent-6 may be correct"
+    }
+  ],
+  "summary": {
+    "strong_keep": 9,
+    "needs_review": 22,
+    "lean_archive": 12
+  }
+}

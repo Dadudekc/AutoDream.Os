@@ -11,7 +11,7 @@ License: MIT
 
 import time
 
-from .intelligent_context_models import SearchResult
+from .search_models import SearchResult
 
 
 class IntelligentContextSearch:

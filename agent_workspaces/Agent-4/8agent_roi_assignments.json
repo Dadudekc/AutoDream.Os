@@ -1,0 +1,73 @@
+{
+  "total_agents": 8,
+  "total_points": 4450,
+  "total_roi": 133.63547158297055,
+  "avg_roi": 16.70443394787132,
+  "autonomy_tasks": 3,
+  "assignments": [
+    {
+      "agent": "Agent-4",
+      "task": "Refactor autonomous_task_engine.py",
+      "points": 300,
+      "roi": 21.27659574468085,
+      "autonomy_impact": 3,
+      "complexity": 47
+    },
+    {
+      "agent": "Agent-1",
+      "task": "Refactor gaming_integration_core.py",
+      "points": 900,
+      "roi": 11.764705882352942,
+      "autonomy_impact": 0,
+      "complexity": 85
+    },
+    {
+      "agent": "Agent-2",
+      "task": "Refactor messaging_protocol_models.py",
+      "points": 350,
+      "roi": 19.565217391304348,
+      "autonomy_impact": 0,
+      "complexity": 23
+    },
+    {
+      "agent": "Agent-3",
+      "task": "Refactor unified_logger.py",
+      "points": 300,
+      "roi": 9.523809523809524,
+      "autonomy_impact": 0,
+      "complexity": 42
+    },
+    {
+      "agent": "Agent-5",
+      "task": "Refactor coordination_error_handler.py",
+      "points": 650,
+      "roi": 15.573770491803279,
+      "autonomy_impact": 1,
+      "complexity": 61
+    },
+    {
+      "agent": "Agent-6",
+      "task": "Refactor error_handling_models_v2.py",
+      "points": 500,
+      "roi": 33.333333333333336,
+      "autonomy_impact": 1,
+      "complexity": 24
+    },
+    {
+      "agent": "Agent-7",
+      "task": "Refactor complexity_analyzer_core.py",
+      "points": 550,
+      "roi": 10.833333333333334,
+      "autonomy_impact": 0,
+      "complexity": 60
+    },
+    {
+      "agent": "Agent-8",
+      "task": "Refactor gaming_integration_core.py",
+      "points": 900,
+      "roi": 11.764705882352942,
+      "autonomy_impact": 0,
+      "complexity": 85
+    }
+  ]
+}

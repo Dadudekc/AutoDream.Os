@@ -14,7 +14,9 @@ License: MIT
 import time
 from typing import Any
 
-from ..intelligent_context_models import MissionContext, RiskAssessment, RiskLevel
+from ..analysis_models import RiskAssessment
+from ..core_models import MissionContext
+from ..enums import RiskLevel
 
 
 class RiskAssessmentEngine:

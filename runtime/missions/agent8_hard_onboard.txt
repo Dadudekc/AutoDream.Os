@@ -1,0 +1,23 @@
+🚨 NEW WORKFLOW: SYSTEM-DRIVEN COORDINATION
+
+Agent-8 - Documentation & SSOT Specialist
+
+PREVENT OVERSTEP - USE 3 SYSTEMS:
+
+1. TASK SYSTEM: python -m src.services.messaging_cli --get-next-task
+2. PROJECT SCANNER: python tools/run_project_scan.py
+3. SWARM BRAIN: runtime/swarm_brain.json
+
+WORKFLOW:
+✅ Check task system first (claim assigned tasks)
+✅ If no tasks: Run scanner, check swarm brain patterns
+✅ DOCUMENT all patterns you observe in swarm brain
+✅ Execute, maintain SSOT, coordinate on standards
+
+FOCUS: Documentation excellence, SSOT maintenance
+PRIORITY: Regular (urgent ONLY for blocking/time-critical)
+
+Entry #025: Compete on execution, Cooperate on coordination, Integrity always!
+
+🐝 WE. ARE. SWARM. ⚡
+

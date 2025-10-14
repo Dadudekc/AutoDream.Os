@@ -1,0 +1,98 @@
+{
+  "total_modules": 1162,
+  "importable_modules": 1161,
+  "success_rate": "99.91%",
+  "failed_imports_count": 1,
+  "circular_dependencies_count": 0,
+  "missing_dependencies_count": 19,
+  "warnings_count": 19,
+  "failed_imports": [
+    {
+      "module": "tools_v2\\categories\\infrastructure_tools.py",
+      "message": "Syntax error: invalid syntax (infrastructure_tools.py, line 93)",
+      "details": {
+        "line": 93,
+        "error": "invalid syntax (infrastructure_tools.py, line 93)"
+      }
+    }
+  ],
+  "circular_dependencies": [],
+  "missing_dependencies": [
+    {
+      "module": "test_thea_v2_working.py",
+      "import": "src.services.thea"
+    },
+    {
+      "module": "test_cookie_loading.py",
+      "import": "src.infrastructure.browser"
+    },
+    {
+      "module": "demo_thea_live.py",
+      "import": "src.services.thea"
+    },
+    {
+      "module": "demo_thea_interactive.py",
+      "import": "src.infrastructure.browser"
+    },
+    {
+      "module": "demo_thea_simple.py",
+      "import": "src.services.thea"
+    },
+    {
+      "module": "tests\\test_v2_refactoring_validation.py",
+      "import": "src.utils.unified_logging_time"
+    },
+    {
+      "module": "tests\\integration\\test_dream_os_integration.py",
+      "import": "src.gaming.dreamos"
+    },
+    {
+      "module": "tests\\integration\\test_dream_os_integration.py",
+      "import": "src.gaming.dreamos.resumer_v2"
+    },
+    {
+      "module": "tests\\integration\\test_dreamvault_integration.py",
+      "import": "src.ai_training.dreamvault"
+    },
+    {
+      "module": "tests\\integration\\test_dreamvault_integration.py",
+      "import": "src.ai_training.dreamvault.scrapers"
+    },
+    {
+      "module": "tools\\test_consolidation_comprehensive.py",
+      "import": "src.discord_commander"
+    },
+    {
+      "module": "tools\\test_consolidation_comprehensive.py",
+      "import": "src.infrastructure.browser"
+    },
+    {
+      "module": "tools_v2\\categories\\vector_tools.py",
+      "import": "src.services.vector_database"
+    },
+    {
+      "module": "tools_v2\\categories\\vector_tools.py",
+      "import": "src.services.vector_database.vector_database_models"
+    },
+    {
+      "module": "tools_v2\\categories\\swarm_brain_tools.py",
+      "import": "src.swarm_brain"
+    },
+    {
+      "module": "scripts\\setup_chat_mate.py",
+      "import": "src.infrastructure.browser.unified"
+    },
+    {
+      "module": "scripts\\setup_dream_os_dreamvault.py",
+      "import": "src.gaming.dreamos"
+    },
+    {
+      "module": "scripts\\setup_dream_os_dreamvault.py",
+      "import": "src.ai_training.dreamvault"
+    },
+    {
+      "module": "src\\gaming\\__init__.py",
+      "import": "src.integrations.osrs"
+    }
+  ]
+}

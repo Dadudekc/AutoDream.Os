@@ -1,0 +1,10 @@
+{
+  "timestamp": "2025-10-13T20:00:32.273147",
+  "requestor": "System",
+  "reviewer": "Agent-2",
+  "files": [
+    "src/core/config_ssot.py"
+  ],
+  "scope": "config-consolidation",
+  "status": "pending"
+}

@@ -11,7 +11,8 @@ License: MIT
 
 import time
 
-from .intelligent_context_models import EmergencyContext, InterventionProtocol, MissionContext
+from .core_models import MissionContext
+from .emergency_models import EmergencyContext, InterventionProtocol
 
 
 class IntelligentContextEmergency:

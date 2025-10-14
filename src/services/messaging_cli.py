@@ -24,6 +24,17 @@ from src.services.messaging_cli_handlers import (
 )
 from src.services.messaging_cli_parser import create_messaging_parser
 
+# Import task handler with guard to handle missing dependencies gracefully
+try:
+    from src.services.handlers.task_handler import TaskHandler
+
+    TASK_HANDLER_AVAILABLE = True
+except ImportError:
+    # Task handler has dependencies that may not be available
+    # This is expected - task system is optional
+    TaskHandler = None
+    TASK_HANDLER_AVAILABLE = False
+
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
@@ -49,6 +60,7 @@ class MessagingCLI:
 
     def __init__(self):
         self.parser = create_messaging_parser()
+        self.task_handler = TaskHandler() if TASK_HANDLER_AVAILABLE else None
 
     def execute(self, args=None):
         """Execute CLI command based on arguments."""
@@ -58,7 +70,15 @@ class MessagingCLI:
         parsed_args = self.parser.parse_args(args)
 
         try:
-            if parsed_args.message or parsed_args.broadcast:
+            # Check if task handler can handle this request (SSOT Blocker Fix - Agent-8)
+            if (
+                TASK_HANDLER_AVAILABLE
+                and self.task_handler
+                and self.task_handler.can_handle(parsed_args)
+            ):
+                self.task_handler.handle(parsed_args)
+                return self.task_handler.exit_code
+            elif parsed_args.message or parsed_args.broadcast:
                 return handle_message(parsed_args, self.parser)
             elif parsed_args.survey_coordination:
                 return handle_survey()

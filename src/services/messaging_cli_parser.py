@@ -99,4 +99,31 @@ def create_messaging_parser() -> argparse.ArgumentParser:
         help="Display the autonomous competition leaderboard",
     )
 
+    # Task system flags (SSOT Blocker Resolution - Agent-8)
+    parser.add_argument(
+        "--get-next-task",
+        action="store_true",
+        help="Claim next available assigned task (requires --agent)",
+    )
+
+    parser.add_argument(
+        "--list-tasks",
+        action="store_true",
+        help="List all available tasks in queue",
+    )
+
+    parser.add_argument(
+        "--task-status",
+        type=str,
+        metavar="TASK_ID",
+        help="Check status of specific task",
+    )
+
+    parser.add_argument(
+        "--complete-task",
+        type=str,
+        metavar="TASK_ID",
+        help="Mark task as complete",
+    )
+
     return parser

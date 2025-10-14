@@ -1,0 +1,260 @@
+2025-10-11 19:00:09,787 - __main__ - INFO - Found 75 repositories
+
+================================================================================
+REPOSITORY SUMMARY (28 repositories)
+================================================================================
+
+1. projectscanner
+   Description: pass context between ur codebase and chatgpt *or any llm*
+   Language: Python
+   Size: 7,680 KB
+   Stars: 2 | Forks: 0 | Issues: 1
+   Last Updated: 2025-10-08
+   URL: https://github.com/Dadudekc/projectscanner
+   Private: No
+
+2. UltimateOptionsTradingRobot
+   Description: No description
+   Language: Python
+   Size: 245 KB
+   Stars: 0 | Forks: 0 | Issues: 2
+   Last Updated: 2025-10-03
+   URL: https://github.com/Dadudekc/UltimateOptionsTradingRobot
+   Private: Yes
+
+3. contract-leads
+   Description: No description
+   Language: Python
+   Size: 66 KB
+   Stars: 0 | Forks: 0 | Issues: 2
+   Last Updated: 2025-09-25
+   URL: https://github.com/Dadudekc/contract-leads
+   Private: No
+
+4. ideas
+   Description: No description
+   Language: Python
+   Size: 3,527 KB
+   Stars: 0 | Forks: 0 | Issues: 4
+   Last Updated: 2025-09-25
+   URL: https://github.com/Dadudekc/ideas
+   Private: Yes
+
+5. ultimate_trading_intelligence
+   Description: No description
+   Language: Python
+   Size: 4,876 KB
+   Stars: 0 | Forks: 0 | Issues: 3
+   Last Updated: 2025-09-25
+   URL: https://github.com/Dadudekc/ultimate_trading_intelligence
+   Private: Yes
+
+6. FocusForge
+   Description: No description
+   Language: Python
+   Size: 209 KB
+   Stars: 0 | Forks: 0 | Issues: 0
+   Last Updated: 2025-08-22
+   URL: https://github.com/Dadudekc/FocusForge
+   Private: No
+
+7. Agent_Cellphone
+   Description: No description
+   Language: Python
+   Size: 4,910 KB
+   Stars: 0 | Forks: 0 | Issues: 23
+   Last Updated: 2025-08-22
+   URL: https://github.com/Dadudekc/Agent_Cellphone
+   Private: No
+
+8. Streamertools
+   Description: The OBS Live Filter and Overlay Library is a Python toolkit for adding real-time filters and overlays to Twitch streams via OBS. Easily apply vibrant colors, halftones, glitches, and more. Modular and customizableΓÇödesigned to expand into bots, agents, workflows, and streaming systems.
+   Language: Python
+   Size: 984 KB
+   Stars: 0 | Forks: 0 | Issues: 11
+   Last Updated: 2025-08-22
+   URL: https://github.com/Dadudekc/Streamertools
+   Private: No
+
+9. MeTuber
+   Description: No description
+   Language: Python
+   Size: 2,713 KB
+   Stars: 0 | Forks: 0 | Issues: 0
+   Last Updated: 2025-08-18
+   URL: https://github.com/Dadudekc/MeTuber
+   Private: No
+
+10. machinelearningmodelmaker
+   Description: No description
+   Language: Python
+   Size: 5,295 KB
+   Stars: 0 | Forks: 0 | Issues: 0
+   Last Updated: 2025-08-18
+   URL: https://github.com/Dadudekc/machinelearningmodelmaker
+   Private: Yes
+
+11. DaDudeKC-Website
+   Description: my website
+   Language: Python
+   Size: 71 KB
+   Stars: 0 | Forks: 0 | Issues: 0
+   Last Updated: 2025-08-18
+   URL: https://github.com/Dadudekc/DaDudeKC-Website
+   Private: Yes
+
+12. DaDudekC
+   Description: No description
+   Language: Python
+   Size: 74 KB
+   Stars: 0 | Forks: 0 | Issues: 0
+   Last Updated: 2025-08-17
+   URL: https://github.com/Dadudekc/DaDudekC
+   Private: Yes
+
+13. Superpowered-TTRPG
+   Description: No description
+   Language: Python
+   Size: 10,261 KB
+   Stars: 0 | Forks: 0 | Issues: 0
+   Last Updated: 2025-08-17
+   URL: https://github.com/Dadudekc/Superpowered-TTRPG
+   Private: No
+
+14. self-evolving-ai
+   Description: No description
+   Language: Python
+   Size: 121 KB
+   Stars: 0 | Forks: 0 | Issues: 0
+   Last Updated: 2025-08-17
+   URL: https://github.com/Dadudekc/self-evolving-ai
+   Private: Yes
+
+15. osrsAIagent
+   Description: No description
+   Language: Python
+   Size: 5,676 KB
+   Stars: 0 | Forks: 0 | Issues: 1
+   Last Updated: 2025-08-17
+   URL: https://github.com/Dadudekc/osrsAIagent
+   Private: Yes
+
+16. ai-task-organizer
+   Description: AI-Powered Task Organizer for strategic portfolio management
+   Language: Python
+   Size: 61 KB
+   Stars: 0 | Forks: 0 | Issues: 0
+   Last Updated: 2025-08-17
+   URL: https://github.com/Dadudekc/ai-task-organizer
+   Private: No
+
+17. machinelearningproject
+   Description: No description
+   Language: Python
+   Size: 1,853 KB
+   Stars: 0 | Forks: 0 | Issues: 0
+   Last Updated: 2025-08-17
+   URL: https://github.com/Dadudekc/machinelearningproject
+   Private: Yes
+
+18. HCshinobi
+   Description: No description
+   Language: Python
+   Size: 801 KB
+   Stars: 0 | Forks: 0 | Issues: 1
+   Last Updated: 2025-08-16
+   URL: https://github.com/Dadudekc/HCshinobi
+   Private: No
+
+19. organizer-validation
+   Description: No description
+   Language: Python
+   Size: 284 KB
+   Stars: 0 | Forks: 0 | Issues: 0
+   Last Updated: 2025-08-13
+   URL: https://github.com/Dadudekc/organizer-validation
+   Private: No
+
+20. Side-projects
+   Description: apps and scripts u can have i just made cause they help me then i realise that i they may help some one else =D <3
+   Language: Python
+   Size: 1,060 KB
+   Stars: 0 | Forks: 0 | Issues: 1
+   Last Updated: 2025-08-09
+   URL: https://github.com/Dadudekc/Side-projects
+   Private: No
+
+21. practice
+   Description: No description
+   Language: Python
+   Size: 184 KB
+   Stars: 0 | Forks: 0 | Issues: 0
+   Last Updated: 2025-08-09
+   URL: https://github.com/Dadudekc/practice
+   Private: Yes
+
+22. network-scanner
+   Description: Network Scanner-  A powerful and easy-to-use Python-based tool for network security and administration. It offers features like device discovery, port scanning, and banner grabbing to identify services and potential vulnerabilities. Designed with open-source principles, itΓÇÖs ideal for ethical security testing and educational purposes. 
+   Language: Python
+   Size: 361 KB
+   Stars: 0 | Forks: 0 | Issues: 0
+   Last Updated: 2025-08-09
+   URL: https://github.com/Dadudekc/network-scanner
+   Private: No
+
+23. LSTMmodel_trainer
+   Description: A PyQt-based application for training machine learning models, including LSTM networks, with a user-friendly interface for data preprocessing, model configuration, and performance evaluation.
+   Language: Python
+   Size: 85 KB
+   Stars: 0 | Forks: 0 | Issues: 0
+   Last Updated: 2025-08-09
+   URL: https://github.com/Dadudekc/LSTMmodel_trainer
+   Private: No
+
+24. IT_help_desk
+   Description: No description
+   Language: Python
+   Size: 15,626 KB
+   Stars: 0 | Forks: 0 | Issues: 0
+   Last Updated: 2025-08-09
+   URL: https://github.com/Dadudekc/IT_help_desk
+   Private: No
+
+25. TradingRobotPlugWeb
+   Description: No description
+   Language: Python
+   Size: 12,275 KB
+   Stars: 0 | Forks: 0 | Issues: 1
+   Last Updated: 2025-08-09
+   URL: https://github.com/Dadudekc/TradingRobotPlugWeb
+   Private: Yes
+
+26. trading-leads-bot
+   Description: This repository contains a Python-based web scraping and automation framework designed to collect, analyze, and process financial data from social media and web sources. It integrates Selenium, BeautifulSoup, and Pandas to extract real-time trading insights, automate research, and enhance decision-making.
+   Language: Python
+   Size: 73 KB
+   Stars: 0 | Forks: 1 | Issues: 1
+   Last Updated: 2025-08-09
+   URL: https://github.com/Dadudekc/trading-leads-bot
+   Private: No
+
+27. Hive-Mind
+   Description: No description
+   Language: Python
+   Size: 164 KB
+   Stars: 0 | Forks: 0 | Issues: 0
+   Last Updated: 2025-08-09
+   URL: https://github.com/Dadudekc/Hive-Mind
+   Private: No
+
+28. Auto_Blogger
+   Description: No description
+   Language: Python
+   Size: 352 KB
+   Stars: 0 | Forks: 0 | Issues: 1
+   Last Updated: 2025-06-12
+   URL: https://github.com/Dadudekc/Auto_Blogger
+   Private: No
+
+Found 28 integration candidates
+Suitable for Team Delta evaluation (repos 9-12)

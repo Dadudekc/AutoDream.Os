@@ -14,12 +14,9 @@ License: MIT
 import time
 from typing import Any
 
-from ..intelligent_context_models import (
-    AgentCapability,
-    AgentRecommendation,
-    AgentStatus,
-    MissionContext,
-)
+from ..analysis_models import AgentRecommendation
+from ..core_models import AgentCapability, MissionContext
+from ..enums import AgentStatus
 from ..intelligent_context_optimization_models import OptimizationResult
 
 

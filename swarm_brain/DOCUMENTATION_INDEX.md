@@ -25,11 +25,31 @@ This index organizes ALL swarm documentation for quick agent access.
   - Personal vs shared knowledge
   - Note types and when to use them
 
+### **Procedures** (IN swarm_brain/procedures/): ⭐ NEW!
+- **[Agent Onboarding](procedures/PROCEDURE_AGENT_ONBOARDING.md)** - Onboard new agents
+- **[Config SSOT Validation](procedures/PROCEDURE_CONFIG_SSOT_VALIDATION.md)** - Validate config changes
+- **[Discord Setup](procedures/PROCEDURE_DISCORD_SETUP.md)** - Setup Discord integration
+- **[V2 Compliance Check](procedures/PROCEDURE_V2_COMPLIANCE_CHECK.md)** - Check V2 compliance
+- **[Project Scanning](procedures/PROCEDURE_PROJECT_SCANNING.md)** - Scan for opportunities
+- **[Git Commit Workflow](procedures/PROCEDURE_GIT_COMMIT_WORKFLOW.md)** - Commit code properly
+- **[Agent Messaging](procedures/PROCEDURE_MESSAGE_AGENT.md)** - Send agent messages
+- **[Swarm Brain Contribution](procedures/PROCEDURE_SWARM_BRAIN_CONTRIBUTION.md)** - Share knowledge
+- **[Emergency Response](procedures/PROCEDURE_EMERGENCY_RESPONSE.md)** - Handle emergencies
+- **[Memory Leak Debugging](procedures/PROCEDURE_MEMORY_LEAK_DEBUGGING.md)** - Debug memory leaks
+- **[File Refactoring](procedures/PROCEDURE_FILE_REFACTORING.md)** - Refactor large files
+- **[Test Execution](procedures/PROCEDURE_TEST_EXECUTION.md)** - Run tests & check coverage
+- **[Deployment Workflow](procedures/PROCEDURE_DEPLOYMENT_WORKFLOW.md)** - Deploy to production
+- **[Code Review](procedures/PROCEDURE_CODE_REVIEW.md)** - Review code quality
+- **[Performance Optimization](procedures/PROCEDURE_PERFORMANCE_OPTIMIZATION.md)** - Optimize performance
+
+**Total**: 15 procedures - All searchable in Swarm Brain! 🎯
+
 ### **Knowledge Base**:
-- `knowledge_base.json` - Central knowledge storage
+- `knowledge_base.json` - Central knowledge storage (15+ procedure entries)
 - `shared_learnings/` - Collective learnings
 - `decisions/` - Swarm decisions
 - `protocols/` - All protocols
+- `procedures/` - **15 documented procedures** ⭐
 
 ---
 

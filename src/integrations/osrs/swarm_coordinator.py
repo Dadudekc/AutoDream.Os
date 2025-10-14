@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""OSRS Swarm Coordinator - Manages coordination between 8 OSRS agents"""
+"""OSRS Swarm Coordinator - Manages coordination between 8 OSRS agents
+
+V2 COMPLIANT: Refactored to ≤400 lines by extracting:
+- Strategic planning → swarm_strategic_planner.py
+"""
 
 import json
 import logging
@@ -11,6 +15,7 @@ from pathlib import Path
 from typing import Any
 
 from ..agents.osrs_agent_core import AgentRole, AgentStatus, OSRS_Agent_Core
+from .swarm_strategic_planner import OSRSStrategicPlanner
 
 
 @dataclass
@@ -211,8 +216,7 @@ class OSRS_Swarm_Coordinator:
     def coordinate_strategic_activities(self):
         """Coordinate strategic activities across the swarm."""
         try:
-            # Plan coordinated activities based on agent roles and current state
-            strategic_activities = self.plan_strategic_activities()
+            strategic_activities = OSRSStrategicPlanner.plan_strategic_activities(self)
 
             for activity in strategic_activities:
                 if activity.activity_id not in self.coordination_activities:
@@ -221,79 +225,6 @@ class OSRS_Swarm_Coordinator:
 
         except Exception as e:
             self.logger.error(f"Error coordinating strategic activities: {e}")
-
-    def plan_strategic_activities(self) -> list[SwarmActivity]:
-        """Plan strategic activities for the swarm."""
-        activities = []
-
-        try:
-            # Example: Plan a coordinated resource gathering activity
-            if self.should_plan_resource_gathering():
-                activity = SwarmActivity(
-                    activity_id=f"resource_gathering_{int(datetime.now().timestamp())}",
-                    activity_type="resource_gathering",
-                    description="Coordinated resource gathering across multiple locations",
-                    participating_agents=[
-                        "Agent-2",
-                        "Agent-6",
-                    ],  # Resource manager and skill trainer
-                    start_time=datetime.now(),
-                    end_time=None,
-                    status="planned",
-                    requirements={
-                        "locations": ["Mining Guild", "Woodcutting Guild"],
-                        "resources": ["Coal", "Iron ore", "Logs"],
-                        "duration_minutes": 60,
-                    },
-                )
-                activities.append(activity)
-
-            # Example: Plan a coordinated combat activity
-            if self.should_plan_combat_activity():
-                activity = SwarmActivity(
-                    activity_id=f"combat_training_{int(datetime.now().timestamp())}",
-                    activity_type="combat_training",
-                    description="Coordinated combat training and PvP preparation",
-                    participating_agents=[
-                        "Agent-1",
-                        "Agent-4",
-                    ],  # Combat specialist and strategic planner
-                    start_time=datetime.now(),
-                    end_time=None,
-                    status="planned",
-                    requirements={
-                        "training_area": "Wilderness",
-                        "combat_level": 50,
-                        "equipment": ["Rune armor", "Rune weapons"],
-                    },
-                )
-                activities.append(activity)
-
-        except Exception as e:
-            self.logger.error(f"Error planning strategic activities: {e}")
-
-        return activities
-
-    def should_plan_resource_gathering(self) -> bool:
-        """Determine if resource gathering should be planned."""
-        # Check if resource levels are low across agents
-        low_resource_agents = 0
-        for agent in self.agents.values():
-            if agent.game_state and len(agent.game_state.inventory_items) < 10:
-                low_resource_agents += 1
-
-        return low_resource_agents >= 2  # Plan if 2+ agents have low resources
-
-    def should_plan_combat_activity(self) -> bool:
-        """Determine if combat activity should be planned."""
-        # Check if combat specialists are available and ready
-        combat_agents = [
-            agent
-            for agent in self.agents.values()
-            if agent.role == AgentRole.COMBAT_SPECIALIST and agent.status == AgentStatus.ACTIVE
-        ]
-
-        return len(combat_agents) >= 1  # Plan if at least 1 combat specialist is active
 
     def monitor_agent_health(self):
         """Monitor the health and status of all agents."""

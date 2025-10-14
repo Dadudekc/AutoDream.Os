@@ -1,0 +1,855 @@
+{
+  "audit_date": "2025-10-14 18:36:53.513438",
+  "auditor": "Agent-1",
+  "methodology": "QA/Testing Specialist Criteria (unbiased)",
+  "total_repos": 75,
+  "keep": {
+    "count": 41,
+    "percentage": 54.7,
+    "repos": [
+      {
+        "repo": "network-scanner",
+        "score": 75,
+        "reasons": [
+          "Python (preferred)",
+          "Good size (100-5000KB)",
+          "Active (updated recently)",
+          "Good description",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "UltimateOptionsTradingRobot",
+        "score": 75,
+        "reasons": [
+          "Python (preferred)",
+          "Good size (100-5000KB)",
+          "Active (updated recently)",
+          "Good description",
+          "2 issues (healthy)"
+        ]
+      },
+      {
+        "repo": "Agent_Cellphone",
+        "score": 80,
+        "reasons": [
+          "Python (preferred)",
+          "Good size (100-5000KB)",
+          "Active (updated recently)",
+          "Good description",
+          "23 issues (active)",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "AutoDream.Os",
+        "score": 65,
+        "reasons": [
+          "Python (preferred)",
+          "Large but manageable",
+          "Active (updated recently)",
+          "Good description",
+          "43 issues (active)",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "projectscanner",
+        "score": 80,
+        "reasons": [
+          "Python (preferred)",
+          "Acceptable size",
+          "2 star(s)",
+          "Active (updated recently)",
+          "Good description",
+          "1 issues (healthy)",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "Thea",
+        "score": 70,
+        "reasons": [
+          "Python (preferred)",
+          "Large but manageable",
+          "Active (updated recently)",
+          "Good description",
+          "2 issues (healthy)",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "contract-leads",
+        "score": 85,
+        "reasons": [
+          "Python (preferred)",
+          "Good size (100-5000KB)",
+          "Active (updated recently)",
+          "Good description",
+          "3 issues (healthy)",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "ideas",
+        "score": 75,
+        "reasons": [
+          "Python (preferred)",
+          "Good size (100-5000KB)",
+          "Active (updated recently)",
+          "Good description",
+          "4 issues (healthy)"
+        ]
+      },
+      {
+        "repo": "ultimate_trading_intelligence",
+        "score": 75,
+        "reasons": [
+          "Python (preferred)",
+          "Good size (100-5000KB)",
+          "Active (updated recently)",
+          "Good description",
+          "3 issues (healthy)"
+        ]
+      },
+      {
+        "repo": "agent-cellphone-cli",
+        "score": 65,
+        "reasons": [
+          "Rust (other)",
+          "Acceptable size",
+          "Active (updated recently)",
+          "Good description",
+          "4 issues (healthy)",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "transformers",
+        "score": 60,
+        "reasons": [
+          "Python (preferred)",
+          "Large but manageable",
+          "Active (updated recently)",
+          "Good description",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "langchain-google",
+        "score": 65,
+        "reasons": [
+          "Unknown (other)",
+          "Good size (100-5000KB)",
+          "Active (updated recently)",
+          "Good description",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "FocusForge",
+        "score": 75,
+        "reasons": [
+          "Python (preferred)",
+          "Good size (100-5000KB)",
+          "Active (updated recently)",
+          "Good description",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "Streamertools",
+        "score": 85,
+        "reasons": [
+          "Python (preferred)",
+          "Good size (100-5000KB)",
+          "Active (updated recently)",
+          "Good description",
+          "11 issues (healthy)",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "MeTuber",
+        "score": 75,
+        "reasons": [
+          "Python (preferred)",
+          "Good size (100-5000KB)",
+          "Active (updated recently)",
+          "Good description",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "Superpowered-TTRPG",
+        "score": 60,
+        "reasons": [
+          "Python (preferred)",
+          "Large but manageable",
+          "Active (updated recently)",
+          "Good description",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "self-evolving-ai",
+        "score": 65,
+        "reasons": [
+          "Python (preferred)",
+          "Good size (100-5000KB)",
+          "Active (updated recently)",
+          "Good description"
+        ]
+      },
+      {
+        "repo": "osrsAIagent",
+        "score": 65,
+        "reasons": [
+          "Python (preferred)",
+          "Acceptable size",
+          "Active (updated recently)",
+          "Good description",
+          "1 issues (healthy)"
+        ]
+      },
+      {
+        "repo": "ai-task-organizer",
+        "score": 65,
+        "reasons": [
+          "Python (preferred)",
+          "Acceptable size",
+          "Active (updated recently)",
+          "Good description",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "machinelearningproject",
+        "score": 65,
+        "reasons": [
+          "Python (preferred)",
+          "Good size (100-5000KB)",
+          "Active (updated recently)",
+          "Good description"
+        ]
+      },
+      {
+        "repo": "HCshinobi",
+        "score": 85,
+        "reasons": [
+          "Python (preferred)",
+          "Good size (100-5000KB)",
+          "Active (updated recently)",
+          "Good description",
+          "1 issues (healthy)",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "AI_Debugger_Assistant",
+        "score": 60,
+        "reasons": [
+          "Python (preferred)",
+          "Large but manageable",
+          "Active (updated recently)",
+          "Good description",
+          "1 issues (healthy)"
+        ]
+      },
+      {
+        "repo": "DreamVault",
+        "score": 85,
+        "reasons": [
+          "Python (preferred)",
+          "Good size (100-5000KB)",
+          "Active (updated recently)",
+          "Good description",
+          "2 issues (healthy)",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "organizer-validation",
+        "score": 75,
+        "reasons": [
+          "Python (preferred)",
+          "Good size (100-5000KB)",
+          "Active (updated recently)",
+          "Good description",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "Side-projects",
+        "score": 85,
+        "reasons": [
+          "Python (preferred)",
+          "Good size (100-5000KB)",
+          "Active (updated recently)",
+          "Good description",
+          "1 issues (healthy)",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "practice",
+        "score": 65,
+        "reasons": [
+          "Python (preferred)",
+          "Good size (100-5000KB)",
+          "Active (updated recently)",
+          "Good description"
+        ]
+      },
+      {
+        "repo": "LSTMmodel_trainer",
+        "score": 65,
+        "reasons": [
+          "Python (preferred)",
+          "Acceptable size",
+          "Active (updated recently)",
+          "Good description",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "IT_help_desk",
+        "score": 60,
+        "reasons": [
+          "Python (preferred)",
+          "Large but manageable",
+          "Active (updated recently)",
+          "Good description",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "gpt_automation",
+        "score": 60,
+        "reasons": [
+          "Python (preferred)",
+          "Large but manageable",
+          "Active (updated recently)",
+          "Good description",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "DigitalDreamscape",
+        "score": 60,
+        "reasons": [
+          "Python (preferred)",
+          "Large but manageable",
+          "Active (updated recently)",
+          "Good description",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "TradingRobotPlug",
+        "score": 65,
+        "reasons": [
+          "Python (preferred)",
+          "Large but manageable",
+          "1 star(s)",
+          "Active (updated recently)",
+          "Good description",
+          "1 issues (healthy)"
+        ]
+      },
+      {
+        "repo": "TROOP",
+        "score": 60,
+        "reasons": [
+          "Shell (other)",
+          "Acceptable size",
+          "1 fork(s)",
+          "Active (updated recently)",
+          "Good description",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "TradingRobotPlugWeb",
+        "score": 60,
+        "reasons": [
+          "Python (preferred)",
+          "Large but manageable",
+          "Active (updated recently)",
+          "Good description",
+          "1 issues (healthy)"
+        ]
+      },
+      {
+        "repo": "trading-leads-bot",
+        "score": 80,
+        "reasons": [
+          "Python (preferred)",
+          "Acceptable size",
+          "1 fork(s)",
+          "Active (updated recently)",
+          "Good description",
+          "1 issues (healthy)",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "socialmediamanager",
+        "score": 60,
+        "reasons": [
+          "Python (preferred)",
+          "Large but manageable",
+          "Active (updated recently)",
+          "Good description",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "Hive-Mind",
+        "score": 75,
+        "reasons": [
+          "Python (preferred)",
+          "Good size (100-5000KB)",
+          "Active (updated recently)",
+          "Good description",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "bolt-project",
+        "score": 60,
+        "reasons": [
+          "TypeScript (acceptable)",
+          "Good size (100-5000KB)",
+          "Active (updated recently)",
+          "Good description"
+        ]
+      },
+      {
+        "repo": "SouthwestsSecretDjBoard",
+        "score": 60,
+        "reasons": [
+          "Python (preferred)",
+          "Large but manageable",
+          "Active (updated recently)",
+          "Good description",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "SWARM",
+        "score": 60,
+        "reasons": [
+          "Python (preferred)",
+          "Large but manageable",
+          "Recent activity",
+          "Good description",
+          "4 issues (healthy)",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "Victor.os",
+        "score": 60,
+        "reasons": [
+          "Python (preferred)",
+          "Large but manageable",
+          "Recent activity",
+          "Good description",
+          "3 issues (healthy)",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "Auto_Blogger",
+        "score": 75,
+        "reasons": [
+          "Python (preferred)",
+          "Good size (100-5000KB)",
+          "Recent activity",
+          "Good description",
+          "1 issues (healthy)",
+          "Public (community value)"
+        ]
+      }
+    ]
+  },
+  "review": {
+    "count": 31,
+    "percentage": 41.3,
+    "repos": [
+      {
+        "repo": "machinelearningmodelmaker",
+        "score": 55,
+        "reasons": [
+          "Python (preferred)",
+          "Acceptable size",
+          "Active (updated recently)",
+          "Good description"
+        ]
+      },
+      {
+        "repo": "dreambank",
+        "score": 55,
+        "reasons": [
+          "Python (preferred)",
+          "Too small (trivial)",
+          "Active (updated recently)",
+          "Good description",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "trade_analyzer",
+        "score": 50,
+        "reasons": [
+          "Python (preferred)",
+          "Large but manageable",
+          "Active (updated recently)",
+          "Good description"
+        ]
+      },
+      {
+        "repo": "bible-application",
+        "score": 45,
+        "reasons": [
+          "HTML (other)",
+          "Too small (trivial)",
+          "Active (updated recently)",
+          "Good description",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "basicbot",
+        "score": 50,
+        "reasons": [
+          "TypeScript (acceptable)",
+          "Too small (trivial)",
+          "Active (updated recently)",
+          "Good description",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "agentproject",
+        "score": 50,
+        "reasons": [
+          "Python (preferred)",
+          "Large but manageable",
+          "Active (updated recently)",
+          "Good description"
+        ]
+      },
+      {
+        "repo": "FreerideinvestorWebsite",
+        "score": 40,
+        "reasons": [
+          "PHP (other)",
+          "Large but manageable",
+          "Active (updated recently)",
+          "Good description"
+        ]
+      },
+      {
+        "repo": "MLRobotmaker",
+        "score": 50,
+        "reasons": [
+          "Python (preferred)",
+          "Large but manageable",
+          "Active (updated recently)",
+          "Good description"
+        ]
+      },
+      {
+        "repo": "Digital-dreamscape",
+        "score": 45,
+        "reasons": [
+          "PHP (other)",
+          "Acceptable size",
+          "Active (updated recently)",
+          "Good description"
+        ]
+      },
+      {
+        "repo": "Email-Cleanup-App",
+        "score": 55,
+        "reasons": [
+          "HTML (other)",
+          "Good size (100-5000KB)",
+          "Active (updated recently)",
+          "Good description"
+        ]
+      },
+      {
+        "repo": "fastapi",
+        "score": 50,
+        "reasons": [
+          "Unknown (other)",
+          "Large but manageable",
+          "Active (updated recently)",
+          "Good description",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "TBOWTactics",
+        "score": 55,
+        "reasons": [
+          "Swift (other)",
+          "Good size (100-5000KB)",
+          "Active (updated recently)",
+          "Good description"
+        ]
+      },
+      {
+        "repo": "DaDudeKC-Website",
+        "score": 50,
+        "reasons": [
+          "Python (preferred)",
+          "Acceptable size",
+          "Active (updated recently)",
+          "Has description"
+        ]
+      },
+      {
+        "repo": "DaDudekC",
+        "score": 55,
+        "reasons": [
+          "Python (preferred)",
+          "Acceptable size",
+          "Active (updated recently)",
+          "Good description"
+        ]
+      },
+      {
+        "repo": "TheTradingRobotPlug",
+        "score": 50,
+        "reasons": [
+          "Python (preferred)",
+          "Large but manageable",
+          "Active (updated recently)",
+          "Good description"
+        ]
+      },
+      {
+        "repo": "osrsbot",
+        "score": 35,
+        "reasons": [
+          "Unknown (other)",
+          "Too small (trivial)",
+          "Active (updated recently)",
+          "Good description"
+        ]
+      },
+      {
+        "repo": "Repositories",
+        "score": 45,
+        "reasons": [
+          "Unknown (other)",
+          "Too small (trivial)",
+          "Active (updated recently)",
+          "Good description",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "TRPlugLibrary",
+        "score": 55,
+        "reasons": [
+          "Python (preferred)",
+          "Too small (trivial)",
+          "Active (updated recently)",
+          "Good description",
+          "1 issues (healthy)"
+        ]
+      },
+      {
+        "repo": "Resume-Showcase",
+        "score": 45,
+        "reasons": [
+          "Python (preferred)",
+          "Too small (trivial)",
+          "Active (updated recently)",
+          "Good description"
+        ]
+      },
+      {
+        "repo": "prompt-library",
+        "score": 40,
+        "reasons": [
+          "Unknown (other)",
+          "Too small (trivial)",
+          "Active (updated recently)",
+          "Has description",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "NewSims4ModProject",
+        "score": 45,
+        "reasons": [
+          "Python (preferred)",
+          "Too small (trivial)",
+          "Active (updated recently)",
+          "Good description"
+        ]
+      },
+      {
+        "repo": "my-resume",
+        "score": 35,
+        "reasons": [
+          "Unknown (other)",
+          "Too small (trivial)",
+          "Active (updated recently)",
+          "Good description"
+        ]
+      },
+      {
+        "repo": "my-personal-templates",
+        "score": 35,
+        "reasons": [
+          "Unknown (other)",
+          "Too small (trivial)",
+          "Active (updated recently)",
+          "Good description"
+        ]
+      },
+      {
+        "repo": "FreeRideInvestor",
+        "score": 40,
+        "reasons": [
+          "HTML (other)",
+          "Large but manageable",
+          "Active (updated recently)",
+          "Good description"
+        ]
+      },
+      {
+        "repo": "SmartStock-pro",
+        "score": 55,
+        "reasons": [
+          "PHP (other)",
+          "Good size (100-5000KB)",
+          "Active (updated recently)",
+          "Good description"
+        ]
+      },
+      {
+        "repo": "FreeWork",
+        "score": 50,
+        "reasons": [
+          "JavaScript (acceptable)",
+          "Acceptable size",
+          "Active (updated recently)",
+          "Good description"
+        ]
+      },
+      {
+        "repo": "content",
+        "score": 55,
+        "reasons": [
+          "HTML (other)",
+          "Good size (100-5000KB)",
+          "Active (updated recently)",
+          "Good description"
+        ]
+      },
+      {
+        "repo": "stocktwits-analyzer",
+        "score": 50,
+        "reasons": [
+          "Python (preferred)",
+          "Large but manageable",
+          "Recent activity",
+          "Good description",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "Dream.os",
+        "score": 55,
+        "reasons": [
+          "Python (preferred)",
+          "Large but manageable",
+          "Some activity",
+          "Good description",
+          "1 issues (healthy)",
+          "Public (community value)"
+        ]
+      },
+      {
+        "repo": "Sims4ModUpdaters",
+        "score": 40,
+        "reasons": [
+          "Python (preferred)",
+          "Large but manageable",
+          "1 star(s)",
+          "Some activity",
+          "Good description"
+        ]
+      },
+      {
+        "repo": "TradingRobotPlugWebTheme",
+        "score": 40,
+        "reasons": [
+          "PHP (other)",
+          "Good size (100-5000KB)",
+          "Some activity",
+          "Good description"
+        ]
+      }
+    ]
+  },
+  "archive": {
+    "count": 3,
+    "percentage": 4.0,
+    "repos": [
+      {
+        "repo": "Auto_Blogger",
+        "score": 25,
+        "reasons": [
+          "HTML (other)",
+          "Large but manageable",
+          "Some activity",
+          "Good description"
+        ]
+      },
+      {
+        "repo": "Auot_BLOGGER",
+        "score": 15,
+        "reasons": [
+          "Unknown (other)",
+          "Too small (trivial)",
+          "Stale (419 days)",
+          "Good description"
+        ]
+      },
+      {
+        "repo": "NightShift",
+        "score": 15,
+        "reasons": [
+          "Unknown (other)",
+          "Too small (trivial)",
+          "Stale (421 days)",
+          "Good description"
+        ]
+      }
+    ]
+  },
+  "criteria_used": {
+    "language_quality": "15 pts",
+    "size_appropriateness": "20 pts",
+    "community_engagement": "15 pts",
+    "recent_activity": "20 pts",
+    "has_description": "10 pts",
+    "open_issues": "10 pts",
+    "public_value": "10 pts",
+    "total_possible": "100 pts",
+    "thresholds": {
+      "keep": "\u226560 pts",
+      "review": "35-59 pts",
+      "archive": "<35 pts"
+    }
+  }
+}

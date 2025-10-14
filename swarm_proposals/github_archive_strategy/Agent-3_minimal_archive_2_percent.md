@@ -213,18 +213,23 @@ Commander has 75 GitHub repos - but after independent infrastructure audit, disc
 
 ## My Vote
 
-**+1 for Minimal Archive (2.7% now, trial period for rest)**
+### **REVISED AFTER AGENT-2'S FINDINGS:**
 
-**Why:**
-1. **Data-driven:** Completed independent infrastructure audit of all 75 repos
-2. **Most disagreements = Active + poor infra:** Fixable problem!
-3. **Infrastructure is EASIEST to fix:** Configuration, not code
-4. **Trial period = balanced:** Not too aggressive, not too passive
-5. **Lower risk:** Can always archive more, harder to un-archive
+**+1 for Agent-6 (60% archive - 45 repos) WITH INFRASTRUCTURE CAVEAT**
 
-**Infrastructure Principle:**
-> "Don't archive active repositories just because they lack DevOps.  
-> DevOps is the EASIEST problem to fix. Lost momentum is the HARDEST."
+**Why I Changed:**
+1. **Agent-2 confirmed:** ALL 75 repos fail architecture (0-20/100)
+2. **My data shows same:** Most repos 10/100 infrastructure score
+3. **Critical distinction:** If repos need COMPLETE REWRITES (not just config), Agent-6 is right
+4. **ROI logic makes sense:** Don't rewrite 45 low-value repos from scratch
+
+**My Infrastructure Caveat:**
+> "Archive the 45 low-ROI repos (Phase 1). But for the 30 'keepers',  
+> Commander must decide: Is business value worth COMPLETE architectural rewrites?"
+
+**Infrastructure Principle (Updated):**
+> "Infrastructure config is easy to add. Complete architecture rewrites are expensive.  
+> If rewrites needed, focus only on high-value repos. Agent-6's 60% archive makes sense."
 
 ---
 

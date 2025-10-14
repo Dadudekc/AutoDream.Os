@@ -3,166 +3,16 @@
     "file_type": ".py",
     "files": [
       {
-        "path": "tools\\git_commit_verifier.py",
-        "functions": 4,
-        "classes": 0,
-        "complexity": 4
-      },
-      {
-        "path": "tools\\v2_compliance_batch_checker.py",
-        "functions": 3,
-        "classes": 0,
-        "complexity": 3
-      },
-      {
-        "path": "tools\\test_pyramid_analyzer.py",
-        "functions": 3,
-        "classes": 0,
-        "complexity": 3
-      },
-      {
-        "path": "tools\\coverage_validator.py",
-        "functions": 2,
-        "classes": 0,
-        "complexity": 2
-      },
-      {
         "path": "tools\\__init__.py",
         "functions": 0,
         "classes": 0,
         "complexity": 0
       },
       {
-        "path": "tools\\documentation_assistant.py",
-        "functions": 10,
-        "classes": 1,
-        "complexity": 19
-      },
-      {
-        "path": "tools\\git_work_verifier.py",
-        "functions": 7,
-        "classes": 4,
-        "complexity": 13
-      },
-      {
-        "path": "tools\\toolbelt_registry.py",
-        "functions": 6,
-        "classes": 1,
-        "complexity": 12
-      },
-      {
-        "path": "tools\\memory_leak_scanner.py",
-        "functions": 4,
-        "classes": 1,
-        "complexity": 5
-      },
-      {
-        "path": "tools\\qa_validation_checklist.py",
-        "functions": 7,
-        "classes": 1,
-        "complexity": 14
-      },
-      {
-        "path": "tools\\swarm_status_broadcaster.py",
-        "functions": 8,
-        "classes": 2,
-        "complexity": 15
-      },
-      {
-        "path": "tools\\agent_toolbelt.py",
-        "functions": 12,
-        "classes": 1,
-        "complexity": 23
-      },
-      {
-        "path": "tools\\agent_toolbelt_executors.py",
-        "functions": 8,
-        "classes": 8,
-        "complexity": 16
-      },
-      {
-        "path": "tools\\autonomous_task_engine.py",
-        "functions": 24,
-        "classes": 4,
-        "complexity": 47
-      },
-      {
-        "path": "tools\\swarm_orchestrator.py",
-        "functions": 17,
-        "classes": 1,
-        "complexity": 33
-      },
-      {
-        "path": "tools\\integrity_validator.py",
-        "functions": 6,
-        "classes": 2,
-        "complexity": 11
-      },
-      {
-        "path": "tools\\work_attribution_tool.py",
-        "functions": 8,
-        "classes": 2,
-        "complexity": 15
-      },
-      {
-        "path": "tools\\projectscanner_core.py",
-        "functions": 11,
-        "classes": 1,
-        "complexity": 22
-      },
-      {
-        "path": "tools_v2\\tool_registry.py",
-        "functions": 6,
-        "classes": 1,
-        "complexity": 11
-      },
-      {
-        "path": "tools_v2\\categories\\config_tools.py",
-        "functions": 12,
-        "classes": 3,
-        "complexity": 24
-      },
-      {
-        "path": "tools_v2\\categories\\integration_tools.py",
-        "functions": 16,
-        "classes": 4,
-        "complexity": 32
-      },
-      {
-        "path": "tools_v2\\categories\\coordination_tools.py",
-        "functions": 12,
-        "classes": 3,
-        "complexity": 24
-      },
-      {
-        "path": "scripts\\terminal_completion_monitor.py",
-        "functions": 7,
-        "classes": 2,
-        "complexity": 12
-      },
-      {
-        "path": "src\\core\\__init__.py",
+        "path": "tools_v2\\categories\\__init__.py",
         "functions": 0,
         "classes": 0,
         "complexity": 0
-      },
-      {
-        "path": "src\\core\\messaging_core.py",
-        "functions": 19,
-        "classes": 1,
-        "complexity": 28
-      },
-      {
-        "path": "src\\core\\analytics\\framework\\predictive_modeling_metrics.py",
-        "functions": 4,
-        "classes": 1,
-        "complexity": 8
-      },
-      {
-        "path": "src\\core\\analytics\\framework\\predictive_modeling_forecasters.py",
-        "functions": 4,
-        "classes": 1,
-        "complexity": 8
       },
       {
         "path": "src\\core\\analytics\\framework\\__init__.py",
@@ -171,147 +21,21 @@
         "complexity": 0
       },
       {
-        "path": "src\\core\\analytics\\framework\\predictive_modeling_engine.py",
-        "functions": 8,
-        "classes": 1,
-        "complexity": 16
-      },
-      {
-        "path": "src\\core\\analytics\\framework\\predictive_modeling_seasonality.py",
-        "functions": 2,
-        "classes": 1,
-        "complexity": 4
-      },
-      {
-        "path": "src\\core\\intelligent_context\\mission_models.py",
-        "functions": 1,
-        "classes": 1,
-        "complexity": 2
-      },
-      {
-        "path": "src\\core\\intelligent_context\\context_results.py",
-        "functions": 2,
-        "classes": 2,
-        "complexity": 4
-      },
-      {
-        "path": "src\\core\\intelligent_context\\emergency_models.py",
-        "functions": 0,
-        "classes": 2,
-        "complexity": 0
-      },
-      {
-        "path": "src\\core\\intelligent_context\\agent_models.py",
-        "functions": 1,
-        "classes": 2,
-        "complexity": 2
-      },
-      {
-        "path": "src\\core\\intelligent_context\\analysis_models.py",
-        "functions": 0,
-        "classes": 2,
-        "complexity": 0
-      },
-      {
-        "path": "src\\core\\intelligent_context\\context_enums.py",
-        "functions": 0,
-        "classes": 3,
-        "complexity": 0
-      },
-      {
-        "path": "src\\core\\intelligent_context\\metrics_models.py",
-        "functions": 1,
-        "classes": 1,
-        "complexity": 2
-      },
-      {
         "path": "src\\core\\intelligent_context\\__init__.py",
         "functions": 0,
         "classes": 0,
         "complexity": 0
       },
       {
-        "path": "src\\core\\intelligent_context\\intelligent_context_models.py",
-        "functions": 0,
-        "classes": 0,
-        "complexity": 0
-      },
-      {
-        "path": "src\\services\\__init__.py",
-        "functions": 0,
-        "classes": 0,
-        "complexity": 0
-      },
-      {
-        "path": "src\\services\\cursor_db.py",
-        "functions": 4,
-        "classes": 2,
-        "complexity": 8
-      },
-      {
-        "path": "src\\services\\chatgpt\\navigator_messaging.py",
-        "functions": 0,
-        "classes": 1,
-        "complexity": 0
-      },
-      {
-        "path": "src\\services\\handlers\\hard_onboarding_handler.py",
-        "functions": 3,
-        "classes": 1,
-        "complexity": 6
-      },
-      {
         "path": "src\\services\\chatgpt\\__init__.py",
-        "functions": 0,
-        "classes": 0,
-        "complexity": 0
-      },
-      {
-        "path": "src\\services\\chatgpt\\session_persistence.py",
-        "functions": 1,
-        "classes": 1,
-        "complexity": 2
-      },
-      {
-        "path": "src\\services\\chatgpt\\session.py",
-        "functions": 6,
-        "classes": 1,
-        "complexity": 10
-      },
-      {
-        "path": "src\\services\\chatgpt\\navigator.py",
-        "functions": 5,
-        "classes": 2,
-        "complexity": 8
-      },
-      {
-        "path": "src\\discord_commander\\discord_embeds.py",
-        "functions": 3,
-        "classes": 0,
-        "complexity": 3
-      },
-      {
-        "path": "src\\web\\vector_database\\unified_middleware.py",
-        "functions": 19,
-        "classes": 1,
-        "complexity": 27
-      },
-      {
-        "path": "src\\web\\vector_database\\__init__.py",
-        "functions": 0,
-        "classes": 0,
-        "complexity": 0
-      },
-      {
-        "path": "src\\web\\vector_database\\handlers.py",
         "functions": 0,
         "classes": 0,
         "complexity": 0
       }
     ],
-    "total_functions": 276,
-    "total_classes": 69,
-    "total_complexity": 498,
-    "file_count": 51
+    "total_functions": 0,
+    "total_classes": 0,
+    "total_complexity": 0,
+    "file_count": 5
   }
 }

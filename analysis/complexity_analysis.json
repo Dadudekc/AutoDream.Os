@@ -1,80 +1,13 @@
 {
   "complexity_distribution": {},
-  "high_complexity_files": [
-    {
-      "path": "tools\\agent_toolbelt.py",
-      "complexity": 23,
-      "functions": 12,
-      "classes": 1
-    },
-    {
-      "path": "tools\\autonomous_task_engine.py",
-      "complexity": 47,
-      "functions": 24,
-      "classes": 4
-    },
-    {
-      "path": "tools\\swarm_orchestrator.py",
-      "complexity": 33,
-      "functions": 17,
-      "classes": 1
-    },
-    {
-      "path": "tools\\projectscanner_core.py",
-      "complexity": 22,
-      "functions": 11,
-      "classes": 1
-    },
-    {
-      "path": "tools_v2\\categories\\config_tools.py",
-      "complexity": 24,
-      "functions": 12,
-      "classes": 3
-    },
-    {
-      "path": "tools_v2\\categories\\integration_tools.py",
-      "complexity": 32,
-      "functions": 16,
-      "classes": 4
-    },
-    {
-      "path": "tools_v2\\categories\\coordination_tools.py",
-      "complexity": 24,
-      "functions": 12,
-      "classes": 3
-    },
-    {
-      "path": "src\\core\\messaging_core.py",
-      "complexity": 28,
-      "functions": 19,
-      "classes": 1
-    },
-    {
-      "path": "src\\web\\vector_database\\unified_middleware.py",
-      "complexity": 27,
-      "functions": 19,
-      "classes": 1
-    }
-  ],
+  "high_complexity_files": [],
   "low_complexity_files": [
-    {
-      "path": "tools\\v2_compliance_batch_checker.py",
-      "complexity": 3
-    },
-    {
-      "path": "tools\\test_pyramid_analyzer.py",
-      "complexity": 3
-    },
-    {
-      "path": "tools\\coverage_validator.py",
-      "complexity": 2
-    },
     {
       "path": "tools\\__init__.py",
       "complexity": 0
     },
     {
-      "path": "src\\core\\__init__.py",
+      "path": "tools_v2\\categories\\__init__.py",
       "complexity": 0
     },
     {
@@ -82,127 +15,26 @@
       "complexity": 0
     },
     {
-      "path": "src\\core\\intelligent_context\\mission_models.py",
-      "complexity": 2
-    },
-    {
-      "path": "src\\core\\intelligent_context\\emergency_models.py",
-      "complexity": 0
-    },
-    {
-      "path": "src\\core\\intelligent_context\\agent_models.py",
-      "complexity": 2
-    },
-    {
-      "path": "src\\core\\intelligent_context\\analysis_models.py",
-      "complexity": 0
-    },
-    {
-      "path": "src\\core\\intelligent_context\\context_enums.py",
-      "complexity": 0
-    },
-    {
-      "path": "src\\core\\intelligent_context\\metrics_models.py",
-      "complexity": 2
-    },
-    {
       "path": "src\\core\\intelligent_context\\__init__.py",
-      "complexity": 0
-    },
-    {
-      "path": "src\\core\\intelligent_context\\intelligent_context_models.py",
-      "complexity": 0
-    },
-    {
-      "path": "src\\services\\__init__.py",
-      "complexity": 0
-    },
-    {
-      "path": "src\\services\\chatgpt\\navigator_messaging.py",
       "complexity": 0
     },
     {
       "path": "src\\services\\chatgpt\\__init__.py",
       "complexity": 0
-    },
-    {
-      "path": "src\\services\\chatgpt\\session_persistence.py",
-      "complexity": 2
-    },
-    {
-      "path": "src\\discord_commander\\discord_embeds.py",
-      "complexity": 3
-    },
-    {
-      "path": "src\\web\\vector_database\\__init__.py",
-      "complexity": 0
-    },
-    {
-      "path": "src\\web\\vector_database\\handlers.py",
-      "complexity": 0
     }
   ],
-  "average_complexity": 9.764705882352942,
-  "total_files": 51,
+  "average_complexity": 0.0,
+  "total_files": 5,
   "complexity_ranges": {
     "simple": [
-      "tools\\git_commit_verifier.py",
-      "tools\\v2_compliance_batch_checker.py",
-      "tools\\test_pyramid_analyzer.py",
-      "tools\\coverage_validator.py",
       "tools\\__init__.py",
-      "tools\\memory_leak_scanner.py",
-      "src\\core\\__init__.py",
+      "tools_v2\\categories\\__init__.py",
       "src\\core\\analytics\\framework\\__init__.py",
-      "src\\core\\analytics\\framework\\predictive_modeling_seasonality.py",
-      "src\\core\\intelligent_context\\mission_models.py",
-      "src\\core\\intelligent_context\\context_results.py",
-      "src\\core\\intelligent_context\\emergency_models.py",
-      "src\\core\\intelligent_context\\agent_models.py",
-      "src\\core\\intelligent_context\\analysis_models.py",
-      "src\\core\\intelligent_context\\context_enums.py",
-      "src\\core\\intelligent_context\\metrics_models.py",
       "src\\core\\intelligent_context\\__init__.py",
-      "src\\core\\intelligent_context\\intelligent_context_models.py",
-      "src\\services\\__init__.py",
-      "src\\services\\chatgpt\\navigator_messaging.py",
-      "src\\services\\chatgpt\\__init__.py",
-      "src\\services\\chatgpt\\session_persistence.py",
-      "src\\discord_commander\\discord_embeds.py",
-      "src\\web\\vector_database\\__init__.py",
-      "src\\web\\vector_database\\handlers.py"
+      "src\\services\\chatgpt\\__init__.py"
     ],
-    "moderate": [
-      "tools\\git_work_verifier.py",
-      "tools\\toolbelt_registry.py",
-      "tools\\qa_validation_checklist.py",
-      "tools\\swarm_status_broadcaster.py",
-      "tools\\integrity_validator.py",
-      "tools\\work_attribution_tool.py",
-      "tools_v2\\tool_registry.py",
-      "scripts\\terminal_completion_monitor.py",
-      "src\\core\\analytics\\framework\\predictive_modeling_metrics.py",
-      "src\\core\\analytics\\framework\\predictive_modeling_forecasters.py",
-      "src\\services\\cursor_db.py",
-      "src\\services\\handlers\\hard_onboarding_handler.py",
-      "src\\services\\chatgpt\\session.py",
-      "src\\services\\chatgpt\\navigator.py"
-    ],
-    "complex": [
-      "tools\\documentation_assistant.py",
-      "tools\\agent_toolbelt.py",
-      "tools\\agent_toolbelt_executors.py",
-      "tools\\projectscanner_core.py",
-      "tools_v2\\categories\\config_tools.py",
-      "tools_v2\\categories\\coordination_tools.py",
-      "src\\core\\messaging_core.py",
-      "src\\core\\analytics\\framework\\predictive_modeling_engine.py",
-      "src\\web\\vector_database\\unified_middleware.py"
-    ],
-    "very_complex": [
-      "tools\\autonomous_task_engine.py",
-      "tools\\swarm_orchestrator.py",
-      "tools_v2\\categories\\integration_tools.py"
-    ]
+    "moderate": [],
+    "complex": [],
+    "very_complex": []
   }
 }

@@ -3,10 +3,10 @@
   "key_components": [],
   "architecture_patterns": [],
   "code_metrics": {
-    "total_files": 51,
-    "total_functions": 276,
-    "total_classes": 69,
-    "total_complexity": 498,
+    "total_files": 5,
+    "total_functions": 0,
+    "total_classes": 0,
+    "total_complexity": 0,
     "languages_used": [
       ".py"
     ]

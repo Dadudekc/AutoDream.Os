@@ -38039,5 +38039,78 @@
         },
         "routes": [],
         "complexity": 9
+    },
+    "tools_v2\\categories\\infrastructure_tools.py": {
+        "language": ".py",
+        "functions": [
+            "get_name",
+            "get_description",
+            "execute",
+            "get_name",
+            "get_description",
+            "execute",
+            "get_name",
+            "get_description",
+            "execute",
+            "get_name",
+            "get_description",
+            "execute"
+        ],
+        "classes": {
+            "OrchestratorScanTool": {
+                "methods": [
+                    "get_name",
+                    "get_description",
+                    "execute"
+                ],
+                "docstring": "Scan all orchestrators for violations and performance issues.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "FileLineCounterTool": {
+                "methods": [
+                    "get_name",
+                    "get_description",
+                    "execute"
+                ],
+                "docstring": "Quick line count for files (V2 compliance checking).",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "ModuleExtractorPlannerTool": {
+                "methods": [
+                    "get_name",
+                    "get_description",
+                    "execute"
+                ],
+                "docstring": "Analyze file and suggest extraction opportunities.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            },
+            "ROICalculatorTool": {
+                "methods": [
+                    "get_name",
+                    "get_description",
+                    "execute"
+                ],
+                "docstring": "Calculate ROI for refactoring tasks.",
+                "base_classes": [
+                    "IToolAdapter"
+                ],
+                "maturity": "Core Asset",
+                "agent_type": "Utility"
+            }
+        },
+        "routes": [],
+        "complexity": 24
     }
 }

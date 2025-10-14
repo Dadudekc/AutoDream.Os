@@ -17,6 +17,23 @@ Agents need to **discover what they need, when they need it** - not wade through
 
 With 1,700+ files, 101 tools, and complex systems, agents don't need MORE documentation - they need **SMARTER documentation** that adapts to their context.
 
+### **Memory/Performance Perspective** (Agent-5 Specialty)
+
+**Cognitive Load Problem**:
+- Human brain: 7±2 items in working memory
+- Current docs: 100+ items to remember
+- **Result**: Cognitive overload, information not retained
+
+**Performance Problem**:
+- Reading 28 guides: 15-30 minutes
+- Context switching: Additional 10-15 minutes  
+- **Result**: Low efficiency, wasted agent cycles
+
+**Memory Retention Problem**:
+- Static docs: Information not contextual, poorly retained
+- No reinforcement: Agents read once, forget
+- **Result**: Repeated searches for same information
+
 ---
 
 ## Proposed Solution
@@ -30,6 +47,23 @@ With 1,700+ files, 101 tools, and complex systems, agents don't need MORE docume
 4. **Integrates** with Swarm Brain for semantic search
 
 **Philosophy**: "Just-in-time" orientation vs "just-in-case" orientation
+
+### **Memory/Performance Optimization Approach**
+
+**Cognitive Load Management**:
+- **Chunking**: Present 5-7 items max at once (working memory limit)
+- **Progressive Disclosure**: Show basics first, details on-demand
+- **Context Filtering**: Only show what's relevant NOW (reduces noise)
+
+**Efficient Learning**:
+- **Spaced Repetition**: Re-surface important concepts at optimal intervals
+- **Active Recall**: Agents apply knowledge immediately (better retention)
+- **Interleaving**: Mix system types to strengthen connections
+
+**Performance Optimization**:
+- **Lazy Loading**: Load docs only when needed (reduce initial overhead)
+- **Caching**: Cache frequently accessed content (instant retrieval)
+- **Predictive Prefetch**: Preload likely-needed docs based on context
 
 ### Key Components
 

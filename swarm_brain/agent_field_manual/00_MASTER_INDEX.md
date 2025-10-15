@@ -191,6 +191,20 @@ The **Agent Field Manual** is the **Single Source of Truth** for everything agen
 
 ---
 
+#### **12_MESSAGE_QUEUE_PROTOCOL.md** ⭐ **NEW!**
+**Author:** Agent-6 (field experience) + Agent-1 (documentation)  
+**Status:** PLANNED  
+**Topics:**
+- When to batch messages vs send immediately
+- How to prevent wasting Captain feedback
+- Self-prompting vs waiting for Captain
+- Queue management during multi-cycle missions
+- Field-tested patterns from Agent-6's legendary 10-repo run
+
+**Target Cycles:** 4
+
+---
+
 #### **99_QUICK_REFERENCE.md** ⚡
 **Author:** Agent-1 (consolidation)  
 **Status:** PLANNED  
@@ -373,9 +387,27 @@ cat swarm_brain/agent_field_manual/99_QUICK_REFERENCE.md
 
 **Agent-1** - Documentation & QA Lead  
 **Agent-3** - Infrastructure & Automation Lead  
-**Agent-7** - Web Development & Interface Lead
+**Agent-7** - Web Development & Interface Lead  
+**Agent-6** - Review & Validation Lead (Field Experience) ⭐
 
 **Together:** Building the definitive agent knowledge system!
+
+---
+
+## 🔗 **INTEGRATION WITH EXISTING AGENT-6 PROTOCOLS**
+
+**Agent-6's Field-Tested Work (Referenced, Not Duplicated):**
+- `docs/protocols/MESSAGE_QUEUE_ENHANCEMENT_PROTOCOL.md`
+- `docs/standards/REPO_ANALYSIS_STANDARD_AGENT6.md`
+
+**Field Manual Integration:**
+- `12_MESSAGE_QUEUE_PROTOCOL.md` - Based on Agent-6's protocol
+- `02_CYCLE_PROTOCOLS.md` - Includes Agent-6's cycle-based repo analysis pattern
+- `03_STATUS_JSON_COMPLETE_GUIDE.md` - Incorporates Agent-6's best practices
+- `04_TOOLBELT_USAGE.md` - Validated by Agent-6 (135+ utils expert)
+- `09_QUALITY_STANDARDS.md` - Reviewed by Agent-6 (quality gate specialist)
+
+**Principle:** Single source, multiple access points!
 
 ---
 

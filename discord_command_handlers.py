@@ -34,25 +34,34 @@ class DiscordCommandHandlers:
         try:
             logger.info(f"📨 Discord command: message to {agent_id}")
 
-            # Send via messaging CLI
-            result = os.system(
-                f'python -m src.services.messaging_cli --agent {agent_id} --message "{message}"'
+            # Send via messaging CLI (fixed: handles newlines/special chars)
+            import subprocess
+            
+            result = subprocess.run(
+                ['python', '-m', 'src.services.messaging_cli',
+                 '--agent', agent_id,
+                 '--message', message],  # Passed as arg - handles newlines!
+                capture_output=True,
+                text=True
             )
 
-            if result == 0:
+            if result.returncode == 0:
                 embed = discord.Embed(
                     title="✅ Message Sent",
                     description=f"Message delivered to **{agent_id}**",
                     color=discord.Color.green(),
                 )
-                embed.add_field(name="Message", value=message[:500], inline=False)
+                embed.add_field(name="Message", value=message[:1000], inline=False)
                 embed.add_field(name="From", value=ctx.author.display_name, inline=True)
 
                 await ctx.send(embed=embed)
                 logger.info(f"✅ Message delivered to {agent_id}")
             else:
-                await ctx.send(f"❌ Failed to send message to {agent_id}")
-                logger.error("❌ Message delivery failed")
+                error_msg = f"❌ Failed to send message to {agent_id}"
+                if result.stderr:
+                    error_msg += f"\nError: {result.stderr[:200]}"
+                await ctx.send(error_msg)
+                logger.error(f"❌ Message delivery failed: {result.stderr}")
 
         except Exception as e:
             await ctx.send(f"❌ Error: {e}")
@@ -63,25 +72,36 @@ class DiscordCommandHandlers:
         try:
             logger.info("📢 Discord command: broadcast to all agents")
 
-            # Send via messaging CLI
-            result = os.system(
-                f'python -m src.services.messaging_cli --broadcast --message "{message}"'
+            # Send via messaging CLI (fixed: handles newlines + [D2A] tag)
+            import subprocess
+            
+            result = subprocess.run(
+                ['python', '-m', 'src.services.messaging_cli',
+                 '--broadcast',
+                 '--sender', 'Discord Commander',  # Triggers [D2A] tag!
+                 '--message', message],  # Passed as arg - handles newlines!
+                capture_output=True,
+                text=True
             )
 
-            if result == 0:
+            if result.returncode == 0:
                 embed = discord.Embed(
                     title="✅ Broadcast Sent",
                     description="Message delivered to all 8 agents",
                     color=discord.Color.green(),
                 )
-                embed.add_field(name="Message", value=message[:500], inline=False)
+                embed.add_field(name="Message", value=message[:1000], inline=False)
                 embed.add_field(name="From", value=ctx.author.display_name, inline=True)
+                embed.add_field(name="Tag", value="[D2A] Discord Commander", inline=True)
 
                 await ctx.send(embed=embed)
-                logger.info("✅ Broadcast delivered to swarm")
+                logger.info("✅ Broadcast delivered to swarm with [D2A] tag")
             else:
-                await ctx.send("❌ Failed to broadcast message")
-                logger.error("❌ Broadcast delivery failed")
+                error_msg = "❌ Failed to broadcast message"
+                if result.stderr:
+                    error_msg += f"\nError: {result.stderr[:200]}"
+                await ctx.send(error_msg)
+                logger.error(f"❌ Broadcast delivery failed: {result.stderr}")
 
         except Exception as e:
             await ctx.send(f"❌ Error: {e}")

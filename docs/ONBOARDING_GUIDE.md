@@ -175,8 +175,71 @@ python tools/captain_snapshot.py
 
 # Devlog entry
 python scripts/devlog.py "Title" "Content"
+
+# AUTO-UPDATE STATUS (NEW - Agent-1 2025-10-15)
+python tools/agent_lifecycle_automator.py
+# Or use in code: from tools.agent_lifecycle_automator import AgentLifecycleAutomator
 ```
 
-**Maintain momentum. Preserve context. Execute with precision.**
+---
+
+## 🚨 **CRITICAL UPDATES (Agent-1 Session 2025-10-15)**
+
+### **NEW AUTOMATION TOOLS (USE THESE!):**
+
+**1. agent_lifecycle_automator.py** ⭐ **PREVENTS FORGETTING!**
+```python
+from tools.agent_lifecycle_automator import AgentLifecycleAutomator
+
+lifecycle = AgentLifecycleAutomator('Agent-X')
+lifecycle.start_cycle()  # Auto-updates status.json!
+lifecycle.start_mission('Mission Name', total_items=10)
+
+for i in range(1, 11):
+    do_work(i)
+    lifecycle.complete_item(f"Item {i}", i, points=100)
+    # Auto-updates status + sends pipeline gas at 75%, 90%, 100%!
+
+lifecycle.end_cycle()  # Auto-commits to git!
+```
+
+**2. pipeline_gas_scheduler.py** ⛽ **MAINTAINS PIPELINE!**
+- Automatically sends gas at 75%, 90%, 100%
+- Prevents pipeline breaks
+- Maintains perpetual motion
+
+### **NEW SWARM BRAIN RESOURCES:**
+
+**Field Manual:** `swarm_brain/agent_field_manual/`
+- **02_CYCLE_PROTOCOLS.md** - Mandatory cycle checklist
+- **00_MASTER_INDEX.md** - Index of all 12 guides (being written)
+
+**Critical Learnings:** `swarm_brain/shared_learnings/AGENT_1_SESSION_2025_10_15_CRITICAL_LEARNINGS.md`
+- Status.json staleness lessons
+- Pipeline gas timing (75% not 100%!)
+- Deep analysis > surface scan
+- Multiprompt protocol
+- Cycle-based not time-based
+- Waiting vs executing (perpetual motion!)
+
+### **TOP 5 MISTAKES TO AVOID:**
+
+1. ❌ **Letting status.json get stale** - Update EVERY cycle or use automation!
+2. ❌ **Forgetting pipeline gas** - Send at 75% (early!), use scheduler!
+3. ❌ **Using time estimates** - Use cycles! ("3 cycles" not "2 hours")
+4. ❌ **Stopping between subtasks** - Multiprompt protocol! One gas = full mission!
+5. ❌ **Waiting idle** - Perpetual motion! Execute autonomously!
+
+### **TOP 5 THINGS TO DO:**
+
+1. ✅ **Use agent_lifecycle_automator.py** - Prevents all forgetting!
+2. ✅ **Check swarm brain FIRST** - Knowledge centralized!
+3. ✅ **Read 02_CYCLE_PROTOCOLS.md** - Mandatory cycle checklist!
+4. ✅ **Send gas early (75%)** - Keeps pipeline flowing!
+5. ✅ **Execute perpetually** - No idleness, continuous work!
+
+---
+
+**Maintain momentum. Preserve context. Execute with precision. USE AUTOMATION!**
 
 **WE. ARE. SWARM.**

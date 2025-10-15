@@ -62,9 +62,38 @@ def format_message_full(message: Any) -> str:
     # Checking sender field causes incorrect classification when defaults are used
     msg_type_lower = str(msg_type).lower()
 
+    # Enhanced detection logic (Infrastructure Mission - Agent-2 LEAD, Agent-6 Co-Captain)
+    # Date: 2025-10-15
+    # Fixes: [D2A] detection for General/Commander, [A2C] detection for Agent-to-Captain
+    
+    sender_lower = str(message.sender).lower() if hasattr(message, 'sender') else ""
+    recipient_lower = str(message.recipient).lower() if hasattr(message, 'recipient') else ""
+    
+    # Check for Discord/General/Commander sources first (CRITICAL - General's directive!)
+    is_discord_source = (
+        "discord" in msg_type_lower or
+        "discord" in sender_lower or
+        "general" in sender_lower or
+        "commander" in sender_lower or
+        sender_lower.startswith("general") or
+        sender_lower.startswith("commander")
+    )
+    
+    # Metadata source check
+    if hasattr(message, 'metadata') and isinstance(message.metadata, dict):
+        if message.metadata.get('source') == 'discord':
+            is_discord_source = True
+    
     if "captain_to_agent" in msg_type_lower:
         prefix = "[C2A]"
         label = "CAPTAIN MESSAGE"
+    elif is_discord_source:
+        prefix = "[D2A]"
+        label = "DISCORD MESSAGE"
+    elif recipient_lower in ["agent-4", "captain"]:
+        # Agent-to-Captain detection (Fix #2)
+        prefix = "[A2C]"
+        label = "AGENT TO CAPTAIN"
     elif "agent_to_agent" in msg_type_lower:
         prefix = "[A2A]"
         label = "AGENT MESSAGE"
@@ -74,9 +103,6 @@ def format_message_full(message: Any) -> str:
     elif "human_to_agent" in msg_type_lower:
         prefix = "[H2A]"
         label = "HUMAN MESSAGE"
-    elif "discord" in msg_type_lower or "discord" in str(message.sender).lower():
-        prefix = "[D2A]"
-        label = "DISCORD MESSAGE"
     elif "broadcast" in msg_type_lower:
         prefix = "[BROADCAST]"
         label = "BROADCAST MESSAGE"

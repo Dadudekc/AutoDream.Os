@@ -14,7 +14,7 @@ License: MIT
 import logging
 from typing import Any
 
-from src.services.messaging_service import ConsolidatedMessagingService
+from src.services.messaging_infrastructure import ConsolidatedMessagingService
 
 from .discord_gui_modals import AgentMessageModal, BroadcastMessageModal
 from .discord_gui_views import AgentMessagingGUIView, SwarmStatusGUIView

@@ -37,7 +37,7 @@ sys.path.insert(0, str(project_root))
 from src.discord_commander.core import DiscordConfig
 from src.discord_commander.messaging_commands import MessagingCommands
 from src.discord_commander.messaging_controller import DiscordMessagingController
-from src.services.messaging_service import ConsolidatedMessagingService
+from src.services.messaging_infrastructure import ConsolidatedMessagingService
 
 logger = logging.getLogger(__name__)
 

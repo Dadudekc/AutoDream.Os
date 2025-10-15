@@ -28,7 +28,7 @@ try:
 except ImportError:
     DISCORD_AVAILABLE = False
 
-from src.services.messaging_service import ConsolidatedMessagingService
+from src.services.messaging_infrastructure import ConsolidatedMessagingService
 
 logger = logging.getLogger(__name__)
 

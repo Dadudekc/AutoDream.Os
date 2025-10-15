@@ -13,7 +13,8 @@ import logging
 import sys
 from pathlib import Path
 
-from src.services.messaging_cli_handlers import (
+from src.services.messaging_infrastructure import (
+    create_messaging_parser,
     handle_consolidation,
     handle_coordinates,
     handle_leaderboard,
@@ -22,7 +23,6 @@ from src.services.messaging_cli_handlers import (
     handle_start_agents,
     handle_survey,
 )
-from src.services.messaging_cli_parser import create_messaging_parser
 
 # Import task handler with guard to handle missing dependencies gracefully
 try:

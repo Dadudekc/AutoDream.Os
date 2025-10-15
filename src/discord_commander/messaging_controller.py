@@ -29,7 +29,7 @@ try:
 except ImportError:
     DISCORD_AVAILABLE = False
 
-from src.services.messaging_service import ConsolidatedMessagingService
+from src.services.messaging_infrastructure import ConsolidatedMessagingService
 
 # Modular components
 from .messaging_controller_views import AgentMessagingView, SwarmStatusView

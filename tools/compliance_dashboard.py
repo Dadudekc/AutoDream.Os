@@ -21,7 +21,7 @@ try:
     from complexity_analyzer import ComplexityAnalysisService
     from compliance_history_tracker import ComplianceHistoryTracker
     from dashboard_data_aggregator import DashboardDataAggregator
-    from dashboard_html_generator import DashboardHTMLGenerator
+    from dashboard_html_generator_refactored import DashboardHTMLGenerator
     from refactoring_suggestion_engine import RefactoringSuggestionService
     from v2_compliance_checker import V2ComplianceChecker
 

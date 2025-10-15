@@ -1,0 +1,189 @@
+{
+  "audit_date": "2025-10-13",
+  "total_repos": 75,
+  "audited_repos": 8,
+  "results": [
+    {
+      "name": "projectscanner",
+      "clone_url": "https://github.com/Dadudekc/projectscanner.git",
+      "clone_success": true,
+      "has_readme": true,
+      "has_license": false,
+      "has_gitignore": true,
+      "has_requirements": true,
+      "has_package_json": false,
+      "has_tests": true,
+      "test_count": 8,
+      "has_ci_cd": true,
+      "workflow_count": 1,
+      "has_setup_py": false,
+      "issues": [],
+      "recommendations": [
+        "Add LICENSE file (MIT recommended)"
+      ]
+    },
+    {
+      "name": "AutoDream.Os",
+      "clone_url": "https://github.com/Dadudekc/AutoDream.Os.git",
+      "clone_success": true,
+      "has_readme": true,
+      "has_license": false,
+      "has_gitignore": true,
+      "has_requirements": true,
+      "has_package_json": false,
+      "has_tests": true,
+      "test_count": 19,
+      "has_ci_cd": true,
+      "workflow_count": 6,
+      "has_setup_py": false,
+      "issues": [],
+      "recommendations": [
+        "Add LICENSE file (MIT recommended)"
+      ]
+    },
+    {
+      "name": "UltimateOptionsTradingRobot",
+      "clone_url": "https://github.com/Dadudekc/UltimateOptionsTradingRobot.git",
+      "clone_success": true,
+      "has_readme": true,
+      "has_license": false,
+      "has_gitignore": true,
+      "has_requirements": true,
+      "has_package_json": false,
+      "has_tests": true,
+      "test_count": 0,
+      "has_ci_cd": false,
+      "workflow_count": 0,
+      "has_setup_py": false,
+      "issues": [
+        "No CI/CD configured"
+      ],
+      "recommendations": [
+        "Add LICENSE file (MIT recommended)",
+        "Add GitHub Actions workflow for CI/CD"
+      ]
+    },
+    {
+      "name": "trade_analyzer",
+      "clone_url": "https://github.com/Dadudekc/trade_analyzer.git",
+      "clone_success": true,
+      "has_readme": true,
+      "has_license": false,
+      "has_gitignore": false,
+      "has_requirements": true,
+      "has_package_json": false,
+      "has_tests": false,
+      "test_count": 0,
+      "has_ci_cd": false,
+      "workflow_count": 0,
+      "has_setup_py": false,
+      "issues": [
+        "No tests found",
+        "No CI/CD configured"
+      ],
+      "recommendations": [
+        "Add LICENSE file (MIT recommended)",
+        "Add .gitignore for Python/Node",
+        "Add tests directory with test coverage",
+        "Add GitHub Actions workflow for CI/CD"
+      ]
+    },
+    {
+      "name": "dreambank",
+      "clone_url": "https://github.com/Dadudekc/dreambank.git",
+      "clone_success": true,
+      "has_readme": true,
+      "has_license": false,
+      "has_gitignore": false,
+      "has_requirements": true,
+      "has_package_json": false,
+      "has_tests": false,
+      "test_count": 0,
+      "has_ci_cd": false,
+      "workflow_count": 0,
+      "has_setup_py": false,
+      "issues": [
+        "No tests found",
+        "No CI/CD configured"
+      ],
+      "recommendations": [
+        "Add LICENSE file (MIT recommended)",
+        "Add .gitignore for Python/Node",
+        "Add tests directory with test coverage",
+        "Add GitHub Actions workflow for CI/CD"
+      ]
+    },
+    {
+      "name": "Agent_Cellphone",
+      "clone_url": "https://github.com/Dadudekc/Agent_Cellphone.git",
+      "clone_success": true,
+      "has_readme": true,
+      "has_license": false,
+      "has_gitignore": true,
+      "has_requirements": false,
+      "has_package_json": false,
+      "has_tests": true,
+      "test_count": 37,
+      "has_ci_cd": true,
+      "workflow_count": 2,
+      "has_setup_py": false,
+      "issues": [],
+      "recommendations": [
+        "Add LICENSE file (MIT recommended)",
+        "Add requirements.txt or package.json"
+      ]
+    },
+    {
+      "name": "machinelearningmodelmaker",
+      "clone_url": "https://github.com/Dadudekc/machinelearningmodelmaker.git",
+      "clone_success": true,
+      "has_readme": true,
+      "has_license": true,
+      "has_gitignore": true,
+      "has_requirements": true,
+      "has_package_json": false,
+      "has_tests": false,
+      "test_count": 0,
+      "has_ci_cd": false,
+      "workflow_count": 0,
+      "has_setup_py": false,
+      "issues": [
+        "No tests found",
+        "No CI/CD configured"
+      ],
+      "recommendations": [
+        "Add tests directory with test coverage",
+        "Add GitHub Actions workflow for CI/CD"
+      ]
+    },
+    {
+      "name": "network-scanner",
+      "clone_url": "https://github.com/Dadudekc/network-scanner.git",
+      "clone_success": true,
+      "has_readme": true,
+      "has_license": true,
+      "has_gitignore": true,
+      "has_requirements": true,
+      "has_package_json": false,
+      "has_tests": true,
+      "test_count": 7,
+      "has_ci_cd": false,
+      "workflow_count": 0,
+      "has_setup_py": true,
+      "issues": [
+        "No CI/CD configured"
+      ],
+      "recommendations": [
+        "Add GitHub Actions workflow for CI/CD"
+      ]
+    }
+  ],
+  "summary": {
+    "clone_success_rate": "100.0%",
+    "ci_cd_rate": "37.5%",
+    "testing_rate": "62.5%",
+    "license_rate": "25.0%",
+    "total_issues": 8,
+    "total_recommendations": 17
+  }
+}

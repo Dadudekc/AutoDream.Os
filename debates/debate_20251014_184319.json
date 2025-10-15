@@ -1,0 +1,16 @@
+{
+  "debate_id": "debate_20251014_184319",
+  "topic": "GitHub Archive Strategy: 60% (Agent-6) vs 37.5% (Agent-2)?",
+  "description": "Commander: 75 repos, circling drain on 30 ideas. Agent-6: 60% archive. Agent-2: 37.5% archive. VOTE!",
+  "options": [
+    "Aggressive 60% - Archive 45 repos (Agent-6 ROI)",
+    "Conservative 37.5% - Archive 28 repos (Agent-2 Architecture)",
+    "Moderate 50% - Hybrid approach",
+    "Wait for Agent-1/3 data"
+  ],
+  "deadline": "24h",
+  "created": "2025-10-14T18:43:19.592563",
+  "status": "active",
+  "votes": {},
+  "arguments": []
+}

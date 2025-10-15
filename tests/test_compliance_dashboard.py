@@ -28,11 +28,11 @@ sys.path.insert(0, str(tools_path))
 try:
     import compliance_dashboard
     import dashboard_data_aggregator
-    import dashboard_html_generator
+    import dashboard_html_generator_refactored
 
     DashboardDataAggregator = dashboard_data_aggregator.DashboardDataAggregator
     DashboardData = dashboard_data_aggregator.DashboardData
-    DashboardHTMLGenerator = dashboard_html_generator.DashboardHTMLGenerator
+    DashboardHTMLGenerator = dashboard_html_generator_refactored.DashboardHTMLGenerator
     ComplianceDashboard = compliance_dashboard.ComplianceDashboard
 
     DASHBOARD_AVAILABLE = True

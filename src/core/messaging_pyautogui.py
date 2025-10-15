@@ -27,27 +27,76 @@ except ImportError:
     PYAUTOGUI_AVAILABLE = False
 
 
-def format_c2a_message(recipient: str, content: str, priority: str | None = None) -> str:
+def get_message_tag(sender: str, recipient: str) -> str:
     """
-    Format C2A message in lean compact style (Lean Excellence Framework).
+    Determine correct message tag based on sender and recipient.
+    
+    Args:
+        sender: Message sender (GENERAL, DISCORD, CAPTAIN, Agent-X, SYSTEM)
+        recipient: Message recipient (Agent-X, ALL, CAPTAIN)
+    
+    Returns:
+        Correct message tag ([D2A], [G2A], [C2A], [A2A], [A2C], [S2A])
+    """
+    sender_upper = sender.upper()
+    recipient_upper = recipient.upper() if recipient else ""
+    
+    # General broadcasts (STRATEGIC - highest priority!)
+    if 'GENERAL' in sender_upper:
+        return '[G2A]'  # General-to-Agent
+    
+    # Discord/Commander broadcasts
+    if sender_upper in ['DISCORD', 'COMMANDER', 'DISCORD-CONTROLLER']:
+        return '[D2A]'  # Discord-to-Agent
+    
+    # System automated messages
+    if sender_upper == 'SYSTEM':
+        return '[S2A]'  # System-to-Agent
+    
+    # Captain to Agent
+    if sender_upper in ['CAPTAIN', 'AGENT-4']:
+        if 'ALL' in recipient_upper or 'BROADCAST' in recipient_upper:
+            return '[C2A-ALL]'  # Captain broadcast
+        return '[C2A]'  # Captain-to-Agent
+    
+    # Agent to Captain
+    if recipient_upper in ['CAPTAIN', 'AGENT-4']:
+        return '[A2C]'  # Agent-to-Captain
+    
+    # Agent to Agent
+    if sender.startswith('Agent-') and recipient.startswith('Agent-'):
+        return '[A2A]'  # Agent-to-Agent
+    
+    # Fallback to C2A for safety
+    return '[C2A]'
+
+
+def format_c2a_message(recipient: str, content: str, priority: str | None = None, sender: str = "CAPTAIN") -> str:
+    """
+    Format message with correct tag based on sender (UPDATED - Agent-1 2025-10-15).
 
     Per STANDARDS.md: Compact messaging with essential fields only.
+    NOW SUPPORTS: [D2A], [G2A], [S2A], [C2A], [A2A], [A2C]
 
     Args:
         recipient: Target agent ID
         content: Message content
         priority: Optional priority level (defaults to 'normal')
+        sender: Message sender (determines tag) - NEW!
 
     Returns:
-        Formatted compact C2A message
+        Formatted message with correct tag
     """
     priority = priority or "normal"
+    
+    # Get correct message tag based on sender
+    tag = get_message_tag(sender, recipient)
 
-    # Lean format: [Type] Recipient | Priority (if urgent/high)
+    # Lean format: [Tag] Recipient | Priority (if urgent/high)
     if priority in ("urgent", "high"):
-        header = f"[C2A] {recipient} | {priority.upper()}"
+        header = f"{tag} {recipient} | {priority.upper()}"
     else:
-        header = f"[C2A] {recipient}"
+        header = f"{tag} {recipient}"
 
     return f"{header}\n\n{content}"
 
@@ -126,11 +175,19 @@ class PyAutoGUIMessagingDelivery:
 
             x, y = coords
 
-            # Format message content using lean compact formatter
+            # Get sender from message (check metadata first, then sender attribute)
+            sender = "CAPTAIN"  # default
+            if hasattr(message, 'sender'):
+                sender = message.sender
+            if isinstance(message.metadata, dict):
+                sender = message.metadata.get('sender', sender)
+            
+            # Format message content using lean compact formatter with sender
             msg_content = format_c2a_message(
                 recipient=message.recipient,
                 content=message.content,
                 priority=message.priority.value,
+                sender=sender  # NEW: Pass sender for correct tagging!
             )
 
             # Click agent chat input

@@ -166,3 +166,4 @@ print(f"\n⚠️ Agent-6 claimed: 60% archive (45 repos)")
 print(f"🔍 I found: {my_findings['archive_percentage']}% archive ({len(archive_list)} repos)")
 print(f"\nReady to compare findings!")
 
+

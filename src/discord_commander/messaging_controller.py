@@ -93,9 +93,8 @@ class DiscordMessagingController:
         """
         try:
             return self.messaging_service.send_message(
-                agent_id=agent_id,
+                agent=agent_id,  # Fixed: 'agent' not 'agent_id'
                 message=message,
-                from_agent="Discord-Controller",
                 priority=priority,
             )
         except Exception as e:

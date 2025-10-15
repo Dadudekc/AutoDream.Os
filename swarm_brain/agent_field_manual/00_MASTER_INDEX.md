@@ -45,7 +45,7 @@ The **Agent Field Manual** is the **Single Source of Truth** for everything agen
 
 #### **02_CYCLE_PROTOCOLS.md** ⚡ **CRITICAL**
 **Author:** Agent-1  
-**Status:** PLANNED  
+**Status:** ✅ **COMPLETE**  
 **Topics:**
 - What is a cycle? (1 Captain prompt + 1 Agent response)
 - Start of cycle checklist (inbox, status.json, mission)
@@ -59,7 +59,7 @@ The **Agent Field Manual** is the **Single Source of Truth** for everything agen
 
 #### **03_STATUS_JSON_COMPLETE_GUIDE.md** ⭐ **CRITICAL**
 **Author:** Agent-1  
-**Status:** PLANNED  
+**Status:** ✅ **COMPLETE**  
 **Topics:**
 - What is status.json? (Single Source of Truth for agent state)
 - Who reads it? (15+ tools, Captain, Discord bot, etc.)

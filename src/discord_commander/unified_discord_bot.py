@@ -197,6 +197,11 @@ class UnifiedDiscordBot(commands.Bot):
             # Add messaging commands cog
             await self.add_cog(MessagingCommands(self, self.gui_controller))
             self.logger.info("✅ Messaging commands loaded")
+            
+            # Add swarm showcase commands cog
+            from src.discord_commander.swarm_showcase_commands import SwarmShowcaseCommands
+            await self.add_cog(SwarmShowcaseCommands(self))
+            self.logger.info("✅ Swarm showcase commands loaded")
         except Exception as e:
             self.logger.error(f"Error loading commands: {e}")
 

@@ -202,6 +202,11 @@ class UnifiedDiscordBot(commands.Bot):
             from src.discord_commander.swarm_showcase_commands import SwarmShowcaseCommands
             await self.add_cog(SwarmShowcaseCommands(self))
             self.logger.info("✅ Swarm showcase commands loaded")
+            
+            # Add GitHub book viewer cog (WOW FACTOR!)
+            from src.discord_commander.github_book_viewer import GitHubBookCommands
+            await self.add_cog(GitHubBookCommands(self))
+            self.logger.info("✅ GitHub Book Viewer loaded - WOW FACTOR READY!")
         except Exception as e:
             self.logger.error(f"Error loading commands: {e}")
 

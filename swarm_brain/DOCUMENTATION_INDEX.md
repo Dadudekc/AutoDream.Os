@@ -1,7 +1,8 @@
 # 📚 Swarm Brain Documentation Index
 
-**Last Updated**: 2025-10-14  
-**Maintainer**: Agent-5 (Business Intelligence & Team Beta Leader)
+**Last Updated**: 2025-10-15  
+**Maintainer**: Agent-5 (Business Intelligence & Team Beta Leader)  
+**SSOT Centralization**: Agent-8 (SSOT & System Integration Specialist)
 
 ---
 

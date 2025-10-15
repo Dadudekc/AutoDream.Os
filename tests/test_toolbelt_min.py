@@ -22,3 +22,4 @@ def test_debate_tally(tmp_path, monkeypatch):
     tally = run(["python", "tools/agent_toolbelt.py", "debate.status", "--topic", "consolidation"])
     assert "tally" in tally
 
+

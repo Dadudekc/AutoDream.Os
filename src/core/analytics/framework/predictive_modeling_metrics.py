@@ -153,3 +153,4 @@ class PredictiveModelingMetrics:
             self.logger.error(f"Error calculating accuracy: {e}")
             return {"error": str(e)}
 
+

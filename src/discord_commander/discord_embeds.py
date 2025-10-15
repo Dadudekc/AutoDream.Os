@@ -109,3 +109,4 @@ def create_coordination_embed(coordination_data: dict[str, Any]) -> dict[str, An
         ],
         "footer": {"text": "V2_SWARM Coordination System"},
     }
+

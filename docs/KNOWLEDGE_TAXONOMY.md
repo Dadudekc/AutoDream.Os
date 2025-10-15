@@ -6,3 +6,4 @@
 - decisions/
 Conventions: append JSONL to `data/knowledge/*.jsonl`; use tags to filter.
 
+

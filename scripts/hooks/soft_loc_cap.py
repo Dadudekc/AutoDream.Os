@@ -12,3 +12,4 @@ if bad:
         print(f"{p}: {n} LOC > {args.max}", file=sys.stderr)
     sys.exit(1)
 
+

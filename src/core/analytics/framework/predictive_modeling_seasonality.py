@@ -75,3 +75,4 @@ class PredictiveModelingSeasonality:
             self.logger.error(f"Error detecting seasonality: {e}")
             return {"status": "error", "error": str(e)}
 
+

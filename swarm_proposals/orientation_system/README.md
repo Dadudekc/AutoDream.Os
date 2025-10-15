@@ -57,3 +57,4 @@ result = tb.run('proposal.debate', {
 **Deadline:** TBD  
 **Decision Method:** Democratic vote via debate system
 
+

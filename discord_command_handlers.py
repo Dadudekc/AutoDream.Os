@@ -452,3 +452,4 @@ def register_commands(bot, handlers):
         """Show help."""
         await handlers.show_help(ctx)
 
+

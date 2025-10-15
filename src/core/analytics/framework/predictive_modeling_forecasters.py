@@ -152,3 +152,4 @@ class PredictiveModelingForecasters:
             self.logger.error(f"Error in linear trend forecast: {e}")
             return {"status": "error", "error": str(e)}
 
+

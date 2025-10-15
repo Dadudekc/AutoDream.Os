@@ -53,6 +53,51 @@ from src.services.messaging_service import ConsolidatedMessagingService
 logger = logging.getLogger(__name__)
 
 
+# Confirmation Views for Shutdown/Restart Commands
+class ConfirmShutdownView(discord.ui.View):
+    """Confirmation view for shutdown command."""
+    
+    def __init__(self):
+        super().__init__(timeout=30)
+        self.confirmed = False
+    
+    @discord.ui.button(label="✅ Confirm Shutdown", style=discord.ButtonStyle.danger)
+    async def confirm(self, interaction: discord.Interaction, button: discord.ui.Button):
+        """Confirm shutdown button."""
+        self.confirmed = True
+        await interaction.response.send_message("✅ Shutdown confirmed", ephemeral=True)
+        self.stop()
+    
+    @discord.ui.button(label="❌ Cancel", style=discord.ButtonStyle.secondary)
+    async def cancel(self, interaction: discord.Interaction, button: discord.ui.Button):
+        """Cancel shutdown button."""
+        self.confirmed = False
+        await interaction.response.send_message("❌ Cancelled", ephemeral=True)
+        self.stop()
+
+
+class ConfirmRestartView(discord.ui.View):
+    """Confirmation view for restart command."""
+    
+    def __init__(self):
+        super().__init__(timeout=30)
+        self.confirmed = False
+    
+    @discord.ui.button(label="🔄 Confirm Restart", style=discord.ButtonStyle.primary)
+    async def confirm(self, interaction: discord.Interaction, button: discord.ui.Button):
+        """Confirm restart button."""
+        self.confirmed = True
+        await interaction.response.send_message("✅ Restart confirmed", ephemeral=True)
+        self.stop()
+    
+    @discord.ui.button(label="❌ Cancel", style=discord.ButtonStyle.secondary)
+    async def cancel(self, interaction: discord.Interaction, button: discord.ui.Button):
+        """Cancel restart button."""
+        self.confirmed = False
+        await interaction.response.send_message("❌ Cancelled", ephemeral=True)
+        self.stop()
+
+
 class UnifiedDiscordBot(commands.Bot):
     """Single unified Discord bot for agent messaging system."""
 
@@ -281,7 +326,9 @@ class MessagingCommands(commands.Cog):
                 "`!gui` - Open interactive messaging GUI\n"
                 "`!status` - View swarm status dashboard\n"
                 "`!message <agent> <msg>` - Send direct message\n"
-                "`!broadcast <msg>` - Broadcast to all agents"
+                "`!broadcast <msg>` - Broadcast to all agents\n"
+                "`!shutdown` - Gracefully shutdown bot (admin only)\n"
+                "`!restart` - Restart bot (admin only)"
             ),
             inline=False,
         )
@@ -312,6 +359,80 @@ class MessagingCommands(commands.Cog):
         embed.set_footer(text="🐝 WE. ARE. SWARM.")
 
         await ctx.send(embed=embed)
+
+    @commands.command(name="shutdown", description="Gracefully shutdown the bot")
+    @commands.has_permissions(administrator=True)
+    async def shutdown_cmd(self, ctx: commands.Context):
+        """Gracefully shutdown the Discord bot."""
+        # Confirmation embed
+        embed = discord.Embed(
+            title="🛑 Shutdown Requested",
+            description="Are you sure you want to shutdown the bot?",
+            color=discord.Color.red()
+        )
+        
+        # Create confirmation view
+        view = ConfirmShutdownView()
+        message = await ctx.send(embed=embed, view=view)
+        
+        # Wait for user confirmation (30 second timeout)
+        await view.wait()
+        
+        if view.confirmed:
+            # Announce shutdown
+            shutdown_embed = discord.Embed(
+                title="👋 Bot Shutting Down",
+                description="Gracefully closing connections...",
+                color=discord.Color.orange()
+            )
+            await ctx.send(embed=shutdown_embed)
+            
+            # Log shutdown
+            self.logger.info("🛑 Shutdown command received - closing bot")
+            
+            # Close bot gracefully
+            await self.close()
+        else:
+            await message.edit(content="❌ Shutdown cancelled", embed=None, view=None)
+
+    @commands.command(name="restart", description="Restart the Discord bot")
+    @commands.has_permissions(administrator=True)
+    async def restart_cmd(self, ctx: commands.Context):
+        """Restart the Discord bot."""
+        # Confirmation embed
+        embed = discord.Embed(
+            title="🔄 Restart Requested",
+            description="Bot will shutdown and restart. Continue?",
+            color=discord.Color.blue()
+        )
+        
+        # Create confirmation view
+        view = ConfirmRestartView()
+        message = await ctx.send(embed=embed, view=view)
+        
+        # Wait for user confirmation (30 second timeout)
+        await view.wait()
+        
+        if view.confirmed:
+            # Announce restart
+            restart_embed = discord.Embed(
+                title="🔄 Bot Restarting",
+                description="Shutting down... Will be back in 5-10 seconds!",
+                color=discord.Color.blue()
+            )
+            await ctx.send(embed=restart_embed)
+            
+            # Log restart
+            self.logger.info("🔄 Restart command received - restarting bot")
+            
+            # Create restart flag file
+            restart_flag_path = Path(__file__).parent.parent.parent / '.discord_bot_restart'
+            restart_flag_path.write_text('RESTART_REQUESTED')
+            
+            # Close bot (restart logic handled by run script)
+            await self.close()
+        else:
+            await message.edit(content="❌ Restart cancelled", embed=None, view=None)
 
 
 async def main():

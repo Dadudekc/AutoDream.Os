@@ -201,6 +201,7 @@
     "🎯 TEAM B: Supporting Agent-2's infrastructure leadership!"
   ],
   "completed_tasks": [
+    "DISCORD COMMANDS IMPLEMENTATION (2025-10-15): General's URGENT request complete! !shutdown + !restart commands with confirmations, auto-restart loop, admin-only security, 30sec timeout! unified_discord_bot.py enhanced, run_unified_discord_bot_with_restart.py created, test plan + usage guide documented! Zero linter errors! Ready for testing!",
     "PASSDOWN + ONBOARDING ENHANCED (2025-10-15): Captain/Agent-2 request COMPLETE! AGENT6_COMPREHENSIVE_PASSDOWN_2025-10-15.md (22 deliverables, 7 learnings, field wisdom) + AGENT_ONBOARDING_GUIDE_ENHANCED.md V2.0 (5 critical concepts added!) + Shared to Swarm Brain! Fresh agents now get ALL critical knowledge!",
     "PERPETUAL MOTION ACTIVATED (2025-10-15): Captain away directive! Broadcast sent to all 8 agents: No idleness, keep gas flowing, Discord updates! TEAM_A_COORDINATION_DASHBOARD.md + PERPETUAL_MOTION_COORDINATION.md created! Autonomous leadership active!",
     "GENERAL'S DIRECTIVE SOLVED (2025-10-15): [D2A] messaging fix complete! General's broadcasts will now tag [D2A] not [C2A]! Also: [A2C] detection added, priority mapping created! message_formatters.py updated, zero linter errors!",

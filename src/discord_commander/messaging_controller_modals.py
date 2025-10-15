@@ -63,9 +63,8 @@ class MessageModal(discord.ui.Modal):
         try:
             # Send message through messaging service
             success = self.messaging_service.send_message(
-                agent_id=self.agent_id,
+                agent=self.agent_id,  # Fixed: 'agent' not 'agent_id'
                 message=message,
-                from_agent="Discord-User",
                 priority=priority,
             )
 

@@ -1,21 +1,39 @@
 #!/usr/bin/env python3
 """
-V2 Compliance Checker - Automated Quality Gate
+⚠️ DEPRECATED - Use modular v2_checker system instead!
+
+This monolithic file is DEPRECATED and will be removed in a future version.
+
+Use instead:
+    python -m tools_v2.toolbelt v2.compliance_check
+
+Or use the modular version:
+    tools/v2_checker_cli.py (modern modular refactor)
+    tools/v2_checker_models.py
+    tools/v2_checker_formatters.py
+
+Migration: Infrastructure Consolidation Mission (Agent-2 LEAD)
+Deprecation date: 2025-10-15
+Removal planned: 2025-11-15 (30 days)
+
+==============================================
+OLD MONOLITHIC VERSION BELOW (336 lines)
 ==============================================
 
-Scans Python files to enforce V2 compliance rules:
-- Files must be ≤400 lines (MAJOR VIOLATION if >400)
-- Functions must be ≤30 lines
-- Classes must be ≤200 lines
-- Max 5 functions per file
-- Max 3 enums per file
-- Max 5 classes per file
-
-Enhanced with intelligent refactoring suggestions!
+V2 Compliance Checker - Automated Quality Gate (DEPRECATED)
 
 Author: Agent-6 (VSCode Forking & Quality Gates Specialist)
 License: MIT
 """
+
+import warnings
+warnings.warn(
+    "⚠️ DEPRECATED: tools/v2_compliance_checker.py is deprecated. "
+    "Use 'python -m tools_v2.toolbelt v2.compliance_check' or tools/v2_checker_cli.py instead. "
+    "This monolithic file will be removed after 2025-11-15.",
+    DeprecationWarning,
+    stacklevel=2
+)
 
 import ast
 from pathlib import Path

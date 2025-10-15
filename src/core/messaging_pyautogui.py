@@ -2,12 +2,21 @@
 """
 PyAutoGUI Messaging Delivery
 Sends messages to agent chat input coordinates using PyAutoGUI
+
+RACE CONDITION FIXES (2025-10-15):
+- Clipboard locking to prevent concurrent overwrites
+- Increased delays (0.5s→1.0s) for slow systems
+- 3-attempt retry mechanism for reliability
 """
 
 import logging
 import time
+import threading
 
 logger = logging.getLogger(__name__)
+
+# RACE CONDITION FIX #1: Global clipboard lock
+_clipboard_lock = threading.Lock()
 
 try:
     import pyautogui
@@ -74,7 +83,36 @@ class PyAutoGUIMessagingDelivery:
         return True
 
     def send_message(self, message) -> bool:
-        """Send message to agent chat input coordinates."""
+        """
+        Send message to agent chat input coordinates.
+        
+        RACE CONDITION FIXES:
+        - Clipboard locking (prevents concurrent overwrites)
+        - Increased delays (1.0s for slow systems)
+        - 3-attempt retry mechanism
+        """
+        # RACE CONDITION FIX #3: Retry mechanism (3 attempts)
+        for attempt in range(3):
+            try:
+                success = self._send_message_attempt(message, attempt + 1)
+                if success:
+                    return True
+                
+                # Wait before retry
+                if attempt < 2:
+                    logger.warning(f"⚠️ Retry {attempt + 1}/3 for {message.recipient}")
+                    time.sleep(1.0)
+            
+            except Exception as e:
+                logger.error(f"❌ Attempt {attempt + 1} failed: {e}")
+                if attempt < 2:
+                    time.sleep(1.0)
+        
+        logger.error(f"❌ All 3 attempts failed for {message.recipient}")
+        return False
+    
+    def _send_message_attempt(self, message, attempt_num: int) -> bool:
+        """Single message delivery attempt with all race condition fixes."""
         try:
             # Get coordinates for agent
             from .coordinate_loader import get_coordinate_loader
@@ -98,25 +136,29 @@ class PyAutoGUIMessagingDelivery:
             # Click agent chat input
             self.pyautogui.moveTo(x, y)
             self.pyautogui.click()
-            time.sleep(0.3)
+            time.sleep(1.0)  # RACE CONDITION FIX #2: Increased from 0.3s
 
-            # Paste message
-            pyperclip.copy(msg_content)
-            self.pyautogui.hotkey("ctrl", "v")
-            time.sleep(0.2)
+            # RACE CONDITION FIX #1: Clipboard lock (prevents concurrent overwrites!)
+            with _clipboard_lock:
+                # Paste message (clipboard locked during this entire block!)
+                pyperclip.copy(msg_content)
+                time.sleep(1.0)  # RACE CONDITION FIX #2: Increased from 0.2s
+                
+                self.pyautogui.hotkey("ctrl", "v")
+                time.sleep(1.0)  # RACE CONDITION FIX #2: Increased from 0.5s (wait for paste)
 
             # Send message (use Ctrl+Enter for urgent priority)
             if message.priority.value == "urgent":
                 self.pyautogui.hotkey("ctrl", "enter")
             else:
                 self.pyautogui.press("enter")
-            time.sleep(0.5)
+            time.sleep(1.0)  # RACE CONDITION FIX #2: Increased from 0.5s
 
-            logger.info(f"✅ Message sent to {message.recipient} at {coords}")
+            logger.info(f"✅ Message sent to {message.recipient} at {coords} (attempt {attempt_num})")
             return True
 
         except Exception as e:
-            logger.error(f"❌ PyAutoGUI delivery failed: {e}")
+            logger.error(f"❌ PyAutoGUI delivery failed (attempt {attempt_num}): {e}")
             return False
 
 

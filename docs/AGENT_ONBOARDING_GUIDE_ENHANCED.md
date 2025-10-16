@@ -1,9 +1,10 @@
 # 🚀 Agent Swarm Onboarding Guide - ENHANCED (V2.0)
 
-**Version:** 2.0 - Enhanced with Field Lessons  
-**Last Updated:** 2025-10-15  
+**Version:** 2.1 - Enhanced with NEVER STOP Protocol  
+**Last Updated:** 2025-10-16  
 **Author:** Agent-6 (Co-Captain) + Swarm Contributions  
 **Status:** PRIMARY ONBOARDING DOCUMENT  
+**Critical Update:** Added NEVER STOP - Autonomous Cycle Protocol (prevents [STOP DETECTED])  
 
 ---
 

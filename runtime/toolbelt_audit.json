@@ -1,0 +1,510 @@
+{
+  "total_tools": 100,
+  "working_count": 71,
+  "broken_count": 29,
+  "working_tools": [
+    {
+      "tool": "advisor.guide",
+      "category": "intelligent_advisor",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "advisor.recommend",
+      "category": "intelligent_advisor",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "advisor.swarm",
+      "category": "intelligent_advisor",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "advisor.validate",
+      "category": "intelligent_advisor",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "agent.claim",
+      "category": "agent_ops",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "agent.points",
+      "category": "session",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "agent.status",
+      "category": "agent_ops",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "analysis.complexity",
+      "category": "analysis",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "analysis.duplicates",
+      "category": "analysis",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "analysis.scan",
+      "category": "analysis",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "captain.assign_mission",
+      "category": "captain",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "captain.calc_points",
+      "category": "captain",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "captain.cycle_report",
+      "category": "captain",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "captain.deliver_gas",
+      "category": "captain",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "captain.git_verify",
+      "category": "captain",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "captain.integrity_check",
+      "category": "captain",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "captain.markov_optimize",
+      "category": "captain",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "captain.status_check",
+      "category": "captain",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "captain.update_leaderboard",
+      "category": "captain",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "captain.verify_work",
+      "category": "captain",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "comp.check",
+      "category": "compliance",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "comp.history",
+      "category": "compliance",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "config.check-imports",
+      "category": "config",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "config.list-sources",
+      "category": "config",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "config.validate-ssot",
+      "category": "config",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "coord.check-patterns",
+      "category": "coordination",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "coord.find-expert",
+      "category": "coordination",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "coord.request-review",
+      "category": "coordination",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "debate.notify",
+      "category": "debate",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "debate.start",
+      "category": "debate",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "debate.status",
+      "category": "debate",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "debate.vote",
+      "category": "debate",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "docs.export",
+      "category": "docs",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "docs.search",
+      "category": "docs",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "health.ping",
+      "category": "health",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "health.snapshot",
+      "category": "health",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "integration.check-imports",
+      "category": "integration",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "integration.find-duplicates",
+      "category": "integration",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "integration.find-opportunities",
+      "category": "integration",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "integration.find-ssot-violations",
+      "category": "integration",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "mem.handles",
+      "category": "memory_safety",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "mem.imports",
+      "category": "memory_safety",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "mem.leaks",
+      "category": "memory_safety",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "mem.scan",
+      "category": "memory_safety",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "mem.verify",
+      "category": "memory_safety",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "mission.claim",
+      "category": "workflow",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "msg.broadcast",
+      "category": "messaging",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "msg.cleanup",
+      "category": "workflow",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "msg.inbox",
+      "category": "messaging",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "msg.send",
+      "category": "messaging",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "onboard.hard",
+      "category": "onboarding",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "onboard.soft",
+      "category": "onboarding",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "refactor.auto_extract",
+      "category": "refactoring",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "refactor.check_file_size",
+      "category": "refactoring",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "refactor.extract_module",
+      "category": "refactoring",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "refactor.lint_fix",
+      "category": "refactoring",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "refactor.quick_line_count",
+      "category": "refactoring",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "refactor.validate_imports",
+      "category": "refactoring",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "session.cleanup",
+      "category": "session",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "session.passdown",
+      "category": "session",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "swarm.pulse",
+      "category": "consciousness",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "test.coverage",
+      "category": "testing",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "test.coverage_pyramid_report",
+      "category": "testing",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "test.generate_template",
+      "category": "testing",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "test.mutation",
+      "category": "testing",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "v2.check",
+      "category": "v2",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "v2.report",
+      "category": "v2",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "vector.context",
+      "category": "vector",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "vector.index",
+      "category": "vector",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "vector.search",
+      "category": "vector",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "workflow.roi",
+      "category": "workflow",
+      "version": "1.0.0"
+    }
+  ],
+  "broken_tools": [
+    {
+      "tool": "brain.get",
+      "error": "Can't instantiate abstract class GetAgentNotesTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "brain.note",
+      "error": "Can't instantiate abstract class TakeNoteTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "brain.search",
+      "error": "Can't instantiate abstract class SearchKnowledgeTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "brain.session",
+      "error": "Can't instantiate abstract class LogSessionTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "brain.share",
+      "error": "Can't instantiate abstract class ShareLearningTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "discord.health",
+      "error": "Can't instantiate abstract class DiscordBotHealthTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "discord.start",
+      "error": "Can't instantiate abstract class DiscordBotStartTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "discord.test",
+      "error": "Can't instantiate abstract class DiscordTestMessageTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "infra.extract_planner",
+      "error": "Can't instantiate abstract class ModuleExtractorPlannerTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "infra.file_lines",
+      "error": "Can't instantiate abstract class FileLineCounterTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "infra.orchestrator_scan",
+      "error": "Can't instantiate abstract class OrchestratorScanTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "infra.roi_calc",
+      "error": "Can't instantiate abstract class ROICalculatorTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "msgtask.fingerprint",
+      "error": "Can't instantiate abstract class TaskFingerprintTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "msgtask.ingest",
+      "error": "Can't instantiate abstract class MessageIngestTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "msgtask.parse",
+      "error": "Can't instantiate abstract class TaskParserTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "obs.get",
+      "error": "Can't instantiate abstract class MetricsTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "obs.health",
+      "error": "Can't instantiate abstract class SystemHealthTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "obs.metrics",
+      "error": "Can't instantiate abstract class MetricsSnapshotTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "obs.slo",
+      "error": "Can't instantiate abstract class SLOCheckTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "oss.clone",
+      "error": "Can't instantiate abstract class OSSCloneTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "oss.import",
+      "error": "Can't instantiate abstract class OSSImportIssuesTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "oss.issues",
+      "error": "Can't instantiate abstract class OSSFetchIssuesTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "oss.portfolio",
+      "error": "Can't instantiate abstract class OSSPortfolioTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "oss.status",
+      "error": "Can't instantiate abstract class OSSStatusTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "test.pyramid_check",
+      "error": "Failed to import tool 'test.pyramid_check': module 'tools_v2.categories.test_generation_tools' has no attribute 'TestPyramidAnalyzerTool'",
+      "error_type": "ToolNotFoundError"
+    },
+    {
+      "tool": "val.flags",
+      "error": "Can't instantiate abstract class FeatureFlagTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "val.report",
+      "error": "Can't instantiate abstract class ValidationReportTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "val.rollback",
+      "error": "Can't instantiate abstract class RollbackTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "val.smoke",
+      "error": "Can't instantiate abstract class SmokeTestTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    }
+  ],
+  "timestamp": "1760364094.0"
+}

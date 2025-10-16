@@ -1,0 +1,74 @@
+{
+  "version": "1.0.0",
+  "created": "2025-10-14T20:35:00",
+  "status": "ACTIVE",
+  "total_broken": 29,
+  "categories": {
+    "brain_tools": {
+      "count": 5,
+      "tools": ["brain.get", "brain.note", "brain.search", "brain.session", "brain.share"],
+      "issue": "Missing get_spec() and validate() methods",
+      "priority": "high",
+      "assigned_to": null
+    },
+    "discord_tools": {
+      "count": 3,
+      "tools": ["discord.health", "discord.start", "discord.test"],
+      "issue": "Missing get_spec() and validate() methods",
+      "priority": "medium",
+      "assigned_to": null
+    },
+    "infra_tools": {
+      "count": 4,
+      "tools": ["infra.extract_planner", "infra.file_lines", "infra.orchestrator_scan", "infra.roi_calc"],
+      "issue": "Missing get_spec() and validate() methods",
+      "priority": "medium",
+      "assigned_to": null
+    },
+    "msgtask_tools": {
+      "count": 3,
+      "tools": ["msgtask.fingerprint", "msgtask.ingest", "msgtask.parse"],
+      "issue": "Missing get_spec() and validate() methods",
+      "priority": "medium",
+      "assigned_to": null
+    },
+    "obs_tools": {
+      "count": 4,
+      "tools": ["obs.get", "obs.health", "obs.metrics", "obs.slo"],
+      "issue": "Missing get_spec() and validate() methods",
+      "priority": "low",
+      "assigned_to": null
+    },
+    "oss_tools": {
+      "count": 5,
+      "tools": ["oss.clone", "oss.import", "oss.issues", "oss.portfolio", "oss.status"],
+      "issue": "Missing get_spec() and validate() methods",
+      "priority": "low",
+      "assigned_to": null
+    },
+    "val_tools": {
+      "count": 4,
+      "tools": ["val.flags", "val.report", "val.rollback", "val.smoke"],
+      "issue": "Missing get_spec() and validate() methods",
+      "priority": "medium",
+      "assigned_to": null
+    },
+    "test_pyramid": {
+      "count": 1,
+      "tools": ["test.pyramid_check"],
+      "issue": "Import error - class not found in module",
+      "priority": "low",
+      "assigned_to": null
+    }
+  },
+  "fix_instructions": {
+    "common_fix": "Add get_spec() method returning ToolSpec and validate() method to each tool class",
+    "template": "See working tools like coord.find-expert for reference implementation",
+    "estimated_time_per_tool": "5-10 minutes",
+    "total_estimated_time": "2.5-5 hours for all 29 tools"
+  },
+  "working_tools": 71,
+  "broken_tools": 29,
+  "health_percentage": 71.0
+}
+

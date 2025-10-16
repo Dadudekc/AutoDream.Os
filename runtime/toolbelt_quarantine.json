@@ -1,0 +1,182 @@
+{
+  "quarantined_tools": [
+    "brain.get",
+    "brain.note",
+    "brain.search",
+    "brain.session",
+    "brain.share",
+    "discord.health",
+    "discord.start",
+    "discord.test",
+    "infra.extract_planner",
+    "infra.file_lines",
+    "infra.orchestrator_scan",
+    "infra.roi_calc",
+    "msgtask.fingerprint",
+    "msgtask.ingest",
+    "msgtask.parse",
+    "obs.get",
+    "obs.health",
+    "obs.metrics",
+    "obs.slo",
+    "oss.clone",
+    "oss.import",
+    "oss.issues",
+    "oss.portfolio",
+    "oss.status",
+    "test.pyramid_check",
+    "val.flags",
+    "val.report",
+    "val.rollback",
+    "val.smoke"
+  ],
+  "count": 29,
+  "details": [
+    {
+      "tool": "brain.get",
+      "error": "Can't instantiate abstract class GetAgentNotesTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "brain.note",
+      "error": "Can't instantiate abstract class TakeNoteTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "brain.search",
+      "error": "Can't instantiate abstract class SearchKnowledgeTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "brain.session",
+      "error": "Can't instantiate abstract class LogSessionTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "brain.share",
+      "error": "Can't instantiate abstract class ShareLearningTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "discord.health",
+      "error": "Can't instantiate abstract class DiscordBotHealthTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "discord.start",
+      "error": "Can't instantiate abstract class DiscordBotStartTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "discord.test",
+      "error": "Can't instantiate abstract class DiscordTestMessageTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "infra.extract_planner",
+      "error": "Can't instantiate abstract class ModuleExtractorPlannerTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "infra.file_lines",
+      "error": "Can't instantiate abstract class FileLineCounterTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "infra.orchestrator_scan",
+      "error": "Can't instantiate abstract class OrchestratorScanTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "infra.roi_calc",
+      "error": "Can't instantiate abstract class ROICalculatorTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "msgtask.fingerprint",
+      "error": "Can't instantiate abstract class TaskFingerprintTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "msgtask.ingest",
+      "error": "Can't instantiate abstract class MessageIngestTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "msgtask.parse",
+      "error": "Can't instantiate abstract class TaskParserTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "obs.get",
+      "error": "Can't instantiate abstract class MetricsTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "obs.health",
+      "error": "Can't instantiate abstract class SystemHealthTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "obs.metrics",
+      "error": "Can't instantiate abstract class MetricsSnapshotTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "obs.slo",
+      "error": "Can't instantiate abstract class SLOCheckTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "oss.clone",
+      "error": "Can't instantiate abstract class OSSCloneTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "oss.import",
+      "error": "Can't instantiate abstract class OSSImportIssuesTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "oss.issues",
+      "error": "Can't instantiate abstract class OSSFetchIssuesTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "oss.portfolio",
+      "error": "Can't instantiate abstract class OSSPortfolioTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "oss.status",
+      "error": "Can't instantiate abstract class OSSStatusTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "test.pyramid_check",
+      "error": "Failed to import tool 'test.pyramid_check': module 'tools_v2.categories.test_generation_tools' has no attribute 'TestPyramidAnalyzerTool'",
+      "error_type": "ToolNotFoundError"
+    },
+    {
+      "tool": "val.flags",
+      "error": "Can't instantiate abstract class FeatureFlagTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "val.report",
+      "error": "Can't instantiate abstract class ValidationReportTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "val.rollback",
+      "error": "Can't instantiate abstract class RollbackTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    },
+    {
+      "tool": "val.smoke",
+      "error": "Can't instantiate abstract class SmokeTestTool with abstract methods get_spec, validate",
+      "error_type": "TypeError"
+    }
+  ],
+  "status": "NEEDS_FIXING"
+}

@@ -1,0 +1,194 @@
+{
+  "audit_date": "2025-10-16T09:45:46.840365Z",
+  "broken_tools": [
+    {
+      "file": "tools\\duplication_analyzer.py",
+      "error": "Traceback (most recent call last):\n  File \"D:\\Agent_Cellphone_V2_Repository\\tools\\duplication_analyzer.py\", line 24, in <module>\n    from tools.duplication_analysis import DuplicationAnalysis\n  File \"D:\\Agent_Cellphone_V2_Repository\\tools\\__init__.py\", line 4, in <module>\n    from . import agent_che"
+    },
+    {
+      "file": "tools\\projectscanner.py",
+      "error": "Timeout (>5s)"
+    },
+    {
+      "file": "tools\\analyze_init_files.py",
+      "error": "Timeout (>5s)"
+    },
+    {
+      "file": "tools\\refactoring_suggestion_engine.py",
+      "error": "Timeout (>5s)"
+    },
+    {
+      "file": "tools\\complexity_analyzer.py",
+      "error": "Traceback (most recent call last):\n  File \"D:\\Agent_Cellphone_V2_Repository\\tools\\complexity_analyzer.py\", line 14, in <module>\n    from .complexity_analyzer_cli import main\nImportError: attempted relative import with no known parent package"
+    },
+    {
+      "file": "tools\\complexity_analyzer_cli.py",
+      "error": "Timeout (>5s)"
+    },
+    {
+      "file": "tools\\refactoring_cli.py",
+      "error": "Timeout (>5s)"
+    },
+    {
+      "file": "tools\\cleanup_documentation_refactored.py",
+      "error": "Timeout (>5s)"
+    },
+    {
+      "file": "tools\\toolbelt.py",
+      "error": "Timeout (>5s)"
+    },
+    {
+      "file": "tools\\__main__.py",
+      "error": "Timeout (>5s)"
+    },
+    {
+      "file": "tools\\soft_onboard_cli.py",
+      "error": "Timeout (>5s)"
+    },
+    {
+      "file": "tools\\validate_imports.py",
+      "error": "Timeout (>5s)"
+    },
+    {
+      "file": "tools\\markov_task_optimizer.py",
+      "error": "Timeout (>5s)"
+    },
+    {
+      "file": "tools\\markov_cycle_simulator.py",
+      "error": "Timeout (>5s)"
+    },
+    {
+      "file": "tools\\markov_8agent_roi_optimizer.py",
+      "error": "Timeout (>5s)"
+    },
+    {
+      "file": "tools\\browser_pool_manager.py",
+      "error": "Timeout (>5s)"
+    },
+    {
+      "file": "tools\\memory_leak_scanner.py",
+      "error": "Unknown"
+    },
+    {
+      "file": "tools\\git_commit_verifier.py",
+      "error": "Unknown"
+    },
+    {
+      "file": "tools\\v2_compliance_batch_checker.py",
+      "error": "Unknown"
+    },
+    {
+      "file": "tools\\coverage_validator.py",
+      "error": "Unknown"
+    },
+    {
+      "file": "tools\\captain_gas_check.py",
+      "error": "Traceback (most recent call last):\n  File \"D:\\Agent_Cellphone_V2_Repository\\tools\\captain_gas_check.py\", line 91, in <module>\n    check_agent_gas_levels()\n  File \"D:\\Agent_Cellphone_V2_Repository\\tools\\captain_gas_check.py\", line 61, in check_agent_gas_levels\n    modified_time = datetime.fromtimesta"
+    },
+    {
+      "file": "tools\\audit_cleanup.py",
+      "error": "File \"D:\\Agent_Cellphone_V2_Repository\\tools\\audit_cleanup.py\", line 11\n    from __future__ import annotations\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nSyntaxError: from __future__ imports must occur at the beginning of the file"
+    },
+    {
+      "file": "tools\\auto_remediate_loc.py",
+      "error": "File \"D:\\Agent_Cellphone_V2_Repository\\tools\\auto_remediate_loc.py\", line 16\n    from __future__ import annotations\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nSyntaxError: from __future__ imports must occur at the beginning of the file"
+    },
+    {
+      "file": "tools\\generate_utils_catalog_enhanced.py",
+      "error": "Timeout (>5s)"
+    },
+    {
+      "file": "tools\\integrity_validator.py",
+      "error": "Traceback (most recent call last):\n  File \"D:\\Agent_Cellphone_V2_Repository\\tools\\integrity_validator.py\", line 15, in <module>\n    from work_attribution_tool import WorkAttributionTool\n  File \"D:\\Agent_Cellphone_V2_Repository\\tools\\work_attribution_tool.py\", line 30, in <module>\n    class WorkAttri"
+    },
+    {
+      "file": "tools\\v2_checker_formatters.py",
+      "error": "Traceback (most recent call last):\n  File \"D:\\Agent_Cellphone_V2_Repository\\tools\\v2_checker_formatters.py\", line 173, in <module>\n    main()\n    ^^^^\nNameError: name 'main' is not defined. Did you mean: 'min'?"
+    },
+    {
+      "file": "tools\\work_attribution_tool.py",
+      "error": "Traceback (most recent call last):\n  File \"D:\\Agent_Cellphone_V2_Repository\\tools\\work_attribution_tool.py\", line 30, in <module>\n    class WorkAttributionTool:\n  File \"D:\\Agent_Cellphone_V2_Repository\\tools\\work_attribution_tool.py\", line 44, in WorkAttributionTool\n    file_pattern: Optional[str] ="
+    },
+    {
+      "file": "tools\\hard_onboard_captain.py",
+      "error": "Timeout (>5s)"
+    },
+    {
+      "file": "tools\\find_file_size_violations.py",
+      "error": "Timeout (>5s)"
+    },
+    {
+      "file": "tools\\swarm_orchestrator.py",
+      "error": "Traceback (most recent call last):\n  File \"D:\\Agent_Cellphone_V2_Repository\\tools\\swarm_orchestrator.py\", line 37, in <module>\n    from .gas_messaging import send_gas_message\nImportError: attempted relative import with no known parent package"
+    },
+    {
+      "file": "tools\\captain_hard_onboard_agent.py",
+      "error": "Unknown"
+    },
+    {
+      "file": "tools\\captain_import_validator.py",
+      "error": "Unknown"
+    },
+    {
+      "file": "tools\\captain_completion_processor.py",
+      "error": "Unknown"
+    },
+    {
+      "file": "tools\\captain_architectural_checker.py",
+      "error": "Unknown"
+    },
+    {
+      "file": "tools\\workspace_auto_cleaner.py",
+      "error": "Traceback (most recent call last):\n  File \"D:\\Agent_Cellphone_V2_Repository\\tools\\workspace_auto_cleaner.py\", line 136, in <module>\n    def generate_cleanup_report(agent_id: str) -> Dict[str, Any]:\n                                                  ^^^^\nNameError: name 'Dict' is not defined. Did you "
+    },
+    {
+      "file": "tools\\discord_status_dashboard.py",
+      "error": "Timeout (>5s)"
+    },
+    {
+      "file": "tools\\post_devlog_to_discord.py",
+      "error": "Unknown"
+    },
+    {
+      "file": "tools\\agent_checkin.py",
+      "error": "Traceback (most recent call last):\n  File \"D:\\Agent_Cellphone_V2_Repository\\tools\\agent_checkin.py\", line 11, in <module>\n    from core.unified_utilities import (\nModuleNotFoundError: No module named 'core'"
+    },
+    {
+      "file": "tools\\captain_snapshot.py",
+      "error": "Traceback (most recent call last):\n  File \"D:\\Agent_Cellphone_V2_Repository\\tools\\captain_snapshot.py\", line 15, in <module>\n    from core.unified_utilities import get_logger, read_json\nModuleNotFoundError: No module named 'core'"
+    },
+    {
+      "file": "tools\\audit_project_components.py",
+      "error": "Timeout (>5s)"
+    },
+    {
+      "file": "tools\\audit_imports.py",
+      "error": "Timeout (>5s)"
+    },
+    {
+      "file": "tools\\comprehensive_tool_runtime_audit.py",
+      "error": "Timeout (>5s)"
+    },
+    {
+      "file": "tools\\codemods\\replace_prints_with_logger.py",
+      "error": "Traceback (most recent call last):\n  File \"D:\\Agent_Cellphone_V2_Repository\\tools\\codemods\\replace_prints_with_logger.py\", line 144, in <module>\n    main()\n  File \"D:\\Agent_Cellphone_V2_Repository\\tools\\codemods\\replace_prints_with_logger.py\", line 109, in main\n    logger.info('\ud83d\udd27 Replacing print() s"
+    },
+    {
+      "file": "tools\\codemods\\migrate_managers.py",
+      "error": "File \"D:\\Agent_Cellphone_V2_Repository\\tools\\codemods\\migrate_managers.py\", line 15\n    from __future__ import annotations\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nSyntaxError: from __future__ imports must occur at the beginning of the file"
+    },
+    {
+      "file": "tools\\codemods\\migrate_orchestrators.py",
+      "error": "File \"D:\\Agent_Cellphone_V2_Repository\\tools\\codemods\\migrate_orchestrators.py\", line 9\n    from __future__ import annotations\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nSyntaxError: from __future__ imports must occur at the beginning of the file"
+    },
+    {
+      "file": "tools_v2\\demo_swarm_pulse.py",
+      "error": "Traceback (most recent call last):\n  File \"D:\\Agent_Cellphone_V2_Repository\\tools_v2\\demo_swarm_pulse.py\", line 14, in <module>\n    from tools_v2 import get_toolbelt_core\nImportError: cannot import name 'get_toolbelt_core' from 'tools_v2' (D:\\Agent_Cellphone_V2_Repository\\tools_v2\\__init__.py)"
+    }
+  ],
+  "summary": {
+    "total": 124,
+    "working": 78,
+    "broken": 46
+  }
+}

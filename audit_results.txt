@@ -1,0 +1,83 @@
+Onboarding service not available
+2025-10-16 04:41:59,527 - src.services.hard_onboarding_service - INFO - Γ£à Onboarding template loader available
+≡ƒöì PROJECT COMPONENT AUDIT
+======================================================================
+
+≡ƒôª Core Systems
+----------------------------------------------------------------------
+  Γ£à src.core.messaging_core
+  Γ£à src.core.messaging_pyautogui
+  Γ£à src.core.coordinate_loader
+  Γ£à src.core.unified_config
+
+≡ƒôª Services
+----------------------------------------------------------------------
+  Γ£à src.services.messaging_cli
+  Γ¥î src.services.soft_onboarding_service
+     ImportError: No module named 'src.services.soft_onboarding_service'
+  Γ£à src.services.hard_onboarding_service
+  Γ¥î src.services.unified_messaging_service
+     ImportError: No module named 'src.services.unified_messaging_service'
+
+≡ƒôª Repositories
+----------------------------------------------------------------------
+  Γ¥î src.repositories.agent_repository
+     ImportError: No module named 'src.repositories'
+  Γ¥î src.repositories.contract_repository
+     ImportError: No module named 'src.repositories'
+  Γ¥î src.repositories.message_repository
+     ImportError: No module named 'src.repositories'
+
+≡ƒôª Utilities
+----------------------------------------------------------------------
+  Γ£à src.core.utilities
+  Γ£à src.utils.file_utils
+  Γ¥î src.utils.logger_utils
+     ImportError: No module named 'src.utils.logger_utils'
+
+≡ƒôª Tools V2
+----------------------------------------------------------------------
+  Γ¥î tools_v2.core.tool_facade
+     ImportError: No module named 'tools_v2.core'
+  Γ¥î tools_v2.core.tool_spec
+     ImportError: No module named 'tools_v2.core'
+
+≡ƒôª Discord
+----------------------------------------------------------------------
+  Γ£à src.discord_commander.unified_discord_bot
+  Γ£à src.discord_commander.discord_gui_controller
+
+======================================================================
+≡ƒôè AUDIT SUMMARY
+======================================================================
+Total components tested: 18
+Working: 10 (55.6%)
+Broken: 8 (44.4%)
+
+≡ƒÜ¿ COMPONENTS REQUIRING QUARANTINE:
+----------------------------------------------------------------------
+
+Services:
+  Γ¥î src.services.soft_onboarding_service
+     ΓåÆ ImportError: No module named 'src.services.soft_onboarding_service'
+  Γ¥î src.services.unified_messaging_service
+     ΓåÆ ImportError: No module named 'src.services.unified_messaging_service'
+
+Repositories:
+  Γ¥î src.repositories.agent_repository
+     ΓåÆ ImportError: No module named 'src.repositories'
+  Γ¥î src.repositories.contract_repository
+     ΓåÆ ImportError: No module named 'src.repositories'
+  Γ¥î src.repositories.message_repository
+     ΓåÆ ImportError: No module named 'src.repositories'
+
+Utilities:
+  Γ¥î src.utils.logger_utils
+     ΓåÆ ImportError: No module named 'src.utils.logger_utils'
+
+Tools V2:
+  Γ¥î tools_v2.core.tool_facade
+     ΓåÆ ImportError: No module named 'tools_v2.core'
+  Γ¥î tools_v2.core.tool_spec
+     ΓåÆ ImportError: No module named 'tools_v2.core'
+

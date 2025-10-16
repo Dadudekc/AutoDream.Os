@@ -153,37 +153,61 @@ class UnifiedDiscordBot(commands.Bot):
                 return
 
             embed = discord.Embed(
-                title="🚀 Discord Commander - ONLINE",
-                description="**Complete Agent Messaging System Access**",
-                color=discord.Color.blue(),
+                title="🐝 Discord Commander - SWARM CONTROL CENTER",
+                description="**Complete Multi-Agent Command & Showcase System**",
+                color=0x3498DB,  # Swarm Blue
                 timestamp=discord.utils.utcnow(),
             )
 
             embed.add_field(
                 name="✅ System Status",
-                value="Discord GUI Controller active and ready!",
+                value="All systems operational • 3 command modules loaded • WOW FACTOR ready!",
                 inline=False,
             )
 
             embed.add_field(
-                name="🎯 Available Commands",
+                name="📨 Messaging Commands",
                 value=(
-                    "• `!gui` - Open messaging GUI\n"
-                    "• `!status` - View swarm status\n"
-                    "• `!message <agent> <msg>` - Direct message\n"
-                    "• `!broadcast <msg>` - Broadcast to all\n"
-                    "• `!help` - Full command list"
+                    "• `!gui` - Open interactive messaging GUI\n"
+                    "• `!message <agent> <msg>` - Direct agent message\n"
+                    "• `!broadcast <msg>` - Broadcast to all agents\n"
+                    "• `!agents` - List all agents"
                 ),
                 inline=False,
             )
 
             embed.add_field(
-                name="🤖 Bot Info",
-                value=f"Guilds: {len(self.guilds)} | Latency: {round(self.latency * 1000, 2)}ms",
+                name="🐝 Swarm Showcase Commands (NEW!)",
+                value=(
+                    "• `!swarm_tasks` - Live task dashboard\n"
+                    "• `!swarm_roadmap` - Strategic roadmap\n"
+                    "• `!swarm_excellence` - Lean Excellence campaign\n"
+                    "• `!swarm_overview` - Complete swarm status"
+                ),
                 inline=False,
             )
 
-            embed.set_footer(text="🐝 WE. ARE. SWARM. - Agent-3 Infrastructure")
+            embed.add_field(
+                name="📚 GitHub Book Viewer (WOW FACTOR!)",
+                value=(
+                    "• `!github_book [chapter]` - Interactive book navigation\n"
+                    "• `!goldmines` - High-value pattern showcase\n"
+                    "• `!book_stats` - Comprehensive statistics"
+                ),
+                inline=False,
+            )
+
+            embed.add_field(
+                name="🤖 System Info",
+                value=(
+                    f"**Guilds:** {len(self.guilds)} | **Latency:** {round(self.latency * 1000, 2)}ms\n"
+                    f"**Modules:** Messaging, Swarm Showcase, GitHub Book\n"
+                    f"**Status:** 🟢 All systems operational"
+                ),
+                inline=False,
+            )
+
+            embed.set_footer(text="🐝 WE. ARE. SWARM. ⚡ Every agent is the face of the swarm")
 
             await channel.send(embed=embed)
             self.logger.info("✅ Startup message sent successfully")
@@ -323,22 +347,43 @@ class MessagingCommands(commands.Cog):
 
     @commands.command(name="help", description="Show help information")
     async def help_cmd(self, ctx: commands.Context):
-        """Show help information."""
+        """Show comprehensive help for all bot commands."""
         embed = discord.Embed(
-            title="🤖 Discord Bot Help",
-            description="Complete command reference for agent messaging",
-            color=discord.Color.blue(),
+            title="🐝 Discord Commander - Complete Help",
+            description="**Multi-Agent Command & Showcase System**",
+            color=0x3498DB,
         )
 
         embed.add_field(
-            name="📋 Main Commands",
+            name="📨 Messaging Commands",
             value=(
                 "`!gui` - Open interactive messaging GUI\n"
-                "`!status` - View swarm status dashboard\n"
                 "`!message <agent> <msg>` - Send direct message\n"
                 "`!broadcast <msg>` - Broadcast to all agents\n"
-                "`!shutdown` - Gracefully shutdown bot (admin only)\n"
-                "`!restart` - Restart bot (admin only)"
+                "`!agents` - List all agents\n"
+                "`!shutdown` - Gracefully shutdown (admin)\n"
+                "`!restart` - Restart bot (admin)"
+            ),
+            inline=False,
+        )
+
+        embed.add_field(
+            name="🐝 Swarm Showcase (NEW!)",
+            value=(
+                "`!swarm_tasks` (or `!tasks`, `!directives`) - Live task dashboard\n"
+                "`!swarm_roadmap` (or `!roadmap`, `!plan`) - Strategic roadmap\n"
+                "`!swarm_excellence` (or `!lean`, `!quality`) - V2 compliance\n"
+                "`!swarm_overview` (or `!status`, `!swarm`) - Complete status"
+            ),
+            inline=False,
+        )
+
+        embed.add_field(
+            name="📚 GitHub Book Viewer (WOW FACTOR!)",
+            value=(
+                "`!github_book [chapter]` - Interactive book with navigation\n"
+                "`!goldmines` - High-value pattern discoveries\n"
+                "`!book_stats` - Comprehensive book statistics"
             ),
             inline=False,
         )
@@ -346,27 +391,25 @@ class MessagingCommands(commands.Cog):
         embed.add_field(
             name="🎯 GUI Features",
             value=(
-                "• Agent selection dropdown\n"
-                "• Interactive message composition\n"
-                "• **Shift+Enter for line breaks** ✨\n"
-                "• Priority selection (regular/urgent)\n"
-                "• Real-time status monitoring\n"
-                "• Broadcast capabilities"
+                "• Agent selection dropdown • Interactive composition\n"
+                "• **Shift+Enter for line breaks** ✨ • Priority selection\n"
+                "• Real-time monitoring • Broadcast capabilities"
             ),
             inline=False,
         )
 
         embed.add_field(
-            name="📊 Examples",
+            name="📊 Quick Examples",
             value=(
-                "`!message Agent-1 Check your inbox`\n"
-                "`!broadcast Team update: All systems go!`\n"
-                "`!gui` (opens full GUI interface)"
+                "`!swarm_tasks` - See all agent missions\n"
+                "`!github_book 1` - View GitHub book Chapter 1\n"
+                "`!goldmines` - Discover high-ROI patterns\n"
+                "`!message Agent-2 Review Discord updates`"
             ),
             inline=False,
         )
 
-        embed.set_footer(text="🐝 WE. ARE. SWARM.")
+        embed.set_footer(text="🐝 WE. ARE. SWARM. ⚡ Every agent is the face of the swarm")
 
         await ctx.send(embed=embed)
 

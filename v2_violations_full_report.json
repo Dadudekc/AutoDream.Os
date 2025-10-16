@@ -1,0 +1,5 @@
+usage: v2_compliance_checker.py [-h] [--pattern PATTERN] [--verbose]
+                                [--fail-on-major] [--fail-on-critical]
+                                [--suggest] [--complexity]
+                                [path]
+v2_compliance_checker.py: error: unrecognized arguments: --directory --format json

@@ -1,0 +1,79 @@
+shared_utilities.py:115: def handle_error(self, error: Exception, context: str = None) -> bool:
+emergency_orchestrator.py:115: def handle_emergency(
+coordination_decorator.py:17: def handle_coordination_errors(
+specialized_handlers.py:28: def handle_error(
+specialized_handlers.py:60: def handle_file_error(self, error: Exception, file_path: str = "") -> dict[str, Any]:
+specialized_handlers.py:64: def handle_network_error(self, error: Exception, endpoint: str = "") -> dict[str, Any]:
+specialized_handlers.py:68: def handle_database_error(self, error: Exception, operation: str = "") -> dict[str, Any]:
+specialized_handlers.py:72: def handle_validation_error(self, error: Exception, field: str = "") -> dict[str, Any]:
+specialized_handlers.py:76: def handle_agent_error(self, error: Exception, agent_id: str = "") -> dict[str, Any]:
+coordination_error_handler.py:159: def handle_errors(operation: Callable, error_handler: Callable | None = None):
+coordination_error_handler.py:289: def handle_coordination_errors(
+coordination_error_handler.py:322: def handle_errors(
+error_handling_orchestrator.py:80: def handle_operation_error(
+error_handling_orchestrator.py:90: def handle_file_operation_error(
+error_handling_orchestrator.py:103: def handle_network_operation_error(
+error_handling_orchestrator.py:114: def handle_database_operation_error(
+error_handling_orchestrator.py:127: def handle_validation_error(
+error_handling_orchestrator.py:137: def handle_configuration_error(
+error_handling_orchestrator.py:147: def handle_agent_operation_error(
+error_handling_orchestrator.py:160: def handle_coordination_error(
+resource_context_operations.py:27: def handle_operation(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
+resource_file_operations.py:27: def handle_operation(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
+resource_lock_operations.py:30: def handle_operation(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
+performance_cli.py:72: def handle_monitor_command(args):
+performance_cli.py:108: def handle_optimize_command(args):
+performance_cli.py:150: def handle_dashboard_command(args):
+error_utilities.py:37: def handle_error(self, error: Exception, context: str = None) -> bool:
+rate_limited_session_manager.py:226: def handle_rate_limit_error(self, service_name: str, session_id: str) -> None:
+messaging_cli_handlers.py:127: def handle_message(args, parser):
+messaging_cli_handlers.py:152: def handle_survey():
+messaging_cli_handlers.py:158: def handle_consolidation(args):
+messaging_cli_handlers.py:168: def handle_coordinates():
+messaging_cli_handlers.py:194: def handle_start_agents(args):
+messaging_cli_handlers.py:227: def handle_save(args, parser):
+messaging_cli_handlers.py:247: def handle_leaderboard():
+messaging_handlers.py:10: def handle_message(content: str, recipient: str, use_pyautogui: bool = False) -> bool:
+messaging_handlers.py:19: def handle_broadcast(content: str) -> bool:
+messaging_infrastructure.py:323: def handle_message(args, parser) -> int:
+messaging_infrastructure.py:358: def handle_survey() -> int:
+messaging_infrastructure.py:372: def handle_consolidation(args) -> int:
+messaging_infrastructure.py:388: def handle_coordinates() -> int:
+messaging_infrastructure.py:407: def handle_start_agents(args) -> int:
+messaging_infrastructure.py:430: def handle_save(args, parser) -> int:
+messaging_infrastructure.py:456: def handle_leaderboard() -> int:
+contract_handler.py:45: def handle_contract_commands(self, args) ->bool:
+onboarding_handler.py:41: def handle_onboarding_commands(self, args) ->bool:
+thea_session_management.py:226: def handle_rate_limit_error(self, service_name: str, session_id: str) -> None:
+thea_session_manager.py:71: def handle_rate_limit_error(self, service_name: str, session_id: str) -> None:
+gaming_integration_core.py:43: def handle_event(self, event: Dict[str, Any]) -> Dict[str, Any]: ...
+gaming_integration_core.py:194: def handle_event(self, event: Dict[str, Any]) -> Dict[str, Any]:
+gaming_integration_core.py:323: def handle_event(self, handler_name: str, event: Dict[str, Any]) -> Dict[str, Any]:
+gaming_alert_handlers.py:13: def handle_performance_alerts(manager, performance_metrics: Dict[str, Any]) -> List:
+gaming_alert_handlers.py:74: def handle_system_health_alerts(manager, health_metrics: Dict[str, Any]) -> List:
+gaming_alert_handlers.py:121: def handle_alert_acknowledgment(manager, alert_id: str, acknowledged_by: str) -> bool:
+gaming_alert_handlers.py:145: def handle_alert_resolution(
+gaming_handlers.py:15: def handle_session_management(event_data: Dict[str, Any]):
+gaming_handlers.py:20: def handle_performance_monitoring(event_data: Dict[str, Any]):
+gaming_handlers.py:25: def handle_system_health(event_data: Dict[str, Any]):
+gaming_handlers.py:30: def handle_user_interaction(event_data: Dict[str, Any]):
+recovery_handlers.py:25: async def handle_cycle_failure(self, cycle_number: int, error_message: str) -> None:
+recovery_handlers.py:47: async def handle_task_failure(self, task_id: str, agent_id: str, error_message: str) -> None:
+recovery_handlers.py:76: async def handle_stalled_agents(self, stalled_agents: list[str]) -> None:
+recovery_handlers.py:85: async def handle_health_issues(self, health_status: dict[str, Any]) -> None:
+recovery.py:90: async def handle_cycle_failure(self, cycle_number: int, error_message: str) -> None:
+recovery.py:122: async def handle_task_failure(self, task_id: str, agent_id: str, error_message: str) -> None:
+recovery.py:162: async def handle_stalled_agents(self, stalled_agents: list[str]) -> None:
+recovery.py:178: async def handle_health_issues(self, health_status: dict[str, Any]) -> None:
+gaming_integration_core.py:46: def handle_event(self, event: dict[str, Any]) -> dict[str, Any]: ...
+gaming_integration_core.py:195: def handle_event(self, event: dict[str, Any]) -> dict[str, Any]:
+gaming_integration_core.py:326: def handle_event(self, handler_name: str, event: dict[str, Any]) -> dict[str, Any]:
+osrs_agent_messaging.py:18: def handle_coordination_message(agent: "OSRS_Agent_Core", message: dict[str, Any]) -> None:
+osrs_agent_messaging.py:32: def handle_resource_request(agent: "OSRS_Agent_Core", message: dict[str, Any]) -> None:
+osrs_agent_messaging.py:63: def handle_activity_coordination(agent: "OSRS_Agent_Core", message: dict[str, Any]) -> None:
+osrs_agent_messaging.py:75: def handle_emergency_alert(agent: "OSRS_Agent_Core", message: dict[str, Any]) -> None:
+osrs_coordination_handlers.py:26: def handle_coordination_message(self, message: dict[str, Any]):
+osrs_coordination_handlers.py:44: def handle_resource_request(self, message: dict[str, Any]):
+osrs_coordination_handlers.py:75: def handle_activity_coordination(self, message: dict[str, Any]):
+osrs_coordination_handlers.py:87: def handle_emergency_alert(self, message: dict[str, Any]):
+ingestion_pipeline.py:69: def handle_inbound(msg: InboundMessage, repo, bus=None) -> str | None:

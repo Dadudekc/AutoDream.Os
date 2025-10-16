@@ -14,7 +14,7 @@ import logging
 from pathlib import Path
 from typing import Any
 
-from ..adapters.base_adapter import IToolAdapter
+from ..adapters.base_adapter import IToolAdapter, ToolSpec, ToolResult
 
 logger = logging.getLogger(__name__)
 
@@ -28,7 +28,22 @@ class OrchestratorScanTool(IToolAdapter):
     def get_description(self) -> str:
         return "Scan all orchestrator files for V2 violations and performance bottlenecks"
 
-    def execute(self, **kwargs) -> dict[str, Any]:
+    def get_spec(self) -> ToolSpec:
+        """Get tool specification."""
+        return ToolSpec(
+            name="orchestrator_scan",
+            version="1.0.0",
+            category="infrastructure",
+            summary="Scan all orchestrator files for V2 violations and performance bottlenecks",
+            required_params=[],
+            optional_params={},
+        )
+
+    def validate(self, params: dict[str, Any]) -> tuple[bool, list[str]]:
+        """Validate parameters (no required params for this tool)."""
+        return (True, [])
+
+    def execute(self, params: dict[str, Any] = None, context: dict[str, Any] | None = None) -> ToolResult:
         """Execute orchestrator scan."""
         try:
             violations = []
@@ -79,8 +94,7 @@ class OrchestratorScanTool(IToolAdapter):
             all_orchestrators.sort(key=lambda x: x[1], reverse=True)
             violations.sort(key=lambda x: x.get("lines", 0), reverse=True)
 
-            return {
-                "success": True,
+            output = {
                 "total_orchestrators": len(all_orchestrators),
                 "violations": violations,
                 "violation_count": len(violations),
@@ -88,10 +102,11 @@ class OrchestratorScanTool(IToolAdapter):
                     {"file": f, "lines": lines} for f, lines in all_orchestrators[:10]
                 ],
             }
+            return ToolResult(success=True, output=output)
 
         except Exception as e:
             logger.error(f"Orchestrator scan failed: {e}")
-            return {"success": False, "error": str(e)}
+            return ToolResult(success=False, output=None, error_message=str(e), exit_code=1)
 
 
 class FileLineCounterTool(IToolAdapter):
@@ -103,10 +118,28 @@ class FileLineCounterTool(IToolAdapter):
     def get_description(self) -> str:
         return "Count lines in file(s) for V2 compliance verification"
 
-    def execute(self, **kwargs) -> dict[str, Any]:
+    def get_spec(self) -> ToolSpec:
+        """Get tool specification."""
+        return ToolSpec(
+            name="file_lines",
+            version="1.0.0",
+            category="infrastructure",
+            summary="Count lines in file(s) for V2 compliance verification",
+            required_params=["files"],
+            optional_params={},
+        )
+
+    def validate(self, params: dict[str, Any]) -> tuple[bool, list[str]]:
+        """Validate parameters."""
+        spec = self.get_spec()
+        return spec.validate_params(params)
+
+    def execute(self, params: dict[str, Any] = None, context: dict[str, Any] | None = None) -> ToolResult:
         """Execute line count."""
         try:
-            files = kwargs.get("files", [])
+            if params is None:
+                params = {}
+            files = params.get("files", [])
             if isinstance(files, str):
                 files = [files]
 
@@ -127,15 +160,15 @@ class FileLineCounterTool(IToolAdapter):
                 except Exception as e:
                     results.append({"file": filepath, "error": str(e)})
 
-            return {
-                "success": True,
+            output = {
                 "results": results,
                 "total_files": len(results),
                 "compliant_count": sum(1 for r in results if r.get("v2_compliant")),
             }
+            return ToolResult(success=True, output=output)
 
         except Exception as e:
-            return {"success": False, "error": str(e)}
+            return ToolResult(success=False, output=None, error_message=str(e), exit_code=1)
 
 
 class ModuleExtractorPlannerTool(IToolAdapter):
@@ -147,12 +180,30 @@ class ModuleExtractorPlannerTool(IToolAdapter):
     def get_description(self) -> str:
         return "Analyze file and suggest modular extraction plan"
 
-    def execute(self, **kwargs) -> dict[str, Any]:
+    def get_spec(self) -> ToolSpec:
+        """Get tool specification."""
+        return ToolSpec(
+            name="extract_planner",
+            version="1.0.0",
+            category="infrastructure",
+            summary="Analyze file and suggest modular extraction plan",
+            required_params=["file"],
+            optional_params={},
+        )
+
+    def validate(self, params: dict[str, Any]) -> tuple[bool, list[str]]:
+        """Validate parameters."""
+        spec = self.get_spec()
+        return spec.validate_params(params)
+
+    def execute(self, params: dict[str, Any] = None, context: dict[str, Any] | None = None) -> ToolResult:
         """Execute extraction planning."""
         try:
-            filepath = kwargs.get("file")
+            if params is None:
+                params = {}
+            filepath = params.get("file")
             if not filepath:
-                return {"success": False, "error": "No file specified"}
+                return ToolResult(success=False, output=None, error_message="No file specified", exit_code=1)
 
             with open(filepath) as f:
                 content = f.read()
@@ -193,8 +244,7 @@ class ModuleExtractorPlannerTool(IToolAdapter):
                     }
                 )
 
-            return {
-                "success": True,
+            output = {
                 "file": filepath,
                 "metrics": {
                     "lines": len(lines),
@@ -207,9 +257,10 @@ class ModuleExtractorPlannerTool(IToolAdapter):
                 "suggestions": suggestions,
                 "needs_extraction": len(suggestions) > 0,
             }
+            return ToolResult(success=True, output=output)
 
         except Exception as e:
-            return {"success": False, "error": str(e)}
+            return ToolResult(success=False, output=None, error_message=str(e), exit_code=1)
 
 
 class ROICalculatorTool(IToolAdapter):
@@ -221,21 +272,38 @@ class ROICalculatorTool(IToolAdapter):
     def get_description(self) -> str:
         return "Calculate ROI for refactoring tasks (points/complexity)"
 
-    def execute(self, **kwargs) -> dict[str, Any]:
+    def get_spec(self) -> ToolSpec:
+        """Get tool specification."""
+        return ToolSpec(
+            name="roi_calculator",
+            version="1.0.0",
+            category="infrastructure",
+            summary="Calculate ROI for refactoring tasks (points/complexity)",
+            required_params=["points", "complexity"],
+            optional_params={"v2_impact": 0, "autonomy_impact": 0},
+        )
+
+    def validate(self, params: dict[str, Any]) -> tuple[bool, list[str]]:
+        """Validate parameters."""
+        spec = self.get_spec()
+        return spec.validate_params(params)
+
+    def execute(self, params: dict[str, Any] = None, context: dict[str, Any] | None = None) -> ToolResult:
         """Calculate ROI."""
         try:
-            points = kwargs.get("points", 0)
-            complexity = kwargs.get("complexity", 1)
-            v2_impact = kwargs.get("v2_impact", 0)
-            autonomy_impact = kwargs.get("autonomy_impact", 0)
+            if params is None:
+                params = {}
+            points = params.get("points", 0)
+            complexity = params.get("complexity", 1)
+            v2_impact = params.get("v2_impact", 0)
+            autonomy_impact = params.get("autonomy_impact", 0)
 
             # ROI formula from Markov optimizer
             reward = points + (v2_impact * 100) + (autonomy_impact * 200)
             difficulty = max(complexity, 1)  # Avoid division by zero
             roi = reward / difficulty
 
-            return {
-                "success": True,
+            output = {
                 "points": points,
                 "complexity": complexity,
                 "v2_impact": v2_impact,
@@ -249,9 +317,10 @@ class ROICalculatorTool(IToolAdapter):
                     else "GOOD" if roi > 15 else "FAIR" if roi > 10 else "LOW"
                 ),
             }
+            return ToolResult(success=True, output=output)
 
         except Exception as e:
-            return {"success": False, "error": str(e)}
+            return ToolResult(success=False, output=None, error_message=str(e), exit_code=1)
 
 
 __all__ = [

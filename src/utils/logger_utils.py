@@ -2,102 +2,81 @@
 Logger Utilities - Wrapper for Unified Logging System
 ======================================================
 
-Provides backward compatibility wrapper for the unified logging system.
-Redirects to src.core.unified_logging_system for actual implementation.
+Provides backward compatibility for logger utilities.
+Delegates to unified logging system.
 
-Author: Agent-7 - Repository Cloning Specialist
-Mission: Quarantine Fix Phase 4 (Utilities & Structure)
-Date: 2025-10-16
-Points: 150 pts
-V2 Compliant: ≤400 lines, backward compatibility facade
-
-Architecture:
-- Facade pattern for unified_logging_system
-- Maintains backward compatibility
-- No duplicate logic
-- Simple re-export + utility wrapper
-
-Usage:
-    from src.utils.logger_utils import create_logger, get_logger
-    
-    logger = create_logger("my_module")
-    logger = get_logger("my_module")
+V2 Compliance: Wrapper pattern, <400 lines
 """
 
-from typing import Optional
 import logging
 
 # Import from unified logging system
+# Note: Adjust these imports based on what's actually exported
 try:
     from ..core.unified_logging_system import (
-        UnifiedLogger,
-        setup_logger,
-        get_logger as _get_logger
+        setup_logger as unified_setup_logger,
+        get_logger as unified_get_logger,
     )
-    UNIFIED_LOGGING_AVAILABLE = True
+    UNIFIED_AVAILABLE = True
 except ImportError:
-    # Fallback if unified logging not available
-    UNIFIED_LOGGING_AVAILABLE = False
-    UnifiedLogger = None  # type: ignore
-    setup_logger = None  # type: ignore
-    _get_logger = None  # type: ignore
+    UNIFIED_AVAILABLE = False
 
 
-# Re-export for backward compatibility
-__all__ = ['UnifiedLogger', 'setup_logger', 'get_logger', 'create_logger']
-
-
-def get_logger(name: str) -> logging.Logger:
+def setup_logger(name: str, level: str = "INFO", log_file: str = None):
     """
-    Get logger instance (backward compatible).
+    Set up logger with specified configuration.
     
     Args:
         name: Logger name
-        
-    Returns:
-        Logger instance
-    """
-    if UNIFIED_LOGGING_AVAILABLE and _get_logger:
-        return _get_logger(name)
-    
-    # Fallback to standard logging
-    return logging.getLogger(name)
-
-
-def create_logger(
-    name: str, 
-    level: str = "INFO",
-    log_file: Optional[str] = None
-) -> logging.Logger:
-    """
-    Create logger instance (backward compatible).
-    
-    Args:
-        name: Logger name
-        level: Log level (default: INFO)
+        level: Log level (DEBUG, INFO, WARNING, ERROR)
         log_file: Optional log file path
         
     Returns:
-        Logger instance
+        Configured logger instance
     """
-    if UNIFIED_LOGGING_AVAILABLE and setup_logger:
-        return setup_logger(name, level)
+    if UNIFIED_AVAILABLE:
+        return unified_setup_logger(name, level, log_file)
     
-    # Fallback to standard logging
+    # Fallback implementation
     logger = logging.getLogger(name)
     logger.setLevel(getattr(logging, level.upper(), logging.INFO))
     
-    # Add console handler if no handlers exist
     if not logger.handlers:
-        console_handler = logging.StreamHandler()
-        console_handler.setLevel(logging.INFO)
-        
+        handler = logging.StreamHandler()
         formatter = logging.Formatter(
             '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
         )
-        console_handler.setFormatter(formatter)
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
         
-        logger.addHandler(console_handler)
+        if log_file:
+            file_handler = logging.FileHandler(log_file)
+            file_handler.setFormatter(formatter)
+            logger.addHandler(file_handler)
     
     return logger
 
+
+def get_logger(name: str):
+    """
+    Get logger instance by name.
+    
+    Args:
+        name: Logger name
+        
+    Returns:
+        Logger instance
+    """
+    if UNIFIED_AVAILABLE:
+        return unified_get_logger(name)
+    
+    return logging.getLogger(name)
+
+
+def create_logger(name: str, level: str = "INFO"):
+    """Create logger (backward compatible)."""
+    return setup_logger(name, level)
+
+
+# Export commonly used items
+__all__ = ['setup_logger', 'get_logger', 'create_logger']

@@ -15,7 +15,7 @@ from typing import Any
 from ..contracts import ManagerContext, ManagerResult
 from .base_execution_manager import BaseExecutionManager
 from .protocol_manager import ProtocolManager
-from .task_manager import TaskManager
+from .task_executor import TaskExecutor
 
 
 class ExecutionCoordinator(BaseExecutionManager):
@@ -24,8 +24,10 @@ class ExecutionCoordinator(BaseExecutionManager):
     def __init__(self):
         """Initialize execution coordinator."""
         super().__init__()
-        self.task_manager = TaskManager()
-        self.protocol_manager = ProtocolManager()
+        # Note: BaseExecutionManager already has task_executor and protocol_manager
+        # These are just aliases for backward compatibility
+        self.task_manager = self.task_executor
+        self.protocol_manager_instance = ProtocolManager()
 
     def initialize(self, context: ManagerContext) -> bool:
         """Initialize all execution components."""

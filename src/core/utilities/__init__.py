@@ -1,40 +1,36 @@
 """
-Core Utilities Module
+Core Utilities Package
 =====================
 
-Modular utilities extracted from shared_utilities.py for V2 compliance.
+Consolidated utility functions for validation, processing, and handling operations.
+Created as part of DUP-005 duplicate elimination mission.
+
+Author: Agent-7 (DUP-005 Mission)
+Date: 2025-10-16
 """
 
-# Import all utilities from modular structure
-from .base_utilities import BaseUtility
-from .cleanup_utilities import CleanupManager, create_cleanup_manager
-from .config_utilities import ConfigurationManager, create_configuration_manager
-from .error_utilities import ErrorHandler, create_error_handler
-from .init_utilities import InitializationManager, create_initialization_manager
-from .logging_utilities import LoggingManager, create_logging_manager
-from .result_utilities import ResultManager, create_result_manager
-from .status_utilities import StatusManager, create_status_manager
-from .validation_utilities import ValidationManager, create_validation_manager
+from .validation_utilities import *
+from .processing_utilities import *
+from .handler_utilities import *
 
 __all__ = [
-    # Base
-    "BaseUtility",
-    # Managers
-    "CleanupManager",
-    "ConfigurationManager",
-    "ErrorHandler",
-    "InitializationManager",
-    "LoggingManager",
-    "ResultManager",
-    "StatusManager",
-    "ValidationManager",
-    # Factory functions
-    "create_cleanup_manager",
-    "create_configuration_manager",
-    "create_error_handler",
-    "create_initialization_manager",
-    "create_logging_manager",
-    "create_result_manager",
-    "create_status_manager",
-    "create_validation_manager",
+    # Validation utilities
+    'validate_import_syntax',
+    'validate_import_pattern',
+    'validate_file_path',
+    'validate_config',
+    'validate_session',
+    'validate_coordinates',
+    'validate_forecast_accuracy',
+    
+    # Processing utilities
+    'process_batch',
+    'process_data',
+    'process_results',
+    
+    # Handler utilities
+    'handle_error',
+    'handle_operation',
+    'handle_event',
+    'handle_rate_limit_error',
 ]

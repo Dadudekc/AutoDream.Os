@@ -3,8 +3,14 @@ Thea Session Manager
 ===================
 
 Basic session manager for Thea Manager rate limiting.
+
+DEPRECATED: This stub is now replaced by RateLimitedSessionManager.
+Please use src.core.session.RateLimitedSessionManager directly.
+
+Author: Agent-1 (DUP-002) - Deprecated in favor of consolidated session manager
 """
 
+import warnings
 from dataclasses import dataclass
 from typing import Any
 
@@ -18,9 +24,24 @@ class RateLimitConfig:
 
 
 class TheaSessionManager:
-    """Basic session manager stub."""
+    """
+    Basic session manager stub.
+    
+    DEPRECATED: Use RateLimitedSessionManager from src.core.session instead.
+    This stub is kept for backward compatibility only.
+    """
 
     def __init__(self, config: RateLimitConfig | None = None):
+        """
+        Initialize Thea session manager.
+        
+        DEPRECATED: Migrating to RateLimitedSessionManager.
+        """
+        warnings.warn(
+            "TheaSessionManager is deprecated. Use RateLimitedSessionManager from src.core.session instead.",
+            DeprecationWarning,
+            stacklevel=2
+        )
         self.config = config or RateLimitConfig()
 
     def start(self) -> None:

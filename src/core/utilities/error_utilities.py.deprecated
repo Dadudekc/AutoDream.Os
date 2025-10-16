@@ -1,0 +1,35 @@
+"""
+DEPRECATED: This file has been replaced by src/core/error_handling/error_handling_system.py
+==========================================================================================
+
+This file is DEPRECATED as part of DUP-006 Error Handling Patterns SSOT consolidation.
+
+CONSOLIDATION: Agent-8 (2025-10-17) - DUP-006 SSOT Fix
+All functionality has been moved to src/core/error_handling/error_handling_system.py
+
+Please update your imports to use the unified error handling system:
+
+OLD:
+    from src.core.utilities.error_utilities import ErrorHandler
+    
+NEW:
+    from src.core.error_handling.error_handling_system import UnifiedErrorHandlingOrchestrator
+    # Or for simple error handling:
+    from src.core.shared_utilities import ErrorHandler  # Backward compatible
+
+This file will be removed in a future release.
+"""
+
+import warnings
+
+warnings.warn(
+    "error_utilities.py ErrorHandler is deprecated. Use src.core.error_handling.error_handling_system instead.",
+    DeprecationWarning,
+    stacklevel=2
+)
+
+# Re-export from shared_utilities for backward compatibility
+from ..shared_utilities import ErrorHandler, create_error_handler
+
+__all__ = ["ErrorHandler", "create_error_handler"]
+

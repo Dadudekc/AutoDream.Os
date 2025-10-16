@@ -1,56 +1,79 @@
 """
 Contract Repository - Data Access Layer
-========================================
+=======================================
 
-Handles all contract-related data operations including contract retrieval,
-availability checking, and contract claiming.
+Handles all contract-related data operations following the repository pattern.
+This repository provides data access abstraction for contract storage, retrieval,
+and status management.
 
-Author: Agent-7 - Repository Cloning Specialist
-Mission: Quarantine Fix Phase 3 (Repository Pattern)
+Author: Agent-7 (Quarantine Mission Phase 3)
 Date: 2025-10-16
-Points: 300 pts
-V2 Compliant: ≤400 lines, single responsibility
-
-Architecture:
-- Follows repository pattern (data access abstraction)
-- No business logic (data operations only)
-- Type hints for all methods
-- Comprehensive error handling
-
-Usage:
-    from src.repositories import ContractRepository
-    
-    repo = ContractRepository()
-    contract = repo.get_contract("contract_123")
-    available = repo.get_available_contracts("Agent-7")
-    repo.claim_contract("contract_123", "Agent-7")
+Points: 300
 """
 
 from typing import List, Optional, Dict, Any
 from pathlib import Path
 import json
-import logging
 from datetime import datetime
-
-logger = logging.getLogger(__name__)
 
 
 class ContractRepository:
     """
     Repository for contract data operations.
     
-    Provides data access methods for contracts, availability checking,
-    and contract claiming operations.
+    Provides data access layer for contract management including
+    retrieval, claiming, completion, and status tracking.
+    No business logic - pure data operations.
+    
+    Attributes:
+        contracts_file: Path to contracts JSON file
     """
     
-    def __init__(self, contracts_dir: str = "contracts"):
+    def __init__(self, contracts_file: str = "data/contracts.json"):
         """
         Initialize contract repository.
         
         Args:
-            contracts_dir: Directory containing contract files
+            contracts_file: Path to contracts storage file
         """
-        self.contracts_dir = Path(contracts_dir)
+        self.contracts_file = Path(contracts_file)
+        self._ensure_contracts_file()
+        
+    def _ensure_contracts_file(self) -> None:
+        """Ensure contracts file exists with proper structure."""
+        if not self.contracts_file.exists():
+            self.contracts_file.parent.mkdir(parents=True, exist_ok=True)
+            self._save_contracts({'contracts': [], 'metadata': {'version': '1.0'}})
+    
+    def _load_contracts(self) -> Dict[str, Any]:
+        """
+        Load contracts from file.
+        
+        Returns:
+            Contracts data dictionary
+        """
+        try:
+            with open(self.contracts_file, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except (json.JSONDecodeError, IOError):
+            return {'contracts': [], 'metadata': {'version': '1.0'}}
+    
+    def _save_contracts(self, data: Dict[str, Any]) -> bool:
+        """
+        Save contracts to file.
+        
+        Args:
+            data: Contracts data dictionary
+            
+        Returns:
+            True if save successful, False otherwise
+        """
+        try:
+            with open(self.contracts_file, 'w', encoding='utf-8') as f:
+                json.dump(data, f, indent=2, ensure_ascii=False)
+            return True
+        except IOError:
+            return False
     
     def get_contract(self, contract_id: str) -> Optional[Dict[str, Any]]:
         """
@@ -60,178 +83,119 @@ class ContractRepository:
             contract_id: Contract identifier
             
         Returns:
-            Contract data dictionary or None if not found
+            Contract data dictionary if found, None otherwise
         """
-        try:
-            # Try multiple potential file formats
-            potential_files = [
-                self.contracts_dir / f"{contract_id}.json",
-                self.contracts_dir / f"{contract_id}.md",
-                self.contracts_dir / contract_id,
-            ]
-            
-            for contract_file in potential_files:
-                if contract_file.exists():
-                    if contract_file.suffix == '.json':
-                        with open(contract_file, 'r', encoding='utf-8') as f:
-                            return json.load(f)
-                    else:
-                        with open(contract_file, 'r', encoding='utf-8') as f:
-                            content = f.read()
-                            return {
-                                "contract_id": contract_id,
-                                "content": content,
-                                "file": str(contract_file)
-                            }
-            
-            logger.warning(f"Contract {contract_id} not found")
-            return None
-            
-        except Exception as e:
-            logger.error(f"Error reading contract {contract_id}: {e}")
-            return None
+        data = self._load_contracts()
+        
+        for contract in data.get('contracts', []):
+            if contract.get('contract_id') == contract_id:
+                return contract
+                
+        return None
     
     def get_all_contracts(self) -> List[Dict[str, Any]]:
         """
         Get all contracts.
         
         Returns:
-            List of contract data dictionaries
+            List of all contract data dictionaries
         """
-        contracts = []
-        
-        try:
-            if not self.contracts_dir.exists():
-                logger.warning("Contracts directory does not exist")
-                return []
-            
-            # Read all contract files
-            for contract_file in self.contracts_dir.iterdir():
-                if contract_file.is_file():
-                    contract_id = contract_file.stem
-                    contract_data = self.get_contract(contract_id)
-                    if contract_data:
-                        contracts.append(contract_data)
-            
-            return contracts
-            
-        except Exception as e:
-            logger.error(f"Error reading contracts: {e}")
-            return []
+        data = self._load_contracts()
+        return data.get('contracts', [])
     
-    def get_available_contracts(
-        self, 
-        agent_id: Optional[str] = None
-    ) -> List[Dict[str, Any]]:
+    def get_available_contracts(self, agent_id: Optional[str] = None) -> List[Dict[str, Any]]:
         """
-        Get available contracts for agent.
+        Get available contracts (unclaimed or for specific agent).
         
         Args:
-            agent_id: Agent identifier (optional filter)
+            agent_id: Optional agent identifier to filter contracts
             
         Returns:
             List of available contract data dictionaries
         """
-        all_contracts = self.get_all_contracts()
+        data = self._load_contracts()
+        contracts = data.get('contracts', [])
         
-        # Filter for unclaimed contracts
-        available = [
-            contract for contract in all_contracts
-            if contract.get('status') != 'claimed' and
-            contract.get('claimed_by') is None
-        ]
-        
-        # Optional: filter by agent specialization
-        if agent_id:
-            available = [
-                contract for contract in available
-                if self._matches_agent_specialty(contract, agent_id)
-            ]
-        
+        available = []
+        for contract in contracts:
+            status = contract.get('status', 'available')
+            assigned_agent = contract.get('assigned_agent')
+            
+            # Include if unclaimed or assigned to specific agent
+            if status == 'available' or (agent_id and assigned_agent == agent_id):
+                available.append(contract)
+                
         return available
     
-    def claim_contract(
-        self, 
-        contract_id: str, 
-        agent_id: str
-    ) -> bool:
+    def claim_contract(self, contract_id: str, agent_id: str) -> bool:
         """
         Claim contract for agent.
         
         Args:
             contract_id: Contract identifier
-            agent_id: Agent identifier
+            agent_id: Agent identifier claiming the contract
             
         Returns:
-            True if successfully claimed, False otherwise
+            True if claim successful, False otherwise
         """
-        try:
-            contract = self.get_contract(contract_id)
-            
-            if not contract:
-                logger.error(f"Contract {contract_id} not found")
-                return False
-            
-            # Check if already claimed
-            if contract.get('claimed_by'):
-                logger.warning(
-                    f"Contract {contract_id} already claimed by "
-                    f"{contract.get('claimed_by')}"
-                )
-                return False
-            
-            # Update contract with claim information
-            contract['claimed_by'] = agent_id
-            contract['claimed_at'] = datetime.now().isoformat()
-            contract['status'] = 'claimed'
-            
-            # Save updated contract
-            contract_file = self.contracts_dir / f"{contract_id}.json"
-            with open(contract_file, 'w', encoding='utf-8') as f:
-                json.dump(contract, f, indent=2)
-            
-            logger.info(f"Contract {contract_id} claimed by {agent_id}")
-            return True
-            
-        except Exception as e:
-            logger.error(f"Error claiming contract {contract_id}: {e}")
-            return False
+        data = self._load_contracts()
+        contracts = data.get('contracts', [])
+        
+        for contract in contracts:
+            if contract.get('contract_id') == contract_id:
+                contract['status'] = 'claimed'
+                contract['assigned_agent'] = agent_id
+                contract['claimed_at'] = datetime.now().isoformat()
+                return self._save_contracts(data)
+                
+        return False
     
-    def release_contract(self, contract_id: str) -> bool:
+    def complete_contract(self, contract_id: str) -> bool:
         """
-        Release a claimed contract.
+        Mark contract as completed.
         
         Args:
             contract_id: Contract identifier
             
         Returns:
-            True if successfully released, False otherwise
+            True if completion successful, False otherwise
         """
-        try:
-            contract = self.get_contract(contract_id)
-            
-            if not contract:
-                return False
-            
-            contract['claimed_by'] = None
-            contract['claimed_at'] = None
-            contract['status'] = 'available'
-            contract['released_at'] = datetime.now().isoformat()
-            
-            contract_file = self.contracts_dir / f"{contract_id}.json"
-            with open(contract_file, 'w', encoding='utf-8') as f:
-                json.dump(contract, f, indent=2)
-            
-            logger.info(f"Contract {contract_id} released")
-            return True
-            
-        except Exception as e:
-            logger.error(f"Error releasing contract {contract_id}: {e}")
-            return False
+        data = self._load_contracts()
+        contracts = data.get('contracts', [])
+        
+        for contract in contracts:
+            if contract.get('contract_id') == contract_id:
+                contract['status'] = 'completed'
+                contract['completed_at'] = datetime.now().isoformat()
+                return self._save_contracts(data)
+                
+        return False
     
-    def get_agent_contracts(self, agent_id: str) -> List[Dict[str, Any]]:
+    def add_contract(self, contract_data: Dict[str, Any]) -> bool:
         """
-        Get all contracts claimed by agent.
+        Add new contract to storage.
+        
+        Args:
+            contract_data: Contract data dictionary
+            
+        Returns:
+            True if addition successful, False otherwise
+        """
+        data = self._load_contracts()
+        contracts = data.get('contracts', [])
+        
+        # Add timestamp if not present
+        if 'created_at' not in contract_data:
+            contract_data['created_at'] = datetime.now().isoformat()
+            
+        contracts.append(contract_data)
+        data['contracts'] = contracts
+        
+        return self._save_contracts(data)
+    
+    def get_contracts_by_agent(self, agent_id: str) -> List[Dict[str, Any]]:
+        """
+        Get all contracts assigned to specific agent.
         
         Args:
             agent_id: Agent identifier
@@ -239,49 +203,34 @@ class ContractRepository:
         Returns:
             List of contract data dictionaries
         """
-        all_contracts = self.get_all_contracts()
+        data = self._load_contracts()
+        contracts = data.get('contracts', [])
         
         agent_contracts = [
-            contract for contract in all_contracts
-            if contract.get('claimed_by') == agent_id
+            c for c in contracts 
+            if c.get('assigned_agent') == agent_id
         ]
         
         return agent_contracts
     
-    def _matches_agent_specialty(
-        self, 
-        contract: Dict[str, Any], 
-        agent_id: str
-    ) -> bool:
+    def update_contract_status(self, contract_id: str, status: str) -> bool:
         """
-        Check if contract matches agent specialty.
+        Update contract status.
         
         Args:
-            contract: Contract data dictionary
-            agent_id: Agent identifier
+            contract_id: Contract identifier
+            status: New status value
             
         Returns:
-            True if matches, False otherwise
+            True if update successful, False otherwise
         """
-        # Simplified specialty matching
-        # Can be enhanced with agent specialty lookup
+        data = self._load_contracts()
+        contracts = data.get('contracts', [])
         
-        specialty_map = {
-            "Agent-1": ["integration", "core"],
-            "Agent-2": ["architecture", "design"],
-            "Agent-3": ["infrastructure", "devops"],
-            "Agent-5": ["business", "intelligence"],
-            "Agent-6": ["coordination", "communication"],
-            "Agent-7": ["web", "development", "repository"],
-            "Agent-8": ["ssot", "integration"],
-        }
-        
-        agent_specialties = specialty_map.get(agent_id, [])
-        contract_type = contract.get('type', '').lower()
-        
-        # Match if any specialty keyword in contract type
-        return any(
-            specialty in contract_type 
-            for specialty in agent_specialties
-        )
-
+        for contract in contracts:
+            if contract.get('contract_id') == contract_id:
+                contract['status'] = status
+                contract['status_updated_at'] = datetime.now().isoformat()
+                return self._save_contracts(data)
+                
+        return False

@@ -1,11 +1,9 @@
-# AUTO-GENERATED __init__.py
-# DO NOT EDIT MANUALLY - changes may be overwritten
+# Managers Package - DUP-004 Cleanup
+# Removed non-existent imports: configuration_source_manager, configuration_store, constants, unified_configuration_manager
 
 from . import (
     base_manager,
-    configuration_source_manager,
-    configuration_store,
-    constants,
+    base_manager_helpers,
     contracts,
     core_configuration_manager,
     core_execution_manager,
@@ -18,16 +16,14 @@ from . import (
     core_service_manager,
     manager_lifecycle,
     manager_metrics,
+    manager_operations,
     manager_state,
     registry,
-    unified_configuration_manager,
 )
 
 __all__ = [
     "base_manager",
-    "configuration_source_manager",
-    "configuration_store",
-    "constants",
+    "base_manager_helpers",
     "contracts",
     "core_configuration_manager",
     "core_execution_manager",
@@ -40,7 +36,7 @@ __all__ = [
     "core_service_manager",
     "manager_lifecycle",
     "manager_metrics",
+    "manager_operations",
     "manager_state",
     "registry",
-    "unified_configuration_manager",
 ]

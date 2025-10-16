@@ -1,45 +1,31 @@
 """
 Agent Repository - Data Access Layer
-=====================================
+====================================
 
-Handles all agent-related data operations including status management,
-workspace access, and agent information retrieval.
+Handles all agent-related data operations following the repository pattern.
+This repository provides data access abstraction for agent workspaces, status,
+and inbox operations.
 
-Author: Agent-7 - Repository Cloning Specialist
-Mission: Quarantine Fix Phase 3 (Repository Pattern)
+Author: Agent-7 (Quarantine Mission Phase 3)
 Date: 2025-10-16
-Points: 300 pts
-V2 Compliant: ≤400 lines, single responsibility
-
-Architecture:
-- Follows repository pattern (data access abstraction)
-- No business logic (data operations only)
-- Type hints for all methods
-- Comprehensive error handling
-
-Usage:
-    from src.repositories import AgentRepository
-    
-    repo = AgentRepository()
-    agent = repo.get_agent("Agent-7")
-    agents = repo.get_all_agents()
-    repo.update_agent_status("Agent-7", {"status": "ACTIVE"})
+Points: 300
 """
 
 from typing import List, Optional, Dict, Any
 from pathlib import Path
 import json
-import logging
-
-logger = logging.getLogger(__name__)
+from datetime import datetime
 
 
 class AgentRepository:
     """
     Repository for agent data operations.
     
-    Provides data access methods for agent workspaces, status files,
-    and agent configuration data.
+    Provides data access layer for agent workspaces, status files,
+    and inbox messages. No business logic - pure data operations.
+    
+    Attributes:
+        workspace_root: Root directory for agent workspaces
     """
     
     def __init__(self, workspace_root: str = "agent_workspaces"):
@@ -47,97 +33,73 @@ class AgentRepository:
         Initialize agent repository.
         
         Args:
-            workspace_root: Root directory for agent workspaces
+            workspace_root: Root directory for agent workspaces (default: "agent_workspaces")
         """
         self.workspace_root = Path(workspace_root)
-        self.agents = [
-            "Agent-1", "Agent-2", "Agent-3", "Agent-4",
-            "Agent-5", "Agent-6", "Agent-7", "Agent-8"
-        ]
-    
+        
     def get_agent(self, agent_id: str) -> Optional[Dict[str, Any]]:
         """
-        Get agent by ID.
+        Get agent data by ID.
         
         Args:
             agent_id: Agent identifier (e.g., "Agent-7")
             
         Returns:
-            Agent data dictionary or None if not found
+            Agent data dictionary if found, None otherwise
         """
-        try:
-            status_file = self.workspace_root / agent_id / "status.json"
-            
-            if not status_file.exists():
-                logger.warning(f"Agent {agent_id} status file not found")
-                return None
-            
-            with open(status_file, 'r', encoding='utf-8') as f:
-                agent_data = json.load(f)
-            
-            return agent_data
-            
-        except json.JSONDecodeError as e:
-            logger.error(f"Error parsing status file for {agent_id}: {e}")
+        status_file = self.workspace_root / agent_id / "status.json"
+        
+        if not status_file.exists():
             return None
-        except Exception as e:
-            logger.error(f"Error reading agent {agent_id}: {e}")
+            
+        try:
+            with open(status_file, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except (json.JSONDecodeError, IOError):
             return None
     
     def get_all_agents(self) -> List[Dict[str, Any]]:
         """
-        Get all agents.
+        Get all agents from workspace.
         
         Returns:
             List of agent data dictionaries
         """
-        agents_data = []
+        agents = []
         
-        for agent_id in self.agents:
-            agent_data = self.get_agent(agent_id)
-            if agent_data:
-                agents_data.append(agent_data)
-        
-        return agents_data
+        if not self.workspace_root.exists():
+            return agents
+            
+        for agent_dir in self.workspace_root.iterdir():
+            if agent_dir.is_dir() and agent_dir.name.startswith('Agent-'):
+                agent_data = self.get_agent(agent_dir.name)
+                if agent_data:
+                    agents.append(agent_data)
+                    
+        return agents
     
-    def update_agent_status(
-        self, 
-        agent_id: str, 
-        status_update: Dict[str, Any]
-    ) -> bool:
+    def update_agent_status(self, agent_id: str, status_data: Dict[str, Any]) -> bool:
         """
-        Update agent status.
+        Update agent status file.
         
         Args:
-            agent_id: Agent identifier
-            status_update: Dictionary with status fields to update
+            agent_id: Agent identifier (e.g., "Agent-7")
+            status_data: Status data dictionary to save
             
         Returns:
-            True if successful, False otherwise
+            True if update successful, False otherwise
         """
+        agent_dir = self.workspace_root / agent_id
+        status_file = agent_dir / "status.json"
+        
+        # Create directory if doesn't exist
+        agent_dir.mkdir(parents=True, exist_ok=True)
+        
         try:
-            status_file = self.workspace_root / agent_id / "status.json"
-            
-            if not status_file.exists():
-                logger.error(f"Status file not found for {agent_id}")
-                return False
-            
-            # Read current status
-            with open(status_file, 'r', encoding='utf-8') as f:
-                current_status = json.load(f)
-            
-            # Merge updates
-            current_status.update(status_update)
-            
-            # Write updated status
             with open(status_file, 'w', encoding='utf-8') as f:
-                json.dump(current_status, f, indent=2)
-            
-            logger.info(f"Updated status for {agent_id}")
+                json.dump(status_data, f, indent=2, ensure_ascii=False)
             return True
-            
-        except Exception as e:
-            logger.error(f"Error updating status for {agent_id}: {e}")
+        except IOError:
             return False
     
     def get_agent_inbox(self, agent_id: str) -> List[Dict[str, Any]]:
@@ -145,131 +107,75 @@ class AgentRepository:
         Get agent inbox messages.
         
         Args:
-            agent_id: Agent identifier
+            agent_id: Agent identifier (e.g., "Agent-7")
             
         Returns:
-            List of message dictionaries
+            List of message file paths and metadata
         """
-        try:
-            inbox_dir = self.workspace_root / agent_id / "inbox"
-            
-            if not inbox_dir.exists():
-                logger.warning(f"Inbox directory not found for {agent_id}")
-                return []
-            
-            messages = []
-            
-            # Read all message files
-            for message_file in inbox_dir.glob("*.md"):
-                try:
-                    with open(message_file, 'r', encoding='utf-8') as f:
-                        content = f.read()
-                    
-                    messages.append({
-                        "file": message_file.name,
-                        "content": content,
-                        "path": str(message_file)
-                    })
-                except Exception as e:
-                    logger.warning(f"Error reading message {message_file}: {e}")
-            
-            return messages
-            
-        except Exception as e:
-            logger.error(f"Error reading inbox for {agent_id}: {e}")
+        inbox_dir = self.workspace_root / agent_id / "inbox"
+        
+        if not inbox_dir.exists():
             return []
+            
+        messages = []
+        for msg_file in inbox_dir.glob("*.md"):
+            messages.append({
+                'filename': msg_file.name,
+                'path': str(msg_file),
+                'modified': datetime.fromtimestamp(msg_file.stat().st_mtime).isoformat(),
+                'size': msg_file.stat().st_size
+            })
+            
+        # Sort by modification time (newest first)
+        messages.sort(key=lambda x: x['modified'], reverse=True)
+        return messages
     
-    def get_agent_workspace_path(self, agent_id: str) -> Optional[Path]:
+    def get_agent_workspace_path(self, agent_id: str) -> Path:
         """
-        Get agent workspace path.
+        Get agent workspace directory path.
         
         Args:
-            agent_id: Agent identifier
+            agent_id: Agent identifier (e.g., "Agent-7")
             
         Returns:
-            Path object or None if not found
+            Path object for agent workspace
         """
-        workspace_path = self.workspace_root / agent_id
-        
-        if workspace_path.exists():
-            return workspace_path
-        
-        logger.warning(f"Workspace not found for {agent_id}")
-        return None
+        return self.workspace_root / agent_id
     
     def agent_exists(self, agent_id: str) -> bool:
         """
-        Check if agent exists.
+        Check if agent workspace exists.
         
         Args:
-            agent_id: Agent identifier
+            agent_id: Agent identifier (e.g., "Agent-7")
             
         Returns:
             True if agent workspace exists, False otherwise
         """
         return (self.workspace_root / agent_id).exists()
     
-    def get_agent_count(self) -> int:
+    def get_agent_notes(self, agent_id: str) -> List[Dict[str, Any]]:
         """
-        Get total agent count.
-        
-        Returns:
-            Number of agents
-        """
-        return len(self.agents)
-    
-    def get_active_agents(self) -> List[Dict[str, Any]]:
-        """
-        Get all active agents.
-        
-        Returns:
-            List of active agent data dictionaries
-        """
-        all_agents = self.get_all_agents()
-        
-        active_agents = [
-            agent for agent in all_agents
-            if agent.get('status') == 'ACTIVE_AGENT_MODE'
-        ]
-        
-        return active_agents
-    
-    def create_agent_workspace(self, agent_id: str) -> bool:
-        """
-        Create agent workspace structure.
+        Get agent notes from workspace.
         
         Args:
-            agent_id: Agent identifier
+            agent_id: Agent identifier (e.g., "Agent-7")
             
         Returns:
-            True if successful, False otherwise
+            List of note file metadata
         """
-        try:
-            workspace_path = self.workspace_root / agent_id
+        notes_dir = self.workspace_root / agent_id / "notes"
+        
+        if not notes_dir.exists():
+            return []
             
-            if workspace_path.exists():
-                logger.info(f"Workspace already exists for {agent_id}")
-                return True
+        notes = []
+        for note_file in notes_dir.glob("*.md"):
+            notes.append({
+                'filename': note_file.name,
+                'path': str(note_file),
+                'modified': datetime.fromtimestamp(note_file.stat().st_mtime).isoformat()
+            })
             
-            # Create workspace structure
-            workspace_path.mkdir(parents=True, exist_ok=True)
-            (workspace_path / "inbox").mkdir(exist_ok=True)
-            
-            # Create initial status file
-            status_data = {
-                "agent_id": agent_id,
-                "status": "INITIALIZED",
-                "workspace_created": True
-            }
-            
-            status_file = workspace_path / "status.json"
-            with open(status_file, 'w', encoding='utf-8') as f:
-                json.dump(status_data, f, indent=2)
-            
-            logger.info(f"Created workspace for {agent_id}")
-            return True
-            
-        except Exception as e:
-            logger.error(f"Error creating workspace for {agent_id}: {e}")
-            return False
-
+        notes.sort(key=lambda x: x['modified'], reverse=True)
+        return notes

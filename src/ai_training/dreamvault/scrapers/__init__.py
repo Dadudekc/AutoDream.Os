@@ -6,8 +6,9 @@ Author: Agent-7 - Repository Cloning Specialist
 License: MIT
 """
 
+from src.infrastructure.browser.unified_cookie_manager import UnifiedCookieManager as CookieManager
+
 from .browser_manager import BrowserManager
-from .cookie_manager import CookieManager
 
 # ChatGPTScraper has additional dependencies (conversation_extractor, adaptive_extractor)
 # Import only if needed - available but requires additional porting

@@ -8,6 +8,7 @@ Handles authentication, cookie management, and context persistence.
 V2 Compliance: ≤400 lines, SOLID principles, comprehensive error handling.
 
 Author: Agent-1 - Browser Automation Specialist
+Mission: DUP-002 SessionManager Consolidation - Refactored to use BaseSessionManager
 License: MIT
 """
 
@@ -29,6 +30,7 @@ except ImportError:
 try:
     from ...core.unified_config import get_unified_config
     from ...core.unified_logging_system import get_logger
+    from ...core.session.base_session_manager import BaseSessionManager, BaseSessionInfo
 except ImportError as e:
     logging.warning(f"V2 integration imports failed: {e}")
     # Fallback implementations
@@ -37,9 +39,20 @@ except ImportError as e:
     
     def get_logger(name):
         return logging.getLogger(name)
+    
+    # Fallback for BaseSessionManager if import fails
+    class BaseSessionManager:
+        def __init__(self, config=None, logger_name=None):
+            self.config = config or {}
+            self.logger = logging.getLogger(logger_name or __name__)
+            self.sessions = {}
+            
+        def session_exists(self, session_id): return False
+        def update_session_activity(self, session_id): return False
+        def _generate_session_id(self, service_name): return f"{service_name}_{int(time.time())}"
 
 
-class BrowserSessionManager:
+class BrowserSessionManager(BaseSessionManager):
     """
     Browser session management for ChatGPT.
     
@@ -49,31 +62,36 @@ class BrowserSessionManager:
 
     def __init__(self, config: Optional[Dict] = None):
         """
-        Initialize session manager.
+        Initialize browser session manager.
         
         Args:
             config: Configuration dictionary (uses config/chatgpt.yml if None)
         """
-        self.config = config or {}
-        self.logger = get_logger(__name__)
+        # Initialize base session manager
+        super().__init__(config=config, logger_name=__name__)
         
         # V2 Integration
         self.unified_config = get_unified_config()
         
-        # Session settings
+        # Session settings (from config or defaults)
         session_config = self.config.get('session', {})
-        self.persistent = session_config.get('persistent', True)
         self.cookie_storage = session_config.get('cookie_storage', 'runtime/browser_profiles/chatgpt/cookies')
         self.cache_enabled = session_config.get('cache_enabled', True)
         self.cache_size = session_config.get('cache_size', 100)
         
+        # Override persistent from base if specified in session config
+        if 'persistent' in session_config:
+            self.persistent = session_config['persistent']
+        else:
+            self.persistent = True  # Default for browser sessions
+        
         # Authentication settings
         auth_config = self.config.get('authentication', {})
         self.auto_login = auth_config.get('auto_login', False)
-        self.session_validation = auth_config.get('session_validation', True)
+        self.session_validation_enabled = auth_config.get('session_validation', True)
         self.reauth_on_failure = auth_config.get('reauth_on_failure', True)
         
-        # State
+        # Browser-specific state
         self.session_data = {}
         self.cookie_cache = {}
         self.session_valid = False
@@ -310,7 +328,7 @@ class BrowserSessionManager:
 
     def is_session_valid(self) -> bool:
         """Check if current session is valid."""
-        if not self.session_validation:
+        if not self.session_validation_enabled:
             return True
         
         # Check if validation is recent (within 5 minutes)
@@ -319,3 +337,65 @@ class BrowserSessionManager:
             return False
         
         return self.session_valid
+
+    def create_session(self, service_name: str = "chatgpt", **kwargs) -> Optional[str]:
+        """
+        Create a new browser session.
+        
+        Implementation of BaseSessionManager abstract method.
+        For browser sessions, this creates a session ID but the actual
+        browser context is created via create_session_context().
+        
+        Args:
+            service_name: Service name (default: "chatgpt")
+            **kwargs: Additional session parameters
+            
+        Returns:
+            Session ID if successful, None otherwise
+        """
+        try:
+            session_id = self._generate_session_id(service_name)
+            
+            # Create base session info (browser context will be added later)
+            session_info = BaseSessionInfo(
+                session_id=session_id,
+                service_name=service_name,
+                status="active"
+            )
+            
+            self.sessions[session_id] = session_info
+            self.logger.info(f"✅ Created browser session {session_id}")
+            
+            return session_id
+            
+        except Exception as e:
+            self.logger.error(f"Failed to create browser session: {e}")
+            return None
+
+    def validate_session(self, session_id: str) -> bool:
+        """
+        Validate that a browser session exists and is active.
+        
+        Implementation of BaseSessionManager abstract method.
+        
+        Args:
+            session_id: Session ID to validate
+            
+        Returns:
+            True if valid, False otherwise
+        """
+        if not self.session_exists(session_id):
+            return False
+        
+        session = self.sessions[session_id]
+        
+        # Check if session is active
+        if session.status != "active":
+            return False
+        
+        # Check timeout
+        if time.time() - session.last_activity > self.session_timeout:
+            self.logger.warning(f"Browser session {session_id} expired")
+            return False
+        
+        return True

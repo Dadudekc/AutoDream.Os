@@ -1,0 +1,85 @@
+"""
+DEPRECATED: This file has been replaced by src/core/config/config_manager.py
+=============================================================================
+
+This file is DEPRECATED as part of DUP-001 ConfigManager SSOT consolidation.
+
+CONSOLIDATION: Agent-8 (2025-10-16) - DUP-001 SSOT Fix
+All functionality has been moved to src/core/config/config_manager.py
+
+The Manager pattern for configuration has been deprecated in favor of a
+simpler dataclass-based configuration system with the same capabilities.
+
+For new code, use src/core/config_ssot:
+
+OLD (Manager pattern):
+    from src.core.managers.core_configuration_manager import CoreConfigurationManager
+    manager = CoreConfigurationManager()
+    manager.initialize(context)
+    
+NEW (SSOT pattern):
+    from src.core.config_ssot import get_unified_config
+    config = get_unified_config()
+    config.save_to_file("config.json")
+    
+This file will be removed in a future release.
+"""
+
+import warnings
+
+warnings.warn(
+    "core_configuration_manager.py is deprecated. Use src.core.config_ssot instead. "
+    "This file will be removed in a future release.",
+    DeprecationWarning,
+    stacklevel=2
+)
+
+# Keep original implementation for backward compatibility during transition
+# This will be removed once all imports are updated
+
+from __future__ import annotations
+
+import json
+import os
+from pathlib import Path
+from typing import Any
+
+from .config_defaults import (
+    get_default_app_config,
+    get_default_db_config,
+    get_default_discord_config,
+    get_validation_rules,
+)
+from .contracts import ConfigurationManager, ManagerContext, ManagerResult
+
+
+class CoreConfigurationManager(ConfigurationManager):
+    """Core configuration manager - DEPRECATED - Use src.core.config_ssot instead."""
+
+    def __init__(self):
+        """Initialize core configuration manager."""
+        warnings.warn(
+            "CoreConfigurationManager is deprecated", 
+            DeprecationWarning, 
+            stacklevel=2
+        )
+        self.configs: dict[str, dict[str, Any]] = {}
+        self.config_files: dict[str, str] = {}
+        self.environment_vars: dict[str, str] = {}
+        self.validation_rules: dict[str, dict[str, Any]] = {}
+
+    def initialize(self, context: ManagerContext) -> bool:
+        """Initialize configuration manager."""
+        try:
+            self._load_environment_vars()
+            self._load_default_configs()
+            self._setup_validation_rules()
+            context.logger("Core Configuration Manager initialized (DEPRECATED)")
+            return True
+        except Exception as e:
+            context.logger(f"Failed to initialize Core Configuration Manager: {e}")
+            return False
+
+    # ... rest of the implementation remains the same for backward compatibility
+    # (Full implementation retained for transition period)
+

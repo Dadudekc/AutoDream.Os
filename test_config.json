@@ -1,0 +1,105 @@
+{
+  "timeouts": {
+    "scrape_timeout": 30.0,
+    "response_wait_timeout": 120.0,
+    "browser_timeout": 30.0,
+    "page_load_timeout": 60.0,
+    "quality_check_interval": 30.0,
+    "performance_check_interval": 60.0,
+    "health_check_timeout": 10.0,
+    "metrics_collection_interval": 60.0,
+    "smoke_test_timeout": 60,
+    "unit_test_timeout": 120,
+    "integration_test_timeout": 300,
+    "performance_test_timeout": 600,
+    "security_test_timeout": 180,
+    "api_test_timeout": 240,
+    "coordination_test_timeout": 180,
+    "learning_test_timeout": 180,
+    "test_timeout": 300.0,
+    "fsm_state_timeout": 300.0,
+    "fsm_transition_timeout": 30.0,
+    "message_timeout": 30.0
+  },
+  "agents": {
+    "agent_count": 8,
+    "captain_id": "Agent-4",
+    "default_mode": "pyautogui",
+    "coordinate_mode": "8-agent"
+  },
+  "browser": {
+    "gpt_url": "https://chatgpt.com/g/g-67f437d96d7c81918b2dbc12f0423867-thea-manager",
+    "conversation_url": "https://chatgpt.com/c/68bf1b1b-37b8-8324-be55-e3ccf20af737",
+    "input_selector": "textarea[data-testid='prompt-textarea']",
+    "send_button_selector": "button[data-testid='send-button']",
+    "response_selector": "[data-testid='conversation-turn']:last-child .markdown",
+    "thinking_indicator": "[data-testid='thinking-indicator']",
+    "input_fallback_selectors": [
+      "textarea#prompt-textarea",
+      "textarea[placeholder*='Message']",
+      "div[contenteditable='true']"
+    ],
+    "send_fallback_selectors": [
+      "button[aria-label='Send']",
+      "button:has(svg[data-testid='send-button-icon'])",
+      "button.absolute.bottom-0"
+    ],
+    "response_fallback_selectors": [
+      ".markdown.prose",
+      "[data-message-author-role='assistant']",
+      ".agent-turn"
+    ],
+    "template_dir": "templates",
+    "output_dir": "outputs",
+    "log_dir": "logs",
+    "profile_dir": "runtime\\browser\\profiles",
+    "cookie_file": "runtime\\browser\\cookies.json",
+    "driver_type": "chrome",
+    "undetected_mode": true,
+    "headless": false,
+    "page_load_timeout": 30,
+    "implicit_wait": 10,
+    "max_instances": 3,
+    "max_scrape_retries": 3,
+    "mobile_emulation_enabled": false,
+    "mobile_device": "iphone_12"
+  },
+  "thresholds": {
+    "test_failure_threshold": 0,
+    "performance_degradation_threshold": 100.0,
+    "coverage_threshold": 85.0,
+    "alert_threshold": 0.8,
+    "response_time_target": 100.0,
+    "throughput_target": 1000.0,
+    "scalability_target": 100,
+    "reliability_target": 99.9,
+    "latency_target": 50.0,
+    "single_message_timeout": 1.0,
+    "bulk_message_timeout": 10.0,
+    "concurrent_message_timeout": 5.0,
+    "min_throughput": 10.0,
+    "max_memory_per_message": 1024,
+    "memory_threshold": 80.0,
+    "cpu_threshold": 70.0
+  },
+  "file_patterns": {
+    "test_file_pattern": "test_*.py",
+    "architecture_files": "\\.(py|js|ts|java|cpp|h|md)$",
+    "config_files": "(config|settings|env|yml|yaml|json|toml|ini)$",
+    "test_files": "(test|spec)\\.(py|js|ts|java)$",
+    "docs_files": "(README|CHANGELOG|CONTRIBUTING|docs?)\\.md$",
+    "build_files": "(Dockerfile|docker-compose|\\.gitlab-ci|\\.github|Makefile|build\\.gradle|pom\\.xml)$"
+  },
+  "tests": {
+    "coverage_report_precision": 2,
+    "history_window": 100
+  },
+  "reports": {
+    "reports_dir": "reports",
+    "default_format": "json",
+    "include_metadata": true,
+    "include_recommendations": true,
+    "html_template": "<!DOCTYPE html>\n<html>\n<head><title>Error Analytics Report</title></head>\n<body>{content}</body>\n</html>\n",
+    "markdown_template": "# Error Analytics Report\n\n{content}\n"
+  }
+}

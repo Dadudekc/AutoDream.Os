@@ -1,76 +1,57 @@
-#!/usr/bin/env python3
 """
-Unified Messaging Service
-=========================
+Unified Messaging Service - Wrapper for Messaging Service
+==========================================================
 
-Unified wrapper for all messaging operations.
-Provides single interface for messaging functionality.
+Provides unified interface to messaging system.
+Wraps ConsolidatedMessagingService for backward compatibility.
 
-Author: Agent-8 (SSOT & System Integration Specialist)
-Created: 2025-10-16 (Quarantine Phase 2 fix)
-Mission: Fix missing service - 300 pts
-License: MIT
+V2 Compliance: Wrapper pattern, <400 lines
 """
 
-from .messaging_service import MessagingService
-from ..core.messaging_core import UnifiedMessage, UnifiedMessageType, UnifiedMessagePriority
+import logging
+from .messaging_service import ConsolidatedMessagingService
+
+logger = logging.getLogger(__name__)
 
 
 class UnifiedMessagingService:
     """Unified messaging service wrapper."""
-
+    
     def __init__(self):
         """Initialize unified messaging service."""
-        self.messaging = MessagingService()
-
+        self.messaging = ConsolidatedMessagingService()
+        logger.info("UnifiedMessagingService initialized")
+    
     def send_message(
-        self,
-        recipient: str,
-        message: str,
-        priority: str = "normal",
-        message_type: str = "text",
-        **kwargs
-    ) -> dict:
+        self, agent: str, message: str, priority: str = "regular", use_pyautogui: bool = True
+    ) -> bool:
         """
-        Send message to recipient.
-
+        Send message to agent.
+        
         Args:
-            recipient: Agent ID or "broadcast"
+            agent: Target agent ID
             message: Message content
-            priority: "normal" or "urgent"
-            message_type: "text", "broadcast", "onboarding"
-            **kwargs: Additional options
-
+            priority: Message priority (regular/urgent)
+            use_pyautogui: Use PyAutoGUI delivery
+            
         Returns:
-            dict with send result
+            True if successful
         """
-        return self.messaging.send(
-            recipient=recipient,
-            content=message,
-            priority=priority,
-            msg_type=message_type,
-            **kwargs
-        )
-
-    def broadcast(self, message: str, priority: str = "normal", **kwargs) -> dict:
-        """Broadcast message to all agents."""
-        return self.send_message(
-            recipient="broadcast",
-            message=message,
-            priority=priority,
-            message_type="broadcast",
-            **kwargs
-        )
-
-    def send_to_captain(self, message: str, priority: str = "normal", **kwargs) -> dict:
-        """Send message to Captain Agent-4."""
-        return self.send_message(
-            recipient="Agent-4",
-            message=message,
-            priority=priority,
-            **kwargs
-        )
+        return self.messaging.send_message(agent, message, priority, use_pyautogui)
+    
+    def broadcast_message(self, message: str, priority: str = "regular") -> dict:
+        """
+        Broadcast message to all agents.
+        
+        Args:
+            message: Message content
+            priority: Message priority
+            
+        Returns:
+            Dictionary of results {agent_id: success}
+        """
+        return self.messaging.broadcast_message(message, priority)
 
 
-__all__ = ["UnifiedMessagingService"]
-
+# Alias for backward compatibility
+MessagingService = UnifiedMessagingService

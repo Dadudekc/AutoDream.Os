@@ -1,8 +1,9 @@
 """
-Base Execution Manager - Phase-2 V2 Compliance Refactoring
+Base Execution Manager - Phase-2 V2 Compliance Refactoring + DUP-004
 ==========================================================
 Base class for execution management. Refactored to <200 lines.
-Author: Agent-3, Refactored: Agent-5 | License: MIT
+DUP-004: Now inherits from BaseManager for proper hierarchy.
+Author: Agent-3, Refactored: Agent-5 | DUP-004: Agent-2 | License: MIT
 """
 
 from __future__ import annotations
@@ -10,24 +11,31 @@ from __future__ import annotations
 import threading
 from typing import Any
 
-from ..contracts import ExecutionManager, ManagerContext, ManagerResult
+from ..base_manager import BaseManager
+from ..contracts import ManagerContext, ManagerResult
+from ..manager_state import ManagerType
 from .execution_operations import ExecutionOperations, TaskStatus
 from .execution_runner import ExecutionRunner
 from .protocol_manager import ProtocolManager
 from .task_executor import TaskExecutor
 
 
-class BaseExecutionManager(ExecutionManager):
-    """Base execution manager with common functionality."""
+class BaseExecutionManager(BaseManager):
+    """Base execution manager with common functionality - inherits from BaseManager."""
 
     def __init__(self):
         """Initialize base execution manager."""
+        # Initialize BaseManager first (gets all utilities for free!)
+        super().__init__(ManagerType.EXECUTION, "Base Execution Manager")
+        
+        # Execution-specific state
         self.tasks: dict[str, dict[str, Any]] = {}
         self.executions: dict[str, dict[str, Any]] = {}
         self.task_queue: list[str] = []
         self.execution_threads: dict[str, threading.Thread] = {}
         self.max_concurrent_tasks = 5
         self.task_timeout = 300
+        
         # Initialize subcomponents
         self.task_executor = TaskExecutor()
         self.protocol_manager = ProtocolManager()
@@ -37,49 +45,50 @@ class BaseExecutionManager(ExecutionManager):
         )
 
     def initialize(self, context: ManagerContext) -> bool:
-        """Initialize execution manager."""
+        """Initialize execution manager - extends BaseManager initialization."""
         try:
+            # Call parent initialization first
+            if not super().initialize(context):
+                return False
+            
+            # Execution-specific initialization
             self.protocol_manager.register_default_protocols()
             self._start_task_processor()
-            context.logger("Base Execution Manager initialized")
+            self.logger.info("Base Execution Manager initialized")
             return True
         except Exception as e:
-            context.logger(f"Failed to initialize execution manager: {e}")
+            self.logger.error(f"Failed to initialize execution manager: {e}")
             return False
 
-    def execute(
+    def _execute_operation(
         self, context: ManagerContext, operation: str, payload: dict[str, Any]
     ) -> ManagerResult:
-        """Execute operation."""
-        try:
-            if operation == "execute_task":
-                return self.runner.execute_task(
-                    context, payload.get("task_id"), payload.get("task_data", {}), TaskStatus
-                )
-            elif operation == "register_protocol":
-                return self.register_protocol(
-                    context, payload.get("protocol_name"), payload.get("protocol_data", {})
-                )
-            elif operation == "get_execution_status":
-                return self.runner.get_execution_status(context, payload.get("execution_id"))
-            elif operation == "create_task":
-                return self.operations.create_task(context, payload)
-            elif operation == "cancel_task":
-                return self.operations.cancel_task(context, payload)
-            elif operation == "list_tasks":
-                return self.operations.list_tasks(context, payload)
-            elif operation == "list_protocols":
-                return self._list_protocols(context, payload)
-            else:
-                return ManagerResult(
-                    success=False,
-                    data={},
-                    message=f"Unknown operation: {operation}",
-                    errors=[f"Unknown operation: {operation}"],
-                )
-        except Exception as e:
+        """Execute execution-specific operations."""
+        # Execution-specific operations only (BaseManager handles validation/error handling)
+        if operation == "execute_task":
+            return self.runner.execute_task(
+                context, payload.get("task_id"), payload.get("task_data", {}), TaskStatus
+            )
+        elif operation == "register_protocol":
+            return self.register_protocol(
+                context, payload.get("protocol_name"), payload.get("protocol_data", {})
+            )
+        elif operation == "get_execution_status":
+            return self.runner.get_execution_status(context, payload.get("execution_id"))
+        elif operation == "create_task":
+            return self.operations.create_task(context, payload)
+        elif operation == "cancel_task":
+            return self.operations.cancel_task(context, payload)
+        elif operation == "list_tasks":
+            return self.operations.list_tasks(context, payload)
+        elif operation == "list_protocols":
+            return self._list_protocols(context, payload)
+        else:
             return ManagerResult(
-                success=False, data={}, message=f"Execution error: {e}", errors=[str(e)]
+                success=False,
+                data={},
+                metrics={},
+                error=f"Unknown operation: {operation}",
             )
 
     def execute_task(
@@ -97,8 +106,8 @@ class BaseExecutionManager(ExecutionManager):
                 return ManagerResult(
                     success=False,
                     data={},
-                    message="Protocol name is required",
-                    errors=["Protocol name is required"],
+                    metrics={},
+                    error="Protocol name is required",
                 )
             protocol_type = protocol_data.get("type", "routine")
             priority = protocol_data.get("priority", 1)
@@ -110,20 +119,18 @@ class BaseExecutionManager(ExecutionManager):
                 return ManagerResult(
                     success=True,
                     data={"protocol_name": protocol_name},
-                    message=f"Protocol registered: {protocol_name}",
-                    errors=[],
+                    metrics={"protocols_registered": 1},
                 )
             else:
                 return ManagerResult(
                     success=False,
                     data={},
-                    message=f"Failed to register protocol: {protocol_name}",
-                    errors=["Registration failed"],
+                    metrics={},
+                    error=f"Failed to register protocol: {protocol_name}",
                 )
         except Exception as e:
-            return ManagerResult(
-                success=False, data={}, message=f"Failed to register protocol: {e}", errors=[str(e)]
-            )
+            self.logger.error(f"Failed to register protocol: {e}")
+            return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
     def get_execution_status(
         self, context: ManagerContext, execution_id: str | None
@@ -138,13 +145,11 @@ class BaseExecutionManager(ExecutionManager):
             return ManagerResult(
                 success=True,
                 data={"protocols": protocols, "count": len(protocols)},
-                message=f"Found {len(protocols)} protocols",
-                errors=[],
+                metrics={"protocols_listed": len(protocols)},
             )
         except Exception as e:
-            return ManagerResult(
-                success=False, data={}, message=f"Failed to list protocols: {e}", errors=[str(e)]
-            )
+            self.logger.error(f"Failed to list protocols: {e}")
+            return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
     def _start_task_processor(self) -> None:
         """Start background task processor."""

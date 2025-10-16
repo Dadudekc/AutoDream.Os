@@ -20,8 +20,8 @@ from src.workflows.models import (
     WorkflowState,
     WorkflowStep,
 )
-from workflows.steps import ConversationLoopBuilder, MultiAgentOrchestrationBuilder
-from workflows.strategies import ParallelStrategy, SequentialStrategy
+from src.workflows.steps import ConversationLoopBuilder, MultiAgentOrchestrationBuilder
+from src.workflows.strategies import ParallelStrategy, SequentialStrategy
 
 
 class TestWorkflowModels:

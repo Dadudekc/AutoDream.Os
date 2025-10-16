@@ -11,10 +11,11 @@ from pathlib import Path
 # Selenium imports
 from selenium.webdriver.common.by import By
 
+from src.infrastructure.browser.unified_cookie_manager import UnifiedCookieManager as CookieManager
+
 from .adaptive_extractor import AdaptiveExtractor
 from .browser_manager import BrowserManager
 from .conversation_extractor import ConversationExtractor
-from .cookie_manager import CookieManager
 from .login_handler import LoginHandler
 from .scraper_conversation_methods import ScraperConversationMethods
 from .scraper_extraction import ScraperExtraction

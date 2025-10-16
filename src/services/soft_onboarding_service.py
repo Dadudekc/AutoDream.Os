@@ -1,51 +1,65 @@
-#!/usr/bin/env python3
 """
-Soft Onboarding Service
-=======================
+Soft Onboarding Service - Wrapper for Unified Onboarding
+=========================================================
 
-Service layer for soft onboarding operations.
-Delegates to SoftOnboardingHandler for actual execution.
+Provides backward compatibility and simplified interface.
+Delegates to handlers and unified onboarding service.
 
-Author: Agent-8 (SSOT & System Integration Specialist)
-Created: 2025-10-16 (Quarantine Phase 2 fix)
-Mission: Fix missing service - 300 pts
-License: MIT
+V2 Compliance: Wrapper pattern, <400 lines
 """
 
-from .handlers.soft_onboarding_handler import SoftOnboardingHandler
-from .unified_onboarding_service import UnifiedOnboardingService
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class SoftOnboardingService:
-    """Soft onboarding service - session cleanup and preparation."""
-
+    """Soft onboarding service - delegates to handler."""
+    
     def __init__(self):
         """Initialize soft onboarding service."""
+        from .handlers.soft_onboarding_handler import SoftOnboardingHandler
         self.handler = SoftOnboardingHandler()
-        self.unified = UnifiedOnboardingService()
-
-    def onboard_agent(self, agent_id: str, message: str, **kwargs) -> dict:
+        logger.info("SoftOnboardingService initialized")
+    
+    def onboard_agent(self, agent_id: str, message: str, **kwargs) -> bool:
         """
-        Execute soft onboarding for agent.
-
+        Execute soft onboarding for an agent.
+        
         Args:
-            agent_id: Agent identifier (e.g., "Agent-7")
+            agent_id: Target agent ID
             message: Onboarding message
             **kwargs: Additional options
-
+            
         Returns:
-            dict with onboarding result
+            True if successful
         """
-        return self.handler.handle_soft_onboarding(agent_id, message, **kwargs)
+        try:
+            # Delegate to handler
+            class Args:
+                def __init__(self, agent_id, message, **kwargs):
+                    self.agent = agent_id
+                    self.message = message
+                    self.__dict__.update(kwargs)
+            
+            args = Args(agent_id, message, **kwargs)
+            return self.handler.handle(args)
+        except Exception as e:
+            logger.error(f"Soft onboarding failed: {e}")
+            return False
 
-    def prepare_session(self, agent_id: str) -> dict:
-        """Prepare agent session for soft onboarding."""
-        return self.unified.prepare_soft_onboarding(agent_id)
 
-    def cleanup_previous_session(self, agent_id: str) -> dict:
-        """Clean up previous agent session."""
-        return self.unified.cleanup_session(agent_id)
-
-
-__all__ = ["SoftOnboardingService"]
-
+def soft_onboard_agent(agent_id: str, message: str, **kwargs) -> bool:
+    """
+    Convenience function for soft onboarding.
+    
+    Args:
+        agent_id: Target agent ID
+        message: Onboarding message
+        **kwargs: Additional options
+        
+    Returns:
+        True if successful
+    """
+    service = SoftOnboardingService()
+    return service.onboard_agent(agent_id, message, **kwargs)

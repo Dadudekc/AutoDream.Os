@@ -9,8 +9,15 @@ Consolidates:
 - error_handling_models.py (models, enums, response classes)
 - Part of retry_mechanisms.py (RetryConfig)
 
+DUP-006 Enhancement (Agent-8, 2025-10-17):
+- Added ErrorSeverity → LogLevel mapping (coordination with DUP-007)
+- Integrated with Agent-2's standardized_logging.py
+- Unified error/logging format
+
 Author: Agent-3 - Infrastructure & DevOps Specialist
+Enhanced: Agent-8 - SSOT & System Integration Specialist (DUP-006)
 Created: 2025-10-10 (C-055-3 Consolidation)
+Enhanced: 2025-10-17 (DUP-006 Error/Logging Coordination)
 Purpose: V2 compliant error handling core models (single source of truth)
 """
 
@@ -19,6 +26,13 @@ from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
 from typing import Any
+
+# DUP-006/007 Coordination: Import Agent-2's standardized logging
+try:
+    from ..utilities.standardized_logging import LogLevel
+    _LOGGING_AVAILABLE = True
+except ImportError:
+    _LOGGING_AVAILABLE = False
 
 # ============================================================================
 # ENUMS AND CONSTANTS
@@ -293,6 +307,42 @@ class ErrorSeverityMapping:
 
 
 # ============================================================================
+# DUP-006/007 COORDINATION: ErrorSeverity → LogLevel Mapping
+# ============================================================================
+
+
+def get_log_level_for_severity(severity: ErrorSeverity) -> int:
+    """Map ErrorSeverity to LogLevel for coordinated error/logging.
+    
+    DUP-006/007 Coordination: Integrates error handling with Agent-2's standardized logging.
+    
+    Args:
+        severity: Error severity level
+        
+    Returns:
+        Logging level (int) compatible with logging module
+    """
+    if _LOGGING_AVAILABLE:
+        mapping = {
+            ErrorSeverity.CRITICAL: LogLevel.CRITICAL.value,
+            ErrorSeverity.HIGH: LogLevel.ERROR.value,
+            ErrorSeverity.MEDIUM: LogLevel.WARNING.value,
+            ErrorSeverity.LOW: LogLevel.INFO.value,
+        }
+        return mapping.get(severity, LogLevel.ERROR.value)
+    else:
+        # Fallback to standard logging levels
+        import logging
+        mapping = {
+            ErrorSeverity.CRITICAL: logging.CRITICAL,
+            ErrorSeverity.HIGH: logging.ERROR,
+            ErrorSeverity.MEDIUM: logging.WARNING,
+            ErrorSeverity.LOW: logging.INFO,
+        }
+        return mapping.get(severity, logging.ERROR)
+
+
+# ============================================================================
 # EXCEPTIONS
 # ============================================================================
 
@@ -307,3 +357,29 @@ class CircuitBreakerError(Exception):
     """Exception raised when circuit breaker is OPEN."""
 
     pass
+
+
+# ============================================================================
+# DUP-006 ENHANCEMENT: Unified Exception Logging
+# ============================================================================
+
+
+def log_exception_with_severity(
+    logger,
+    severity: ErrorSeverity,
+    exception: Exception,
+    context: dict[str, Any] = None
+) -> None:
+    """Log exception with appropriate severity level.
+    
+    DUP-006/007 Coordination: Unified exception logging using Agent-2's standardized logging.
+    
+    Args:
+        logger: Logger instance (from standardized_logging.get_logger)
+        severity: Error severity level
+        exception: Exception to log
+        context: Additional context dictionary
+    """
+    log_level = get_log_level_for_severity(severity)
+    context_str = f" | Context: {context}" if context else ""
+    logger.log(log_level, f"Exception: {type(exception).__name__}: {exception}{context_str}", exc_info=True)

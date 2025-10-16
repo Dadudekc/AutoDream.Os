@@ -24,8 +24,8 @@ from typing import Any
 from .browser.browser_adapter import ChromeBrowserAdapter
 from .browser.browser_models import BrowserConfig, TheaConfig
 from .browser.browser_operations import BrowserOperations
-from .browser.cookie_manager import CookieManager
 from .browser.session_manager import SessionManager
+from .browser.unified_cookie_manager import UnifiedCookieManager as CookieManager
 
 
 class UnifiedBrowserService:

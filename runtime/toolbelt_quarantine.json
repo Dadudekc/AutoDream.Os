@@ -18,19 +18,9 @@
     "obs.get",
     "obs.health",
     "obs.metrics",
-    "obs.slo",
-    "oss.clone",
-    "oss.import",
-    "oss.issues",
-    "oss.portfolio",
-    "oss.status",
-    "test.pyramid_check",
-    "val.flags",
-    "val.report",
-    "val.rollback",
-    "val.smoke"
+    "obs.slo"
   ],
-  "count": 29,
+  "count": 19,
   "details": [
     {
       "tool": "brain.get",
@@ -125,56 +115,6 @@
     {
       "tool": "obs.slo",
       "error": "Can't instantiate abstract class SLOCheckTool with abstract methods get_spec, validate",
-      "error_type": "TypeError"
-    },
-    {
-      "tool": "oss.clone",
-      "error": "Can't instantiate abstract class OSSCloneTool with abstract methods get_spec, validate",
-      "error_type": "TypeError"
-    },
-    {
-      "tool": "oss.import",
-      "error": "Can't instantiate abstract class OSSImportIssuesTool with abstract methods get_spec, validate",
-      "error_type": "TypeError"
-    },
-    {
-      "tool": "oss.issues",
-      "error": "Can't instantiate abstract class OSSFetchIssuesTool with abstract methods get_spec, validate",
-      "error_type": "TypeError"
-    },
-    {
-      "tool": "oss.portfolio",
-      "error": "Can't instantiate abstract class OSSPortfolioTool with abstract methods get_spec, validate",
-      "error_type": "TypeError"
-    },
-    {
-      "tool": "oss.status",
-      "error": "Can't instantiate abstract class OSSStatusTool with abstract methods get_spec, validate",
-      "error_type": "TypeError"
-    },
-    {
-      "tool": "test.pyramid_check",
-      "error": "Failed to import tool 'test.pyramid_check': module 'tools_v2.categories.test_generation_tools' has no attribute 'TestPyramidAnalyzerTool'",
-      "error_type": "ToolNotFoundError"
-    },
-    {
-      "tool": "val.flags",
-      "error": "Can't instantiate abstract class FeatureFlagTool with abstract methods get_spec, validate",
-      "error_type": "TypeError"
-    },
-    {
-      "tool": "val.report",
-      "error": "Can't instantiate abstract class ValidationReportTool with abstract methods get_spec, validate",
-      "error_type": "TypeError"
-    },
-    {
-      "tool": "val.rollback",
-      "error": "Can't instantiate abstract class RollbackTool with abstract methods get_spec, validate",
-      "error_type": "TypeError"
-    },
-    {
-      "tool": "val.smoke",
-      "error": "Can't instantiate abstract class SmokeTestTool with abstract methods get_spec, validate",
       "error_type": "TypeError"
     }
   ],

@@ -171,7 +171,7 @@ TOOL_REGISTRY: dict[str, tuple[str, str]] = {
     "refactor.auto_extract": ("tools_v2.categories.refactoring_tools", "AutoExtractTool"),
     "refactor.lint_fix": ("tools_v2.categories.refactoring_tools", "LintFixTool"),
     # Test Generation Tools (NEW - Session 2025-10-14 Agent-1 Testing Pyramid Mission)
-    "test.pyramid_check": ("tools_v2.categories.test_generation_tools", "TestPyramidAnalyzerTool"),
+    "test.pyramid_check": ("tools_v2.categories.refactoring_tools", "TestPyramidAnalyzerTool"),
     "test.generate_template": ("tools_v2.categories.test_generation_tools", "TestFileGeneratorTool"),
     "test.coverage_pyramid_report": (
         "tools_v2.categories.test_generation_tools",

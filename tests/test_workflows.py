@@ -11,8 +11,8 @@ License: MIT
 
 import pytest
 
-from workflows.engine import WorkflowEngine
-from workflows.models import (
+from src.workflows.engine import WorkflowEngine
+from src.workflows.models import (
     AIResponse,
     CoordinationStrategy,
     ResponseType,

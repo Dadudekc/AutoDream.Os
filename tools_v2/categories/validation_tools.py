@@ -14,7 +14,7 @@ import subprocess
 import sys
 from typing import Any
 
-from ..adapters.base_adapter import IToolAdapter
+from ..adapters.base_adapter import IToolAdapter, ToolResult, ToolSpec
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +22,20 @@ logger = logging.getLogger(__name__)
 class SmokeTestTool(IToolAdapter):
     """Run smoke tests."""
 
-    def execute(self, params: dict[str, Any]) -> dict[str, Any]:
+    def get_spec(self) -> ToolSpec:
+        return ToolSpec(
+            name="val.smoke",
+            version="1.0.0",
+            category="validation",
+            summary="Run smoke tests for system validation",
+            required_params=[],
+            optional_params={"system": "all"}
+        )
+
+    def validate(self, params: dict) -> tuple[bool, list[str]]:
+        return True, []
+
+    def execute(self, params: dict, context: dict | None = None) -> ToolResult:
         """Execute smoke tests."""
         try:
             system = params.get("system", "all")
@@ -62,22 +75,38 @@ class SmokeTestTool(IToolAdapter):
             passing = sum(1 for r in results if r["passed"])
             total = len(results)
 
-            return {
-                "success": True,
-                "results": results,
-                "passed": passing,
-                "total": total,
-                "all_passed": passing == total,
-            }
+            return ToolResult(
+                success=True,
+                output={
+                    "results": results,
+                    "passed": passing,
+                    "total": total,
+                    "all_passed": passing == total,
+                },
+                exit_code=0
+            )
 
         except Exception as e:
-            return {"success": False, "error": str(e)}
+            return ToolResult(success=False, output=None, exit_code=1, error_message=str(e))
 
 
 class FeatureFlagTool(IToolAdapter):
     """Check or set feature flags."""
 
-    def execute(self, params: dict[str, Any]) -> dict[str, Any]:
+    def get_spec(self) -> ToolSpec:
+        return ToolSpec(
+            name="val.flags",
+            version="1.0.0",
+            category="validation",
+            summary="Check or set feature flags",
+            required_params=[],
+            optional_params={"action": "check", "feature": None}
+        )
+
+    def validate(self, params: dict) -> tuple[bool, list[str]]:
+        return True, []
+
+    def execute(self, params: dict, context: dict | None = None) -> ToolResult:
         """Execute feature flag operations."""
         try:
             from src.features.flags import FF_MSG_TASK, FF_OSS_CLI, is_enabled
@@ -87,26 +116,37 @@ class FeatureFlagTool(IToolAdapter):
 
             if action == "check":
                 if feature:
-                    return {"success": True, "feature": feature, "enabled": is_enabled(feature)}
+                    return ToolResult(success=True, output={"feature": feature, "enabled": is_enabled(feature)}, exit_code=0)
                 else:
-                    return {
-                        "success": True,
-                        "flags": {
-                            "msg_task": FF_MSG_TASK,
-                            "oss_cli": FF_OSS_CLI,
-                        },
-                    }
+                    return ToolResult(
+                        success=True,
+                        output={"flags": {"msg_task": FF_MSG_TASK, "oss_cli": FF_OSS_CLI}},
+                        exit_code=0
+                    )
 
-            return {"success": False, "error": "Only 'check' action supported via tool"}
+            return ToolResult(success=False, output=None, exit_code=1, error_message="Only 'check' action supported via tool")
 
         except Exception as e:
-            return {"success": False, "error": str(e)}
+            return ToolResult(success=False, output=None, exit_code=1, error_message=str(e))
 
 
 class RollbackTool(IToolAdapter):
     """Emergency rollback features."""
 
-    def execute(self, params: dict[str, Any]) -> dict[str, Any]:
+    def get_spec(self) -> ToolSpec:
+        return ToolSpec(
+            name="val.rollback",
+            version="1.0.0",
+            category="validation",
+            summary="Emergency rollback features",
+            required_params=[],
+            optional_params={"feature": None}
+        )
+
+    def validate(self, params: dict) -> tuple[bool, list[str]]:
+        return True, []
+
+    def execute(self, params: dict, context: dict | None = None) -> ToolResult:
         """Execute rollback."""
         try:
             from src.features.flags import disable_feature
@@ -116,19 +156,32 @@ class RollbackTool(IToolAdapter):
                 # Disable all
                 for feat in ["msg_task", "oss_cli"]:
                     disable_feature(feat)
-                return {"success": True, "message": "All features disabled"}
+                return ToolResult(success=True, output={"message": "All features disabled"}, exit_code=0)
             else:
                 disable_feature(feature)
-                return {"success": True, "message": f"Feature disabled: {feature}"}
+                return ToolResult(success=True, output={"message": f"Feature disabled: {feature}"}, exit_code=0)
 
         except Exception as e:
-            return {"success": False, "error": str(e)}
+            return ToolResult(success=False, output=None, exit_code=1, error_message=str(e))
 
 
 class ValidationReportTool(IToolAdapter):
     """Generate validation report for all systems."""
 
-    def execute(self, params: dict[str, Any]) -> dict[str, Any]:
+    def get_spec(self) -> ToolSpec:
+        return ToolSpec(
+            name="val.report",
+            version="1.0.0",
+            category="validation",
+            summary="Generate validation report for all systems",
+            required_params=[],
+            optional_params={}
+        )
+
+    def validate(self, params: dict) -> tuple[bool, list[str]]:
+        return True, []
+
+    def execute(self, params: dict, context: dict | None = None) -> ToolResult:
         """Execute validation report."""
         try:
             from src.obs.metrics import snapshot
@@ -164,7 +217,7 @@ class ValidationReportTool(IToolAdapter):
                 "metrics": metrics,
             }
 
-            return {"success": True, "report": report}
+            return ToolResult(success=True, output={"report": report}, exit_code=0)
 
         except Exception as e:
-            return {"success": False, "error": str(e)}
+            return ToolResult(success=False, output=None, exit_code=1, error_message=str(e))

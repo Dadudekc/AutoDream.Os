@@ -9,10 +9,10 @@ Author: Agent-1 - Vision & Automation Specialist
 License: MIT
 """
 
-from vision.analysis import VisualAnalyzer
-from vision.capture import ScreenCapture
-from vision.integration import VisionSystem
-from vision.ocr import TextExtractor
+from src.vision.analysis import VisualAnalyzer
+from src.vision.capture import ScreenCapture
+from src.vision.integration import VisionSystem
+from src.vision.ocr import TextExtractor
 
 
 class TestScreenCapture:

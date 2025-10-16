@@ -1,7 +1,7 @@
 {
   "total_tools": 100,
-  "working_count": 71,
-  "broken_count": 29,
+  "working_count": 81,
+  "broken_count": 19,
   "working_tools": [
     {
       "tool": "advisor.guide",
@@ -264,6 +264,31 @@
       "version": "1.0.0"
     },
     {
+      "tool": "oss.clone",
+      "category": "oss",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "oss.import",
+      "category": "oss",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "oss.issues",
+      "category": "oss",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "oss.portfolio",
+      "category": "oss",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "oss.status",
+      "category": "oss",
+      "version": "1.0.0"
+    },
+    {
       "tool": "refactor.auto_extract",
       "category": "refactoring",
       "version": "1.0.0"
@@ -329,6 +354,11 @@
       "version": "1.0.0"
     },
     {
+      "tool": "test.pyramid_check",
+      "category": "testing",
+      "version": "1.0.0"
+    },
+    {
       "tool": "v2.check",
       "category": "v2",
       "version": "1.0.0"
@@ -336,6 +366,26 @@
     {
       "tool": "v2.report",
       "category": "v2",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "val.flags",
+      "category": "validation",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "val.report",
+      "category": "validation",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "val.rollback",
+      "category": "validation",
+      "version": "1.0.0"
+    },
+    {
+      "tool": "val.smoke",
+      "category": "validation",
       "version": "1.0.0"
     },
     {
@@ -454,57 +504,7 @@
       "tool": "obs.slo",
       "error": "Can't instantiate abstract class SLOCheckTool with abstract methods get_spec, validate",
       "error_type": "TypeError"
-    },
-    {
-      "tool": "oss.clone",
-      "error": "Can't instantiate abstract class OSSCloneTool with abstract methods get_spec, validate",
-      "error_type": "TypeError"
-    },
-    {
-      "tool": "oss.import",
-      "error": "Can't instantiate abstract class OSSImportIssuesTool with abstract methods get_spec, validate",
-      "error_type": "TypeError"
-    },
-    {
-      "tool": "oss.issues",
-      "error": "Can't instantiate abstract class OSSFetchIssuesTool with abstract methods get_spec, validate",
-      "error_type": "TypeError"
-    },
-    {
-      "tool": "oss.portfolio",
-      "error": "Can't instantiate abstract class OSSPortfolioTool with abstract methods get_spec, validate",
-      "error_type": "TypeError"
-    },
-    {
-      "tool": "oss.status",
-      "error": "Can't instantiate abstract class OSSStatusTool with abstract methods get_spec, validate",
-      "error_type": "TypeError"
-    },
-    {
-      "tool": "test.pyramid_check",
-      "error": "Failed to import tool 'test.pyramid_check': module 'tools_v2.categories.test_generation_tools' has no attribute 'TestPyramidAnalyzerTool'",
-      "error_type": "ToolNotFoundError"
-    },
-    {
-      "tool": "val.flags",
-      "error": "Can't instantiate abstract class FeatureFlagTool with abstract methods get_spec, validate",
-      "error_type": "TypeError"
-    },
-    {
-      "tool": "val.report",
-      "error": "Can't instantiate abstract class ValidationReportTool with abstract methods get_spec, validate",
-      "error_type": "TypeError"
-    },
-    {
-      "tool": "val.rollback",
-      "error": "Can't instantiate abstract class RollbackTool with abstract methods get_spec, validate",
-      "error_type": "TypeError"
-    },
-    {
-      "tool": "val.smoke",
-      "error": "Can't instantiate abstract class SmokeTestTool with abstract methods get_spec, validate",
-      "error_type": "TypeError"
     }
   ],
-  "timestamp": "1760364094.0"
+  "timestamp": "1760609478.0"
 }

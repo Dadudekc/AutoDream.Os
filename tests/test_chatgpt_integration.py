@@ -9,9 +9,9 @@ Author: Agent-1 - Browser Automation Specialist
 License: MIT
 """
 
-from services.chatgpt.extractor import ConversationExtractor
-from services.chatgpt.navigator import ChatGPTNavigator
-from services.chatgpt.session import BrowserSessionManager
+from src.services.chatgpt.extractor import ConversationExtractor
+from src.services.chatgpt.navigator import ChatGPTNavigator
+from src.services.chatgpt.session import BrowserSessionManager
 
 
 class TestChatGPTNavigator:

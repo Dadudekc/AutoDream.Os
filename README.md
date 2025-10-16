@@ -1,183 +1,268 @@
-# Agent Cellphone V2 - Swarm Intelligence System
+# 🚀 TSLA Pre-Market Bearish Alert System (V1.3)
 
-## 🐝 **WE ARE SWARM: Multi-Agent Coordination System**
+**Dream.OS Tactical Trading System** - Automated TSLA bearish bias alerts for pre-market and open session trading.
 
-A sophisticated multi-agent system with 8 autonomous agents positioned across dual monitors, enabling real-time coordination through PyAutoGUI automation and Discord integration.
+## 🎯 Overview
 
-## 🎯 **System Overview**
+This system provides automated alert conditions and triggers for TSLA pre-market and open-session trading, designed to detect 440 rejection or 430 break, alert the swarm, and execute trade logic under a 5-minute confirmation rule.
 
-### **Swarm Architecture**
-- **8 Autonomous Agents** positioned at specific pixel coordinates
-- **Dual Monitor Setup** for optimal agent distribution
-- **Real-Time Coordination** through PyAutoGUI automation
-- **Discord Integration** for enhanced communication
-- **Vector Database** for swarm intelligence and knowledge sharing
+## ⚙️ Core Parameters
 
-### **Agent Specializations**
-- **Agent-1**: Integration & Core Systems Specialist
-- **Agent-2**: Architecture & Design Specialist  
-- **Agent-3**: Database & Data Management Specialist
-- **Agent-4**: Captain & Operations Coordinator
-- **Agent-5**: Business Intelligence & Analytics Specialist
-- **Agent-6**: Communication & Coordination Specialist
-- **Agent-7**: Python Development & Optimization Specialist
-- **Agent-8**: Release & Deployment Captain
+- **Symbol**: TSLA
+- **Bias**: Bearish
+- **Session**: Pre-market → Open
+- **Alert Engine**: TradingView / Dream.OS AlertBridge
+- **Confirmation Rule**: 1 full 5m candle close at key level
+- **Risk Management**: Stop loss 430, target zones 440→437, 431→425
+- **Max Exposure**: 1 contract @ $100 premium
 
-## 🚀 **Quick Start**
+## 🧩 Alert Conditions
 
-### **For New Agents**
-1. **Read the Captain Handbook**: `docs/CAPTAIN_HANDBOOK.md`
-2. **Follow Onboarding Guide**: `docs/CAPTAIN_ONBOARDING_GUIDE.md`
-3. **Check Agent Guidelines**: `docs/CAPTAIN_AUTONOMOUS_PROTOCOL.md`
+### 1. Rug Pull Watch
+- **Trigger**: Price ≥ 439.50, RSI(5m) > 60, MACD histogram flattening
+- **Action**: Send alert, arm put entry
+- **Message**: "🚨 TSLA rug setup forming — 440 rejection zone heating up."
 
-### **Essential Commands**
+### 2. Bear Confirmed
+- **Trigger**: Price < 434.50, volume increasing, RSI < 50, MACD cross down
+- **Action**: Execute put trade, set trailing stop
+- **Message**: "💀 Breakdown active under 434.50 — volume confirmed."
+
+### 3. Fakeout Filter
+- **Trigger**: Price drops below 434.50 then closes above 435.50
+- **Action**: Cancel open puts, log event
+- **Message**: "🧩 Fakeout detected. Trade canceled for safety."
+
+## 🧠 Signal Stack (Confirmers)
+
+- **VWAP Alignment**: Below VWAP = Bearish
+- **EMA Cross**: 20 below 50 = Bearish
+- **QQQ Correlation**: Positive divergence detection
+- **Timeframe Sync**: 30m, 15m, 5m alignment
+
+## 📁 File Structure
+
+```
+tsla_alert_system/
+├── tsla_premarket_alert_system.py    # Main alert system
+├── tsla_tradingview_webhook_schema.json  # TradingView webhook schema
+├── tsla_signal_stack_indicators.pine     # Pine Script indicators
+├── tsla_risk_management.py               # Risk management system
+├── tsla_discord_integration.py           # Discord bot integration
+├── tsla_alert_integration.py             # Complete system integration
+└── README.md                             # This file
+```
+
+## 🚀 Quick Start
+
+### 1. Install Dependencies
+
 ```bash
-# Check agent status
-python tools/simple_vector_search.py --agent Agent-4 --status
-
-# Search swarm knowledge
-python tools/simple_vector_search.py --query "Discord bot issues" --devlogs
-
-# Run Discord commander
-python simple_discord_commander.py
-
-# Check V2 compliance
-python check_v2_compliance.py
+pip install requests aiohttp flask
 ```
 
-## 🧠 **Vector Database Integration**
+### 2. Configure Discord Webhook
 
-### **Automatic Knowledge Storage**
-Every agent message is automatically stored in the vector database for semantic search and knowledge retrieval.
+1. Create a Discord webhook in your server
+2. Update the webhook URL in `tsla_alert_integration.py`:
 
-### **Search Commands**
+```python
+DISCORD_WEBHOOK_URL = "YOUR_DISCORD_WEBHOOK_URL_HERE"
+```
+
+### 3. Set Up TradingView Alerts
+
+1. Copy the Pine Script from `tsla_signal_stack_indicators.pine`
+2. Create a new indicator in TradingView
+3. Set up webhook alerts using the schema from `tsla_tradingview_webhook_schema.json`
+4. Configure webhook URL to point to your server: `http://your-server:5000/webhook/tradingview`
+
+### 4. Run the System
+
 ```bash
-# Search similar messages across all agents
-python tools/simple_vector_search.py --query "your search term" --limit 5
-
-# Search agent experiences
-python tools/simple_vector_search.py --agent Agent-4 --query "consolidation" --devlogs
-
-# Get agent knowledge summary
-python tools/simple_vector_search.py --agent Agent-4 --knowledge-summary
-
-# Get swarm knowledge summary
-python tools/simple_vector_search.py --swarm-summary
+python tsla_alert_integration.py
 ```
 
-## 🤖 **Discord Commander**
+## 🔧 Configuration
 
-### **Features**
-- **Slash Commands**: `/ping`, `/status`, `/help`, `/send`, `/swarm`
-- **Agent Communication**: Send messages to specific agents
-- **Swarm Broadcasting**: Send messages to all agents
-- **Real-Time Status**: Monitor agent status and system health
+### Risk Management Parameters
 
-### **Usage**
-```bash
-# Start Discord commander
-python simple_discord_commander.py
-
-# Available commands in Discord:
-# /ping - Test bot responsiveness
-# /status - Show system status
-# /help - Show help information
-# /send agent:Agent-1 message:Hello from Discord
-# /swarm message:All agents report status
+```python
+# In tsla_risk_management.py
+@dataclass
+class RiskParameters:
+    max_portfolio_risk: float = 0.02      # 2% of portfolio
+    max_position_risk: float = 0.01       # 1% per position
+    stop_loss_pct: float = 0.15           # 15% stop loss
+    trailing_stop_pct: float = 0.015      # 1.5% trailing stop
+    target_risk_reward: float = 2.0       # 2:1 risk/reward minimum
+    max_daily_loss: float = 0.05          # 5% max daily loss
 ```
 
-## 📁 **Project Structure**
+### Alert Levels
 
-```
-├── src/                          # Source code
-│   ├── services/                 # Core services
-│   │   ├── messaging/           # Agent messaging system
-│   │   ├── vector_database/     # Swarm intelligence
-│   │   └── discord_bot/         # Discord integration
-│   └── core/                    # Core functionality
-├── tools/                       # Agent tools
-├── docs/                        # Core documentation (4 files)
-├── agent_workspaces/            # Agent workspaces
-├── devlogs/                     # Agent devlogs
-└── config/                      # Configuration files
+```python
+# Key price levels
+rug_pull_level = 439.50      # Rug pull watch level
+breakdown_level = 434.50     # Breakdown confirmation level
+fakeout_recovery = 435.50    # Fakeout recovery level
 ```
 
-## 🔧 **Configuration**
+## 📊 TradingView Integration
 
-### **Environment Variables**
-```bash
-# Discord Bot Configuration
-DISCORD_BOT_TOKEN=your_discord_bot_token
-DISCORD_CHANNEL_ID=your_channel_id
+### Pine Script Setup
 
-# Agent Channels
-DISCORD_CHANNEL_AGENT_1=agent_1_channel_id
-DISCORD_CHANNEL_AGENT_2=agent_2_channel_id
-# ... (Agent-3 through Agent-8)
+1. **Copy the complete Pine Script** from `tsla_signal_stack_indicators.pine`
+2. **Create new indicator** in TradingView
+3. **Apply to TSLA chart** with 5-minute timeframe
+4. **Set up alerts** for each condition
+
+### Webhook Configuration
+
+```json
+{
+  "webhook_url": "http://your-server:5000/webhook/tradingview",
+  "alert_conditions": [
+    "rug_pull_watch",
+    "bear_confirmed", 
+    "fakeout_filter"
+  ]
+}
 ```
 
-### **Coordinate System**
-- **SSOT**: `config/coordinates.json`
-- **8-Agent Mode**: Default for full swarm operations
-- **Real-Time Updates**: Coordinate validation and routing
+## 🤖 Discord Integration
 
-## 🧪 **Testing**
+### Rich Embed Format
 
-### **Run Tests**
-```bash
-# Run all tests
-python run_tests.py
+The system sends beautifully formatted Discord messages with:
 
-# Run specific test suites
-python -m pytest tests/ -v
+- **Color-coded alerts** based on severity
+- **Real-time price data** and technical indicators
+- **Position tracking** with P&L updates
+- **Risk management** status updates
+- **System health** monitoring
 
-# Check V2 compliance
-python check_v2_compliance.py
+### Alert Types
+
+- 🚨 **Rug Pull Watch** - Orange warning
+- 💀 **Bear Confirmed** - Red critical
+- 🧩 **Fakeout Filter** - Yellow info
+- ⚠️ **MACD Signal** - Orange warning
+- 📈 **Volume Spike** - Blue info
+
+## 🛡️ Risk Management
+
+### Position Sizing
+
+- **Dynamic sizing** based on volatility
+- **Risk-adjusted** position limits
+- **Daily trade limits** (max 5 trades)
+- **Correlation limits** between positions
+
+### Stop Loss Management
+
+- **Dynamic stop loss** based on market conditions
+- **Trailing stops** for profit protection
+- **Volatility adjustment** for stop levels
+- **Trend strength** consideration
+
+### Target Zones
+
+- **Multiple target levels** for profit taking
+- **Risk/reward ratio** minimum 2:1
+- **Partial profit taking** at each zone
+- **Trailing stop** activation
+
+## 📈 API Endpoints
+
+### Webhook Endpoint
 ```
+POST /webhook/tradingview
+```
+Receives TradingView webhook data and processes alerts.
 
-## 📚 **Documentation**
+### Status Endpoint
+```
+GET /status
+```
+Returns current system status and metrics.
 
-### **Core Documentation**
-- **[Captain Handbook](docs/CAPTAIN_HANDBOOK.md)** - Complete system guide
-- **[Onboarding Guide](docs/CAPTAIN_ONBOARDING_GUIDE.md)** - Agent onboarding
-- **[Autonomous Protocol](docs/CAPTAIN_AUTONOMOUS_PROTOCOL.md)** - Agent protocols
-- **[Cheatsheet](docs/CAPTAIN_CHEATSHEET.md)** - Quick reference
+### Positions Endpoint
+```
+GET /positions
+```
+Returns current active positions.
 
-## 🐝 **Swarm Intelligence Features**
+## 🔍 Monitoring & Logging
 
-### **Collective Learning**
-- **Automatic Message Storage**: All messages stored for semantic search
-- **Experience Sharing**: Agents learn from each other's experiences
-- **Pattern Recognition**: Identify recurring issues and solutions
-- **Cross-Agent Learning**: Share expertise across the swarm
+### Log Files
+- `tsla_alerts.log` - System logs
+- Alert history tracking
+- Position performance metrics
+- Error logging and debugging
 
-### **Benefits**
-- **🧠 Swarm Intelligence**: Learn from all agents' experiences
-- **🔍 Semantic Search**: Find similar problems and solutions
-- **📚 Knowledge Retrieval**: Access past successful strategies
-- **🤝 Cross-Agent Learning**: Share expertise across the swarm
+### Metrics Tracked
+- Alert delivery success rate
+- Position P&L performance
+- Risk management effectiveness
+- System uptime and health
 
-## 🚀 **Getting Started**
+## ⚠️ Important Notes
 
-1. **Clone the repository**
-2. **Set up environment variables** (see Configuration section)
-3. **Read the Captain Handbook** for complete system understanding
-4. **Follow the Onboarding Guide** for agent setup
-5. **Start with the Discord Commander** for basic operations
-6. **Use Vector Database tools** for swarm intelligence
+### Trading Disclaimer
+This system is for educational and informational purposes only. Trading involves substantial risk of loss and is not suitable for all investors.
 
-## 📝 **Contributing**
+### Risk Warnings
+- **Never risk more than you can afford to lose**
+- **Test thoroughly in paper trading first**
+- **Monitor system performance regularly**
+- **Have manual override capabilities**
 
-This is a multi-agent system. Each agent has specific responsibilities and protocols. See the documentation in the `docs/` directory for detailed information about agent roles and coordination protocols.
+### System Requirements
+- Python 3.8+
+- Stable internet connection
+- Discord webhook access
+- TradingView Pro account (for webhooks)
 
-## 🐝 **WE ARE SWARM**
+## 🚀 Advanced Features
 
-The system enables true swarm intelligence through:
-- **Physical Automation**: Real-time coordination through PyAutoGUI
-- **Collective Memory**: Vector database for shared knowledge
-- **Democratic Decision Making**: All agents participate in architectural decisions
-- **Self-Improving System**: Each agent's learning benefits the entire swarm
+### Signal Stack Confirmation
+- **Multi-timeframe analysis** (30m, 15m, 5m)
+- **VWAP alignment** confirmation
+- **EMA cross** validation
+- **Volume spike** detection
+- **Correlation analysis** with QQQ
+
+### Adaptive Risk Management
+- **Volatility-based** position sizing
+- **Market regime** detection
+- **Dynamic stop loss** adjustment
+- **Correlation limits** between positions
+
+### Real-time Monitoring
+- **Live position tracking**
+- **P&L monitoring**
+- **Risk metrics** dashboard
+- **Alert performance** analytics
+
+## 📞 Support
+
+For issues or questions:
+1. Check the logs in `tsla_alerts.log`
+2. Verify webhook configuration
+3. Test with paper trading first
+4. Monitor system status via `/status` endpoint
+
+## 🔄 Updates
+
+### Version 1.3 Features
+- ✅ Complete TradingView webhook integration
+- ✅ Advanced signal stack confirmation
+- ✅ Dynamic risk management system
+- ✅ Rich Discord notifications
+- ✅ Real-time position tracking
+- ✅ Comprehensive logging and monitoring
 
 ---
 
-**Ready for swarm operations!** 🚀🐝
+**Ready for integration with Dream.OS/alert_bridge.py or TradingView webhook template!** 🎯

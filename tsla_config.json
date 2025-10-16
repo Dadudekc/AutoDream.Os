@@ -1,0 +1,11 @@
+{
+  "discord_webhook_url": "YOUR_DISCORD_WEBHOOK_URL_HERE",
+  "portfolio_value": 10000.0,
+  "max_daily_loss_pct": 5.0,
+  "max_position_risk_pct": 1.0,
+  "rug_pull_level": 439.5,
+  "breakdown_level": 434.5,
+  "fakeout_recovery": 435.5,
+  "server_host": "0.0.0.0",
+  "server_port": 5000
+}

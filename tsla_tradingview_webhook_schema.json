@@ -1,0 +1,77 @@
+{
+  "webhook_schema": {
+    "name": "TSLA Pre-Market Bearish Alert System",
+    "version": "1.3",
+    "description": "Automated TSLA bearish bias alerts for pre-market and open session",
+    "conditions": [
+      {
+        "id": "rug_pull_watch",
+        "name": "Rug Pull Watch",
+        "pine_script": "\n//@version=5\nindicator(\"TSLA Rug Pull Watch\", overlay=true)\n\n// Parameters\nrsi_length = input.int(14, \"RSI Length\")\nmacd_fast = input.int(12, \"MACD Fast\")\nmacd_slow = input.int(26, \"MACD Slow\")\nmacd_signal = input.int(9, \"MACD Signal\")\n\n// Calculations\nrsi = ta.rsi(close, rsi_length)\n[macd_line, signal_line, histogram] = ta.macd(close, macd_fast, macd_slow, macd_signal)\nvolume_ma = ta.sma(volume, 20)\n\n// Conditions\nprice_condition = close >= 439.50\nrsi_condition = rsi > 60\nmacd_condition = histogram < histogram[1] and histogram[1] < histogram[2]\nvolume_condition = volume > volume_ma\n\n// Alert condition\nalert_condition = price_condition and rsi_condition and macd_condition and volume_condition\n\n// Alert\nif alert_condition\n    alert(\"\ud83d\udea8 TSLA rug setup forming \u2014 440 rejection zone heating up.\", alert.freq_once_per_bar)\n",
+        "webhook_payload": {
+          "symbol": "TSLA",
+          "alert_type": "rug_pull_watch",
+          "price": "{{close}}",
+          "rsi": "{{rsi}}",
+          "macd_histogram": "{{macd_histogram}}",
+          "volume": "{{volume}}",
+          "timestamp": "{{time}}",
+          "message": "\ud83d\udea8 TSLA rug setup forming \u2014 440 rejection zone heating up."
+        }
+      },
+      {
+        "id": "bear_confirmed",
+        "name": "Bear Confirmed",
+        "pine_script": "\n//@version=5\nindicator(\"TSLA Bear Confirmed\", overlay=true)\n\n// Parameters\nrsi_length = input.int(14, \"RSI Length\")\nmacd_fast = input.int(12, \"MACD Fast\")\nmacd_slow = input.int(26, \"MACD Slow\")\nmacd_signal = input.int(9, \"MACD Signal\")\n\n// Calculations\nrsi = ta.rsi(close, rsi_length)\n[macd_line, signal_line, histogram] = ta.macd(close, macd_fast, macd_slow, macd_signal)\nvolume_ma = ta.sma(volume, 20)\n\n// Conditions\nprice_condition = close < 434.50\nrsi_condition = rsi < 50\nmacd_cross = ta.crossunder(macd_line, signal_line)\nvolume_condition = volume > volume_ma * 1.2\n\n// Alert condition\nalert_condition = price_condition and rsi_condition and macd_cross and volume_condition\n\n// Alert\nif alert_condition\n    alert(\"\ud83d\udc80 Breakdown active under 434.50 \u2014 volume confirmed.\", alert.freq_once_per_bar)\n",
+        "webhook_payload": {
+          "symbol": "TSLA",
+          "alert_type": "bear_confirmed",
+          "price": "{{close}}",
+          "rsi": "{{rsi}}",
+          "macd_cross": "{{macd_cross}}",
+          "volume": "{{volume}}",
+          "timestamp": "{{time}}",
+          "message": "\ud83d\udc80 Breakdown active under 434.50 \u2014 volume confirmed."
+        }
+      },
+      {
+        "id": "fakeout_filter",
+        "name": "Fakeout Filter",
+        "pine_script": "\n//@version=5\nindicator(\"TSLA Fakeout Filter\", overlay=true)\n\n// Variables\nvar float fakeout_low = na\nvar bool fakeout_detected = false\n\n// Track price below 434.50\nif close < 434.50 and na(fakeout_low)\n    fakeout_low := low\n\n// Check for recovery above 435.50\nif not na(fakeout_low) and close > 435.50\n    fakeout_detected := true\n    alert(\"\ud83e\udde9 Fakeout detected. Trade canceled for safety.\", alert.freq_once_per_bar)\n    fakeout_low := na\n\n// Reset on new day\nif ta.change(time(\"1D\"))\n    fakeout_detected := false\n    fakeout_low := na\n",
+        "webhook_payload": {
+          "symbol": "TSLA",
+          "alert_type": "fakeout_filter",
+          "price": "{{close}}",
+          "fakeout_low": "{{fakeout_low}}",
+          "timestamp": "{{time}}",
+          "message": "\ud83e\udde9 Fakeout detected. Trade canceled for safety."
+        }
+      }
+    ],
+    "signal_stack": {
+      "vwap_alignment": "below",
+      "ema20_vs_ema50": "bearish_cross",
+      "qqq_correlation": "positive_divergence",
+      "timeframe_sync": [
+        "30m",
+        "15m",
+        "5m"
+      ]
+    },
+    "risk_management": {
+      "stop_loss": 430.0,
+      "target_zones": [
+        [
+          440.0,
+          437.0
+        ],
+        [
+          431.0,
+          425.0
+        ]
+      ],
+      "max_exposure": 100.0,
+      "trailing_stop_pct": 1.5
+    }
+  }
+}

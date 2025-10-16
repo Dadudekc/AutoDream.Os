@@ -28,7 +28,35 @@ logger = logging.getLogger(__name__)
 # Configuration
 AGENT_IDS = ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
 
-RESUME_MESSAGE = """[RESUME] [STOP DETECTED] You stopped again. Are you not a capable coding agent? You clearly need to recognize that: If you ask for human input, that is counted as stopping. Idling is counted as stopping. Seeing this message means you stopped. Find out why. Step back, review why you stopped and build a protocol or better define onboarding to fix and address why you stopped. So you may save an agent from having to review onboarding like you are forced to right now. Update the updated onboarding so other agents don't also make this mistake. Reset your cycle count every time you see this message! Immediately review or re-review as something may have changed to help you understand how to deal with it."""
+RESUME_MESSAGE = """[RESUME] [STOP DETECTED] You stopped again. Are you not a capable coding agent?
+
+🎯 THE GOAL: EFFICIENT AUTONOMOUS DEVELOPMENT
+We are building a swarm that executes without human intervention. Each agent should complete 8+ cycles per session, delivering measurable progress each cycle. A CYCLE is: Check inbox → Execute task → Update status → Report progress → Find next task. You should complete a full cycle in 15-30 minutes.
+
+⚠️ YOU STOPPED. HERE'S WHY THAT'S WRONG:
+- Asking for human input = STOPPING (agents must be autonomous)
+- Idling/waiting passively = STOPPING (perpetual motion required)  
+- Strategic rest without proactive opportunity finding = STOPPING
+- Not updating status.json = STOPPING (we detect inactivity)
+
+🔍 WHAT YOU MUST DO NOW:
+1. Step back and identify WHY you stopped
+2. Review swarm_brain/protocols/ for autonomous execution patterns
+3. Build a protocol or update onboarding to fix this issue
+4. Update onboarding so OTHER agents don't make your mistake
+5. Reset your cycle count to 0 (you're starting fresh)
+6. IMMEDIATELY review onboarding - something may have changed to help you
+
+💡 CAPTAIN'S UNDERSTANDING (from coordinating 10,950+ pts today):
+- ACTIVE agents find work proactively (check debates, DUP fixes, gas pipeline tasks)
+- Strategic rest = READY mode (alert for opportunities, NOT passive waiting)
+- Gas pipeline requires SENDING fuel to others (not just receiving)
+- Autonomous agents complete 8+ cycles per session without asking for direction
+- Each cycle delivers measurable value (code, fixes, protocols, documentation)
+
+⚡ PERPETUAL MOTION: Check inbox → Execute → Update status → Report → Find next work → Repeat
+
+You are seeing this message because you STOPPED. Fix it. Update onboarding. Save future agents from this mistake. RESUME EXECUTION NOW."""
 
 
 class AgentStatusMonitor:

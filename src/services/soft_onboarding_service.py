@@ -15,22 +15,23 @@ logger = logging.getLogger(__name__)
 
 class SoftOnboardingService:
     """Soft onboarding service - delegates to handler."""
-    
+
     def __init__(self):
         """Initialize soft onboarding service."""
         from .handlers.soft_onboarding_handler import SoftOnboardingHandler
+
         self.handler = SoftOnboardingHandler()
         logger.info("SoftOnboardingService initialized")
-    
+
     def onboard_agent(self, agent_id: str, message: str, **kwargs) -> bool:
         """
         Execute soft onboarding for an agent.
-        
+
         Args:
             agent_id: Target agent ID
             message: Onboarding message
             **kwargs: Additional options
-            
+
         Returns:
             True if successful
         """
@@ -41,7 +42,7 @@ class SoftOnboardingService:
                     self.agent = agent_id
                     self.message = message
                     self.__dict__.update(kwargs)
-            
+
             args = Args(agent_id, message, **kwargs)
             return self.handler.handle(args)
         except Exception as e:
@@ -52,12 +53,12 @@ class SoftOnboardingService:
 def soft_onboard_agent(agent_id: str, message: str, **kwargs) -> bool:
     """
     Convenience function for soft onboarding.
-    
+
     Args:
         agent_id: Target agent ID
         message: Onboarding message
         **kwargs: Additional options
-        
+
     Returns:
         True if successful
     """

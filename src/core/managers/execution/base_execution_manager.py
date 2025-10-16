@@ -27,7 +27,7 @@ class BaseExecutionManager(BaseManager):
         """Initialize base execution manager."""
         # Initialize BaseManager first (gets all utilities for free!)
         super().__init__(ManagerType.EXECUTION, "Base Execution Manager")
-        
+
         # Execution-specific state
         self.tasks: dict[str, dict[str, Any]] = {}
         self.executions: dict[str, dict[str, Any]] = {}
@@ -35,7 +35,7 @@ class BaseExecutionManager(BaseManager):
         self.execution_threads: dict[str, threading.Thread] = {}
         self.max_concurrent_tasks = 5
         self.task_timeout = 300
-        
+
         # Initialize subcomponents
         self.task_executor = TaskExecutor()
         self.protocol_manager = ProtocolManager()
@@ -50,7 +50,7 @@ class BaseExecutionManager(BaseManager):
             # Call parent initialization first
             if not super().initialize(context):
                 return False
-            
+
             # Execution-specific initialization
             self.protocol_manager.register_default_protocols()
             self._start_task_processor()

@@ -26,7 +26,7 @@ class RateLimitConfig:
 class TheaSessionManager:
     """
     Basic session manager stub.
-    
+
     DEPRECATED: Use RateLimitedSessionManager from src.core.session instead.
     This stub is kept for backward compatibility only.
     """
@@ -34,13 +34,13 @@ class TheaSessionManager:
     def __init__(self, config: RateLimitConfig | None = None):
         """
         Initialize Thea session manager.
-        
+
         DEPRECATED: Migrating to RateLimitedSessionManager.
         """
         warnings.warn(
             "TheaSessionManager is deprecated. Use RateLimitedSessionManager from src.core.session instead.",
             DeprecationWarning,
-            stacklevel=2
+            stacklevel=2,
         )
         self.config = config or RateLimitConfig()
 

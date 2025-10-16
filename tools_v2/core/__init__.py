@@ -7,7 +7,7 @@ Re-exports from main modules for backward compatibility.
 """
 
 # Re-export from existing modules
-from ..toolbelt_core import *
 from ..tool_registry import *
+from ..toolbelt_core import *
 
-__all__ = ['ToolFacade', 'ToolSpec']
+__all__ = ["ToolFacade", "ToolSpec"]

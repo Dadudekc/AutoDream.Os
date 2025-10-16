@@ -12,7 +12,7 @@ Available Repositories:
 
 Usage:
     from src.repositories import AgentRepository, ContractRepository, MessageRepository
-    
+
     agent_repo = AgentRepository()
     agents = agent_repo.get_all_agents()
 """
@@ -22,7 +22,7 @@ from .contract_repository import ContractRepository
 from .message_repository import MessageRepository
 
 __all__ = [
-    'AgentRepository',
-    'ContractRepository',
-    'MessageRepository',
+    "AgentRepository",
+    "ContractRepository",
+    "MessageRepository",
 ]

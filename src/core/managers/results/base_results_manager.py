@@ -28,7 +28,7 @@ class BaseResultsManager(BaseManager):
         """Initialize base results manager."""
         # Initialize BaseManager first (gets all utilities for free!)
         super().__init__(ManagerType.RESULTS, "Base Results Manager")
-        
+
         # Results-specific state
         self.results: dict[str, dict[str, Any]] = {}
         self.result_processors: dict[str, Callable] = {}
@@ -36,7 +36,7 @@ class BaseResultsManager(BaseManager):
         self.archived_results: dict[str, dict[str, Any]] = {}
         self.max_results = 1000
         self.archive_after_days = 30
-        
+
         # Results-specific components
         self.processor = ResultsProcessor(
             self.result_processors, self.archived_results, self.archive_after_days
@@ -126,7 +126,7 @@ class BaseResultsManager(BaseManager):
             self.result_processors.clear()
             self.result_callbacks.clear()
             self.logger.info("Results manager cleaned up")
-            
+
             # Call parent cleanup
             return super().cleanup(context)
         except Exception as e:

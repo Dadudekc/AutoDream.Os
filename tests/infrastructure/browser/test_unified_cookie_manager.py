@@ -13,7 +13,7 @@ import json
 import os
 import sys
 from pathlib import Path
-from unittest.mock import MagicMock, Mock, patch
+from unittest.mock import Mock
 
 import pytest
 
@@ -315,4 +315,3 @@ class TestIntegration:
         # Load cookies
         result = new_manager.load_cookies(driver)
         assert result is True
-

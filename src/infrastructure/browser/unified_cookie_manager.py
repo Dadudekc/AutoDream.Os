@@ -22,13 +22,14 @@ import json
 import logging
 import os
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
 # Optional encryption support
 try:
     from cryptography.fernet import Fernet, InvalidToken
+
     CRYPTO_AVAILABLE = True
 except ImportError:
     CRYPTO_AVAILABLE = False
@@ -39,7 +40,7 @@ except ImportError:
 class UnifiedCookieManager:
     """
     Unified cookie manager supporting both BrowserAdapter and WebDriver interfaces.
-    
+
     Consolidates:
     - Service-based cookie management
     - Optional encryption support
@@ -52,11 +53,11 @@ class UnifiedCookieManager:
         cookie_file: str = "data/cookies.json",
         auto_save: bool = True,
         enable_encryption: bool = False,
-        encryption_key: Optional[str] = None
+        encryption_key: str | None = None,
     ):
         """
         Initialize unified cookie manager.
-        
+
         Args:
             cookie_file: Path to cookie file for persistence
             auto_save: Automatically save cookies after operations
@@ -66,12 +67,12 @@ class UnifiedCookieManager:
         self.cookie_file = cookie_file
         self.auto_save = auto_save
         self.cookies: dict[str, list[dict]] = {}
-        
+
         # Setup paths
         self.cookie_path = Path(self.cookie_file)
         self.cookie_path.parent.mkdir(parents=True, exist_ok=True)
         self.encrypted_cookie_path = Path(f"{self.cookie_file}.enc")
-        
+
         # Setup encryption if enabled
         self.enable_encryption = enable_encryption and CRYPTO_AVAILABLE
         if self.enable_encryption:
@@ -80,7 +81,7 @@ class UnifiedCookieManager:
         else:
             self._encryption_key = None
             self._fernet = None
-            
+
         # Load persisted cookies
         self._load_persisted_cookies()
 
@@ -91,15 +92,15 @@ class UnifiedCookieManager:
     def save_cookies_for_service(self, browser_adapter: Any, service_name: str) -> bool:
         """
         Save cookies for a specific service using BrowserAdapter.
-        
+
         Args:
             browser_adapter: BrowserAdapter instance with get_cookies() method
             service_name: Service identifier (e.g., 'chatgpt', 'discord')
-            
+
         Returns:
             True if cookies saved successfully, False otherwise
         """
-        if not hasattr(browser_adapter, 'is_running') or not browser_adapter.is_running():
+        if not hasattr(browser_adapter, "is_running") or not browser_adapter.is_running():
             logger.warning(f"Browser adapter not running for {service_name}")
             return False
 
@@ -121,15 +122,15 @@ class UnifiedCookieManager:
     def load_cookies_for_service(self, browser_adapter: Any, service_name: str) -> bool:
         """
         Load cookies for a specific service using BrowserAdapter.
-        
+
         Args:
             browser_adapter: BrowserAdapter instance with add_cookies() method
             service_name: Service identifier
-            
+
         Returns:
             True if cookies loaded successfully, False otherwise
         """
-        if not hasattr(browser_adapter, 'is_running') or not browser_adapter.is_running():
+        if not hasattr(browser_adapter, "is_running") or not browser_adapter.is_running():
             logger.warning(f"Browser adapter not running for {service_name}")
             return False
 
@@ -149,10 +150,10 @@ class UnifiedCookieManager:
     def has_valid_session(self, service_name: str) -> bool:
         """
         Check if there's a valid session for the service.
-        
+
         Args:
             service_name: Service identifier
-            
+
         Returns:
             True if valid cookies exist for service, False otherwise
         """
@@ -165,25 +166,25 @@ class UnifiedCookieManager:
     def save_cookies(self, driver: Any) -> bool:
         """
         Save cookies from Selenium WebDriver session.
-        
+
         Args:
             driver: Selenium WebDriver instance with get_cookies() method
-            
+
         Returns:
             True if cookies saved successfully, False otherwise
         """
         try:
             cookies = driver.get_cookies()
-            
+
             # Store under 'default' service for WebDriver interface
-            self.cookies['default'] = cookies
-            
+            self.cookies["default"] = cookies
+
             if self.auto_save:
                 success = self._persist_cookies()
                 if success:
                     logger.info(f"✅ Saved {len(cookies)} cookies from WebDriver")
                 return success
-            
+
             return True
 
         except Exception as e:
@@ -193,12 +194,12 @@ class UnifiedCookieManager:
     def load_cookies(self, driver: Any) -> bool:
         """
         Load cookies into Selenium WebDriver session.
-        
+
         Auto-decrypts encrypted cookies if available and key is set.
-        
+
         Args:
             driver: Selenium WebDriver instance with add_cookie() method
-            
+
         Returns:
             True if cookies loaded successfully, False otherwise
         """
@@ -206,10 +207,10 @@ class UnifiedCookieManager:
             # Check for encrypted cookies first
             if self.enable_encryption and self.encrypted_cookie_path.exists() and self._fernet:
                 cookies = self._load_encrypted_cookies()
-                if not cookies and 'default' in self.cookies:
-                    cookies = self.cookies['default']
-            elif 'default' in self.cookies:
-                cookies = self.cookies['default']
+                if not cookies and "default" in self.cookies:
+                    cookies = self.cookies["default"]
+            elif "default" in self.cookies:
+                cookies = self.cookies["default"]
             else:
                 logger.warning("No cookies found to load")
                 return False
@@ -233,7 +234,7 @@ class UnifiedCookieManager:
     def has_valid_cookies(self) -> bool:
         """
         Check if valid cookies exist (for WebDriver interface).
-        
+
         Returns:
             True if default cookies exist and not empty
         """
@@ -242,21 +243,21 @@ class UnifiedCookieManager:
             cookies = self._load_encrypted_cookies()
             if cookies:
                 return True
-        
+
         # Check in-memory cookies
-        return 'default' in self.cookies and len(self.cookies['default']) > 0
+        return "default" in self.cookies and len(self.cookies["default"]) > 0
 
     # =====================================================================
     # Common Operations
     # =====================================================================
 
-    def clear_cookies(self, service_name: Optional[str] = None) -> bool:
+    def clear_cookies(self, service_name: str | None = None) -> bool:
         """
         Clear saved cookies.
-        
+
         Args:
             service_name: Service identifier (None = clear all)
-            
+
         Returns:
             True if cookies cleared successfully, False otherwise
         """
@@ -272,9 +273,9 @@ class UnifiedCookieManager:
                 if self.encrypted_cookie_path.exists():
                     self.encrypted_cookie_path.unlink()
                 logger.info("✅ All cookies cleared")
-            
+
             return True
-            
+
         except Exception as e:
             logger.error(f"❌ Failed to clear cookies: {e}")
             return False
@@ -289,11 +290,11 @@ class UnifiedCookieManager:
             # Save as JSON
             with open(self.cookie_path, "w", encoding="utf-8") as f:
                 json.dump(self.cookies, f, indent=2)
-            
+
             # Encrypt if enabled
             if self.enable_encryption and self._fernet:
                 self._encrypt_cookie_file()
-                
+
             return True
 
         except Exception as e:
@@ -307,15 +308,15 @@ class UnifiedCookieManager:
             if self.enable_encryption and self.encrypted_cookie_path.exists() and self._fernet:
                 cookies = self._load_encrypted_cookies()
                 if cookies:
-                    self.cookies['default'] = cookies
+                    self.cookies["default"] = cookies
                     return True
-            
+
             # Fall back to plaintext
             if self.cookie_path.exists():
                 with open(self.cookie_path, encoding="utf-8") as f:
                     self.cookies = json.load(f)
                 return True
-                
+
             return False
 
         except Exception as e:
@@ -326,7 +327,7 @@ class UnifiedCookieManager:
     # Encryption Operations (Optional)
     # =====================================================================
 
-    def _init_fernet(self) -> Optional[Any]:
+    def _init_fernet(self) -> Any | None:
         """Initialize Fernet cipher for encryption/decryption."""
         if not CRYPTO_AVAILABLE or not self._encryption_key:
             return None
@@ -347,7 +348,7 @@ class UnifiedCookieManager:
                 data = f.read()
 
             encrypted_data = self._fernet.encrypt(data)
-            
+
             with open(self.encrypted_cookie_path, "wb") as f:
                 f.write(encrypted_data)
 
@@ -360,7 +361,7 @@ class UnifiedCookieManager:
             logger.error(f"❌ Failed to encrypt cookie file: {e}")
             return False
 
-    def _load_encrypted_cookies(self) -> Optional[list[dict]]:
+    def _load_encrypted_cookies(self) -> list[dict] | None:
         """Load and decrypt encrypted cookies."""
         if not self._fernet or not self.encrypted_cookie_path.exists():
             return None
@@ -371,13 +372,13 @@ class UnifiedCookieManager:
 
             data = self._fernet.decrypt(encrypted_data)
             cookies_data = json.loads(data.decode("utf-8"))
-            
+
             # Handle both dict (service-based) and list (WebDriver) formats
             if isinstance(cookies_data, dict):
-                return cookies_data.get('default', [])
+                return cookies_data.get("default", [])
             elif isinstance(cookies_data, list):
                 return cookies_data
-            
+
             return None
 
         except (InvalidToken, Exception) as e:
@@ -388,10 +389,10 @@ class UnifiedCookieManager:
     def generate_encryption_key() -> str:
         """
         Generate a new Fernet encryption key.
-        
+
         Returns:
             Base64-encoded encryption key string
-            
+
         Raises:
             ImportError: If cryptography library not available
         """
@@ -399,4 +400,3 @@ class UnifiedCookieManager:
             raise ImportError("cryptography library not available")
 
         return Fernet.generate_key().decode("utf-8")
-

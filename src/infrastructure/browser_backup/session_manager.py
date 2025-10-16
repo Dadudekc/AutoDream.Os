@@ -22,6 +22,7 @@ from .browser_models import RateLimitStatus, SessionInfo, TheaConfig
 # Import new consolidated session manager
 try:
     from ...core.session.rate_limited_session_manager import RateLimitedSessionManager
+
     NEW_SESSION_MANAGER_AVAILABLE = True
 except ImportError:
     NEW_SESSION_MANAGER_AVAILABLE = False
@@ -33,7 +34,7 @@ logger = logging.getLogger(__name__)
 class SessionManager:
     """
     Manages browser sessions and rate limiting.
-    
+
     DEPRECATED: This is a backward compatibility facade.
     Use src.core.session.RateLimitedSessionManager instead.
     """
@@ -41,25 +42,25 @@ class SessionManager:
     def __init__(self, config: TheaConfig):
         """
         Initialize session manager.
-        
+
         DEPRECATED: Migrating to RateLimitedSessionManager.
         """
         warnings.warn(
             "SessionManager is deprecated. Use RateLimitedSessionManager from src.core.session instead.",
             DeprecationWarning,
-            stacklevel=2
+            stacklevel=2,
         )
-        
+
         self.config = config
-        
+
         # If new manager available, use it
         if NEW_SESSION_MANAGER_AVAILABLE:
             # Convert TheaConfig to dict for new manager
             config_dict = {
-                'rate_limit_requests_per_minute': config.rate_limit_requests_per_minute,
-                'burst_limit': getattr(config, 'burst_limit', 5),
-                'max_sessions': getattr(config, 'max_sessions', 100),
-                'session_timeout': getattr(config, 'session_timeout', 3600)
+                "rate_limit_requests_per_minute": config.rate_limit_requests_per_minute,
+                "burst_limit": getattr(config, "burst_limit", 5),
+                "max_sessions": getattr(config, "max_sessions", 100),
+                "session_timeout": getattr(config, "session_timeout", 3600),
             }
             self._manager = RateLimitedSessionManager(config=config_dict)
             logger.info("Using new RateLimitedSessionManager (DUP-002 consolidation)")
@@ -74,7 +75,7 @@ class SessionManager:
         """Create a new session for a service."""
         if self._manager:
             return self._manager.create_session(service_name)
-        
+
         # Legacy implementation
         session_id = f"{service_name}_{int(time.time())}_{hash(service_name) % 1000}"
 
@@ -94,7 +95,7 @@ class SessionManager:
         """Check if a request can be made."""
         if self._manager:
             return self._manager.can_make_request(service_name, session_id)
-        
+
         # Legacy implementation
         if session_id not in self.sessions:
             return False, "Session not found"
@@ -115,7 +116,7 @@ class SessionManager:
         """Record a request for rate limiting."""
         if self._manager:
             return self._manager.record_request(service_name, session_id, success)
-        
+
         # Legacy implementation
         if service_name in self.rate_limits:
             rate_limit = self.rate_limits[service_name]
@@ -134,7 +135,7 @@ class SessionManager:
         """Wait for rate limit to reset."""
         if self._manager:
             return self._manager.wait_for_rate_limit_reset(service_name, session_id)
-        
+
         # Legacy implementation
         if service_name in self.rate_limits:
             rate_limit = self.rate_limits[service_name]
@@ -151,7 +152,7 @@ class SessionManager:
         """Get session information."""
         if self._manager:
             return self._manager.get_session_info(session_id)
-        
+
         # Legacy implementation
         if session_id in self.sessions:
             session = self.sessions[session_id]
@@ -169,7 +170,7 @@ class SessionManager:
         """Get rate limit status for a service."""
         if self._manager:
             return self._manager.get_rate_limit_status(service_name)
-        
+
         # Legacy implementation
         if service_name in self.rate_limits:
             rate_limit = self.rate_limits[service_name]

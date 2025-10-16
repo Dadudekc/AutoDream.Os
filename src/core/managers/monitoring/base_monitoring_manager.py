@@ -28,7 +28,7 @@ class BaseMonitoringManager(BaseManager):
         """Initialize base monitoring manager."""
         # Initialize BaseManager first (gets all utilities for free!)
         super().__init__(ManagerType.MONITORING, "Base Monitoring Manager")
-        
+
         # Monitoring-specific state
         self.monitoring_state = MonitoringState()
         self.rules = MonitoringRules(self.monitoring_state)

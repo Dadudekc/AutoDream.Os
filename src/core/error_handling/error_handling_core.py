@@ -30,6 +30,7 @@ from typing import Any
 # DUP-006/007 Coordination: Import Agent-2's standardized logging
 try:
     from ..utilities.standardized_logging import LogLevel
+
     _LOGGING_AVAILABLE = True
 except ImportError:
     _LOGGING_AVAILABLE = False
@@ -313,12 +314,12 @@ class ErrorSeverityMapping:
 
 def get_log_level_for_severity(severity: ErrorSeverity) -> int:
     """Map ErrorSeverity to LogLevel for coordinated error/logging.
-    
+
     DUP-006/007 Coordination: Integrates error handling with Agent-2's standardized logging.
-    
+
     Args:
         severity: Error severity level
-        
+
     Returns:
         Logging level (int) compatible with logging module
     """
@@ -333,6 +334,7 @@ def get_log_level_for_severity(severity: ErrorSeverity) -> int:
     else:
         # Fallback to standard logging levels
         import logging
+
         mapping = {
             ErrorSeverity.CRITICAL: logging.CRITICAL,
             ErrorSeverity.HIGH: logging.ERROR,
@@ -365,15 +367,12 @@ class CircuitBreakerError(Exception):
 
 
 def log_exception_with_severity(
-    logger,
-    severity: ErrorSeverity,
-    exception: Exception,
-    context: dict[str, Any] = None
+    logger, severity: ErrorSeverity, exception: Exception, context: dict[str, Any] = None
 ) -> None:
     """Log exception with appropriate severity level.
-    
+
     DUP-006/007 Coordination: Unified exception logging using Agent-2's standardized logging.
-    
+
     Args:
         logger: Logger instance (from standardized_logging.get_logger)
         severity: Error severity level
@@ -382,4 +381,6 @@ def log_exception_with_severity(
     """
     log_level = get_log_level_for_severity(severity)
     context_str = f" | Context: {context}" if context else ""
-    logger.log(log_level, f"Exception: {type(exception).__name__}: {exception}{context_str}", exc_info=True)
+    logger.log(
+        log_level, f"Exception: {type(exception).__name__}: {exception}{context_str}", exc_info=True
+    )

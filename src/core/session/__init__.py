@@ -24,11 +24,11 @@ Mission: DUP-002 SessionManager Consolidation
 License: MIT
 """
 
-from .base_session_manager import BaseSessionManager, BaseSessionInfo
+from .base_session_manager import BaseSessionInfo, BaseSessionManager
 from .rate_limited_session_manager import (
+    RateLimitedSessionInfo,
     RateLimitedSessionManager,
     RateLimitStatus,
-    RateLimitedSessionInfo,
 )
 
 __all__ = [
@@ -40,4 +40,3 @@ __all__ = [
 ]
 
 __version__ = "2.0.0"
-

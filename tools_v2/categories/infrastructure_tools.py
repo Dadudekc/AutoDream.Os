@@ -14,7 +14,7 @@ import logging
 from pathlib import Path
 from typing import Any
 
-from ..adapters.base_adapter import IToolAdapter, ToolSpec, ToolResult
+from ..adapters.base_adapter import IToolAdapter, ToolResult, ToolSpec
 
 logger = logging.getLogger(__name__)
 
@@ -43,7 +43,9 @@ class OrchestratorScanTool(IToolAdapter):
         """Validate parameters (no required params for this tool)."""
         return (True, [])
 
-    def execute(self, params: dict[str, Any] = None, context: dict[str, Any] | None = None) -> ToolResult:
+    def execute(
+        self, params: dict[str, Any] = None, context: dict[str, Any] | None = None
+    ) -> ToolResult:
         """Execute orchestrator scan."""
         try:
             violations = []
@@ -134,7 +136,9 @@ class FileLineCounterTool(IToolAdapter):
         spec = self.get_spec()
         return spec.validate_params(params)
 
-    def execute(self, params: dict[str, Any] = None, context: dict[str, Any] | None = None) -> ToolResult:
+    def execute(
+        self, params: dict[str, Any] = None, context: dict[str, Any] | None = None
+    ) -> ToolResult:
         """Execute line count."""
         try:
             if params is None:
@@ -196,14 +200,18 @@ class ModuleExtractorPlannerTool(IToolAdapter):
         spec = self.get_spec()
         return spec.validate_params(params)
 
-    def execute(self, params: dict[str, Any] = None, context: dict[str, Any] | None = None) -> ToolResult:
+    def execute(
+        self, params: dict[str, Any] = None, context: dict[str, Any] | None = None
+    ) -> ToolResult:
         """Execute extraction planning."""
         try:
             if params is None:
                 params = {}
             filepath = params.get("file")
             if not filepath:
-                return ToolResult(success=False, output=None, error_message="No file specified", exit_code=1)
+                return ToolResult(
+                    success=False, output=None, error_message="No file specified", exit_code=1
+                )
 
             with open(filepath) as f:
                 content = f.read()
@@ -288,7 +296,9 @@ class ROICalculatorTool(IToolAdapter):
         spec = self.get_spec()
         return spec.validate_params(params)
 
-    def execute(self, params: dict[str, Any] = None, context: dict[str, Any] | None = None) -> ToolResult:
+    def execute(
+        self, params: dict[str, Any] = None, context: dict[str, Any] | None = None
+    ) -> ToolResult:
         """Calculate ROI."""
         try:
             if params is None:

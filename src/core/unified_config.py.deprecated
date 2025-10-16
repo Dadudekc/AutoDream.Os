@@ -12,10 +12,10 @@ Please update your imports to use src/core/config_ssot instead:
 
 OLD:
     from src.core.unified_config import get_unified_config, TimeoutConfig
-    
+
 NEW:
     from src.core.config_ssot import get_unified_config, TimeoutConfig
-    
+
 This file will be removed in a future release.
 """
 
@@ -25,7 +25,7 @@ warnings.warn(
     "unified_config.py is deprecated. Use src.core.config_ssot instead. "
     "This file will be removed in a future release.",
     DeprecationWarning,
-    stacklevel=2
+    stacklevel=2,
 )
 
 # Re-export from SSOT for backward compatibility
@@ -35,6 +35,12 @@ from .config_ssot import (
     ConfigEnvironment,
     ConfigSource,
     FilePatternConfig,
+    ReportConfig,
+    ReportFormat,
+    TestConfig,
+    ThresholdConfig,
+    TimeoutConfig,
+    UnifiedConfigManager,
     get_agent_config,
     get_browser_config,
     get_config,
@@ -45,12 +51,6 @@ from .config_ssot import (
     get_timeout_config,
     get_unified_config,
     reload_config,
-    ReportConfig,
-    ReportFormat,
-    TestConfig,
-    ThresholdConfig,
-    TimeoutConfig,
-    UnifiedConfigManager,
     validate_config,
 )
 
@@ -86,4 +86,3 @@ __all__ = [
     "validate_config",
     "reload_config",
 ]
-

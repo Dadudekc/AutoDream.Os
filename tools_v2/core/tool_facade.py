@@ -9,4 +9,3 @@ from ..toolbelt_core import ToolbeltCore
 
 # Alias for backward compatibility
 ToolFacade = ToolbeltCore
-

@@ -15,7 +15,6 @@ from typing import Any
 from ..contracts import ManagerContext, ManagerResult
 from .base_execution_manager import BaseExecutionManager
 from .protocol_manager import ProtocolManager
-from .task_executor import TaskExecutor
 
 
 class ExecutionCoordinator(BaseExecutionManager):

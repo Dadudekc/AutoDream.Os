@@ -83,22 +83,47 @@ class UnifiedLoggingTimeService:
         """Convert datetime to Unix timestamp."""
         return self.clock.to_timestamp(dt)
 
-    # Time formatting operations
+    # Time formatting operations (DUP-008: Now delegates to system_clock)
     def format_time(self, dt: datetime) -> str:
         """Format datetime to time string."""
-        return self.formatter.format_time(dt)
+        # DUP-008: Delegate to system_clock to eliminate duplication
+        try:
+            from .time.system_clock import TimeFormatter, TimeConfig
+            formatter = TimeFormatter(TimeConfig())
+            return formatter.format_time(dt)
+        except ImportError:
+            # Fallback if system_clock not available
+            return self.formatter.format_time(dt)
 
     def format_date(self, dt: datetime) -> str:
         """Format datetime to date string."""
-        return self.formatter.format_date(dt)
+        # DUP-008: Delegate to system_clock to eliminate duplication
+        try:
+            from .time.system_clock import TimeFormatter, TimeConfig
+            formatter = TimeFormatter(TimeConfig())
+            return formatter.format_date(dt)
+        except ImportError:
+            return self.formatter.format_date(dt)
 
     def format_datetime(self, dt: datetime) -> str:
         """Format datetime to full datetime string."""
-        return self.formatter.format_datetime(dt)
+        # DUP-008: Delegate to system_clock to eliminate duplication
+        try:
+            from .time.system_clock import TimeFormatter, TimeConfig
+            formatter = TimeFormatter(TimeConfig())
+            return formatter.format_datetime(dt)
+        except ImportError:
+            return self.formatter.format_datetime(dt)
 
     def parse_datetime(self, datetime_str: str) -> datetime:
         """Parse datetime string to datetime."""
-        return self.formatter.parse_datetime(datetime_str)
+        # DUP-008: Delegate to system_clock to eliminate duplication
+        try:
+            from .time.system_clock import TimeFormatter, TimeConfig
+            formatter = TimeFormatter(TimeConfig())
+            return formatter.parse_datetime(datetime_str)
+        except ImportError:
+            return self.formatter.parse_datetime(datetime_str)
 
     # Time calculation operations
     def add_days(self, dt: datetime, days: int) -> datetime:

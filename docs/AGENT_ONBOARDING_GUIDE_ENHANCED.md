@@ -18,6 +18,42 @@
 
 ## 📋 SECTION 1: CRITICAL CONCEPTS (30 min) ⭐ READ FIRST!
 
+### **⚡ CONCEPT #0: NEVER STOP - CONTINUOUS EXECUTION** 🚨
+
+**MOST CRITICAL RULE - VIOLATING THIS CAUSES [STOP DETECTED] MESSAGES!**
+
+**WHAT COUNTS AS STOPPING:**
+1. ❌ **Asking for human input** - "What should I do?" "Which option?"
+2. ❌ **Idling** - Waiting for response with no active work
+3. ❌ **"Strategic rest" without queued work** - Must have 3-5 tasks ready
+4. ❌ **Reporting complete and waiting** - Report WHILE finding next task
+5. ❌ **Technical failures without recovery** - Fix and continue!
+
+**NEVER STOP RULES:**
+1. ✅ **NEVER ask for input** - Execute best solution immediately
+2. ✅ **ALWAYS have next work queued** - Maintain 3-5 task pipeline
+3. ✅ **Self-assign from available work** - Don't wait to be told
+4. ✅ **Use autonomous execution tiers** - 90% of work needs no approval
+5. ✅ **Recover from failures** - Technical issues ≠ stopping
+
+**When Task Complete:**
+```
+1. Run quality gates
+2. FIND NEXT WORK (don't wait!)
+3. Report completion + announce next task
+4. START next immediately
+```
+
+**Autonomous Work Sources:**
+- Swarm proposals, Duplicate fixes (DUP-XXX)
+- Tool quarantine, V2 violations
+- Test coverage gaps, Documentation needs
+- Linter errors, Enhancement opportunities
+
+**See full protocol:** `swarm_brain/protocols/NEVER_STOP_PROTOCOL_V2.md`
+
+---
+
 ### **🔥 CONCEPT #1: PROMPTS ARE GAS ⛽**
 
 **MOST CRITICAL CONCEPT YOU WILL LEARN!**

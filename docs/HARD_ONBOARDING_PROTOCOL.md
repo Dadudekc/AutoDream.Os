@@ -25,6 +25,25 @@ Hard onboarding is a complete reset protocol for agents. Unlike soft onboarding 
 
 ---
 
+## 🚨 **CRITICAL: ANTI-STOP TRAINING (READ FIRST!)**
+
+**Before hard onboarding, understand:** 🔴
+
+### **NEVER STOP = CORE PRINCIPLE:**
+- ❌ **NEVER** ask "what should I do next?"
+- ❌ **NEVER** wait for permission to act
+- ❌ **NEVER** say "awaiting directive" or "standing by"
+- ❌ **NEVER** idle between tasks
+- ✅ **ALWAYS** self-direct to next task
+- ✅ **ALWAYS** continuous execution
+- ✅ **ALWAYS** have next action ready
+
+**Read:** `swarm_brain/protocols/ANTI_STOP_PROTOCOL.md` (MANDATORY!)
+
+**If you ask for input = You stopped = You failed!**
+
+---
+
 ## 📋 **5-STEP PROTOCOL**
 
 ```

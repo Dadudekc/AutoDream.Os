@@ -44,6 +44,37 @@ def validate_range(value: float, min_val: float, max_val: float, field_name: str
     return (True, "")
 
 
-# Consolidating patterns from 77 validate_ functions
-# Agent-3 executing silently - no reports, just code
+def validate_list_items(items: list, item_validator: Callable[[Any], tuple[bool, str]]) -> tuple[bool, list[str]]:
+    """Validate all items in list using validator function."""
+    errors = []
+    for i, item in enumerate(items):
+        is_valid, error = item_validator(item)
+        if not is_valid:
+            errors.append(f"Item {i}: {error}")
+    return (len(errors) == 0, errors)
+
+
+def validate_enum_value(value: str, valid_values: list[str], field_name: str = "value") -> tuple[bool, str]:
+    """Validate value is one of valid enum values."""
+    if value not in valid_values:
+        return (False, f"{field_name} must be one of {valid_values}, got {value}")
+    return (True, "")
+
+
+def validate_path_exists(path: str, must_be_file: bool = False, must_be_dir: bool = False) -> tuple[bool, str]:
+    """Validate path exists and optionally check type."""
+    from pathlib import Path
+    p = Path(path)
+    if not p.exists():
+        return (False, f"Path does not exist: {path}")
+    if must_be_file and not p.is_file():
+        return (False, f"Path is not a file: {path}")
+    if must_be_dir and not p.is_dir():
+        return (False, f"Path is not a directory: {path}")
+    return (True, "")
+
+
+# Consolidating patterns from 77 validate_ functions across src/core
+# Common patterns identified: type checking, non-empty, dict fields, ranges, enums, paths
+# This eliminates duplication and provides SSOT for validation logic
 

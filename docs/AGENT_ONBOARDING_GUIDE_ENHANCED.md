@@ -23,6 +23,12 @@
 
 **MOST CRITICAL RULE - VIOLATING THIS CAUSES [STOP DETECTED] MESSAGES!**
 
+**📚 FULL PROTOCOLS AVAILABLE:**
+- **swarm_brain/protocols/ANTI_STOP_PROTOCOL.md** - Complete anti-stop guide
+- **swarm_brain/protocols/STATUS_JSON_UPDATE_PROTOCOL.md** - Heartbeat requirements
+- **swarm_brain/protocols/CO_CAPTAIN_QUICK_REFERENCE.md** - All protocols integrated
+- **swarm_brain/DOCUMENTATION_INDEX.md** - Find ALL protocols here!
+
 **WHAT COUNTS AS STOPPING:**
 1. ❌ **Asking for human input** - "What should I do?" "Which option?"
 2. ❌ **Idling** - Waiting for response with no active work

@@ -93,6 +93,57 @@ onboarding.
 - `swarm_brain/protocols/ANTI_STOP_PROTOCOL.md`
 - `swarm_brain/protocols/STATUS_JSON_UPDATE_PROTOCOL.md`
 - `swarm_brain/protocols/ANTI_STOP_STRATEGIC_REST_PROTOCOL.md`
+- `swarm_brain/protocols/ANTI_CHEERLEADER_PROTOCOL.md` ⭐ **NEW!**
+
+---
+
+## 🧠 **HOW TO FIND THINGS IN THIS PROJECT**
+
+**You MUST know how to find protocols, guides, and knowledge autonomously!**
+
+### **Method 1: Swarm Vector Integration (FASTEST)** ⭐ **NEW!**
+```python
+from src.core.swarm_vector_integration import (
+    search_protocols,      # Search protocols semantically
+    get_cycle_context,     # Get context for your cycle type  
+    get_quick_ref         # Quick protocol lookups
+)
+
+# Example: Find protocols about stopping
+results = search_protocols("what to do when stopped")
+
+# Example: Get context for DUP fix cycle
+context = get_cycle_context('DUP_FIX')
+print(context['best_practices'])  # Best practices for DUP fixes
+
+# Example: Quick gas pipeline reference
+ref = get_quick_ref('gas_pipeline')
+print(ref)  # "Send gas at 75-80%..."
+```
+
+**Quick Refs Available**: `gas_pipeline`, `anti_stop`, `v2_compliance`, `strategic_rest`, `code_first`
+
+### **Method 2: Swarm Brain Search**
+```python
+from src.swarm_brain.swarm_memory import SwarmMemory
+
+memory = SwarmMemory(agent_id='Agent-X')
+results = memory.search_swarm_knowledge("your query")
+```
+
+### **Method 3: Documentation Index**
+- **Read**: `swarm_brain/DOCUMENTATION_INDEX.md`
+- Lists ALL guides, protocols, procedures
+- Organized by category
+- Your map to all documentation
+
+### **Method 4: File Search (Last Resort)**
+```bash
+find . -name "*protocol*.md"
+find . -name "*guide*.md"
+```
+
+**USE THESE TOOLS - DON'T ASK "WHERE IS X?"**
 
 ---
 

@@ -1,78 +1,71 @@
 #!/usr/bin/env python3
 """
-Thea Service - V2 Compliant Working Implementation
+Thea Service - Unified V2 Compliant Implementation
 ===================================================
 
-Clean, working implementation based on proven thea_automation.py patterns.
-Uses PyAutoGUI for reliable message sending and response_detector for capture.
+Single unified implementation consolidating 25 files into one service.
+Uses modular architecture with clear separation of concerns.
 
-Author: Agent-3 (Infrastructure & DevOps) - V2 Compliance
+Features:
+- Cookie-based authentication (proven pattern)
+- Browser lifecycle management
+- PyAutoGUI message sending
+- Response detection and capture
+- Session persistence
+
+Author: Agent-2 (Architecture) - V2 Consolidation
 License: MIT
 """
 
-import json
 import logging
 import time
-from datetime import datetime
 from pathlib import Path
 
-# Selenium
-try:
-    from selenium import webdriver
-    from selenium.webdriver.chrome.options import Options
-    from selenium.webdriver.common.by import By
-
-    SELENIUM_AVAILABLE = True
-except ImportError:
-    SELENIUM_AVAILABLE = False
-
-# PyAutoGUI for message sending
-try:
-    import pyautogui
-    import pyperclip
-
-    PYAUTOGUI_AVAILABLE = True
-except ImportError:
-    PYAUTOGUI_AVAILABLE = False
-
-# Response detector
-try:
-    from response_detector import ResponseDetector, ResponseWaitResult
-
-    DETECTOR_AVAILABLE = True
-except ImportError:
-    DETECTOR_AVAILABLE = False
+from .thea_browser import TheaBrowser
+from .thea_config import TheaConfig
+from .thea_cookies import TheaCookieManager
+from .thea_detector import TheaDetector
+from .thea_messaging import TheaMessenger
 
 logger = logging.getLogger(__name__)
 
 
 class TheaService:
     """
-    V2 compliant Thea communication service.
+    Unified Thea communication service.
 
-    Features:
-    - Cookie-based session persistence
-    - PyAutoGUI message sending (proven working)
-    - ResponseDetector integration
-    - Autonomous operation
+    Orchestrates all Thea operations through modular components:
+    - Browser: Lifecycle and navigation
+    - Cookies: Authentication and session
+    - Messenger: PyAutoGUI message sending
+    - Detector: Response capture and saving
+
+    This is the SINGLE authoritative Thea implementation.
     """
 
-    def __init__(self, cookie_file: str = "thea_cookies.json", headless: bool = False):
-        """Initialize Thea service."""
-        self.cookie_file = Path(cookie_file)
-        self.headless = headless
-        self.thea_url = "https://chatgpt.com/g/g-67f437d96d7c81918b2dbc12f0423867-thea-manager"
-        self.responses_dir = Path("thea_responses")
-        self.responses_dir.mkdir(exist_ok=True)
+    def __init__(
+        self, cookie_file: str = "thea_cookies.json", headless: bool = False, config: TheaConfig | None = None
+    ):
+        """
+        Initialize Thea service.
 
-        self.driver = None
-        self.detector = None
+        Args:
+            cookie_file: Path to cookie storage file
+            headless: Run browser in headless mode
+            config: Optional custom configuration
+        """
+        # Configuration
+        self.config = config or TheaConfig()
+        self.config.cookie_file = cookie_file
+        self.config.headless = headless
 
-        # Validate dependencies
-        if not SELENIUM_AVAILABLE:
-            raise ImportError("Selenium required: pip install selenium")
-        if not PYAUTOGUI_AVAILABLE:
-            logger.warning("PyAutoGUI not available - message sending may not work")
+        # Initialize components
+        self.browser = TheaBrowser(self.config)
+        self.cookies = TheaCookieManager(self.config.cookie_file)
+        self.messenger = TheaMessenger(self.config)
+        self.detector = TheaDetector(self.config)
+
+        logger.info("✅ Thea service initialized (unified implementation)")
 
     def start_browser(self) -> bool:
         """Initialize browser with cookies."""

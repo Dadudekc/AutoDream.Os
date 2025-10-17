@@ -1,12 +1,24 @@
-# AUTO-GENERATED __init__.py
-# DO NOT EDIT MANUALLY - changes may be overwritten
+"""Consolidated validation utilities module."""
 
-from . import coordination_validator
-from . import unified_validation_orchestrator
-from . import unified_validation_system
+from .consolidated_validation_utils import *
 
 __all__ = [
-    'coordination_validator',
-    'unified_validation_orchestrator',
-    'unified_validation_system',
+    'validate_config',
+    'validate_config_value',
+    'validate_session',
+    'validate_session_active',
+    'validate_import_syntax',
+    'validate_import_pattern',
+    'validate_module_path',
+    'validate_file_path',
+    'validate_file_extension',
+    'validate_type',
+    'validate_not_none',
+    'validate_not_empty',
+    'validate_hasattr',
+    'validate_range',
+    'validate_coordinates',
+    'validate_forecast_accuracy',
+    'validate_regex',
+    'validate_custom',
 ]

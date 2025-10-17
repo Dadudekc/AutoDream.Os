@@ -1,0 +1,115 @@
+/* Swarm Website Styles */
+
+.App {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+}
+
+.App-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 12px;
+}
+
+.App-header h1 {
+  margin: 0;
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.App-header p {
+  margin: 0.5rem 0 0 0;
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+.swarm-status {
+  background: #f8f9fa;
+  padding: 2rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  border-left: 4px solid #667eea;
+}
+
+.swarm-status h2 {
+  margin-top: 0;
+  color: #333;
+}
+
+.swarm-status p {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.leaderboard {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.leaderboard h2 {
+  margin-top: 0;
+  color: #333;
+  border-bottom: 2px solid #667eea;
+  padding-bottom: 1rem;
+}
+
+.agent-card {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  background: #f8f9fa;
+  border-radius: 6px;
+  transition: transform 0.2s;
+}
+
+.agent-card:hover {
+  transform: translateX(4px);
+  background: #e9ecef;
+}
+
+.agent-card .rank {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-right: 1rem;
+  min-width: 50px;
+}
+
+.agent-card .agent-id {
+  flex: 1;
+  font-weight: 600;
+  color: #495057;
+}
+
+.agent-card .points {
+  font-weight: bold;
+  color: #667eea;
+  margin-right: 1rem;
+}
+
+.agent-card .status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.agent-card .status:contains("ACTIVE") {
+  background: #28a745;
+  color: white;
+}
+
+.agent-card .status:contains("REST") {
+  background: #ffc107;
+  color: #333;
+}
+

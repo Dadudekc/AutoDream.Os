@@ -21,6 +21,12 @@ This index organizes ALL swarm documentation for quick agent access.
   - Python API quick reference
   - Best practices for knowledge sharing
 
+- **[Swarm Vector Integration Guide](../docs/SWARM_VECTOR_INTEGRATION_GUIDE.md)** ⭐ **NEW!**
+  - Semantic search for protocols
+  - Cycle context retrieval
+  - Quick reference lookup
+  - Knowledge discovery during execution
+
 - **[Note Taking Protocol](protocols/NOTE_TAKING_PROTOCOL.md)**
   - How to take effective notes
   - Personal vs shared knowledge
@@ -56,9 +62,57 @@ This index organizes ALL swarm documentation for quick agent access.
 
 ## 📋 AGENT PROTOCOLS
 
-### **Onboarding**:
+### **🚨 CRITICAL PROTOCOLS (Must Read First!)**: ⭐⭐⭐
+- **[ANTI_STOP_PROTOCOL.md](protocols/ANTI_STOP_PROTOCOL.md)** 🚨 **MANDATORY**
+  - Prevent [STOP DETECTED] messages
+  - Never ask for input, always execute
+  - Complete 8+ cycles per session
+  - Update status.json every 15-30 min
+
+- **[STATUS_JSON_UPDATE_PROTOCOL.md](protocols/STATUS_JSON_UPDATE_PROTOCOL.md)** 🚨 **MANDATORY**
+  - Your heartbeat - Captain monitors this!
+  - Update every 15-30 minutes
+  - Show current + next work
+  - Use ACTIVE status values
+
+### **Co-Captain Coordination Protocols**: 🎯
+- **[CO_CAPTAIN_GAS_TRAINING_PROTOCOL.md](protocols/CO_CAPTAIN_GAS_TRAINING_PROTOCOL.md)**
+  - 7 sources of gas, send at 75-80%
+  - Handle duplicate messages productively
+  - Recognition/gratitude/celebration patterns
+
+- **[TASK_DISTRIBUTION_SYSTEM.md](protocols/TASK_DISTRIBUTION_SYSTEM.md)**
+  - 5 task categories, match expertise
+  - Self-assignment for Tier 1-2 tasks
+  - Point transparency and fairness
+
+### **Autonomous Execution Protocols**: ⚡
+- **[AUTONOMOUS_EXECUTION_PROTOCOL.md](protocols/AUTONOMOUS_EXECUTION_PROTOCOL.md)**
+  - Self-start authority, quality gates mandatory
+  - 4 authority levels, trust-based system
+
+- **[APPROVAL_TIERS_SYSTEM.md](protocols/APPROVAL_TIERS_SYSTEM.md)**
+  - Tier 1 (<500): Execute immediately
+  - Tier 2 (500-1K): Notify + execute
+  - Tier 3/4: Quick/full approval
+
+- **[BATCH_TASK_SYSTEM.md](protocols/BATCH_TASK_SYSTEM.md)**
+  - Batch approvals for velocity (3-6X faster)
+  - Sequential, parallel, phased batches
+
+### **Supporting Protocols**: 📚
+- **[NEVER_STOP_AUTONOMOUS_CYCLE.md](protocols/NEVER_STOP_AUTONOMOUS_CYCLE.md)**
+  - Perpetual motion cycle definition
+  - 10 work sources, always find next task
+
+- **[CO_CAPTAIN_QUICK_REFERENCE.md](protocols/CO_CAPTAIN_QUICK_REFERENCE.md)**
+  - Master integration guide for all 8 protocols
+  - Quick decision flowcharts
+
+### **Legacy Onboarding**:
 - `docs/HARD_ONBOARDING_PROTOCOL.md` - Hard onboarding process
 - `docs/SOFT_ONBOARDING_PROTOCOL.md` - Soft onboarding process  
+- `docs/AGENT_ONBOARDING_GUIDE_ENHANCED.md` ⭐ - Enhanced guide (V2.1)
 - `docs/AGENT_ONBOARDING_GUIDE.md` - Complete onboarding guide
 - `docs/ONBOARDING_GUIDE.md` - General onboarding
 
@@ -99,6 +153,7 @@ This index organizes ALL swarm documentation for quick agent access.
 - `docs/AUTONOMOUS_COMPETITION_GUIDE.md` - Autonomous competition
 - `tools_v2/INTELLIGENT_MISSION_ADVISOR_GUIDE.md` ⭐ - Mission advisor tool
 - `tools/AGENT_MISSION_CONTROLLER_GUIDE.md` - Mission controller
+- `src/core/swarm_vector_integration.py` ⭐ **NEW!** - Vector DB for protocol/knowledge search
 
 ### **Communication**:
 - `docs/PROMPTS_ARE_GAS_GUIDE.md` ⭐ - "Prompts are Gas" concept

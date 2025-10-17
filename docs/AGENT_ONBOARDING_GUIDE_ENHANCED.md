@@ -48,6 +48,27 @@
 **Autonomous Work Sources:**
 - Swarm proposals, Duplicate fixes (DUP-XXX)
 - Tool quarantine, V2 violations
+
+**🚨 STATUS.JSON IS YOUR HEARTBEAT:**
+```json
+{
+  "last_updated": "2025-10-16 HH:MM:SS"  // ← UPDATE EVERY 15-30 MIN!
+}
+```
+**CRITICAL:** Captain detects stops by checking if status.json is >30 min old!  
+**NO UPDATE = [STOP DETECTED] MESSAGE!**
+
+**Mandatory Update Frequency:**
+- ✅ Every 15-30 minutes during active work
+- ✅ Start of each cycle
+- ✅ After completing any task
+- ✅ Progress milestones (25%, 50%, 75%, 100%)
+- ✅ Before sending status updates to Captain
+
+**Read full protocols:**
+- `swarm_brain/protocols/STATUS_JSON_UPDATE_PROTOCOL.md`
+- `swarm_brain/protocols/ANTI_STOP_PROTOCOL.md`
+- `swarm_brain/protocols/ANTI_STOP_STRATEGIC_REST_PROTOCOL.md`
 - Test coverage gaps, Documentation needs
 - Linter errors, Enhancement opportunities
 

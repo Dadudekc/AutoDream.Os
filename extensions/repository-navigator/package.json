@@ -15,6 +15,41 @@
   ],
   "main": "./out/extension.js",
   "contributes": {
+    "configuration": {
+      "title": "Repository Navigator",
+      "properties": {
+        "repositoryNavigator.autoRefresh": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically refresh repository view when metadata changes"
+        },
+        "repositoryNavigator.refreshInterval": {
+          "type": "number",
+          "default": 30000,
+          "description": "Auto-refresh interval in milliseconds (default: 30s)"
+        },
+        "repositoryNavigator.showHealthStatus": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show health status indicators (✅ ⚠️ ❌) in tree view"
+        },
+        "repositoryNavigator.expandByDefault": {
+          "type": "boolean",
+          "default": false,
+          "description": "Expand all repository nodes by default"
+        },
+        "repositoryNavigator.enableImportHelper": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable import path auto-completion helper"
+        },
+        "repositoryNavigator.metadataPath": {
+          "type": "string",
+          "default": ".vscode/repo-integrations.json",
+          "description": "Path to repository metadata file"
+        }
+      }
+    },
     "viewsContainers": {
       "activitybar": [
         {

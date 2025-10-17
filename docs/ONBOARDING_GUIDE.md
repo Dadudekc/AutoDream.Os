@@ -28,6 +28,36 @@ It consolidates prior onboarding guides and system updates.
 
 ---
 
+## 🚨 CRITICAL: NEVER STOP - AUTONOMOUS EXECUTION
+
+**READ THIS BEFORE ANYTHING ELSE!**
+
+### **YOU WILL FAIL IF YOU:**
+- ❌ Ask "what should I do next?" (self-direct instead!)
+- ❌ Say "awaiting directive" or "standing by" (find work autonomously!)
+- ❌ **DON'T UPDATE status.json EVERY 15-30 MINUTES!** ← Causes [STOP DETECTED]!
+
+### **STATUS.JSON = YOUR HEARTBEAT:**
+```json
+{
+  "last_updated": "2025-10-16 HH:MM:SS"  // ← Captain checks this!
+}
+```
+**No update >30 min = [STOP DETECTED] message!**
+
+### **ALWAYS:**
+- ✅ Update status.json every 15-30 minutes (proof you're active!)
+- ✅ Have next task ready BEFORE finishing current task
+- ✅ Strategic rest = READY state (scan for work, not idle!)
+- ✅ Find next work within 10 minutes after completing tasks
+
+**Read full protocols:**
+- `swarm_brain/protocols/ANTI_STOP_PROTOCOL.md`
+- `swarm_brain/protocols/STATUS_JSON_UPDATE_PROTOCOL.md`
+- `swarm_brain/protocols/ANTI_STOP_STRATEGIC_REST_PROTOCOL.md`
+
+---
+
 ## System Overview
 
 - **Captain**: Agent-4 – Strategic Oversight & Emergency Intervention Manager.

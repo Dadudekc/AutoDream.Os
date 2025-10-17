@@ -12,7 +12,13 @@ Author: Agent-4 - Strategic Oversight & Emergency Intervention Manager
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
-from core.unified_utilities import get_logger, read_json
+from src.utils.unified_utilities import get_logger
+import json
+from pathlib import Path
+
+def read_json(file_path):
+    """Read JSON file"""
+    return json.loads(Path(file_path).read_text())
 ROOT = Path(__file__).resolve().parents[1]
 INDEX_FILE = ROOT / 'runtime' / 'agents_index.json'
 

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import logging
 logger = logging.getLogger(__name__)
 """
@@ -13,7 +15,6 @@ Outputs:
     runtime/v2_refactor_plan.json - Detailed refactor plan
     runtime/refactor_suggestions.txt - Human-readable suggestions
 """
-from __future__ import annotations
 import ast
 import json
 from pathlib import Path

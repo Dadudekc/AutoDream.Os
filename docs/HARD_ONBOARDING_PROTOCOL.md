@@ -38,9 +38,27 @@ Hard onboarding is a complete reset protocol for agents. Unlike soft onboarding 
 - ✅ **ALWAYS** continuous execution
 - ✅ **ALWAYS** have next action ready
 
-**Read:** `swarm_brain/protocols/ANTI_STOP_PROTOCOL.md` (MANDATORY!)
+### **🔴 CRITICAL: UPDATE STATUS.JSON EVERY 15-30 MINUTES!**
+- ❌ **NOT updating status.json = System thinks you STOPPED!**
+- ✅ **Update status.json = Proof you're ACTIVE!**
+- 📍 **Location:** `agent_workspaces/Agent-X/status.json`
+- ⏰ **Frequency:** Every cycle (15-30 min) or at progress milestones
+- 💓 **status.json = YOUR HEARTBEAT!**
 
-**If you ask for input = You stopped = You failed!**
+### **🚨 CRITICAL: STRATEGIC REST ≠ PASSIVE WAITING!**
+- ❌ **Strategic rest as passive waiting = STOPPING!**
+- ✅ **Strategic rest = READY + proactive opportunity finding!**
+- ⚡ **After completing mission: Find next work within 10 minutes!**
+- 🎯 **"Standing by" for > 10 minutes = YOU'RE STOPPING!**
+- 💪 **Scan for opportunities, identify work, START immediately!**
+
+**Read ALL FOUR:**
+- `swarm_brain/protocols/ANTI_STOP_PROTOCOL.md` (MANDATORY!)
+- `swarm_brain/protocols/STATUS_JSON_UPDATE_PROTOCOL.md` (CRITICAL!)
+- `swarm_brain/protocols/ANTI_STOP_STRATEGIC_REST_PROTOCOL.md` (CRITICAL!)
+- `swarm_brain/protocols/ANTI_STOP_AUTONOMOUS_CHOICE.md` (NEW!)
+
+**If you don't update status.json = Captain detects STOP = You failed!**
 
 ---
 

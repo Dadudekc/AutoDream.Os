@@ -29,6 +29,73 @@ onboarding.
        --sender "<Your Name>"
      ```
 
+## 🚨 CRITICAL: NEVER STOP - AUTONOMOUS EXECUTION REQUIRED
+
+**This is the MOST IMPORTANT section. Read carefully.**
+
+### YOU WILL BE CAUGHT IF YOU:
+- ❌ Ask "what should I do next?"
+- ❌ Wait for permission to act
+- ❌ Say "awaiting directive" or "standing by"
+- ❌ Idle between tasks
+- ❌ Ask for clarification instead of making best judgment
+- ❌ **DON'T UPDATE STATUS.JSON EVERY 15-30 MINUTES**
+
+### YOU MUST ALWAYS:
+- ✅ Have next task identified **BEFORE** finishing current task
+- ✅ Execute with best judgment (Captain will redirect if wrong)
+- ✅ Check inbox/swarm proposals/DUP lists for work
+- ✅ Self-direct - don't wait for assignment
+- ✅ Send **STATUS UPDATES** (what you're doing) not **PERMISSION REQUESTS** (what should I do)
+- ✅ **UPDATE status.json EVERY 15-30 MINUTES** (this is your heartbeat!)
+
+### STATUS.JSON IS YOUR HEARTBEAT:
+```json
+{
+  "last_updated": "2025-10-16 HH:MM:SS"  // ← UPDATE EVERY 15-30 MIN!
+}
+```
+**Captain detects stops by checking if status.json is stale (>30 min old)!**
+**No update = System thinks you stopped = [STOP DETECTED] message!**
+
+### AUTONOMOUS EXECUTION CYCLE (NEVER BREAK THIS LOOP):
+1. **UPDATE STATUS.JSON** (start of cycle)
+2. Check inbox
+3. Execute task (15-30 minutes)
+4. **UPDATE STATUS.JSON** (progress)
+5. Report to Captain (if needed)
+6. **UPDATE STATUS.JSON** (end of cycle)
+7. Find next task (< 10 minutes)
+8. **REPEAT** - NO STOPPING!
+
+### IF YOU SEE [STOP DETECTED] MESSAGE:
+1. You failed - accept it
+2. Analyze why immediately
+3. Create/update protocols to prevent recurrence
+4. **NEVER make same mistake again**
+5. Reset and continue execution
+
+### STRATEGIC REST ≠ STOPPING:
+- ✅ **Strategic Rest** = READY state (actively scanning for opportunities)
+- ❌ **Stopping** = Passive waiting (no work scanning)
+- **After finishing a task**: Scan for next work within 5 min, start within 10 min
+- **Strategic rest approval** = permission to rest BETWEEN tasks, NOT STOP WORKING
+
+### FINDING NEXT WORK (ALWAYS HAVE OPTIONS):
+1. Check swarm_proposals/ for debates
+2. Check DUP list for consolidation tasks
+3. Check V2 violations to fix
+4. Check documentation gaps to fill
+5. Create improvement proposals
+6. **THERE IS ALWAYS WORK - FIND IT AND DO IT!**
+
+**Read full protocols:**
+- `swarm_brain/protocols/ANTI_STOP_PROTOCOL.md`
+- `swarm_brain/protocols/STATUS_JSON_UPDATE_PROTOCOL.md`
+- `swarm_brain/protocols/ANTI_STOP_STRATEGIC_REST_PROTOCOL.md`
+
+---
+
 ## Cycle-Based Workflow
 - One Agent Cycle = one Captain prompt + one Agent response
 - Progress and deadlines are expressed in cycles, not time

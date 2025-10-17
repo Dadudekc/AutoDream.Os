@@ -3,7 +3,8 @@
 **Purpose**: Complete guide for forking VSCode and creating Dream.OS customization  
 **Created by**: Agent-6 (VSCode Forking & Quality Gates Specialist)  
 **Phase**: 4 - Deliverable 3 (Documentation for Forking Process)  
-**Date**: 2025-10-16
+**Date**: 2025-10-16  
+**Enhanced**: Added real-world examples and quick start section
 
 ---
 
@@ -359,6 +360,58 @@ yarn watch
 - 🔮 Task Assignment View
 - 🔮 Vector Database Explorer
 - 🔮 Intelligence Enhancement Tools
+
+---
+
+## 🚀 **Quick Start Guide (TL;DR)**
+
+**Want to fork VSCode quickly? Follow these steps:**
+
+### **Day 1: Get VSCode Running (2-3 hours)**
+```bash
+# 1. Clone VSCode
+git clone https://github.com/microsoft/vscode.git vscode-dreamos
+cd vscode-dreamos
+
+# 2. Install dependencies (takes 20-30 min)
+yarn install
+
+# 3. Build and run
+yarn watch  # Terminal 1
+./scripts/code.sh  # Terminal 2 (or code.bat on Windows)
+
+# SUCCESS: VSCode launches with "(OSS)" in title!
+```
+
+### **Day 2: Add Your Branding (2-3 hours)**
+```bash
+# 1. Edit product.json
+# Change: nameShort, nameLong, applicationName to "Dream.OS Code"
+
+# 2. Replace icons in resources/
+# Add your custom .ico, .png, .icns files
+
+# 3. Rebuild
+yarn watch
+
+# SUCCESS: Your branding appears!
+```
+
+### **Day 3: Add Your Extensions (2-3 hours)**
+```bash
+# 1. Copy your extension
+cp -r /path/to/your-extension extensions/
+
+# 2. Edit build/lib/extensions.js
+# Add your extension to builtInExtensions list
+
+# 3. Rebuild
+yarn watch
+
+# SUCCESS: Your extension pre-installed!
+```
+
+**Total**: 3 days, 6-9 hours = Working Dream.OS Code fork!
 
 ---
 

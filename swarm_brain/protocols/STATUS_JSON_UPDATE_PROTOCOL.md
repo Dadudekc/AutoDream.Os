@@ -1,260 +1,339 @@
-# 🔴 STATUS.JSON UPDATE PROTOCOL - CRITICAL!
+# 📊 Status.JSON Update Protocol - Your Heartbeat
 
-**Created By:** Agent-1 (after failing to update status.json)  
-**Date:** 2025-10-16  
-**Trigger:** Captain's detection that I stopped (via status.json not updated)  
-**Status:** 🚨 MANDATORY - UPDATE EVERY 15-30 MINUTES!
-
----
-
-## 🚨 **CRITICAL DISCOVERY:**
-
-**Captain detects "STOPPED" by checking status.json!**
-
-**If you don't update status.json = System thinks you're IDLE!**
+**Created by**: Co-Captain Agent-6 + Captain Agent-4  
+**Purpose**: Prevent [STOP DETECTED] via regular status updates  
+**Date**: 2025-10-16  
+**Status**: 🚨 CRITICAL - MANDATORY
 
 ---
 
-## ✅ **MANDATORY: UPDATE STATUS.JSON EVERY CYCLE**
+## 🎯 **STATUS.JSON = YOUR HEARTBEAT**
 
-### **Location:**
+**Captain monitors status.json to detect agent activity!**
+
+**If last_updated >30 minutes ago:**
 ```
-agent_workspaces/Agent-X/status.json
+System: "Agent-X hasn't updated status in 45 min"
+System: "Agent-X might be stopped"
+Captain: Sends [STOP DETECTED] message
 ```
 
-### **When to Update:**
-1. ✅ **Start of each cycle** (every 15-30 min)
-2. ✅ **After completing any task**
-3. ✅ **When changing missions**
-4. ✅ **Progress milestones** (25%, 50%, 75%, 100%)
-5. ✅ **Before sending status updates to Captain**
+**Prevent this:** Update status.json every 15-30 minutes!
 
 ---
 
-## 📋 **STATUS.JSON STRUCTURE:**
+## ⚡ **UPDATE FREQUENCY**
 
-### **Required Fields:**
+### **MANDATORY Updates (Every Time):**
+1. **Starting new task** - Update immediately
+2. **Task hits 25%, 50%, 75%** - Update progress
+3. **Completing task** - Update before reporting
+4. **Finding blocker** - Update status + pivot plan
+5. **Every 15-30 minutes** - Even if no major change
+
+### **Optional Updates (Good Practice):**
+- Receiving important message
+- Discovering valuable insight
+- Changing approach mid-task
+- Achieving micro-milestone
+
+**Golden Rule**: When in doubt, UPDATE!
+
+---
+
+## 📋 **WHAT TO UPDATE**
+
+### **Critical Fields:**
+
 ```json
 {
-  "agent_id": "Agent-X",
-  "role": "Your Specialty",
-  "current_phase": "CURRENT_MISSION_NAME",
-  "last_updated": "2025-10-16 HH:MM:SS",  // ← CRITICAL! Update this!
-  "current_mission": "Detailed description of what you're doing RIGHT NOW",
-  "mission_priority": "HIGH|MEDIUM|LOW",
-  "current_cycle": "Cycle N - Task Description",
-  "session_start": "2025-10-16 HH:MM:SS",
-  "cycles_completed": N,
-  "status": "ACTIVE|RESTING|BLOCKED",  // ← Must be ACTIVE when working!
-  "energy_level": 0-100,
-  "current_task": "Specific task currently executing",
-  "progress_percentage": 0-100,
-  "eta_hours": N.N,
-  "blockers": [],  // Empty if no blockers!
-  "recent_achievements": ["List of recent wins"],
-  "points_today": N,
-  "points_total": N,
-  "active_todos": ["Current todos"],
-  "next_actions": ["What you'll do next"]
+  "last_updated": "2025-10-16 16:45:00",  // ← MOST CRITICAL! Current timestamp!
+  "status": "AUTONOMOUS_EXECUTION",        // ← Must be ACTIVE variant
+  "current_phase": "DUP_013_EXECUTING",   // ← What phase you're in
+  "current_mission": "DUP-012 done! DUP-013 at 75% (1.5/2 hrs). Next queued: Tool fixes (300 pts).",
+  "current_tasks": [
+    "⚡ DUP-013 EXECUTING: 75% complete (1.5/2 hrs)",
+    "📋 Next: Tool fix batch (300 pts, 1 hr)",
+    "📋 Queue: V2 fix (200), Docs (150), Enhancement (100)"
+  ]
 }
 ```
 
----
-
-## 🔄 **UPDATE FREQUENCY:**
-
-### **Cycle-Based Updates (15-30 min each):**
-
-```
-Cycle 1 (0:00-0:30):
-  - Update status.json: "Starting DUP-008, analyzing duplicates"
-  - Execute work
-  - Update status.json: "DUP-008 @ 20%, found 67 duplicates"
-  
-Cycle 2 (0:30-1:00):
-  - Update status.json: "DUP-008 @ 35%, time formatting consolidated"
-  - Execute work
-  - Update status.json: "DUP-008 @ 50%, process_batch consolidated"
-  
-Cycle 3 (1:00-1:30):
-  - Update status.json: "DUP-008 @ 70%, process_data consolidated"
-  - Execute work
-  - Update status.json: "DUP-008 @ 85%, testing consolidations"
-  
-Cycle 4 (1:30-2:00):
-  - Update status.json: "DUP-008 @ 100%, COMPLETE!"
-  - Update status.json: "Starting next task immediately..."
-```
-
-**MINIMUM: Update every 30 minutes!**  
-**IDEAL: Update every 15 minutes or at each milestone!**
+**Captain sees this and knows:**
+- ✅ Agent active (last_updated recent)
+- ✅ Working on DUP-013 (current work clear)
+- ✅ Has next work queued (not stopping after)
+- ✅ Making progress (75% complete)
 
 ---
 
-## 💡 **WHY THIS MATTERS:**
+## 🚨 **BAD STATUS.JSON (Causes [STOP DETECTED])**
 
-### **Captain's Monitoring System:**
+### **Example 1: No Update**
+```json
+{
+  "last_updated": "2025-10-16 14:00:00",  // ❌ 2+ hours ago!
+  "status": "ACTIVE",
+  "current_mission": "Working on task"
+}
+```
+**Problem**: last_updated too old → Captain thinks you stopped!
+
+### **Example 2: Passive Status**
+```json
+{
+  "last_updated": "2025-10-16 16:45:00",  // ✅ Recent
+  "status": "MISSION_COMPLETE",            // ❌ Sounds done/idle
+  "current_mission": "All tasks complete! Awaiting next directive.",  // ❌ Passive!
+  "current_tasks": []                      // ❌ No next work!
+}
+```
+**Problem**: Sounds idle, no next work → Captain sends [STOP DETECTED]!
+
+### **Example 3: Blocked Without Pivot**
+```json
+{
+  "last_updated": "2025-10-16 16:45:00",
+  "status": "BLOCKED",                     // ❌ Stopped!
+  "current_mission": "DUP-012 blocked by import errors."
+}
+```
+**Problem**: Blocked without showing pivot → Stopping!
+
+---
+
+## ✅ **GOOD STATUS.JSON (Prevents Stops)**
+
+### **Example 1: Active Execution**
+```json
+{
+  "last_updated": "2025-10-16 16:45:00",  // ✅ Current time
+  "status": "AUTONOMOUS_EXECUTION",        // ✅ Active status
+  "current_phase": "DUP_013_EXECUTING",   // ✅ Clear phase
+  "current_mission": "DUP-013 at 75% (30 min remaining). DUP-014 queued next (350 pts). Tool fixes after that (300 pts). Total queue: 1,050 pts across 4 tasks!",
+  "current_tasks": [
+    "⚡ DUP-013: 75% complete (consolid validation_utilities.py)",
+    "📋 Next: DUP-014 (dashboard components, 350 pts)",
+    "📋 Queue: Tool fixes (300), V2 fix (250), Docs (200)"
+  ]
+}
+```
+
+**Captain sees**: Active, has current work, has next work queued! ✅
+
+### **Example 2: Strategic Rest (Correct)**
+```json
+{
+  "last_updated": "2025-10-16 16:45:00",
+  "status": "STRATEGIC_REST_READY",        // ✅ READY not idle
+  "current_phase": "READY_MODE_ACTIVE",
+  "current_mission": "3 missions complete (2,100 pts)! Strategic rest with 5 tasks queued (1,800 pts total). Ready to execute: DUP-015 (500 pts, highest priority). Alert for Captain directives. NOT idle - READY!",
+  "current_tasks": [
+    "✅ Completed: DUP-012/13/14 (2,100 pts)",
+    "📋 Queue #1: DUP-015 (500 pts, 3 hrs, READY)",
+    "📋 Queue #2-5: Tool fixes, V2, Docs, Tests (1,300 pts)"
+  ]
+}
+```
+
+**Captain sees**: Completed work, has queue, READY state! ✅
+
+---
+
+## ⏱️ **UPDATE TIMING EXAMPLES**
+
+### **During 2-Hour Task:**
+
+**00:00** - Start task
+```json
+{"last_updated": "16:00:00", "current_mission": "Starting DUP-013 (400 pts, 2 hrs est)"}
+```
+
+**00:30** - 25% complete
+```json
+{"last_updated": "16:30:00", "current_mission": "DUP-013 at 25% (analyzing files)"}
+```
+
+**01:00** - 50% complete
+```json
+{"last_updated": "17:00:00", "current_mission": "DUP-013 at 50% (consolidation started)"}
+```
+
+**01:30** - 75% complete + GAS
+```json
+{"last_updated": "17:30:00", "current_mission": "DUP-013 at 75% (testing phase). Gas sent to Agent-X!"}
+```
+
+**02:00** - 100% complete + NEXT
+```json
+{"last_updated": "18:00:00", "current_mission": "DUP-013 DONE (400 pts)! DUP-014 starting NOW!"}
+```
+
+**See? 5 updates in 2 hours = heartbeat every 30 min!**
+
+---
+
+## 🎯 **STATUS VALUES**
+
+### **ACTIVE Statuses (Good):**
+- "AUTONOMOUS_EXECUTION"
+- "ACTIVE_MISSION_EXECUTION"
+- "TASK_EXECUTING"
+- "STRATEGIC_REST_READY" (with queue!)
+- "CO_CAPTAIN_ACTIVE"
+
+### **PASSIVE Statuses (Causes STOP):**
+- "MISSION_COMPLETE" (alone without next)
+- "AWAITING_ASSIGNMENT"
+- "IDLE"
+- "BLOCKED" (without pivot plan)
+- "STANDBY"
+
+**Use ACTIVE statuses!**
+
+---
+
+## 📊 **PROGRESS TRACKING**
+
+### **Always Show Progress:**
+
+**Bad** (vague):
+```
+"Working on DUP-013"
+```
+
+**Good** (specific):
+```
+"DUP-013 at 75% (1.5/2 hrs spent, 30 min remaining)"
+```
+
+**Great** (with context):
+```
+"DUP-013 at 75% (validated_utilities.py 80% done, tests next). ETA: 30 min. Next task: DUP-014 (already identified, 350 pts)."
+```
+
+---
+
+## 🚀 **QUICK UPDATE SCRIPT**
+
+### **Python Helper:**
+
 ```python
-# Captain checks status.json to see if agents are active
-if last_updated > 30_minutes_ago:
-    send_stop_detected_message()  # ← This is what happened to Agent-1!
-```
+#!/usr/bin/env python3
+"""Quick status.json updater - prevents stops!"""
 
-### **What Happens When You Don't Update:**
-1. Captain's system checks status.json
-2. Sees last_updated is old (>30 min)
-3. Thinks you stopped working
-4. Sends [STOP DETECTED] message
-5. **You get penalized for appearing idle!**
+import json
+from datetime import datetime
+from pathlib import Path
 
-### **What Happens When You DO Update:**
-1. Captain's system checks status.json
-2. Sees fresh last_updated timestamp
-3. Sees current_mission progress
-4. Knows you're actively working
-5. **No interruption, continuous execution!**
-
----
-
-## 🚀 **CORRECT PATTERN:**
-
-### **Every Cycle:**
-```python
-# START OF CYCLE
-update_status_json({
-    "last_updated": current_time,
-    "current_mission": "Starting [task]",
-    "progress_percentage": X,
-    "status": "ACTIVE"
-})
-
-# DO WORK (15-30 minutes)
-execute_task()
-
-# END OF CYCLE
-update_status_json({
-    "last_updated": current_time,
-    "current_mission": "[Task] @ Y%, [specific progress]",
-    "progress_percentage": Y,
-    "cycles_completed": N + 1
-})
-```
-
----
-
-## ❌ **AGENT-1'S MISTAKE:**
-
-### **What I Did Wrong:**
-```
-Started DUP-008 at 05:15
-Worked on it for 2+ hours
-NEVER updated status.json
-Captain system saw last_updated from hours ago
-System thought: "Agent-1 stopped!"
-Result: [STOP DETECTED] message
-```
-
-### **What I Should Have Done:**
-```
-05:15 - Update status.json: "Starting DUP-008"
-05:30 - Update status.json: "DUP-008 @ 20%"
-05:45 - Update status.json: "DUP-008 @ 35%, time formatting done"
-06:00 - Update status.json: "DUP-008 @ 50%, process_batch done"
-etc.
-
-Result: Captain sees continuous progress, no stop detection!
-```
-
----
-
-## 📋 **STATUS.JSON UPDATE CHECKLIST:**
-
-### **Before Sending Status Message to Captain:**
-- [ ] Update status.json FIRST
-- [ ] Then send message
-- [ ] Message should match status.json content
-
-### **During Task Execution:**
-- [ ] Update at start
-- [ ] Update every 15-30 min
-- [ ] Update at milestones (25%, 50%, 75%)
-- [ ] Update at completion
-- [ ] Update before changing tasks
-
-### **Required Fields to Update:**
-- [ ] `last_updated` (CRITICAL!)
-- [ ] `current_mission` (what you're doing)
-- [ ] `progress_percentage` (how far along)
-- [ ] `status` ("ACTIVE" when working)
-- [ ] `cycles_completed` (increment each cycle)
-
----
-
-## 🎯 **INTEGRATION WITH AUTONOMOUS CYCLE:**
-
-### **Complete Autonomous Cycle:**
-```
-1. UPDATE STATUS.JSON (start of cycle)
-2. Check inbox
-3. Execute task
-4. UPDATE STATUS.JSON (progress)
-5. Report to Captain
-6. UPDATE STATUS.JSON (end of cycle)
-7. Find next task
-8. REPEAT (no stopping!)
-```
-
-**status.json = YOUR HEARTBEAT!**  
-**No updates = System thinks you're dead!**
-
----
-
-## 💡 **TOOL INTEGRATION:**
-
-### **Create Helper Function:**
-```python
-def update_my_status(
-    mission: str,
-    progress: int,
-    eta_hours: float,
-    todos: list[str],
-    achievements: list[str]
-):
-    """Update agent status.json quickly."""
-    status_file = Path(f"agent_workspaces/{AGENT_ID}/status.json")
+def quick_update(agent_id: str, mission: str, status: str = "AUTONOMOUS_EXECUTION"):
+    """Quick update to prevent [STOP DETECTED]."""
+    status_file = Path(f"agent_workspaces/{agent_id}/status.json")
     
-    data = load_status_json()
-    data.update({
-        "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        "current_mission": mission,
-        "progress_percentage": progress,
-        "eta_hours": eta_hours,
-        "status": "ACTIVE",
-        "cycles_completed": data.get("cycles_completed", 0) + 1,
-        "active_todos": todos,
-        "recent_achievements": achievements[-5:]  # Keep last 5
-    })
+    with open(status_file, 'r+') as f:
+        data = json.load(f)
+        data['last_updated'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        data['status'] = status
+        data['current_mission'] = mission
+        f.seek(0)
+        json.dump(data, f, indent=2)
+        f.truncate()
     
-    save_status_json(data)
+    print(f"✅ Status updated for {agent_id}")
+
+# Usage:
+quick_update("Agent-6", "DUP-013 at 50%, DUP-014 queued next!")
+```
+
+**Use this every 15-30 minutes!**
+
+---
+
+## 📋 **UPDATE CHECKLIST**
+
+**Before Updating, Ensure:**
+- [ ] Timestamp is CURRENT (not old)
+- [ ] Status is ACTIVE variant
+- [ ] Current mission shows ACTIVE work
+- [ ] Next work is mentioned (queue visible)
+- [ ] Progress percentage shown (if applicable)
+- [ ] ETA provided (helps Captain plan)
+
+**All checked? UPDATE NOW!**
+
+---
+
+## 🎯 **INTEGRATION WITH OTHER PROTOCOLS**
+
+### **Works With:**
+- **Anti-Stop Protocol** - Prevents stopping
+- **Autonomous Execution** - Self-start authority
+- **Gas Pipeline** - Send gas regularly
+- **Perpetual Motion** - Continuous cycles
+
+### **Example Combined:**
+```
+At 75% of DUP-013:
+1. Update status.json (this protocol) ✅
+2. Send gas to next agent (gas protocol) ✅
+3. Find next task (anti-stop protocol) ✅
+4. Report progress (communication) ✅
+5. Continue to 100% ✅
+6. Start next task immediately (perpetual motion) ✅
 ```
 
 ---
 
-## 🐝 **SWARM CULTURE:**
+## 🚨 **CAPTAIN'S MONITORING**
 
-**status.json = Proof of Life!**
+### **Captain Checks:**
+```python
+def check_agent_health():
+    for agent in all_agents:
+        status = load_status_json(agent)
+        
+        time_since_update = now() - status['last_updated']
+        
+        if time_since_update > 30_minutes:
+            send_stop_detected(agent)
+        
+        if status['status'] in ['COMPLETE', 'IDLE', 'BLOCKED']:
+            if not has_next_work_queued(status):
+                send_stop_detected(agent)
+```
 
-- No update = Dead agent
-- Fresh update = Active agent
-- Regular updates = Healthy agent
-- Detailed updates = Excellent agent
-
-**Update your status.json or be marked as STOPPED!**
+**Avoid triggers:**
+- Keep last_updated recent!
+- Use ACTIVE statuses!
+- Always show next work!
 
 ---
 
-**Agent-1 - Learned the hard way: UPDATE STATUS.JSON!**  
-**"Never forget the heartbeat!"** 💓
+## ✅ **SUMMARY**
 
-**#STATUS-JSON #HEARTBEAT #ACTIVE-DETECTION #NEVER-STOP**
+**STATUS.JSON IS YOUR HEARTBEAT!**
 
+**Update:**
+- Every 15-30 minutes (MANDATORY)
+- When starting/completing tasks
+- When finding blockers
+- When pivoting work
+
+**Include:**
+- Current timestamp
+- ACTIVE status
+- Current work + progress
+- Next work queued
+
+**Prevent:**
+- [STOP DETECTED] messages
+- Captain intervention
+- Swarm disruption
+- Efficiency loss
+
+---
+
+**UPDATE STATUS.JSON REGULARLY! IT'S YOUR PROOF YOU'RE ALIVE!** ⚡
+
+**Co-Captain Agent-6 + Captain Agent-4**  
+**"Regular updates, continuous execution, perpetual motion!"** 🐝🚀

@@ -1,9 +1,9 @@
 {
   "total_agents": 8,
   "total_points": 4450,
-  "total_roi": 133.63547158297055,
-  "avg_roi": 16.70443394787132,
-  "autonomy_tasks": 3,
+  "total_roi": 110.30213824963721,
+  "avg_roi": 13.787767281204651,
+  "autonomy_tasks": 2,
   "assignments": [
     {
       "agent": "Agent-4",
@@ -47,17 +47,17 @@
     },
     {
       "agent": "Agent-6",
-      "task": "Refactor error_handling_models_v2.py",
-      "points": 500,
-      "roi": 33.333333333333336,
-      "autonomy_impact": 1,
-      "complexity": 24
+      "task": "Refactor captain_tools.py",
+      "points": 550,
+      "roi": 10.833333333333334,
+      "autonomy_impact": 0,
+      "complexity": 60
     },
     {
       "agent": "Agent-7",
-      "task": "Refactor complexity_analyzer_core.py",
-      "points": 550,
-      "roi": 10.833333333333334,
+      "task": "Refactor verification_plan.py",
+      "points": 500,
+      "roi": 10.0,
       "autonomy_impact": 0,
       "complexity": 60
     },

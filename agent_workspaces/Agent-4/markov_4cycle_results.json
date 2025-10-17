@@ -1,11 +1,11 @@
 {
   "cycles": 4,
   "total_tasks": 10,
-  "total_points": 3900,
-  "avg_points_per_cycle": 975.0,
+  "total_points": 3400,
+  "avg_points_per_cycle": 850.0,
   "avg_tasks_per_cycle": 2.5,
   "v2_improvement": 18.999999999999993,
-  "optimizer_efficiency": 95.1219512195122,
+  "optimizer_efficiency": 100.0,
   "agent_utilization": 83.33333333333334,
   "final_v2_compliance": 1.0
 }

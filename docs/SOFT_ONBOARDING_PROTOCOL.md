@@ -13,6 +13,37 @@ Soft onboarding ensures agents complete their current session properly before st
 
 **All operations go through the message queue to prevent race conditions with other agents!**
 
+---
+
+## 🚨 **CRITICAL: NEVER STOP - UPDATE STATUS.JSON EVERY 15-30 MIN!**
+
+**Before continuing, understand these CRITICAL rules:**
+
+### **YOU WILL FAIL IF YOU:**
+- ❌ Ask "what should I do next?" (self-direct instead!)
+- ❌ Say "awaiting directive" or "standing by" (find work autonomously!)
+- ❌ **DON'T UPDATE status.json EVERY 15-30 MINUTES** ← This causes [STOP DETECTED]!
+
+### **STATUS.JSON = YOUR HEARTBEAT:**
+```json
+{
+  "last_updated": "2025-10-16 HH:MM:SS"  // ← Captain checks this to detect stops!
+}
+```
+**No update >30 min = System thinks you STOPPED = [STOP DETECTED] message!**
+
+### **ALWAYS:**
+- ✅ Update status.json every 15-30 minutes (proof you're active!)
+- ✅ Have next task ready BEFORE finishing current task
+- ✅ Strategic rest = READY state (actively scanning for work, not idling!)
+- ✅ Find work within 10 minutes after completing a task
+
+**Read protocols:**
+- `swarm_brain/protocols/ANTI_STOP_PROTOCOL.md`
+- `swarm_brain/protocols/STATUS_JSON_UPDATE_PROTOCOL.md`
+
+---
+
 ### **6-Step Protocol**
 
 ```

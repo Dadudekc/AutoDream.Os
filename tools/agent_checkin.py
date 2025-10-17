@@ -7,15 +7,10 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-# Import unified utilities
-from src.core.unified_utilities import (
-    get_logger,
-    get_unified_utility,
-    get_unified_validator,
-    write_json,
-)
+# Import utilities
+from src.utils.unified_utilities import get_logger
 
-ROOT = get_unified_utility().Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[1]
 RUNTIME = ROOT / "runtime"
 LOGS_DIR = RUNTIME / "agent_logs"
 INDEX_FILE = RUNTIME / "agents_index.json"
@@ -37,7 +32,7 @@ def load_json_arg(src: str) -> dict[str, Any]:
     """Load JSON from a file path or stdin ('-')."""
     if src == "-":
         return json.loads(sys.stdin.read())
-    path = get_unified_utility().Path(src)
+    path = Path(src)
     return json.loads(path.read_text(encoding="utf-8"))
 
 
@@ -45,9 +40,7 @@ def validate_minimum(payload: dict[str, Any]) -> None:
     required = ["agent_id", "agent_name", "status", "current_phase"]
     missing = [k for k in required if k not in payload]
     if missing:
-        get_unified_validator().raise_validation_error(
-            f"missing required keys: {', '.join(missing)}"
-        )
+        raise ValueError(f"missing required keys: {', '.join(missing)}")
     if "last_updated" not in payload:
         payload["last_updated"] = _iso_now()
     payload.setdefault("version", SCHEMA_VER)
@@ -63,11 +56,11 @@ def atomic_write(path: Path, data: dict[str, Any]) -> None:
     tmp_fd, tmp_path = tempfile.mkstemp(prefix=path.name, dir=str(path.parent))
     try:
         with os.fdopen(tmp_fd, "w", encoding="utf-8") as tmp_fh:
-            write_json(data, tmp_fh, ensure_ascii=False, separators=(",", ":"))
+            json.dump(data, tmp_fh, ensure_ascii=False, separators=(",", ":"))
         os.replace(tmp_path, path)
     except Exception:
         try:
-            get_unified_utility().remove(tmp_path)
+            os.remove(tmp_path)
         except OSError:
             pass
         raise
@@ -85,7 +78,7 @@ def update_index(obj: dict[str, Any]) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser(description="Multi-agent check-in (append + index).")
     parser.add_argument("json", help="Path to JSON payload or '-' for stdin")
-    args = parser.get_unified_utility().parse_args()
+    args = parser.parse_args()
 
     ensure_dirs()
     payload = load_json_arg(args.json)

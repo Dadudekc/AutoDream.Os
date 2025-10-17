@@ -33,22 +33,7 @@ logger = logging.getLogger(__name__)
 # MESSAGE TEMPLATES & FORMATTERS
 # ============================================================================
 
-CLI_HELP_EPILOG = """
-🐝 SWARM MESSAGING CLI - COMMAND YOUR AGENTS!
-==============================================
-
-EXAMPLES:
---------
-# Send message to specific agent
-python -m src.services.messaging_cli --message "Start survey" --agent Agent-1
-# Broadcast to all agents
-python -m src.services.messaging_cli --message "SWARM ALERT!" --broadcast
-# Send with priority and tags
-python -m src.services.messaging_cli --message "URGENT: Fix issue" \\
-    --agent Agent-2 --priority urgent --tags bug critical
-
-🐝 WE. ARE. SWARM - COORDINATE THROUGH PYAUTOGUI!
-"""
+CLI_HELP_EPILOG = "🐝 SWARM MESSAGING CLI\nExamples: --message '...' --agent Agent-1 | --broadcast"
 
 SURVEY_MESSAGE_TEMPLATE = """
 🐝 SWARM SURVEY INITIATED - SRC/ DIRECTORY ANALYSIS

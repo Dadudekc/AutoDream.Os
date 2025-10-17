@@ -15,7 +15,7 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
-from ..adapters.base_adapter import IToolAdapter
+from ..adapters.base_adapter import IToolAdapter, ToolSpec, ToolResult
 
 logger = logging.getLogger(__name__)
 
@@ -29,7 +29,22 @@ class DiscordBotHealthTool(IToolAdapter):
     def get_description(self) -> str:
         return "Check Discord Commander bot health and status"
 
-    def execute(self, **kwargs) -> dict[str, Any]:
+    def get_spec(self) -> ToolSpec:
+        """Get tool specification."""
+        return ToolSpec(
+            name="discord_health",
+            version="1.0.0",
+            category="discord",
+            summary="Check Discord Commander bot health and status",
+            required_params=[],
+            optional_params={},
+        )
+
+    def validate(self, params: dict[str, Any]) -> tuple[bool, list[str]]:
+        """Validate parameters (no required params)."""
+        return (True, [])
+
+    def execute(self, params: dict[str, Any] = None, context: dict[str, Any] | None = None) -> ToolResult:
         """Check Discord bot health."""
         try:
             # Check if process is running
@@ -50,15 +65,15 @@ class DiscordBotHealthTool(IToolAdapter):
             except:
                 pass
 
-            return {
-                "success": True,
+            output = {
                 "bot_running": running,
                 "logs_available": log_exists,
                 "status": "HEALTHY" if running else "NOT_RUNNING",
             }
+            return ToolResult(success=True, output=output)
 
         except Exception as e:
-            return {"success": False, "error": str(e)}
+            return ToolResult(success=False, output=None, error_message=str(e), exit_code=1)
 
 
 class DiscordBotStartTool(IToolAdapter):
@@ -70,7 +85,22 @@ class DiscordBotStartTool(IToolAdapter):
     def get_description(self) -> str:
         return "Start Discord Commander bot in background"
 
-    def execute(self, **kwargs) -> dict[str, Any]:
+    def get_spec(self) -> ToolSpec:
+        """Get tool specification."""
+        return ToolSpec(
+            name="discord_start",
+            version="1.0.0",
+            category="discord",
+            summary="Start Discord Commander bot in background",
+            required_params=[],
+            optional_params={},
+        )
+
+    def validate(self, params: dict[str, Any]) -> tuple[bool, list[str]]:
+        """Validate parameters (no required params)."""
+        return (True, [])
+
+    def execute(self, params: dict[str, Any] = None, context: dict[str, Any] | None = None) -> ToolResult:
         """Start Discord bot."""
         try:
             # Start bot in background
@@ -85,14 +115,14 @@ class DiscordBotStartTool(IToolAdapter):
                     start_new_session=True,
                 )
 
-            return {
-                "success": True,
+            output = {
                 "message": "Discord Commander started in background",
                 "instructions": "Check Discord for startup message. Use !gui to access messaging interface.",
             }
+            return ToolResult(success=True, output=output)
 
         except Exception as e:
-            return {"success": False, "error": str(e)}
+            return ToolResult(success=False, output=None, error_message=str(e), exit_code=1)
 
 
 class DiscordTestMessageTool(IToolAdapter):
@@ -104,11 +134,28 @@ class DiscordTestMessageTool(IToolAdapter):
     def get_description(self) -> str:
         return "Send test message to verify Discord integration"
 
-    def execute(self, **kwargs) -> dict[str, Any]:
+    def get_spec(self) -> ToolSpec:
+        """Get tool specification."""
+        return ToolSpec(
+            name="discord_test",
+            version="1.0.0",
+            category="discord",
+            summary="Send test message to verify Discord integration",
+            required_params=[],
+            optional_params={"agent": "Agent-1", "message": "Test message"},
+        )
+
+    def validate(self, params: dict[str, Any]) -> tuple[bool, list[str]]:
+        """Validate parameters (all optional)."""
+        return (True, [])
+
+    def execute(self, params: dict[str, Any] = None, context: dict[str, Any] | None = None) -> ToolResult:
         """Send test message."""
         try:
-            agent = kwargs.get("agent", "Agent-1")
-            message = kwargs.get("message", "Test message from Discord Commander")
+            if params is None:
+                params = {}
+            agent = params.get("agent", "Agent-1")
+            message = params.get("message", "Test message from Discord Commander")
 
             # Use messaging CLI
             result = subprocess.run(
@@ -129,18 +176,18 @@ class DiscordTestMessageTool(IToolAdapter):
             )
 
             # Check for success indicators
-            output = result.stdout + result.stderr
-            success = "Message sent to" in output or "Coordinates validated" in output
+            output_text = result.stdout + result.stderr
+            success = "Message sent to" in output_text or "Coordinates validated" in output_text
 
-            return {
-                "success": success,
+            output = {
                 "agent": agent,
                 "message_sent": success,
-                "output": output[:500] if output else "No output",
+                "output": output_text[:500] if output_text else "No output",
             }
+            return ToolResult(success=success, output=output)
 
         except Exception as e:
-            return {"success": False, "error": str(e)}
+            return ToolResult(success=False, output=None, error_message=str(e), exit_code=1)
 
 
 __all__ = ["DiscordBotHealthTool", "DiscordBotStartTool", "DiscordTestMessageTool"]
